@@ -1766,16 +1766,17 @@ class Quote extends OrderBase {
         FwConfirmation.addButton($confirmation, 'No', true);
         const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
         const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-        //$yes.on('click', () => {
-        //    const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-        //    FwAppData.apiMethod(true, 'POST', `api/v1/quote/makequoteactive/${quoteId}`, null, FwServices.defaultTimeout,
-        //        response => {
-        //            FwNotification.renderNotification('SUCCESS', 'Quote Status Successfully Changed to Active.');
-        //            FwConfirmation.destroyConfirmation($confirmation);
-        //            FwModule.refreshForm($form, QuoteController);
-        //        },
-        //        ex => FwFunc.showError(ex), realConfirm);
-        //});
+        $yes.on('click', () => {
+            const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/quote/makequoteactive/${quoteId}`, null, FwServices.defaultTimeout,
+                response => {
+                    FwNotification.renderNotification('SUCCESS', 'Quote Status Successfully Changed to Active.');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    //FwModule.refreshForm($form, QuoteController);
+                    FwModule.refreshForm($form);
+                },
+                ex => FwFunc.showError(ex), realConfirm);
+        });
     }
     //-----------------------------------------------------------------------------------------------------
     browseCancelOption($browse: JQuery) {
