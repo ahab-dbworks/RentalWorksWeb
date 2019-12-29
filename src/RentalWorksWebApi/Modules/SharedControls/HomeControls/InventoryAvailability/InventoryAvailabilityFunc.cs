@@ -9,6 +9,7 @@ using WebApi;
 using WebApi.Logic;
 using System.Collections.Concurrent;
 using WebApi.Modules.Settings.AvailabilityKeepFreshLog;
+using System.Globalization;
 
 //#jhtodo: note, userSession is not used in this file, but is still part of many method signatures for future use
 
@@ -491,12 +492,12 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public bool NoAvailabilityCheck { get; set; } = false;
         public int LowAvailabilityPercent { get; set; } = 0;
         public int LowAvailabilityQuantity { get; set; } = 0;
-        public decimal DailyRate { get; set; } = 0;
-        public decimal WeeklyRate { get; set; } = 0;
-        public decimal Week2Rate { get; set; } = 0;
-        public decimal Week3Rate { get; set; } = 0;
-        public decimal Week4Rate { get; set; } = 0;
-        public decimal MonthlyRate { get; set; } = 0;
+        public string DailyRate { get; set; } 
+        public string WeeklyRate { get; set; }
+        public string Week2Rate { get; set; }
+        public string Week3Rate { get; set; }
+        public string Week4Rate { get; set; }
+        public string MonthlyRate { get; set; }
         public List<TPackageAccessory> Accessories { get; set; } = new List<TPackageAccessory>();
 
         public string CombinedKey { get { return InventoryId + "-" + WarehouseId; } }
@@ -1196,12 +1197,14 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         }
                     }
 
-                    availData.InventoryWarehouse.DailyRate = FwConvert.ToDecimal(row[dt.GetColumnNo("dailyrate")].ToString());
-                    availData.InventoryWarehouse.WeeklyRate = FwConvert.ToDecimal(row[dt.GetColumnNo("weeklyrate")].ToString());
-                    availData.InventoryWarehouse.Week2Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("week2rate")].ToString());
-                    availData.InventoryWarehouse.Week3Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("week3rate")].ToString());
-                    availData.InventoryWarehouse.Week4Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("week4rate")].ToString());
-                    availData.InventoryWarehouse.MonthlyRate = FwConvert.ToDecimal(row[dt.GetColumnNo("monthlyrate")].ToString());
+                    NumberFormatInfo numberFormat = new NumberFormatInfo();
+                    numberFormat.NumberDecimalDigits = 2;
+                    availData.InventoryWarehouse.DailyRate = FwConvert.ToDecimal(row[dt.GetColumnNo("dailyrate")].ToString()).ToString("N", numberFormat);
+                    availData.InventoryWarehouse.WeeklyRate = FwConvert.ToDecimal(row[dt.GetColumnNo("weeklyrate")].ToString()).ToString("N", numberFormat);
+                    availData.InventoryWarehouse.Week2Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("week2rate")].ToString()).ToString("N", numberFormat);
+                    availData.InventoryWarehouse.Week3Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("week3rate")].ToString()).ToString("N", numberFormat);
+                    availData.InventoryWarehouse.Week4Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("week4rate")].ToString()).ToString("N", numberFormat);
+                    availData.InventoryWarehouse.MonthlyRate = FwConvert.ToDecimal(row[dt.GetColumnNo("monthlyrate")].ToString()).ToString("N", numberFormat);
 
                     availData.InventoryWarehouse.HourlyAvailability = FwConvert.ToBoolean(row[dt.GetColumnNo("availbyhour")].ToString());
                     availData.InventoryWarehouse.NoAvailabilityCheck = FwConvert.ToBoolean(row[dt.GetColumnNo("noavail")].ToString());
