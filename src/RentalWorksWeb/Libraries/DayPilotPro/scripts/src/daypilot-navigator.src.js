@@ -13,18 +13,18 @@ if (typeof DayPilot.Global === 'undefined') {
 
 // compatibility with 5.9.2029 and previous
 if (typeof DayPilotNavigator === 'undefined') {
-	var DayPilotNavigator = DayPilot.NavigatorVisible = {};
+    var DayPilotNavigator = DayPilot.NavigatorVisible = {};
 }
 
-(function() {
-    
+(function () {
+
 
     if (typeof DayPilot.Navigator !== 'undefined') {
         return;
     }
 
     DayPilotNavigator = {};
-    DayPilot.Navigator = function(id, options) {
+    DayPilot.Navigator = function (id, options) {
         this.v = '1338';
         var calendar = this;
         this.id = id;
@@ -56,10 +56,10 @@ if (typeof DayPilotNavigator === 'undefined') {
         this.timeRangeSelectedHandling = "Bind";
         this.visibleRangeChangedHandling = "Enabled";
 
-        this._prepare = function() {
-            
+        this._prepare = function () {
+
             this.root.dp = this;
-            
+
             if (this.cssOnly) {
                 this.root.className = this._prefixCssClass('_main');
             }
@@ -69,13 +69,13 @@ if (typeof DayPilotNavigator === 'undefined') {
 
             if (this.orientation === "Horizontal") {
                 this.root.style.width = this.showMonths * (this.cellWidth * 7 + this._weekNumberWidth()) + 'px';
-                this.root.style.height = (this.cellHeight*6 + this.titleHeight + this.dayHeaderHeight) + 'px';
+                this.root.style.height = (this.cellHeight * 6 + this.titleHeight + this.dayHeaderHeight) + 'px';
             }
             else {
                 this.root.style.width = (this.cellWidth * 7 + this._weekNumberWidth()) + 'px';
             }
             //this.root.style.height = (this.showMonths*(this.cellHeight*6 + this.titleHeight + this.dayHeaderHeight)) + 'px';
-            
+
             this.root.style.position = "relative";
 
             var vsph = document.createElement("input");
@@ -103,16 +103,16 @@ if (typeof DayPilotNavigator === 'undefined') {
             }*/
         };
 
-        this._api2 = function() {
+        this._api2 = function () {
             return calendar.api === 2;
         };
-        
-        this._clearTable = function() {
+
+        this._clearTable = function () {
             // TODO do something smarter here
             this.root.innerHTML = '';
         };
 
-        this._prefixCssClass = function(part) {
+        this._prefixCssClass = function (part) {
             var prefix = this.theme || this.cssClassPrefix;
             if (prefix) {
                 return prefix + part;
@@ -122,24 +122,24 @@ if (typeof DayPilotNavigator === 'undefined') {
             }
         };
 
-        this._addClass = function(object, name) {
+        this._addClass = function (object, name) {
             var fullName = this.cssOnly ? this._prefixCssClass("_" + name) : this._prefixCssClass(name);
             DayPilot.Util.addClass(object, fullName);
         };
 
-        this._removeClass = function(object, name) {
+        this._removeClass = function (object, name) {
             var fullName = this.cssOnly ? this._prefixCssClass("_" + name) : this._prefixCssClass(name);
             DayPilot.Util.removeClass(object, fullName);
         };
 
-        this._drawTable = function(j, showLinks) {
+        this._drawTable = function (j, showLinks) {
             var month = {};
             month.cells = [];
             month.days = [];
             month.weeks = [];
 
             var startDate = this.startDate.addMonths(j);
-            
+
             var showBefore = showLinks.before;
             var showAfter = showLinks.after;
 
@@ -152,7 +152,7 @@ if (typeof DayPilotNavigator === 'undefined') {
             var rowCount = (this.rowsPerMonth === "Auto") ? Math.ceil(days / 7) : 6;
             month.rowCount = rowCount;
             var today = (new DayPilot.Date()).getDatePart();
-            
+
             var width = this.cellWidth * 7 + this._weekNumberWidth();
             var height = this.cellHeight * rowCount + this.titleHeight + this.dayHeaderHeight;
             month.height = height;
@@ -160,8 +160,8 @@ if (typeof DayPilotNavigator === 'undefined') {
             var main = document.createElement("div");
             main.style.width = (width) + 'px';
             main.style.height = (height) + 'px';
-            
-            
+
+
             if (this.orientation === "Horizontal") {
                 main.style.position = "absolute";
                 main.style.left = (width * j) + "px";
@@ -176,12 +176,12 @@ if (typeof DayPilotNavigator === 'undefined') {
             else {
                 main.className = this._prefixCssClass('month');
             }
-            
+
             main.style.cursor = 'default';
             main.style.MozUserSelect = 'none';
             main.style.KhtmlUserSelect = 'none';
             main.style.WebkitUserSelect = 'none';
-            
+
             main.month = month;
 
             this.root.appendChild(main);
@@ -447,14 +447,14 @@ if (typeof DayPilotNavigator === 'undefined') {
             this.months.push(month);
         };
 
-        this._weekNumberWidth = function() {
+        this._weekNumberWidth = function () {
             if (this.showWeekNumbers) {
                 return this.cellWidth;
             }
             return 0;
         };
 
-        this._updateFreeBusy = function() {
+        this._updateFreeBusy = function () {
             if (!this.items) {
                 return;
             }
@@ -478,7 +478,7 @@ if (typeof DayPilotNavigator === 'undefined') {
         };
 
 
-        this._saveState = function() {
+        this._saveState = function () {
             var s = {};
             s.startDate = calendar.startDate;
             s.selectionStart = calendar.selectionStart;
@@ -486,7 +486,7 @@ if (typeof DayPilotNavigator === 'undefined') {
             calendar.state.value = DayPilot.JSON.stringify(s);
         };
 
-        this._adjustSelection = function() {
+        this._adjustSelection = function () {
             // ignores selectionEnd
             // uses selectMode
             switch (this.selectMode) {
@@ -510,7 +510,7 @@ if (typeof DayPilotNavigator === 'undefined') {
 
         };
 
-        this.select = function(date) {
+        this.select = function (date) {
             var focus = true;
 
             var originalStart = this.selectionStart;
@@ -543,18 +543,18 @@ if (typeof DayPilotNavigator === 'undefined') {
             this._updateFreeBusy();
             this._saveState();
 
-            if (!originalStart.equals(this.selectionStart) || !originalEnd.equals(this.selectionEnd)) {
+            //if (!originalStart.equals(this.selectionStart) || !originalEnd.equals(this.selectionEnd)) {
                 //alert('time range');
-                this._timeRangeSelectedDispatch();
-            }
+                //this._timeRangeSelectedDispatch();
+            // }
 
             if (startChanged) {
                 //alert('visible range');
                 this._visibleRangeChangedDispatch();
             }
         };
-        
-        this.update = function() {
+
+        this.update = function () {
             // redraw
             this._clearTable();
             this._prepare();
@@ -564,7 +564,7 @@ if (typeof DayPilotNavigator === 'undefined') {
             this._saveState();
         };
 
-        this._callBack2 = function(action, data, parameters) {
+        this._callBack2 = function (action, data, parameters) {
             var envelope = {};
             envelope.action = action;
             envelope.parameters = parameters;
@@ -572,7 +572,7 @@ if (typeof DayPilotNavigator === 'undefined') {
             envelope.header = this._getCallBackHeader();
 
             var commandstring = "JSON" + DayPilot.JSON.stringify(envelope);
-            
+
             var context = null;
             if (this.backendUrl) {
                 DayPilot.request(this.backendUrl, this._callBackResponse, commandstring, this._ajaxError);
@@ -582,8 +582,8 @@ if (typeof DayPilotNavigator === 'undefined') {
             }
 
         };
-        
-        this._ajaxError = function(req) {
+
+        this._ajaxError = function (req) {
             if (typeof calendar.onAjaxError === 'function') {
                 var args = {};
                 args.request = req;
@@ -593,12 +593,12 @@ if (typeof DayPilotNavigator === 'undefined') {
                 calendar.ajaxError(req);
             }
         };
-        
-        this._callBackResponse = function(response) {
-            calendar._updateView(response.responseText);
-        };        
 
-        this._postBack2 = function(action, data, parameters) {
+        this._callBackResponse = function (response) {
+            calendar._updateView(response.responseText);
+        };
+
+        this._postBack2 = function (action, data, parameters) {
             var envelope = {};
             envelope.action = action;
             envelope.parameters = parameters;
@@ -609,7 +609,7 @@ if (typeof DayPilotNavigator === 'undefined') {
             __doPostBack(calendar.uniqueID, commandstring);
         };
 
-        this._getCallBackHeader = function() {
+        this._getCallBackHeader = function () {
             var h = {};
             h.v = this.v;
             h.startDate = this.startDate;
@@ -617,13 +617,13 @@ if (typeof DayPilotNavigator === 'undefined') {
             return h;
         };
 
-        this._listen = function(action, data) {
+        this._listen = function (action, data) {
             if (action === 'refresh') {
                 this._visibleRangeChangedDispatch();
             }
         };
 
-        this._getDayName = function(i) {
+        this._getDayName = function (i) {
             var x = i + resolved.weekStarts();
             if (x > 6) {
                 x -= 7;
@@ -632,7 +632,7 @@ if (typeof DayPilotNavigator === 'undefined') {
 
         };
 
-        this._isSelected = function(date) {
+        this._isSelected = function (date) {
             if (this.selectionStart === null || this.selectionEnd === null) {
                 return false;
             }
@@ -644,13 +644,13 @@ if (typeof DayPilotNavigator === 'undefined') {
             return false;
         };
 
-        this._cellMouseDown = function(ev) {
+        this._cellMouseDown = function (ev) {
         };
 
-        this._cellMouseMove = function(ev) {
+        this._cellMouseMove = function (ev) {
         };
 
-        this._cellClick = function(ev) {
+        this._cellClick = function (ev) {
             var month = this.parentNode.month;
 
             var x = this.x;
@@ -662,7 +662,7 @@ if (typeof DayPilotNavigator === 'undefined') {
             }
 
             calendar.clearSelection();
-            
+
             calendar.selectionDay = day;
 
             var day = calendar.selectionDay;
@@ -718,23 +718,23 @@ if (typeof DayPilotNavigator === 'undefined') {
             calendar._timeRangeSelectedDispatch();
         };
 
-        this._timeRangeSelectedDispatch = function() {
+        this._timeRangeSelectedDispatch = function () {
             var start = calendar.selectionStart;
             var end = calendar.selectionEnd.addDays(1);
             var days = DayPilot.Date.daysDiff(start.d, end.d);
             var day = calendar.selectionDay;
 
             if (calendar._api2()) {
-                
+
                 var args = {};
                 args.start = start;
                 args.end = end;
                 args.day = day;
-                args.days =  days;
-                args.preventDefault = function() {
+                args.days = days;
+                args.preventDefault = function () {
                     this.preventDefault.value = true;
                 };
-                
+
                 if (typeof calendar.onTimeRangeSelect === 'function') {
                     calendar.onTimeRangeSelect(args);
                     if (args.preventDefault.value) {
@@ -761,11 +761,11 @@ if (typeof DayPilotNavigator === 'undefined') {
                         calendar.timeRangeSelectedPostBack(start, end, day);
                         break;
                 }
-                
+
                 if (typeof calendar.onTimeRangeSelected === 'function') {
                     calendar.onTimeRangeSelected(args);
                 }
-                
+
             }
             else {
                 switch (calendar.timeRangeSelectedHandling) {
@@ -790,8 +790,8 @@ if (typeof DayPilotNavigator === 'undefined') {
                         break;
                 }
             }
-            
-            
+
+
             /*
             switch (calendar.timeRangeSelectedHandling) {
                 case 'Bind':
@@ -817,7 +817,7 @@ if (typeof DayPilotNavigator === 'undefined') {
             */
         };
 
-        this.timeRangeSelectedPostBack = function(start, end, data, day) {
+        this.timeRangeSelectedPostBack = function (start, end, data, day) {
             var params = {};
             params.start = start;
             params.end = end;
@@ -826,15 +826,15 @@ if (typeof DayPilotNavigator === 'undefined') {
             this._postBack2('TimeRangeSelected', data, params);
         };
 
-        this._clickRight = function(ev) {
+        this._clickRight = function (ev) {
             calendar._moveMonth(calendar.skipMonths);
         };
 
-        this._clickLeft = function(ev) {
+        this._clickLeft = function (ev) {
             calendar._moveMonth(-calendar.skipMonths);
         };
 
-        this._moveMonth = function(i) {
+        this._moveMonth = function (i) {
             this.startDate = this.startDate.addMonths(i);
             this._clearTable();
             this._prepare();
@@ -846,27 +846,27 @@ if (typeof DayPilotNavigator === 'undefined') {
             this._updateFreeBusy();
         };
 
-        this.visibleStart = function() {
+        this.visibleStart = function () {
             return calendar.startDate.firstDayOfMonth().firstDayOfWeek(resolved.weekStarts());
         };
 
-        this.visibleEnd = function() {
+        this.visibleEnd = function () {
             return calendar.startDate.firstDayOfMonth().addMonths(this.showMonths - 1).firstDayOfWeek(resolved.weekStarts()).addDays(42);
         };
 
-        this._visibleRangeChangedDispatch = function() {
+        this._visibleRangeChangedDispatch = function () {
             var start = this.visibleStart();
             var end = this.visibleEnd();
 
             if (calendar._api2()) {
-                
+
                 var args = {};
                 args.start = start;
                 args.end = end;
-                args.preventDefault = function() {
+                args.preventDefault = function () {
                     this.preventDefault.value = true;
                 };
-                
+
                 if (typeof calendar.onVisibleRangeChange === 'function') {
                     calendar.onVisibleRangeChange(args);
                     if (args.preventDefault.value) {
@@ -885,11 +885,11 @@ if (typeof DayPilotNavigator === 'undefined') {
                     case "Disabled":
                         break;
                 }
-                
+
                 if (typeof calendar.onVisibleRangeChanged === 'function') {
                     calendar.onVisibleRangeChanged(args);
                 }
-                
+
             }
             else {
                 switch (this.visibleRangeChangedHandling) {
@@ -907,48 +907,48 @@ if (typeof DayPilotNavigator === 'undefined') {
                 }
             }
 
-/*
-            switch (this.visibleRangeChangedHandling) {
-                case "CallBack":
-                    this.visibleRangeChangedCallBack(null);
-                    break;
-                case "PostBack":
-                    this.visibleRangeChangedPostBack(null);
-                    break;
-                case "JavaScript":
-                    this.onVisibleRangeChanged(start, end);
-                    break;
-                case "Disabled":
-                    break;
-            }
-            */
+            /*
+                        switch (this.visibleRangeChangedHandling) {
+                            case "CallBack":
+                                this.visibleRangeChangedCallBack(null);
+                                break;
+                            case "PostBack":
+                                this.visibleRangeChangedPostBack(null);
+                                break;
+                            case "JavaScript":
+                                this.onVisibleRangeChanged(start, end);
+                                break;
+                            case "Disabled":
+                                break;
+                        }
+                        */
         };
 
 
-        this.visibleRangeChangedCallBack = function(data) {
+        this.visibleRangeChangedCallBack = function (data) {
             var parameters = {};
             this._callBack2("Visible", data, parameters);
         };
 
-        this.visibleRangeChangedPostBack = function(data) {
+        this.visibleRangeChangedPostBack = function (data) {
             var parameters = {};
             this._postBack2("Visible", data, parameters);
         };
 
-        this._updateView = function(result, context) {
+        this._updateView = function (result, context) {
             var result = eval("(" + result + ")");
             calendar.items = result.Items;
             calendar.cells = result.Cells;
             calendar._updateFreeBusy();
         };
 
-        this._drawMonths = function() {
+        this._drawMonths = function () {
             for (var j = 0; j < this.showMonths; j++) {
                 var showLinks = this._getShowLinks(j);
                 this._drawTable(j, showLinks);
             }
-			
-    	    this.root.style.height = this._getHeight() + "px"; 
+
+            this.root.style.height = this._getHeight() + "px";
 			/*
             var div = document.createElement("div");
             div.style.clear = "left";
@@ -958,8 +958,8 @@ if (typeof DayPilotNavigator === 'undefined') {
             */
 
         };
-        
-        this._getHeight = function() {
+
+        this._getHeight = function () {
             if (this.orientation === "Horizontal") {
                 var max = 0;
                 for (var i = 0; i < this.months.length; i++) {
@@ -980,8 +980,8 @@ if (typeof DayPilotNavigator === 'undefined') {
                 return total;
             }
         };
-        
-        this._getShowLinks = function(j) {
+
+        this._getShowLinks = function (j) {
             if (this.internal.showLinks) {
                 return this.internal.showLinks;
             }
@@ -995,24 +995,24 @@ if (typeof DayPilotNavigator === 'undefined') {
             if (this.orientation === "Horizontal") {
                 showLinks.right = (j === this.showMonths - 1);
             }
-            
+
             return showLinks;
         };
-        
+
         this.internal = {};
         // ASP.NET
-        this.internal.initialized = function() {
+        this.internal.initialized = function () {
             return calendar._initialized;
         };
 
         this._resolved = {};
         var resolved = this._resolved;
-        
-        resolved.locale = function() {
+
+        resolved.locale = function () {
             return DayPilot.Locale.find(calendar.locale);
         };
-        
-        resolved.weekStarts = function() {
+
+        resolved.weekStarts = function () {
             if (calendar.weekStarts === 'Auto') {
                 var locale = resolved.locale();
                 if (locale) {
@@ -1027,14 +1027,14 @@ if (typeof DayPilotNavigator === 'undefined') {
             }
         };
 
-        this.clearSelection = function() {
+        this.clearSelection = function () {
             for (var j = 0; j < this.selected.length; j++) {
                 this._removeClass(this.selected[j], 'select');
             }
             this.selected = [];
         };
-        
-        this._isShortInit = function() {
+
+        this._isShortInit = function () {
             // make sure it has a place to ask
             if (this.backendUrl) {
                 return (typeof calendar.items === 'undefined') || (!calendar.items);
@@ -1043,44 +1043,44 @@ if (typeof DayPilotNavigator === 'undefined') {
                 return false;
             }
         };
-        
+
         this.events = {};
-        
-        this._loadEvents = function() {
+
+        this._loadEvents = function () {
             if (!DayPilot.isArray(this.events.list)) {
                 return;
             }
-            
+
             this.items = {};
-            
-            for(var i = 0; i < this.events.list.length; i++) {
+
+            for (var i = 0; i < this.events.list.length; i++) {
                 var e = this.events.list[i];
                 var days = this._eventDays(e);
-                for(var name in days) {
+                for (var name in days) {
                     this.items[name] = 1;
                 }
             }
         };
-        
-        this._eventDays = function(e) {
+
+        this._eventDays = function (e) {
             var start = new DayPilot.Date(e.start);
             var end = new DayPilot.Date(e.end);
-            
+
             var days = {};
-            
+
             var d = start.getDatePart();
             while (d.getTime() < end.getTime()) {
                 days[d.toStringSortable()] = 1;
                 d = d.addDays(1);
             }
-            
+
             return days;
         };
-        
 
-        this.init = function() {
+
+        this.init = function () {
             this.root = document.getElementById(id);
-            
+
             if (!this.root) {
                 throw "DayPilot.Navigator.init(): The placeholder element not found: '" + id + "'.";
             }
@@ -1088,42 +1088,42 @@ if (typeof DayPilotNavigator === 'undefined') {
             if (this.root.dp) { // already initialized
                 return;
             }
-            
+
             this._adjustSelection();
             this._prepare();
             this._drawMonths();
             this._loadEvents();
             this._updateFreeBusy();
             this._registerDispose();
-            
+
             var loadFromServer = this._isShortInit();
             if (loadFromServer) {
                 this._visibleRangeChangedDispatch(); // TODO change to "Init"?
             }
             this._initialized = true;
-           
+
         };
-        
-        this.dispose = function() {
+
+        this.dispose = function () {
             var c = calendar;
-            
+
             if (!c.root) {
                 return;
             }
-            
+
             c.root.removeAttribute("style");
             c.root.removeAttribute("class");
             c.root.dp = null;
             c.root.innerHTML = null;
             c.root = null;
-            
+
         };
-        
-        this._registerDispose = function() {
+
+        this._registerDispose = function () {
             var root = document.getElementById(id);
             root.dispose = this.dispose;
-        };        
-		
+        };
+
         this.Init = this.init;
 
     };
@@ -1138,10 +1138,10 @@ if (typeof DayPilotNavigator === 'undefined') {
 
     // experimental jQuery bindings
     if (typeof jQuery !== 'undefined') {
-        (function($) {
-            $.fn.daypilotNavigator = function(options) {
+        (function ($) {
+            $.fn.daypilotNavigator = function (options) {
                 var first = null;
-                var j = this.each(function() {
+                var j = this.each(function () {
                     if (this.daypilot) { // already initialized
                         return;
                     };

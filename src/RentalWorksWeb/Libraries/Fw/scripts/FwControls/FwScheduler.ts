@@ -175,7 +175,7 @@ class FwSchedulerClass {
             }
         });
         $control.on('click', '.btnNext', function () {
-            var currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed;
+            let currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed;
             try {
                 if ($control.next().data('dpscheduler') !== undefined) {
                     schedulerDetailed = $control.next().data('dpscheduler');
