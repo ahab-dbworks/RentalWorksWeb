@@ -14,7 +14,7 @@ export class SettingsModule extends ModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 600;
     waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 400;
     waitAfterClickingToOpenRecordToCheckForErrors: number = 300;
-    waitForButtonToGetEvents: number = 2000;
+    waitForButtonToGetEvents: number = 2500;
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
