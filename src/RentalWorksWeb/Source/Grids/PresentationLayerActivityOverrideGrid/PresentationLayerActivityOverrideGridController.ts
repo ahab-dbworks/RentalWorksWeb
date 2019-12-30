@@ -8,12 +8,12 @@
         });
     };
 
-    beforeValidateActivity($browse, $grid, request) {
-        var $form = $grid.closest('.fwform');
-        request.uniqueIds = {
-            PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
-        }
-    }
+    //beforeValidateActivity($browse, $grid, request) {
+    //    var $form = $grid.closest('.fwform');
+    //    request.uniqueIds = {
+    //        PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
+    //    }
+    //}
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {

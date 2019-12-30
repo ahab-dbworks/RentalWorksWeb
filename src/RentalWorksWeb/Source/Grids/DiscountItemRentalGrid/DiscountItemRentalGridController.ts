@@ -12,8 +12,7 @@
     };
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
-        var validationName = request.module;
-        if (validationName != null) {
+
             var InventoryTypeValue = FwBrowse.getValueByDataField($validationbrowse, $tr, 'InventoryTypeId');
             var CategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'CategoryId');
             var SubCategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'SubCategoryId');
@@ -56,7 +55,6 @@
                     delete request.uniqueids[prop];
                 }
             }
-        }
     }
 }
 var DiscountItemRentalGridController = new DiscountItemRentalGrid();

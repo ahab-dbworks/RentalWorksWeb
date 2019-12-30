@@ -12,9 +12,7 @@
     };
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
-        var validationName = request.module;
 
-        if (validationName != null) {
             var MiscTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="MiscTypeValidation"] input')).val();
             var CategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="MiscCategoryValidation"] input')).val();
             var SubCategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
@@ -36,16 +34,16 @@
                     break;
                 case 'SubCategoryId':
                     request.uniqueids = {
-                        TypeId: InventoryTypeValue,
-                        CategoryId: CategoryTypeId
+                        TypeId: MiscTypeValue,
+                        CategoryId: CategoryValue
                     };
                     $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
                 case 'InventoryId':
                     request.uniqueids = {
-                        MiscTypeId: InventoryTypeValue,
-                        CategoryId: CategoryTypeId,
-                        SubCategoryId: SubCategoryTypeId
+                        MiscTypeId: MiscTypeValue,
+                        CategoryId: CategoryValue,
+                        SubCategoryId: SubCategoryValue
                     };
                     $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemiscinventory`);
                     break;
@@ -56,7 +54,6 @@
                 }
             }
         }
-    }
 }
 
 var DiscountItemMiscGridController = new DiscountItemMiscGrid();

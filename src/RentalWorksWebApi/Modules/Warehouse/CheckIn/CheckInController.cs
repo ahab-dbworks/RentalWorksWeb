@@ -157,5 +157,13 @@ namespace WebApi.Modules.Warehouse.CheckIn
         {
             return await DoBrowseAsync<DealLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkin/validatespecificorder/browse 
+        [HttpPost("validatespecificorder/browse")]
+        [FwControllerMethod(Id: "NFjANhuh0kkn", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSpecificOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
     }
 }
