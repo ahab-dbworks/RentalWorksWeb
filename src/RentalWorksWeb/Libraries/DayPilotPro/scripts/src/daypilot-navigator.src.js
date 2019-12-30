@@ -543,7 +543,7 @@ if (typeof DayPilotNavigator === 'undefined') {
             this._updateFreeBusy();
             this._saveState();
 
-            //if (!originalStart.equals(this.selectionStart) || !originalEnd.equals(this.selectionEnd)) {
+            //if (!originalStart.equals(this.selectionStart) || !originalEnd.equals(this.selectionEnd)) { -- J.Pace 12/30/19 commented this out because it was creating a duplicate API request in FwScheduler.Navigate
                 //alert('time range');
                 //this._timeRangeSelectedDispatch();
             // }
