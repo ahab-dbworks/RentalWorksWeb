@@ -3,8 +3,10 @@ using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
+using System.Text;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Exports.InvoiceBatchExport
 {
@@ -27,14 +29,25 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
             }
             try
             {
+                StringBuilder sb = new StringBuilder();
                 InvoiceBatchExportLoader l = new InvoiceBatchExportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 await l.DoLoad<InvoiceBatchExportLoader>(request);
 
+                string exportString = await AppFunc.GetStringDataAsync(AppConfig, "webdataexportformat", "dataexportformatid", request.DataExportFormatId, "exportstring");
                 //request must contain a DataExportFormatId (provided from the field on the requesting Page)
                 //we need a generic method here that will take an instance of a AppExportLoader ("l" in this scope) and an Export Format String (pulled from the provided DataExportFormatId)
                 //   the method should use handlebars to produce a giant string from the "l" data object and the desired export format.
                 //   the method should then produce a text file with that giant string and download it back to the page.
+
+                for (int i = 0; i <= l.Invoices.Count - 1; i++)
+                {
+                    if (!string.IsNullOrEmpty(l.Invoices[i].InvoiceId))
+                    {
+
+
+                    }
+                }
 
                 /*
                  * 

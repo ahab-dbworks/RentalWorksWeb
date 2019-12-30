@@ -139,29 +139,30 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
 
             foreach (BatchInvoice i in Invoices) 
             {
-
-                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                if (!string.IsNullOrEmpty(i.InvoiceId))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.Add("select ii.masterno, ii.description, ii.qty, ii.rate, ii.linetotal       ");
-                    qry.Add(" from  invoiceitemviewweb ii                                            ");
-                    qry.Add(" where ii.invoiceid = @invoiceid                                        ");
-                    qry.Add("order by ii.itemorder                                                   ");
-                    qry.AddParameter("@invoiceid", i.InvoiceId);
-                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
-
-                    foreach (List<object> row in dt.Rows)
+                    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                     {
-                        InvoiceItem ii = new InvoiceItem();
-                        ii.ICode = row[dt.GetColumnNo("masterno")].ToString();
-                        ii.Description = row[dt.GetColumnNo("invoicedesc")].ToString();
-                        ii.Quantity = FwConvert.ToDecimal(row[dt.GetColumnNo("qty")].ToString());
-                        ii.Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("rate")].ToString());
-                        ii.Extended = FwConvert.ToDecimal(row[dt.GetColumnNo("linetotal")].ToString());
-                        i.Items.Add(ii);
+                        FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                        qry.Add("select ii.masterno, ii.description, ii.qty, ii.rate, ii.linetotal       ");
+                        qry.Add(" from  invoiceitemviewweb ii                                            ");
+                        qry.Add(" where ii.invoiceid = @invoiceid                                        ");
+                        qry.Add("order by ii.itemorder                                                   ");
+                        qry.AddParameter("@invoiceid", i.InvoiceId);
+                        FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            InvoiceItem ii = new InvoiceItem();
+                            ii.ICode = row[dt.GetColumnNo("masterno")].ToString();
+                            ii.Description = row[dt.GetColumnNo("description")].ToString();
+                            ii.Quantity = FwConvert.ToDecimal(row[dt.GetColumnNo("qty")].ToString());
+                            ii.Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("rate")].ToString());
+                            ii.Extended = FwConvert.ToDecimal(row[dt.GetColumnNo("linetotal")].ToString());
+                            i.Items.Add(ii);
+                        }
                     }
                 }
-
             }
 
             loaded = true;
