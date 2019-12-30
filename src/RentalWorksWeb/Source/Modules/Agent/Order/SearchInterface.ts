@@ -99,7 +99,7 @@ class SearchInterface {
                                       <div class="columnorder" style="display:none;" data-column="PartNumber">Part Number</div>
                                       <div class="columnorder hideColumns" data-column="Available">Available</div>
                                       <div class="columnorder hideColumns" data-column="ConflictDate">Conflict Date</div>
-                                      <div class="columnorder hideColumns" data-column="AllWh">All Warehouse</div>
+                                      <div class="columnorder hideColumns" data-column="AllWh">All Warehouses</div>
                                       <div class="columnorder hideColumns" data-column="In">In</div>
                                       <div class="columnorder hideColumns" data-column="QC">QC</div>
                                       <div class="columnorder" style="display:none;" data-column="Note">Note</div>
@@ -580,6 +580,7 @@ class SearchInterface {
         let $inventoryContainer       = $popup.find('#inventory');
         let descriptionIndex          = response.ColumnIndex.Description,
             quantityAvailable         = response.ColumnIndex.QuantityAvailable,
+            quantityAvailableAllWh    = response.ColumnIndex.QuantityAvailableAllWarehouses,
             conflictDate              = response.ColumnIndex.ConflictDate,
             quantityIn                = response.ColumnIndex.QuantityIn,
             quantityQcRequired        = response.ColumnIndex.QuantityQcRequired,
@@ -596,6 +597,7 @@ class SearchInterface {
             categoryIndex             = response.ColumnIndex.Category,
             subCategoryIndex          = response.ColumnIndex.SubCategory,
             availabilityStateIndex    = response.ColumnIndex.AvailabilityState,
+            availabilityStateIndexAllWh = response.ColumnIndex.AvailabilityStateAllWarehouses,
             qtyIsStaleIndex           = response.ColumnIndex.QuantityAvailableIsStale,
             icode                     = response.ColumnIndex.ICode,
             partNumber                = response.ColumnIndex.ManufacturerPartNumber,
@@ -642,7 +644,7 @@ class SearchInterface {
                                 <div data-column="ICode" class="columnorder"><div class="gridcaption">I-Code</div><div class="value">${response.Rows[i][icode]}</div></div>
                                 <div data-column="PartNumber" class="columnorder"><div class="gridcaption">Part Number</div><div class="value">${response.Rows[i][partNumber]}</div></div>
                                 <div data-column="ConflictDate" class="columnorder hideColumns"><div class="gridcaption">Conflict</div><div class="value">${conflictdate}</div></div>
-                                <div data-column="AllWh" class="columnorder hideColumns">&#160;</div>
+                                <div data-column="AllWh" class="columnorder hideColumns"><div class="gridcaption">Available</div><div class="available-color value">${response.Rows[i][quantityAvailableAllWh]}</div></div>
                                 <div data-column="In" class="columnorder hideColumns"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
                                 <div data-column="QC" class="columnorder hideColumns"><div class="gridcaption">QC</div><div class="value">${response.Rows[i][quantityQcRequired]}</div></div>
                                 <div data-column="Note" class="columnorder note-button" style="display:none;"><div class="gridcaption">Note</div><textarea class="value">${response.Rows[i][note]}</textarea>${response.Rows[i][note].length > 0 ? '<i class="material-icons">insert_drive_file</i>' : ''}</div>
@@ -665,6 +667,7 @@ class SearchInterface {
             }
 
             $itemcontainer.find('div[data-column="Available"]').attr('data-state', response.Rows[i][availabilityStateIndex]);
+            $itemcontainer.find('div[data-column="AllWh"]').attr('data-state', response.Rows[i][availabilityStateIndexAllWh]);
 
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
                 var $tag = jQuery('<div>').addClass('tag')
@@ -1069,9 +1072,9 @@ class SearchInterface {
             let code = e.keyCode || e.which;
             try {
                 if (code === 13) { //Enter Key
-                    self.populateTypeMenu($popup);
+                    this.populateTypeMenu($popup);
                     //self.getInventory($popup, false);
-                    self.getInventory($popup);
+                    this.getInventory($popup);
                 }
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -1098,11 +1101,11 @@ class SearchInterface {
                 $accessoryContainer = $iteminfo.siblings('.item-accessories');
             }
             
-            if ($accessoryContainer.is(":visible")) {
+            if ($accessoryContainer.is(':visible')) {
                 jQuery(e.currentTarget).text('Show Accessories');
-            } else {
+            } else { 
                 jQuery(e.currentTarget).text('Hide Accessories');
-                self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
             }
 
             if ((jQuery('#itemlist').attr('data-view')) == 'GRID') {
@@ -1149,7 +1152,7 @@ class SearchInterface {
                     response => {
                         if (accessoryRefresh == false) {
                             if ($accContainer.length > 0) {
-                                self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                                this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
                             }
                         }
 
@@ -1157,6 +1160,11 @@ class SearchInterface {
                             .attr('data-state', response.AvailabilityState)
                             .find('.value')
                             .text(response.QuantityAvailable);
+
+                        item.find('[data-column="AllWh"]')
+                            .attr('data-state', response.AvailabilityStateAllWarehouses)
+                            .find('.value')
+                            .text(response.QuantityAvailableAllWarehouses);
 
                         item.find('[data-column="ConflictDate"] value').text(response.ConflictDate || "");
 
@@ -1169,9 +1177,10 @@ class SearchInterface {
             })
             .on('change', '.item-accessory-info [data-column="Quantity"] input', e => {
                 const element = jQuery(e.currentTarget);
+                const inventoryId = element.parents('.item-accessory-info').attr('data-inventoryid');
                 let accRequest: any = {
                     SessionId:   id,
-                    InventoryId: element.parents('.item-accessory-info').attr('data-inventoryid'),
+                    InventoryId: inventoryId,
                     WarehouseId: warehouseId,
                     Quantity:    element.val()
                 };
@@ -1571,6 +1580,9 @@ class SearchInterface {
             $popup.data('refreshaccessories', false)
         }
 
+        //get id for nested toggle accessories
+        const showAccessoriesInventoryId = accessoryContainer.find('.toggleaccessories:contains(Hide)').parents('.item-accessory-info').attr('data-inventoryid');
+
         if (!(accessoryContainer.find('.accColumns').length)) {
             let accessorycolumnshtml =  `<div class="accColumns" style="width:100%; display:none">
                                            <div class="columnorder" data-column="Description">Description</div>
@@ -1605,6 +1617,7 @@ class SearchInterface {
             const qtyIndex                       = response.ColumnIndex.Quantity;
             const qtyInIndex                     = response.ColumnIndex.QuantityIn;
             const qtyAvailIndex                  = response.ColumnIndex.QuantityAvailable;
+            const qtyAvailableAllWhIndex         = response.ColumnIndex.QuantityAvailableAllWarehouses;
             const conflictIndex                  = response.ColumnIndex.ConflictDate;
             const inventoryIdIndex               = response.ColumnIndex.InventoryId;
             const classificationIndex            = response.ColumnIndex.Classification;
@@ -1615,6 +1628,7 @@ class SearchInterface {
             const thumbnail                      = response.ColumnIndex.Thumbnail;
             const appImageId                     = response.ColumnIndex.ImageId;
             const availabilityStateIndex         = response.ColumnIndex.AvailabilityState;
+            const availabilityStateIndexAllWhIndex = response.ColumnIndex.AvailabilityStateAllWarehouses;
             const isOptionIndex                  = response.ColumnIndex.IsOption;
             const defaultQuantityIndex           = response.ColumnIndex.DefaultQuantity;
             const icodeIndex                     = response.ColumnIndex.ICode;
@@ -1647,6 +1661,7 @@ class SearchInterface {
                                        <div class="columnorder" data-column="PartNumber">${response.Rows[i][partNumberIndex]}</div>
                                        <div class="columnorder hideColumns" data-column="Available"><div class="available-color">${response.Rows[i][qtyAvailIndex]}</div></div>
                                        <div class="columnorder hideColumns" data-column="ConflictDate">${conflictdate}</div>
+                                       <div class="columnorder hideColumns" data-column="AllWh"><div class="available-color value">${response.Rows[i][qtyAvailableAllWhIndex]}</div></div>
                                        <div class="hideColumns columnorder" data-column="In">${response.Rows[i][qtyInIndex]}</div>
                                        <div class="columnorder" data-column="Type"></div>
                                        <div class="columnorder" data-column="Category"></div>
@@ -1654,7 +1669,6 @@ class SearchInterface {
                                        <div class="columnorder note-button" data-column="Note"><textarea class="value">${response.Rows[i][note]}</textarea>${response.Rows[i][note].length > 0 ? '<i class="material-icons">insert_drive_file</i>' : ''}</div>
                                        <div class="columnorder" data-column="Rate"></div>
                                        <div class="columnorder" data-column="QC"></div>
-                                       <div class="columnorder" data-column="AllWh"></div>
                                      </div>`;
                 let $itemaccessoryinfo = jQuery(accessoryhtml);
                 accessoryContainer.append($itemaccessoryinfo);
@@ -1664,6 +1678,7 @@ class SearchInterface {
                 }
 
                 $itemaccessoryinfo.find('div[data-column="Available"]').attr('data-state', response.Rows[i][availabilityStateIndex]);
+                $itemaccessoryinfo.find('div[data-column="AllWh"]').attr('data-state', response.Rows[i][availabilityStateIndexAllWhIndex]);
 
                 if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
                     var $tag = jQuery('<div>').addClass('tag')
@@ -1714,6 +1729,11 @@ class SearchInterface {
                     $popup.find(`.item-accessories [data-column="${columnOrder[i]}"]`).css('order', i);
                 }
             }
+
+                //open accessories that were visible before they were refreshed
+                if (showAccessoriesInventoryId != undefined) {
+                    accessoryContainer.find(`[data-inventoryid="${showAccessoriesInventoryId}"]`).find('.toggleaccessories').click();
+                }
 
             //let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
             //if (typeof obj != 'undefined') {

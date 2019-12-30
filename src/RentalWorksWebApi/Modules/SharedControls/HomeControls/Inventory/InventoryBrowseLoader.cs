@@ -32,8 +32,17 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
+        public string InventoryTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
         public string Category { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
+        public string CategoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
+        public string SubCategoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subcategory", modeltype: FwDataTypes.Text)]
         public string SubCategory { get; set; }
@@ -90,7 +99,8 @@ namespace WebApi.Modules.HomeControls.Inventory
                   " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, q.qty" +
                   "              from  masterwh mw with(nolock)" +
                   "                            join masterwhqty q with(nolock) on(q.masterid = mw.masterid and q.warehouseid = mw.warehouseid)" +
-                  "                  where mw.masterid = t.masterid) mw";
+                  "                  where mw.masterid = t.masterid" +
+                  "                  and   mw.warehouseid = @warehouseid) mw";
 
 
             base.SetBaseSelectQuery(select, qry, customFields, request);

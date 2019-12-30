@@ -95,14 +95,7 @@ class Order extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        //no-security
-        FwMenu.addSubMenuItem(options.$groupOptions, 'View Snapshot', '', (e: JQuery.ClickEvent) => {
-            try {
-                this.viewSnapshotOrder(options.$form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+
         FwMenu.addSubMenuItem(options.$groupOptions, 'On Hold', 'ChTLbGO95bgpJ', (e: JQuery.ClickEvent) => {
             try {
                 this.OrderOnHold(options.$form);
@@ -259,6 +252,17 @@ class Order extends OrderBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'View Snapshot', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderSnapshotGridController.viewSnapshotGrid(e);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                })
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId')
@@ -1745,32 +1749,32 @@ class Order extends OrderBase {
         });
     };
     //----------------------------------------------------------------------------------------------
-    // Form menu item -- corresponding grid menu item function in OrderSnapshotGrid controller
-    viewSnapshotOrder($form) {
-        let $orderForm, $selectedCheckBoxes, $orderSnapshotGrid, snapshotId, orderNumber;
+    // Form menu item -- corresponding grid menu item function in OrderSnapshotGrid controller        -- j.pace removed at request of justin 12.23.19 #1521
+    //viewSnapshotOrder(event: any) {
+    //    let $orderForm, $selectedCheckBoxes, $orderSnapshotGrid, snapshotId, orderNumber;
 
-        $orderSnapshotGrid = $form.find(`[data-name="OrderSnapshotGrid"]`);
-        $selectedCheckBoxes = $orderSnapshotGrid.find('tbody .cbselectrow:checked');
+    //    $orderSnapshotGrid = $form.find(`[data-name="OrderSnapshotGrid"]`);
+    //    $selectedCheckBoxes = $orderSnapshotGrid.find('tbody .cbselectrow:checked');
 
-        try {
-            if ($selectedCheckBoxes.length !== 0) {
-                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                    snapshotId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="SnapshotId"]').attr('data-originalvalue');
-                    orderNumber = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderNumber"]').attr('data-originalvalue');
-                    var orderInfo: any = {};
-                    orderInfo.OrderId = snapshotId;
-                    $orderForm = OrderController.openForm('EDIT', orderInfo);
-                    FwModule.openSubModuleTab($form, $orderForm);
-                    jQuery('.tab.submodule.active').find('.caption').html(`Snapshot for Order ${orderNumber}`);
-                }
-            } else {
-                FwNotification.renderNotification('WARNING', 'Select rows in Order Snapshot Grid in order to perform this function.');
-            }
-        }
-        catch (ex) {
-            FwFunc.showError(ex);
-        }
-    };
+    //    try {
+    //        if ($selectedCheckBoxes.length !== 0) {
+    //            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+    //                snapshotId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="SnapshotId"]').attr('data-originalvalue');
+    //                orderNumber = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderNumber"]').attr('data-originalvalue');
+    //                var orderInfo: any = {};
+    //                orderInfo.OrderId = snapshotId;
+    //                $orderForm = OrderController.openForm('EDIT', orderInfo);
+    //                FwModule.openSubModuleTab($form, $orderForm);
+    //                jQuery('.tab.submodule.active').find('.caption').html(`Snapshot for Order ${orderNumber}`);
+    //            }
+    //        } else {
+    //            FwNotification.renderNotification('WARNING', 'Select rows in Order Snapshot Grid in order to perform this function.');
+    //        }
+    //    }
+    //    catch (ex) {
+    //        FwFunc.showError(ex);
+    //    }
+    //};
     //----------------------------------------------------------------------------------------------
     addLossDamage(event: any): void {
         const $form = jQuery(event.currentTarget).closest('.fwform');

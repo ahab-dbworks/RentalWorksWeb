@@ -56,20 +56,20 @@ namespace FwCore.Controllers
                 {
                     if (System.IO.File.Exists(pathPdfReport))
                     {
-                        //if (request.email.from == "[me]")
-                        //{
-                        //    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                        //    {
-                        //        request.email.from = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
-                        //    }
-                        //}
-                        //if (request.email.to == "[me]")
-                        //{
-                        //    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                        //    {
-                        //        request.email.to = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
-                        //    }
-                        //}
+                        if (request.email.from == "[me]")
+                        {
+                            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                            {
+                                request.email.from = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
+                            }
+                        }
+                        if (request.email.to == "[me]")
+                        {
+                            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                            {
+                                request.email.to = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
+                            }
+                        }
                         if (request.email.subject == "[reportname]")
                         {
                             request.email.subject = GetReportFriendlyName();

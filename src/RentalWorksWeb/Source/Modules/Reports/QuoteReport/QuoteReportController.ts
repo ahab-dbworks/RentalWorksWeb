@@ -61,11 +61,9 @@ class QuoteReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        const convertedParams: any = {};
-        convertedParams.CustomReportLayoutId = parameters.CustomReportLayoutId;
-        convertedParams.OrderId = parameters.QuoteId;
-        convertedParams.isQuote = true;
-        return convertedParams;
+        parameters.OrderId = parameters.QuoteId;
+        parameters.isQuote = true;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {

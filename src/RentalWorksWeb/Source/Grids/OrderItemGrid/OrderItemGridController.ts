@@ -136,7 +136,7 @@
                 // Group Header Row
                 if ($tr.find('.itemclass').text() === 'GH') {
                     $tr.css('font-weight', "bold");
-                    $tr.css('background-color', "#ffe6ff");
+                    $tr.css('background-color', "#ffffcc");
                     $tr.find('.field:not(.groupheaderline) ').text('');
                 }
 
@@ -148,7 +148,7 @@
                 // Sub-Total Row
                 if ($tr.find('.itemclass').text() === 'ST') {
                     $tr.css('font-weight', "bold");
-                    $tr.css('background-color', "#ffb3ff");
+                    $tr.css('background-color', "#ffff80");
                     $tr.find('.field:not(.subtotalline) ').text('');
                 }
 
@@ -186,7 +186,7 @@
                         <div class="flexrow" style="overflow:auto;">
                              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
                                  <div class="flexrow inv-data-totals">
-                                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px; margin-bottom:15px;"></div>
+                                     <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
@@ -227,7 +227,7 @@
                 FwScheduler.renderRuntimeHtml($calendar);
                 FwScheduler.init($calendar);
                 FwScheduler.loadControl($calendar);
-                RentalInventoryController.addCalendarEvents($generatedtr, $calendar, inventoryId);
+                RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
                 const schddate = FwScheduler.getTodaysDate();
                 FwScheduler.navigate($calendar, schddate);
                 FwScheduler.refresh($calendar);
@@ -235,7 +235,7 @@
                 FwSchedulerDetailed.renderRuntimeHtml($scheduler);
                 FwSchedulerDetailed.init($scheduler);
                 FwSchedulerDetailed.loadControl($scheduler);
-                RentalInventoryController.addSchedulerEvents($generatedtr, $scheduler, inventoryId);
+                RentalInventoryController.addCalSchedEvents($generatedtr, $scheduler, inventoryId);
                 FwSchedulerDetailed.navigate($scheduler, schddate, 35);
                 FwSchedulerDetailed.refresh($scheduler);
 
@@ -700,24 +700,39 @@
         };
     }
     //----------------------------------------------------------------------------------------------
-    async insertHeaderLines(event) {
+    async getSelectedItemIds(event): Promise<any> {
+        const items = [];
+
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
-        const headerItems= [];
         const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const orderItemId = $browse.find('.selected [data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
         const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
 
         if (orderId != null) {
+            let orderItem: any = {};
+            orderItem.OrderItemId = orderItemId
+            orderItem.OrderId = orderId;
+            items.push(orderItem);
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                 let orderItem: any = {};
                 let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
                 orderItem.OrderItemId = orderItemId
                 orderItem.OrderId = orderId;
-                headerItems.push(orderItem);
+                items.push(orderItem);
             }
-            await insertHeaderItems(headerItems);
-            await jQuery(document).trigger('click');
         } else {
             FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+        return items;
+    }
+    //----------------------------------------------------------------------------------------------
+    async insertHeaderLines(event) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+
+        const items = await this.getSelectedItemIds(event);
+        if (items.length > 0) {
+            await insertHeaderItems(items);
+            await jQuery(document).trigger('click');
         }
 
         function insertHeaderItems(items): void {
@@ -733,22 +748,11 @@
     //----------------------------------------------------------------------------------------------   
     async insertTextLines(event) {
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
-        const textItems = [];
-        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
 
-        if (orderId != null) {
-            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                let orderItem: any = {};
-                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                orderItem.OrderItemId = orderItemId
-                orderItem.OrderId = orderId;
-                textItems.push(orderItem);
-            }
-            await insertTextItems(textItems);
+        const items = await this.getSelectedItemIds(event);
+        if (items.length > 0) {
+            await insertTextItems(items);
             await jQuery(document).trigger('click');
-        } else {
-            FwNotification.renderNotification('WARNING', 'Select a record.')
         }
 
         function insertTextItems(items): void {
@@ -764,26 +768,15 @@
     //----------------------------------------------------------------------------------------------
     async insertSubTotalLines(event) {
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
-        const subTotalItems = [];
-        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
-        
-        if (orderId != null) {
-            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                let orderItem: any = {};
-                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                orderItem.OrderItemId = orderItemId
-                orderItem.OrderId = orderId;
-                subTotalItems.push(orderItem);
-            }
-            await insertSubTotalItems(subTotalItems);
+
+        const items = await this.getSelectedItemIds(event);
+        if (items.length > 0) {
+            await insertSubTotalItems(items);
             await jQuery(document).trigger('click');
-        } else {
-            FwNotification.renderNotification('WARNING', 'Select a record.')
         }
-        
+
         function insertSubTotalItems(items): void {
-        
+
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertsubtotals`, items, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
@@ -794,7 +787,7 @@
     }
     //----------------------------------------------------------------------------------------------    
     async detailSummaryView(event) {
-        const $orderItemGrid: any = jQuery(event.currenTarget).closest('[data-name="OrderItemGrid"]');
+        const $orderItemGrid: any = jQuery(event.currentTarget).closest('[data-name="OrderItemGrid"]');
 
         let summary: boolean = $orderItemGrid.data('Summary');
         summary = !summary;

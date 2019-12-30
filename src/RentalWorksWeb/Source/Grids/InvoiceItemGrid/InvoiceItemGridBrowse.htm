@@ -1,6 +1,6 @@
-﻿<div data-name="InvoiceItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Items" data-rendermode="template" data-showsearch="false" data-pagesize="15" data-refreshaftersave="true" data-controller="InvoiceItemGridController">
+﻿<div data-name="InvoiceItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Items" data-rendermode="template" data-showsearch="false" data-pagesize="15" data-refreshaftersave="true" data-paging="true" data-controller="InvoiceItemGridController">
   <div class="column" data-width="0" data-visible="false">
-    <div class="field" data-datafield="InvoiceItemId" data-datatype="key" data-isuniqueid="true" data-formreadonly="true" data-sort="asc"></div>
+    <div class="field" data-datafield="InvoiceItemId" data-datatype="key" data-isuniqueid="true" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-datafield="InvoiceId" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
@@ -21,7 +21,7 @@
     <div class="field valtype" data-caption="I-Code" data-datafield="InventoryId" data-browsedisplayfield="ICode" data-datatype="validation" data-validationname="GeneralItemValidation" data-sort="none" data-formrequired="true" data-mappedfield="ICode" style="white-space: pre;"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Description" data-datafield="Description" data-datatype="text" data-sort="off" data-mappedfield="Description" style="min-width:250px;"></div>
+    <div class="field groupheaderline textline subtotalline" data-caption="Description" data-datafield="Description" data-datatype="text" data-sort="off" data-mappedfield="Description" style="min-width:250px;"></div>
   </div>
   <div class="column" data-width="150px" data-visible="true">
     <div class="field" data-caption="Bar Code" data-datafield="ItemId" data-browsedisplayfield="BarCode" data-datatype="validation" data-validationname="AssetValidation" data-sort="none" data-mappedfield="BarCode" style="white-space: pre;"></div>
@@ -48,7 +48,7 @@
     <div class="field" data-caption="Qty" data-datafield="Quantity" data-datatype="number" data-sort="none" data-mappedfield="Quantity"></div>
   </div>
   <div class="column" data-width="40px" data-visible="true">
-    <div class="field" data-caption="Item Class" data-datafield="ItemClass" data-datatype="text" data-sort="none" data-formreadonly="true" data-mappedfield="ItemClass"></div>
+    <div class="field itemclass" data-caption="Item Class" data-datafield="ItemClass" data-datatype="text" data-sort="none" data-formreadonly="true" data-mappedfield="ItemClass"></div>
   </div>
   <div class="column" data-width="45px" data-visible="true">
     <div class="field" data-caption="Unit" data-datafield="Unit" data-datatype="text" data-sort="none" data-formreadonly="true" data-mappedfield="Unit"></div>
@@ -75,13 +75,13 @@
     <div class="field" data-caption="Tax" data-datafield="Taxable" data-datatype="checkbox" data-sort="none" data-mappedfield="Taxable"></div>
   </div>
   <div class="column" data-width="100px" data-visible="true">
-    <div class="field" data-caption="Extended" data-datafield="Extended" data-datatype="money" data-sort="none" data-mappedfield="Extended"></div>
+    <div class="field subtotalline" data-caption="Extended" data-datafield="Extended" data-datatype="money" data-sort="none" data-mappedfield="Extended"></div>
   </div>
   <div class="column" data-width="100px" data-visible="true">
-    <div class="field" data-caption="Line Total" data-datafield="LineTotal" data-datatype="money" data-sort="none" data-mappedfield="LineTotal"></div>
+    <div class="field subtotalline" data-caption="Line Total" data-datafield="LineTotal" data-datatype="money" data-sort="none" data-mappedfield="LineTotal"></div>
   </div>
     <div class="column" data-width="100px" data-visible="true" data-preventformreadonly="true">
-    <div class="field" data-caption="Adjustment" data-datafield="Adjustment" data-datatype="money" data-sort="none"  data-enabled="true" data-preventformreadonly="true" data-mappedfield="Adjustment"></div>
+    <div class="field subtotalline" data-caption="Adjustment" data-datafield="Adjustment" data-datatype="money" data-sort="none"  data-enabled="true" data-preventformreadonly="true" data-mappedfield="Adjustment"></div>
   </div>
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-caption="Bold" data-datafield="Bold" data-datatype="text" data-sort="none"></div>

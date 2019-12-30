@@ -618,28 +618,45 @@
       <!-- Availability Calendar tab -->
       <div data-type="tabpage" id="availabilitycalendartabpage" class="tabpage" data-tabid="availabilitycalendartab">
         <div class="formpage" style="width:auto;">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px; margin-bottom:15px;"></div>
-              <div class="flexcolumn inv-data-totals" style="flex:0 1 750px; float:right;padding-left:25px;">
+          <div class="flexrow" style="max-width:1600px;">
+            <div class="flexcolumn">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability" style="max-width:1200px;">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
-                  <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="On PO" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px;"></div>-->
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="flex:0 1 400px; margin-bottom:15px;"></div>
+                  <div class="flexcolumn inv-data-totals" style="flex:0 1 700px;float:right;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
+                      <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="On PO" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px;"></div>-->
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="flexcolumn" style="max-width:280px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rates" style="max-width:280px;">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Daily" data-datafield="" data-enabled="false" data-totalfield="InventoryDailyRate" style="flex:0 1 85px"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Weekly" data-datafield="" data-enabled="false" data-totalfield="InventoryWeeklyRate" style="flex:0 1 85px"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Monthly" data-datafield="" data-enabled="false" data-totalfield="InventoryMonthlyRate" style="flex:0 1 85px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability Calendar">
             <div class="flexrow" style="max-width:1400px;">
               <div class="flexcolumn">
                 <div data-control="FwScheduler" style="overflow:auto;" class="fwcontrol fwscheduler calendar"></div>
               </div>
             </div>
+          </div>
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability Schedule">
             <div class="flexrow" style="max-width:1950px;">
               <div class="flexcolumn cal-sched">
                 <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>

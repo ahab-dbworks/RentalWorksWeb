@@ -10,9 +10,17 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.HomeControls.InvoiceItem
 {
-    [FwSqlTable("dbo.funcinvoiceitemgrid(@invoiceid,@rectype)")]
+    //[FwSqlTable("dbo.funcinvoiceitemgrid(@invoiceid,@rectype)")]
+    [FwSqlTable("invoiceitemviewweb")]
     public class InvoiceItemLoader : AppDataLoadRecord
     {
+        private bool _hasSubTotal = false;
+
+        //------------------------------------------------------------------------------------ 
+        public InvoiceItemLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceitemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InvoiceItemId { get; set; }
@@ -97,6 +105,9 @@ namespace WebApi.Modules.HomeControls.InvoiceItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extended", modeltype: FwDataTypes.Decimal)]
         public decimal? Extended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.extended) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? ExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "linetotal", modeltype: FwDataTypes.Decimal)]
         public decimal? LineTotal { get; set; }
@@ -187,18 +198,18 @@ namespace WebApi.Modules.HomeControls.InvoiceItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "profitcenterchg3", modeltype: FwDataTypes.Text)]
         public string ProfitCenterChargeCode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activity", modeltype: FwDataTypes.Text)]
-        public string Activity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activityexportcode", modeltype: FwDataTypes.Text)]
-        public string ActivityExportCode { get; set; }
-        //------------------------------------------------------------------------------------ 
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "activity", modeltype: FwDataTypes.Text)]
+        //public string Activity { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "activityexportcode", modeltype: FwDataTypes.Text)]
+        //public string ActivityExportCode { get; set; }
+        ////------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
             string invoiceId = GetUniqueIdAsString("InvoiceId", request) ?? "";
-            string recType = GetUniqueIdAsString("RecType", request) ?? "";
+            //string recType = GetUniqueIdAsString("RecType", request) ?? "";
 
             if (string.IsNullOrEmpty(invoiceId))
             {
@@ -206,19 +217,89 @@ namespace WebApi.Modules.HomeControls.InvoiceItem
                 {
                     string[] values = AppFunc.GetStringDataAsync(AppConfig, "invoiceitem", new string[] { "invoiceitemid" }, new string[] { InvoiceItemId }, new string[] { "invoiceid", "rectype" }).Result;
                     invoiceId = values[0];
-                    recType = values[1];
+                    //recType = values[1];
                 }
             }
+
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qrySt = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                qrySt.Add("select hassubtotal = (case when exists (select * from invoiceitemview ii where ii.invoiceid = @invoiceid and ii.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') then 'T' else 'F' end) ");
+                qrySt.AddParameter("@invoiceid", invoiceId);
+                FwJsonDataTable dt = qrySt.QueryToFwJsonTableAsync().Result;
+                _hasSubTotal = FwConvert.ToBoolean(dt.Rows[0][0].ToString());
+            }
+
+            OverrideFromClause = " from " + TableName + " [t] with (nolock) ";
+            if (_hasSubTotal)
+            {
+                OverrideFromClause +=
+                       " outer apply (select nextgroupheaderitemorder = (case when (t.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') then '' else min(v2.itemorder) end)" +
+                       "               from  " + TableName + " v2 with (nolock)" +
+                       "               where v2.invoiceid = t.invoiceid" +
+                       "               and   v2.itemorder > t.itemorder" +
+                       "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') groupheader" +
+                       " outer apply (select nextsubtotalitemorder = (case " +
+                       "                                                 when (t.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "')   then t.itemorder " +
+                       "                                                 when (groupheader.nextgroupheaderitemorder < min(v2.itemorder)) then null" +
+                       "                                                 else                                                                 min(v2.itemorder) end)" +
+                       "               from  " + TableName + " v2" +
+                       "               where v2.invoiceid = t.invoiceid" +
+                       "               and   v2.itemorder > t.itemorder" +
+                       "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') subtotal";
+            }
+            else
+            {
+                OverrideFromClause +=
+                       "outer apply(select nextgroupheaderitemorder = null) groupheader " +
+                       "outer apply(select nextsubtotalitemorder = null) subtotal";
+            }
+
 
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
-            select.AddParameter("@invoiceid", invoiceId);
-            select.AddParameter("@rectype", recType);
+            //select.AddParameter("@invoiceid", invoiceId);
+            //select.AddParameter("@rectype", recType);
 
             addFilterToSelect("AvailFor", "availfor", select, request);
+            addFilterToSelect("RecType", "rectype", select, request);
 
+            select.AddWhere("invoiceid = @invoiceid");
+            select.AddParameter("@invoiceid", invoiceId);
+
+
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (_hasSubTotal)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            string itemClass = row[dt.GetColumnNo("ItemClass")].ToString();
+                            if (itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
+                            {
+                                for (int c = 0; c < dt.Columns.Count; c++)
+                                {
+                                    if (dt.ColumnNameByIndex[c].EndsWith("SubTotal"))
+                                    {
+                                        string subTotalColumnName = dt.ColumnNameByIndex[c];
+                                        string nonSubTotalColumnName = subTotalColumnName.Replace("SubTotal", "");
+                                        row[dt.GetColumnNo(nonSubTotalColumnName)] = row[c];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         //------------------------------------------------------------------------------------ 
     }

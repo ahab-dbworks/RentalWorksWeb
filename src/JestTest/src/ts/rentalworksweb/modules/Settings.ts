@@ -436,7 +436,7 @@ export class Currency extends SettingsModule {
             {
                 record: {
                     Currency: "GlobalScope.TestToken~1.MediumTestToken",
-                    CurrencyCode: "GlobalScope.TestToken~1.TinyTestToken",
+                    CurrencyCode: "GlobalScope.TestToken~1.ShortTestToken",
                     CurrencySymbol: "GlobalScope.TestToken~1.LastCharTestToken",
                 },
                 seekObject: {
@@ -447,7 +447,7 @@ export class Currency extends SettingsModule {
             {
                 record: {
                     Currency: "",
-                    CurrencyCode: "GlobalScope.TestToken~1.TinyTestToken",
+                    CurrencyCode: "GlobalScope.TestToken~1.ShortTestToken",
                     CurrencySymbol: "GlobalScope.TestToken~1.LastCharTestToken",
                 },
                 expectedErrorFields: ["Currency"]
@@ -463,7 +463,7 @@ export class Currency extends SettingsModule {
             {
                 record: {
                     Currency: "GlobalScope.TestToken~1.MediumTestToken",
-                    CurrencyCode: "GlobalScope.TestToken~1.TinyTestToken",
+                    CurrencyCode: "GlobalScope.TestToken~1.ShortTestToken",
                     CurrencySymbol: "",
                 },
                 expectedErrorFields: ["CurrencySymbol"]

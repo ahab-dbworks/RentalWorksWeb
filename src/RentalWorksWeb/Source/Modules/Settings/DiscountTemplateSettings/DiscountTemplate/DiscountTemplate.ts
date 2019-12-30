@@ -82,13 +82,12 @@
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
-                    //eg ,                    RecType = "R"
-                    //jh - RecType is needed on all of these dataBind and beforeSave methods
+                    RecType: "R",
                 };
             }, 
             beforeSave: (request: any) => {
                 request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-                //request.RecType = "R";
+                request.RecType = "R";
             }
         });
         //-------------------------------------------------------------------------------------------------------------
@@ -120,15 +119,16 @@
             pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId')
-                    //,                    RecType = "S"
+                    DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
+                    RecType: "S",
                 };
             }, 
             beforeSave: (request: any) => {
                 request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-                //request.RecType = "S";
+                request.RecType = "S";
             }
-        });        //-------------------------------------------------------------------------------------------------------------
+        });
+        //-------------------------------------------------------------------------------------------------------------
         //const $discountItemLaborGrid = $form.find('div[data-grid="DiscountItemLaborGrid"]');
         //const $discountItemLaborGridControl = FwBrowse.loadGridFromTemplate('DiscountItemLaborGrid');
         //$discountItemLaborGrid.empty().append($discountItemLaborGridControl);
@@ -154,13 +154,13 @@
             pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId')
-                    //,                    RecType = "L"
+                    DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
+                    RecType: "L",
                 };
             }, 
             beforeSave: (request: any) => {
                 request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-                //request.RecType = "L";
+                request.RecType = "L";
             }
         });
 
@@ -190,13 +190,13 @@
             pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId')
-                    //,                    RecType = "M"
+                    DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
+                    RecType: "M",
                 };
             }, 
             beforeSave: (request: any) => {
                 request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-                //request.RecType = "M";
+                request.RecType = "M";
             }
         });
 

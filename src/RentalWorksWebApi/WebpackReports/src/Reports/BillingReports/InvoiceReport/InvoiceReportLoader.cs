@@ -37,13 +37,13 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public string Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "extended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "extended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string Extended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
         public string OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "rate", modeltype: FwDataTypes.DecimalString2Digits)]
         public string Rate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
@@ -391,9 +391,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "approveddate", modeltype: FwDataTypes.Date)]
         public string ApprovedDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Text)]
-        public string SummaryInvoiceGroup { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Text)]
+        //public string SummaryInvoiceGroup { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean)]
         public bool? IsNoCharge { get; set; }
         //------------------------------------------------------------------------------------ 

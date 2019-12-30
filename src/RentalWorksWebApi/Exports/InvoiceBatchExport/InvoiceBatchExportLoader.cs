@@ -1,40 +1,44 @@
 using FwStandard.SqlServer;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 
 namespace WebApi.Modules.Exports.InvoiceBatchExport
 {
-    public class InvoiceBatchExportRequest
+    public class InvoiceBatchExportRequest: AppExportRequest
     {
         public string BatchId { get; set; }
     }
 
-    public class InvoiceBatchExportLoader : AppExportLoader  // maybe add a new superclass that all Exports inherit from?
+    public class InvoiceBatchExportResponse: AppExportResponse
+    {
+    }
+
+    public class InvoiceBatchExportLoader : AppExportLoader 
     {
         public string BatchId { get; set; }
         public string BatchNumber { get; set; }
         public DateTime? BatchDateTime { get; set; }
-        
+
+        public class InvoiceItem
+        {
+            public string ICode { get; set; }
+            public string Description { get; set; }
+            public decimal? Quantity { get; set; }
+            public decimal? Rate { get; set; }
+            public decimal? Extended { get; set; }
+        }
+
         public class BatchInvoice
         {
-            public class InvoiceItem
-            {
-                public string ICode { get; set; }
-                public string Description { get; set; }
-                public decimal? Quantity { get; set; }
-                public decimal? Rate { get; set; }
-                public decimal? Extended { get; set; }
-            }
-
             public string InvoiceId { get; set; }
             public string InvoiceNumber { get; set; }
             public DateTime? InvoiceDate { get; set; }
             public string InvoiceDescription { get; set; }
             public string Customer { get; set; }
-            public string CustomerNumber { get; set; }
+            //public string CustomerNumber { get; set; }
+            public string Deal { get; set; }
             public string DealNumber { get; set; }
             public decimal? InvoiceSubTotal { get; set; }
             public decimal? InvoiceTax { get; set; }
@@ -80,27 +84,88 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
         //[FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
         //public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<InvoiceBatchExportLoader> DoLoad<InvoiceBatchExportLoader>(InvoiceBatchExportRequest request)
+        public async Task<bool> DoLoad<InvoiceBatchExportLoader>(InvoiceBatchExportRequest request)
         {
-            InvoiceBatchExportLoader batchLoader;
+            bool loaded = false;
 
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                await conn.OpenAsync();
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetinvoiceexportbatch", this.AppConfig.DatabaseSettings.ReportTimeout))
+                FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select b.chgbatchid, b.chgbatchno, b.chgbatchdatetime   ");
+                qry.Add(" from  chgbatch b                                       ");
+                qry.Add(" where b.chgbatchid = @chgbatchid                       ");
+                qry.AddParameter("@chgbatchid", request.BatchId);
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                foreach (List<object> row in dt.Rows)
                 {
-                    qry.AddParameter("@invoiceid", SqlDbType.Text, ParameterDirection.Input, request.BatchId);
-                    AddPropertiesAsQueryColumns(qry);
-                    Task<InvoiceBatchExportLoader> taskBatch = qry.QueryToTypedObjectAsync<InvoiceBatchExportLoader>();
-
-                    await Task.WhenAll(new Task[] { taskBatch });
-
-                    batchLoader = taskBatch.Result;
-
+                    BatchId = row[dt.GetColumnNo("chgbatchid")].ToString();
+                    BatchNumber = row[dt.GetColumnNo("chgbatchno")].ToString();
+                    BatchDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("chgbatchdatetime")].ToString());
                 }
             }
 
-            return batchLoader;
+
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select icb.invoiceid, i.invoiceno, i.invoicedate, i.invoicedesc,        ");
+                qry.Add("       i.customer, i.deal, i.dealno, i.invoicesubtotal, i.invoicetax,   ");
+                qry.Add("       i.invoicetotal                                                   ");
+                qry.Add(" from  invoicechgbatch icb                                              ");
+                qry.Add("              join invoiceview i on (icb.invoiceid = i.invoiceid)       ");
+                qry.Add(" where icb.chgbatchid = @chgbatchid                                     ");
+                qry.Add(" and   i.nocharge     <> 'T'                                            ");
+                qry.Add("order by i.invoiceid                                                    ");
+                qry.AddParameter("@chgbatchid", request.BatchId);
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                foreach (List<object> row in dt.Rows)
+                {
+                    BatchInvoice i = new BatchInvoice();
+                    i.InvoiceId = row[dt.GetColumnNo("invoiceid")].ToString();
+                    i.InvoiceNumber = row[dt.GetColumnNo("invoiceno")].ToString();
+                    i.InvoiceDate = FwConvert.ToDateTime(row[dt.GetColumnNo("invoiceno")].ToString());
+                    i.InvoiceDescription = row[dt.GetColumnNo("invoicedesc")].ToString();
+                    i.Customer = row[dt.GetColumnNo("customer")].ToString();
+                    i.Deal = row[dt.GetColumnNo("deal")].ToString();
+                    i.DealNumber = row[dt.GetColumnNo("dealno")].ToString();
+                    i.InvoiceSubTotal = FwConvert.ToDecimal(row[dt.GetColumnNo("invoicesubtotal")].ToString());
+                    i.InvoiceTax = FwConvert.ToDecimal(row[dt.GetColumnNo("invoicetax")].ToString());
+                    i.InvoiceTotal = FwConvert.ToDecimal(row[dt.GetColumnNo("invoicetotal")].ToString());
+                    Invoices.Add(i);
+                }
+            }
+
+            foreach (BatchInvoice i in Invoices) 
+            {
+
+                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.Add("select ii.masterno, ii.description, ii.qty, ii.rate, ii.linetotal       ");
+                    qry.Add(" from  invoiceitemviewweb ii                                            ");
+                    qry.Add(" where ii.invoiceid = @invoiceid                                        ");
+                    qry.Add("order by ii.itemorder                                                   ");
+                    qry.AddParameter("@invoiceid", i.InvoiceId);
+                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        InvoiceItem ii = new InvoiceItem();
+                        ii.ICode = row[dt.GetColumnNo("masterno")].ToString();
+                        ii.Description = row[dt.GetColumnNo("invoicedesc")].ToString();
+                        ii.Quantity = FwConvert.ToDecimal(row[dt.GetColumnNo("qty")].ToString());
+                        ii.Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("rate")].ToString());
+                        ii.Extended = FwConvert.ToDecimal(row[dt.GetColumnNo("linetotal")].ToString());
+                        i.Items.Add(ii);
+                    }
+                }
+
+            }
+
+            loaded = true;
+            return loaded;
         }
         //------------------------------------------------------------------------------------ 
     }
