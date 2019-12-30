@@ -2008,7 +2008,7 @@ class OrderBase {
         });
         // ----------
         $form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
+            const $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('.differentaddress'));
             }
@@ -2055,17 +2055,15 @@ class OrderBase {
             }
         });
         // ----------
-        $form.find('.copy').on('click', e => {
-            var $confirmation, $yes, $no;
-            $confirmation = FwConfirmation.renderConfirmation('Confirm Copy', '');
-            var html = [];
+        $form.find('.addresscopy').on('click', e => {
+            const $confirmation = FwConfirmation.renderConfirmation('Confirm Copy', '');
+            const html: Array<string> = [];
             html.push('<div class="flexrow">Copy Outgoing Address into Incoming Address?</div>');
             FwConfirmation.addControls($confirmation, html.join(''));
-            $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
-            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            const $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
             $yes.on('click', copyAddress);
-            var $confirmationbox = jQuery('.fwconfirmationbox');
             function copyAddress() {
                 FwNotification.renderNotification('SUCCESS', 'Address Successfully Copied.');
                 FwConfirmation.destroyConfirmation($confirmation);
@@ -2167,8 +2165,7 @@ class OrderBase {
         });
         // Stores previous value for Out / InDeliveryDeliveryType
         $form.find('.delivery-delivery').on('click', event => {
-            let $element, newValue, prevValue;
-            $element = jQuery(event.currentTarget);
+            const $element = jQuery(event.currentTarget);
             if ($element.attr('data-datafield') === 'OutDeliveryDeliveryType') {
                 $element.data('prevValue', FwFormField.getValueByDataField($form, 'OutDeliveryDeliveryType'))
             } else {
@@ -2192,7 +2189,7 @@ class OrderBase {
                 if (newValue === 'PICK UP') {
                     FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE');
                 }
-                $form.find('.OutDeliveryAddressType').change();
+                $form.find('div[data-datafield="OutDeliveryAddressType"]').change();
             }
             else if ($element.attr('data-datafield') === 'InDeliveryDeliveryType') {
                 if (newValue === 'DELIVER' && prevValue === 'PICK UP') {
@@ -2204,7 +2201,7 @@ class OrderBase {
                 if (newValue === 'PICK UP') {
                     FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL');
                 }
-                $form.find('.InDeliveryAddressType').change();
+                $form.find('div[data-datafield="InDeliveryAddressType"]').change();
             }
         });
         //Hide/Show summary buttons based on rate type
@@ -2696,7 +2693,7 @@ class OrderBase {
     deliveryTypeAddresses($form: any, event: any): void {
         const $element = jQuery(event.currentTarget);
         if ($element.attr('data-datafield') === 'OutDeliveryAddressType') {
-            let value = FwFormField.getValueByDataField($form, 'OutDeliveryAddressType');
+            const value = FwFormField.getValueByDataField($form, 'OutDeliveryAddressType');
             if (value === 'WAREHOUSE') {
                 this.getWarehouseAddress($form, 'Out');
             } else if (value === 'DEAL') {
@@ -2704,7 +2701,7 @@ class OrderBase {
             }
         }
         else if ($element.attr('data-datafield') === 'InDeliveryAddressType') {
-            let value = FwFormField.getValueByDataField($form, 'InDeliveryAddressType');
+            const value = FwFormField.getValueByDataField($form, 'InDeliveryAddressType');
             if (value === 'WAREHOUSE') {
                 this.getWarehouseAddress($form, 'In');
             } else if (value === 'DEAL') {
