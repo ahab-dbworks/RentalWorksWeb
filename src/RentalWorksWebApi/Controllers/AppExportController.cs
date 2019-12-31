@@ -57,16 +57,28 @@ namespace WebApi.Controllers
             }
         }
         //------------------------------------------------------------------------------------ 
-        public bool Export<T>(AppExportLoader loader, string exportString)
+        public async Task<AppExportResponse> Export<T>(AppExportLoader loader, string exportString)
         {
-            bool exported = false;
-
-            StringBuilder sb = new StringBuilder();
+            AppExportResponse response = new AppExportResponse();
             var template = Handlebars.Compile(exportString);
             var result = template(loader);
 
-            exported = true;
-            return exported;
+            string downloadFileName = loader.BatchNumber + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".csv";
+            string filename = UserSession.WebUsersId + "_" + loader.BatchNumber + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_csv";
+            string directory = FwDownloadController.GetDownloadsDirectory();
+            string path = Path.Combine(directory, filename);
+
+            using (var tw = new StreamWriter(path, false))
+            {
+                tw.Write(result);
+                tw.Flush();
+                tw.Close();
+            }
+            response.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}";
+            response.BatchId = loader.BatchId;
+            response.BatchNumber = loader.BatchNumber;
+
+            return response;
         }
     }
 }

@@ -41,65 +41,12 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                 //we need a generic method here that will take an instance of a AppExportLoader ("l" in this scope) and an Export Format String (pulled from the provided DataExportFormatId)
                 //   the method should use handlebars to produce a giant string from the "l" data object and the desired export format.
                 //   the method should then produce a text file with that giant string and download it back to the page.
-                Export<InvoiceBatchExportLoader>(l, exportString);
 
-                //for (int i = 0; i <= l.Invoices.Count - 1; i++)
-                //{
-                //    var invoice = l.Invoices[i];
-                //    if (!string.IsNullOrEmpty(invoice.InvoiceId))
-                //    {
-                //        string lineText = exportString;
-                //        string[] fields = lineText.Split(new string[] { "{{", "}}" }, StringSplitOptions.RemoveEmptyEntries);
 
-                //        foreach (string s in fields)
-                //        {
-                //            if (!s.StartsWith(@"\"))
-                //            {
-                //                int childSeparatorIndex = s.IndexOf(".", StringComparison.Ordinal);
-                //                if (childSeparatorIndex.Equals(-1))
-                //                {
-                //                    var value = l.GetType().GetProperty(s).GetValue(l);
-                //                    if (!value.Equals(null)) 
-                //                    {
-                //                        lineText = lineText.Replace("{{" + s + "}}", value.ToString());
-                //                    }
-                                 
-                //                } else
-                //                {
-                //                    string parentField = s.Substring(0, childSeparatorIndex);
-                //                    string childField = s.Substring(childSeparatorIndex + 1);
+                AppExportResponse response = await Export<InvoiceBatchExportLoader>(l, exportString);
 
-                //                    var children = l.GetType().GetProperty(parentField).GetValue(l);
-                //                    string childVal = children.GetType().GetProperty(childField).GetValue(children).ToString();
-                //                    lineText = lineText.Replace("{{" + parentField +"." + childField + "}}", childVal);
-                //                }
-                //            }
-                //        }
-                //        sb.AppendLine(lineText);
-
-                //    }
-                //}
-               // *
-               // *COPIED FROM InvoiceProcessBatchFunc.cs
-               //*
-              // here we are creating a downloadable file that will live in the API "downloads" directory
-              //string downloadFileName = l.BatchNumber + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".csv";
-              //  string filename = UserSession.WebUsersId + "_" + l.BatchNumber + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_csv";
-              //  string directory = FwDownloadController.GetDownloadsDirectory();
-              //  string path = Path.Combine(directory, filename);
-
-              //  using (var tw = new StreamWriter(path, false)) // false here will initialize the file fresh, no appending
-              //  {
-              //      tw.Write(sb);
-              //      tw.Flush();
-              //      tw.Close();
-              //  }
-
-                InvoiceBatchExportResponse response = new InvoiceBatchExportResponse();
-                response.downloadUrl = "";
-                //response.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}"; 
-                                            // populate this field with the download file path and name
-                                            //for now, the actual filename of the download file is not critical. But going forward we may need to add a field somewhere for user to define how they want the file named
+                // populate this field with the download file path and name
+                //for now, the actual filename of the download file is not critical. But going forward we may need to add a field somewhere for user to define how they want the file named
 
                 return new OkObjectResult(response);
             }

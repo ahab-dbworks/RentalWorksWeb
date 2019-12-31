@@ -165,13 +165,14 @@
             if (batchId !== '') {
                 const request: any = {
                     BatchId: batchId,
-                    //DataExportFormatId: dataExportFormatId
+                    DataExportFormatId: dataExportFormatId
                 }
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoicebatchexport/export`, request, FwServices.defaultTimeout,
                     response => {
-                    if ((response.success === true) && (response.batch !== null)) {
-                        let batch = response.batch;
-                        let batchNumber = batch.BatchNumber
+                    //if ((response.success === true) && (response.batch !== null)) {
+                        if (response.downloadUrl != "") {
+                        //let batch = response.batch;
+                        let batchNumber = response.BatchNumber
                         const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
                         jQuery('#application').append($iframe);
                         setTimeout(function () {

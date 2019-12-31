@@ -17,10 +17,6 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
 
     public class InvoiceBatchExportLoader : AppExportLoader 
     {
-        public string BatchId { get; set; }
-        public string BatchNumber { get; set; }
-        public DateTime? BatchDateTime { get; set; }
-
         public class InvoiceItem
         {
             public string ICode { get; set; }
