@@ -164,7 +164,7 @@ class TransferOrder {
     //----------------------------------------------------------------------------------------------
     Search($form: JQuery) {
         try {
-            let transferId = FwFormField.getValueByDataField($form, 'TransferId');
+            const transferId = FwFormField.getValueByDataField($form, 'TransferId');
             if ($form.attr('data-mode') === 'NEW') {
                 TransferOrderController.saveForm($form, { closetab: false });
                 return;
@@ -172,7 +172,7 @@ class TransferOrder {
             if (transferId == "") {
                 FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
             } else {
-                let search = new SearchInterface();
+                const search = new SearchInterface();
                 search.renderSearchPopup($form, transferId, 'Transfer');
             }
         } catch (ex) {
@@ -383,7 +383,7 @@ class TransferOrder {
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
                 FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
-                        OrderItemGridController.quikSearch(e);
+                        this.Search($form);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
