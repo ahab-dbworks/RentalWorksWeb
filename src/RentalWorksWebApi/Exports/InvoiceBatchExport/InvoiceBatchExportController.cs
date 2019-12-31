@@ -41,7 +41,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                 //we need a generic method here that will take an instance of a AppExportLoader ("l" in this scope) and an Export Format String (pulled from the provided DataExportFormatId)
                 //   the method should use handlebars to produce a giant string from the "l" data object and the desired export format.
                 //   the method should then produce a text file with that giant string and download it back to the page.
-                await Export<InvoiceBatchExportLoader>(l, exportString);
+                Export<InvoiceBatchExportLoader>(l, exportString);
 
                 //for (int i = 0; i <= l.Invoices.Count - 1; i++)
                 //{

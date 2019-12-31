@@ -57,7 +57,7 @@ namespace WebApi.Controllers
             }
         }
         //------------------------------------------------------------------------------------ 
-        public Task<bool> Export<T>(AppExportLoader loader, string exportString)
+        public bool Export<T>(AppExportLoader loader, string exportString)
         {
             bool exported = false;
 
