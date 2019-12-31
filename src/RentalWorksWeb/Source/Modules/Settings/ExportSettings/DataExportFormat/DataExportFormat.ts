@@ -211,11 +211,13 @@ class DataExportFormat {
         $form.on('click', '.modulefields div', e => {
             const $this = jQuery(e.currentTarget);
             let textToInject;
-            if ($this.attr('data-isnested') != 'true') {
-                textToInject = `{{${$this.text()}}}`;
-            } else {
-                textToInject = `{{${$this.attr('data-parentfield')}.${$this.text()}}}`; //for nested objects
-            }
+            //if ($this.attr('data-isnested') != 'true') {
+            //    textToInject = `{{${$this.text()}}}`;
+            //} else {
+            //    textToInject = `{{${$this.attr('data-parentfield')}.${$this.text()}}}`; //for nested objects
+            //}
+            textToInject = `{{${$this.text()}}}`;
+
             const doc = this.codeMirror.getDoc();
             const cursor = doc.getCursor();
             doc.replaceRange(textToInject, cursor);
