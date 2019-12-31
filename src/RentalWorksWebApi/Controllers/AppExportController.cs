@@ -2,12 +2,14 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.SqlServer;
+using HandlebarsDotNet;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WebApi.Data;
 using static FwCore.Controllers.FwDataController;
@@ -19,6 +21,7 @@ namespace WebApi.Controllers
         //------------------------------------------------------------------------------------
         public AppExportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         protected Type loaderType = null;
+        protected AppExportLoader loader = null;
         //------------------------------------------------------------------------------------
         protected ObjectResult GetApiExceptionResult(Exception ex)
         {
@@ -54,5 +57,16 @@ namespace WebApi.Controllers
             }
         }
         //------------------------------------------------------------------------------------ 
+        public Task<bool> Export<T>(AppExportLoader loader, string exportString)
+        {
+            bool exported = false;
+
+            StringBuilder sb = new StringBuilder();
+            var template = Handlebars.Compile(exportString);
+            var result = template(loader);
+
+            exported = true;
+            return exported;
+        }
     }
 }

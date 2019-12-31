@@ -165,7 +165,7 @@
             if (batchId !== '') {
                 const request: any = {
                     BatchId: batchId,
-                    DataExportFormatId: dataExportFormatId
+                    //DataExportFormatId: dataExportFormatId
                 }
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoicebatchexport/export`, request, FwServices.defaultTimeout,
                     response => {
