@@ -26,6 +26,15 @@ namespace WebApi.Modules.Agent.Customer
         [FwSqlDataField(column: "custstatus", modeltype: FwDataTypes.Text)]
         public string CustomerStatus { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
+        public string Address1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "city", modeltype: FwDataTypes.Text)]
+        public string City { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text)]
+        public string State { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
