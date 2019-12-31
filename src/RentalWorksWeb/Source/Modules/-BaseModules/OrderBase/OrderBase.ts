@@ -2742,7 +2742,9 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     getWarehouseAddress($form: any, prefix: string): void {
-        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+        //const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid; - J.Pace :: changed from user warehouse to order warehouse at request of mgmt 12/31/19
+        const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+
         let WHresponse: any = {};
 
         if ($form.data('whAddress')) {
@@ -2756,29 +2758,33 @@ class OrderBase {
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, WHresponse.Zip);
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
         } else {
-            FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${warehouseId}`, null, FwServices.defaultTimeout, response => {
-                WHresponse = response;
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, WHresponse.Warehouse);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, WHresponse.Attention);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, WHresponse.Address1);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, WHresponse.Address2);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, WHresponse.City);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, WHresponse.State);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, WHresponse.Zip);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
-                // Preventing unnecessary API calls once warehouse addresses have been requested once
-                $form.data('whAddress', {
-                    'Warehouse': response.Warehouse,
-                    'Attention': response.Attention,
-                    'Address1': response.Address1,
-                    'Address2': response.Address2,
-                    'City': response.City,
-                    'State': response.State,
-                    'Zip': response.Zip,
-                    'CountryId': response.CountryId,
-                    'Country': response.Country
-                })
-            }, null, null);
+            if (warehouseId) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${warehouseId}`, null, FwServices.defaultTimeout, response => {
+                    WHresponse = response;
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, WHresponse.Warehouse);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, WHresponse.Attention);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, WHresponse.Address1);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, WHresponse.Address2);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, WHresponse.City);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, WHresponse.State);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, WHresponse.Zip);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
+                    // Preventing unnecessary API calls once warehouse addresses have been requested once
+                    $form.data('whAddress', {
+                        'Warehouse': response.Warehouse,
+                        'Attention': response.Attention,
+                        'Address1': response.Address1,
+                        'Address2': response.Address2,
+                        'City': response.City,
+                        'State': response.State,
+                        'Zip': response.Zip,
+                        'CountryId': response.CountryId,
+                        'Country': response.Country
+                    })
+                }, null, null);
+            } else {
+                FwNotification.renderNotification('INFO', 'No Warehouse chosen on Order.');
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
