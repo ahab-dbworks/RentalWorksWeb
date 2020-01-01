@@ -121,7 +121,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                             var jwtRequest = {
                                 UserName: $email.val(),
                                 Password: $password.val()
-                            }
+                            };
                             FwAppData.apiMethod(false, 'POST', 'api/v1/jwt', jwtRequest,  null,
                                 function(responseJwt) {
                                     try {
@@ -194,7 +194,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                                         FwFunc.showError(ex);
                                     }
                                 }
-                                , screen.$view);
+                            , screen.$view);
                         } catch(ex) {
                             FwFunc.showError(ex);
                         }
