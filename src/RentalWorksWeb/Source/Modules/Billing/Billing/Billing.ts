@@ -173,9 +173,7 @@ class Billing {
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValueByDataField($popup, 'OfficeLocationId', location.locationid, location.location);
 
-        $browse
-            .off('dblclick', 'tbody tr')
-            .on('dblclick', 'tbody tr', e => {
+        $browse.data('onrowdblclick', e => {
                 let $this = jQuery(e.currentTarget);
                 let orderId = $this.find('[data-browsedatafield="OrderId"]').attr('data-originalvalue');
                 if (typeof orderId !== 'undefined') {
@@ -187,7 +185,7 @@ class Billing {
                     $orderForm = OrderController.loadForm(orderInfo);
                     FwModule.openModuleTab($orderForm, `${orderNumber} ${orderDescription}`, true, 'FORM', true);
                 }
-            });
+        });
 
         $popup.find('[data-datafield="DealId"] input').focus();
         this.createInvoicesEvents($browse);
