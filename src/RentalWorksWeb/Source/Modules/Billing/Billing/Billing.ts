@@ -173,19 +173,61 @@ class Billing {
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValueByDataField($popup, 'OfficeLocationId', location.locationid, location.location);
 
-        $browse.data('onrowdblclick', e => {
+        $browse
+            .data('onrowdblclick', e => {
                 let $this = jQuery(e.currentTarget);
                 let orderId = $this.find('[data-browsedatafield="OrderId"]').attr('data-originalvalue');
                 if (typeof orderId !== 'undefined') {
-                    let orderInfo: any = {};
-                    let $orderForm;
-                    let orderNumber = $this.find('[data-browsedatafield="OrderNumber"]').attr('data-originalvalue');
-                    let orderDescription = $this.find('[data-browsedatafield="OrderDescription"]').attr('data-originalvalue');
-                    orderInfo.OrderId = orderId;
-                    $orderForm = OrderController.loadForm(orderInfo);
+                    const orderInfo: any = { OrderId: orderId };
+
+                    const orderNumber = $this.find('[data-browsedatafield="OrderNumber"]').attr('data-originalvalue');
+                    const orderDescription = $this.find('[data-browsedatafield="OrderDescription"]').attr('data-originalvalue');
+                    const $orderForm = OrderController.loadForm(orderInfo);
                     FwModule.openModuleTab($orderForm, `${orderNumber} ${orderDescription}`, true, 'FORM', true);
                 }
-        });
+            })
+            .off('keydown', 'tbody tr')
+            .on('keydown', 'tbody tr', e => {
+                var code;
+                try {
+                    code = e.keyCode || e.which;
+                    switch (code) {
+                        case 13: //Enter Key
+                            const $this = jQuery(e.currentTarget);
+                            const orderId = $this.find('[data-browsedatafield="OrderId"]').attr('data-originalvalue');
+                            if (typeof orderId !== 'undefined') {
+                                const orderInfo: any = { OrderId: orderId };
+                                const $orderForm = OrderController.loadForm(orderInfo);
+                                const orderNumber = $this.find('[data-browsedatafield="OrderNumber"]').attr('data-originalvalue');
+                                const orderDescription = $this.find('[data-browsedatafield="OrderDescription"]').attr('data-originalvalue');
+                                FwModule.openModuleTab($orderForm, `${orderNumber} ${orderDescription}`, true, 'FORM', true);
+                            }
+                            break;
+                        case 37: //Left Arrow Key
+                            if ($browse.attr('data-type') === 'Browse') {
+                                FwBrowse.prevPage($browse);
+                            }
+                            return false;
+                        case 38: //Up Arrow Key
+                            if ($browse.attr('data-type') === 'Browse') {
+                                FwBrowse.selectPrevRow($browse);
+                                return false;
+                            }
+                        case 39: //Right Arrow Key
+                            if ($browse.attr('data-type') === 'Browse') {
+                                FwBrowse.nextPage($browse);
+                            }
+                            return false;
+                        case 40: //Down Arrow Key
+                            if ($browse.attr('data-type') === 'Browse') {
+                                FwBrowse.selectNextRow($browse);
+                                return false;
+                            }
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
 
         $popup.find('[data-datafield="DealId"] input').focus();
         this.createInvoicesEvents($browse);
