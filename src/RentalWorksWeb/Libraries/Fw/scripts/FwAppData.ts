@@ -271,13 +271,23 @@ class FwAppData {
                 }
                 delete FwAppData.jqXHR[this.requestid];
                 FwAppData.updateAutoLogout(null);
+                const errorMessage = jqXHR.responseJSON.Message; // J. Pace 1/2/20 - more descriptive message in error popup, similar to the way its done in showWebApiError
                 if (typeof onError === 'function') {
-                    onError(errorThrown);
+                    if (errorMessage) {
+                        onError(errorMessage);
+                    } else {
+                        onError(errorThrown);
+                    }
                 } else if (errorThrown !== 'abort') {
                     if (url.indexOf('api/') === 0) {
                         FwFunc.showWebApiError(jqXHR.status, errorThrown, errorContent, fullurl);
                     } else {
-                        FwFunc.showError(errorThrown);
+                        if (errorMessage) {
+                            FwFunc.showError(errorMessage);
+                        } else {
+                            FwFunc.showError(errorThrown);
+
+                        }
                     }
                 }
             });
