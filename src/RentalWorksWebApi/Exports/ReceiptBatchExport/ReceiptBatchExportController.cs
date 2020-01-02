@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Data;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Exports.ReceiptBatchExport
 {
@@ -16,10 +18,10 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
         public ReceiptBatchExportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ReceiptBatchExportLoader); }
 
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptbatchexport/load
-        [HttpPost("load")]
-        [FwControllerMethod(Id: "qRewcKVuOGxi", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
-        public async Task<ActionResult<ReceiptBatchExportLoader>> Load([FromBody]ReceiptBatchExportRequest request)
+        // POST api/v1/receiptbatchexport/export
+        [HttpPost("export")]
+        [FwControllerMethod(Id: "nqyMIjXrvytA", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public async Task<ActionResult<ReceiptBatchExportResponse>> Export([FromBody]ReceiptBatchExportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -29,8 +31,21 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
             {
                 ReceiptBatchExportLoader l = new ReceiptBatchExportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                ReceiptBatchExportLoader dt = await l.DoLoad<ReceiptBatchExportLoader>(request);
-                return new OkObjectResult(dt);
+                await l.DoLoad<ReceiptBatchExportLoader>(request);
+
+                string exportString = await AppFunc.GetStringDataAsync(AppConfig, "webdataexportformat", "dataexportformatid", request.DataExportFormatId, "exportstring");
+                //request must contain a DataExportFormatId (provided from the field on the requesting Page)
+                //we need a generic method here that will take an instance of a AppExportLoader ("l" in this scope) and an Export Format String (pulled from the provided DataExportFormatId)
+                //   the method should use handlebars to produce a giant string from the "l" data object and the desired export format.
+                //   the method should then produce a text file with that giant string and download it back to the page.
+
+
+                AppExportResponse response = await Export<ReceiptBatchExportLoader>(l, exportString);
+
+                // populate this field with the download file path and name
+                //for now, the actual filename of the download file is not critical. But going forward we may need to add a field somewhere for user to define how they want the file named
+
+                return new OkObjectResult(response);
             }
             catch (Exception ex)
             {
