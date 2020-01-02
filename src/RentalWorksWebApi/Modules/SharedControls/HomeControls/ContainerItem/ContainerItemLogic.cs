@@ -19,7 +19,7 @@ namespace WebApi.Modules.HomeControls.ContainerItem
             browseLoader = containerItemBrowseLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "ow9igbdLMgEw", IsPrimaryKey: false)]  
+        [FwLogicProperty(Id: "ow9igbdLMgEw", IsPrimaryKey: false)]
         public override string ItemId { get { return item.ItemId; } set { item.ItemId = value; } }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "IIiYemJaXj9K9", IsPrimaryKey: true, IsReadOnly: true)]
