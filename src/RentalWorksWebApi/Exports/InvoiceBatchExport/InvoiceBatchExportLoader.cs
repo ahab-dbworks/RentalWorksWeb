@@ -30,7 +30,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
         {
             public string InvoiceId { get; set; }
             public string InvoiceNumber { get; set; }
-            public DateTime? InvoiceDate { get; set; }
+            public string InvoiceDate { get; set; }
             public string InvoiceDescription { get; set; }
             public string Customer { get; set; }
             //public string CustomerNumber { get; set; }
@@ -104,6 +104,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
 
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
+                Invoices.Clear();
                 FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("select icb.invoiceid, i.invoiceno, i.invoicedate, i.invoicedesc,        ");
                 qry.Add("       i.customer, i.deal, i.dealno, i.invoicesubtotal, i.invoicetax,   ");
@@ -121,7 +122,8 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                     BatchInvoice i = new BatchInvoice();
                     i.InvoiceId = row[dt.GetColumnNo("invoiceid")].ToString();
                     i.InvoiceNumber = row[dt.GetColumnNo("invoiceno")].ToString();
-                    i.InvoiceDate = FwConvert.ToDateTime(row[dt.GetColumnNo("invoiceno")].ToString());
+                    //i.InvoiceDate = FwConvert.ToDateTime(row[dt.GetColumnNo("invoicedate")].ToString());
+                    i.InvoiceDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("invoicedate")].ToString());
                     i.InvoiceDescription = row[dt.GetColumnNo("invoicedesc")].ToString();
                     i.Customer = row[dt.GetColumnNo("customer")].ToString();
                     i.Deal = row[dt.GetColumnNo("deal")].ToString();
@@ -137,6 +139,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
             {
                 if (!string.IsNullOrEmpty(i.InvoiceId))
                 {
+                    i.Items.Clear();
                     using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                     {
                         FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
