@@ -29,7 +29,7 @@ class FwSettingsClass {
         html.push('    </span>');
         html.push('  </div>');
         html.push('</div>');
-        html.push('<div class="flexrow settings-content">');
+        html.push('<div class="settings-content">');
         html.push('  <div class="menu-expand"><i class="material-icons">keyboard_arrow_right</i></div>');
         html.push('  <div class="navigation flexrow">');
         html.push('    <div class="navigation-menu flexcolumn"></div>');
@@ -54,7 +54,6 @@ class FwSettingsClass {
             jQuery(e.currentTarget).closest('.navigation').hide();
         });
 
-        settingsMenu.addClass('flexrow');
         settingsMenu.find('.menu').addClass('flexcolumn');
         $control.find('.navigation-menu').append(settingsMenu);
     };
@@ -586,7 +585,7 @@ class FwSettingsClass {
                 html.push(`<div class="panel-group" id="${moduleName}" data-id="${moduleId}" data-navigation="${menuCaption}" data-caption="${title}" data-showDelete=${showDelete.toString()} data-showEdit="${showEdit.toString()}">`);
                 html.push('  <div class="panel panel-primary">');
                 html.push(`    <div data-toggle="collapse" data-target="${moduleName}" href="${moduleName}" class="panel-heading">`);
-                html.push('      <div class="flexrow" style="max-width:none;">');
+                html.push('      <div style="display:flex;max-width:none;">');
                 html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
                 html.push('        <h4 class="panel-title">');
                 html.push(`        <a id="title" data-toggle="collapse">${menu} - ${title}</a>`);
@@ -692,7 +691,7 @@ class FwSettingsClass {
                                 $body.append($browse.find('.legend'));
                             }
 
-                            FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
+                            FwAppData.apiMethod(true, 'GET', apiurl, null, null, function onSuccess(response) {
                                 $form = jQuery(jQuery(`#tmpl-modules-${moduleName}Form`).html());
                                 const keys = $browse.find('.field');
                                 const rowId = jQuery(keys[0]).attr('data-browsedatafield');
@@ -1409,7 +1408,7 @@ class FwSettingsClass {
         return `
             <div class="search-bar">
               <div class="view-options">
-                <div class="flexrow">
+                <div style="display:flex;">
                   <div class="flexcolumn" style="max-width: 28px;">
                     <i class="material-icons show-inactive show-btn" title="Show All">visibility</i>
                     <i class="material-icons hide-inactive show-btn" title="Hide Inactive" style="display:none;">visibility_off</i>

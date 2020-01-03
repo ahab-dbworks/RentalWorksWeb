@@ -513,17 +513,26 @@ class Customer {
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="CustomerId" data-browsedatatype="key" ></div>
           </div>
-          <div class="column" data-width="300px" data-visible="true">
+          <div class="column" data-width="auto" data-visible="true">
             <div class="field" data-caption="Customer Name" data-datafield="Customer" data-browsedatatype="text" data-sort="asc"></div>
           </div>
-          <div class="column" data-width="200px" data-visible="true">
+          <div class="column" data-width="auto" data-visible="true">
             <div class="field" data-caption="Customer Number" data-datafield="CustomerNumber" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column" data-width="200px" data-visible="true">
+          <div class="column" data-width="auto" data-visible="true">
             <div class="field" data-caption="Type" data-datafield="CustomerType" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column" data-width="200px" data-visible="true">
+          <div class="column" data-width="auto" data-visible="true">
             <div class="field" data-caption="Status" data-datafield="CustomerStatus" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+         <div class="column" data-width="auto" data-visible="true">
+            <div class="field" data-caption="State" data-datafield="State" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+            <div class="column" data-width="auto" data-visible="true">
+            <div class="field" data-caption="City" data-datafield="City" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+         <div class="column" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Address 1" data-datafield="Address1" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column spacer" data-width="auto" data-visible="true"></div>
         </div>`;

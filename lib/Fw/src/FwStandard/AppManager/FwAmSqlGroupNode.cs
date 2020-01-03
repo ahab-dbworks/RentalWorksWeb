@@ -9,10 +9,10 @@ namespace FwStandard.AppManager
     public class FwAmSqlGroupNode
     {
         //---------------------------------------------------------------------------------------------
-        [JsonProperty("id")]
+        [JsonProperty("id", Order = 1)]
         public string id { get; set; } = null;
         //---------------------------------------------------------------------------------------------
-        [JsonProperty("properties")]
+        [JsonProperty("properties", Order = 2)]
         public Dictionary<string, string> properties = new Dictionary<string, string>();
         //---------------------------------------------------------------------------------------------
     }

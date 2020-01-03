@@ -290,7 +290,7 @@ class FwSchedulerClass {
         //$control.on('onactivatetab', () => {
         //    const $form = $control.closest('.fwform');
 
-        //    if ($control.attr('data-refreshonactivatetab') !== 'false' && $form.attr('data-mode') !== 'NEW') {
+        //    if ($control.attr('data-refreshonactivatetab') !== 'false' && $form.attr('data-mode') !== 'NEW') {     // -- J. Pace commented this out because it is creating dubplicate API requests
         //        FwScheduler.refresh($control);
         //    }
         //    $control.attr('data-refreshonactivatetab', 'true');

@@ -36,6 +36,9 @@ namespace WebApi.Modules.Settings.ExportSettings.DataExportFormat
         [FwLogicProperty(Id: "BzxD4YdazX0q")]
         public bool? DefaultFormat { get { return dataExportFormat.DefaultFormat; } set { dataExportFormat.DefaultFormat = value; } }
 
+        [FwLogicProperty(Id: "gyxYf7hxGUqC")]
+        public string FileName { get { return dataExportFormat.FileName; } set { dataExportFormat.FileName = value; } }
+
         [FwLogicProperty(Id: "u0kuE0tMspAx")]
         public string DateStamp { get { return dataExportFormat.DateStamp; } set { dataExportFormat.DateStamp = value; } }
 

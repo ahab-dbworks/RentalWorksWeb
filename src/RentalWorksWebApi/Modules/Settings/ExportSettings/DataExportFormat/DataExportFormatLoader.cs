@@ -28,6 +28,9 @@ namespace WebApi.Modules.Settings.ExportSettings.DataExportFormat
         [FwSqlDataField(column: "defaultformat", modeltype: FwDataTypes.Boolean)]
         public bool? DefaultFormat { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "filename", modeltype: FwDataTypes.Text)]
+        public string FileName { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

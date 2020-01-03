@@ -369,8 +369,6 @@ class FwModule {
         FwControl.renderRuntimeControls($fwcontrols);
         FwControl.setIds($fwcontrols, formid);
 
-        FwModule.addFormMenu($form);
-
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
         $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
 
@@ -577,6 +575,8 @@ class FwModule {
         //        }
         //    }
         //});
+
+        FwModule.addFormMenu($form);
 
         // hide grids based on security tree
         const nodeControls = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args2: any) => {

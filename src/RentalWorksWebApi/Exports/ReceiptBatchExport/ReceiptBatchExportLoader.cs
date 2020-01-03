@@ -7,42 +7,42 @@ using WebApi.Data;
 
 namespace WebApi.Modules.Exports.ReceiptBatchExport
 {
-    public class ReceiptBatchExportRequest
+    public class ReceiptBatchExportRequest : AppExportRequest
     {
         public string BatchId { get; set; }
     }
 
+    public class ReceiptBatchExportResponse : AppExportResponse
+    {
+    }
+
     public class ReceiptBatchExportLoader : AppExportLoader  // maybe add a new superclass that all Exports inherit from?
     {
-        public string BatchId { get; set; }
-        public string BatchNumber { get; set; }
-        public DateTime? BatchDateTime { get; set; }
+        //public class BatchReceipt
+        //{
+        //    public string ReceiptId { get; set; }
+        //    public string CheckNumber { get; set; }
+        //    public string PaymentType { get; set; }
+        //    public decimal? Amount { get; set; }
 
-        public class BatchReceipt
-        {
-            public string ReceiptId { get; set; }
-            public string CheckNumber { get; set; }
-            public string PaymentType { get; set; }
-            public decimal? Amount { get; set; }
+        //    public class Invoice
+        //    {
+        //        public string InvoiceId { get; set; }
+        //        public string InvoiceNumber { get; set; }
+        //        public DateTime? InvoiceDate { get; set; }
+        //        public string InvoiceDescription { get; set; }
+        //        public string Customer { get; set; }
+        //        public string CustomerNumber { get; set; }
+        //        public string DealNumber { get; set; }
+        //        public decimal? InvoiceSubTotal { get; set; }
+        //        public decimal? InvoiceTax { get; set; }
+        //        public decimal? InvoiceTotal { get; set; }
+        //    }
 
-            public class Invoice
-            {
-                public string InvoiceId { get; set; }
-                public string InvoiceNumber { get; set; }
-                public DateTime? InvoiceDate { get; set; }
-                public string InvoiceDescription { get; set; }
-                public string Customer { get; set; }
-                public string CustomerNumber { get; set; }
-                public string DealNumber { get; set; }
-                public decimal? InvoiceSubTotal { get; set; }
-                public decimal? InvoiceTax { get; set; }
-                public decimal? InvoiceTotal { get; set; }
-            }
+        //    public List<Invoice> Invoices = new List<Invoice>(new Invoice[] { new Invoice() });
+        //}
 
-            public List<Invoice> Invoices = new List<Invoice>(new Invoice[] { new Invoice() });
-        }
-
-        public List<BatchReceipt> Receipts = new List<BatchReceipt>(new BatchReceipt[] { new BatchReceipt() });
+        //public List<BatchReceipt> Receipts = new List<BatchReceipt>(new BatchReceipt[] { new BatchReceipt() });
 
         //protected string recType = "";
         ////------------------------------------------------------------------------------------ 

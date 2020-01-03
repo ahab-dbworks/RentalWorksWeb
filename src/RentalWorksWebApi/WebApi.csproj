@@ -82,7 +82,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Exports\VendorInvoiceBatchExport\" />
     <Folder Include="Modules\SharedControls\AdministratorControls\Test\" />
     <Folder Include="Modules\Containers\ContainerStatus\" />
     <Folder Include="Modules\Containers\EmptyContainer\" />
@@ -94,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="Handlebars.Net" Version="1.10.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.1.1" />

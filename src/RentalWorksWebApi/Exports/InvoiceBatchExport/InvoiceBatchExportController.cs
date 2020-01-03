@@ -1,3 +1,4 @@
+using FwCore.Controllers;
 using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -5,6 +6,8 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Data;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Exports.InvoiceBatchExport
 {
@@ -30,42 +33,19 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                 InvoiceBatchExportLoader l = new InvoiceBatchExportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 await l.DoLoad<InvoiceBatchExportLoader>(request);
-
+                
+                string exportString = await AppFunc.GetStringDataAsync(AppConfig, "webdataexportformat", "dataexportformatid", request.DataExportFormatId, "exportstring");
+                string downloadFileName = await AppFunc.GetStringDataAsync(AppConfig, "webdataexportformat", "dataexportformatid", request.DataExportFormatId, "filename");
                 //request must contain a DataExportFormatId (provided from the field on the requesting Page)
                 //we need a generic method here that will take an instance of a AppExportLoader ("l" in this scope) and an Export Format String (pulled from the provided DataExportFormatId)
                 //   the method should use handlebars to produce a giant string from the "l" data object and the desired export format.
                 //   the method should then produce a text file with that giant string and download it back to the page.
 
-                /*
-                 * 
-                 * COPIED FROM InvoiceProcessBatchFunc.cs
-                 * 
-                // here we are creating a downloadable file that will live in the API "downloads" directory
-                string downloadFileName = batch.BatchNumber + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".csv";
-                string filename = userSession.WebUsersId + "_" + batch.BatchNumber + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_csv";
-                string directory = FwDownloadController.GetDownloadsDirectory();
-                string path = Path.Combine(directory, filename);
 
-                using (var tw = new StreamWriter(path, false)) // false here will initialize the file fresh, no appending
-                {
-                    tw.Write(sb);
-                    tw.Flush();
-                    tw.Close();
-                }
+                AppExportResponse response = await Export<InvoiceBatchExportLoader>(l, exportString, downloadFileName);
 
-
-                response.batch = batch;
-                response.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}";
-
-
-                */
-
-
-
-
-                InvoiceBatchExportResponse response = new InvoiceBatchExportResponse();
-                response.downloadUrl = "";  // populate this field with the download file path and name
-                                            //for now, the actual filename of the download file is not critical. But going forward we may need to add a field somewhere for user to define how they want the file named
+                // populate this field with the download file path and name
+                //for now, the actual filename of the download file is not critical. But going forward we may need to add a field somewhere for user to define how they want the file named
 
                 return new OkObjectResult(response);
             }

@@ -155,7 +155,7 @@ namespace FwCore.Api
 
                         //ClockSkew = TimeSpan.Zero
                     };
-                    
+
                 })
             ;
 
@@ -163,7 +163,11 @@ namespace FwCore.Api
             {
                 c.DescribeAllEnumsAsStrings();
                 this.AddSwaggerDocs(c);
-                var filePath = Path.Combine(ApplicationEnvironment.ApplicationBasePath, "WebApi.xml");
+                var filePath = Path.Combine(ApplicationEnvironment.ApplicationBasePath, "FwStandard.xml");
+                c.IncludeXmlComments(filePath);
+                filePath = Path.Combine(ApplicationEnvironment.ApplicationBasePath, "FwCore.xml");
+                c.IncludeXmlComments(filePath);
+                filePath = Path.Combine(ApplicationEnvironment.ApplicationBasePath, "WebApi.xml");
                 c.IncludeXmlComments(filePath);
                 c.AddSecurityDefinition("Bearer", new ApiKeyScheme
                 {

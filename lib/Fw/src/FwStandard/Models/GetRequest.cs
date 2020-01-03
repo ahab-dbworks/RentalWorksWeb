@@ -107,6 +107,7 @@ namespace FwStandard.Models
         //protected string activeview { get; set; } = string.Emp
 
         // fields - not JSON serialized
+        [JsonIgnore]
         public Dictionary<string, GetManyRequestFilter> filters = new Dictionary<string, GetManyRequestFilter>();
         private bool _parsed = false;
 
@@ -142,78 +143,81 @@ namespace FwStandard.Models
                         if (propValue != null)
                         {
                             string filter = propValue.ToString();
-                            var requestFilter = new GetManyRequestFilter();
-                            requestFilter.FieldName = fieldName;
-                            if (filter.StartsWith("eq:"))
+                            if (!string.IsNullOrEmpty(filter))
                             {
-                                requestFilter.ComparisonOperator = "eq";
-                                requestFilter.FieldValue = filter.Substring(3);
-                            }
-                            else if (filter.StartsWith("ne:"))
-                            {
-                                requestFilter.ComparisonOperator = "ne";
-                                requestFilter.FieldValue = filter.Substring(3);
-                            }
-                            else if (filter.StartsWith("in:"))
-                            {
-                                requestFilter.ComparisonOperator = "in";
-                                requestFilter.FieldValue = filter.Substring(3);
-                            }
-                            else if (filter.StartsWith("ni:"))
-                            {
-                                requestFilter.ComparisonOperator = "ni";
-                                requestFilter.FieldValue = filter.Substring(3);
-                            }
-                            else if (filter.StartsWith("sw:"))
-                            {
-                                requestFilter.ComparisonOperator = "sw";
-                                requestFilter.FieldValue = filter.Substring(3);
-                            }
-                            else if (filter.StartsWith("ew:"))
-                            {
-                                requestFilter.ComparisonOperator = "ew";
-                                requestFilter.FieldValue = filter.Substring(3);
-                            }
-                            else if (filter.StartsWith("co:"))
-                            {
-                                requestFilter.ComparisonOperator = "co";
-                                requestFilter.FieldValue = filter.Substring(3);
-                            }
-                            else if (filter.StartsWith("dnc:"))
-                            {
-                                requestFilter.ComparisonOperator = "dnc";
-                                requestFilter.FieldValue = filter.Substring(4);
-                            }
-                            else if (filter.StartsWith("gt:"))
-                            {
-                                requestFilter.ComparisonOperator = "gt";
-                                requestFilter.FieldValue = filter.Substring(3);
-                            }
-                            else if (filter.StartsWith("gte:"))
-                            {
-                                requestFilter.ComparisonOperator = "gte";
-                                requestFilter.FieldValue = filter.Substring(4);
-                            }
-                            else if (filter.StartsWith("lt:"))
-                            {
-                                requestFilter.ComparisonOperator = "lt";
-                                requestFilter.FieldValue = filter.Substring(3);
-                            }
-                            else if (filter.StartsWith("lte:"))
-                            {
-                                requestFilter.ComparisonOperator = "lte";
-                                requestFilter.FieldValue = filter.Substring(4);
-                            }
-                            else
-                            {
-                                requestFilter.ComparisonOperator = "eq";
-                                requestFilter.FieldValue = filter;
-                            }
+                                var requestFilter = new GetManyRequestFilter();
+                                requestFilter.FieldName = fieldName;
+                                if (filter.StartsWith("eq:"))
+                                {
+                                    requestFilter.ComparisonOperator = "eq";
+                                    requestFilter.FieldValue = filter.Substring(3);
+                                }
+                                else if (filter.StartsWith("ne:"))
+                                {
+                                    requestFilter.ComparisonOperator = "ne";
+                                    requestFilter.FieldValue = filter.Substring(3);
+                                }
+                                else if (filter.StartsWith("in:"))
+                                {
+                                    requestFilter.ComparisonOperator = "in";
+                                    requestFilter.FieldValue = filter.Substring(3);
+                                }
+                                else if (filter.StartsWith("ni:"))
+                                {
+                                    requestFilter.ComparisonOperator = "ni";
+                                    requestFilter.FieldValue = filter.Substring(3);
+                                }
+                                else if (filter.StartsWith("sw:"))
+                                {
+                                    requestFilter.ComparisonOperator = "sw";
+                                    requestFilter.FieldValue = filter.Substring(3);
+                                }
+                                else if (filter.StartsWith("ew:"))
+                                {
+                                    requestFilter.ComparisonOperator = "ew";
+                                    requestFilter.FieldValue = filter.Substring(3);
+                                }
+                                else if (filter.StartsWith("co:"))
+                                {
+                                    requestFilter.ComparisonOperator = "co";
+                                    requestFilter.FieldValue = filter.Substring(3);
+                                }
+                                else if (filter.StartsWith("dnc:"))
+                                {
+                                    requestFilter.ComparisonOperator = "dnc";
+                                    requestFilter.FieldValue = filter.Substring(4);
+                                }
+                                else if (filter.StartsWith("gt:"))
+                                {
+                                    requestFilter.ComparisonOperator = "gt";
+                                    requestFilter.FieldValue = filter.Substring(3);
+                                }
+                                else if (filter.StartsWith("gte:"))
+                                {
+                                    requestFilter.ComparisonOperator = "gte";
+                                    requestFilter.FieldValue = filter.Substring(4);
+                                }
+                                else if (filter.StartsWith("lt:"))
+                                {
+                                    requestFilter.ComparisonOperator = "lt";
+                                    requestFilter.FieldValue = filter.Substring(3);
+                                }
+                                else if (filter.StartsWith("lte:"))
+                                {
+                                    requestFilter.ComparisonOperator = "lte";
+                                    requestFilter.FieldValue = filter.Substring(4);
+                                }
+                                else
+                                {
+                                    requestFilter.ComparisonOperator = "eq";
+                                    requestFilter.FieldValue = filter;
+                                }
 
-                            // make sure the fieldName is a valid property name to protect against SQL injection attacks
-                            if (propertyInfos.Where(i => i.Name == fieldName).Count() > 0)
-                            {
-                                this.filters[fieldName] = requestFilter;
+                                // make sure the fieldName is a valid property name to protect against SQL injection attacks
+                                if (propertyInfos.Where(i => i.Name == fieldName).Count() > 0)
+                                {
+                                    this.filters[fieldName] = requestFilter;
+                                }
                             }
                         }
                     }

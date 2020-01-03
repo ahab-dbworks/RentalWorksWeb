@@ -555,13 +555,14 @@
                 FwMultiSelectValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $popup, $validationbrowse, false);
             })
 
-            FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + title));
+            const $popupControl = FwPopup.renderPopup($popupForm, undefined, 'New ' + title);
+            FwPopup.showPopup($popup);
 
             jQuery('.fwpopup.new-validation').on('click', function (e: JQuery.ClickEvent) {
                 if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
 
                 } else {
-                    FwPopup.destroyPopup(this);
+                    FwPopup.destroyPopup($popupControl);
                     jQuery(document).off('keydown');
                     jQuery(document).find('.fwpopup').off('click');
                     FwValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $validationbrowse, false);
@@ -572,7 +573,7 @@
                 const code = e.keyCode || e.which;
                 if (code === 27) { //ESC Key  
                     try {
-                        FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                        FwPopup.destroyPopup($popupControl);
                         jQuery(document).find('.fwpopup').off('click');
                         jQuery(document).off('keydown');
                         FwValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $validationbrowse, false);

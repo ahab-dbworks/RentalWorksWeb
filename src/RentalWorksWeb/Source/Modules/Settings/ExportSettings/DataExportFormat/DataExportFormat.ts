@@ -46,6 +46,7 @@ class DataExportFormat {
         $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
 
         this.loadExportTypes($form);
+        this.addFileNameFields($form);
         this.events($form);
         return $form;
     }
@@ -201,6 +202,19 @@ class DataExportFormat {
         this.codeMirrorEvents($form);
     }
     //----------------------------------------------------------------------------------------------
+    addFileNameFields($form) {
+        $form.find('.fileNameFields').append(`<div>BatchDateTime</div><div>BatchId</div><div>BatchNumber</div>`);
+
+        $form.on('click', '.fileNameFields div', e => {
+            const $this = jQuery(e.currentTarget);
+            const filename = FwFormField.getValueByDataField($form, 'FileName');
+            let textToInject;
+            textToInject = `{{${$this.text()}}}`;
+
+            FwFormField.setValueByDataField($form, 'FileName', filename + textToInject);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     events($form) {
         //Refreshes and shows CodeMirror upon clicking HTML tab
         $form.on('click', '[data-type="tab"][data-caption="HTML"]', e => {
@@ -211,11 +225,13 @@ class DataExportFormat {
         $form.on('click', '.modulefields div', e => {
             const $this = jQuery(e.currentTarget);
             let textToInject;
-            if ($this.attr('data-isnested') != 'true') {
-                textToInject = `{{${$this.text()}}}`;
-            } else {
-                textToInject = `{{${$this.attr('data-parentfield')}.${$this.text()}}}`; //for nested objects
-            }
+            //if ($this.attr('data-isnested') != 'true') {
+            //    textToInject = `{{${$this.text()}}}`;
+            //} else {
+            //    textToInject = `{{${$this.attr('data-parentfield')}.${$this.text()}}}`; //for nested objects
+            //}
+            textToInject = `{{${$this.text()}}}`;
+
             const doc = this.codeMirror.getDoc();
             const cursor = doc.getCursor();
             doc.replaceRange(textToInject, cursor);

@@ -17,10 +17,6 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
 
     public class InvoiceBatchExportLoader : AppExportLoader 
     {
-        public string BatchId { get; set; }
-        public string BatchNumber { get; set; }
-        public DateTime? BatchDateTime { get; set; }
-
         public class InvoiceItem
         {
             public string ICode { get; set; }
@@ -34,7 +30,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
         {
             public string InvoiceId { get; set; }
             public string InvoiceNumber { get; set; }
-            public DateTime? InvoiceDate { get; set; }
+            public string InvoiceDate { get; set; }
             public string InvoiceDescription { get; set; }
             public string Customer { get; set; }
             //public string CustomerNumber { get; set; }
@@ -108,6 +104,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
 
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
+                Invoices.Clear();
                 FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("select icb.invoiceid, i.invoiceno, i.invoicedate, i.invoicedesc,        ");
                 qry.Add("       i.customer, i.deal, i.dealno, i.invoicesubtotal, i.invoicetax,   ");
@@ -125,7 +122,8 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                     BatchInvoice i = new BatchInvoice();
                     i.InvoiceId = row[dt.GetColumnNo("invoiceid")].ToString();
                     i.InvoiceNumber = row[dt.GetColumnNo("invoiceno")].ToString();
-                    i.InvoiceDate = FwConvert.ToDateTime(row[dt.GetColumnNo("invoiceno")].ToString());
+                    //i.InvoiceDate = FwConvert.ToDateTime(row[dt.GetColumnNo("invoicedate")].ToString());
+                    i.InvoiceDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("invoicedate")].ToString());
                     i.InvoiceDescription = row[dt.GetColumnNo("invoicedesc")].ToString();
                     i.Customer = row[dt.GetColumnNo("customer")].ToString();
                     i.Deal = row[dt.GetColumnNo("deal")].ToString();
@@ -139,29 +137,31 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
 
             foreach (BatchInvoice i in Invoices) 
             {
-
-                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                if (!string.IsNullOrEmpty(i.InvoiceId))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.Add("select ii.masterno, ii.description, ii.qty, ii.rate, ii.linetotal       ");
-                    qry.Add(" from  invoiceitemviewweb ii                                            ");
-                    qry.Add(" where ii.invoiceid = @invoiceid                                        ");
-                    qry.Add("order by ii.itemorder                                                   ");
-                    qry.AddParameter("@invoiceid", i.InvoiceId);
-                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
-
-                    foreach (List<object> row in dt.Rows)
+                    i.Items.Clear();
+                    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                     {
-                        InvoiceItem ii = new InvoiceItem();
-                        ii.ICode = row[dt.GetColumnNo("masterno")].ToString();
-                        ii.Description = row[dt.GetColumnNo("invoicedesc")].ToString();
-                        ii.Quantity = FwConvert.ToDecimal(row[dt.GetColumnNo("qty")].ToString());
-                        ii.Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("rate")].ToString());
-                        ii.Extended = FwConvert.ToDecimal(row[dt.GetColumnNo("linetotal")].ToString());
-                        i.Items.Add(ii);
+                        FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                        qry.Add("select ii.masterno, ii.description, ii.qty, ii.rate, ii.linetotal       ");
+                        qry.Add(" from  invoiceitemviewweb ii                                            ");
+                        qry.Add(" where ii.invoiceid = @invoiceid                                        ");
+                        qry.Add("order by ii.itemorder                                                   ");
+                        qry.AddParameter("@invoiceid", i.InvoiceId);
+                        FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            InvoiceItem ii = new InvoiceItem();
+                            ii.ICode = row[dt.GetColumnNo("masterno")].ToString();
+                            ii.Description = row[dt.GetColumnNo("description")].ToString();
+                            ii.Quantity = FwConvert.ToDecimal(row[dt.GetColumnNo("qty")].ToString());
+                            ii.Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("rate")].ToString());
+                            ii.Extended = FwConvert.ToDecimal(row[dt.GetColumnNo("linetotal")].ToString());
+                            i.Items.Add(ii);
+                        }
                     }
                 }
-
             }
 
             loaded = true;

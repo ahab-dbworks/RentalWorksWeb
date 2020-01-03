@@ -159,16 +159,20 @@
                 FwFormField.disable($form.find(`${controlsToDisable}`));
             })
 
-        function exportBatch() {
+        const exportBatch = () => {
             const batchId = FwFormField.getValueByDataField($form, 'BatchId');
+            const dataExportFormatId = FwFormField.getValueByDataField($form, 'DataExportFormatId');
             if (batchId !== '') {
                 const request: any = {
-                    BatchId: batchId
+                    BatchId: batchId,
+                    DataExportFormatId: dataExportFormatId
                 }
-                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    if ((response.success === true) && (response.batch !== null)) {
-                        let batch = response.batch;
-                        let batchNumber = batch.BatchNumber
+                FwAppData.apiMethod(true, 'POST', `api/v1/invoicebatchexport/export`, request, FwServices.defaultTimeout,
+                    response => {
+                    //if ((response.success === true) && (response.batch !== null)) {
+                        if (response.downloadUrl != "") {
+                        //let batch = response.batch;
+                        let batchNumber = response.BatchNumber
                         const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
                         jQuery('#application').append($iframe);
                         setTimeout(function () {

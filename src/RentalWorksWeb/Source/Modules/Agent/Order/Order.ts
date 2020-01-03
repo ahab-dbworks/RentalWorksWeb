@@ -1491,7 +1491,7 @@ class Order extends OrderBase {
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Outgoing Address">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield OutDeliveryAddressType delivery-type-radio" data-caption="" data-datafield="OutDeliveryAddressType"></div>
+                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield delivery-type-radio" data-caption="" data-datafield="OutDeliveryAddressType"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="OutDeliveryToLocation"></div>
@@ -1556,7 +1556,7 @@ class Order extends OrderBase {
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Incoming Address">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield InDeliveryAddressType delivery-type-radio" data-caption="" data-datafield="InDeliveryAddressType"></div>
+                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield delivery-type-radio" data-caption="" data-datafield="InDeliveryAddressType"></div>
                           <div class="addresscopy fwformcontrol" data-type="button" style="flex:0 1 40px;margin:16px 5px 0px 15px;text-align:center;">Copy</div>
                         </div>
                         <div class="flexrow">
