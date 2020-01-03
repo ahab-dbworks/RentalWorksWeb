@@ -112,9 +112,31 @@ export class GridBase {
             recordToSelect = 1;
         }
         await page.click(`${this.gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${dataField}"] .btnvalidate`);
-        await ModuleBase.wait(500);  // wait for validation to open
-        await page.waitForSelector(`div[data-name="${validationName}"] tr.viewmode:nth-child(1)`, { visible: true });
-        await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
+        //await ModuleBase.wait(500);  // wait for validation to open
+        // wait for the validation to open, then check for errors
+        var popUp;
+        try {
+            popUp = await page.waitForSelector('.advisory', { timeout: 750 });
+        } catch (error) { } // no error pop-up
+
+        if (popUp !== undefined) {
+            let errorMessage = await page.$eval('.advisory', el => el.textContent);
+            //validationResponse.opened = false;
+            //validationResponse.recordCount = 0;
+            //validationResponse.errorMessage = errorMessage;
+
+            Logging.logError(`Error opening validation ${validationName}: ` + errorMessage);
+
+            const options = await page.$$('.advisory .fwconfirmation-button');
+            await options[0].click() // click "OK" option
+                .then(() => {
+                    Logging.logInfo(`Clicked the "OK" button.`);
+                })
+        }
+        else {
+            await page.waitForSelector(`div[data-name="${validationName}"] tr.viewmode:nth-child(1)`, { visible: true });
+            await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
+        }
     }
     //---------------------------------------------------------------------------------------
     async populateGridValidationTextField(dataField: string, value: string): Promise<void> {
