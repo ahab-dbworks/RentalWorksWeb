@@ -286,7 +286,6 @@ class FwAppData {
                             FwFunc.showError(errorMessage);
                         } else {
                             FwFunc.showError(errorThrown);
-
                         }
                     }
                 }
