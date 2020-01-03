@@ -57,13 +57,20 @@ namespace WebApi.Controllers
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<AppExportResponse> Export<T>(AppExportLoader loader, string exportString)
+        public async Task<AppExportResponse> Export<T>(AppExportLoader loader, string exportString, string downloadFileName)
         {
             AppExportResponse response = new AppExportResponse();
             var template = Handlebars.Compile(exportString);
             var result = template(loader);
 
-            string downloadFileName = loader.BatchNumber + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".csv";
+            if (downloadFileName.Contains("{{BatchDateTime}}"))
+            {
+                string dateTime = FwConvert.ToString((DateTime)loader.BatchDateTime).Replace("/", "-");
+                downloadFileName = downloadFileName.Replace("{{BatchDateTime}}", dateTime);
+            }
+            var fileNameTemplate = Handlebars.Compile(downloadFileName);
+            string downloadAsFileName = fileNameTemplate(loader).Replace(" ", "_");
+            //downloadFileName = loader.BatchNumber + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".csv";
             string filename = UserSession.WebUsersId + "_" + loader.BatchNumber + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_csv";
             string directory = FwDownloadController.GetDownloadsDirectory();
             string path = Path.Combine(directory, filename);
@@ -74,7 +81,7 @@ namespace WebApi.Controllers
                 tw.Flush();
                 tw.Close();
             }
-            response.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}";
+            response.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadAsFileName}";
             response.BatchId = loader.BatchId;
             response.BatchNumber = loader.BatchNumber;
 

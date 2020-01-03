@@ -34,7 +34,8 @@ namespace WebApi.Modules.Exports.VendorInvoiceBatchExport
                 await l.DoLoad<VendorInvoiceBatchExportLoader>(request);
 
                 string exportString = await AppFunc.GetStringDataAsync(AppConfig, "webdataexportformat", "dataexportformatid", request.DataExportFormatId, "exportstring");
-                AppExportResponse response = await Export<VendorInvoiceBatchExportLoader>(l, exportString);
+                string downloadFileName = await AppFunc.GetStringDataAsync(AppConfig, "webdataexportformat", "dataexportformatid", request.DataExportFormatId, "filename");
+                AppExportResponse response = await Export<VendorInvoiceBatchExportLoader>(l, exportString, downloadFileName);
 
                 return new OkObjectResult(response);
             }

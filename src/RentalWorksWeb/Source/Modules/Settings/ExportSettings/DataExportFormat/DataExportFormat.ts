@@ -46,6 +46,7 @@ class DataExportFormat {
         $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
 
         this.loadExportTypes($form);
+        this.addFileNameFields($form);
         this.events($form);
         return $form;
     }
@@ -199,6 +200,19 @@ class DataExportFormat {
         FwFormField.loadItems($moduleSelect, modules);
 
         this.codeMirrorEvents($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    addFileNameFields($form) {
+        $form.find('.fileNameFields').append(`<div>BatchDateTime</div><div>BatchId</div><div>BatchNumber</div>`);
+
+        $form.on('click', '.fileNameFields div', e => {
+            const $this = jQuery(e.currentTarget);
+            const filename = FwFormField.getValueByDataField($form, 'FileName');
+            let textToInject;
+            textToInject = `{{${$this.text()}}}`;
+
+            FwFormField.setValueByDataField($form, 'FileName', filename + textToInject);
+        });
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
