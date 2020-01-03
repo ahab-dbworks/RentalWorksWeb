@@ -1103,12 +1103,12 @@ namespace FwStandard.SqlServer
         }
 
         /// <summary>
-        /// 
+        /// Runs the query and returns the results as FwJsonDataTable, suitable for usage by the FwBrowse control or for exporting to Excel.
         /// </summary>
-        /// <param name="pageno">This is the pageno you want returned in the DataTable.  This will not page your query for you.</param>
-        /// <param name="pagesize">This is the size you want returned in the DataTable.  This will not page your query for you.</param>
-        /// <param name="query">Pass null if you already set the query on this FwSqlCommand.</param>
-        /// <param name="includeAllColumns"></param>
+        /// <param name="pageNo">Postive values enable paging and specify the page no to return.</param>
+        /// <param name="pageSize">Postive values enable paging and specify how many rows to return.</param>
+        /// <param name="includeAllColumns">When false, columns needs to be manually added via AddColumn() before they will be returned in the FwJsonDataTable (this was how the method originally worked).</param>
+        /// <param name="totalFields">Specifies a list of fields to be included in a totals row that will be added to the bottom of the data table.</param>
         /// <returns></returns>
         private async Task<FwJsonDataTable> QueryToFwJsonTableAsync(int pageNo, int pageSize, bool includeAllColumns, List<string> totalFields)
         {

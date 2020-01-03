@@ -852,9 +852,8 @@ namespace FwStandard.AppManager
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="groupsid"></param>
-        /// <param name="dateStamp"></param>
-        /// <param name="removeHiddenNodes"></param>
+        /// <param name="groupsid">the group id to fetch</param>
+        /// <param name="applyParentVisibility">when true, if a parent is set to visible 'F', then all children will get set to visible 'F'.  This allows efficient checks on node visibility.</param>
         /// <returns></returns>
         public async Task<FwAmGroupTree> GetGroupsTreeAsync(string groupsid, bool applyParentVisibility)
         {

@@ -445,7 +445,8 @@
                     $popupForm = window[`${validationName}Controller`].loadForm(ids);
                 }
                 //$popupForm.find(`div.fwformfield[data-datafield="${validationDatafield}"] input`).val(validationId);
-                FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, title, validationId));
+                const $popupControl = FwPopup.renderPopup($popupForm, undefined, title, validationId);
+                FwPopup.showPopup($popupControl);
                 const $fwcontrols = $popupForm.find('.fwcontrol');
                 FwControl.loadControls($fwcontrols);
                 $popupForm.find('.btnpeek').remove();
@@ -468,7 +469,7 @@
                     var code = e.keyCode || e.which;
                     if (code === 27) { //ESC Key  
                         try {
-                            FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                            FwPopup.destroyPopup($popupControl);
                             jQuery(document).find('.fwpopup').off('click');
                             jQuery(document).off('keydown');
                         } catch (ex) {
@@ -510,13 +511,14 @@
                 FwValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $validationbrowse, false);
             })
 
-            FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + title));
+            const $popupControl = FwPopup.renderPopup($popupForm, undefined, 'New ' + title);
+            FwPopup.showPopup($popupControl);
 
             jQuery('.fwpopup.new-validation').on('click', function (e: JQuery.ClickEvent) {
                 if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
 
                 } else {
-                    FwPopup.destroyPopup(this);
+                    FwPopup.destroyPopup($popupControl);
                     jQuery(document).off('keydown');
                     jQuery(document).find('.fwpopup').off('click');
                     FwValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $validationbrowse, false);
@@ -527,7 +529,7 @@
                 var code = e.keyCode || e.which;
                 if (code === 27) { //ESC Key  
                     try {
-                        FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                        FwPopup.destroyPopup($popupControl);
                         jQuery(document).find('.fwpopup').off('click');
                         jQuery(document).off('keydown');
                         FwValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $validationbrowse, false);

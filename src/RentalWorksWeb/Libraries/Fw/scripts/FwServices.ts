@@ -3,20 +3,20 @@ class FwServicesClass {
     defaultTimeout: number = null;
     defaultOnError: () => void = null;
     utilities = {
-        creditCardSale: function(request: any, $elementToBlock: JQuery, onSuccess: () => void) {
+        creditCardSale: function (request: any, $elementToBlock: JQuery, onSuccess: () => void) {
             FwAppData.jsonPost(false, 'services.ashx?path=/fwutilities/creditcardsale', request, FwServices.defaultTimeout, onSuccess, FwServices.defaultOnError, $elementToBlock);
         }
     };
     account = {
-        getAuthToken: function(request: any, $elementToBlock: JQuery, onSuccess: (response: any) => void) {
+        getAuthToken: function (request: any, $elementToBlock: JQuery, onSuccess: (response: any) => void) {
             FwAppData.jsonPost(false, 'services.ashx?path=/account/getauthtoken', request, FwServices.defaultTimeout, onSuccess, FwServices.defaultOnError, $elementToBlock);
         },
-        authPassword: function(request: any, onSuccess: (response: any) => void) {
+        authPassword: function (request: any, onSuccess: (response: any) => void) {
             FwAppData.jsonPost(false, 'services.ashx?path=/account/authpassword', request, FwServices.defaultTimeout, onSuccess, FwServices.defaultOnError, null);
         }
     };
     module = {
-        method: function(request: any, module: string, method: string, $form: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void) {
+        method: function (request: any, module: string, method: string, $form: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void) {
             var controller = window[module + 'Controller'];
             if (typeof controller === 'undefined') {
                 throw module + 'Controller is not defined.'
@@ -58,9 +58,9 @@ class FwServicesClass {
                     url += '/' + ids;
                 }
                 else if (method === 'Save') {
-                     // do nothing
+                    // do nothing
                 } else {
-                     url += '/' + method.toLowerCase()
+                    url += '/' + method.toLowerCase()
                 }
             }
             if (url.length === 0) {
@@ -106,18 +106,17 @@ class FwServicesClass {
                     FwAppData.apiMethod(true, 'PUT', putUrl, request, FwServices.defaultTimeout, onSuccess, onError, $form);
                     return;
                 }
-                else if ((mode === 'NEW' || mode === 'EDIT') && nodeSave != null && nodeSave.properties.visible === 'T')
-                {
+                else if ((mode === 'NEW' || mode === 'EDIT') && nodeSave != null && nodeSave.properties.visible === 'T') {
                     FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $form);
                 }
             }
             else {
-                FwAppData.jsonPost(true, url , request, FwServices.defaultTimeout, onSuccess, onError, $form);
+                FwAppData.jsonPost(true, url, request, FwServices.defaultTimeout, onSuccess, onError, $form);
             }
         }
     };
     grid = {
-        method: function(request: any, module: string, method: string, $grid: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void): void {
+        method: function (request: any, module: string, method: string, $grid: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void): void {
             var controller = window[module + 'Controller'];
             if (typeof controller === 'undefined') {
                 throw module + 'Controller is not defined.'
@@ -158,7 +157,7 @@ class FwServicesClass {
                     }
                     url += '/' + ids;
                 }
-                else if (method ==='Save' || method === 'Insert' || method === 'Update') {
+                else if (method === 'Save' || method === 'Insert' || method === 'Update') {
                     // do nothing
                 }
                 else {
@@ -186,10 +185,26 @@ class FwServicesClass {
                     throw `Unable to perform '${method}' on Grid '${moduleName}, Unable to find security node for id '${secid}'`;
                 }
                 const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
-                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'New');
+                    if (nodeModule.nodetype === 'Module') {
+                        return (node.nodetype === 'ModuleAction' && node.properties.action === 'New');
+                    }
+                    else if (nodeModule.nodetype === 'Control') {
+                        return (node.nodetype === 'ControlAction' && node.properties.action === 'ControlNew');
+                    }
+                    else {
+                        return false;
+                    }
                 });
                 const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
-                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'Edit');
+                    if (nodeModule.nodetype === 'Module') {
+                        return (node.nodetype === 'ModuleAction' && node.properties.action === 'Edit');
+                    }
+                    else if (nodeModule.nodetype === 'Control') {
+                        return (node.nodetype === 'ControlAction' && node.properties.action === 'ControlEdit');
+                    }
+                    else {
+                        return false;
+                    }
                 });
                 if (method === 'Save' || (method === 'Insert' && nodeNew !== null && nodeNew.properties.visible === 'T')) {
                     FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $grid);
@@ -198,12 +213,12 @@ class FwServicesClass {
                     const $tr = $grid.find('.editrow').eq(0);
                     const $uniqueIdFields = $tr.find('.field[data-isuniqueid="true"]');
                     if (typeof $grid.data('getapiurl') !== 'function' && $uniqueIdFields.length === 1) {
-                        url = `${url}/${FwBrowse.getValueByDataField($grid, $tr, $uniqueIdFields.data('formdatafield'))}`; 
+                        url = `${url}/${FwBrowse.getValueByDataField($grid, $tr, $uniqueIdFields.data('formdatafield'))}`;
                     } else if (typeof $grid.data('getapiurl') !== 'function' && $uniqueIdFields.length > 1) {
                         //throw 'Need to define a function form.data(getapiurl) to define a custom url for this module which has multiple primary keys'
                         //justin hoffman 12/12/2019 commented above temporary to allow composite keys while we transition
                         var ids: any = [];
-                        for (let i = 0; i < $uniqueIdFields.length; i++) { 
+                        for (let i = 0; i < $uniqueIdFields.length; i++) {
                             let id = FwBrowse.getValueByDataField($grid, $tr, $uniqueIdFields.eq(i).data('formdatafield'));
                             ids.push(id);
                         }
@@ -227,7 +242,7 @@ class FwServicesClass {
         }
     };
     validation = {
-        method: function(request: any, module: string, method: string, $validationbrowse: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void) {
+        method: function (request: any, module: string, method: string, $validationbrowse: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void) {
             var controller = window[module + 'Controller'];
             if (typeof controller === 'undefined') {
                 throw module + 'Controller is not defined.'
@@ -249,7 +264,7 @@ class FwServicesClass {
     }
     //----------------------------------------------------------------------------------------------
     callMethod(servicename: string, methodname: string, request: string, timeout: number, $elementToBlock: JQuery, onSuccess: () => void, onError: () => void): void {
-        FwAppData.jsonPost(true,  'services.ashx?path=/services/' + servicename + '/' + methodname, request, timeout, onSuccess, onError, $elementToBlock);
+        FwAppData.jsonPost(true, 'services.ashx?path=/services/' + servicename + '/' + methodname, request, timeout, onSuccess, onError, $elementToBlock);
     }
 }
 //----------------------------------------------------------------------------------------------

@@ -30,9 +30,9 @@ namespace FwStandard.SqlServer
             return DateTime.Today;
         }
         //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Gets the current date and time string.
-        /// </summary>
+        ///// <summary>
+        ///// Gets the current date and time string.
+        ///// </summary>
         //public static string GetDateTime()
         //{
         //    return DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");

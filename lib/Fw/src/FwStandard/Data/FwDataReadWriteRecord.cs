@@ -100,6 +100,7 @@ namespace FwStandard.Data
         /// </summary>
         /// <param name="original"></param>
         /// <param name="conn">Specify an existing SqlConnection if desired.  Can be used for multi-statement transactions. If null, then a new Connection will be established.</param>
+        /// <param name="saveMode">Save mode Auto will auto-determine the Save mode based on whether all primary keys are present or all are missing.  Otherwise you can specify Insert or Update mode.</param>
         public virtual async Task<int> SaveAsync(FwDataReadWriteRecord original, FwSqlConnection conn = null, TDataRecordSaveMode saveMode = TDataRecordSaveMode.Auto)
         {
             int rowsAffected = 0;

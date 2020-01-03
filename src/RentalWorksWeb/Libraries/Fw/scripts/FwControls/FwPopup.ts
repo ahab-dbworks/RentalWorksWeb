@@ -1,6 +1,6 @@
 ﻿class FwPopupClass {
     //----------------------------------------------------------------------------------------------
-    attach($control) {
+    attach($control: JQuery): JQuery {
         let baseIdStart = 1;
         let baseId = '';
         while (baseId === '') {
@@ -23,7 +23,7 @@
         return $divPopup;
     };
     //----------------------------------------------------------------------------------------------
-    show($divPopup) {
+    show($divPopup: JQuery): void {
         const maxZIndex = FwFunc.getMaxZ('*');
         const $divOverlay = jQuery(`#${$divPopup.attr('data-baseid')}-divOverlay`);
         $divOverlay.css({
@@ -36,15 +36,15 @@
         }
     };
     //----------------------------------------------------------------------------------------------
-    hide($divPopup) {
+    hide($divPopup: JQuery): void {
         jQuery(`#${$divPopup.attr('data-baseid')}-divOverlay`).hide();
     };
     //----------------------------------------------------------------------------------------------
-    destroy($divPopup) {
+    destroy($divPopup: JQuery): void {
         jQuery(`#${$divPopup.attr('data-baseid')}-divOverlay`).remove();
     };
     //----------------------------------------------------------------------------------------------
-    renderPopup($content, options, title?, popoutModuleId?) {
+    renderPopup($content: JQuery, options: {ismodal?: boolean}, title?: string, popoutModuleId?: string): JQuery {
         let isNewValidation = false;
         if ($content.data('afterSaveNewValidation') !== 'undefined' && typeof $content.data('afterSaveNewValidation') === 'function') {
             isNewValidation = true;
@@ -113,11 +113,11 @@
         return $popup;
     };
     //----------------------------------------------------------------------------------------------
-    destroyPopup($popup) {
+    destroyPopup($popup: JQuery): void {
         $popup.remove();
     };
     //----------------------------------------------------------------------------------------------
-    showPopup($popup) {
+    showPopup($popup: JQuery): void {
         const maxZIndex = FwFunc.getMaxZ('*');
         $popup.css({
             'z-index': maxZIndex
@@ -130,7 +130,7 @@
         jQuery('#application').append($popup);
     };
     //----------------------------------------------------------------------------------------------
-    detachPopup($control) {
+    detachPopup($control: JQuery): void {
         $control.detach();
     };
     //----------------------------------------------------------------------------------------------

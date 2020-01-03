@@ -170,5 +170,43 @@ namespace FwStandard.AppManager
             }
         }
         //---------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Recursively compares the GroupTree to the Security Tree and returns a list of differences
+        /// </summary>
+        /// <returns></returns>
+        public List<FwAmSqlGroupNode> GetSqlGroupNodes()
+        {
+            var sqlGroupNodes = new List<FwAmSqlGroupNode>();
+            if (FwAppManager.Tree.Nodes.ContainsKey(this.Id))
+            {
+                var securityTreeNode = FwAppManager.Tree.Nodes[this.Id];
+                var securityTreeNodeJson = JsonConvert.SerializeObject(securityTreeNode);
+                var thisGroupNodeJson = JsonConvert.SerializeObject(this);
+                if (securityTreeNodeJson != thisGroupNodeJson)
+                {
+                    var groupNode = new FwAmSqlGroupNode();
+                    groupNode.id = this.Id;
+                    foreach(var propertyItem in this.Properties)
+                    {
+                        var groupNodeProperty = propertyItem.Value;
+                        var securityNodeProperty = securityTreeNode.Properties[propertyItem.Key];
+                        if (groupNodeProperty != securityNodeProperty)
+                        {
+                            groupNode.properties[propertyItem.Key] = groupNodeProperty;
+                        }
+                    }
+                    if (groupNode.properties.Count > 0)
+                    {
+                        sqlGroupNodes.Add(groupNode);
+                    }
+                }
+            }
+            foreach(var childNode in this.Children)
+            {
+                sqlGroupNodes.AddRange(childNode.GetSqlGroupNodes());
+            }
+            return sqlGroupNodes;
+        }
+        //---------------------------------------------------------------------------------------------
     }
 }

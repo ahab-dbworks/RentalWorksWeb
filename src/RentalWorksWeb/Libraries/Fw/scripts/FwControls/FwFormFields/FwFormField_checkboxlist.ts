@@ -200,7 +200,7 @@
     }
     //---------------------------------------------------------------------------------
     getValue2($fwformfield: JQuery<HTMLElement>): any {
-        var value = [];
+        let value = [];
         if ($fwformfield.data('checkboxlist') === 'persist') {
             $fwformfield.find('li[data-selected="T"]').each(function (index, element) {
                 var $li, item;
@@ -234,6 +234,13 @@
                 }
                 value.push(item);
             });
+        }
+        if ($fwformfield.data('returncsv').toString() === 'true') {
+            let values: string[] = [];
+            value = value.map((item, index, array) => {
+                values.push(item.value.toString());
+            });
+            return values.join(',');
         }
 
         return value;

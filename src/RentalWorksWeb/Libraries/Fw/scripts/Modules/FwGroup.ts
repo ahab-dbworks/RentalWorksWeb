@@ -315,75 +315,162 @@
                 });
             }
 
+            const caption = this.getCaptionFromConstantsFile(node);
+
+            if (node.nodetype !== 'ControllerMethod') {
+                const $contextmenuicon = jQuery(`<i class="material-icons" style="cursor:pointer;color:#607d8b;font-size:1.5em;">more_vert</i>`);
+                $content.append($contextmenuicon);
+                $contextmenuicon.on('click', async (event: JQuery.ClickEvent) => {
+                    try {
+                        var $contextmenu = FwContextMenu.render(null, 'bottomleft', $contextmenu, event);
+                        FwContextMenu.addMenuItem($contextmenu, 'Copy to Groups...', async (event: JQuery.ClickEvent) => {
+                            if ($form.attr('data-modified') === 'true') {
+                                FwFunc.showMessage('You need to Save this Group before you can copy nodes to another Group.');
+                                return;
+                            }
+                            let requestLookupGroup: FwAjaxRequest<any>;
+                            try {
+                                var $confirmation = FwConfirmation.renderConfirmation(`Copy node \'${caption}\' to...`, '');
+                            
+                                var $btnCopy = FwConfirmation.addButton($confirmation, 'Copy', false);
+                                $btnCopy.on('click', async (event: JQuery.ClickEvent) => {
+                                    let requestCopySecurityNode: FwAjaxRequest<any>;
+                                    try {
+                                        const $groups = $content.find('.available-groups');
+                                        var selectedItems: string = FwFormField_checkboxlist.getValue2($groups);
+                                        //console.log(selectedItems);
+                                        requestCopySecurityNode = new FwAjaxRequest<any>();
+                                        requestCopySecurityNode.httpMethod = "POST";
+                                        requestCopySecurityNode.url = encodeURI(applicationConfig.apiurl + 'api/v1/group/copysecuritynode');
+                                        requestCopySecurityNode.addAuthorizationHeader = true;
+                                        requestCopySecurityNode.$elementToBlock = $content;
+                                        requestCopySecurityNode.data = {
+                                            FromGroupId: FwFormField.getValueByDataField($form, 'GroupId'),
+                                            ToGroupIds: selectedItems,
+                                            SecurityId: node.id
+                                        };
+                                        const response = await FwAjax.callWebApi<any, any>(requestCopySecurityNode);
+                                        FwConfirmation.destroyConfirmation($confirmation);
+                                    } catch (ex) {
+                                        FwFunc.showWebApiError(requestCopySecurityNode.xmlHttpRequest.status, ex, requestCopySecurityNode.xmlHttpRequest.responseText, requestCopySecurityNode.url);
+                                    }
+                                });
+                                var $btnCancel = FwConfirmation.addButton($confirmation, 'Cancel', false);
+                                $btnCancel.on('click', (event: JQuery.ClickEvent) => {
+                                    try {
+                                        FwConfirmation.destroyConfirmation($confirmation);
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                            
+                                let html = 
+`<div class="flexrow">
+    <div class="flexcolumn">
+        <div data-datafield="groups" data-control="FwFormField" data-returncsv="true" data-type="checkboxlist" data-share="true" data-listtype="standard" data-showcheckboxes="true" class="fwcontrol fwformfield available-groups" data-caption="Available Groups" data-sortable="false" data-orderby="false"></div>
+    </div>
+</div>
+`;
+                                const $content = jQuery(html);
+                                FwConfirmation.addJqueryControl($confirmation, $content);
+                                $content.find('.fwformfield[data-datafield="groups"] .fwformfield-control ol')
+                                    .css({
+                                        minHeight: 'auto',
+                                        minWidth: 'auto'
+                                    });
+
+                                const $availableGroups = $content.find('.available-groups');
+                                requestLookupGroup = new FwAjaxRequest<any>();
+                                requestLookupGroup.httpMethod = "GET";
+                                requestLookupGroup.url = encodeURI(applicationConfig.apiurl + 'api/v1/group/lookupgroup');
+                                requestLookupGroup.addAuthorizationHeader = true;
+                                requestLookupGroup.$elementToBlock = $content;
+                                const response = await FwAjax.callWebApi<any, any>(requestLookupGroup);
+                                const availableGroups = [];
+                                for (let i = 0; i < response.Items.length; i++) {
+                                    const group = response.Items[i];
+                                    availableGroups.push({text: group.Name, value: group.GroupId});
+                                }
+                                FwFormField.loadItems($availableGroups, availableGroups, true);
+                            } catch (ex) {
+                                FwFunc.showWebApiError(requestLookupGroup.xmlHttpRequest.status, ex, requestLookupGroup.xmlHttpRequest.responseText, requestLookupGroup.url);
+                            }
+                        });
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            }
+
             $caption = jQuery('<div class="caption">');
             nodedescription = '';
             switch (node.nodetype) {
                 case 'System':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">verified_user</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">verified_user</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 case 'Category':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">folder</i> <span style="color:#607d8b;">${node.caption}</span>`
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">folder</i> <span style="color:#607d8b;">${caption}</span>`
                     break;
                 case 'Module':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;font-size:1.5em;color:#607d8b;">extension</i> <span style="color:#607d8b;">${node.caption}</span>`
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;font-size:1.5em;color:#607d8b;">extension</i> <span style="color:#607d8b;">${caption}</span>`
                     break;
                 case 'ModuleActions':
                 case 'ControlActions':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">play_for_work</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">play_for_work</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 case 'Controls':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">art_track</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">art_track</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 case 'ModuleOptions':
                 case 'ControlOptions':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">menu</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">menu</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 case 'ModuleAction':
                 case 'ControlAction':
                     switch (node.properties.action) {
                         case 'Browse':
                         case 'ControlBrowse':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">search</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">search</i> <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         case 'View':
                         case 'ControlView':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">tv</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">tv</i> <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         case 'New':
                         case 'ControlNew':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">add_circle</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">add_circle</i> <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         case 'Edit':
                         case 'ControlEdit':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">create</i>' <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">create</i>' <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         case 'Save':
                         case 'ControlSave':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">save</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">save</i> <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         case 'Delete':
                         case 'ControlDelete':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">clear</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">clear</i> <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         default:
-                            nodedescription = node.caption;
+                            nodedescription = caption;
                             break;
                     }
                     break;
                 case 'Control':
                     if (typeof node.properties.controltype === 'string') {
-                        nodedescription = `${node.properties.controltype}: ${node.caption}`;
+                        nodedescription = `${node.properties.controltype}: ${caption}`;
                     }
                     break;
                 case 'ControllerMethod':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">filter_drama</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">filter_drama</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 case 'ModuleOption':
                 case 'ControlOption':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">touch_app</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">touch_app</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 default:
-                    nodedescription = `<span style="font-size:.8em;color:#607d8b;">${node.nodetype}:</span> ${node.caption}`
+                    nodedescription = `<span style="font-size:.8em;color:#607d8b;">${node.nodetype}:</span> ${caption}`
                     break;
             }
             $caption.html(nodedescription);
@@ -411,9 +498,40 @@
             }
         }
 
-        getGroupTreeJson($form?: JQuery) {
-            //var $apptreenode = jQuery('.editgrouptree > ul.grouptree > li[data-property-nodetype="System"]');
-            var $apptreenode = jQuery('.editgrouptree > ul.grouptree > li');
+        getCaptionFromConstantsFile(securityNode: IGroupSecurityNode): string {
+            let caption = securityNode.caption;
+            const categories = (<any>window).Constants.Modules;
+            for (const categoryName in categories) {
+                const category = categories[categoryName];
+                const result = this.getCaptionFromConstantsFileRecursive(category, securityNode.id);
+                if (typeof result === 'string') {
+                    caption = result;
+                    break;
+                }
+            }
+            return caption;
+        }
+
+        getCaptionFromConstantsFileRecursive(node:IGroupSecurityNode, securityid: string): string {
+            let caption = null;
+            if (node.id === securityid) {
+                caption = node.caption;
+            }
+            if (caption === null) {
+                for (const key in node.children) {
+                    const childNode = node.children[key];
+                    const result = this.getCaptionFromConstantsFileRecursive(childNode, securityid);
+                    if (typeof result === 'string') {
+                        caption = result;
+                        break;
+                    }
+                }
+            }
+            return caption
+        }
+
+        getGroupTreeJson($form: JQuery) {
+            var $apptreenode = $form.find('.editgrouptree > ul.grouptree > li');
             var grouptree = this.getGroupTreeJsonNode($form, null, $apptreenode);
             return grouptree;
         }
@@ -452,7 +570,7 @@
         updateSecurityField($form: JQuery) {
             var apptreenode, hidenewmenuoptionsbydefault, securitynodes, securityJson;
             try {
-                apptreenode = this.getGroupTreeJson();
+                apptreenode = this.getGroupTreeJson($form);
                 hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'HideNewMenuOptionsByDefault'));
                 securitynodes = FwApplicationTree.getSecurityNodes(apptreenode, hidenewmenuoptionsbydefault);
                 securityJson = JSON.stringify(securitynodes);
