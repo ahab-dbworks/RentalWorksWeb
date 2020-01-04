@@ -822,5 +822,13 @@ namespace WebApi.Modules.Agent.Quote
         {
             return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/quote/validatebilltocountry/browse 
+        [HttpPost("validatebilltocountry/browse")]
+        [FwControllerMethod(Id: "jXMkDxX7rMHU", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateBillToCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CountryLogic>(browseRequest);
+        }
     }
 }

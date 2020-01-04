@@ -1314,7 +1314,13 @@ class PurchaseOrder implements IModule {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             }
         });
+        jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
+        jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
+        jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
+        jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+        jQuery($form.find('.rentalsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
     };
+
     //----------------------------------------------------------------------------------------------
     loadAudit($form: JQuery): void {
         const uniqueid = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
