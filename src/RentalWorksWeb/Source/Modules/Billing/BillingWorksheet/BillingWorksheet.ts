@@ -745,7 +745,7 @@ class BillingWorksheet {
         $form.find('div[data-datafield="OrderId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="WorksheetDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Deal"]').attr('data-originalvalue'));
-
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
         });
     }
     //----------------------------------------------------------------------------------------------
