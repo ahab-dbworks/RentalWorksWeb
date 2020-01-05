@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Data;
-using WebApi.Logic;
 
 namespace WebApi.Modules.Reports.Billing.InvoiceReport
 {
@@ -34,8 +33,17 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
+        public string ItemClass { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
+        public bool? Bold { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public string Quantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string UnitExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string Extended { get; set; }
@@ -81,15 +89,16 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     {
                         FwDataTypes propType = dt.Columns[columnIndex].DataType;
                         bool isDecimal = false;
-                        //string numberStringFormat = "";
-                        //FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
                         NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
                         FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberFormat);
                         if (isDecimal)
                         {
                             decimal d = FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "0").ToString());
-                            //property.SetValue(item, d.ToString(numberStringFormat));
                             property.SetValue(item, d.ToString("N", numberFormat));
+                        }
+                        else if (propType.Equals(FwDataTypes.Boolean))
+                        {
+                            property.SetValue(item, FwConvert.ToBoolean((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
                         }
                         else
                         {
