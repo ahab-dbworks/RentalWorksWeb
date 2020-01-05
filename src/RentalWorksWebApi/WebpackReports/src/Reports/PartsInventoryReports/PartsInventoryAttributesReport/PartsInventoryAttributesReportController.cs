@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Inventory.PartsInventory;
 using WebApi.Modules.Reports.Shared.InventoryAttributesReport;
-using WebApi.Modules.Settings.Category;
 using WebApi.Modules.Settings.InventorySettings.Attribute;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.InventorySettings.PartsCategory;
@@ -123,7 +122,7 @@ namespace WebApi.Modules.Reports.PartsInventoryReports.PartsInventoryAttributesR
         [FwControllerMethod(Id: "PSTwpa5qmNH9", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateAttributeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<WarehouseCatalog>(browseRequest);
+            return await DoBrowseAsync<AttributeLogic>(browseRequest);
         }
     }
 }

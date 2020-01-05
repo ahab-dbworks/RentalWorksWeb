@@ -78,7 +78,7 @@ namespace WebApi.Modules.HomeControls.InventoryAttributeValue
         [FwControllerMethod(Id: "M8cASpupwu40", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateAttributeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<WarehouseCatalog>(browseRequest);
+            return await DoBrowseAsync<AttributeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryattributevalue/validateattributevalue/browse
