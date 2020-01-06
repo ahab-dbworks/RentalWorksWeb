@@ -205,6 +205,7 @@ class DataExportFormat {
     addFileNameFields($form) {
         $form.find('.fileNameFields').append(`<div>BatchDateTime</div><div>BatchId</div><div>BatchNumber</div>`);
 
+        //click to insert 
         $form.on('click', '.fileNameFields div', e => {
             const $this = jQuery(e.currentTarget);
             const filename = FwFormField.getValueByDataField($form, 'FileName');
@@ -212,6 +213,25 @@ class DataExportFormat {
             textToInject = `{{${$this.text()}}}`;
 
             FwFormField.setValueByDataField($form, 'FileName', filename + textToInject);
+        });
+
+        //restrict characters
+        $form.on('change', '[data-datafield="FileName"] input', e => {
+            e.stopPropagation();
+            const filename = FwFormField.getValueByDataField($form, 'FileName');
+            const illegalChars = ["\\", "/", ":", "*", "?", "\"", "<", ">", "|"];
+            let value = 0;
+            illegalChars.forEach((char) => {
+                value = value + filename.includes(char);
+            });
+
+            if (value > 0) {
+                $form.find('[data-datafield="FileName"] input').select();
+                $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+                FwNotification.renderNotification("WARNING", "The file name cannot contain \\ / : * ? \" < > | characters.");
+            } else {
+                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
