@@ -12,6 +12,14 @@ class TransferIn extends CheckInBase {
         FwMenu.addFormMenuButtons(options);
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidateOrder($browse: any, $form: any, request: any) {
+        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+        request.miscfields = {
+            TransferIn: true,
+            TransferInWarehouseId: warehouseId
+        }
+    }
+    //----------------------------------------------------------------------------------------------
 }
 
 var TransferInController = new TransferIn();

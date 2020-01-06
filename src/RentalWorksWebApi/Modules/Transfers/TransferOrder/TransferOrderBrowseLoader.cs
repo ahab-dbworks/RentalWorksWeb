@@ -92,6 +92,8 @@ namespace WebApi.Modules.Transfers.TransferOrder
 
             addFilterToSelect("OfficeLocationId", "locationid", select, request);
             addFilterToSelect("DepartmentId", "departmentid", select, request);
+            addFilterToSelect("FromWarehouseId", "fromwarehousei", select, request);
+            addFilterToSelect("ToWarehouseId", "warehouseid", select, request);
 
 
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
@@ -167,8 +169,19 @@ namespace WebApi.Modules.Transfers.TransferOrder
                 string transferOutWarehouseId = GetMiscFieldAsString("TransferOutWarehouseId", request);
                 if (!string.IsNullOrEmpty(transferOutWarehouseId))
                 {
-                    select.AddWhere(" ((warehouseid = @transferoutwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @transferoutwhid))");
+                    select.AddWhere(" ((fromwarehouseid = @transferoutwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @transferoutwhid))");
                     select.AddParameter("@transferoutwhid", transferOutWarehouseId);
+                }
+            }
+            else if (GetMiscFieldAsBoolean("TransferIn", request).GetValueOrDefault(false))
+            {
+                select.AddWhereIn("and", "status", RwConstants.TRANSFER_STATUS_ACTIVE);
+
+                string transferInWarehouseId = GetMiscFieldAsString("TransferInWarehouseId", request);
+                if (!string.IsNullOrEmpty(transferInWarehouseId))
+                {
+                    select.AddWhere(" ((warehouseid = @transferinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.returntowarehouseid = @transferinwhid))");
+                    select.AddParameter("@transferinwhid", transferInWarehouseId);
                 }
             }
 
