@@ -96,7 +96,7 @@
                     FwFormField.setValueByDataField($form, `${this.Type}Id`, orderId, orderNo);
                     if (this.Module == 'CheckIn') {
                         let dealId = FwBrowse.getValueByDataField($browse, $tr, 'DealId');
-                        let dealNumber = FwBrowse.getValueByDataField($browse, $tr, 'DealNumber');
+                        let dealNumber = FwBrowse.getValueByDataField($browse, $tr, 'DealOrVendor');
                         if (dealId !== "") {
                             FwFormField.setValueByDataField($form, 'DealId', dealId, dealNumber);
                         }
@@ -232,9 +232,21 @@
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         //Order selection
         $form.find('[data-datafield="OrderId"], [data-datafield="TransferId"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'Description', FwBrowse.getValueByDataField($form, $tr, 'OrderDescription'));
+            let descriptionFieldName;
+            if ($tr.find('[data-browsedatafield="Description"]').length > 0) {
+                descriptionFieldName = "Description";
+            } else {
+                descriptionFieldName = "OrderDescription";
+            }
+            FwFormField.setValueByDataField($form, 'Description', FwBrowse.getValueByDataField($form, $tr, descriptionFieldName));
             if (type === 'Order') {
-                FwFormField.setValueByDataField($form, 'DealId', FwBrowse.getValueByDataField($form, $tr, 'DealId'), FwBrowse.getValueByDataField($form, $tr, 'Deal'));
+                let dealName;
+                if ($tr.find('[data-browsedatafield="Deal"]').length > 0) {
+                    dealName = "Deal";
+                } else {
+                    dealName = "DealOrVendor";
+                }
+                FwFormField.setValueByDataField($form, 'DealId', FwBrowse.getValueByDataField($form, $tr, 'DealId'), FwBrowse.getValueByDataField($form, $tr, dealName));
                 FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
             } else if (type === 'Transfer') {
                 FwFormField.disable($form.find('[data-datafield="TransferId"]'));

@@ -246,17 +246,20 @@
                 FwBrowse.search($browse);
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
-                    const $this = jQuery(e.currentTarget);
-                    const id = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
-                    const number = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
-                    const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
+                    const $tr = jQuery(e.currentTarget);
+                    const id = FwBrowse.getValueByDataField($browse, $tr, `OrderId`);
+                    const number = FwBrowse.getValueByDataField($browse, $tr, `OrderNumber`);
+                    const contractId = FwBrowse.getValueByDataField($browse, $tr, `ContractId`);
                     this.contractId = contractId;
                     $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'true');
                     if (this.Module == 'FillContainer') {
-                        const orderId = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
-                        FwFormField.setValueByDataField($form, 'OrderId', orderId);
+                        const containerItemId = FwBrowse.getValueByDataField($browse, $tr, `ContainerItemId`);
+                        FwFormField.setValueByDataField($form, `OrderId`, id);
+                        FwFormField.setValueByDataField($form, 'ContainerItemId', containerItemId, number, true);
+                    } else {
+                        FwFormField.setValueByDataField($form, `${this.Type}Id`, id, number, true);
                     }
-                    FwFormField.setValueByDataField($form, `${this.Type}Id`, id, number, true);
+                  
                     FwPopup.destroyPopup($popup);
                     $form.find('.suspendedsession').hide();
                     this.partialContractGridVisibility($form);
