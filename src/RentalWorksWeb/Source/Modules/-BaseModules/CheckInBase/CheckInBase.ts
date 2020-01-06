@@ -88,21 +88,21 @@
                 FwBrowse.search($browse);
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
-                    let $this = jQuery(e.currentTarget);
-                    const orderId = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
-                    const orderNo = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
-                    const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
+                    let $tr = jQuery(e.currentTarget);
+                    const orderId = FwBrowse.getValueByDataField($browse, $tr, 'OrderId');
+                    const orderNo = FwBrowse.getValueByDataField($browse, $tr, 'OrderNumber');
+                    const contractId = FwBrowse.getValueByDataField($browse, $tr, 'ContractId');
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     FwFormField.setValueByDataField($form, `${this.Type}Id`, orderId, orderNo);
                     if (this.Module == 'CheckIn') {
-                        let dealId = $this.find(`[data-browsedatafield="DealId"]`).attr('data-originalvalue');
-                        let dealNumber = $this.find(`[data-browsedatafield="DealNumber"]`).attr('data-originalvalue');
+                        let dealId = FwBrowse.getValueByDataField($browse, $tr, 'DealId');
+                        let dealNumber = FwBrowse.getValueByDataField($browse, $tr, 'DealNumber');
                         if (dealId !== "") {
                             FwFormField.setValueByDataField($form, 'DealId', dealId, dealNumber);
                         }
                     }
                     FwPopup.destroyPopup($popup);
-                    $form.find(`[data-datafield="${this.Type}Id"] input`).change();
+                    $form.find(`[data-datafield="${this.Type}Id"]`).data().onchange($tr);
                     $form.find('.suspendedsession').hide();
 
                     const $checkedInItemGrid = $form.find('div[data-name="CheckedInItemGrid"]');
@@ -232,9 +232,9 @@
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         //Order selection
         $form.find('[data-datafield="OrderId"], [data-datafield="TransferId"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'Description', FwBrowse.getValueByDataField($form, $tr, 'OrderDescription'));
             if (type === 'Order') {
-                FwFormField.setValueByDataField($form, 'DealId', $tr.find('[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Deal"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($form, 'DealId', FwBrowse.getValueByDataField($form, $tr, 'DealId'), FwBrowse.getValueByDataField($form, $tr, 'Deal'));
                 FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
             } else if (type === 'Transfer') {
                 FwFormField.disable($form.find('[data-datafield="TransferId"]'));
