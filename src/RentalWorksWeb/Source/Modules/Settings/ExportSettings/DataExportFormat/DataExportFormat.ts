@@ -63,11 +63,13 @@ class DataExportFormat {
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         $form.find('#codeEditor').change();
-
+      
         //for retaining position in code editor after saving
         $form.find('[data-datafield="ExportString"]').addClass('reload');
 
-        FwModule.saveForm(this.Module, $form, parameters);
+        if (!$form.find('[data-datafield="FileName"]').hasClass('error')) {
+            FwModule.saveForm(this.Module, $form, parameters);
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
@@ -226,11 +228,15 @@ class DataExportFormat {
             });
 
             if (value > 0) {
+                $form.find('[data-datafield="FileName"]').addClass('error');
                 $form.find('[data-datafield="FileName"] input').select();
                 $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
                 FwNotification.renderNotification("WARNING", "The file name cannot contain \\ / : * ? \" < > | characters.");
             } else {
-                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                if ($form.attr('data-modified') == "true") {
+                    $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                }
+                $form.find('[data-datafield="FileName"]').removeClass('error');
             }
         });
     }
