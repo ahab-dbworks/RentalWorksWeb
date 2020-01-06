@@ -147,6 +147,15 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
+        public string BillingCycleId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
+        public string BillingCycle { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodtype", modeltype: FwDataTypes.Text)]
+        public string BillingCycleType { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string NumberColor
         {
@@ -198,6 +207,7 @@ namespace WebApi.Modules.Agent.Order
             addFilterToSelect("DepartmentId", "departmentid", select, request);
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
+            addFilterToSelect("BillingCycleType", "billperiodtype", select, request);
 
             if (GetMiscFieldAsBoolean("Staging", request).GetValueOrDefault(false))
             {

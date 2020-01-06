@@ -167,12 +167,6 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
         public string DetermineQuantitiesToBillBasedOn { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
-        public string BillingCycleId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
-        public string BillingCycle { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------
