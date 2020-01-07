@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Reports.ContractReports.OutContractReport
+namespace WebApi.Modules.Reports.ContractReports.InContractReport
 {
     [FwSqlTable("dbo.funccontractoutrptweb(@contractid, @applanguageid)")]
-    public class OutContractItemReportLoader : AppReportLoader
+    public class InContractItemReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
         [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
         public string ItemOrder { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> LoadItems(OutContractReportRequest request)
+        public async Task<FwJsonDataTable> LoadItems(InContractReportRequest request)
         {
             useWithNoLock = false;
             FwJsonDataTable dt = null;
@@ -101,8 +101,9 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
         //------------------------------------------------------------------------------------ 
     }
 
+
     [FwSqlTable("contractheadwebview")]
-    public class OutContractReportLoader : AppReportLoader
+    public class InContractReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -359,14 +360,14 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
         //------------------------------------------------------------------------------------ 
         public FwJsonDataTable Items { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<OutContractReportLoader> RunReportAsync(OutContractReportRequest request)
+        public async Task<InContractReportLoader> RunReportAsync(InContractReportRequest request)
         {
 
-            Task<OutContractReportLoader> taskOutContract;
-            Task<FwJsonDataTable> taskOutContractItems;
+            Task<InContractReportLoader> taskInContract;
+            Task<FwJsonDataTable> taskInContractItems;
 
-            OutContractReportLoader OutContract = null;
-            OutContractItemReportLoader OutContractItems = null;
+            InContractReportLoader InContract = null;
+            InContractItemReportLoader InContractItems = null;
 
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
@@ -379,27 +380,27 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
                     //SetBaseSelectQuery(select, qry);
                     //select.Parse();
                     //select.AddWhereIn("contractid", request.ContractId);
-                    //taskOutContract = qry.QueryToTypedObjectAsync<OutContractReportLoader>();
+                    //taskInContract = qry.QueryToTypedObjectAsync<InContractReportLoader>();
 
                     qry.Add("select *                                   ");
                     qry.Add(" from  " + TableName + " c     ");
                     qry.Add(" where c.contractid = @contractid          ");
                     qry.AddParameter("@contractid", request.ContractId);
                     AddPropertiesAsQueryColumns(qry);
-                    taskOutContract = qry.QueryToTypedObjectAsync<OutContractReportLoader>();
+                    taskInContract = qry.QueryToTypedObjectAsync<InContractReportLoader>();
 
 
-                    OutContractItems = new OutContractItemReportLoader();
-                    OutContractItems.SetDependencies(AppConfig, UserSession);
-                    taskOutContractItems = OutContractItems.LoadItems(request);
+                    InContractItems = new InContractItemReportLoader();
+                    InContractItems.SetDependencies(AppConfig, UserSession);
+                    taskInContractItems = InContractItems.LoadItems(request);
 
-                    await Task.WhenAll(new Task[] { taskOutContract, taskOutContractItems });
+                    await Task.WhenAll(new Task[] { taskInContract, taskInContractItems });
 
-                    OutContract = taskOutContract.Result;
+                    InContract = taskInContract.Result;
 
-                    if (OutContract != null)
+                    if (InContract != null)
                     {
-                        OutContract.Items = taskOutContractItems.Result;
+                        InContract.Items = taskInContractItems.Result;
                     }
 
                 }
@@ -412,7 +413,7 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
             //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             //}
             //return dt;
-            return OutContract;
+            return InContract;
         }
         //------------------------------------------------------------------------------------ 
     }

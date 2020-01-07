@@ -172,7 +172,7 @@ var Constants = {
                     nodetype: 'Category',
                     children: {
                         ExchangeContractReport: { id: 'MAR5QYKd01qwx', caption: 'Exchange Contract', nav: 'reports/exchangecontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
-                        ContractRevisionReport: {           id: 'ZDRzzkgcqTb57', caption: 'Contract Revision Activity', nav: 'reports/contractrevisionreport', nodetype: 'Module', description: 'List all modifications made to Contracts over a specified date range.' },
+                        ContractRevisionReport: { id: 'ZDRzzkgcqTb57', caption: 'Contract Revision Activity', nav: 'reports/contractrevisionreport', nodetype: 'Module', description: 'List all modifications made to Contracts over a specified date range.' },
                         InContractReport: { id: 'DQ0kEL13GYyEg', caption: 'In Contract', nav: 'reports/Incontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
                         LostContractReport: { id: 'F6uNUdehIUVSB', caption: 'Lost Contract', nav: 'reports/lostcontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
                         OutContractReport: { id: 'p2tH0HSDc930', caption: 'Out Contract', nav: 'reports/outcontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
