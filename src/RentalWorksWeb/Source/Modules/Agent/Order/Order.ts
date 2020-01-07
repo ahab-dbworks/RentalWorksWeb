@@ -418,7 +418,7 @@ class Order extends OrderBase {
         }
         //On Demand Billing Cycles require a worksheet tab
         const worksheetTab = $form.find('[data-type="tab"][data-caption="Billing Worksheet"]');
-        if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
+        if (FwFormField.getTextByDataField($form, 'BillingCycleType') === 'ONDEMAND') {
             worksheetTab.show();
             const billingWorksheetBrowse = this.openSubModuleBrowse($form, 'BillingWorksheet');
             $form.find('.worksheet-submodule').append(billingWorksheetBrowse);

@@ -566,6 +566,17 @@ class BillingWorksheet {
         this.dynamicColumns($form);
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $form, request) {
+        const validationName = request.module;
+        request.uniqueids = {};
+
+        switch (validationName) {
+            case 'OrderValidation':
+                request.uniqueids.BillingCycleType = 'ONDEMAND';
+                break;
+        };
+    };
+    //----------------------------------------------------------------------------------------------
     approveOrUnaproveWorksheet($form: any, indicator: string) {
         const billingWorksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
         if (indicator === 'approve') {
