@@ -13,9 +13,6 @@ namespace WebApi.Modules.HomeControls.OrderItem
     [FwLogic(Id: "N05EVbv5HL3y")]
     public class OrderItemLogic : AppBusinessLogic
     {
-        private string OriginalItemClass;
-        private string OriginalParentId;
-        private decimal? OriginalQuantityOrdered;
         //------------------------------------------------------------------------------------ 
         MasterItemRecord orderItem = new MasterItemRecord();
         OrderItemLoader orderItemLoader = new OrderItemLoader();
@@ -1073,6 +1070,19 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
             else  // updating
             {
+                string OriginalItemClass = "";
+                decimal? OriginalQuantityOrdered = 0;
+                decimal? OriginalSubQuantity = 0;
+                OrderItemLogic oiOrig = null;
+
+                if (e.Original != null)
+                {
+                    oiOrig = ((OrderItemLogic)e.Original);
+                    OriginalItemClass = oiOrig.ItemClass;
+                    OriginalQuantityOrdered = oiOrig.QuantityOrdered;
+                    OriginalSubQuantity = oiOrig.SubQuantity;
+                }
+
                 if (RowsRolledUp.GetValueOrDefault(false))
                 {
                     InsteadOfSave += SaveRolledUpRow;
@@ -1080,25 +1090,19 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 else
                 {
                     DetailOnly = true;
-                    OrderItemLogic oiOrig = new OrderItemLogic();
-                    oiOrig.SetDependencies(AppConfig, UserSession);
-                    oiOrig.OrderId = OrderId;
-                    oiOrig.OrderItemId = OrderItemId;
-                    bool b1 = oiOrig.LoadAsync<OrderItemLogic>().Result;
-                    // save here for use during AfterSaves
-                    OriginalItemClass = oiOrig.ItemClass;
-                    OriginalParentId = oiOrig.ParentId;
-                    OriginalQuantityOrdered = oiOrig.QuantityOrdered;
 
-                    if (oiOrig.Locked.GetValueOrDefault(false))
+                    if (oiOrig != null)
                     {
-                        Price = oiOrig.Price;
-                        Price2 = oiOrig.Price2;
-                        Price3 = oiOrig.Price3;
-                        Price4 = oiOrig.Price4;
-                        Price5 = oiOrig.Price5;
-                        DiscountPercent = oiOrig.DiscountPercent;
-                        DaysPerWeek = oiOrig.DaysPerWeek;
+                        if (oiOrig.Locked.GetValueOrDefault(false))
+                        {
+                            Price = oiOrig.Price;
+                            Price2 = oiOrig.Price2;
+                            Price3 = oiOrig.Price3;
+                            Price4 = oiOrig.Price4;
+                            Price5 = oiOrig.Price5;
+                            DiscountPercent = oiOrig.DiscountPercent;
+                            DaysPerWeek = oiOrig.DaysPerWeek;
+                        }
                     }
 
                     if (OriginalItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || OriginalItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || OriginalItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
@@ -1110,51 +1114,49 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         Price5 = 0;
                     }
 
-                    if (QuantityOrdered != null)
+                }
+
+                if (QuantityOrdered != null)
+                {
+                    if (OriginalItemClass != null)
                     {
-                        if (OriginalItemClass != null)
+                        if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
                         {
-                            if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                            if (OriginalQuantityOrdered != QuantityOrdered)
                             {
-                                if (OriginalQuantityOrdered != QuantityOrdered)
-                                {
-                                    bool b2 = OrderFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
-                                }
+                                bool b2 = OrderFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
                             }
                         }
                     }
                 }
+                if (SubQuantity != null)
+                {
+                    if (OriginalItemClass != null)
+                    {
+                        if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                        {
+                            if (OriginalSubQuantity != SubQuantity)
+                            {
+                                bool b2 = OrderFunc.UpdatePackageSubQuantities(AppConfig, UserSession, this).Result;
+                            }
+                        }
+                    }
+                }
+
 
             }
         }
         //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            if (e.SaveMode == TDataRecordSaveMode.smUpdate)
-            {
-                //if (OriginalItemClass != null) 
-                //{
-                //    if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
-                //    {
-                //        if (OriginalQuantityOrdered != QuantityOrdered)
-                //        {
-                //            bool b = AppFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
-                //        }
-                //    }
-                //}
-            }
-
             if (Notes != null)
             {
                 bool saved = orderItem.SaveNoteASync(Notes).Result;
             }
-
             if ((InventoryId != null) && (WarehouseId != null))
             {
                 InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, ItemClass);
             }
-
-
         }
         //------------------------------------------------------------------------------------
         public void SaveRolledUpRow(object sender, InsteadOfSaveEventArgs e)

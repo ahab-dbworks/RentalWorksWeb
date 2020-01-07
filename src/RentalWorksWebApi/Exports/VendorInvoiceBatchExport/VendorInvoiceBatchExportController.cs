@@ -16,7 +16,6 @@ namespace WebApi.Modules.Exports.VendorInvoiceBatchExport
     public class VendorInvoiceBatchExportController : AppExportController
     {
         public  VendorInvoiceBatchExportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(VendorInvoiceBatchExportLoader); }
-
         //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoicebatchexport/export
         [HttpPost("export")]
@@ -29,14 +28,11 @@ namespace WebApi.Modules.Exports.VendorInvoiceBatchExport
             }
             try
             {
-                VendorInvoiceBatchExportLoader l = new VendorInvoiceBatchExportLoader();
-                l.SetDependencies(this.AppConfig, this.UserSession);
-                await l.DoLoad<VendorInvoiceBatchExportLoader>(request);
-
-                string exportString = await AppFunc.GetStringDataAsync(AppConfig, "webdataexportformat", "dataexportformatid", request.DataExportFormatId, "exportstring");
-                string downloadFileName = await AppFunc.GetStringDataAsync(AppConfig, "webdataexportformat", "dataexportformatid", request.DataExportFormatId, "filename");
-                AppExportResponse response = await Export<VendorInvoiceBatchExportLoader>(l, exportString, downloadFileName);
-
+                VendorInvoiceBatchExportLoader data = new VendorInvoiceBatchExportLoader();
+                data.SetDependencies(this.AppConfig, this.UserSession);
+                await data.DoLoad<VendorInvoiceBatchExportLoader>(request);
+                string[] exportSettings = await AppFunc.GetStringDataAsync(AppConfig, "webdataexportformat", new string[] { "dataexportformatid" }, new string[] { request.DataExportFormatId }, new string[] { "exportstring", "filename" });
+                AppExportResponse response = Export<VendorInvoiceBatchExportLoader>(data, exportSettings[0], exportSettings[1]);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -44,5 +40,6 @@ namespace WebApi.Modules.Exports.VendorInvoiceBatchExport
                 return GetApiExceptionResult(ex);
             }
         }
+        //------------------------------------------------------------------------------------ 
     }
 }

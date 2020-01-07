@@ -525,14 +525,17 @@ class Customer {
           <div class="column" data-width="auto" data-visible="true">
             <div class="field" data-caption="Status" data-datafield="CustomerStatus" data-browsedatatype="text" data-sort="off"></div>
           </div>
-         <div class="column" data-width="auto" data-visible="true">
-            <div class="field" data-caption="State" data-datafield="State" data-browsedatatype="text" data-sort="off"></div>
+          <div class="column" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Address 1" data-datafield="Address1" data-browsedatatype="text" data-sort="off"></div>
           </div>
-            <div class="column" data-width="auto" data-visible="true">
+          <div class="column" data-width="auto" data-visible="true">
             <div class="field" data-caption="City" data-datafield="City" data-browsedatatype="text" data-sort="off"></div>
           </div>
-         <div class="column" data-width="auto" data-visible="true">
-            <div class="field" data-caption="Address 1" data-datafield="Address1" data-browsedatatype="text" data-sort="off"></div>
+          <div class="column" data-width="auto" data-visible="true">
+            <div class="field" data-caption="State" data-datafield="State" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Zip/Postal" data-datafield="ZipCode" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column spacer" data-width="auto" data-visible="true"></div>
         </div>`;

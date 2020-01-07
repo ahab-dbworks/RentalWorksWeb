@@ -84,10 +84,11 @@ class DuplicateRule {
     getFields($form: JQuery): void {
         let self = this;
         $form.find('div.modules').on("change", function () {
-            let moduleUrl, request;
+            let moduleUrl;
             moduleUrl = jQuery(this).find(':selected').attr('data-apiurl');
 
-            FwAppData.apiMethod(true, 'GET', `${moduleUrl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `${moduleUrl}/emptyobject`, null, FwServices.defaultTimeout,
+                response => {
                 let fieldsList = response._Fields;
                 let customFields;
 
@@ -125,7 +126,7 @@ class DuplicateRule {
                 fieldTypes = fieldTypes.split(",");
 
                 jQuery.each(fields, function (i, val) {
-                    jQuery(`input[name="${val}"]`).prop("checked", true)
+                    $form.find(`input[name="${val}"]`).prop("checked", true)
                 });
 
                 $form.on('change', '[type="checkbox"]', e => {
@@ -143,7 +144,7 @@ class DuplicateRule {
                     FwFormField.setValueByDataField($form, 'Fields', fields.join(","));
                     FwFormField.setValueByDataField($form, 'FieldTypes', fieldTypes.join(","));
                 });
-            }, null, $form);
+                }, ex => FwFunc.showError(ex), $form);
         });
     }
     //----------------------------------------------------------------------------------------------

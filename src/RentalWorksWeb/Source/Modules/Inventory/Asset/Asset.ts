@@ -423,19 +423,19 @@ class RwAsset {
                     <div class="formrow">
                       <div class="formcolumn" style="width:400px;">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CurrentCustomer" data-enabled="false" style="width:375px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CurrentCustomerId" data-displayfield="CurrentCustomer" data-validationname="CustomerValidation" data-enabled="false" style="width:375px;"></div>
                         </div>
                       </div>
                       <div class="formcolumn" style="width:400px;">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="CurrentDeal" data-enabled="false" style="width:375px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="CurrentDealId" data-displayfield="CurrentDeal" data-validationname="DealValidation" data-enabled="false" style="width:375px;"></div>
                         </div>
                       </div>
                     </div>
                     <div class="formrow">
                       <div class="formcolumn" style="width:400px;">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="CurrentOrderNumber" data-enabled="false" style="float:left;width:150px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="CurrentOrderId" data-displayfield="CurrentOrderNumber" data-validationname="OrderValidation" data-enabled="false" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Order Date" data-datafield="CurrentOrderDate" data-enabled="false" style="float:left;width:125px;"></div>
                         </div>
                       </div>

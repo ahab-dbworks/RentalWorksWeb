@@ -1,4 +1,3 @@
-using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
@@ -37,6 +36,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
+        public bool? Bold { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public string QuantityOrdered { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -49,11 +51,17 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercentDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitdiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string UnitDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklydiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "perioddiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PeriodDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string UnitExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyExtended { get; set; }
@@ -105,15 +113,16 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     {
                         FwDataTypes propType = dt.Columns[columnIndex].DataType;
                         bool isDecimal = false;
-                        //string numberStringFormat = "";
-                        //FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
                         NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
                         FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberFormat);
                         if (isDecimal)
                         {
                             decimal d = FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "0").ToString());
-                            //property.SetValue(item, d.ToString(numberStringFormat));
                             property.SetValue(item, d.ToString("N", numberFormat));
+                        }
+                        else if (propType.Equals(FwDataTypes.Boolean))
+                        { 
+                            property.SetValue(item, FwConvert.ToBoolean((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
                         }
                         else
                         {

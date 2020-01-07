@@ -177,7 +177,6 @@ namespace WebApi.Modules.Agent.Order
             return newOrderItemId;
         }
         //-------------------------------------------------------------------------------------------------------
-
         public static async Task<bool> UpdatePackageQuantities(FwApplicationConfig appConfig, FwUserSession userSession, OrderItemLogic oi)
         {
             bool success = false;
@@ -189,15 +188,30 @@ namespace WebApi.Modules.Agent.Order
                 qry.AddParameter("@newqty", SqlDbType.NVarChar, ParameterDirection.Input, oi.QuantityOrdered);
                 qry.AddParameter("@docheckoutaudit", SqlDbType.NVarChar, ParameterDirection.Input, "F");
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@rowsummarized", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                qry.AddParameter("@rowsummarized", SqlDbType.NVarChar, ParameterDirection.Input, oi.RowsRolledUp);
                 await qry.ExecuteNonQueryAsync();
                 success = true;
             }
             return success;
         }
-
         //-------------------------------------------------------------------------------------------------------
-
+        public static async Task<bool> UpdatePackageSubQuantities(FwApplicationConfig appConfig, FwUserSession userSession, OrderItemLogic oi)
+        {
+            bool success = false;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "updatepackageqtyssub", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, oi.OrderId);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, oi.OrderItemId);
+                qry.AddParameter("@qtyordered", SqlDbType.NVarChar, ParameterDirection.Input, oi.QuantityOrdered);
+                qry.AddParameter("@newsubqty", SqlDbType.NVarChar, ParameterDirection.Input, oi.SubQuantity);
+                qry.AddParameter("@rowsummarized", SqlDbType.NVarChar, ParameterDirection.Input, oi.RowsRolledUp);
+                await qry.ExecuteNonQueryAsync();
+                success = true;
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<bool> UpdateOrderItemDatesAndTimes(FwApplicationConfig appConfig, FwUserSession userSession, OrderDatesAndTimesChange change, FwSqlConnection conn = null)
         {
             bool success = false;

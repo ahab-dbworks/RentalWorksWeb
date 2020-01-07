@@ -491,7 +491,9 @@ class FwMenuClass {
             } else {
                 const $btnSave = options.$menu.find('.btn[data-type="SaveMenuBarButton"]');
                 $btnSave.attr('data-visible', 'false').hide();
-                FwModule.setFormReadOnly(options.$form);
+                if (options.hasSave) {
+                    FwModule.setFormReadOnly(options.$form);
+                }
             }
         }
         const nodeOptions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {

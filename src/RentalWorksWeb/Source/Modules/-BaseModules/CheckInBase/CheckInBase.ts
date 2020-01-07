@@ -88,21 +88,21 @@
                 FwBrowse.search($browse);
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
-                    let $this = jQuery(e.currentTarget);
-                    const orderId = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
-                    const orderNo = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
-                    const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
+                    let $tr = jQuery(e.currentTarget);
+                    const orderId = FwBrowse.getValueByDataField($browse, $tr, 'OrderId');
+                    const orderNo = FwBrowse.getValueByDataField($browse, $tr, 'OrderNumber');
+                    const contractId = FwBrowse.getValueByDataField($browse, $tr, 'ContractId');
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     FwFormField.setValueByDataField($form, `${this.Type}Id`, orderId, orderNo);
                     if (this.Module == 'CheckIn') {
-                        let dealId = $this.find(`[data-browsedatafield="DealId"]`).attr('data-originalvalue');
-                        let dealNumber = $this.find(`[data-browsedatafield="DealNumber"]`).attr('data-originalvalue');
+                        let dealId = FwBrowse.getValueByDataField($browse, $tr, 'DealId');
+                        let dealNumber = FwBrowse.getValueByDataField($browse, $tr, 'DealOrVendor');
                         if (dealId !== "") {
                             FwFormField.setValueByDataField($form, 'DealId', dealId, dealNumber);
                         }
                     }
                     FwPopup.destroyPopup($popup);
-                    $form.find(`[data-datafield="${this.Type}Id"] input`).change();
+                    $form.find(`[data-datafield="${this.Type}Id"]`).data().onchange($tr);
                     $form.find('.suspendedsession').hide();
 
                     const $checkedInItemGrid = $form.find('div[data-name="CheckedInItemGrid"]');
@@ -247,9 +247,21 @@
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         //Order selection
         $form.find('[data-datafield="OrderId"], [data-datafield="TransferId"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            let descriptionFieldName;
+            if ($tr.find('[data-browsedatafield="Description"]').length > 0) {
+                descriptionFieldName = "Description";
+            } else {
+                descriptionFieldName = "OrderDescription";
+            }
+            FwFormField.setValueByDataField($form, 'Description', FwBrowse.getValueByDataField($form, $tr, descriptionFieldName));
             if (type === 'Order') {
-                FwFormField.setValueByDataField($form, 'DealId', $tr.find('[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Deal"]').attr('data-originalvalue'));
+                let dealName;
+                if ($tr.find('[data-browsedatafield="Deal"]').length > 0) {
+                    dealName = "Deal";
+                } else {
+                    dealName = "DealOrVendor";
+                }
+                FwFormField.setValueByDataField($form, 'DealId', FwBrowse.getValueByDataField($form, $tr, 'DealId'), FwBrowse.getValueByDataField($form, $tr, dealName));
                 FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
             } else if (type === 'Transfer') {
                 FwFormField.disable($form.find('[data-datafield="TransferId"]'));
@@ -592,8 +604,8 @@
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
                             ${this.Module == 'CheckIn' ?
-                                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
-                                : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
+                                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" data-formbeforevalidate="beforeValidateOrder" style="flex:0 1 175px;"></div>'
+            : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" data-formbeforevalidate="beforeValidateOrder" style="flex:0 1 175px;"></div>'}
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
                           </div>
                         </div>

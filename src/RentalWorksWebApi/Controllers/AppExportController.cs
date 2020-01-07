@@ -57,7 +57,7 @@ namespace WebApi.Controllers
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<AppExportResponse> Export<T>(AppExportLoader loader, string exportString, string downloadFileName)
+        public AppExportResponse Export<T>(AppExportLoader loader, string exportString, string downloadFileName)
         {
             AppExportResponse response = new AppExportResponse();
             var template = Handlebars.Compile(exportString);
@@ -87,5 +87,6 @@ namespace WebApi.Controllers
 
             return response;
         }
+        //------------------------------------------------------------------------------------ 
     }
 }

@@ -92,7 +92,7 @@ var Constants = {
                 //    }
                 //},
                 SubWorksheet: { id: '', caption: 'Sub Worksheet', nav: 'module/subworksheet', nodetype: 'Module' },
-                SuspendedSession: { id: '', caption: 'Suspended Session', nav: 'module/suspendedsession', nodetype: 'Module' }
+                SuspendedSession: { id: 'AeUawGKvyGQ6', caption: 'Suspended Session', nav: 'module/suspendedsession', nodetype: 'Module' }
             }
         },
         Inventory: {

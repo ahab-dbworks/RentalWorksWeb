@@ -247,17 +247,20 @@
                 FwBrowse.search($browse);
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
-                    const $this = jQuery(e.currentTarget);
-                    const id = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
-                    const number = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
-                    const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
+                    const $tr = jQuery(e.currentTarget);
+                    const id = FwBrowse.getValueByDataField($browse, $tr, `OrderId`);
+                    const number = FwBrowse.getValueByDataField($browse, $tr, `OrderNumber`);
+                    const contractId = FwBrowse.getValueByDataField($browse, $tr, `ContractId`);
                     this.contractId = contractId;
                     $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'true');
                     if (this.Module == 'FillContainer') {
-                        const orderId = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
-                        FwFormField.setValueByDataField($form, 'OrderId', orderId);
+                        const containerItemId = FwBrowse.getValueByDataField($browse, $tr, `ContainerItemId`);
+                        FwFormField.setValueByDataField($form, `OrderId`, id);
+                        FwFormField.setValueByDataField($form, 'ContainerItemId', containerItemId, number, true);
+                    } else {
+                        FwFormField.setValueByDataField($form, `${this.Type}Id`, id, number, true);
                     }
-                    FwFormField.setValueByDataField($form, `${this.Type}Id`, id, number, true);
+
                     FwPopup.destroyPopup($popup);
                     $form.find('.suspendedsession').hide();
                     this.partialContractGridVisibility($form);
@@ -590,101 +593,25 @@
         }
     }
     //----------------------------------------------------------------------------------------------
-    // There are corresponding double click events in the Staged Item Grid controller
-    moveStagedItemToOut($form: JQuery): void {
-        const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-        const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
-        const $selectedCheckBoxes = $checkedOutItemGrid.find('tbody .cbselectrow:checked');
-        const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
-        const quantityFieldValue = $form.find('.partial-contract-quantity input').val();
-        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+    // There are corresponding double click events in the CheckedOutItem Grid / StagedItemGrid controllers
+    moveItems($form: JQuery, isRightArrow: boolean): void {
         const errorMsg = $form.find('.error-msg:not(.qty)');
 
-        const request: any = {};
-        if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
-            request.ContractId = this.contractId;
-            request.Code = barCodeFieldValue;
-            request.OrderId = orderId
-            if (quantityFieldValue !== '') {
-                request.Quantity = quantityFieldValue
-            }
-            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
-                if (response.success === true && response.status != 107) {
-                    errorMsg.html('');
-                    FwFunc.playSuccessSound();
-                    $form.find('.partial-contract-barcode input').val('');
-                    $form.find('.partial-contract-quantity input').val('');
-                    $form.find('.partial-contract-barcode input').select();
-                    setTimeout(() => {
-                        FwBrowse.search($checkedOutItemGrid);
-                        FwBrowse.search($stagedItemGrid);
-                    }, 500);
-                }
-                if (response.status === 107) {
-                    errorMsg.html('');
-                    FwFunc.playSuccessSound();
-                    $form.find('.partial-contract-quantity input').focus();
-                }
-                if (response.success === false && response.status !== 107) {
-                    FwFunc.playErrorSound();
-                    errorMsg.html(`<div><span>${response.msg}</span></div>`);
-                    $form.find('.partial-contract-barcode input').focus();
-                }
-            }, null, null);
+        let $selectedCheckBoxes, url;
+        const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
+        if (isRightArrow) {
+            $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
+            url = 'movestageditemtoout';
         } else {
-            if ($selectedCheckBoxes.length !== 0) {
-                let responseCount = 0;
-                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                    const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
-                    const iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
-                    const quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
-                    const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                    const vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
-
-                    request.OrderId = orderId
-                    request.ContractId = this.contractId;
-                    request.Quantity = quantity
-
-                    if (barCode !== '') {
-                        request.Code = barCode;
-                    } else {
-                        request.Code = iCode;
-                        request.OrderItemId = orderItemId;
-                        request.VendorId = vendorId;
-                    }
-                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
-                        responseCount++;
-                        if (responseCount === $selectedCheckBoxes.length) {
-                            setTimeout(() => {
-                                FwBrowse.search($checkedOutItemGrid);
-                                FwBrowse.search($stagedItemGrid);
-                            }, 0);
-                        }
-                    }, function onError(response) {
-                        FwFunc.showError(response);
-                    }, null);
-                }
-
-                $form.find('.partial-contract-barcode input').val('');
-                $form.find('.partial-contract-quantity input').val('');
-                $form.find('.partial-contract-barcode input').focus();
-            } else {
-                FwNotification.renderNotification('WARNING', 'Select rows in Stage Items or use Bar Code input in order to perform this function.');
-                $form.find('.partial-contract-barcode input').focus();
-            }
+            $selectedCheckBoxes = $checkedOutItemGrid.find('.cbselectrow:checked');
+            url = 'moveoutitemtostaged';
         }
-    };
-    //----------------------------------------------------------------------------------------------
-    // There are corresponding double click events in the Checked Out Item Grid controller
-    moveOutItemToStaged($form: JQuery): void {
-        const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-        const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
-        const $selectedCheckBoxes = $checkedOutItemGrid.find('.cbselectrow:checked');
+
+        const request: any = {};
+        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
         const quantityFieldValue = $form.find('.partial-contract-quantity input').val();
-        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-        const errorMsg = $form.find('.error-msg:not(.qty)');
-        const request: any = {};
         if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
             request.ContractId = this.contractId;
             request.Code = barCodeFieldValue;
@@ -692,7 +619,7 @@
             if (quantityFieldValue !== '') {
                 request.Quantity = quantityFieldValue
             }
-            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/${url}`, request, FwServices.defaultTimeout, response => {
                 if (response.success === true && response.status != 107) {
                     errorMsg.html('');
                     FwFunc.playSuccessSound();
@@ -737,7 +664,7 @@
                         request.OrderItemId = orderItemId;
                         request.VendorId = vendorId;
                     }
-                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
+                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/${url}`, request, FwServices.defaultTimeout, response => {
                         responseCount++;
 
                         if (responseCount === $selectedCheckBoxes.length) {
@@ -1044,17 +971,18 @@
                 FwFunc.showError(ex);
             }
         });
-        // Move Staged Item to Out
-        $form.find('.right-arrow').on('click', e => {
-            this.moveStagedItemToOut($form);
-            $form.find('.right-arrow').addClass('arrow-clicked');
-            $form.find('.left-arrow').removeClass('arrow-clicked');
-        });
-        // Move Out Item to Staged
-        $form.find('.left-arrow').on('click', e => {
-            this.moveOutItemToStaged($form);
-            $form.find('.left-arrow').addClass('arrow-clicked');
-            $form.find('.right-arrow').removeClass('arrow-clicked');
+        // Move Out Item to Staged / Move Staged Item to Out
+        $form.find('.dbl-angle').on('click', e => {
+            const isRightArrow = jQuery(e.currentTarget).hasClass('right-arrow');
+            if (isRightArrow) {
+                this.moveItems($form, isRightArrow);
+                $form.find('.right-arrow').addClass('arrow-clicked');
+                $form.find('.left-arrow').removeClass('arrow-clicked');
+            } else {
+                this.moveItems($form, isRightArrow);
+                $form.find('.left-arrow').addClass('arrow-clicked');
+                $form.find('.right-arrow').removeClass('arrow-clicked');
+            }
         });
         // Complete Checkout Contract
         $form.find('.complete-checkout-contract').on('click', e => {
@@ -1122,11 +1050,11 @@
 
             if (e.which == 13 && barCodeFieldValue !== '') {
                 if ($form.find('.right-arrow').hasClass('arrow-clicked')) {
-                    this.moveStagedItemToOut($form);
+                    this.moveItems($form, true);
                 } else if ($form.find('.left-arrow').hasClass('arrow-clicked')) {
-                    this.moveOutItemToStaged($form);
+                    this.moveItems($form, false);
                 } else {
-                    this.moveStagedItemToOut($form);
+                    this.moveItems($form, true);
                     $form.find('.right-arrow').addClass('arrow-clicked');
                     $form.find('.left-arrow').removeClass('arrow-clicked');
                 }

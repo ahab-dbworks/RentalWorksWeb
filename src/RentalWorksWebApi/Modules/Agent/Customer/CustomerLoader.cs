@@ -25,27 +25,6 @@ namespace WebApi.Modules.Agent.Customer
         [FwSqlDataField(column: "custcat", modeltype: FwDataTypes.Text)]
         public string CustomerCategory { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
-        public string Address1 { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "add2", modeltype: FwDataTypes.Text)]
-        public string Address2 { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "city", modeltype: FwDataTypes.Text)]
-        public string City { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text)]
-        public string State { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text)]
-        public string CountryId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text)]
-        public string Country { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text)]
-        public string ZipCode { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "parentcustomerid", modeltype: FwDataTypes.Text)]
         public string ParentCustomerId { get; set; }
         //------------------------------------------------------------------------------------

@@ -33,7 +33,7 @@ namespace WebApi.Modules.Transfers.TransferIn
             }
             try
             {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_MANIFEST, warehouseId);
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_RECEIPT, warehouseId);
             }
             catch (Exception ex)
             {
