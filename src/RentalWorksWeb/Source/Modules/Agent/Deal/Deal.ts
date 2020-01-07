@@ -371,8 +371,8 @@ class Deal {
         this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
         this.disableInsurCompanyInfo($form);
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
-        this.billingAddressTypeChange($form);
-        this.shippingAddressTypeChange($form);
+        //this.billingAddressTypeChange($form);
+        //this.shippingAddressTypeChange($form); -- J. Pace 1/8/20 :: commented bc it's creating a false positive that data is present when it may not be
         this.transferDealAddressValues($form);
 
         // Disable Tax grids if UseCustomerTax is selected on page load
