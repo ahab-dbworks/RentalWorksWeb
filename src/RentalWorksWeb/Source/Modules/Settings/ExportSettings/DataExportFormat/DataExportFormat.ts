@@ -81,7 +81,7 @@ class DataExportFormat {
     afterLoad($form: any) {
         //sets code editor value
         if (!$form.find('[data-datafield="ExportString"]').hasClass('reload')) {
-            let exportString = $form.find('[data-datafield="ExportString"] textarea').val();
+            let exportString = FwFormField.getValueByDataField($form, 'ExportString');
             if (typeof exportString !== 'undefined') {
                 this.codeMirror.setValue(exportString);
             } else {
