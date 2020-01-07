@@ -204,7 +204,6 @@
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-        const dealId = FwFormField.getValueByDataField($form, 'DealId');
         request.miscfields = {
             CheckIn: true,
             CheckInWarehouseId: warehouseId
@@ -217,6 +216,7 @@
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransfer`);
                 break;
             case 'SpecificOrderId':
+                const dealId = FwFormField.getValueByDataField($form, 'DealId');
                 request.uniqueids = {
                     DealId: dealId
                 }
