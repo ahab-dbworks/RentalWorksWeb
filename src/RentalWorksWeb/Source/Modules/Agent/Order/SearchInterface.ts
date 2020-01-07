@@ -1257,7 +1257,7 @@ class SearchInterface {
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout,
                     response => {
                         //FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                        FwPopup.destroyPopup($searchpopup.parents('.fwpopup'));
+                        FwPopup.destroyPopup($popup);
                         //let $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
                         //    $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
                         //    $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
