@@ -418,7 +418,7 @@ class Order extends OrderBase {
         }
         //On Demand Billing Cycles require a worksheet tab
         const worksheetTab = $form.find('[data-type="tab"][data-caption="Billing Worksheet"]');
-        if (FwFormField.getTextByDataField($form, 'BillingCycleType') === 'ONDEMAND') {
+        if (FwFormField.getValueByDataField($form, 'BillingCycleType') === 'ONDEMAND') {
             worksheetTab.show();
             const billingWorksheetBrowse = this.openSubModuleBrowse($form, 'BillingWorksheet');
             $form.find('.worksheet-submodule').append(billingWorksheetBrowse);
@@ -606,6 +606,7 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasLossAndDamageItem" data-datafield="HasLossAndDamageItem" style="flex:1 1 125px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasNotes" data-datafield="HasNotes" style="flex:1 1 100px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRepair" data-datafield="HasRepair" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="BillingCycleType" data-datafield="BillingCycleType" style="flex:1 1 100px;"></div>
                         </div>
                       </div>
                     </div>
