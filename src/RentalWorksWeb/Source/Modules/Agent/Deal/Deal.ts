@@ -371,8 +371,6 @@ class Deal {
         this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
         this.disableInsurCompanyInfo($form);
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
-        //this.billingAddressTypeChange($form);
-        //this.shippingAddressTypeChange($form); -- J. Pace 1/8/20 :: commented bc it's creating a false positive that data is present when it may not be
         this.transferDealAddressValues($form);
 
         // Disable Tax grids if UseCustomerTax is selected on page load
@@ -515,16 +513,6 @@ class Deal {
             this.useCustomer($form, jQuery(e.currentTarget).is(':checked'));
         });
 
-        //$form.on('change', '.billing-type-radio input[type=radio]', e => {
-        //    var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
-        //    this.toggleBillingAddressInfo($form, val);
-        //});
-
-        //$form.on('change', '.shipping_address_type_radio input[type=radio]', e => {
-        //    var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
-        //    this.toggleShippingAddressInfo($form, val);
-        //});
-
         $form.on('change', '.credit_use_customer input[type=checkbox]', e => {
             const isChecked = jQuery(e.currentTarget).is(':checked');
             this.toggleCredTabIfUseCustomer($form, isChecked);
@@ -537,10 +525,6 @@ class Deal {
                 this.getCustomerInsuranceValues($form);
             }
         });
-
-        //$form.on('change', '.billing_potype input[type=radio]', (e) => {
-        //    FwFormField.setValue($form, jQuery(e.currentTarget))
-        //});
 
         $form.on('change', '.tax_use_customer input[type=checkbox]', e => {
             const isChecked = jQuery(e.currentTarget).is(':checked');
@@ -572,18 +556,6 @@ class Deal {
             FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', $tr.find('.field[data-formdatafield="CountryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="Country"]').attr('data-originalvalue'));
         });
     }
-
-    //useDiscountTemplate(isChecked: boolean): void {
-    //    var $temp: JQuery = jQuery('.billing_template');
-    //    // DiscountTemplateId
-    //    if (!isChecked) {
-    //        $temp.attr('data-enabled', 'false');
-    //        $temp.find('input').prop('disabled', true);
-    //    } else {
-    //        $temp.attr('data-enabled', 'true');
-    //        $temp.find('input').prop('disabled', false);
-    //    }
-    //}
     //----------------------------------------------------------------------------------------------
     useCustomer($form: any, isChecked: boolean): void {
         const $temp: JQuery = jQuery('.billing_template');

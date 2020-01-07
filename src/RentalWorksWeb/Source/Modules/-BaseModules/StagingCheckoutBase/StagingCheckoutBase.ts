@@ -259,7 +259,7 @@
                     } else {
                         FwFormField.setValueByDataField($form, `${this.Type}Id`, id, number, true);
                     }
-                  
+
                     FwPopup.destroyPopup($popup);
                     $form.find('.suspendedsession').hide();
                     this.partialContractGridVisibility($form);
