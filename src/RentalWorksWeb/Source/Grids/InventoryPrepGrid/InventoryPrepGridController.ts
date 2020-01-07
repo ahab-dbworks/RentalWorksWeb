@@ -8,6 +8,13 @@
             $generatedtr.find('.field[data-browsedatafield="PrepUnit"]').text($tr.find('.field[data-browsedatafield="Unit"]').attr('data-originalvalue'));
         });
     };
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'PrepRateId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepreprate`);
+                break;
+        }
+    }
 }
 
 var InventoryPrepGridController = new InventoryPrepGrid();

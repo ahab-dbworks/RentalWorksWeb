@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 
 using WebApi.Data;
+using WebApi.Modules.Settings.AccountingSettings.GlAccount;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Agent.Deal;
 
 namespace WebApi.Modules.Reports.AccountingReports.GlDistributionReport
 {
@@ -98,5 +101,26 @@ namespace WebApi.Modules.Reports.AccountingReports.GlDistributionReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/gldistributionreport/validatedeal/browse 
+        [HttpPost("validatedeal/browse")]
+        [FwControllerMethod(Id: "7as7EIEvaBcS", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealLogic>(browseRequest);
+        }
+        // POST api/v1/gldistributionreport/validateofficelocation/browse 
+        [HttpPost("validateofficelocation/browse")]
+        [FwControllerMethod(Id: "AcFmMkGydda8", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        // POST api/v1/gldistributionreport/validateglaccount/browse 
+        [HttpPost("validateglaccount/browse")]
+        [FwControllerMethod(Id: "96MO7yf7nMnP", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateGlAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
     }
 }

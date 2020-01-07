@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.LaborSettings.LaborRate;
 namespace WebApi.Modules.HomeControls.InventoryPrep
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +72,12 @@ namespace WebApi.Modules.HomeControls.InventoryPrep
             return await DoDeleteAsync<InventoryPrepLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventoryprep/validatepreprate/browse
+        [HttpPost("validatepreprate/browse")]
+        [FwControllerMethod(Id: "L4IaE7MC60b0", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidatePrepRateBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LaborRateLogic>(browseRequest);
+        }
     }
 }

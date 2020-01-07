@@ -268,6 +268,23 @@ class RwAsset {
         }
     };
     //---------------------------------------------------------------------------------------------
+    beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
+        switch (datafield) {
+            case 'ConditionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecondition`);
+                break;
+            case 'InspectionVendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinspectionvendor`);
+                break;
+            case 'ManufacturerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemanufacturer`);
+                break;
+            case 'CountryOfOriginId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountryoforigin`);
+                break;
+        }
+    }
+    //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
         <div data-name="Asset" data-control="FwBrowse" data-type="Browse" id="AssetBrowse" class="fwcontrol fwbrowse" data-orderby="StatusDate" data-controller="AssetController" data-hasinactive="true">

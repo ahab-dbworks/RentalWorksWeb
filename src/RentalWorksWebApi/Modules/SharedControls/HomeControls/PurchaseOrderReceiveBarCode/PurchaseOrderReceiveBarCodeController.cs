@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Agent.Vendor;
 namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveBarCode
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +72,12 @@ namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveBarCode
             return await DoDeleteAsync<PurchaseOrderReceiveBarCodeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/purchaseorderreceivebarcode/validateinspectionvendor/browse
+        [HttpPost("validateinspectionvendor/browse")]
+        [FwControllerMethod(Id: "BBoMTwN0EGQf", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInspectionVendorBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
     }
 }

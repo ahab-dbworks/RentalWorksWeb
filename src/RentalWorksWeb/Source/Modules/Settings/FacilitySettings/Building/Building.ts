@@ -222,6 +222,14 @@ class Building {
         const $spaceRateGrid = $form.find('[data-name="SpaceRateGrid"]');
         FwBrowse.search($spaceRateGrid);
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+        }
+    }
 }
 //----------------------------------------------------------------------------------------------
 var BuildingController = new Building();

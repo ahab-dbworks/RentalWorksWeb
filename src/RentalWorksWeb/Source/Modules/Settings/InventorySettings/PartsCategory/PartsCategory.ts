@@ -129,8 +129,25 @@ class PartsCategory {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        request.uniqueids = {
-            Parts: true
+        switch (datafield) {
+            case 'InventoryTypeId':
+                request.uniqueids = {
+                    Parts: true
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'ProfitAndLossCategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprofitandlosscategory`);
+                break;
+            case 'AssetAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateassetaccount`);
+                break;
+            case 'IncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateincomeaccount`);
+                break;
+            case 'CostOfGoodsSoldExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodssoldexpenseaccount`);
+                break;
         }
     }
     //----------------------------------------------------------------------------------------------

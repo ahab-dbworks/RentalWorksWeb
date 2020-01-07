@@ -14,6 +14,14 @@
         request.uniqueids = {
             GlAccountType: 'ASSET,EXPENSE'
         };
+        switch (datafield) {
+            case 'InventoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+            case 'GlAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateglaccount`);
+                break;
+        }
     }
 }
 //----------------------------------------------------------------------------------------------

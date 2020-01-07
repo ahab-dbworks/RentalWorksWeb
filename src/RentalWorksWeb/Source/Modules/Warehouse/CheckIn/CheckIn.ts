@@ -51,6 +51,17 @@ class CheckIn extends CheckInBase {
         }
     }
     //----------------------------------------------------------------------------------------------
+    //beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+
+    //    switch (datafield) {
+    //        case 'OrderId':
+    //            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+    //            break;
+    //        case 'DealId':
+    //            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+    //            break;
+    //    };
+    //}
 }
 
 var CheckInController = new CheckIn();

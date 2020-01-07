@@ -708,10 +708,67 @@ class SalesInventory extends InventoryBase {
                 $form.find('.tab.asset').show();
             }
         }
-
-
     }
-   
-}
+
+
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+
+        switch (datafield) {
+            case 'InventoryTypeId':
+                request.uniqueids = {
+                    Sales: true,
+                    HasCategories: true,
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'CategoryId':
+                request.uniqueids = {
+                    InventoryTypeId: inventoryTypeId,
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategoryid`);
+                break;
+            case 'SubCategoryId':
+                request.uniqueids = {
+                    InventoryTypeId: inventoryTypeId,
+                    CategoryId: categoryId,
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
+                break;
+            case 'UnitId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateunit`);
+                break;
+            case 'Rank':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterank`);
+                break;
+            case 'CountryOfOriginId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountryoforigin`);
+                break;
+            case 'ProfitAndLossCategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprofitandlosscategory`);
+                break;
+            case 'AssetAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateassetaccount`);
+                break;
+            case 'IncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateincomeaccount`);
+                break;
+            case 'SubIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubincomeaccount`);
+                break;
+            case 'CostOfGoodsSoldExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodssoldexpenseaccount`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'ManufacturerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemanufacturer`);
+                break;
+        };
+    };
+};
 //----------------------------------------------------------------------------------------------
 var SalesInventoryController = new SalesInventory();

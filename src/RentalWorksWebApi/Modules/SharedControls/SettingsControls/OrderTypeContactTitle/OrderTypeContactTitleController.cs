@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.ContactSettings.ContactTitle;
+
 namespace WebApi.Modules.Settings.OrderTypeContactTitle
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +73,12 @@ namespace WebApi.Modules.Settings.OrderTypeContactTitle
             return await DoDeleteAsync<OrderTypeContactTitleLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/ordertypecontacttitle/validatecontacttitle/browse
+        [HttpPost("validatecontacttitle/browse")]
+        [FwControllerMethod(Id: "MM16Xe21QMD9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateContactTitleBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ContactTitleLogic>(browseRequest);
+        }
     }
 }

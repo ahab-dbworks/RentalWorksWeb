@@ -8,7 +8,12 @@ using PuppeteerSharp;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Inventory.PartsInventory;
 using WebApi.Modules.Reports.Shared.InventoryAttributesReport;
+using WebApi.Modules.Settings.InventorySettings.Attribute;
+using WebApi.Modules.Settings.InventorySettings.InventoryType;
+using WebApi.Modules.Settings.InventorySettings.PartsCategory;
+using WebApi.Modules.Settings.SubCategory;
 using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.PartsInventoryReports.PartsInventoryAttributesReport
@@ -80,5 +85,44 @@ namespace WebApi.Modules.Reports.PartsInventoryReports.PartsInventoryAttributesR
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentalinventoryattributesreport/validateinventorytype/browse 
+        [HttpPost("validateinventorytype/browse")]
+        [FwControllerMethod(Id: "R4J5VCt55Kmj", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentalinventoryattributesreport/validatecategory/browse 
+        [HttpPost("validatecategory/browse")]
+        [FwControllerMethod(Id: "xGKqdzAhaBR5", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PartsCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentalinventoryattributesreport/validatesubcategory/browse 
+        [HttpPost("validatesubcategory/browse")]
+        [FwControllerMethod(Id: "yWRQ4vzgIwvk", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SubCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentalinventoryattributesreport/validateinventory/browse 
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "TkEYkHSvSbcf", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PartsInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentalinventoryattributesreport/validateattribute/browse 
+        [HttpPost("validateattribute/browse")]
+        [FwControllerMethod(Id: "PSTwpa5qmNH9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAttributeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<AttributeLogic>(browseRequest);
+        }
     }
 }

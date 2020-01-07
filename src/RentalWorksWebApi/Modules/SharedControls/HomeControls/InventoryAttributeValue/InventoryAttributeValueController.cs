@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.InventorySettings.Attribute;
+using WebApi.Modules.Settings.AttributeValue;
 namespace WebApi.Modules.HomeControls.InventoryAttributeValue
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +73,20 @@ namespace WebApi.Modules.HomeControls.InventoryAttributeValue
             return await DoDeleteAsync<InventoryAttributeValueLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventoryattributevalue/validateattribute/browse
+        [HttpPost("validateattribute/browse")]
+        [FwControllerMethod(Id: "M8cASpupwu40", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAttributeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<AttributeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventoryattributevalue/validateattributevalue/browse
+        [HttpPost("validateattributevalue/browse")]
+        [FwControllerMethod(Id: "e2ph9lBdr8vU", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAttributeValueBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<AttributeValueLogic>(browseRequest);
+        }
     }
 }

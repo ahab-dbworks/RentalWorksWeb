@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.AdministratorControls.CustomReportLayoutUser;
+using WebApi.Modules.Administrator.User;
 
 namespace WebApi.Modules.Administrator.CustomReportLayoutUser
 {
@@ -64,6 +65,13 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutUser
         {
             return await DoDeleteAsync<CustomReportLayoutUserLogic>(id);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------  
+        // POST api/v1/customreportlayoutuser/validateuser/browse
+        [HttpPost("validateuser/browse")]
+        [FwControllerMethod(Id: "2Cm8T07KIppI", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUserBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

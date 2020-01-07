@@ -12,32 +12,40 @@
     };
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
-        var validationName = request.module;
 
-        if (validationName != null) {
-            var InventoryTypeValue = FwBrowse.getValueByDataField($validationbrowse, $tr, 'InventoryTypeId');
-            var CategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'CategoryId');
-            var SubCategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'SubCategoryId');
-
-            switch (validationName) {
-                case 'MiscCategoryValidation':
-                    request.uniqueids = {
-                        MiscTypeId: InventoryTypeValue
-                    };
+            var MiscTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="MiscTypeValidation"] input')).val();
+            var CategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="MiscCategoryValidation"] input')).val();
+            var SubCategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
+            switch (datafield) {
+                case 'OrderTypeId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
                     break;
-                case 'SubCategoryValidation':
+                case 'InventoryTypeId':
                     request.uniqueids = {
-                        TypeId: InventoryTypeValue,
-                        CategoryId: CategoryTypeId
+                        Sales: true
                     };
-
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemiscinventorytype`);
                     break;
-                case 'MiscRateValidation':
+                case 'CategoryId':
                     request.uniqueids = {
-                        MiscTypeId: InventoryTypeValue,
-                        CategoryId: CategoryTypeId,
-                        SubCategoryId: SubCategoryTypeId
+                        MiscTypeId: MiscTypeValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemisccategory`);
+                    break;
+                case 'SubCategoryId':
+                    request.uniqueids = {
+                        TypeId: MiscTypeValue,
+                        CategoryId: CategoryValue
+                    };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
+                    break;
+                case 'InventoryId':
+                    request.uniqueids = {
+                        MiscTypeId: MiscTypeValue,
+                        CategoryId: CategoryValue,
+                        SubCategoryId: SubCategoryValue
+                    };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemiscinventory`);
                     break;
             };
             for (var prop in request.uniqueids) {
@@ -46,7 +54,6 @@
                 }
             }
         }
-    }
 }
 
 var DiscountItemMiscGridController = new DiscountItemMiscGrid();

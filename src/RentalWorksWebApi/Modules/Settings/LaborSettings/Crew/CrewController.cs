@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.ContactSettings.ContactTitle;
+using WebApi.Modules.Settings.AddressSettings.Country;
+
 namespace WebApi.Modules.Settings.LaborSettings.Crew
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +74,20 @@ namespace WebApi.Modules.Settings.LaborSettings.Crew
             return await DoDeleteAsync<CrewLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/settings/validatecontacttitle/browse
+        [HttpPost("validatecontacttitle/browse")]
+        [FwControllerMethod(Id: "GuPSLlnwDRQl", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateContactTitleBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ContactTitleLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validatecountry/browse
+        [HttpPost("validatecountry/browse")]
+        [FwControllerMethod(Id: "CtgcJOr7MRwF", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CountryLogic>(browseRequest);
+        }
     }
 }

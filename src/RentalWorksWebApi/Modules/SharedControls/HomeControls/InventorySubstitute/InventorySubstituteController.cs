@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Inventory.SalesInventory;
+using WebApi.Modules.Inventory.PartsInventory;
 namespace WebApi.Modules.HomeControls.InventorySubstitute
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +74,28 @@ namespace WebApi.Modules.HomeControls.InventorySubstitute
             return await DoDeleteAsync<InventorySubstituteLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorysubstitute/validatesubstituteinventoryrental/browse
+        [HttpPost("validatesubstituteinventoryrental/browse")]
+        [FwControllerMethod(Id: "un8GGmTlT682", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubstituteInventoryRentalBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorysubstitute/validatesubstituteinventorysales/browse
+        [HttpPost("validatesubstituteinventorysales/browse")]
+        [FwControllerMethod(Id: "vmTFqmhseHzr", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubstituteInventorySalesBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SalesInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorysubstitute/validatesubstituteinventoryparts/browse
+        [HttpPost("validatesubstituteinventoryparts/browse")]
+        [FwControllerMethod(Id: "BXx6q526bTlP", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubstituteInventoryPartsBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PartsInventoryLogic>(browseRequest);
+        }
     }
 }

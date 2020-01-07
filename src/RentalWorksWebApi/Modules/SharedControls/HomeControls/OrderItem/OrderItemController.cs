@@ -9,6 +9,13 @@ using System.Threading.Tasks;
 using System;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
+using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Settings.InventorySettings.Unit;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Inventory.SalesInventory;
+using WebApi.Modules.Settings.MiscellaneousSettings.MiscRate;
+using WebApi.Modules.Settings.LaborSettings.LaborRate;
+using WebApi.Modules.HomeControls.GeneralItem;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -225,6 +232,70 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validatebarcode/browse
+        //[HttpPost("validatebarcode/browse")]
+        //[FwControllerMethod(Id: "xh9fNFxwpvGU", ActionType: FwControllerActionTypes.Browse)]
+        //public async Task<ActionResult<FwJsonDataTable>> ValidateBarcodeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        //{
+        //    return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        //}
+        // barcode validation currnetly disabled on the front end - JG
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validateicoderental/browse
+        [HttpPost("validateicoderental/browse")]
+        [FwControllerMethod(Id: "noMsoCbRmRN9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeRentalBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validateicodesales/browse
+        [HttpPost("validateicodesales/browse")]
+        [FwControllerMethod(Id: "NGQOOLGRRpYz", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeSalesBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SalesInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validateicodemisc/browse
+        [HttpPost("validateicodemisc/browse")]
+        [FwControllerMethod(Id: "a6nM4CDyozje", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeMiscBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<MiscRateLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validateicodelabor/browse
+        [HttpPost("validateicodelabor/browse")]
+        [FwControllerMethod(Id: "nN4WDm7DY2NS", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeLaborBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LaborRateLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validateunit/browse
+        [HttpPost("validateunit/browse")]
+        [FwControllerMethod(Id: "89DT0pmBmlhd", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUnitBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UnitLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validatewarehouse/browse
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "UFgbeFf3tqN4", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validateicodetransfer/browse
+        [HttpPost("validateicodetransfer/browse")]
+        [FwControllerMethod(Id: "y4WqVAmTrnz5", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeTransferBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GeneralItemLogic>(browseRequest);
+        }
     }
 }

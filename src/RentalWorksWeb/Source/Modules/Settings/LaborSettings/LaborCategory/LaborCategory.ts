@@ -119,6 +119,26 @@ class LaborCategory {
         const $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($laborCategoryGrid);
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'LaborTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelabortype`);
+                break;
+            case 'ProfitAndLossCategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprofitandlosscategory`);
+                break;
+            case 'IncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateincomeaccount`);
+                break;
+            case 'SubIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubincomeaccount`);
+                break;
+            case 'ExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateexpenseaccount`);
+                break;
+        }
+    }
 }
 //----------------------------------------------------------------------------------------------
 var LaborCategoryController = new LaborCategory();

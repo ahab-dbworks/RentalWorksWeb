@@ -82,5 +82,12 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorycompatible/validatebatch/browse
+        [HttpPost("validatebatch/browse")]
+        [FwControllerMethod(Id: "xOWaXCmvKjRd", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateBatchBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ReceiptProcessBatchLogic>(browseRequest);
+        }
     }
 }

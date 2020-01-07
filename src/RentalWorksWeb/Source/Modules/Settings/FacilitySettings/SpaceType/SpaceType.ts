@@ -102,6 +102,17 @@ class SpaceType {
         const $spaceWarehouseRateGrid = $form.find('[data-name="SpaceWarehouseRateGrid"]');
         FwBrowse.search($spaceWarehouseRateGrid);
     }
+    //-----------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'FacilityTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatefacilitytype`);
+                break;
+            case 'RateId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterate`);
+                break;
+        }
+    }
 }
 
 var SpaceTypeController = new SpaceType();

@@ -2,6 +2,7 @@
 
 class AvailabilityConflicts {
     Module: string = 'AvailabilityConflicts';
+    apiurl: string = 'api/v1/availabilityconflicts'
     caption: string = Constants.Modules.Inventory.children.AvailabilityConflicts.caption;
     nav: string = Constants.Modules.Inventory.children.AvailabilityConflicts.nav;
     id: string = Constants.Modules.Inventory.children.AvailabilityConflicts.id;

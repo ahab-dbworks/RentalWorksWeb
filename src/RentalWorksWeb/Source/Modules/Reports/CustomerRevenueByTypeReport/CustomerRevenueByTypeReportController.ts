@@ -45,7 +45,7 @@ const customerRevenueByTypeTemplate = `
                       <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal Type" data-datafield="DealTypeId" data-displayfield="DealType" data-validationname="DealTypeValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                      <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-formbeforevalidate="beforeValidate" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                      <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation"  data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Order Type" data-datafield="OrderTypeId" data-displayfield="OrderType" data-validationname="OrderTypeValidation" data-showinactivemenu="true"style="float:left;min-width:400px;"></div>
@@ -105,23 +105,38 @@ class CustomerRevenueByTypeReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
-        const validationName = request.module;
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
-        request.uniqueids = {};
 
-        switch (validationName) {
-            case 'DealValidation':
+        switch (datafield) {
+            case 'DealId':
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
                 if (dealTypeId !== "") {
                     request.uniqueids.DealTypeId = dealTypeId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'DealTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealtype`);
+                break;
+            case 'OrderTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
                 break;
         };
     };
     //----------------------------------------------------------------------------------------------
+
 };
 var CustomerRevenueByTypeReportController: any = new CustomerRevenueByTypeReport();

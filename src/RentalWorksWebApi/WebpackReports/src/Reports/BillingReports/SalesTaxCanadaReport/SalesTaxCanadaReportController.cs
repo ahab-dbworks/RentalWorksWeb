@@ -9,6 +9,8 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Reports.Shared.SalesTaxReport;
+using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.Billing.SalesTaxCanadaReport
@@ -80,5 +82,20 @@ namespace WebApi.Modules.Reports.Billing.SalesTaxCanadaReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/salesrepresentativebillingreport/validateofficelocation/browse 
+        [HttpPost("validateofficelocation/browse")]
+        [FwControllerMethod(Id: "eWtb6D1c48H4", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/salesrepresentativebillingreport/validatedepartment/browse 
+        [HttpPost("validatedepartment/browse")]
+        [FwControllerMethod(Id: "9t7nMMn6kUpt", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
+        }
     }
 }

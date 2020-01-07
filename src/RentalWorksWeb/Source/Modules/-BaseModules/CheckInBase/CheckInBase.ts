@@ -202,26 +202,40 @@
         });
     }
     //----------------------------------------------------------------------------------------------
-    //beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-    //    const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-    //
-    //    request.miscfields = {
-    //        CheckIn: true
-    //        , CheckInWarehouseId: warehouseId
-    //    }
-    //}
-    //----------------------------------------------------------------------------------------------
-    beforeValidateOrder($browse: any, $form: any, request: any) {
-        const dealId = FwFormField.getValueByDataField($form, 'DealId');
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-        request.uniqueids = {
-            DealId: dealId
-        }
         request.miscfields = {
             CheckIn: true,
             CheckInWarehouseId: warehouseId
         }
+        switch (datafield) {
+            case 'OrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
+            case 'TransferId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransfer`);
+                break;
+            case 'SpecificOrderId':
+                const dealId = FwFormField.getValueByDataField($form, 'DealId');
+                request.uniqueids = {
+                    DealId: dealId
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatespecificorder`);
+                break;
+        }
     }
+    //----------------------------------------------------------------------------------------------
+    //beforeValidateSpecificOrder($browse: any, $form: any, request: any) {
+    //    const dealId = FwFormField.getValueByDataField($form, 'DealId');
+    //    const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+    //    request.uniqueids = {
+    //        DealId: dealId
+    //    }
+    //    request.miscfields = {
+    //        CheckIn: true,
+    //        CheckInWarehouseId: warehouseId
+    //    }
+    //}
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
         const errorMsg = $form.find('.error-msg:not(.qty)');
@@ -589,8 +603,8 @@
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
                             ${this.Module == 'CheckIn' ?
-                                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" data-formbeforevalidate="beforeValidateOrder" style="flex:0 1 175px;"></div>'
-            : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" data-formbeforevalidate="beforeValidateOrder" style="flex:0 1 175px;"></div>'}
+                                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
+            : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
                           </div>
                         </div>
@@ -659,7 +673,7 @@
                   <div class="flexrow optionlist all-orders" style="display:none;">
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show all ACTIVE Orders for this ${Constants.Modules.Agent.children.Deal.caption}" data-datafield="AllOrdersForDeal" style="flex:0 1 350px;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Specific Order" data-datafield="SpecificOrder" style="flex:0 1 150px;"></div>
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="SpecificOrderId" data-displayfield="SpecificOrderNumber" data-validationname="OrderValidation" data-formbeforevalidate="beforeValidateOrder" style="flex:0 1 175px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="SpecificOrderId" data-displayfield="SpecificOrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="SpecificDescription" style="flex:1 1 250px;" data-enabled="false"></div>
                   </div>
                   <div class="flexrow optionlist" style="display:none;">

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Administrator.User;
 
 namespace WebApi.Modules.HomeControls.VendorNote
 {
@@ -72,5 +73,12 @@ namespace WebApi.Modules.HomeControls.VendorNote
             return await DoDeleteAsync<VendorNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/vendornote/validatenotesby/browse
+        [HttpPost("validatenotesby/browse")]
+        [FwControllerMethod(Id: "ARlaHANFOTRe", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateNotesbyBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

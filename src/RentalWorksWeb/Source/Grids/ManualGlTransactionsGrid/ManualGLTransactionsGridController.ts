@@ -17,6 +17,17 @@
             $generatedtr.find('.field[data-browsedatafield="CreditGlAccountDescription"]').text($tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
     }
+
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'DebitGlAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/debitglaccount`);
+                break;
+            case 'CreditGlAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/creditglaccount`);
+                break;
+        }
+    }
 }
 //----------------------------------------------------------------------------------------------
 var ManualGlTransactionsGridController = new ManualGlTransactionsGrid();

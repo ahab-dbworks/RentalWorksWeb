@@ -13,6 +13,12 @@ using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 
 using WebApi.Data;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Agent.Deal;
+using WebApi.Modules.Administrator.User;
+using WebApi.Modules.Agent.Customer;
+using WebApi.Modules.Settings.DealSettings.DealType;
 
 namespace WebApi.Modules.Reports.Billing.BillingProgressReport
 {
@@ -100,5 +106,54 @@ namespace WebApi.Modules.Reports.Billing.BillingProgressReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/billingprogressreport/validateofficelocation/browse 
+        [HttpPost("validateofficelocation/browse")]
+        [FwControllerMethod(Id: "W5n6Se5dOhGs", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        // POST api/v1/billingprogressreport/validatedepartment/browse 
+        [HttpPost("validatedepartment/browse")]
+        [FwControllerMethod(Id: "dkeJqbnP56v5", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
+        }
+        // POST api/v1/billingprogressreport/validatedeal/browse 
+        [HttpPost("validatedeal/browse")]
+        [FwControllerMethod(Id: "BVuhmLjtx8Ue", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealLogic>(browseRequest);
+        }
+        // POST api/v1/billingprogressreport/validatedealcsr/browse 
+        [HttpPost("validatedealcsr/browse")]
+        [FwControllerMethod(Id: "Ahc1K8D7d6Gy", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealCsrBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
+        // POST api/v1/billingprogressreport/validatecustomer/browse 
+        [HttpPost("validatecustomer/browse")]
+        [FwControllerMethod(Id: "7bpqmb50KrF7", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCustomerBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CustomerLogic>(browseRequest);
+        }
+        // POST api/v1/billingprogressreport/validatedealtype/browse 
+        [HttpPost("validatedealtype/browse")]
+        [FwControllerMethod(Id: "TX2d8o5ez9lj", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealTypeLogic>(browseRequest);
+        }
+        // POST api/v1/billingprogressreport/validateagent/browse 
+        [HttpPost("validateagent/browse")]
+        [FwControllerMethod(Id: "8ve7Dx2Eq6kk", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAgentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

@@ -242,6 +242,20 @@ class Widget {
                 $form.find('.userGrid').hide();
         }
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'DefaultDateBehaviorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedatebehavior`);
+                break;
+            case 'DefaultAxisNumberFormatId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateaxisnumberformat`);
+                break;
+            case 'DefaultDataNumberFormatId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedatanumberformat`);
+                break;
+        }
+    }
 }
 
 var WidgetController = new Widget();

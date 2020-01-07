@@ -76,6 +76,13 @@ class PickListReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'PickListId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepicklist`);
+                break;
+        }
+    }
 };
 
 var PickListReportController: any = new PickListReport();

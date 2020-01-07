@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 
 using WebApi.Data;
+using WebApi.Modules.HomeControls.InvoiceCreationBatch;
 
 namespace WebApi.Modules.Reports.Billing.CreateInvoiceProcessReport
 {
@@ -91,5 +92,12 @@ namespace WebApi.Modules.Reports.Billing.CreateInvoiceProcessReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/createinvoiceprocessreport/validateinvoicecreationbatch/browse 
+        [HttpPost("validateinvoicecreationbatch/browse")]
+        [FwControllerMethod(Id: "nMRLxjkWbqrN", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInvoiceCreationBatchBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InvoiceCreationBatchLogic>(browseRequest);
+        }
     }
 }

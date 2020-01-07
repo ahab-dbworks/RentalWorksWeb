@@ -1,12 +1,14 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.Reporting;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PuppeteerSharp;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Agent.Quote;
 using WebApi.Modules.Reports.OrderReports.OrderReport;
 
 namespace WebApi.Modules.Reports.OrderReports.QuoteReport
@@ -65,5 +67,12 @@ namespace WebApi.Modules.Reports.OrderReports.QuoteReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/quotereport/validatequote/browse 
+        [HttpPost("validatequote/browse")]
+        [FwControllerMethod(Id: "W8etU3923lAW", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateQuoteBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<QuoteLogic>(browseRequest);
+        }
     }
 }

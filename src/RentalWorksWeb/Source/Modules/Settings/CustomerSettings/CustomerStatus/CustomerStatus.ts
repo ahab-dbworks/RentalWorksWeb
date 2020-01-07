@@ -55,6 +55,14 @@
 
     afterLoad($form: any) {
     }
+    //-----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'CreditStatusId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecreditstatus`);
+                break;
+        }
+    }
 }
 
 var CustomerStatusController = new CustomerStatus();

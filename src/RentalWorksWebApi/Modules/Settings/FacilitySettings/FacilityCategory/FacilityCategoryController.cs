@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.FacilitySettings.FacilityType;
+using WebApi.Modules.Settings.AccountingSettings.GlAccount;
 
 namespace WebApi.Modules.Settings.FacilitySettings.FacilityCategory
 {
@@ -72,5 +74,20 @@ namespace WebApi.Modules.Settings.FacilitySettings.FacilityCategory
             return await DoDeleteAsync<FacilityCategoryLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validatefacilitytype/browse
+        [HttpPost("validatefacilitytype/browse")]
+        [FwControllerMethod(Id: "RmP5Fb5eqybu", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateFacilityTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<FacilityTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validateincomeaccount/browse
+        [HttpPost("validateincomeaccount/browse")]
+        [FwControllerMethod(Id: "70oTa8tbsldM", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateGlAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
     }
 }

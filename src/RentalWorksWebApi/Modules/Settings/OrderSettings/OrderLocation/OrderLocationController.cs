@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+
 namespace WebApi.Modules.Settings.OrderSettings.OrderLocation
 {
     [Route("api/v1/[controller]")]
@@ -70,6 +72,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderLocation
         {
             return await DoDeleteAsync<OrderLocationLogic>(id);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderlocation/validatelocation/browse
+        [HttpPost("validatelocation/browse")]
+        [FwControllerMethod(Id: "0sIfwURRAUEL", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
     }
 }

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.RateType;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 
 namespace WebApi.Modules.Settings.TemplateSettings.Template
 {
@@ -72,5 +75,28 @@ namespace WebApi.Modules.Settings.TemplateSettings.Template
             return await DoDeleteAsync<TemplateLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/template/validatederate/browse
+        [HttpPost("validatederate/browse")]
+        [FwControllerMethod(Id: "aoRKyU4qJcC4", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateRateBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RateTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/template/validatewarehouse/browse
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "N39K94aXpzBp", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/template/validatedepartment/browse
+        [HttpPost("validatedepartment/browse")]
+        [FwControllerMethod(Id: "eCWs2P3N83Vw", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
+        }
     }
 }

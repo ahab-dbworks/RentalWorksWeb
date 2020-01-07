@@ -1302,23 +1302,44 @@ class Repair {
         const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
-        switch (validationName) {
-            case 'AssetValidation':
+        switch (datafield) {
+            case 'ItemId':
                 request.uniqueids = {
                     WarehouseId: warehouse.warehouseid
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateitem`);
                 break;
-            case 'RentalInventoryValidation':
+            case 'InventoryId':
                 request.uniqueids = {
                     Classification: 'I',
                     TrackedBy: 'QUANTITY',
                 };
+                if (validationName === 'RentalInventoryValidation') {
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalinventory`);
+                } else if (validationName === 'SalesInventoryValidation') {
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesinventory`);
+                }
                 break;
-            case 'SalesInventoryValidation':
-                request.uniqueids = {
-                    Classification: 'I',
-                    TrackedBy: 'QUANTITY',
-                };
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'DamageOrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedamageorder`);
+                break;
+            case 'RepairItemStatusId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterepairitemstatus`);
+                break;
+            case 'LocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouselocation`);
+                break;
+            case 'CurrencyId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecurrency`);
+                break;
+            case 'TaxOptionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
                 break;
         };
     }

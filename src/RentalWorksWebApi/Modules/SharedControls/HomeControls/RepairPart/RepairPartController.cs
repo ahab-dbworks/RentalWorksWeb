@@ -8,6 +8,8 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
+using WebApi.Modules.Inventory.PartsInventory;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 
 namespace WebApi.Modules.HomeControls.RepairPart
 {
@@ -113,8 +115,21 @@ namespace WebApi.Modules.HomeControls.RepairPart
             }
         }
         //------------------------------------------------------------------------------------ 
-
-
+        // POST api/v1/repairpart/validateinventory/browse
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "vAEYB9JpxaEr", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PartsInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repairpart/validatewarehouse/browse
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "D36LxepVUzQM", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
 
 
     }

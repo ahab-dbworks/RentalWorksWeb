@@ -103,12 +103,49 @@ class VehicleType {
         });
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidateInventoryType = function ($browse, $grid, request) {
-        request.uniqueids = {
-            Vehicle: true
-        };
-    }
+    //beforeValidateInventoryType = function ($browse, $grid, request) {
+    //    request.uniqueids = {
+    //        Vehicle: true
+    //    };
+    //}
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'InventoryTypeId':
+                request.uniqueids = {
+                    Vehicle: true
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'LicenseClassId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelicenseclass`);
+                break;
+            case 'UnitId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateunit`);
+                break;
+            case 'AssetAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateassetaccount`);
+                break;
+            case 'IncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateincomeaccount`);
+                break;
+            case 'SubIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubincomeaccount`);
+                break;
+            case 'EquipmentSaleIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateequipmentsaleincomeaccount`);
+                break;
+            case 'LdIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateldincomeaccount`);
+                break;
+            case 'CostOfGoodsSoldExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodssoldexpenseaccount`);
+                break;
+            case 'CostOfGoodsRentedExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodsrentedexpenseaccount`);
+                break;
+        }
+    }
 }
 
 var VehicleTypeController = new VehicleType();

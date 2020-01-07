@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.PresentationLayerActivity;
+using WebApi.Modules.Settings.MiscellaneousSettings.MiscRate;
+
 namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +74,20 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
             return await DoDeleteAsync<PresentationLayerActivityOverrideLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/presentationlayeractivityoverride/validatepresentationlayeractivity/browse
+        [HttpPost("validatepresentationlayeractivity/browse")]
+        [FwControllerMethod(Id: "WMWIj7bpyEx0", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidatePresentationLayerActivityBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PresentationLayerActivityLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/presentationlayeractivityoverride/validatemaster/browse
+        [HttpPost("validatemaster/browse")]
+        [FwControllerMethod(Id: "wuckWGLODO9N", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateMasterBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<MiscRateLogic>(browseRequest);
+        }
     }
 }

@@ -15,39 +15,65 @@
         }
     }
 
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
-        const validationName = request.module;
-        const $form = $gridbrowse.closest('.fwform');
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
         if (invoiceId != '') {
             request.uniqueids = {
                 InvoiceId: invoiceId
             }
         }
+        switch (datafield) {
+            case 'InventoryId':
+                const recType = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
+                if (recType !== null) {
+                    switch (recType) {
+                        case 'R':
+                            request.uniqueids = {
+                                AvailFor: 'R'
+                            };
+                            break;
+                        case 'S':
+                            request.uniqueids = {
+                                AvailFor: 'S'
+                            };
+                            break;
+                        case 'P':
+                            request.uniqueids = {
+                                AvailFor: 'P'
+                            };
+                            break;
+                    }
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+            case 'ItemId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateitem`);
+                break;
+        }
     }
 
-    beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
-        const recType = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
-        if (recType !== null) {
-            switch (recType) {
-                case 'R':
-                    request.uniqueIds = {
-                        AvailFor: 'R'
-                    };
-                    break;
-                case 'S':
-                    request.uniqueIds = {
-                        AvailFor: 'S'
-                    };
-                    break;
-                case 'P':
-                    request.uniqueIds = {
-                        AvailFor: 'P'
-                    };
-                    break;
-            }
-        }
-    };
+    //beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
+    //    const recType = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
+    //    if (recType !== null) {
+    //        switch (recType) {
+    //            case 'R':
+    //                request.uniqueIds = {
+    //                    AvailFor: 'R'
+    //                };
+    //                break;
+    //            case 'S':
+    //                request.uniqueIds = {
+    //                    AvailFor: 'S'
+    //                };
+    //                break;
+    //            case 'P':
+    //                request.uniqueIds = {
+    //                    AvailFor: 'P'
+    //                };
+    //                break;
+    //        }
+    //    }
+    //};
 
     generateRow($control, $generatedtr) {
         const $form = $control.closest('.fwform');

@@ -220,6 +220,43 @@ class Vendor {
         jQuery('.TaxOption').find(':input').val(TaxOption);
     }
     //---------------------------------------------------------------------------------
+    beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'VendorClassId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendorclass`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'CountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountry`);
+                break;
+            case 'DefaultRate':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterate`);
+                break;
+            case 'BillingCycleId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebillingcycle`);
+                break;
+            case 'PaymentTermsId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymentterms`);
+                break;
+            case 'OrganizationTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorganizationtype`);
+                break;
+            case 'DefaultPoClassificationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepoclass`);
+                break;
+            case 'DefaultCurrencyId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecurrency`);
+                break;
+            case 'RemitCountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateremitcountry`);
+                break;
+        }
+    }
     renderGrids($form: JQuery) {
         // ----------
         //Company Tax Option Grid

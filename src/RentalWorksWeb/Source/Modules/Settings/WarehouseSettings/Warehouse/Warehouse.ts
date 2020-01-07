@@ -308,6 +308,38 @@
             };
         });
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'CountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountry`);
+                break;
+            case 'RegionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateregion`);
+                break;
+            case 'CurrencyId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecurrency`);
+                break;
+            case 'RentalBarCodeRangeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalbarcoderange`);
+                break;
+            case 'SalesBarCodeRangeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesbarcoderange`);
+                break;
+            case 'RentalFixedAssetBarCodeRangeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalfixedassetbarcoderange`);
+                break;
+            case 'InternalVendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinternalvendor`);
+                break;
+            case 'InternalDealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinternaldeal`);
+                break;
+            case 'TaxOptionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
+                break;
+        }
+    }
 }
 
 var WarehouseController = new Warehouse();

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Agent.Vendor;
 namespace WebApi.Modules.HomeControls.InventoryVendor
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +72,12 @@ namespace WebApi.Modules.HomeControls.InventoryVendor
             return await DoDeleteAsync<InventoryVendorLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventoryvendor/validatevendor/browse
+        [HttpPost("validatevendor/browse")]
+        [FwControllerMethod(Id: "FP3Odqd3fm67", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateVendorBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
     }
 }

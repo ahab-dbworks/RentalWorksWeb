@@ -8,6 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
+using WebApi.Modules.Settings.MiscellaneousSettings.MiscRate;
 
 namespace WebApi.Modules.HomeControls.RepairCost
 {
@@ -112,8 +113,14 @@ namespace WebApi.Modules.HomeControls.RepairCost
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
-        //------------------------------------------------------------------------------------ 
- 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repaircost/validaterate/browse
+        [HttpPost("validaterate/browse")]
+        [FwControllerMethod(Id: "mv3Aae8R7Nau", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAttributeValueBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<MiscRateLogic>(browseRequest);
+        }
 
 
     }

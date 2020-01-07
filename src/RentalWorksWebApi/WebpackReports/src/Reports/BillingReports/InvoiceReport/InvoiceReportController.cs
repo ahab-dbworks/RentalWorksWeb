@@ -11,6 +11,7 @@ using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using WebApi.Data;
+using WebApi.Modules.Billing.Invoice;
 
 namespace WebApi.Modules.Reports.Billing.InvoiceReport
 {
@@ -73,5 +74,12 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderreport/validateinvoice/browse 
+        [HttpPost("validateinvoice/browse")]
+        [FwControllerMethod(Id: "mneC0a6tg45H", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInvoiceBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InvoiceLogic>(browseRequest);
+        }
     }
 }

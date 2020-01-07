@@ -66,6 +66,13 @@ class QuoteReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'QuoteId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatequote`);
+                break;
+        }
+    }
 };
 
 var QuoteReportController: any = new QuoteReport();

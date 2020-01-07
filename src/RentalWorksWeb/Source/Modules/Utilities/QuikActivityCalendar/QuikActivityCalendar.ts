@@ -2,6 +2,7 @@
 
 class QuikActivityCalendar {
     Module: string = 'QuikActivityCalendar';
+    apiurl: string = 'api/v1/quikactivity'
     caption: string = Constants.Modules.Utilities.children.QuikActivityCalendar.caption;
     nav: string = Constants.Modules.Utilities.children.QuikActivityCalendar.nav;
     id: string = Constants.Modules.Utilities.children.QuikActivityCalendar.id;
@@ -67,6 +68,13 @@ class QuikActivityCalendar {
                 FwFunc.showError(ex);
             }
         }, null, $form);
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+        }
     }
     //----------------------------------------------------------------------------------------------
     calendarEvents($form: any) {

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Inventory.RentalInventory;
+
 namespace WebApi.Modules.Settings.InventoryGroupInventory
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +73,12 @@ namespace WebApi.Modules.Settings.InventoryGroupInventory
             return await DoDeleteAsync<InventoryGroupInventoryLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorygroupinventory/validateinventory/browse
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "aGe9dq9w5Exg", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
     }
 }

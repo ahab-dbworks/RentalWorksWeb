@@ -134,19 +134,25 @@ class AssignBarCodes {
         });
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidatePONumber($browse: any, $form: any, request: any) {
-        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        let warehouseId = warehouse.warehouseid;
-        request.miscfields = {
-            AssignBarCodes: true,
-            AssigningWarehouseId: warehouseId
-        };
-    };
-    //----------------------------------------------------------------------------------------------
-    beforeValidateContractNumber($browse: any, $form: any, request: any) {
-        request.uniqueIds = {
-            PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-        };
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'PurchaseOrderId':
+                let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+                let warehouseId = warehouse.warehouseid;
+                request.miscfields = {
+                    AssignBarCodes: true,
+                    AssigningWarehouseId: warehouseId
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepurchaseorder`);
+                break;
+            case 'ContractId':
+                request.uniqueids = {
+                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontract`);
+                break;
+        }
+           
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
@@ -156,14 +162,14 @@ class AssignBarCodes {
             <div class="flexrow">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Barcodes / Serial Numbers" style="flex:1 1 750px;">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" data-formbeforevalidate="beforeValidatePONumber" style="flex:1 1 125px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 125px;"></div>
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="PODate" style="flex:1 1 125px;" data-enabled="false"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="flex:2 1 350px;" data-enabled="false"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:2 1 350px;" data-enabled="false"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 225px;" data-enabled="false"></div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Contract No." data-datafield="ContractId" data-displayfield="ContractNumber" data-validationname="ContractValidation" data-formbeforevalidate="beforeValidateContractNumber" style="float:left; flex:0 1 200px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Contract No." data-datafield="ContractId" data-displayfield="ContractNumber" data-validationname="ContractValidation" style="float:left; flex:0 1 200px;"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwGrid" data-grid="POReceiveBarCodeGrid" data-securitycaption="Purchase Order Receive Bar Code"></div>

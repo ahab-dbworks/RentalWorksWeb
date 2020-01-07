@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.InventorySettings.InventoryType;
+using WebApi.Modules.Settings.VehicleSettings.LicenseClass;
+using WebApi.Modules.Settings.InventorySettings.Unit;
+using WebApi.Modules.Settings.AccountingSettings.GlAccount;
 
 namespace WebApi.Modules.Settings.VehicleSettings.VehicleType
 {
@@ -72,5 +76,81 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleType
             return await DoDeleteAsync<VehicleTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/vehicletype/validateinventorytype/browse
+        [HttpPost("validateinventorytype/browse")]
+        [FwControllerMethod(Id: "SmLzxP6Hxbve", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/vehicletype/validatelicenseclass/browse
+        [HttpPost("validatelicenseclass/browse")]
+        [FwControllerMethod(Id: "BFt83MHJxvSL", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLicenseClassBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LicenseClassLogic>(browseRequest);
+        }//------------------------------------------------------------------------------------ 
+        // POST api/v1/vehicletype/validateunit/browse
+        [HttpPost("validateunit/browse")]
+        [FwControllerMethod(Id: "DvGBAFQwhCBM", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUnitBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UnitLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/vehicletype/validateassetaccount/browse
+        [HttpPost("validateassetaccount/browse")]
+        [FwControllerMethod(Id: "IqV8ovfOhFFs", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAssetAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }//------------------------------------------------------------------------------------ 
+        // POST api/v1/vehicletype/validateincomeaccount/browse
+        [HttpPost("validateincomeaccount/browse")]
+        [FwControllerMethod(Id: "6S56u2lyC95b", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIncomeAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/vehicletype/validatesubincomeaccount/browse
+        [HttpPost("validatesubincomeaccount/browse")]
+        [FwControllerMethod(Id: "jEh2v878ePAM", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubIncomeAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }//------------------------------------------------------------------------------------ 
+        // POST api/v1/vehicletype/validateequipmentsaleincomeaccount/browse
+        [HttpPost("validateequipmentsaleincomeaccount/browse")]
+        [FwControllerMethod(Id: "1JvcpeE8YoFQ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateEquipmentSaleIncomeAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/vehicletype/validateldincomeaccount/browse
+        [HttpPost("validateldincomeaccount/browse")]
+        [FwControllerMethod(Id: "KTcptdlIvTYS", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLdIncomeAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }//------------------------------------------------------------------------------------ 
+        // POST api/v1/vehicletype/validatecostofgoodssoldexpenseaccount/browse
+        [HttpPost("validatecostofgoodssoldexpenseaccount/browse")]
+        [FwControllerMethod(Id: "notjIGortsfT", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCostOfGoodsSoldExpenseAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/vehicletype/validatecostofgoodsrentedexpenseaccount/browse
+        [HttpPost("validatecostofgoodsrentedexpenseaccount/browse")]
+        [FwControllerMethod(Id: "GgjyF7m49ArL", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCostOfGoodsRentedExpenseAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
     }
 }

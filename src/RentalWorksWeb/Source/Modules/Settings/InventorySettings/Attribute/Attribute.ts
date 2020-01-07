@@ -97,6 +97,14 @@ class Attribute {
         const $attributeValueGrid = $form.find('[data-name="AttributeValueGrid"]');
         FwBrowse.search($attributeValueGrid);
     }
+    //-------------------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'InventoryTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+        }
+    }
 }
 //---------------------------------------------------------------------------------
 var AttributeController = new Attribute();

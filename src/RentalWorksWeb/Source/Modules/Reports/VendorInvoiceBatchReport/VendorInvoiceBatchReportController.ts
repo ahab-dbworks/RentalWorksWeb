@@ -77,6 +77,13 @@ class VendorInvoiceBatchReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'BatchId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebatch`);
+                break;
+        }
+    }
 };
 
 var VendorInvoiceBatchReportController: any = new VendorInvoiceBatchReport();

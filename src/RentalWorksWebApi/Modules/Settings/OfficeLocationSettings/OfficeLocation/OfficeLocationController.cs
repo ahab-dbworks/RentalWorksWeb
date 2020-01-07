@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.RateType;
+using WebApi.Modules.Settings.PoSettings.PoType;
 
 namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 {
@@ -72,5 +74,20 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
             return await DoDeleteAsync<OfficeLocationLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/Location/validateratetype/browse
+        [HttpPost("validateratetype/browse")]
+        [FwControllerMethod(Id: "7SNMzCvasGuc", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateRateTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RateTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/Location/validatedefaultpurchasepotype/browse
+        [HttpPost("validatedefaultpurchasepotype/browse")]
+        [FwControllerMethod(Id: "DdU8FkA8ypoa", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDefaultPurchasePoTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PoTypeLogic>(browseRequest);
+        }
     }
 }

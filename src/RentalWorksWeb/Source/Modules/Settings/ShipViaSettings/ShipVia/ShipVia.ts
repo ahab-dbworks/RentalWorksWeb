@@ -53,12 +53,24 @@
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    beforeValidateFreightVendor($browse, $grid, request) {
-        var $form;
-        $form = $grid.closest('.fwform');
+    //beforeValidateFreightVendor($browse, $grid, request) {
+    //    var $form;
+    //    $form = $grid.closest('.fwform');
 
-        request.uniqueids = {
-            Freight: true
+    //    request.uniqueids = {
+    //        Freight: true
+    //    }
+    //}
+
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'VendorId':
+                request.uniqueids = {
+                    Freight: true
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
+                break;
         }
     }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.HomeControls.GeneralItem;
 namespace WebApi.Modules.HomeControls.PhysicalInventoryCycleInventory
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +72,12 @@ namespace WebApi.Modules.HomeControls.PhysicalInventoryCycleInventory
             return await DoDeleteAsync<PhysicalInventoryCycleInventoryLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/physicalinventorycycleinventory/validateinventory/browse
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "1seIh1AjeGSO", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GeneralItemLogic>(browseRequest);
+        }
     }
 }

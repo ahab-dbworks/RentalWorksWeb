@@ -120,20 +120,38 @@ class CustomerRevenueByMonthReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
 
         request.uniqueids = {};
 
-        switch (validationName) {
-            case 'DealValidation':
+        switch (datafield) {
+            case 'DealId':
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
                 if (dealTypeId !== "") {
                     request.uniqueids.DealTypeId = dealTypeId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'CustomerTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomertype`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'DealTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealtype`);
+                break;
+            case 'InventoryTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
         };
     };

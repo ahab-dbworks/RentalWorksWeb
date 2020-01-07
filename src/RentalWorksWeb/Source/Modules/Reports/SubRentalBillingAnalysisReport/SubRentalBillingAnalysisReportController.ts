@@ -138,6 +138,32 @@ class SubRentalBillingAnalysisReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'DealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'VendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
+                break;
+            case 'PoClassificationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepoclassification`);
+                break;
+            case 'PurchaseOrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepurchaseorder`);
+                break;
+            case 'InventoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+        }
+    }
+    //----------------------------------------------------------------------------------------------
 };
 
 var SubRentalBillingAnalysisReportController: any = new SubRentalBillingAnalysisReport();

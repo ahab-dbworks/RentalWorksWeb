@@ -169,6 +169,17 @@
             FwFormField.disable($form.find('[data-datafield="ExpireDays"]'))
         }
     }
+    //--------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'ContactTitleId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontacttitle`);
+                break;
+            case 'CountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountry`);
+                break;
+        }
+    }
 }
 //----------------------------------------------------------------------------------------------
 var CrewController = new Crew();

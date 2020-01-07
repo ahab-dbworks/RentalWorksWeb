@@ -9,6 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Settings.CustomerSettings.CreditStatus;
 
 namespace WebApi.Modules.Settings.CustomerSettings.CustomerStatus
 {
@@ -78,5 +79,12 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerStatus
             return await DoDeleteAsync<CustomerStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/settings/customerstatus/browse
+        [HttpPost("validatecreditstatus/browse")]
+        [FwControllerMethod(Id: "ALpB6a80JJ5S", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCreditStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CreditStatusLogic>(browseRequest);
+        }
     }
 }

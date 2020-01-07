@@ -149,6 +149,38 @@ class RentalCategory {
         request.uniqueids = {
             Rental: true
         }
+        switch (datafield) {
+            case 'InventoryTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'InventoryBarCodeDesignerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorybarcodedesigner`);
+                break;
+            case 'BarCodeDesignerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebarcodedesigner`);
+                break;
+            case 'AssetAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateassetaccount`);
+                break;
+            case 'IncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateincomeaccount`);
+                break;
+            case 'SubIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubincomeaccount`);
+                break;
+            case 'EquipmentSaleIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateequipmentsaleincomeaccount`);
+                break;
+            case 'LdIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateldincomeaccount`);
+                break;
+            case 'CostOfGoodsSoldExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodssoldexpenseaccount`);
+                break;
+            case 'CostOfGoodsRentedExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodsrentedexpenseaccount`);
+                break;
+        }
     }
 }
 

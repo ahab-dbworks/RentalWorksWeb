@@ -284,16 +284,28 @@ class MigrateOrders {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidateDeal($browse: any, $grid: any, request: any) {
-        const $form = $grid.closest('.fwform');
-        const shareDealsAcrossOfficeLocations = JSON.parse(sessionStorage.getItem('controldefaults')).sharedealsacrossofficelocations;
-        if (!shareDealsAcrossOfficeLocations) {
-            const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-            request.uniqueids = {
-                LocationId: officeLocationId
-            }
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+        switch (datafield) {
+            case 'DealId':
+                request.uniqueids = {
+                    LocationId: officeLocationId
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'CreateNewDealId':
+                request.uniqueids = {
+                    LocationId: officeLocationId
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecreatenewdeal`);
+                break;
+            case 'RateType':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateratetype`);
+                break;
         }
-    };
-    //----------------------------------------------------------------------------------------------
+    }
 }
 var MigrateOrdersController = new MigrateOrders();

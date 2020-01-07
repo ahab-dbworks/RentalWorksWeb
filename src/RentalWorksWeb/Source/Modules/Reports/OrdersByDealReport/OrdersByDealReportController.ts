@@ -88,10 +88,10 @@ const ordersByDealTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal Type" data-datafield="DealTypeId" data-displayfield="DealType" data-validationname="DealTypeValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal Status" data-datafield="DealStatusId" data-displayfield="DealStatus" data-formbeforevalidate="beforeValidate" data-validationname="DealStatusValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal Status" data-datafield="DealStatusId" data-displayfield="DealStatus"  data-validationname="DealStatusValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-formbeforevalidate="beforeValidate" data-validationname="DealValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal"  data-validationname="DealValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -212,25 +212,52 @@ class OrdersByDealReport extends FwWebApiReport {
         FwFormField.toggle($form.find('div[data-datafield="DealInsuranceToDate"]'), filterDatesDealInsurance);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
-        const validationName = request.module;
+    //beforeValidate($browse, $form, request) {
+    //    const validationName = request.module;
+    //    const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+    //    const dealId = FwFormField.getValueByDataField($form, 'DealId');
+
+
+    //    request.uniqueids = {};
+
+    //    switch (validationName) {
+    //        case 'InventoryTypeValidation':
+    //            request.uniqueids.Rental = true;
+    //            break;
+    //        case 'DealValidation':
+    //            if (customerId !== "") {
+    //                request.uniqueids.CustomerId = customerId;
+    //            }
+    //            break;
+    //    };
+    //};
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        const dealId = FwFormField.getValueByDataField($form, 'DealId');
-
-
-        request.uniqueids = {};
-
-        switch (validationName) {
-            case 'InventoryTypeValidation':
-                request.uniqueids.Rental = true;
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
                 break;
-            case 'DealValidation':
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'DealTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealtype`);
+                break;
+            case 'DealStatusId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealstatus`);
+                break;
+            case 'DealId':
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
-        };
-    };
+        }
+    }
     //----------------------------------------------------------------------------------------------
 };
 

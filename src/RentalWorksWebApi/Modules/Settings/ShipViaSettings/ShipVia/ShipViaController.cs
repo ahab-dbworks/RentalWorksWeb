@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Agent.Vendor;
 
 namespace WebApi.Modules.Settings.ShipViaSettings.ShipVia
 {
@@ -72,5 +73,12 @@ namespace WebApi.Modules.Settings.ShipViaSettings.ShipVia
             return await DoDeleteAsync<ShipViaLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/shipvia/validatevendor/browse
+        [HttpPost("validatevendor/browse")]
+        [FwControllerMethod(Id: "wX3wx2IXrAcS", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateVendorBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
     }
 }

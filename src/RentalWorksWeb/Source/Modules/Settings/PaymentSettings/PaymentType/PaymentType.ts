@@ -59,6 +59,14 @@
 
     afterLoad($form: any) {
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'GlAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateglaccount`);
+                break;
+        }
+    }
 }
 
 var PaymentTypeController = new PaymentType();

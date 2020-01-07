@@ -11,36 +11,41 @@
         });
     };
 
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
-        var validationName = request.module;
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
 
-        if (validationName != null) {
             var InventoryTypeValue = FwBrowse.getValueByDataField($validationbrowse, $tr, 'InventoryTypeId');
             var CategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'CategoryId');
             var SubCategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'SubCategoryId');
-            switch (validationName) {
-                case 'InventoryTypeValidation':
+            switch (datafield) {
+                case 'OrderTypeId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
+                    break;
+                case 'InventoryTypeId':
                     request.uniqueids = {
                         Sales: true
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                     break;
-                case 'SalesCategoryValidation':
+                case 'CategoryId':
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalescategory`);
                     break;
-                case 'SubCategoryValidation':
+                case 'SubCategoryId':
                     request.uniqueids = {
                         TypeId: InventoryTypeValue,
                         CategoryId: CategoryTypeId
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
-                case 'SalesInventoryValidation':
+                case 'InventoryId':
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue,
                         CategoryId: CategoryTypeId,
                         SubCategoryId: SubCategoryTypeId
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesinventory`);
                     break;
             };
             for (var prop in request.uniqueids) {
@@ -49,7 +54,6 @@
                 }
             }
         }
-    }
 }
 
 var DiscountItemSalesGridController = new DiscountItemSalesGrid();

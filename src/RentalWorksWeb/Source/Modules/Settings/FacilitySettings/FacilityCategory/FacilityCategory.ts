@@ -59,6 +59,17 @@ class FacilityCategory {
 
     afterLoad($form: any) {
     };
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'FacilityTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatefacilitytype`);
+                break;
+            case 'IncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateincomeaccount`);
+                break;
+        }
+    }
 }
 
 var FacilityCategoryController = new FacilityCategory();

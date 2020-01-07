@@ -3,6 +3,7 @@
     caption: string;
     nav: string;
     id: string;
+    apiurl: string;
     showAddItemToOrder: boolean;
     contractId: string;
     isPendingItemGridView: boolean = false;
@@ -1109,33 +1110,36 @@
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-
-        switch (validationName) {
-            case 'OrderValidation':
+        //everything except order validation is from another module that extends this class, be sure to update these cases to the new api urls -jg
+        switch (datafield) {
+            case 'OrderId':
                 request.miscfields = {
                     Staging: true,
                     StagingWarehouseId: warehouse.warehouseid
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
                 break;
-            case 'TransferOrderValidation':
+            case 'TransferId':
                 request.miscfields = {
                     TransferOut: true,
                     TransferOutWarehouseId: warehouse.warehouseid
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransfer`);
                 break;
-            case 'ContainerItemValidation':
+            case 'ContainerItemId':
                 request.uniqueids = {
                     WarehouseId: warehouse.warehouseid
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontaineritem`);
                 break;
-            case 'ContainerValidation':
+            case 'ContainerId':
                 //from the fill container confirmation
                 const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 request.uniqueids = {
                     ScannableInventoryId: inventoryId
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontainer`);
                 break;
         };
     }

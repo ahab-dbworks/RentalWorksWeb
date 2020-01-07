@@ -53,6 +53,20 @@ class VendorInvoiceApprover {
 
     afterLoad($form: any) {
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'LocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelocation`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'UsersId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateuser`);
+                break;
+        }
+    }
 }
 
 var VendorInvoiceApproverController = new VendorInvoiceApprover();

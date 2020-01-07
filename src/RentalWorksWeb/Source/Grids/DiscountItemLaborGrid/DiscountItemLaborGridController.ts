@@ -3,31 +3,41 @@
     apiurl: string = 'api/v1/discountitem';
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
-        var validationName = request.module;
 
-        if (validationName != null) {
             var InventoryTypeValue = FwBrowse.getValueByDataField($validationbrowse, $tr, 'InventoryTypeId');
             var CategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'CategoryId');
             var SubCategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'SubCategoryId');
 
-            switch (validationName) {
-                case 'LaborCategoryValidation':
+            switch (datafield) {
+                case 'OrderTypeId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
+                    break;
+                case 'InventoryTypeId':
+                    request.uniqueids = {
+                        Sales: true
+                    };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelaborinventorytype`);
+                    break;
+                case 'CategoryId':
                     request.uniqueids = {
                         LaborTypeId: InventoryTypeValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelaborcategory`);
                     break;
-                case 'SubCategoryValidation':
+                case 'SubCategoryId':
                     request.uniqueids = {
                         TypeId: InventoryTypeValue,
                         CategoryId: CategoryTypeId
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
-                case 'LaborRateValidation':
+                case 'InventoryId':
                     request.uniqueids = {
                         LaborTypeId: InventoryTypeValue,
                         CategoryId: CategoryTypeId,
                         SubCategoryId: SubCategoryTypeId
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelaborinventory`);
                     break;
             };
             for (var prop in request.uniqueids) {
@@ -35,7 +45,7 @@
                     delete request.uniqueids[prop];
                 }
             }
-        }
+        
     }
 
     generateRow($control, $generatedtr) {
