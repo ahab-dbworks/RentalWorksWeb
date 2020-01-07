@@ -206,20 +206,19 @@
         const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
         request.miscfields = {
-            CheckIn: true
-            , CheckInWarehouseId: warehouseId
+            CheckIn: true,
+            CheckInWarehouseId: warehouseId
         }
         switch (datafield) {
+            case 'OrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
             case 'TransferId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransfer`);
                 break;
             case 'SpecificOrderId':
                 request.uniqueids = {
                     DealId: dealId
-                }
-                request.miscfields = {
-                    CheckIn: true,
-                    CheckInWarehouseId: warehouseId
                 }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatespecificorder`);
                 break;
@@ -604,8 +603,8 @@
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
                             ${this.Module == 'CheckIn' ?
-                                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" data-formbeforevalidate="beforeValidateOrder" style="flex:0 1 175px;"></div>'
-            : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" data-formbeforevalidate="beforeValidateOrder" style="flex:0 1 175px;"></div>'}
+                                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
+            : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
                           </div>
                         </div>

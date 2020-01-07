@@ -883,6 +883,7 @@ class BillingWorksheet {
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
             case 'OrderId':
+                request.uniqueids.BillingCycleType = 'ONDEMAND';
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
                 break;
             case 'DepartmentId':
@@ -947,17 +948,6 @@ class BillingWorksheet {
 
         this.dynamicColumns($form);
     }
-    //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
-        const validationName = request.module;
-        request.uniqueids = {};
-
-        switch (validationName) {
-            case 'OrderValidation':
-                request.uniqueids.BillingCycleType = 'ONDEMAND';
-                break;
-        };
-    };
     //----------------------------------------------------------------------------------------------
     approveOrUnaproveWorksheet($form: any, indicator: string) {
         const billingWorksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
