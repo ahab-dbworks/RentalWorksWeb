@@ -1,4 +1,4 @@
-﻿abstract class CheckInBase implements IModule {
+abstract class CheckInBase implements IModule {
     Module:                    string;
     apiurl:                    string;
     caption:                   string;
@@ -204,16 +204,20 @@
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-        request.miscfields = {
-            CheckIn: true,
-            CheckInWarehouseId: warehouseId
-        }
         switch (datafield) {
             case 'OrderId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                request.miscfields = {
+                    CheckIn: true,
+                    CheckInWarehouseId: warehouseId
+                }
                 break;
             case 'TransferId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransfer`);
+                request.miscfields = {
+                    TransferIn: true,
+                    TransferInWarehouseId: warehouseId
+                }
                 break;
             case 'SpecificOrderId':
                 const dealId = FwFormField.getValueByDataField($form, 'DealId');
@@ -474,7 +478,7 @@
                 FwModule.openSubModuleTab($form, $orderStatusForm);
                 jQuery('.tab.submodule.active').find('.caption').html('Order Status');
             }
-           
+
         });
         //Refresh grid on Check-In tab click
         $form.find('.checkintab').on('click', e => {
@@ -603,8 +607,8 @@
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
                             ${this.Module == 'CheckIn' ?
-                                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
-            : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
+                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
+                : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
                           </div>
                         </div>
