@@ -985,9 +985,9 @@ class FwSettingsClass {
                                 FwAppImage.getAppImages($form.find('.fwappimage'))  // - 12/16/19 J. Pace Moved into this scope to prvent undefined error in sortable library
                             }
 
-                            if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {
-                                window[moduleName + 'Controller']['afterLoad']($form);
-                            }
+                            //if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {  // - 01/07/2020 Jason H - afterLoad is already being called in FwModule.loadForm above. 
+                            //    window[moduleName + 'Controller']['afterLoad']($form);
+                            //}  
                         }
 
 
