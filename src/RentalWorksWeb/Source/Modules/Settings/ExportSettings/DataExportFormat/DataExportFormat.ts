@@ -81,7 +81,7 @@ class DataExportFormat {
     afterLoad($form: any) {
         //sets code editor value
         if (!$form.find('[data-datafield="ExportString"]').hasClass('reload')) {
-            let exportString = $form.find('[data-datafield="ExportString"] textarea').val();
+            let exportString = FwFormField.getValueByDataField($form, 'ExportString');
             if (typeof exportString !== 'undefined') {
                 this.codeMirror.setValue(exportString);
             } else {
@@ -133,11 +133,11 @@ class DataExportFormat {
         $form.find('[data-datafield="DefaultFormat"] .checkbox-caption').text(`Default Format for ${exportTypeText}`);
 
         //Get valid field names and sort them
-        const modulefields = $form.find('.modulefields');
-        modulefields.empty();
         if (exportType != "" && exportType != undefined) {
             FwAppData.apiMethod(true, 'GET', `api/v1/${exportType}/emptyobject`, null, FwServices.defaultTimeout,
                 response => {
+                    const modulefields = $form.find('.modulefields');
+                    modulefields.empty();
                     let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                     let allValidFields: any = [];
                     for (const key of Object.keys(response)) {
@@ -251,11 +251,6 @@ class DataExportFormat {
         $form.on('click', '.modulefields div', e => {
             const $this = jQuery(e.currentTarget);
             let textToInject;
-            //if ($this.attr('data-isnested') != 'true') {
-            //    textToInject = `{{${$this.text()}}}`;
-            //} else {
-            //    textToInject = `{{${$this.attr('data-parentfield')}.${$this.text()}}}`; //for nested objects
-            //}
             textToInject = `{{${$this.text()}}}`;
 
             const doc = this.codeMirror.getDoc();

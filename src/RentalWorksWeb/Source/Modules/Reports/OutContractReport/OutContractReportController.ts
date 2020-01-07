@@ -24,8 +24,7 @@ const outContractReportTemplate = `
       </div>
     </div>
   </div>
-</div>
-`;
+</div>`;
 
 class OutContractReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------

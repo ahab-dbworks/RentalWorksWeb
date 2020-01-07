@@ -111,6 +111,7 @@ class InventoryPurchaseUtility {
                 FwAppData.apiMethod(true, 'POST', `api/v1/inventorypurchaseutility/startsession`, request, FwServices.defaultTimeout,
                     response => {
                         $form.data("sessionid", response.SessionId);
+                        FwBrowse.search($itemGridControl);
                     }, ex => FwFunc.showError(ex), $form);
             }
         });
