@@ -73,8 +73,9 @@ var Constants = {
             caption: 'Exports',
             nodetype: 'Category',
             children: {
-                InvoiceBatchExport: { id: 'GI2FxKtrjja1', caption: 'Invoice Batch Export', nodetype: 'Module' },
-                ReceiptBatchExport: { id: 'di8ahTdcwt0H', caption: 'Receipt Batch Export', nodetype: 'Module' }
+                InvoiceBatchExport:         { id: 'GI2FxKtrjja1', caption: 'Invoice Batch Export', nodetype: 'Module' },
+                ReceiptBatchExport:         { id: 'di8ahTdcwt0H', caption: 'Receipt Batch Export', nodetype: 'Module' },
+                VendorInvoiceBatchExport:   { id: 'kEKk799BSXVF', caption: 'Vendor Invoice Batch Export', nodetype: 'Module' }
             }
         },
         Home: {
