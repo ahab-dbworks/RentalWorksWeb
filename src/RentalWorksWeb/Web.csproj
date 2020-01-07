@@ -510,6 +510,13 @@
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\ReturnContractReport\ReturnContractReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\InContractReport\InContractReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\ExchangeContractReport\ExchangeContractReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\LostContractReport\LostContractReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\TransferManifestReport\TransferManifestReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\TransferReceiptReport\TransferReceiptReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\ReceiveContractReport\ReceiveContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\GlAccount\GlAccount.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistribution.ts" />

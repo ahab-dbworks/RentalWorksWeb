@@ -155,7 +155,7 @@ class RwMaster extends WebMaster {
             };
             this.navigation.push(menuAdministrator);
 
-            
+
             // Settings
             this.settings = Constants.Modules.Settings.children;
             //this.settings.push(
@@ -517,7 +517,7 @@ class RwMaster extends WebMaster {
             });
             FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol);
 
-            let nodeSettings = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Settings');
+            const nodeSettings = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Settings');
             if (typeof nodeSettings === 'object' && nodeSettings.properties.visible === 'T') {
                 const $settings = jQuery('<i class="material-icons dashboard" title="Settings">settings</i>');
                 $settings.on('click', function () {
@@ -530,7 +530,7 @@ class RwMaster extends WebMaster {
                 FwFileMenu.UserControl_addSystemBarControl('dashboard', $settings, $usercontrol)
             }
 
-            let nodeReports = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
+            const nodeReports = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
             if (typeof nodeReports === 'object' && nodeReports.properties.visible === 'T') {
                 const $reports = jQuery('<i class="material-icons dashboard" title="Reports">assignment</i>');
                 $reports.on('click', function () {
