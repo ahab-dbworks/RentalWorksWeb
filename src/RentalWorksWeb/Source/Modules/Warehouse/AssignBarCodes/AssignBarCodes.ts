@@ -55,7 +55,7 @@ class AssignBarCodes {
             gridSecurityId: 'qH0cLrQVt9avI',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 9999,
+            //pageSize: 9999,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = true;
@@ -160,7 +160,7 @@ class AssignBarCodes {
         <div id="assignbarcodesform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Assign Bar Codes" data-hasaudit="false" data-controller="AssignBarCodesController">
           <div class="flexpage">
             <div class="flexrow">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Barcodes / Serial Numbers" style="flex:1 1 750px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Codes / Serial Numbers" style="flex:1 1 1400px;min-width:1400px;max-width:1400px;">
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 125px;"></div>
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="PODate" style="flex:1 1 125px;" data-enabled="false"></div>
@@ -171,7 +171,7 @@ class AssignBarCodes {
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 225px;" data-enabled="false"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Contract No." data-datafield="ContractId" data-displayfield="ContractNumber" data-validationname="ContractValidation" style="float:left; flex:0 1 200px;"></div>
                 </div>
-                <div class="flexrow">
+                <div class="flexrow" style="min-width:1400px;max-width:1400px;">
                   <div data-control="FwGrid" data-grid="POReceiveBarCodeGrid" data-securitycaption="Purchase Order Receive Bar Code"></div>
                 </div>
                 <div class="flexrow" style="margin-top:15px;justify-content:center;">
