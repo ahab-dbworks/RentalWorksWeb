@@ -175,10 +175,11 @@ class FwSchedulerClass {
             }
         });
         $control.on('click', '.btnNext', function () {
-            let currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed;
+            let currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed, $schedulerControl;
             try {
-                if ($control.next().data('dpscheduler') !== undefined) {
-                    schedulerDetailed = $control.next().data('dpscheduler');
+                $schedulerControl = $control.parents().find('div.formpage').find('.realscheduler')
+                if ($schedulerControl !== undefined) {
+                    schedulerDetailed = $schedulerControl.data('dpscheduler');
                 }
                 if ($control.find('.btnDay').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
@@ -186,7 +187,7 @@ class FwSchedulerClass {
                     nextDay = currentDay.addDays(1);
                     FwScheduler.navigate($control, nextDay);
                     if (schedulerDetailed !== undefined) {
-                        FwSchedulerDetailed.navigate($control.next(), nextDay, 1);
+                        FwSchedulerDetailed.navigate($schedulerControl, nextDay, 1);
                     }
                 } else if ($control.find('.btnWeek').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
@@ -194,7 +195,7 @@ class FwSchedulerClass {
                     nextWeek = currentDay.addDays(7);
                     FwScheduler.navigate($control, nextWeek);
                     if (schedulerDetailed !== undefined) {
-                        FwSchedulerDetailed.navigate($control.next(), nextWeek, 7);
+                        FwSchedulerDetailed.navigate($schedulerControl, nextWeek, 7);
                     }
                 } else if ($control.find('.btn5Week').attr('data-selected') === 'true') {
                     nav5week = $control.data('nav5week');
@@ -202,7 +203,7 @@ class FwSchedulerClass {
                     next5Week = currentDay.addDays(35);
                     FwScheduler.navigate($control, next5Week);
                     if (schedulerDetailed !== undefined) {
-                        FwSchedulerDetailed.navigate($control.next(), next5Week, 35);
+                        FwSchedulerDetailed.navigate($schedulerControl, next5Week, 35);
                     }
                 } else if ($control.find('.btnMonth').attr('data-selected') === 'true') {
                     navmonth = $control.data('navmonth');
@@ -210,7 +211,7 @@ class FwSchedulerClass {
                     nextMonth = currentDay.addMonths(1);
                     FwScheduler.navigate($control, nextMonth);
                     if (schedulerDetailed !== undefined) {
-                        FwSchedulerDetailed.navigate($control.next(), nextMonth, 31);
+                        FwSchedulerDetailed.navigate($schedulerControl, nextMonth, 31);
                     }
                 } else if ($control.find('.btnYear').attr('data-selected') === 'true') {
                     navmonth = $control.data('navyear');
@@ -228,10 +229,11 @@ class FwSchedulerClass {
             }
         });
         $control.on('click', '.btnPrev', function () {
-            var currentDay, previousDay, previousWeek, previous5Week, previousMonth, nav5week, navyear, navcalendar, navmonth, navscheduler, schedulerDetailed;
+            var currentDay, previousDay, previousWeek, previous5Week, previousMonth, nav5week, navyear, navcalendar, navmonth, navscheduler, schedulerDetailed, $schedulerControl;
             try {
-                if ($control.next().data('dpscheduler') !== undefined) {
-                    schedulerDetailed = $control.next().data('dpscheduler');
+                $schedulerControl = $control.parents().find('div.formpage').find('.realscheduler')
+                if ($schedulerControl !== undefined) {
+                    schedulerDetailed = $schedulerControl.data('dpscheduler');
                 }
                 if ($control.find('.btnDay').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
@@ -239,7 +241,7 @@ class FwSchedulerClass {
                     previousDay = currentDay.addDays(-1);
                     FwScheduler.navigate($control, previousDay);
                     if (schedulerDetailed !== undefined) {
-                        FwSchedulerDetailed.navigate($control.next(), previousDay, 1);
+                        FwSchedulerDetailed.navigate($schedulerControl, previousDay, 1);
                     }
                 } else if ($control.find('.btnWeek').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
@@ -247,7 +249,7 @@ class FwSchedulerClass {
                     previousWeek = currentDay.addDays(-7);
                     FwScheduler.navigate($control, previousWeek);
                     if (schedulerDetailed !== undefined) {
-                        FwSchedulerDetailed.navigate($control.next(), previousWeek, 7);
+                        FwSchedulerDetailed.navigate($schedulerControl, previousWeek, 7);
                     }
                 } else if ($control.find('.btn5Week').attr('data-selected') === 'true') {
                     nav5week = $control.data('nav5week');
@@ -255,7 +257,7 @@ class FwSchedulerClass {
                     previous5Week = currentDay.addDays(-35);
                     FwScheduler.navigate($control, previous5Week);
                     if (schedulerDetailed !== undefined) {
-                        FwSchedulerDetailed.navigate($control.next(), previous5Week, 35);
+                        FwSchedulerDetailed.navigate($schedulerControl, previous5Week, 35);
                     }
                 } else if ($control.find('.btnMonth').attr('data-selected') === 'true') {
                     navmonth = $control.data('navmonth');
@@ -263,7 +265,7 @@ class FwSchedulerClass {
                     previousMonth = currentDay.addMonths(-1);
                     FwScheduler.navigate($control, previousMonth);
                     if (schedulerDetailed !== undefined) {
-                        FwSchedulerDetailed.navigate($control.next(), previousMonth, 31);
+                        FwSchedulerDetailed.navigate($schedulerControl, previousMonth, 31);
                     }
                 } else if ($control.find('.btnYear').attr('data-selected') === 'true') {
                     navyear = $control.data('navyear');
