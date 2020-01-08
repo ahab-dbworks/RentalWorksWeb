@@ -1,6 +1,7 @@
-import { FwFrontEndBase } from '../fwjest/FwFrontEndBase';
+import { FwFrontEndBase } from './FwFrontEndBase';
+
 //---------------------------------------------------------------------------------------
-export class FrontEndBase extends FwFrontEndBase {
+export class FwFrontEndModule extends FwFrontEndBase {
     //---------------------------------------------------------------------------------------
     constructor() {
         super();

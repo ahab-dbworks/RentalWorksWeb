@@ -1,38 +1,311 @@
-import { BaseTest } from '../shared/BaseTest';
-import { ModuleBase, OpenRecordResponse } from '../shared/ModuleBase';
-import { Logging } from '../shared/Logging';
-import { TestUtils } from '../shared/TestUtils';
-import {
-    //home
-    Contact, Customer, Deal, Order, Project, PurchaseOrder, Quote, Vendor,
-    Asset, PartsInventory, PhysicalInventory, RentalInventory, RepairOrder, SalesInventory,
-    Contract, PickList, Container, Manifest, TransferOrder, TransferReceipt,
-    Invoice, Receipt, VendorInvoice,
+﻿require('dotenv').config()
+import { FwLogging } from './FwLogging';
+import { FwTestUtils, FwLoginResponse, FwLogoutResponse } from './FwTestUtils';
+import { FwModuleBase } from './FwModuleBase';
+import { FwSaveResponse, FwOpenBrowseResponse, FwCreateNewResponse, FwOpenRecordResponse, FwClickAllTabsResponse } from './FwModuleBase';
+import { FwGlobalScope } from './FwGlobalScope';
 
-    //settings
-    AccountingSettings, GlAccount, GlDistribution, Country, State, BillingCycle, Department, ContactEvent, ContactTitle, MailList, Currency,
-    CreditStatus, CustomerCategory, CustomerStatus, CustomerType, DealClassification, DealType, DealStatus, ProductionType, ScheduleType, DiscountTemplate,
-    DocumentType, CoverLetter, TermsConditions, EventCategory, EventType, PersonnelType, PhotographyType, Building, FacilityType, FacilityRate, FacilityScheduleStatus,
-    FacilityStatus, FacilityCategory, SpaceType, FiscalYear, GeneratorFuelType, GeneratorMake, GeneratorRating, GeneratorWatts, GeneratorType, Holiday,
-    BlackoutStatus, BarCodeRange, InventoryAdjustmentReason, Attribute, InventoryCondition, InventoryGroup, InventoryRank, InventoryStatus, InventoryType,
-    PartsCategory, RentalCategory, RetiredReason, SalesCategory, Unit, UnretiredReason, WarehouseCatalog, Crew, LaborRate, LaborPosition, LaborType, LaborCategory,
-    CrewScheduleStatus, CrewStatus, MiscRate, MiscType, MiscCategory, OfficeLocation, OrderType, DiscountReason, MarketSegment, MarketType, OrderSetNo,
-    OrderLocation, PaymentTerms, PaymentType, POApprovalStatus, POApproverRole, POClassification, POImportance, PORejectReason, POType, POApprover, VendorInvoiceApprover,
-    FormDesign, PresentationLayer, ProjectAsBuild, ProjectCommissioning, ProjectDeposit, ProjectDrawings, ProjectDropShipItems, ProjectItemsOrdered, PropsCondition,
-    Region, RepairItemStatus, SetCondition, SetSurface, SetOpening, WallDescription, WallType, ShipVia, Source, AvailabilitySettings, DefaultSettings, EmailSettings,
-    InventorySettings, LogoSettings, DocumentBarCodeSettings, SystemSettings, TaxOption, Template, UserStatus, Sound, LicenseClass, VehicleColor, VehicleFuelType, VehicleMake, VehicleScheduleStatus, VehicleStatus,
-    VehicleType, OrganizationType, VendorCatalog, VendorClass, SapVendorInvoiceStatus, WardrobeCare, WardrobeColor, WardrobeCondition, WardrobeGender, WardrobeLabel,
-    WardrobeMaterial, WardrobePattern, WardrobePeriod, WardrobeSource, Warehouse, Widget, WorkWeek,
-
-    //administrator
-    Alert, CustomField, CustomForm, CustomReportLayout, DuplicateRule, EmailHistory, Group, Hotfix, User,
-} from './modules/AllModules';
-import { SettingsModule } from '../shared/SettingsModule';
-
-export class MediumRegressionTest extends BaseTest {
+export abstract class FwBaseTest {
+    continueTest: boolean | void = true;
+    testTimeout: number = 120000; // 120 seconds
+    testToken = FwTestUtils.getTestToken();
+    globalScopeRef = FwGlobalScope;
     //---------------------------------------------------------------------------------------
+    LogError(testName: string, err: any) {
+        FwLogging.logError("Error in " + testName + ": " + err);
+    }
+    //---------------------------------------------------------------------------------------
+    CheckDependencies() {
+        if (process.env.RW_URL === undefined) throw 'Please add a line to the .env file such as RW_URL=\'http://localhost/rentalworksweb\'';
+        if (process.env.RW_LOGIN === undefined) throw 'Please add a line to the .env file such as RW_LOGIN=\'TEST\'';
+        if (process.env.RW_PASSWORD === undefined) throw 'Please add a line to the .env file such as RW_PASSWORD=\'TEST\'';
+    }
+    //---------------------------------------------------------------------------------------
+    DoBeforeAll() {
+        beforeAll(async () => {
+            await page.setViewport({ width: 1600, height: 1080 })
+                .then()
+                .catch(err => FwLogging.logError('Error in BeforeAll: ' + err));
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    async VerifyTestToken() {
+        let testName: string = "";
+        const testCollectionName = `Test Token`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            testName = `Test Token ${this.testToken}`;
+            test(testName, async () => {
+                expect(this.testToken).not.toBe("");
+                //GlobalScope.TestToken~1.TestToken
+                this.globalScopeRef["TestToken~1"] = {
+                    TestToken: this.testToken,                                                     // 16 characters
+                    MediumTestToken: this.testToken.substring(this.testToken.length - 8),          //  8 characters - not guaranteed to be unique
+                    ShortTestToken: this.testToken.substring(this.testToken.length - 3),           //  3 characters - not guaranteed to be unique
+                    TinyTestToken: this.testToken.substring(this.testToken.length - 2),            //  2 characters - not guaranteed to be unique
+                    LastCharTestToken: this.testToken.substring(this.testToken.length - 1),        //  1 character  - not guaranteed to be unique
+                };
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    async DoLogin() {
+        let testName: string = "";
+        const testCollectionName = `Login`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            testName = 'Login';
+            test(testName, async () => {
+                await FwTestUtils.authenticate().
+                    then(loginResponse => {
+                        expect(loginResponse.errorMessage).toBe("");
+                        expect(loginResponse.success).toBeTruthy();
+                    });
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    async DoLogoff() {
+        let testName: string = "";
+        const testCollectionName = `Logoff`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            testName = 'Logoff';
+            test(testName, async () => {
+                await FwTestUtils.logoff()
+                    .then(logoutResponse => {
+                        expect(logoutResponse.success).toBeTruthy();
+                    });
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    async OpenSpecificRecord(module: FwModuleBase, seekObject?: any, registerGlobal?: boolean, globalKeyValue?: string, closeRecordWhenDone?: boolean) {
+        let testName: string = "";
+        const testCollectionName = `Open a specific ${module.moduleCaption}`;// + registerGlobal ? `, register global values` : ``;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            testName = `Open ${module.moduleCaption} browse`;
+            test(testName, async () => {
+                await module.openBrowse()
+                    .then((openBrowseResponse) => {
+                        expect(openBrowseResponse.errorMessage).toBe("");
+                        expect(openBrowseResponse.opened).toBeTruthy();
+                    });
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            if (seekObject) {   // if seekObject supplied, use it.  Otherwise skip this and just open the first record in the browse
+                testName = `Use column headers to seek a specific ${module.moduleCaption} record`;
+                test(testName, async () => {
+                    let recordCount = await module.browseSeek(seekObject).then().catch(err => this.LogError(testName, err));
+                    expect(recordCount).toBe(1);
+                    this.continueTest = (recordCount == 1);
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            testName = `Open the ${module.moduleCaption} record`;
+            test(testName, async () => {
+                await module.openRecord()
+                    .then(openRecordResponse => {
+                        expect(openRecordResponse.errorMessage).toBe("");
+                        expect(openRecordResponse.opened).toBeTruthy();
 
-    async MediumRegressionOnModule(module: ModuleBase) {
+                        if (registerGlobal) {
+                            let globalKey = module.moduleName;
+                            if (globalKeyValue === undefined) {
+                                for (var key in openRecordResponse.keys) {
+                                    globalKey = globalKey + "~" + openRecordResponse.keys[key];
+                                }
+                            }
+                            else {
+                                globalKey = globalKey + "~" + globalKeyValue;
+                            }
+                            this.globalScopeRef[globalKey] = openRecordResponse.record;
+                        }
+                    });
+                if (closeRecordWhenDone) {
+                    await module.closeRecord();
+                }
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    async LoadMyUserGlobal(userModule: FwModuleBase) {
+        let testName: string = `Load my User account data into global scope`;
+        const testCollectionName = `Load my User account data into global scope`;
+        describe(testCollectionName, () => {
+            test(testName, async () => {
+
+                var findUserInputs: any = {
+                    LoginName: process.env.RW_LOGIN
+                }
+
+                let myAccount: any = this.globalScopeRef["User~ME"];  // check GlobalScope for myAccount to use (can be used to re-log during the middle of a test)
+                if (myAccount != undefined) {  // if myAccount was established, then use it
+                    findUserInputs.LoginName = myAccount.LoginName;
+                }
+
+                //await this.OpenSpecificRecord(userModule, findUserInputs, true, "ME", true);
+                await userModule.openBrowse();
+                await userModule.browseSeek(findUserInputs);
+                await userModule.openRecord()
+                    .then(openRecordResponse => {
+                        this.globalScopeRef["User~ME"] = openRecordResponse.record;
+                        //    }
+                    });
+                await userModule.closeRecord();
+            }, this.testTimeout);
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    async CopyMyUserRegisterGlobal(userModule: FwModuleBase) {
+        //var findUserInputs: any = {
+        //    LoginName: "GlobalScope.TestToken~1.TestToken"
+        //}
+
+        let testName: string = "";
+        const testCollectionName = `Copy User to create a new Test User`;
+        describe(testCollectionName, () => {
+            testName = `Copy User to create a new Test User`;
+            test(testName, async () => {
+                let me: any = this.globalScopeRef["User~ME"];
+                let newMe: any = {};
+                newMe.FirstName = FwTestUtils.randomFirstName();
+                newMe.LastName = FwTestUtils.randomLastName();
+                newMe.LoginName = this.globalScopeRef["TestToken~1"].TestToken;
+                let newPassword: string = FwTestUtils.randomAlphanumeric(20);
+                newMe.Password = newPassword;
+                newMe.GroupName = me.GroupName;
+                newMe.UserTitle = me.UserTitle;
+                newMe.Email = "GlobalScope.TestToken~1.MediumTestToken_" + me.Email;
+                newMe.OfficeLocation = me.OfficeLocation;
+                newMe.Warehouse = me.Warehouse;
+                newMe.DefaultDepartmentType = me.DefaultDepartmentType;
+                newMe.RentalDepartment = me.RentalDepartment;
+                newMe.SalesDepartment = me.SalesDepartment;
+                newMe.MiscDepartment = me.MiscDepartment;
+                newMe.LaborDepartment = me.LaborDepartment;
+                await userModule.createNewRecord();
+                await userModule.populateFormWithRecord(newMe);
+                await userModule.saveRecord(true);
+
+                this.globalScopeRef["User~ME"] = newMe;
+
+                FwLogging.logInfo(`end of CopyMyUserRegisterGlobal`);
+
+            }, this.testTimeout);
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    async ValidateUserAndEnvironment() {
+        let testName: string = "";
+        const testCollectionName = `Validate User and Environment`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            testName = `Validate User Name`;
+            test(testName, async () => {
+                let selector = `div.systembarcontrol[data-id="username"]`;
+                await page.waitForSelector(selector);
+                const element = await page.$(selector);
+                const userName = await page.evaluate(element => element.textContent, element);
+                let expectedUserName = this.globalScopeRef["User~ME"]["FirstName"] + " " + this.globalScopeRef["User~ME"]["LastName"];
+                FwLogging.logInfo(`Valiating User Name on toolbar:\n     Expecting: "${expectedUserName}"\n     Found:     "${userName}"`);
+                expect(userName).toBe(expectedUserName);
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = `Validate Office Location`;
+            test(testName, async () => {
+                let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
+                await page.waitForSelector(selector);
+                const element = await page.$(selector);
+                const officeLocation = await page.evaluate(element => element.textContent, element);
+                let expectedOfficeLocation = this.globalScopeRef["User~ME"]["OfficeLocation"];
+                FwLogging.logInfo(`Valiating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
+                expect(officeLocation).toBe(expectedOfficeLocation);
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    // this method can be overridden to implement copying your User as a new login for to run this test
+    async RelogAsCopyOfUser() { }
+    //---------------------------------------------------------------------------------------
+    // this method can be overridden in sub classes for each test collection we want to perform
+    async ValidateEnvironment() { }
+    //---------------------------------------------------------------------------------------
+    // this method will be overridden in sub classes for each test collection we want to perform
+    async PerformTests() { }
+    //---------------------------------------------------------------------------------------
+    async Run() {
+        try {
+            this.DoBeforeAll();
+            this.VerifyTestToken();
+            this.CheckDependencies();
+            this.DoLogin()
+            this.RelogAsCopyOfUser();
+            this.ValidateEnvironment();
+            this.PerformTests();
+            this.DoLogoff();
+        } catch (ex) {
+            FwLogging.logError('Error in Run.' + ex);
+        }
+    }
+    //---------------------------------------------------------------------------------------
+    async ShallowRegressionOnModule(module: FwModuleBase, registerGlobal?: boolean) {
+        let testName: string = "";
+        describe(module.moduleCaption, () => {
+            const testCollectionName = `Shallow Regression`;
+            describe(testCollectionName, () => {
+                //---------------------------------------------------------------------------------------
+                testName = `Open ${module.moduleCaption} browse`;
+                test(testName, async () => {
+                    await module.openBrowse()
+                        .then(openBrowseResponse => {
+                            expect(openBrowseResponse.errorMessage).toBe("");
+                            expect(openBrowseResponse.opened).toBeTruthy();
+                        });
+                }, module.browseOpenTimeout);
+                //---------------------------------------------------------------------------------------
+                if (module.canView) {       //if the module supports form viewing, try to open the first form, if any
+                    testName = `Open first ${module.moduleCaption} form, if any`;
+                    test(testName, async () => {
+                        await module.openRecord()
+                            .then(openRecordResponse => {
+                                expect(openRecordResponse.errorMessage).toBe("");
+                                expect(openRecordResponse.opened).toBeTruthy();
+
+                                if (registerGlobal) {
+                                    let globalKey = module.moduleName;
+                                    for (var key in openRecordResponse.keys) {
+                                        globalKey = globalKey + "~" + openRecordResponse.keys[key];
+                                    }
+                                    //FwLogging.logInfo(`Global Key: ${globalKey}`);
+                                    this.globalScopeRef[globalKey] = openRecordResponse.record;
+                                }
+                            });
+
+                    }, module.formOpenTimeout);
+
+                    //if the module supports form viewing, try to click all tabs on the form
+                    testName = `Click all Tabs on the ${module.moduleCaption} form`;
+                    test(testName, async () => {
+                        await module.clickAllTabsOnForm()
+                            .then(openRecordResponse => {
+                                expect(openRecordResponse.errorMessage).toBe("");
+                                expect(openRecordResponse.success).toBeTruthy();
+                            });
+                    }, module.formOpenTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+            });
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    async MediumRegressionOnModule(module: FwModuleBase) {
         let testName: string = "";
         describe(module.moduleCaption, () => {
             const testCollectionName = `Medium Regression`;
@@ -70,11 +343,11 @@ export class MediumRegressionTest extends BaseTest {
                                                 let foundValue = defaultObject[key];
 
                                                 if (expectingValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
-                                                    expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
+                                                    expectingValue = FwTestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
                                                 }
 
-                                                Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
-                                                if (expectingValue === ModuleBase.NOTEMPTY) {
+                                                FwLogging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
+                                                if (expectingValue === FwModuleBase.NOTEMPTY) {
                                                     let expectedStr = `${key} value is ""`;
                                                     let actualStr = `${key} value is "${foundValue}"`;
                                                     expect(actualStr).not.toBe(expectedStr);
@@ -153,11 +426,11 @@ export class MediumRegressionTest extends BaseTest {
                                                     let foundValue = openRecordResponse.record[key];//.toUpperCase();
 
                                                     if (expectingValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
-                                                        expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
+                                                        expectingValue = FwTestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
                                                     }
 
-                                                    Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
-                                                    if (expectingValue === ModuleBase.NOTEMPTY) {
+                                                    FwLogging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
+                                                    if (expectingValue === FwModuleBase.NOTEMPTY) {
                                                         let expectedStr = `${key} value is ""`;
                                                         let actualStr = `${key} value is "${foundValue}"`;
                                                         expect(actualStr).not.toBe(expectedStr);
@@ -526,11 +799,11 @@ export class MediumRegressionTest extends BaseTest {
                                                         let foundValue = openRecordResponse.record[key];//.toUpperCase();
 
                                                         if (expectingValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
-                                                            expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
+                                                            expectingValue = FwTestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
                                                         }
 
-                                                        Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
-                                                        if (expectingValue === ModuleBase.NOTEMPTY) {
+                                                        FwLogging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
+                                                        if (expectingValue === FwModuleBase.NOTEMPTY) {
                                                             let expectedStr = `${key} value is ""`;
                                                             let actualStr = `${key} value is "${foundValue}"`;
                                                             expect(actualStr).not.toBe(expectedStr);
@@ -678,11 +951,11 @@ export class MediumRegressionTest extends BaseTest {
                                                     let foundValue = openRecordResponse.record[key];//.toUpperCase();
 
                                                     if (expectingValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
-                                                        expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
+                                                        expectingValue = FwTestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
                                                     }
 
-                                                    Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
-                                                    if (expectingValue === ModuleBase.NOTEMPTY) {
+                                                    FwLogging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
+                                                    if (expectingValue === FwModuleBase.NOTEMPTY) {
                                                         let expectedStr = `${key} value is ""`;
                                                         let actualStr = `${key} value is "${foundValue}"`;
                                                         expect(actualStr).not.toBe(expectedStr);
@@ -954,246 +1227,4 @@ export class MediumRegressionTest extends BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    async RelogAsCopyOfUser() {
-        this.LoadMyUserGlobal(new User());
-        this.CopyMyUserRegisterGlobal(new User());
-        this.DoLogoff();
-        this.DoLogin();  // uses new login account
-    }
-    //---------------------------------------------------------------------------------------
-    async PerformTests() {
-        //prerequisites
-
-        this.LoadMyUserGlobal(new User());
-        this.OpenSpecificRecord(new DefaultSettings(), null, true);
-        this.OpenSpecificRecord(new InventorySettings(), null, true);
-
-        let warehouseToSeek: any = {
-            Warehouse: "GlobalScope.User~ME.Warehouse",
-        }
-        this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
-
-        //Home - Agent
-        this.MediumRegressionOnModule(new Contact());
-        this.MediumRegressionOnModule(new Customer());
-        this.MediumRegressionOnModule(new Deal());
-        this.MediumRegressionOnModule(new Order());
-        this.MediumRegressionOnModule(new Project());
-        this.MediumRegressionOnModule(new PurchaseOrder());
-        this.MediumRegressionOnModule(new Quote());
-        this.MediumRegressionOnModule(new Vendor());
-
-        describe('Setup new Rental I-Codes', () => {
-            //---------------------------------------------------------------------------------------
-            let testName: string = 'Create new Rental I-Code using i-Code mask, if any';
-            test(testName, async () => {
-
-                let iCodeMask: string = this.globalScopeRef["InventorySettings~1"].ICodeMask;  // ie. "aaaaa-"  or "aaaaa-aa"
-                iCodeMask = iCodeMask.toUpperCase();
-                let newICode: string = TestUtils.randomAlphanumeric((iCodeMask.split("A").length - 1)); // count the A's
-                iCodeMask = iCodeMask.trim();
-                let maskedICode: string = newICode;
-
-                if ((iCodeMask.includes("-")) && (!iCodeMask.endsWith("-"))) {
-                    let hyphenIndex: number = iCodeMask.indexOf("-");
-                    let iCodeStart: string = newICode.toUpperCase().substr(0, hyphenIndex);
-                    let iCodeEnd: string = newICode.toUpperCase().substr(hyphenIndex);
-                    maskedICode = iCodeStart + '-' + iCodeEnd;
-                }
-
-                let newICodeObject: any = {};
-                newICodeObject.newICode = newICode.toUpperCase();
-                newICodeObject.maskedICode = maskedICode.toUpperCase();
-                this.globalScopeRef["RentalInventory~NEWICODE"] = newICodeObject;
-
-                expect(1).toBe(1);
-            }, this.testTimeout);
-        });
-
-        //Home - Inventory
-        this.MediumRegressionOnModule(new Asset());
-        this.MediumRegressionOnModule(new PartsInventory());
-        this.MediumRegressionOnModule(new PhysicalInventory());
-        this.MediumRegressionOnModule(new RentalInventory());
-        //this.MediumRegressionOnModule(new RepairOrder());    // this module cannot be tested because we cannot search on a unique field. also the bar code validation allows all statuses, so we can't be sure that a record we pick there will be allowable in repair
-        this.MediumRegressionOnModule(new SalesInventory());
-
-        //Home - Warehouse
-        this.MediumRegressionOnModule(new Contract());
-        this.MediumRegressionOnModule(new PickList());
-
-        //Home - Container
-        this.MediumRegressionOnModule(new Container());
-
-        //Home - Transfer
-        this.MediumRegressionOnModule(new Manifest());
-        this.MediumRegressionOnModule(new TransferOrder());
-        this.MediumRegressionOnModule(new TransferReceipt());
-
-        //Home - Billing
-        this.MediumRegressionOnModule(new Invoice());
-        this.MediumRegressionOnModule(new Receipt());
-        this.MediumRegressionOnModule(new VendorInvoice());
-
-        //Settings
-        this.MediumRegressionOnModule(new AccountingSettings());
-        this.MediumRegressionOnModule(new GlAccount());
-        this.MediumRegressionOnModule(new GlDistribution());
-        this.MediumRegressionOnModule(new Country());
-        this.MediumRegressionOnModule(new State());
-        this.MediumRegressionOnModule(new BillingCycle());
-        this.MediumRegressionOnModule(new Department());
-        this.MediumRegressionOnModule(new ContactEvent());
-        this.MediumRegressionOnModule(new ContactTitle());
-        this.MediumRegressionOnModule(new MailList());
-        this.MediumRegressionOnModule(new Currency());
-        this.MediumRegressionOnModule(new CreditStatus());
-        this.MediumRegressionOnModule(new CustomerCategory());
-        this.MediumRegressionOnModule(new CustomerStatus());
-        this.MediumRegressionOnModule(new CustomerType());
-        this.MediumRegressionOnModule(new DealClassification());
-        this.MediumRegressionOnModule(new DealType());
-        this.MediumRegressionOnModule(new DealStatus());
-        this.MediumRegressionOnModule(new ProductionType());
-        this.MediumRegressionOnModule(new ScheduleType());
-        this.MediumRegressionOnModule(new DiscountTemplate());
-        this.MediumRegressionOnModule(new DocumentType());
-        //this.MediumRegressionOnModule(new CoverLetter());
-        //this.MediumRegressionOnModule(new TermsConditions());
-        this.MediumRegressionOnModule(new EventCategory());
-        this.MediumRegressionOnModule(new EventType());
-        this.MediumRegressionOnModule(new PersonnelType());
-        this.MediumRegressionOnModule(new PhotographyType());
-        this.MediumRegressionOnModule(new Building());
-        this.MediumRegressionOnModule(new FacilityType());
-        this.MediumRegressionOnModule(new FacilityRate());
-        this.MediumRegressionOnModule(new FacilityScheduleStatus());
-        this.MediumRegressionOnModule(new FacilityStatus());
-        this.MediumRegressionOnModule(new FacilityCategory());
-        this.MediumRegressionOnModule(new SpaceType());
-        this.MediumRegressionOnModule(new FiscalYear());
-        this.MediumRegressionOnModule(new GeneratorFuelType());
-        this.MediumRegressionOnModule(new GeneratorMake());
-        this.MediumRegressionOnModule(new GeneratorRating());
-        this.MediumRegressionOnModule(new GeneratorWatts());
-        this.MediumRegressionOnModule(new GeneratorType());
-        //this.MediumRegressionOnModule(new Holiday()); // module cannot be tested becuase data fields repeat and become invisible based on holiday.Type
-        this.MediumRegressionOnModule(new BlackoutStatus());
-        this.MediumRegressionOnModule(new BarCodeRange());
-        this.MediumRegressionOnModule(new InventoryAdjustmentReason());
-        this.MediumRegressionOnModule(new Attribute());
-        this.MediumRegressionOnModule(new InventoryCondition());
-        this.MediumRegressionOnModule(new InventoryGroup());
-        //this.MediumRegressionOnModule(new InventoryRank());  // module cannot be tested because there is no unique field that can be searched to validate or delete the record
-        //this.MediumRegressionOnModule(new InventoryStatus());  // module cannot be tested because of unique index on the "statustype" field. no adds allowed
-        this.MediumRegressionOnModule(new InventoryType());
-        this.MediumRegressionOnModule(new PartsCategory());
-        this.MediumRegressionOnModule(new RentalCategory());
-        this.MediumRegressionOnModule(new RetiredReason());
-        this.MediumRegressionOnModule(new SalesCategory());
-        this.MediumRegressionOnModule(new Unit());
-        this.MediumRegressionOnModule(new UnretiredReason());
-        this.MediumRegressionOnModule(new WarehouseCatalog());
-        this.MediumRegressionOnModule(new Crew());
-        this.MediumRegressionOnModule(new LaborRate());
-        this.MediumRegressionOnModule(new LaborPosition());
-        this.MediumRegressionOnModule(new LaborType());
-        this.MediumRegressionOnModule(new LaborCategory());
-        this.MediumRegressionOnModule(new CrewScheduleStatus());
-        this.MediumRegressionOnModule(new CrewStatus());
-        this.MediumRegressionOnModule(new MiscRate());
-        this.MediumRegressionOnModule(new MiscType());
-        this.MediumRegressionOnModule(new MiscCategory());
-        this.MediumRegressionOnModule(new OfficeLocation());
-        this.MediumRegressionOnModule(new OrderType());
-        this.MediumRegressionOnModule(new DiscountReason());
-        this.MediumRegressionOnModule(new MarketSegment());
-        this.MediumRegressionOnModule(new MarketType());
-        this.MediumRegressionOnModule(new OrderSetNo());
-        this.MediumRegressionOnModule(new OrderLocation());
-        this.MediumRegressionOnModule(new PaymentTerms());
-        this.MediumRegressionOnModule(new PaymentType());
-        this.MediumRegressionOnModule(new POApprovalStatus());
-        this.MediumRegressionOnModule(new POApproverRole());
-        this.MediumRegressionOnModule(new POClassification());
-        this.MediumRegressionOnModule(new POImportance());
-        this.MediumRegressionOnModule(new PORejectReason());
-        this.MediumRegressionOnModule(new POType());
-        //this.MediumRegressionOnModule(new POApprover());                // module cannot be tested because there is no unique field that can be searched to validate or delete the record
-        //this.MediumRegressionOnModule(new VendorInvoiceApprover());     // module cannot be tested because there is no unique field that can be searched to validate or delete the record
-        this.MediumRegressionOnModule(new FormDesign());
-        this.MediumRegressionOnModule(new PresentationLayer());
-        this.MediumRegressionOnModule(new ProjectAsBuild());
-        this.MediumRegressionOnModule(new ProjectCommissioning());
-        this.MediumRegressionOnModule(new ProjectDeposit());
-        this.MediumRegressionOnModule(new ProjectDrawings());
-        this.MediumRegressionOnModule(new ProjectDropShipItems());
-        this.MediumRegressionOnModule(new ProjectItemsOrdered());
-        this.MediumRegressionOnModule(new PropsCondition());
-        this.MediumRegressionOnModule(new Region());
-        this.MediumRegressionOnModule(new RepairItemStatus());
-        this.MediumRegressionOnModule(new SetCondition());
-        this.MediumRegressionOnModule(new SetSurface());
-        this.MediumRegressionOnModule(new SetOpening());
-        this.MediumRegressionOnModule(new WallDescription());
-        this.MediumRegressionOnModule(new WallType());
-        this.MediumRegressionOnModule(new ShipVia());
-        this.MediumRegressionOnModule(new Source());
-        this.MediumRegressionOnModule(new AvailabilitySettings());
-        this.MediumRegressionOnModule(new DefaultSettings());
-        this.MediumRegressionOnModule(new EmailSettings());
-        this.MediumRegressionOnModule(new InventorySettings());
-        this.MediumRegressionOnModule(new LogoSettings());
-        this.MediumRegressionOnModule(new DocumentBarCodeSettings());
-        this.MediumRegressionOnModule(new SystemSettings());
-        this.MediumRegressionOnModule(new TaxOption());
-        this.MediumRegressionOnModule(new Template());
-        this.MediumRegressionOnModule(new UserStatus());
-        this.MediumRegressionOnModule(new Sound());
-        this.MediumRegressionOnModule(new LicenseClass());
-        this.MediumRegressionOnModule(new VehicleColor());
-        this.MediumRegressionOnModule(new VehicleFuelType());
-        this.MediumRegressionOnModule(new VehicleMake());
-        this.MediumRegressionOnModule(new VehicleScheduleStatus());
-        this.MediumRegressionOnModule(new VehicleStatus());
-        this.MediumRegressionOnModule(new VehicleType());
-        this.MediumRegressionOnModule(new OrganizationType());
-        this.MediumRegressionOnModule(new VendorCatalog());
-        this.MediumRegressionOnModule(new VendorClass());
-        this.MediumRegressionOnModule(new SapVendorInvoiceStatus());
-        this.MediumRegressionOnModule(new WardrobeCare());
-        this.MediumRegressionOnModule(new WardrobeColor());
-        this.MediumRegressionOnModule(new WardrobeCondition());
-        this.MediumRegressionOnModule(new WardrobeGender());
-        this.MediumRegressionOnModule(new WardrobeLabel());
-        this.MediumRegressionOnModule(new WardrobeMaterial());
-        this.MediumRegressionOnModule(new WardrobePattern());
-        this.MediumRegressionOnModule(new WardrobePeriod());
-        this.MediumRegressionOnModule(new WardrobeSource());
-        this.MediumRegressionOnModule(new Warehouse());
-        this.MediumRegressionOnModule(new Widget());
-        //this.MediumRegressionOnModule(new WorkWeek());     // module cannot be tested because there is no unique field that can be searched to validate or delete the record
-
-        //Administrator
-        //this.MediumRegressionOnModule(new Alert());
-        //this.MediumRegressionOnModule(new CustomField());
-        this.MediumRegressionOnModule(new CustomForm());
-        this.MediumRegressionOnModule(new CustomReportLayout());
-        //this.MediumRegressionOnModule(new DuplicateRule());
-        this.MediumRegressionOnModule(new EmailHistory());
-        this.MediumRegressionOnModule(new Group());
-        this.MediumRegressionOnModule(new Hotfix());
-        this.MediumRegressionOnModule(new User());
-
-
-    }
-    //---------------------------------------------------------------------------------------
 }
-
-describe('MediumRegressionTest', () => {
-    try {
-        new MediumRegressionTest().Run();
-    } catch(ex) {
-        fail(ex);
-    }
-});

@@ -204,4 +204,10 @@ export class RunReportsTest extends BaseTest {
     //---------------------------------------------------------------------------------------
 }
 
-new RunReportsTest().Run();
+describe('RunReportsTest', () => {
+    try {
+        new RunReportsTest().Run();
+    } catch(ex) {
+        fail(ex);
+    }
+});

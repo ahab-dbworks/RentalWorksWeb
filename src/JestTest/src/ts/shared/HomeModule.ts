@@ -1,7 +1,7 @@
-import { ModuleBase } from '../shared/ModuleBase';
+import { FwHomeModule } from '../fwjest/FwHomeModule';
 
 //---------------------------------------------------------------------------------------
-export class HomeModule extends ModuleBase {
+export class HomeModule extends FwHomeModule {
     //---------------------------------------------------------------------------------------
     constructor() {
         super();

@@ -35,7 +35,11 @@
   "scripts": {
     "test-rentalworksapi": "jest --config=jest.rentalworksapi.config.js",
     "test-rentalworksweb": "jest --config=jest.rentalworksweb.config.js",
-    "test": "jest"
+    "InventoryIntegrityTest": "jest --config=jest.rentalworksweb.config.js -t InventoryIntegrityTest",
+    "LoginLogoutTest": "jest --config=jest.rentalworksweb.config.js -t LoginLogoutTest",
+    "MediumRegressionTest": "jest --config=jest.rentalworksweb.config.js -t MediumRegressionTest",
+    "RunReportsTest": "jest --config=jest.rentalworksweb.config.js -t RunReportsTest",
+    "ShallowRegressionTest": "jest --config=jest.rentalworksweb.config.js -t ShallowRegressionTest"
   },
   "license": "UNLICENSED"
 }

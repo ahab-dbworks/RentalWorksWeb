@@ -4,4 +4,10 @@ export class LoginLogoutTest extends BaseTest {
     testTimeout = 240000; // 240 seconds
 }
 
-new LoginLogoutTest().Run();
+describe('LoginLogoutTest', () => {
+    try {
+        new LoginLogoutTest().Run();
+    } catch(ex) {
+        fail(ex);
+    }
+});

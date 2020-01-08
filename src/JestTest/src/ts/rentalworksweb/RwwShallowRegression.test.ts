@@ -270,4 +270,10 @@ export class ShallowRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
 }
 
-new ShallowRegressionTest().Run();
+describe('ShallowRegressionTest', () => {
+    try {
+        new ShallowRegressionTest().Run();
+    } catch(ex) {
+        fail(ex);
+    }
+});

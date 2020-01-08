@@ -1,4 +1,6 @@
-﻿export class GlobalScope {
+﻿import { FwGlobalScope } from '../fwjest/FwGlobalScope';
+
+export class GlobalScope extends FwGlobalScope {
 
     //use this class to register global values that can be referenced between tests
     //                                          root_object.object~id.fieldname

@@ -1288,4 +1288,10 @@ export class InventoryIntegrityTest extends BaseTest {
     //---------------------------------------------------------------------------------------
 }
 
-new InventoryIntegrityTest().Run();
+describe('InventoryIntegrityTest', () => {
+    try {
+        new InventoryIntegrityTest().Run();
+    } catch(ex) {
+        fail(ex);
+    }
+});
