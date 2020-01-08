@@ -1,12 +1,12 @@
 ﻿abstract class ContractBase {
-    Module:             string;
-    apiurl:             string;
-    caption:            string;
-    nav:                string;
-    id:                 string;
-    ActiveViewFields:   any;
+    Module: string;
+    apiurl: string;
+    caption: string;
+    nav: string;
+    id: string;
+    ActiveViewFields: any;
     ActiveViewFieldsId: string;
-    BillingDate:        string;
+    BillingDate: string;
     //----------------------------------------------------------------------------------------------
     afterAddBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         const location = JSON.parse(sessionStorage.getItem('location'));
@@ -93,7 +93,7 @@
             { value: 'DEAL', caption: 'Deal' },
             { value: 'VENUE', caption: 'Venue' },
             { value: 'WAREHOUSE', caption: 'Warehouse' },
-            { value: 'OTHER', caption: 'Other'}
+            { value: 'OTHER', caption: 'Other' }
         ]);
         this.events($form);
         this.renderPrintButton($form);
@@ -112,7 +112,7 @@
     }
     //----------------------------------------------------------------------------------------------
     renderPrintButton($form: any) {
-        var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
+        const $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
         $print.prepend('<i class="material-icons">print</i>');
         $print.on('click', () => {
             this.printContract($form);
@@ -163,10 +163,21 @@
     //----------------------------------------------------------------------------------------------
     printContract($form: JQuery): void {
         try {
-            const $report = OutContractReportController.openForm();
-            FwModule.openSubModuleTab($form, $report);
+            let module, $report;
+            if (this.Module === 'Contract') {
+                module = 'Contract';
+                $report = OutContractReportController.openForm();
+                FwModule.openSubModuleTab($form, $report);
+            } else if (this.Module === 'Manifest') {
+                module = 'Manifest';
+                $report = TransferManifestReportController.openForm();
+                FwModule.openSubModuleTab($form, $report);
+            } else if (this.Module === 'TransferReceipt') {
+                module = 'Receipt';
+                $report = TransferReceiptReportController.openForm();
+                FwModule.openSubModuleTab($form, $report);
+            }
 
-            const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
             const contractId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
             $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(contractId);
             const contractNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
@@ -203,8 +214,8 @@
             moduleSecurityId: this.id,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
@@ -221,8 +232,8 @@
             moduleSecurityId: this.id,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
 
                 FwMenu.addSubMenuItem(options.$groupActions, 'Void Items', '', (e: JQuery.ClickEvent) => {
@@ -248,8 +259,8 @@
             moduleSecurityId: this.id,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
 
                 FwMenu.addSubMenuItem(options.$groupActions, 'Void Items', '', (e: JQuery.ClickEvent) => {
@@ -333,7 +344,7 @@
                         returnToInventory = returnToInventory === 'T' ? true : false;
                         request.ReturnToInventory = returnToInventory;
                     }
-            
+
                     FwAppData.apiMethod(true, 'POST', `api/v1/contractitemdetail/voiditems`, request, FwServices.defaultTimeout,
                         response => {
                             if (!response.success) {

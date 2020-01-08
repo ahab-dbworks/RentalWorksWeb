@@ -1,12 +1,12 @@
 routes.push({ pattern: /^module\/transferreceipt$/, action: function (match: RegExpExecArray) { return TransferReceiptController.getModuleScreen(); } });
 
 class TransferReceipt extends ContractBase {
-    Module:             string = 'TransferReceipt';
-    apiurl:             string = 'api/v1/transferreceipt';
-    caption:            string = Constants.Modules.Transfers.children.TransferReceipt.caption;
-    nav:                string = Constants.Modules.Transfers.children.TransferReceipt.nav;
-    id:                 string = Constants.Modules.Transfers.children.TransferReceipt.id;
-    ActiveViewFields:   any    = {};
+    Module: string = 'TransferReceipt';
+    apiurl: string = 'api/v1/transferreceipt';
+    caption: string = Constants.Modules.Transfers.children.TransferReceipt.caption;
+    nav: string = Constants.Modules.Transfers.children.TransferReceipt.nav;
+    id: string = Constants.Modules.Transfers.children.TransferReceipt.id;
+    ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
@@ -91,7 +91,6 @@ class TransferReceipt extends ContractBase {
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px; display:none"></div>
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px; display:none"></div>
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px; display:none"></div>
-                    <div class="print fwformcontrol" data-type="button" style="max-width:45px;margin:15px 0 0 10px;">Print</div>
                   </div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Summary">
