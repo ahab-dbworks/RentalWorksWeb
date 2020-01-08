@@ -12,8 +12,26 @@
         //    $generatedtr.find('.field[data-browsedatafield="Email"] input').val($control.closest('.fwform').find('div[data-datafield="Email"]').attr('data-originalvalue'));
         //}
 
-        $generatedtr.find('div[data-browsedatafield="CompanyId"]').data('onchange', function ($tr) {
-            $generatedtr.find('.field[data-browsedatafield="CompanyType"]').text($tr.find('.field[data-browsedatafield="CompanyType"]').attr('data-originalvalue'))
+        FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+            const companyType = FwBrowse.getValueByDataField($control, $tr, 'CompanyType');
+            const $td = $tr.find('[data-browsedatafield="CompanyId"]');
+            let peekForm;
+            switch (companyType) {
+                case 'CUSTOMER':
+                    peekForm = 'Customer';
+                    break;
+                case 'DEAL':
+                    peekForm = 'Deal';
+                    break;
+                case 'VENDOR':
+                    peekForm = 'Vendor';
+                    break;
+            }
+            $td.attr('data-peekForm', peekForm);
+        });
+
+        $generatedtr.find('div[data-browsedatafield="CompanyId"]').data('onchange', $tr => {
+            $generatedtr.find('.field[data-browsedatafield="CompanyType"]').text(FwBrowse.getValueByDataField($control, $tr, 'CompanyType'))
             $generatedtr.find('.field[data-browsedatafield="ContactTitleId"] input.value').val($form.find('div[data-datafield="ContactTitleId"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="ContactTitleId"] input.text').val($form.find('div[data-datafield="ContactTitleId"] input.fwformfield-text').val());
             $generatedtr.find('.field[data-browsedatafield="OfficePhone"] input').val($form.find('div[data-datafield="OfficePhone"]').attr('data-originalvalue'));

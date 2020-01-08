@@ -593,7 +593,7 @@
         $browse.find('.fwbrowse-menu .buttonbar').empty().append($show);
         $browse.find('.fwbrowse-menu .buttonbar .ddviewbtn').css('margin-left', 'auto');
     }
-    homeModules: Array<string> = ['ContactValidation', 'CustomerValidation', 'DealValidation', 'OrderValidation', 'ProjectValidation', 'PurchaseOrderValidation', 'QuoteValidation', 'VendorValidation', 'AssetValidation', 'PartsInventoryValidation', 'RentalInventoryValidation', 'RepairOrderValidation', 'SalesInventoryValidation', 'ContractValidation', 'PickListValidation', 'ContainerValidation', 'InvoiceValidation', 'ReceiptValidation'];
+    homeModules: Array<string> = ['ContactValidation', 'CustomerValidation', 'DealValidation', 'OrderValidation', 'ProjectValidation', 'PurchaseOrderValidation', 'QuoteValidation', 'VendorValidation', 'AssetValidation', 'PartsInventoryValidation', 'RentalInventoryValidation', 'RepairOrderValidation', 'SalesInventoryValidation', 'ContractValidation', 'PickListValidation', 'ContainerValidation', 'InvoiceValidation', 'ReceiptValidation', 'CompanyValidation'];
     //----------------------------------------------------------------------------------------------
     isHomeModule($control: JQuery<HTMLElement>): boolean { //temp (inefficient) solution, til security tree implementations are in place, used to determine whether to render peek buttons - jpace 7/16/19
         return (this.homeModules.indexOf($control.attr('data-validationname')) > -1);

@@ -2579,7 +2579,8 @@ class FwBrowseClass {
                         $this.css('visibility', 'hidden');
                         $td.find('.validation-loader').show();
                         setTimeout(function () {
-                            FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
+                            const validationName = $td.attr('data-peekForm') || $td.data('validationname').slice(0, -10);
+                            FwValidation.validationPeek($control, validationName, $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
                             $this.css('visibility', 'visible');
                             $td.find('.validation-loader').hide();
                         })
