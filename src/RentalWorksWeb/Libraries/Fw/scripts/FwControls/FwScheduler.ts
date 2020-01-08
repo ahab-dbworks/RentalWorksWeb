@@ -177,8 +177,8 @@ class FwSchedulerClass {
         $control.on('click', '.btnNext', function () {
             let currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed, $schedulerControl;
             try {
-                $schedulerControl = $control.parents().find('div.formpage').find('.realscheduler')
-                if ($schedulerControl !== undefined) {
+                $schedulerControl = $control.parents().find('.realscheduler')
+                if ($schedulerControl.length) {
                     schedulerDetailed = $schedulerControl.data('dpscheduler');
                 }
                 if ($control.find('.btnDay').attr('data-selected') === 'true') {
@@ -231,8 +231,8 @@ class FwSchedulerClass {
         $control.on('click', '.btnPrev', function () {
             var currentDay, previousDay, previousWeek, previous5Week, previousMonth, nav5week, navyear, navcalendar, navmonth, navscheduler, schedulerDetailed, $schedulerControl;
             try {
-                $schedulerControl = $control.parents().find('div.formpage').find('.realscheduler')
-                if ($schedulerControl !== undefined) {
+                $schedulerControl = $control.parents().find('.realscheduler')
+                if ($schedulerControl.length) {
                     schedulerDetailed = $schedulerControl.data('dpscheduler');
                 }
                 if ($control.find('.btnDay').attr('data-selected') === 'true') {
@@ -285,6 +285,9 @@ class FwSchedulerClass {
         $control.on('click', '.btnRefreshCalendar', () => {
             try {
                 FwScheduler.refresh($control);
+                const $schedulerControl = $control.parents().find('.realscheduler');
+                FwSchedulerDetailed.refresh($schedulerControl);
+
             } catch (ex) {
                 FwFunc.showError(ex);
             }

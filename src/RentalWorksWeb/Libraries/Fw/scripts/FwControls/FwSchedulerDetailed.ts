@@ -26,7 +26,7 @@ class FwSchedulerDetailedClass {
         schedulerbtns.push('    <div class="changeview btnSchedule">Schedule</div>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="topnavigation">');
-        schedulerbtns.push('    <button class="btnRefreshCalendar">Refresh</button><button class="btnToday">Today</button><button class="btnPrev">&lt;</button><button class="btnNext">&gt;</button>');
+        schedulerbtns.push('    <button class="btnRefreshScheduler">Refresh</button><button class="btnToday">Today</button><button class="btnPrev">&lt;</button><button class="btnNext">&gt;</button>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="datecallout"></div>');
         schedulerbtns.push('</div>');
@@ -78,13 +78,17 @@ class FwSchedulerDetailedClass {
                 const currentDay = navscheduler.startDate;
                 const previousMonth = currentDay.addMonths(-1).firstDayOfMonth();
                 FwSchedulerDetailed.navigate($control, previousMonth);
+
+                //const $calendarControl = $control.parents().find('.calendar');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnRefreshCalendar', function () {
+        $control.on('click', '.btnRefreshScheduler', function () {
             try {
                 FwSchedulerDetailed.refresh($control);
+                const $calendarControl = $control.parents().find('.calendar');
+                FwScheduler.refresh($calendarControl);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
