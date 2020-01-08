@@ -707,20 +707,35 @@ abstract class InventoryBase {
 
         //Price calculation section for completes and kits
         $form.find('[data-datafield="PackagePrice"]').on('change', e => {
-            const packagePrice = FwFormField.getValueByDataField($form, 'PackagePrice');
+            const packagePrice = FwFormField.getValue2($form.find('[data-datafield="PackagePrice"]:visible'));
+            const classification = FwFormField.getValueByDataField($form, 'Classification');
             if (packagePrice == 'CP') {
                 this.enablePricingFields($form);
             } else {
-                FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseCompletePricingGrid"]'));
-                FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseKitPricingGrid"]'));
+                if (classification == 'K') {
+                    FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseKitPricingGrid"]'));
+                } else if (classification == 'C') {
+                    FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseCompletePricingGrid"]'));
+                }
             }
-            FwBrowse.search($form.find('[data-name="InventoryWarehouseCompletePricingGrid"]'));
-            FwBrowse.search($form.find('[data-name="InventoryWarehouseKitPricingGrid"]'));
+
+            if (classification == 'K') {
+                FwBrowse.search($form.find('[data-name="InventoryWarehouseKitPricingGrid"]'));
+            } else if (classification == 'C') {
+                FwBrowse.search($form.find('[data-name="InventoryWarehouseCompletePricingGrid"]'));
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
     enablePricingFields($form) {
-        const $fields = $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] .can-enable, [data-grid="InventoryWarehouseKitPricingGrid"] .can-enable');
+        const classification = FwFormField.getValueByDataField($form, 'Classification');
+        let $fields;
+        if (classification == 'K') {
+            $fields = $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] .can-enable');
+        } else if (classification == 'C') {
+            $fields = $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] .can-enable');
+        }
+       
         jQuery.each($fields, (i, el) => {
             const $cell = jQuery(el);
             if ($cell) {
