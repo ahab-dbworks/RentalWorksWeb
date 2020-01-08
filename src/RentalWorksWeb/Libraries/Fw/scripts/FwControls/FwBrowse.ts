@@ -1954,25 +1954,13 @@ class FwBrowseClass {
             value = $txtSearch.val();
             sort = $field.attr('data-sort');
             sortSequence = $field.attr('data-sortsequence');
-            fieldtype = $field.attr('data-browsedatatype');
-            if (typeof $field.attr('data-datafield') !== 'undefined') {
-                browsedatafield = $field.attr('data-datafield');
-            }
-            else if (typeof $field.attr('data-browsedatafield') !== 'undefined') {
-                browsedatafield = $field.attr('data-browsedatafield');
-            }
-
-            if (typeof $field.attr('data-multiwordseparator') !== 'undefined') {
-                searchSeparator = $field.attr('data-multiwordseparator');
+            fieldtype = $field.attr('data-browsedatatype') || $field.attr('data-datatype');
+            if (fieldtype === "validation") {
+                browsedatafield = $field.attr('data-browsedisplayfield') || $field.attr('data-displayfield');
             } else {
-                searchSeparator = ",";
+                browsedatafield = $field.attr('data-browsedatafield') || $field.attr('data-datafield');
             }
-
-            if (typeof $field.attr('data-browsedatatype') !== 'undefined') {
-                fieldtype = $field.attr('data-browsedatatype');
-            } else if (typeof $field.attr('data-datatype') !== 'undefined') {
-                fieldtype = $field.attr('data-datatype');
-            }
+            searchSeparator = $field.attr('data-multiwordseparator') || ",";
 
             if (value.length > 0) {
                 request.searchfields.push(browsedatafield);
