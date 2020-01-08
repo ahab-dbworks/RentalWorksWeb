@@ -1282,6 +1282,7 @@
       <SubType>Designer</SubType>
     </Content>
     <TypeScriptCompile Include="Source\Validations\BaseInventoryValidation\BaseInventoryValidationController.ts" />
+    <TypeScriptCompile Include="Source\Validations\CountryValidation\CountryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\ReceiptValidation\ReceiptValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\SoundValidation\SoundValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\CompanyValidation\CompanyValidationController.ts" />

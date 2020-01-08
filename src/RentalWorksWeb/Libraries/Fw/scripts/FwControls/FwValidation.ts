@@ -41,6 +41,14 @@
             };
         }
 
+        // Ability to add events for Validations within its controller
+        const validationController = `${$validationbrowse.attr('data-name')}Controller`;
+        if (window[validationController]) {
+            if (typeof window[validationController]['addValidationEvents'] === 'function') {
+                window[validationController]['addValidationEvents']($control);
+            }
+        }
+
         if (typeof control_boundfields != 'undefined') {
             boundfields = control_boundfields.split(',');
         }
