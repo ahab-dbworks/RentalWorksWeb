@@ -116,13 +116,13 @@
     events($form: JQuery): void {
         // Sound Validation
         $form.find('div[data-datafield="SuccessSoundId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="SuccessSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="SuccessSoundFileName"]', FwBrowse.getValueByDataField($form, $tr, 'FileName'));
         });
         $form.find('div[data-datafield="ErrorSoundId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="ErrorSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="ErrorSoundFileName"]', FwBrowse.getValueByDataField($form, $tr, 'FileName'));
         });
         $form.find('div[data-datafield="NotificationSoundId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="NotificationSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="NotificationSoundFileName"]', FwBrowse.getValueByDataField($form, $tr, 'FileName'));
         });
         // Sound Preview
         $form.find('.success-play-button').on('click', e => {
@@ -159,28 +159,21 @@
         }
     };
     //----------------------------------------------------------------------------------------------
-    afterSave($form) {
+    afterSave($form: any) {
         const homePage: any = {};
         homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
         homePage.path = FwFormField.getValueByDataField($form, 'HomeMenuPath');
 
         const sounds: any = {};
-        const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
-        sounds.successSoundFileName = successSoundFileName;
-        const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
-        sounds.errorSoundFileName = errorSoundFileName;
-        const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
-        sounds.notificationSoundFileName = notificationSoundFileName;
+        sounds.successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
+        sounds.errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
+        sounds.notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName');
 
-        const browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
-        sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
-        const applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
-        sessionStorage.setItem('applicationtheme', applicationTheme);
+        sessionStorage.setItem('browsedefaultrows', FwFormField.getValueByDataField($form, 'BrowseDefaultRows'));
+        sessionStorage.setItem('applicationtheme', FwFormField.getValueByDataField($form, 'ApplicationTheme'));
         sessionStorage.setItem('sounds', JSON.stringify(sounds));
         sessionStorage.setItem('homePage', JSON.stringify(homePage));
-        
-        const toolBarJson = FwFormField.getValueByDataField($form, 'ToolBarJson')
-        sessionStorage.setItem('toolbar', toolBarJson);
+        sessionStorage.setItem('toolbar', FwFormField.getValueByDataField($form, 'ToolBarJson'));
 
         //remove unchecked modules
         $form.find('.selected-modules li[data-selected="F"]').remove();
