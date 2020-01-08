@@ -704,8 +704,31 @@ abstract class InventoryBase {
                 FwNotification.renderNotification('WARNING', 'Save Record first.');
             }
         });
+
+        //Price calculation section for completes and kits
+        $form.find('[data-datafield="PackagePrice"]').on('change', e => {
+            const packagePrice = FwFormField.getValueByDataField($form, 'PackagePrice');
+            if (packagePrice == 'CP') {
+                this.enablePricingFields($form);
+            } else {
+                FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseCompletePricingGrid"]'));
+                FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseKitPricingGrid"]'));
+            }
+            FwBrowse.search($form.find('[data-name="InventoryWarehouseCompletePricingGrid"]'));
+            FwBrowse.search($form.find('[data-name="InventoryWarehouseKitPricingGrid"]'));
+        });
     }
     //----------------------------------------------------------------------------------------------
+    enablePricingFields($form) {
+        const $fields = $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] .can-enable, [data-grid="InventoryWarehouseKitPricingGrid"] .can-enable');
+        jQuery.each($fields, (i, el) => {
+            const $cell = jQuery(el);
+            if ($cell) {
+                $cell.attr('data-formreadonly', 'false');
+            }
+        });
+    }
+      //----------------------------------------------------------------------------------------------
     renderReservationsPopup($control: any, event: any): void {
         const date = event.start.value.substring(0, 10);
         const reserveDates = $control.data('reserveDates');
@@ -1022,6 +1045,8 @@ abstract class InventoryBase {
             $form.find('.miscradio').hide();
             $form.find('.tracked-by-column').hide();
             $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
+
+            $form.find('.warehouse-pricing').hide();
         }
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'K') {
@@ -1032,6 +1057,8 @@ abstract class InventoryBase {
             $form.find('.miscradio').hide();
             $form.find('.tracked-by-column').hide();
             $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
+
+            $form.find('.warehouse-pricing').hide();
         }
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'M') {
@@ -1188,7 +1215,17 @@ abstract class InventoryBase {
             }
             $tab.addClass('tabGridsLoaded');
         });
+
+        //Enable/disable grid based on packageprice
+        const packagePrice = FwFormField.getValueByDataField($form, 'PackagePrice');
+        if (packagePrice == 'CP') {
+            this.enablePricingFields($form);
+        } else {
+            FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseCompletePricingGrid"]'));
+            FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseKitPricingGrid"]'));
+        }
     }
+    //----------------------------------------------------------------------------------------------
     calculateYearly() {
         for (var jan = 0; jan <= 30; jan++) {
             this.yearlyEvents.push({

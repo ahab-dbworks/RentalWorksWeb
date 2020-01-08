@@ -124,6 +124,54 @@ class SalesInventory extends InventoryBase {
             }
         });
 
+        FwBrowse.renderGrid({
+            nameGrid: 'InventoryWarehouseCompletePricingGrid',
+            gridSecurityId: 'g8sCuKjUVrW1',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                };
+                request.miscfields = {
+                    UserWarehouseId: warehouse.warehouseid
+                };
+                request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+            }
+        });
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InventoryWarehouseKitPricingGrid',
+            gridSecurityId: 'g8sCuKjUVrW1',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                };
+                request.miscfields = {
+                    UserWarehouseId: warehouse.warehouseid
+                };
+                request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+            }
+        });
+
         // ----------
         //const $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
         //const $inventoryAvailabilityGridControl = FwBrowse.loadGridFromTemplate('InventoryAvailabilityGrid');
@@ -688,6 +736,14 @@ class SalesInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
+
+        //hide columns
+        $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] div[data-browsedatafield="DailyRate"]').parent('td').hide();
+        $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="DailyRate"]').parent('td').hide();
+        $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] div[data-browsedatafield="WeeklyRate"]').parent('td').hide();
+        $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="WeeklyRate"]').parent('td').hide();
+        $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] div[data-browsedatafield="MonthlyRate"]').parent('td').hide();
+        $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="MonthlyRate"]').parent('td').hide();
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
