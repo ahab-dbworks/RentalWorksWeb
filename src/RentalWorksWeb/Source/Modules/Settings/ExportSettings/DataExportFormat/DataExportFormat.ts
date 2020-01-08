@@ -148,6 +148,18 @@ class DataExportFormat {
                                 Object.keys(unorderedItems).sort().forEach(key => {
                                     orderedItems[key] = unorderedItems[key];
                                 });
+
+                                for (const nestedKey of Object.keys(orderedItems)) {
+                                    if (Array.isArray(orderedItems[nestedKey])) {
+                                        const unorderedNestedItems = orderedItems[nestedKey][0];
+                                        const orderedNestedItems = {};
+                                        Object.keys(unorderedNestedItems).sort().forEach(key => {
+                                            orderedNestedItems[key] = unorderedNestedItems[key];
+                                        });
+                                        orderedItems[nestedKey] = orderedNestedItems;
+                                    }
+                                }
+
                                 allValidFields.push({
                                     'Field': key,
                                     'IsCustom': 'false',
@@ -177,8 +189,8 @@ class DataExportFormat {
                             for (const key of Object.keys(allValidFields[i].NestedItems)) {
                                 if (key != '_Custom') {
                                     modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${allValidFields[i].Field}" style="text-indent:1em;">${key}</div>`);
-                                    if (Array.isArray(allValidFields[i].NestedItems[key])) {
-                                        for (const j of Object.keys(allValidFields[i].NestedItems[key][0])) {
+                                    if (allValidFields[i].NestedItems[key] != null && typeof allValidFields[i].NestedItems[key] == 'object') {
+                                        for (const j of Object.keys(allValidFields[i].NestedItems[key])) {
                                             modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${key}" style="text-indent:3em;">${j}</div>`);
                                         }
                                     }
