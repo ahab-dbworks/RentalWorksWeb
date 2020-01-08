@@ -163,9 +163,11 @@
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.js" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js" />
+    <Content Include="Source\Grids\InventoryWarehouseKitPricingGrid\InventoryWarehouseKitPricingGridBrowse.htm" />
     <Content Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridBrowse.htm" />
     <Content Include="Source\Grids\OrderActivitySummaryGrid\OrderActivitySummaryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypePresentationLayerGrid\OrderTypePresentationLayerGridBrowse.htm" />
+    <Content Include="Source\Grids\InventoryWarehouseCompletePricingGrid\InventoryWarehouseCompletePricingGridBrowse.htm" />
     <Content Include="Source\Grids\SystemNumberGrid\SystemNumberGridBrowse.htm" />
     <Content Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridBrowse.htm" />
     <Content Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridBrowse.htm" />
@@ -320,9 +322,11 @@
     <TypeScriptCompile Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryWarehouseKitPricingGrid\InventoryWarehouseKitPricingGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderActivitySummaryGrid\OrderActivitySummaryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypePresentationLayerGrid\OrderTypePresentationLayerGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryWarehouseCompletePricingGrid\InventoryWarehouseCompletePricingGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SystemNumberGrid\SystemNumberGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridController.ts" />

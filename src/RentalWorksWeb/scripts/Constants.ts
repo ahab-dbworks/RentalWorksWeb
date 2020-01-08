@@ -18,7 +18,7 @@ var Constants = {
                 Alert:              { id: 'gFfpaR5mDAzX',  caption: 'Alert',          nav: 'module/alert', nodetype: 'Module' },
                 CustomField:        { id: 'cZHPJQyBxolS',  caption: 'Custom Field',   nav: 'module/customfield', nodetype: 'Module' },
                 CustomForm:         { id: '11txpzVKVGi2',  caption: 'Custom Form',    nav: 'module/customform', nodetype: 'Module' },
-                CustomReportLayout: { id: 'EtrF5NHJ7dRg6', caption: 'Custom Report Layout', nav: 'module/customreportlayout', nodetype: 'Module' },
+                CustomReportLayout: { id: 'EtrF5NHJ7dRg6', caption: 'Custom Report Layout', nav:  'module/customreportlayout', nodetype: 'Module' },
                 DuplicateRule:      { id: 'v7oBspDLjli8',  caption: 'Duplicate Rule', nav: 'module/duplicaterule', nodetype: 'Module' },
                 EmailHistory:       { id: '3XHEm3Q8WSD8z', caption: 'Email History',  nav: 'module/emailhistory', nodetype: 'Module' },
                 Group:              { id: '0vP4rXxgGL1M',  caption: 'Group',          nav: 'module/group', nodetype: 'Module' },
@@ -868,6 +868,8 @@ var Constants = {
         InventoryQcGrid: { id: 'g8sCuKjUVrW1', caption: 'Inventory QC' },
         InventorySubstituteGrid: { id: '5sN9zKtGzNTq', caption: 'Inventory Substitute' },
         InventoryVendorGrid: { id: 's9vdtBqItIEi', caption: 'Inventory Vendor' },
+        InventoryWarehouseCompletePricingGrid: { id: 'g8sCuKjUVrW1', caption: 'Warehouse Pricing' },
+        InventoryWarehouseKitPricingGrid: { id: 'g8sCuKjUVrW1', caption: 'Warehouse Pricing' },
         InventoryWarehouseStagingGrid: { id: 'g8sCuKjUVrW1', caption: 'Inventory Warehouse Staging' },
         InvoiceItemGrid: { id: '5xgHiF8dduf', caption: 'Invoice Item',
             menuItems: {
