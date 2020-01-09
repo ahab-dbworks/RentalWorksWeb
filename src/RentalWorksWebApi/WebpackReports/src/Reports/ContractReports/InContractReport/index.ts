@@ -10,15 +10,13 @@ const hbFooter = require("./hbFooter.hbs");
 
 export class InContractReport extends WebpackReport {
     contract: InContract = null;
-    // DO NOT USE THIS REPORT AS A TEMPLATE
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    //Ajax.get<InContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
-                    Ajax.post<InContract>(`${apiUrl}/api/v1/outcontractreport/runreport`, authorizationHeader, parameters)
+                    Ajax.post<InContract>(`${apiUrl}/api/v1/incontractreport/runreport`, authorizationHeader, parameters)
                         .then((response: InContract) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.Items);

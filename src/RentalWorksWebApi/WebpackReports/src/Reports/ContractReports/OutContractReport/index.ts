@@ -10,21 +10,18 @@ const hbFooter = require("./hbFooter.hbs");
 
 export class OutContractReport extends WebpackReport {
     contract: OutContract = null;
-    // DO NOT USE THIS REPORT AS A TEMPLATE
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    //Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
                     Ajax.post<OutContract>(`${apiUrl}/api/v1/outcontractreport/runreport`, authorizationHeader, parameters)
                         .then((response: OutContract) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.Items);
                             data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
-                            //data.Company = parameters.companyName;
                             data.Report = 'OUT CONTRACT';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

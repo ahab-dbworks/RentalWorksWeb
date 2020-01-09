@@ -10,14 +10,12 @@ const hbFooter = require("./hbFooter.hbs");
 
 export class LostContractReport extends WebpackReport {
     contract: LostContract = null;
-    // DO NOT USE THIS REPORT AS A TEMPLATE
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    //Ajax.get<LostContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
                     Ajax.post<LostContract>(`${apiUrl}/api/v1/lostcontractreport/runreport`, authorizationHeader, parameters)
                         .then((response: LostContract) => {
                             const data: any = response;
