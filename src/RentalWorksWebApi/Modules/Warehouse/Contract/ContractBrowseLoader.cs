@@ -153,7 +153,7 @@ namespace WebApi.Modules.Warehouse.Contract
                 items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_IN));
                 items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_RETURN));
                 items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_LOST));
-                select.AddWhereIn("contracttype", items);
+                select.AddWhereIn("contracttype", "Filter", items);
             }
 
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
