@@ -169,7 +169,11 @@ class Deal {
         }
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
-
+        // Default address data before save event
+        $form.data('beforesave', request => {
+            this.billingAddressTypeChange($form);
+            this.shippingAddressTypeChange($form);
+        });
         return $form;
     }
     //----------------------------------------------------------------------------------------------

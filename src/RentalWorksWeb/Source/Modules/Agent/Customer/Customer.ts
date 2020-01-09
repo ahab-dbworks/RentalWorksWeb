@@ -172,6 +172,10 @@ class Customer {
         });
 
         this.events($form);
+        // Default address data before save event
+        $form.data('beforesave', request => {
+            this.addressTypeChange($form);
+        });
 
         return $form;
     };
@@ -410,8 +414,6 @@ class Customer {
                 }
             }
         });
-
-        this.addressTypeChange($form);
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -466,7 +468,7 @@ class Customer {
         jQuery('.TaxOption').find(':input').val(TaxOption);
     }
     //----------------------------------------------------------------------------------------------
-   beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
+    beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
         switch (datafield) {
             case 'OfficeLocationId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelocation`);
