@@ -193,17 +193,17 @@
                     $report = TransferManifestReportController.openForm();
                     FwModule.openSubModuleTab($form, $report);
                     break;
-                case 'Receipt':
+                case 'TransferReceipt':
                     module = 'Receipt';
                     $report = TransferReceiptReportController.openForm();
                     FwModule.openSubModuleTab($form, $report);
                     break;
             }
 
-            const contractId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
-            $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(contractId);
-            const contractNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
-            $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(contractNumber);
+            const id = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
+            $report.find(`div.fwformfield[data-datafield="ContractId"] input`).val(id);
+            const number = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
+            $report.find(`div.fwformfield[data-datafield="ContractId"] .fwformfield-text`).val(number);
             jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
 
             const printTab = jQuery('.tab.submodule.active');
