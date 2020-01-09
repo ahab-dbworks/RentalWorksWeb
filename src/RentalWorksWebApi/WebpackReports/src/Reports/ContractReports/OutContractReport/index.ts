@@ -138,17 +138,3 @@ class OutContract {
     Items: any;
     PrintTime: string;
 }
-
-//class OutContractItem {
-//    "ICode": string;
-//    "ICodeColor": string;
-//    "Description": string;
-//    "DescriptionColor": string;
-//    "QuantityOrdered": string;
-//    "QuantityOut": string;
-//    "TotalOut": string;
-//    "ItemClass": string;
-//    "Notes": string;
-//    "Barcode": string;
-//}
-

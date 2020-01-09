@@ -24,7 +24,6 @@ export class InContractReport extends WebpackReport {
                             data.Items = DataTable.toObjectList(response.Items);
                             data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
-                            //data.Company = parameters.companyName;
                             data.Report = 'IN CONTRACT';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
@@ -138,17 +137,3 @@ class InContract {
     Items: any;
     PrintTime: string;
 }
-
-//class InContractItem {
-//    "ICode": string;
-//    "ICodeColor": string;
-//    "Description": string;
-//    "DescriptionColor": string;
-//    "QuantityOrdered": string;
-//    "QuantityOut": string;
-//    "TotalOut": string;
-//    "ItemClass": string;
-//    "Notes": string;
-//    "Barcode": string;
-//}
-
