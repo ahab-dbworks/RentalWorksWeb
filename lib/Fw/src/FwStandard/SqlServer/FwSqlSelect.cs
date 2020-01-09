@@ -402,25 +402,40 @@ namespace FwStandard.SqlServer
         //---------------------------------------------------------------------------------------------
         public void AddWhereIn(string column, SelectedCheckBoxListItems items)
         {
-            AddWhereIn("and", column, items.ToString(), true);
+            AddWhereIn("and", column, "", items.ToString(), true);
+        }
+        //---------------------------------------------------------------------------------------------
+        public void AddWhereIn(string column, string parameterNamePrefix, SelectedCheckBoxListItems items)
+        {
+            AddWhereIn("and", column, parameterNamePrefix, items.ToString(), true);
         }
         //---------------------------------------------------------------------------------------------
         public void AddWhereIn(string column, string parameterList)
         {
-            AddWhereIn("and", column, parameterList, true);
+            AddWhereIn("and", column, "", parameterList, true);
         }
         //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string conjunction, string column, string parameterList)
+        public void AddWhereIn(string column, string parameterNamePrefix, string parameterList)
         {
-            AddWhereIn(conjunction, column, parameterList, true);
+            AddWhereIn("and", column, parameterNamePrefix, parameterList, true);
+        }
+        //---------------------------------------------------------------------------------------------
+        public void AddWhereIn(string conjunction, string column, string parameterNamePrefix, string parameterList)
+        {
+            AddWhereIn(conjunction, column, parameterNamePrefix, parameterList, true);
         }
         //---------------------------------------------------------------------------------------------
         public void AddWhereIn(string column, string parameterList, bool selectAllIfEmpty)
         {
-            AddWhereIn("and", column, parameterList, selectAllIfEmpty);
+            AddWhereIn("and", column, "", parameterList, selectAllIfEmpty);
         }
         //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string conjunction, string column, string parameterList, bool selectAllIfEmpty)
+        public void AddWhereIn(string column, string parameterNamePrefix, string parameterList, bool selectAllIfEmpty)
+        {
+            AddWhereIn("and", column, parameterNamePrefix, parameterList, selectAllIfEmpty);
+        }
+        //---------------------------------------------------------------------------------------------
+        public void AddWhereIn(string conjunction, string column, string parameterNamePrefix, string parameterList, bool selectAllIfEmpty)
         {
             string[] fields;
             StringBuilder sb;
@@ -434,7 +449,7 @@ namespace FwStandard.SqlServer
                 sb.Append(" in (");
                 for (int i = 0; i < fields.Length; i++)
                 {
-                    parameterName  = "@" + column.Replace('.', '_') + i.ToString();
+                    parameterName  = "@" + parameterNamePrefix + column.Replace('.', '_') + i.ToString();
                     //parameterValue = fields[i];
                     parameterValue = fields[i].Trim();
                     if (i > 0)
@@ -450,40 +465,51 @@ namespace FwStandard.SqlServer
             }
         }
         //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string conjunction, string paramternameprefix, string before, string parameterList, string after)
-        {
-            AddWhereIn(conjunction, paramternameprefix, before, parameterList, after, true);
-        }
-        //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string conjunction, string paramternameprefix, string before, string parameterList, string after, bool selectAllIfEmpty)
-        {
-            string[] fields;
-            StringBuilder sb;
-            string result, parameterName, parameterValue;
 
-            sb = new StringBuilder();
-            if ((selectAllIfEmpty && !string.IsNullOrWhiteSpace(parameterList)) || (!selectAllIfEmpty))
-            {
-                fields = parameterList.Split(new char[]{','}, StringSplitOptions.None);
-                sb.Append(before);
-                sb.Append(" in (");
-                for (int i = 0; i < fields.Length; i++)
-                {
-                    parameterName  = "@" + paramternameprefix + i.ToString();
-                    parameterValue = fields[i];
-                    if (i > 0)
-                    {
-                        sb.Append(",");
-                    }
-                    sb.Append(parameterName);
-                    this.AddParameter(parameterName, parameterValue);
-                }
-                sb.Append(")");
-                sb.Append(after);
-                result = sb.ToString();
-                this.AddWhere(conjunction, result);
-            }
-        }
+
+
+            //01/09/2020 justin hoffman - commenting the following two methods to avoid confusion with the above method. Are the two below used anywhere anymore?
+
+        //public void AddWhereIn(string conjunction, string paramternameprefix, string before, string parameterList, string after)
+        //{
+        //    AddWhereIn(conjunction, paramternameprefix, before, parameterList, after, true);
+        //}
+        //---------------------------------------------------------------------------------------------
+        //public void AddWhereIn(string conjunction, string paramternameprefix, string before, string parameterList, string after, bool selectAllIfEmpty)
+        //{
+        //    string[] fields;
+        //    StringBuilder sb;
+        //    string result, parameterName, parameterValue;
+
+        //    sb = new StringBuilder();
+        //    if ((selectAllIfEmpty && !string.IsNullOrWhiteSpace(parameterList)) || (!selectAllIfEmpty))
+        //    {
+        //        fields = parameterList.Split(new char[]{','}, StringSplitOptions.None);
+        //        sb.Append(before);
+        //        sb.Append(" in (");
+        //        for (int i = 0; i < fields.Length; i++)
+        //        {
+        //            parameterName  = "@" + paramternameprefix + i.ToString();
+        //            parameterValue = fields[i];
+        //            if (i > 0)
+        //            {
+        //                sb.Append(",");
+        //            }
+        //            sb.Append(parameterName);
+        //            this.AddParameter(parameterName, parameterValue);
+        //        }
+        //        sb.Append(")");
+        //        sb.Append(after);
+        //        result = sb.ToString();
+        //        this.AddWhere(conjunction, result);
+        //    }
+        //}
+
+
+
+
+
+
         //---------------------------------------------------------------------------------------------
         public void AddWhereInFromCheckboxList(string conjunction, string column, dynamic parameterList)
         {
