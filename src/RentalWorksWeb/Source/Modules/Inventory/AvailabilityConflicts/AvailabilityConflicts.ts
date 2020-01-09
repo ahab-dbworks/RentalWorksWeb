@@ -7,6 +7,11 @@ class AvailabilityConflicts {
     nav: string = Constants.Modules.Inventory.children.AvailabilityConflicts.nav;
     id: string = Constants.Modules.Inventory.children.AvailabilityConflicts.id;
     //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions) {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
+    //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
