@@ -7,6 +7,11 @@ class InventoryPurchaseUtility {
     nav: string = Constants.Modules.Utilities.children.InventoryPurchaseUtility.nav;
     id: string = Constants.Modules.Utilities.children.InventoryPurchaseUtility.id;
     //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions) {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
