@@ -26,12 +26,25 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/inventorypackageinventory/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id:"rz1vur2Bi7XN", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/inventorypackageinventory/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "8jnJpB8GFsPE8", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Complete", RwGlobals.COMPLETE_COLOR);
+            legend.Add("Kit", RwGlobals.KIT_COLOR);
+            legend.Add("Percentage Item", RwGlobals.PERCENTAGE_ITEM_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorypackageinventory 

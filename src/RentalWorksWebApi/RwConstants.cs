@@ -177,6 +177,7 @@ namespace WebApi
         public const int MISCELLANEOUS_COLOR = 6382847; // pink/coral
         public const int ITEM_COLOR = 16777215;         // white
         public const int ACCESSORY_COLOR = 65535;       // yellow
+        public const int PERCENTAGE_ITEM_COLOR = 42495; // orange
 
         public const int SUB_COLOR = 9220607;           // salmon
 

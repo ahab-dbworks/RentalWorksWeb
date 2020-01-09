@@ -11,6 +11,9 @@ namespace WebApi
         public static string MISCELLANEOUS_COLOR { get; set; }
         public static string ITEM_COLOR { get; set; }
         public static string ACCESSORY_COLOR { get; set; }
+        public static string PERCENTAGE_ITEM_COLOR { get; set; }
+        
+
         public static string STAGED_COLOR { get; set; }
         public static string OUT_COLOR { get; set; }
         public static string IN_REPAIR_COLOR { get; set; }
@@ -133,6 +136,8 @@ namespace WebApi
             MISCELLANEOUS_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.MISCELLANEOUS_COLOR);
             ITEM_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ITEM_COLOR);
             ACCESSORY_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ACCESSORY_COLOR);
+            PERCENTAGE_ITEM_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PERCENTAGE_ITEM_COLOR);
+            
 
             INVENTORY_AVAILABLE_FOR_SALE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVENTORY_AVAILABLE_FOR_SALE_COLOR);
             INVENTORY_AVAILABLE_FOR_PARTS_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVENTORY_AVAILABLE_FOR_PARTS_COLOR);

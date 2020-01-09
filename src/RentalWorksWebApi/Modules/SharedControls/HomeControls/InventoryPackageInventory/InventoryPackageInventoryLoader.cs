@@ -1,8 +1,8 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using WebApi.Logic;
@@ -12,6 +12,11 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
     [FwSqlTable("dbo.funcpackageitem(@packageid, @warehouseid)")]
     public class InventoryPackageInventoryLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public InventoryPackageInventoryLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "packageitemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InventoryPackageInventoryId { get; set; } = "";
@@ -37,6 +42,13 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         [FwSqlDataField(column: "defaultqty", modeltype: FwDataTypes.Decimal)]
         public decimal? DefaultQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DefaultQuantityColor
+        {
+            get { return getDefaultQuantityColor(DefaultQuantity); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "isoption", modeltype: FwDataTypes.Boolean)]
         public bool? IsOption { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -141,6 +153,31 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
             select.Parse();
             select.AddParameter("@packageid", packageId);
             select.AddParameter("@warehouseid", warehouseId);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getDefaultQuantityColor(decimal? defaultQuantity)
+        {
+            string qColor = null;
+            if ((defaultQuantity != null) && (defaultQuantity.GetValueOrDefault(0) > 0) && (defaultQuantity.GetValueOrDefault(1) < 1))
+            {
+                qColor = RwGlobals.PERCENTAGE_ITEM_COLOR;
+            }
+            return qColor;
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("DefaultQuantityColor")] = getDefaultQuantityColor(FwConvert.ToDecimal(row[dt.GetColumnNo("DefaultQuantity")].ToString()));
+                    }
+                }
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
