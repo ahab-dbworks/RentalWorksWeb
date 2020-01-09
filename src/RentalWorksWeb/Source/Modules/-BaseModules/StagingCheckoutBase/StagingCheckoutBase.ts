@@ -541,7 +541,13 @@
 
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/unstageitem`, request, FwServices.defaultTimeout, response => {
                 responseCount++;
-                if (!response.success) {
+                if (response.success) {
+                    //justin hoffman 01/09/2020: I want to keep the quantities displayed above the grid updated.  This is sort-of overkill to do this within the loop
+                    this.addItemFieldValues($form, response);
+                    FwFormField.setValueByDataField($form, 'Code', '');
+                    $form.find('[data-datafield="Code"] input').select();
+                }
+                else {
                     errorMessages.push(response.msg);  // gather all errors into the errorMessages array
                 }
             }, function onError(response) {

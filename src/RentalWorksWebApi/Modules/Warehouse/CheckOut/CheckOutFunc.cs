@@ -49,6 +49,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         public string ItemId { get; set; }
         public string ConsignorId { get; set; }
         public string ConsignorAgreementId { get; set; }
+        public OrderInventoryStatusCheckOut InventoryStatus = new OrderInventoryStatusCheckOut();
     }
     //-------------------------------------------------------------------------------------------------------
     public class CheckOutAllStagedRequest
@@ -221,6 +222,16 @@ namespace WebApi.Modules.Warehouse.CheckOut
                     //qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
                     qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Output);
+
+                    qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@qtyordered", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@qtysub", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@qtyout", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@qtyin", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@qtyremaining", SqlDbType.Int, ParameterDirection.Output);
+
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
@@ -229,6 +240,18 @@ namespace WebApi.Modules.Warehouse.CheckOut
                     response.ItemId = qry.GetParameter("@rentalitemid").ToString();
                     response.ConsignorId = qry.GetParameter("@consignorid").ToString();
                     response.ConsignorAgreementId = qry.GetParameter("@consignoragreementid").ToString();
+
+
+                    response.InventoryStatus.ICode = qry.GetParameter("@masterno").ToString();
+                    response.InventoryStatus.Description = qry.GetParameter("@description").ToString();
+                    response.InventoryStatus.QuantityOrdered = qry.GetParameter("@qtyordered").ToInt32();
+                    response.InventoryStatus.QuantitySub = qry.GetParameter("@qtysub").ToInt32();
+                    response.InventoryStatus.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
+                    response.InventoryStatus.QuantityOut = qry.GetParameter("@qtyout").ToInt32();
+                    response.InventoryStatus.QuantityIn = qry.GetParameter("@qtyin").ToInt32();
+                    response.InventoryStatus.QuantityRemaining = qry.GetParameter("@qtyremaining").ToInt32();
+
+
                     response.status = qry.GetParameter("@status").ToInt32();
                     response.success = (response.status == 0);
                     response.msg = qry.GetParameter("@msg").ToString();
