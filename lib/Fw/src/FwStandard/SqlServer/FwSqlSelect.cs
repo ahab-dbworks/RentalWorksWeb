@@ -415,14 +415,9 @@ namespace FwStandard.SqlServer
             AddWhereIn("and", column, "", parameterList, true);
         }
         //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string column, string parameterNamePrefix, string parameterList)
+        public void AddWhereIn(string conjunction, string column, string parameterList)
         {
-            AddWhereIn("and", column, parameterNamePrefix, parameterList, true);
-        }
-        //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string conjunction, string column, string parameterNamePrefix, string parameterList)
-        {
-            AddWhereIn(conjunction, column, parameterNamePrefix, parameterList, true);
+            AddWhereIn(conjunction, column, "", parameterList, true);
         }
         //---------------------------------------------------------------------------------------------
         public void AddWhereIn(string column, string parameterList, bool selectAllIfEmpty)
@@ -430,9 +425,9 @@ namespace FwStandard.SqlServer
             AddWhereIn("and", column, "", parameterList, selectAllIfEmpty);
         }
         //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string column, string parameterNamePrefix, string parameterList, bool selectAllIfEmpty)
+        public void AddWhereIn(string conjunction, string column, string parameterList, bool selectAllIfEmpty)
         {
-            AddWhereIn("and", column, parameterNamePrefix, parameterList, selectAllIfEmpty);
+            AddWhereIn(conjunction, column, "", parameterList, selectAllIfEmpty);
         }
         //---------------------------------------------------------------------------------------------
         public void AddWhereIn(string conjunction, string column, string parameterNamePrefix, string parameterList, bool selectAllIfEmpty)
