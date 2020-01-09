@@ -164,18 +164,40 @@
     printContract($form: JQuery): void {
         try {
             let module, $report;
-            if (this.Module === 'Contract') {
-                module = 'Contract';
-                $report = OutContractReportController.openForm();
-                FwModule.openSubModuleTab($form, $report);
-            } else if (this.Module === 'Manifest') {
-                module = 'Manifest';
-                $report = TransferManifestReportController.openForm();
-                FwModule.openSubModuleTab($form, $report);
-            } else if (this.Module === 'TransferReceipt') {
-                module = 'Receipt';
-                $report = TransferReceiptReportController.openForm();
-                FwModule.openSubModuleTab($form, $report);
+            switch (this.Module) {
+                case 'Contract':
+                    const contractType = FwFormField.getValueByDataField($form, 'ContractType');
+                    module = 'Contract';
+                    if (contractType && contractType === 'LOST') {
+                        $report = LostContractReportController.openForm();
+                    }
+                    if (contractType && contractType === 'OUT') {
+                        $report = OutContractReportController.openForm();
+                    }
+                    if (contractType && contractType === 'IN') {
+                        $report = InContractReportController.openForm();
+                    }
+                    if (contractType && contractType === 'RETURN') {
+                        $report = ReturnContractReportController.openForm();
+                    }
+                    if (contractType && contractType === 'RECEIVE') {
+                        $report = ReceiveContractReportController.openForm();
+                    }
+                    if (contractType && contractType === 'EXCHANGE') {
+                        $report = ExchangeContractReportController.openForm();
+                    }
+                    FwModule.openSubModuleTab($form, $report);
+                    break;
+                case 'Manifest':
+                    module = 'Manifest';
+                    $report = TransferManifestReportController.openForm();
+                    FwModule.openSubModuleTab($form, $report);
+                    break;
+                case 'Receipt':
+                    module = 'Receipt';
+                    $report = TransferReceiptReportController.openForm();
+                    FwModule.openSubModuleTab($form, $report);
+                    break;
             }
 
             const contractId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
@@ -546,7 +568,6 @@
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeliverytocountry`);
                 break;
         }
-
     }
     //----------------------------------------------------------------------------------------------  
     getBrowseTemplate(): string {
