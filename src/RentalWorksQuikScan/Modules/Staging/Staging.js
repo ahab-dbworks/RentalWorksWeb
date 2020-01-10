@@ -2206,7 +2206,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             },
                             function fail(response) {
                                 screen.enableBarcodeField();
-                                FwFunc.showError(response.exception);
+                                FwFunc.showError(response);
                             },
                             null);
                     }
