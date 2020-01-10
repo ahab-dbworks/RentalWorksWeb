@@ -44,7 +44,7 @@
             if (isWebAdmin === true) {
                 showPeek = true;
             }
-            else if (isWebAdmin === false && FwValidation.isHomeModule($control)) {
+            else if (isWebAdmin === false && FwValidation.isValidationWithPeek($control)) {
                 showPeek = true;
             }
         }

@@ -5,6 +5,7 @@ var Constants = {
     appCaption: 'RentalWorks',
     //appTitle: 'Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span>',
     appTitle: 'Rental<span class="rwpurple">Works</span>',
+    validationsWithPeeks: ['ContactValidation', 'CustomerValidation', 'DealValidation', 'OrderValidation', 'ProjectValidation', 'PurchaseOrderValidation', 'QuoteValidation', 'VendorValidation', 'AssetValidation', 'PartsInventoryValidation', 'RentalInventoryValidation', 'RepairOrderValidation', 'SalesInventoryValidation', 'ContractValidation', 'PickListValidation', 'ContainerValidation', 'InvoiceValidation', 'ReceiptValidation', 'CompanyValidation'],
     MainMenu: {
         Reports: { id: 'Reports' },
         Settings: { id: 'Settings' }

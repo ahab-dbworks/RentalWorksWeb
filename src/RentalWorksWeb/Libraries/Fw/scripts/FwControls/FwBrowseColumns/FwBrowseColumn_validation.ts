@@ -47,7 +47,7 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
             if (isWebAdmin === true) {
                 showPeek = true;
             }
-            else if (isWebAdmin === false && FwValidation.isHomeModule($field)) {
+            else if (isWebAdmin === false && FwValidation.isValidationWithPeek($field)) {
                 showPeek = true;
             }
         }
@@ -86,12 +86,12 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
         // push hidden spinner
         html.push('<div class="sk-fading-circle validation-loader"><div class="sk-circle1 sk-circle"></div><div class="sk-circle2 sk-circle"></div><div class="sk-circle3 sk-circle"></div><div class="sk-circle4 sk-circle"></div><div class="sk-circle5 sk-circle"></div><div class="sk-circle6 sk-circle"></div><div class="sk-circle7 sk-circle"></div><div class="sk-circle8 sk-circle"></div><div class="sk-circle9 sk-circle"></div><div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div><div class="sk-circle12 sk-circle"></div></div>');
 
-        const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+        const isWebAdmin = (sessionStorage.getItem('userid') !== null) ? JSON.parse(sessionStorage.getItem('userid')).webadministrator === 'true' : false;
         if (!($field.attr('data-validationpeek') === 'false')) {
-            if (isWebAdmin === 'true') {
+            if (isWebAdmin) {
                 showPeek = true;
             }
-            else if (isWebAdmin === 'false' && FwValidation.isHomeModule($field)) {
+            else if (!isWebAdmin && FwValidation.isValidationWithPeek($field)) {
                 showPeek = true;
             }
         }

@@ -601,10 +601,19 @@
         $browse.find('.fwbrowse-menu .buttonbar').empty().append($show);
         $browse.find('.fwbrowse-menu .buttonbar .ddviewbtn').css('margin-left', 'auto');
     }
-    homeModules: Array<string> = ['ContactValidation', 'CustomerValidation', 'DealValidation', 'OrderValidation', 'ProjectValidation', 'PurchaseOrderValidation', 'QuoteValidation', 'VendorValidation', 'AssetValidation', 'PartsInventoryValidation', 'RentalInventoryValidation', 'RepairOrderValidation', 'SalesInventoryValidation', 'ContractValidation', 'PickListValidation', 'ContainerValidation', 'InvoiceValidation', 'ReceiptValidation', 'CompanyValidation'];
     //----------------------------------------------------------------------------------------------
-    isHomeModule($control: JQuery<HTMLElement>): boolean { //temp (inefficient) solution, til security tree implementations are in place, used to determine whether to render peek buttons - jpace 7/16/19
-        return (this.homeModules.indexOf($control.attr('data-validationname')) > -1);
+    getValidationsWithPeeks(): string[] {
+        let validationsWithPeeks: string[] = [];
+        if ((<any>window)['Constants'] !== undefined && (<any>window)['Constants'].validationsWithPeeks !== undefined) {
+            validationsWithPeeks = (<any>window)['Constants'].validationsWithPeeks;
+        }
+        return validationsWithPeeks;
+    }
+    //----------------------------------------------------------------------------------------------
+    isValidationWithPeek($control: JQuery<HTMLElement>): boolean { //temp (inefficient) solution, til security tree implementations are in place, used to determine whether to render peek buttons - jpace 7/16/19
+        const validationsWithPeeks: string[] = this.getValidationsWithPeeks();
+        const result: boolean = (validationsWithPeeks.indexOf($control.attr('data-validationname')) > -1);
+        return result;
     }
     //----------------------------------------------------------------------------------------------
 }

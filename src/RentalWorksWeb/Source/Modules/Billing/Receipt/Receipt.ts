@@ -1017,7 +1017,7 @@ class Receipt {
 
                         let buttonPeek;
                         const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
-                        const isHomeModule = (FwValidation.homeModules.indexOf('PaymentType') > -1); // could be used later on to be more exact for other peek in the "grid"
+                        //const isValidationWithPeek = (Constants.validationsWithPeeks.indexOf('PaymentType') > -1); // could be used later on to be more exact for other peek in the "grid"
                         if (isWebAdmin === 'true') {
                             buttonPeek = '<i class="material-icons btnpeek">more_horiz</i>';
                         }
