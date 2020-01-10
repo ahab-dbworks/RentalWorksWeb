@@ -171,15 +171,15 @@ var Constants = {
                     caption: 'Contract Reports',
                     nodetype: 'Category',
                     children: {
-                        ExchangeContractReport: { id: 'MAR5QYKd01qwx', caption: 'Exchange Contract', nav: 'reports/exchangecontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
+                        ExchangeContractReport: { id: 'MAR5QYKd01qwx', caption: 'Exchange Contract', nav: 'reports/exchangecontractreport', nodetype: 'Module', description: 'Exchange Contract document.' },
                         ContractRevisionReport: { id: 'ZDRzzkgcqTb57', caption: 'Contract Revision Activity', nav: 'reports/contractrevisionreport', nodetype: 'Module', description: 'List all modifications made to Contracts over a specified date range.' },
-                        InContractReport: { id: 'DQ0kEL13GYyEg', caption: 'In Contract', nav: 'reports/Incontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
-                        LostContractReport: { id: 'F6uNUdehIUVSB', caption: 'Lost Contract', nav: 'reports/lostcontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
+                        InContractReport: { id: 'DQ0kEL13GYyEg', caption: 'In Contract', nav: 'reports/Incontractreport', nodetype: 'Module', description: 'Check-In Contract document.' },
+                        LostContractReport: { id: 'F6uNUdehIUVSB', caption: 'Lost Contract', nav: 'reports/lostcontractreport', nodetype: 'Module', description: 'Lost Contract document.' },
                         OutContractReport: { id: 'p2tH0HSDc930', caption: 'Out Contract', nav: 'reports/outcontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
-                        ReceiveContractReport: { id: 'KXKz4J1x0t71K', caption: 'Receive Contract', nav: 'reports/receivecontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
-                        ReturnContractReport: { id: 'gkK2yG12BU8kk', caption: 'Return Contract', nav: 'reports/returncontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
-                        TransferManifestReport: { id: 'wf68uZe0JPXDt', caption: 'Transfer Manifest ', nav: 'reports/transfermanifesttreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
-                        TransferReceiptReport: { id: 'F6XtBsrOH4cjm', caption: 'Transfer Receipt', nav: 'reports/transferreceiptreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
+                        ReceiveContractReport: { id: 'KXKz4J1x0t71K', caption: 'Receive Contract', nav: 'reports/receivecontractreport', nodetype: 'Module', description: 'Receive Contract document.' },
+                        ReturnContractReport: { id: 'gkK2yG12BU8kk', caption: 'Return Contract', nav: 'reports/returncontractreport', nodetype: 'Module', description: 'Return Contract document.' },
+                        TransferManifestReport: { id: 'wf68uZe0JPXDt', caption: 'Transfer Manifest ', nav: 'reports/transfermanifesttreport', nodetype: 'Module', description: 'Transfer Manifest document.' },
+                        TransferReceiptReport: { id: 'F6XtBsrOH4cjm', caption: 'Transfer Receipt', nav: 'reports/transferreceiptreport', nodetype: 'Module', description: 'Transfer Receipt document.' },
                     }
                 },
                 CrewReports: {
