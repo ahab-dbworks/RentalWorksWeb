@@ -271,7 +271,7 @@ class FwAppData {
                 }
                 delete FwAppData.jqXHR[this.requestid];
                 FwAppData.updateAutoLogout(null);
-                const errorMessage = jqXHR.responseJSON.Message; // J. Pace 1/2/20 - more descriptive message in error popup, similar to the way its done in showWebApiError
+                const errorMessage = (jqXHR.responseJSON !== undefined && jqXHR.responseJSON.Message !== undefined) ? jqXHR.responseJSON.Message : (jqXHR.responseText !== null) ? jqXHR.responseText : 'An unknown error occured.';
                 if (typeof onError === 'function') {
                     if (errorMessage) {
                         onError(errorMessage);
