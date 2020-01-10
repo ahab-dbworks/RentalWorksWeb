@@ -314,8 +314,8 @@
                                                 controller = $browse.attr('data-controller');
                                                 issubmodule = $browse.closest('.tabpage').hasClass('submodule');
                                                 if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                                                if (typeof window[controller].openForm !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-                                                $form = window[controller].openForm('NEW');
+                                                if (typeof (<any>window)[controller].openForm !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+                                                $form = (<any>window)[controller].openForm('NEW');
                                                 if (!issubmodule) {
                                                     FwModule.openModuleTab($form, 'New ' + $form.attr('data-caption'), true, 'FORM', true);
                                                 } else {
@@ -376,7 +376,7 @@
                                             if (typeof window[controller]['deleteRecord'] === 'function') {
                                                 window[controller]['deleteRecord']($browse);
                                             } else {
-                                                FwModule['deleteRecord'](window[controller].Module, $browse);
+                                                FwModule['deleteRecord']((<any>window)[controller].Module, $browse);
                                             }
                                         });
                                         break;
@@ -442,7 +442,7 @@
                                             let $this = jQuery(this);
                                             e.preventDefault();
                                             if (!loaded) {
-                                                FwAppData.apiMethod(true, 'GET', window[controller].apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                FwAppData.apiMethod(true, 'GET', (<any>window)[controller].apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
                                                     let dateField = $browse.find('.datequery');
                                                     let textField = $browse.find('.textquery');
                                                     let booleanField = $browse.find('.booleanquery');
@@ -780,7 +780,7 @@
             $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
             $auditControl.data('ondatabind', function (request) {
                 request.uniqueids = {};
-                request.uniqueids.ModuleName = window[controller].Module;
+                request.uniqueids.ModuleName = (<any>window)[controller].Module;
                 for (let i = 0; i < 2; i++) {
                     let uniqueIdValue = jQuery($keys[i]).find('input').val();
                     if (typeof uniqueIdValue !== 'undefined') {
@@ -1183,10 +1183,10 @@
                     controller = $browse.attr('data-controller');
                     ids = FwBrowse.getRowFormUniqueIds($browse, $selectedRow);
                     request = {
-                        module: window[controller].Module,
+                        module: (<any>window)[controller].Module,
                         ids: ids
                     };
-                    FwServices.module.method(request, window[controller].Module, 'Delete', $browse, function (response) {
+                    FwServices.module.method(request, (<any>window)[controller].Module, 'Delete', $browse, function (response) {
                         $form = FwModule.getFormByUniqueIds(ids);
                         if ((typeof $form != 'undefined') && ($form.length > 0)) {
                             $tab = jQuery('#' + $form.closest('div.tabpage').attr('data-tabid'));
@@ -1266,9 +1266,9 @@
                                                 if (ismodified === 'true') {
                                                     if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
                                                     if (typeof window[controller][method] === 'function') {
-                                                        window[controller][method]($form, { closetab: false });
+                                                        (<any>window)[controller][method]($form, { closetab: false });
                                                     } else {
-                                                        FwModule[method](window[controller].Module, $form, { closetab: false });
+                                                        FwModule[method]((<any>window)[controller].Module, $form, { closetab: false });
                                                     }
                                                 }
                                             } catch (ex) {
@@ -1642,7 +1642,7 @@
     static getData($object: JQuery, request: any, responseFunc: Function, $elementToBlock: JQuery, timeout?: number) {
         var webserviceurl, controller, module, timeoutParam;
         controller = $object.attr('data-controller');
-        module = window[controller].Module;
+        module = (<any>window)[controller].Module;
         request.module = module;
         webserviceurl = 'services.ashx?path=/module/' + module + '/GetData';
         if (typeof timeout !== 'number') {
@@ -1691,10 +1691,10 @@
     static checkDuplicate($form: JQuery, $fieldtocheck: JQuery) {
         var $fields, request: any = {}, groupname, $field, datafield, value, type, table, runcheck = true, controller, required;
         controller = $form.attr('data-controller');
-        if (typeof window[controller].Module !== 'undefined') {
+        if (typeof (<any>window)[controller].Module !== 'undefined') {
             //($fieldtocheck.find('input.fwformfield-value').val() != '') &&
             //($fieldtocheck.find('input.fwformfield-value').val().toUpperCase() != $fieldtocheck.attr('data-originalvalue').toUpperCase())) {     //2015-12-21 MY: removed logic to support non required duplicategroup fields.
-            request.module = window[controller].Module;
+            request.module = (<any>window)[controller].Module;
             request.fields = {};
             request.table = $fieldtocheck.attr('data-datafield').split('.')[0];
             $fields = $fieldtocheck;
@@ -1714,14 +1714,14 @@
 
                 if ((required == 'true') && (value == '')) {
                     runcheck = false;
-                } else if (typeof typeof window[controller] !== 'undefined' && typeof typeof window[controller].apiurl === 'undefined' && request.table != table) {
+                } else if (typeof typeof window[controller] !== 'undefined' && typeof typeof (<any>window)[controller].apiurl === 'undefined' && request.table != table) {
                     runcheck = false;
                     FwNotification.renderNotification('ERROR', 'Fields are not part of the same table.');
                 }
             });
             runcheck = runcheck && typeof controller.apiurl === 'undefined';
             if (runcheck) {
-                FwServices.module.method(request, window[controller].Module, 'ValidateDuplicate', $form,
+                FwServices.module.method(request, (<any>window)[controller].Module, 'ValidateDuplicate', $form,
                     // onSuccess
                     function (response) {
                         try {

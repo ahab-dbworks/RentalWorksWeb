@@ -162,7 +162,7 @@ class CustomForm {
 
                     //For modules where the html is in the TS file
                     if (typeof modulehtml == 'undefined') {
-                        modulehtml = window[controller].getBrowseTemplate();
+                        modulehtml = (<any>window)[controller].getBrowseTemplate();
                     }
                     break;
 
@@ -171,7 +171,7 @@ class CustomForm {
 
                     //For modules where the html is in the TS file
                     if (typeof modulehtml == 'undefined') {
-                        modulehtml = window[controller].getFormTemplate();
+                        modulehtml = (<any>window)[controller].getFormTemplate();
                     }
                     break;
                 case 'Grid':
@@ -339,7 +339,7 @@ class CustomForm {
             let moduleUrl;
             if (typeof window[controller] !== 'undefined') {
                 if (window[controller].hasOwnProperty('apiurl')) {
-                    moduleUrl = window[controller].apiurl;
+                    moduleUrl = (<any>window)[controller].apiurl;
                 }
             }
             switch (type) {

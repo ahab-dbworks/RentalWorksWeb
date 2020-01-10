@@ -88,7 +88,7 @@
                             $usercontrol.find('.user-dropdown').css('z-index', maxZIndex + 1);
                             $usercontrol.addClass('active');
 
-                            jQuery(document).one('click', function closeMenu(e: JQuery.Event) {
+                            jQuery(document).one('click', function closeMenu(e: JQuery.ClickEvent) {
                                 try {
                                     if (($usercontrol.has(<Element>e.target).length === 0)) {
                                         $usercontrol.removeClass('active');

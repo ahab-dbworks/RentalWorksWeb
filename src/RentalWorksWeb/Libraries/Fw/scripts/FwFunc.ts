@@ -79,7 +79,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static showMessage(message: string, onbuttonclick?: (event: JQuery.Event<HTMLElement>) => void) : void {
+    static showMessage(message: string, onbuttonclick?: (event: JQuery.ClickEvent) => void) : void {
         let $confirmation = FwConfirmation.showMessage('Message', message, false, true, 'OK', onbuttonclick);
         // mv 2016-12-19 This caused a bug in the create contract button, where you could skip the navigation event after create a contract by clicking the background
         //$confirmation.on('click', function() {

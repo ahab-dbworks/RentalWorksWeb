@@ -94,7 +94,7 @@
             popoutKeys[popoutUniqueDatafield] = popoutModuleId;
             let popupWait = FwOverlay.showPleaseWaitOverlay($content, null);
             setTimeout(function () {
-                var $popoutForm = window[$content.data('controller')].loadForm(popoutKeys);
+                var $popoutForm = (<any>window)[$content.data('controller')].loadForm(popoutKeys);
                 FwModule.openModuleTab($popoutForm, "", true, 'FORM', true);
                 FwOverlay.hideOverlay(popupWait);
                 me.destroyPopup($this.closest('.fwpopup'));

@@ -464,7 +464,7 @@ class FwBrowseClass {
             });
 
         //Events only attached when the API is not defined for the control.
-        var controller = window[$control.attr('data-controller')];
+        var controller: any = window[$control.attr('data-controller')];
         if (($control.attr('data-type') == 'Grid') && (typeof controller.apiurl === 'undefined')) {
             $control.on('change', '.field[data-formnoduplicate="true"]', function () {
                 var $field, value, originalvalue, $form, formuniqueids, formfields, request: any = {};
@@ -508,11 +508,10 @@ class FwBrowseClass {
 
         //Register Custom Events on grids and validations
         if ((($control.attr('data-type') == 'Grid') || ($control.attr('data-type') == 'Validation')) && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-            var controller;
-            controller = $control.attr('data-controller');
-            if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['init'] === 'function') {
-                window[controller]['init']($control);
+            var controllerName: string = $control.attr('data-controller');
+            if (typeof (<any>window)[controllerName] === 'undefined') throw 'Missing javascript module: ' + controller;
+            if (typeof (<any>window)[controllerName]['init'] === 'function') {
+                (<any>window)[controllerName]['init']($control);
             }
         }
     }
@@ -1566,7 +1565,7 @@ class FwBrowseClass {
                                                 switch (FwApplicationTree.getNodeType(gridSubMenuItem)) {
                                                     case 'SubMenuItem':
                                                         $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
-                                                        $submenuitem.on('click', function (e: JQuery.Event) {
+                                                        $submenuitem.on('click', function (e: JQuery.ClickEvent) {
                                                             try {
                                                                 e.stopPropagation();
                                                                 const securityid = jQuery(e.target).closest('.submenu-btn').attr('data-securityid');
@@ -2537,7 +2536,7 @@ class FwBrowseClass {
             }
 
             if (typeof onrowdblclick !== 'undefined') {
-                $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.Event) => {
+                $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.DoubleClickEvent) => {
                     let $tr = jQuery(event.target);
                     $tr.addClass('selected');
                     onrowdblclick.apply(event.currentTarget, [event]);
@@ -2800,7 +2799,7 @@ class FwBrowseClass {
                         $control.find('thead .tdselectrow .divselectrow').hide();
                         jQuery(window)
                             .off('click.FwBrowse')
-                            .on('click.FwBrowse', function (e: JQuery.Event) {
+                            .on('click.FwBrowse', function (e: JQuery.ClickEvent) {
                                 try {
                                     let triggerAutoSave = true;
                                     let clockPicker = jQuery(document.body).find('.clockpicker-popover');
@@ -3469,7 +3468,7 @@ class FwBrowseClass {
     getGridData($object: JQuery, request: any, responseFunc: Function) {
         var webserviceurl, controller, module;
         controller = $object.attr('data-controller');
-        module = window[controller].Module;
+        module = (<any>window)[controller].Module;
         request.module = module;
         webserviceurl = 'services.ashx?path=/grid/' + module + '/GetData';
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $object);
@@ -3553,8 +3552,8 @@ class FwBrowseClass {
                 $confirmation.find('.color-col input').prop('checked') === true ? includeColorColumns = true : includeColorColumns = false;
                 request.IncludeColorColumns = includeColorColumns;
 
-                const module = window[controller].Module;
-                const apiurl = window[controller].apiurl;
+                const module = (<any>window)[controller].Module;
+                const apiurl = (<any>window)[controller].apiurl;
 
                 FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
                     try {
@@ -3714,7 +3713,7 @@ class FwBrowseClass {
     getValidationData($object: JQuery, request: any, responseFunc: Function) {
         var webserviceurl, controller, module;
         controller = $object.attr('data-controller');
-        module = window[controller].Module;
+        module = (<any>window)[controller].Module;
         request.module = module;
         webserviceurl = 'services.ashx?path=/validation/' + module + '/GetData';
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $object);

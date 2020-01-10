@@ -12,3 +12,7 @@ declare var DayPilot: any;
 declare var moment: any;
 declare var Sortable: any;
 declare var CKEDITOR: any;
+
+//interface Window {
+//    [key: string]: any;
+//}

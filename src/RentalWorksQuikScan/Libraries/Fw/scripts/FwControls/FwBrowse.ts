@@ -464,7 +464,7 @@ class FwBrowseClass {
             });
 
         //Events only attached when the API is not defined for the control.
-        var controller = window[$control.attr('data-controller')];
+        var controller: any = window[$control.attr('data-controller')];
         if (($control.attr('data-type') == 'Grid') && (typeof controller.apiurl === 'undefined')) {
             $control.on('change', '.field[data-formnoduplicate="true"]', function () {
                 var $field, value, originalvalue, $form, formuniqueids, formfields, request: any = {};
@@ -508,7 +508,7 @@ class FwBrowseClass {
 
         //Register Custom Events on grids and validations
         if ((($control.attr('data-type') == 'Grid') || ($control.attr('data-type') == 'Validation')) && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-            var controller;
+            var controller: any;
             controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
             if (typeof window[controller]['init'] === 'function') {
@@ -3484,7 +3484,7 @@ class FwBrowseClass {
     getGridData($object: JQuery, request: any, responseFunc: Function) {
         var webserviceurl, controller, module;
         controller = $object.attr('data-controller');
-        module = window[controller].Module;
+        module = (<any>window)[controller].Module;
         request.module = module;
         webserviceurl = 'services.ashx?path=/grid/' + module + '/GetData';
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $object);
@@ -3568,8 +3568,8 @@ class FwBrowseClass {
                 $confirmation.find('.color-col input').prop('checked') === true ? includeColorColumns = true : includeColorColumns = false;
                 request.IncludeColorColumns = includeColorColumns;
 
-                const module = window[controller].Module;
-                const apiurl = window[controller].apiurl;
+                const module = (<any>window)[controller].Module;
+                const apiurl = (<any>window)[controller].apiurl;
 
                 FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
                     try {
@@ -3729,7 +3729,7 @@ class FwBrowseClass {
     getValidationData($object: JQuery, request: any, responseFunc: Function) {
         var webserviceurl, controller, module;
         controller = $object.attr('data-controller');
-        module = window[controller].Module;
+        module = (<any>window)[controller].Module;
         request.module = module;
         webserviceurl = 'services.ashx?path=/validation/' + module + '/GetData';
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $object);
