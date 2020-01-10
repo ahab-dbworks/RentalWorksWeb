@@ -1306,14 +1306,28 @@ namespace FwStandard.SqlServer
             return dt;
         }
         //-------------------------------------------------------------------------------------------------------    
-        public static void FwDataTypeIsDecimal(FwDataTypes t, ref bool isDecimal, ref NumberFormatInfo numberFormat)
+        public static void FwDataTypeIsDecimal(FwDataTypes t, object value, ref bool isDecimal, ref NumberFormatInfo numberFormat)
         {
             numberFormat = new CultureInfo("en-US", false).NumberFormat;
             numberFormat.NumberGroupSeparator = ",";
             numberFormat.NumberDecimalSeparator = ".";
 
             isDecimal = false;
-            if (t.Equals(FwDataTypes.Decimal)) { isDecimal = true; }
+            //if (t.Equals(FwDataTypes.Decimal)) { isDecimal = true; }
+            if (t.Equals(FwDataTypes.Decimal)) {
+                isDecimal = true; 
+                numberFormat.NumberDecimalDigits = 2;   // (default)
+
+                //if value is an integer, then change the digits to zero
+                if (value != null)
+                {
+                    decimal d = (decimal)value;
+                    if (d.Equals(Math.Round(d, 0)))
+                    {
+                        numberFormat.NumberDecimalDigits = 0;
+                    }
+                }
+            }
             else if (t.Equals(FwDataTypes.DecimalString1Digit)) { isDecimal = true; numberFormat.NumberDecimalDigits = 1; }
             else if (t.Equals(FwDataTypes.DecimalString2Digits)) { isDecimal = true; numberFormat.NumberDecimalDigits = 2; }
             else if (t.Equals(FwDataTypes.DecimalString3Digits)) { isDecimal = true; numberFormat.NumberDecimalDigits = 3; }
@@ -1898,12 +1912,13 @@ namespace FwStandard.SqlServer
                                         //if (dictionary[dataFieldAttribute.ColumnName] != null)
                                         if ((dictionary.ContainsKey(dataFieldAttribute.ColumnName)) && (dictionary[dataFieldAttribute.ColumnName] != null))
                                         {
+                                            object value = dictionary[dataFieldAttribute.ColumnName];
                                             if (dataFieldAttribute.ModelType.Equals(FwDataTypes.Boolean))  // special case for booleans. query result may be "T", "F", "" or other string. need to convert on-the-fly
                                             {
                                                 bool b = false;
-                                                if ((dictionary[dataFieldAttribute.ColumnName] != null) && (dictionary[dataFieldAttribute.ColumnName] is string))
+                                                if ((value != null) && (value is string))
                                                 {
-                                                    if (dictionary[dataFieldAttribute.ColumnName].ToString().Equals("T"))
+                                                    if (value.ToString().Equals("T"))
                                                     {
                                                         b = true;
                                                     }
@@ -1917,10 +1932,10 @@ namespace FwStandard.SqlServer
                                             //string numberStringFormat = "";
                                             //FwDataTypeIsDecimal(dataFieldAttribute.ModelType, ref isDecimal, ref numberStringFormat);
                                             NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
-                                            FwSqlCommand.FwDataTypeIsDecimal(dataFieldAttribute.ModelType, ref isDecimal, ref numberFormat);
+                                            FwSqlCommand.FwDataTypeIsDecimal(dataFieldAttribute.ModelType, value, ref isDecimal, ref numberFormat);
                                             if ((isDecimal) && (property.PropertyType == typeof(string)))
                                             {
-                                                decimal d = FwConvert.ToDecimal((dictionary[dataFieldAttribute.ColumnName] ?? "0").ToString());
+                                                decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
                                                 //property.SetValue(result, d.ToString(numberStringFormat));
                                                 property.SetValue(result, d.ToString("N", numberFormat));
                                             }

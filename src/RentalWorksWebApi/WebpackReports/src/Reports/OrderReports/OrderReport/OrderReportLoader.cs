@@ -111,22 +111,23 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     int columnIndex = dt.GetColumnNo(fieldName);
                     if (!columnIndex.Equals(-1))
                     {
+                        object value = row[dt.GetColumnNo(fieldName)];
                         FwDataTypes propType = dt.Columns[columnIndex].DataType;
                         bool isDecimal = false;
                         NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
-                        FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberFormat);
+                        FwSqlCommand.FwDataTypeIsDecimal(propType, value, ref isDecimal, ref numberFormat);
                         if (isDecimal)
                         {
-                            decimal d = FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "0").ToString());
+                            decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
                             property.SetValue(item, d.ToString("N", numberFormat));
                         }
                         else if (propType.Equals(FwDataTypes.Boolean))
                         { 
-                            property.SetValue(item, FwConvert.ToBoolean((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
+                            property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
                         }
                         else
                         {
-                            property.SetValue(item, (row[dt.GetColumnNo(fieldName)] ?? "").ToString());
+                            property.SetValue(item, (value ?? "").ToString());
                         }
                     }
                 }
@@ -846,15 +847,16 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                                 int columnIndex = activitiesDt.GetColumnNo(fieldName);
                                 if (!columnIndex.Equals(-1))
                                 {
+                                    object value = row[activitiesDt.GetColumnNo(fieldName)];
                                     FwDataTypes propType = activitiesDt.Columns[columnIndex].DataType;
                                     bool isDecimal = false;
                                     //string numberStringFormat = "";
                                     //FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
                                     NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
-                                    FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberFormat);
+                                    FwSqlCommand.FwDataTypeIsDecimal(propType, value, ref isDecimal, ref numberFormat);
                                     if (isDecimal)
                                     {
-                                        decimal d = FwConvert.ToDecimal((row[activitiesDt.GetColumnNo(fieldName)] ?? "0").ToString());
+                                        decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
                                         //property.SetValue(activity, d.ToString(numberStringFormat));
                                         property.SetValue(activity, d.ToString("N", numberFormat));
                                     }

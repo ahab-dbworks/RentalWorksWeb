@@ -87,22 +87,23 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     int columnIndex = dt.GetColumnNo(fieldName);
                     if (!columnIndex.Equals(-1))
                     {
+                        object value = row[dt.GetColumnNo(fieldName)];
                         FwDataTypes propType = dt.Columns[columnIndex].DataType;
                         bool isDecimal = false;
                         NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
-                        FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberFormat);
+                        FwSqlCommand.FwDataTypeIsDecimal(propType, value, ref isDecimal, ref numberFormat);
                         if (isDecimal)
                         {
-                            decimal d = FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "0").ToString());
+                            decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
                             property.SetValue(item, d.ToString("N", numberFormat));
                         }
                         else if (propType.Equals(FwDataTypes.Boolean))
                         {
-                            property.SetValue(item, FwConvert.ToBoolean((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
+                            property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
                         }
                         else
                         {
-                            property.SetValue(item, (row[dt.GetColumnNo(fieldName)] ?? "").ToString());
+                            property.SetValue(item, (value ?? "").ToString());
                         }
                     }
                 }
