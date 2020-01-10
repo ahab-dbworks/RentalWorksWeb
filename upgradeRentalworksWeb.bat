@@ -7,7 +7,7 @@ rem Usagw:
 rem upgradeRentalWorksWeb <version>
 rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman
-rem Last modified: 12/13/2019
+rem Last modified: 01/10/2020
 rem --------------------------------------------------------------------------
 rem
 rem
@@ -95,6 +95,7 @@ rem delete any old files in the working directory (c:\temp)
 cd %workingdirectory%
 if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
 if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
+if exist RentalWorksQuikScan\ (rmdir RentalWorksQuikScan /S /Q)
 if exist %ftpcommandfilename% (del %ftpcommandfilename%)
 if exist %zipfilename% (del %zipfilename%)
 
