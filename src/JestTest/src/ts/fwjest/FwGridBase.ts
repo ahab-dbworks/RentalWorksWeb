@@ -111,6 +111,7 @@ export class FwGridBase {
         if (recordToSelect === undefined) {
             recordToSelect = 1;
         }
+        await page.click(`${this.gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${dataField}"] .btnvalidate`);
         //await ModuleBase.wait(500);  // wait for validation to open
         // wait for the validation to open, then check for errors
         var popUp;
