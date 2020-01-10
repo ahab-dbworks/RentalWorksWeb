@@ -6,7 +6,7 @@ using WebApi.Controllers;
 
 namespace WebApi.Modules.Mobile.Exchange
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/quikscan/[controller]")]
     [ApiExplorerSettings(GroupName = "mobile-v1")]
     [FwController(Id:"6Ow8BBaVymuo")]
     public class ExchangeController : AppDataController

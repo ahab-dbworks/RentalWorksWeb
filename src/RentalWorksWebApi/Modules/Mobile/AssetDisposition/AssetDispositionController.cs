@@ -6,7 +6,7 @@ using WebApi.Controllers;
 
 namespace WebApi.Modules.Mobile.AssetDisposition
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/quikscan/[controller]")]
     [ApiExplorerSettings(GroupName = "mobile-v1")]
     [FwController(Id:"2KbMXwEKkQe2")]
     public class AssetDispositionController : AppDataController

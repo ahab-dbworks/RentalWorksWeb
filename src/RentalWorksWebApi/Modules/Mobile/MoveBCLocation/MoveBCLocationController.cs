@@ -6,7 +6,7 @@ using WebApi.Controllers;
 
 namespace WebApi.Modules.Mobile.MoveBCLocation
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/quikscan/[controller]")]
     [ApiExplorerSettings(GroupName = "mobile-v1")]
     [FwController(Id:"gQERbwRwFOhN")]
     public class MoveBCLocationController : AppDataController
