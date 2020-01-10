@@ -44,6 +44,18 @@ namespace WebApi.Modules.HomeControls.Manifest
         public string TransferDescription { get; set; }
         [FwLogicProperty(Id: "FXEJGdQt135j", IsReadOnly: true)]
         public bool? HasVoid { get; set; }
+
+        [FwLogicProperty(Id: "xxxxxxxxx")]
+        public bool? Rental { get { return manifest.Rental; } set { manifest.Rental = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxxxx")]
+        public bool? Sales { get { return manifest.Sales; } set { manifest.Sales = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxxxx", IsReadOnly: true)]
+        public bool? Exchange { get { return manifest.Exchange; } set { manifest.Exchange = value; } }
+
+
+
         [FwLogicProperty(Id: "X4NvNTdyaAMP")]
         public string ManifestTime { get { return manifest.ContractTime; } set { manifest.ContractTime = value; } }
         [FwLogicProperty(Id: "pamwRfn1i1C")]

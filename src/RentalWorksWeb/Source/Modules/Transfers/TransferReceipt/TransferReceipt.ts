@@ -8,6 +8,8 @@ class TransferReceipt extends ContractBase {
     id: string = Constants.Modules.Transfers.children.TransferReceipt.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    uniqueIdFieldName = "ManifestId";
+    numberFieldName = "ManifestNumber";
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasInactive = false;
@@ -20,20 +22,20 @@ class TransferReceipt extends ContractBase {
     addFormMenuItems(options: IAddFormMenuOptions): void {
         FwMenu.addFormMenuButtons(options);
 
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Order', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Transfer Receipt', '', (e: JQuery.ClickEvent) => {
             try {
                 this.printContract(options.$form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Void Contract', 'OB2ssAaVMdIY', (e: JQuery.ClickEvent) => {
-            try {
-                this.voidContract(options.$form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+        //FwMenu.addSubMenuItem(options.$groupOptions, 'Void Contract', 'OB2ssAaVMdIY', (e: JQuery.ClickEvent) => {
+        //    try {
+        //        this.voidContract(options.$form);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
     }
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -88,9 +90,9 @@ class TransferReceipt extends ContractBase {
                     <div data-control="FwFormField" data-type="validation" data-validationname="WarehouseValidation" data-displayfield="Warehouse" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" style="flex:1 1 50px" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="ContractType" style="flex:1 1 0" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="validation" data-validationname="DepartmentValidation" data-displayfield="Department" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" style="flex:1 1 50px" data-enabled="false"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px; display:none"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px; display:none"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px; display:none"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px; display:none"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px; display:none"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px; display:none"></div>
                   </div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Summary">

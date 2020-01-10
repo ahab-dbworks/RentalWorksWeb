@@ -1,4 +1,4 @@
-﻿abstract class ContractBase {
+abstract class ContractBase {
     Module: string;
     apiurl: string;
     caption: string;
@@ -7,6 +7,8 @@
     ActiveViewFields: any;
     ActiveViewFieldsId: string;
     BillingDate: string;
+    uniqueIdFieldName: string = "ContractId";
+    numberFieldName: string = "ContractNumber";
     //----------------------------------------------------------------------------------------------
     afterAddBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         const location = JSON.parse(sessionStorage.getItem('location'));
@@ -163,11 +165,11 @@
     //----------------------------------------------------------------------------------------------
     printContract($form: JQuery): void {
         try {
-            let module, $report;
+            let docType, $report;
             switch (this.Module) {
                 case 'Contract':
                     const contractType = FwFormField.getValueByDataField($form, 'ContractType');
-                    module = 'Contract';
+                    docType = 'Contract';
                     if (contractType && contractType === 'LOST') {
                         $report = LostContractReportController.openForm();
                     }
@@ -189,27 +191,27 @@
                     FwModule.openSubModuleTab($form, $report);
                     break;
                 case 'Manifest':
-                    module = 'Manifest';
+                    docType = 'Manifest';
                     $report = TransferManifestReportController.openForm();
                     FwModule.openSubModuleTab($form, $report);
                     break;
                 case 'TransferReceipt':
-                    module = 'Receipt';
+                    docType = 'Receipt';
                     $report = TransferReceiptReportController.openForm();
                     FwModule.openSubModuleTab($form, $report);
                     break;
             }
 
-            const id = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
+            const id = $form.find(`div.fwformfield[data-datafield="${this.uniqueIdFieldName}"] input`).val();
+            const number = $form.find(`div.fwformfield[data-datafield="${this.numberFieldName}"] input`).val();
             $report.find(`div.fwformfield[data-datafield="ContractId"] input`).val(id);
-            const number = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
             $report.find(`div.fwformfield[data-datafield="ContractId"] .fwformfield-text`).val(number);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print ${docType}`);
 
             const printTab = jQuery('.tab.submodule.active');
-            printTab.find('.caption').html(`Print ${module}`);
+            printTab.find('.caption').html(`Print ${docType}`);
             const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-            printTab.attr('data-caption', `${module} ${recordTitle}`);
+            printTab.attr('data-caption', `${docType} ${recordTitle}`);
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -218,7 +220,7 @@
     voidContract($form: JQuery): void {
         try {
             const request: any = {};
-            request.ContractId = FwFormField.getValueByDataField($form, 'ContractId');
+            request.ContractId = FwFormField.getValueByDataField($form, this.uniqueIdFieldName);
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/voidcontract`, request, FwServices.defaultTimeout, response => {
                 let $confirmation = FwConfirmation.renderConfirmation('Error', response.msg);
                 FwConfirmation.addButton($confirmation, 'OK', true);
@@ -242,7 +244,7 @@
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    ContractId: FwFormField.getValueByDataField($form, `${module}Id`)
+                    ContractId: FwFormField.getValueByDataField($form, this.uniqueIdFieldName)
                 };
             }
         });
@@ -268,7 +270,7 @@
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    ContractId: FwFormField.getValueByDataField($form, `${module}Id`),
+                    ContractId: FwFormField.getValueByDataField($form, this.uniqueIdFieldName),
                     RecType: 'R'
                 };
             }
@@ -295,7 +297,7 @@
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    ContractId: FwFormField.getValueByDataField($form, `${module}Id`),
+                    ContractId: FwFormField.getValueByDataField($form, this.uniqueIdFieldName),
                     RecType: 'S'
                 };
             }
@@ -306,10 +308,14 @@
             gridSecurityId: 'Azkpehs1tvl',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    ContractId: FwFormField.getValueByDataField($form, `${module}Id`)
-                    //eg????? ,                    RecType: "S"
+                    ContractId: FwFormField.getValueByDataField($form, this.uniqueIdFieldName),
                 };
             }
         });
@@ -322,10 +328,10 @@
             const $grid = jQuery($element.closest('[data-type="Grid"]'));
             const contractItems: any = [];
             const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
-            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            const contractId = FwFormField.getValueByDataField($form, this.uniqueIdFieldName);
 
             if ($selectedCheckBoxes.length > 0) {
-                const $confirmation = FwConfirmation.renderConfirmation('Void Contract Activity', '');
+                const $confirmation = FwConfirmation.renderConfirmation('Void Items', '');
                 const $select = FwConfirmation.addButton($confirmation, 'OK', false);
                 FwConfirmation.addButton($confirmation, 'Cancel', true);
                 const html = [];
@@ -442,11 +448,15 @@
         }
 
         if (showExchange) {
-            $form.find('.summary-grid').hide();
-            $form.find('.exchange-item-grid').show();
+            //$form.find('.summary-grid').hide();
+            //$form.find('.exchange-item-grid').show();
+            $contractSummaryGrid.hide();
+            $contractExchangeItemGrid.show();
         } else {
-            $form.find('.summary-grid').show();
-            $form.find('.exchange-item-grid').hide();
+            //$form.find('.summary-grid').show();
+            //$form.find('.exchange-item-grid').hide();
+            $contractSummaryGrid.show();
+            $contractExchangeItemGrid.hide();
         }
 
         if (this.Module == 'Contract') {

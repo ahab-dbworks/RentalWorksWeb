@@ -113,7 +113,7 @@ namespace WebApi.Modules.Warehouse.Contract
         public bool? Sales { get { return contract.Sales; } set { contract.Sales = value; } }
 
         [FwLogicProperty(Id: "j98nLoKdIU2Z", IsReadOnly: true)]
-        public bool? Exchange { get; set; }
+        public bool? Exchange { get { return contract.Exchange; } set { contract.Exchange = value; } }
 
         [FwLogicProperty(Id: "8UM0lpArkPZJ")]
         public string InputByUserId { get { return contract.InputByUserId; } set { contract.InputByUserId = value; } }

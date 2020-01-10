@@ -51,6 +51,15 @@ namespace WebApi.Modules.HomeControls.Manifest
         [FwSqlDataField(column: "hasvoid", modeltype: FwDataTypes.Boolean)]
         public bool? HasVoid { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
+        public bool? Rental { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
+        public bool? Sales { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "exchange", modeltype: FwDataTypes.Boolean)]
+        public bool? Exchange { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contracttime", modeltype: FwDataTypes.Text)]
         public string ManifestTime { get; set; }
         //------------------------------------------------------------------------------------ 
