@@ -149,6 +149,8 @@ namespace WebApi
         public const string RECTYPE_RENTAL_DESCRIPTION = "RENTAL";
         public const string RECTYPE_SALE_DESCRIPTION = "SALES";
         public const string RECTYPE_PARTS_DESCRIPTION = "PARTS";
+        public const string RECTYPE_LABOR_DESCRIPTION = "LABOR";
+        public const string RECTYPE_MISC_DESCRIPTION = "MISC";
 
 
         public const string TOTAL_TYPE_WEEKLY = "W";

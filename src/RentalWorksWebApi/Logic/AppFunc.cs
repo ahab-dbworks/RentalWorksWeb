@@ -648,6 +648,12 @@ namespace WebApi.Logic
                 case RwConstants.RECTYPE_PARTS:
                     recTypeDisplay = RwConstants.RECTYPE_PARTS_DESCRIPTION;
                     break;
+                case RwConstants.RECTYPE_LABOR:
+                    recTypeDisplay = RwConstants.RECTYPE_LABOR_DESCRIPTION;
+                    break;
+                case RwConstants.RECTYPE_MISCELLANEOUS:
+                    recTypeDisplay = RwConstants.RECTYPE_MISC_DESCRIPTION;
+                    break;
             }
             return recTypeDisplay;
         }
