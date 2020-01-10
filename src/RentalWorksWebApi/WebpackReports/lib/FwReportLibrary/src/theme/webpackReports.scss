@@ -5,8 +5,19 @@
         text-align: left;
     }
 
+    tr[data-isbold="true"] {
+        font-weight: bold;
+    }
+
     td {
         padding: 3px;
+    }
+
+    td[data-itemclass="CI"],
+    td[data-itemclass="CA"],
+    td[data-itemclass="KI"],
+    td[data-itemclass="KA"] {
+        text-indent: 2em;
     }
 
     td:after {

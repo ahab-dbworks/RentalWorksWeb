@@ -155,6 +155,7 @@
         <td></td>
         <th>I-Code</th>
         <th>Description</th>
+        <th class="number">Unit Extended</th>
         <th class="number">Quantity</th>
         <th class="number">Extended</th>
       </tr>
@@ -162,10 +163,11 @@
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr>
+      <tr data-isbold="{{Bold}}">
         <td style="background-color:white;"></td>
-        <td>{{ICode}}</td>
-        <td>{{Description}}</td>
+        <td data-itemclass="{{ItemClass}}">{{ICode}}</td>
+        <td data-itemclass="{{ItemClass}}">{{Description}}</td>
+        <td class="number">{{UnitExtended}}</td>
         <td class="number">{{Quantity}}</td>
         <td class="number">{{Extended}}</td>
       </tr>
@@ -173,18 +175,14 @@
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
     <tr>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td colspan="4"></td>
       <td class="display-footer">{{RecTypeDisplay}}&nbsp;</td>
       <td class="display-footer-total" data-value="{{Extended}}"></td>
     </tr>
     {{/ifEquals}}
     {{#ifEquals RowType "grandtotal"}}
     <tr>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td colspan="4"></td>
       <td class="display-footer">GRAND TOTAL:&nbsp;</td>
       <td class="display-footer-total" data-value="{{Extended}}"></td>
     </tr>
