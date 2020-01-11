@@ -123,61 +123,76 @@ class FwSchedulerClass {
                 }
             }
         });
-        $control.on('click', '.btnToday', function () {
-            var today;
+        $control.on('click', '.btnToday', e => {
+            e.stopImmediatePropagation();
+
             try {
-                today = new DayPilot.Date();
+                const today = new DayPilot.Date();
                 FwScheduler.navigate($control, today);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnDay', function () {
+        $control.on('click', '.btnDay', e => {
+            e.stopImmediatePropagation();
+
             try {
                 FwScheduler.showDayView($control);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnWeek', function () {
+        $control.on('click', '.btnWeek', e => {
+            e.stopImmediatePropagation();
+
             try {
                 FwScheduler.showWeekView($control);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btn5Week', function () {
+        $control.on('click', '.btn5Week', e => {
+            e.stopImmediatePropagation();
+
             try {
                 FwScheduler.show5WeekView($control);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnMonth', function () {
+        $control.on('click', '.btnMonth', e => {
+            e.stopImmediatePropagation();
+
             try {
                 FwScheduler.showMonthView($control);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnYear', function () {
+        $control.on('click', '.btnYear', e => {
+            e.stopImmediatePropagation();
+
             try {
                 FwScheduler.showYearView($control);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnSchedule', function () {
+        $control.on('click', '.btnSchedule', e => {
+            e.stopImmediatePropagation();
+
             try {
                 FwScheduler.showScheduleView($control);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnNext', function () {
-            let currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed, $schedulerControl;
+        $control.on('click', '.btnNext', e => {
+            e.stopImmediatePropagation();
+            let currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed;
+
             try {
-                $schedulerControl = $control.parents().find('.realscheduler')
+                const $schedulerControl = $control.parents().find('.realscheduler')
                 if ($schedulerControl.length) {
                     schedulerDetailed = $schedulerControl.data('dpscheduler');
                 }
@@ -228,10 +243,12 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnPrev', function () {
-            var currentDay, previousDay, previousWeek, previous5Week, previousMonth, nav5week, navyear, navcalendar, navmonth, navscheduler, schedulerDetailed, $schedulerControl;
+        $control.on('click', '.btnPrev', e => {
+            e.stopImmediatePropagation();
+            let currentDay, previousDay, previousWeek, previous5Week, previousMonth, nav5week, navyear, navcalendar, navmonth, navscheduler, schedulerDetailed;
+
             try {
-                $schedulerControl = $control.parents().find('.realscheduler')
+                const $schedulerControl = $control.parents().find('.realscheduler')
                 if ($schedulerControl.length) {
                     schedulerDetailed = $schedulerControl.data('dpscheduler');
                 }
@@ -295,7 +312,7 @@ class FwSchedulerClass {
         //$control.on('onactivatetab', () => {
         //    const $form = $control.closest('.fwform');
 
-        //    if ($control.attr('data-refreshonactivatetab') !== 'false' && $form.attr('data-mode') !== 'NEW') {     // -- J. Pace commented this out because it is creating dubplicate API requests
+        //    if ($control.attr('data-refreshonactivatetab') !== 'false' && $form.attr('data-mode') !== 'NEW') {     //// -- J. Pace commented this out because it is creating dubplicate API requests
         //        FwScheduler.refresh($control);
         //    }
         //    $control.attr('data-refreshonactivatetab', 'true');

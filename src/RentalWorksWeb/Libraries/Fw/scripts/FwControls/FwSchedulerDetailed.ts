@@ -54,7 +54,9 @@ class FwSchedulerDetailedClass {
     };
     //---------------------------------------------------------------------------------
     init($control) {
-        $control.on('click', '.btnToday', function () {
+        $control.on('click', '.btnToday', e => {
+            e.stopImmediatePropagation();
+
             try {
                 const today = new DayPilot.Date();
                 FwSchedulerDetailed.navigate($control, today);
@@ -62,7 +64,9 @@ class FwSchedulerDetailedClass {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnNext', function () {
+        $control.on('click', '.btnNext', e => {
+            e.stopImmediatePropagation();
+
             try {
                 const navscheduler = $control.data('dpscheduler');
                 const currentDay = navscheduler.startDate;
@@ -72,7 +76,9 @@ class FwSchedulerDetailedClass {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnPrev', function () {
+        $control.on('click', '.btnPrev', e => {
+            e.stopImmediatePropagation();
+
             try {
                 const navscheduler = $control.data('dpscheduler');
                 const currentDay = navscheduler.startDate;
@@ -84,7 +90,9 @@ class FwSchedulerDetailedClass {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnRefreshScheduler', function () {
+        $control.on('click', '.btnRefreshScheduler', e => {
+            e.stopImmediatePropagation();
+
             try {
                 FwSchedulerDetailed.refresh($control);
                 const $calendarControl = $control.parents().find('.calendar');
