@@ -544,7 +544,6 @@
     //---------------------------------------------------------------------------------
     private _renderBody($grid: JQuery, options: GridOptions) {
         var me = this;
-
         let $body = jQuery('<div>')
             .addClass('grid-content')
             .appendTo($grid);
@@ -754,6 +753,16 @@
         var totalpages           = response.TotalPages;
         var $tbody               = $grid.find('.grid-content tbody');
 
+        //setting grid data for excelsheetdownload call in GateInterface - JG
+        $grid.data('ondatabind', (request: any) => {
+            request.filterfields = this._getFilters($grid);
+            request.orderby = this._getOrderBy($grid);
+        });
+        $grid.data('totalRowCount', totalrows);
+        $grid.attr('data-pageno', page);
+        $grid.attr('data-pagesize', pagesize);
+        
+
         $tbody.empty();
         for (var i = 0; i < response.Rows.length; i++) {
             var row  = response.Rows[i];
@@ -844,7 +853,8 @@
         request.pageno       = this._pageNumber($grid);
         request.pagesize     = this._pageSize($grid);
         request.orderby      = this._getOrderBy($grid);
-        request.filterfields = this._getFilters($grid);
+        request.filterfields = this._getFilters($grid); 
+            
 
         if (options.filter) {
             request.filterfields = {...request.filterfields, ...options.filter($grid)};
