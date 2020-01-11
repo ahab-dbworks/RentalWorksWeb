@@ -7,12 +7,12 @@ class Customer {
     thisModule: Customer;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        var $browse: any = this.openBrowse();
+        const $browse: any = this.openBrowse();
 
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
@@ -128,7 +128,7 @@ class Customer {
         $form.find('.credits-page').append($submoduleCustomerCreditBrowse);
 
         $form.find('[data-datafield="UseDiscountTemplate"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
+            const $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('.discount-validation'));
             } else {
@@ -145,7 +145,7 @@ class Customer {
         });
 
         $form.find('[data-datafield="DisableQuoteOrderActivity"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
+            const $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('.quote-order [data-type="checkbox"]'));
             } else {
@@ -154,7 +154,7 @@ class Customer {
         });
 
         $form.find('[data-datafield="BillingAddressType"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
+            const $this = jQuery(this);
             if ($this.val() === 'OTHER') {
                 FwFormField.enable($form.find('.billingaddress'));
             } else {
@@ -163,7 +163,7 @@ class Customer {
         });
 
         $form.find('[data-datafield="ShippingAddressType"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
+            const $this = jQuery(this);
             if ($this.val() === 'OTHER') {
                 FwFormField.enable($form.find('.shippingaddress'));
             } else {
@@ -172,16 +172,12 @@ class Customer {
         });
 
         this.events($form);
-        // Default address data before save event
-        $form.data('beforesave', request => {
-            this.addressTypeChange($form);
-        });
-
+       
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form: any = this.openForm('EDIT');
+        const $form: any = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'CustomerId', uniqueids.CustomerId);
         FwModule.loadForm(this.Module, $form);
 
@@ -193,9 +189,8 @@ class Customer {
     }
     //----------------------------------------------------------------------------------------------
     openContractBrowse($form) {
-        let customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        let $browse;
-        $browse = ContractController.openBrowse();
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const $browse = ContractController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = ContractController.ActiveViewFields;
             request.uniqueids = {
@@ -206,9 +201,8 @@ class Customer {
     }
     //---------------------------------------------------------------------------------------------
     openInvoiceBrowse($form) {
-        let customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        let $browse;
-        $browse = InvoiceController.openBrowse();
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const $browse = InvoiceController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = InvoiceController.ActiveViewFields;
             request.uniqueids = {
@@ -219,9 +213,8 @@ class Customer {
     }
     //---------------------------------------------------------------------------------------------
     openReceiptBrowse($form) {
-        let customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        let $browse;
-        $browse = ReceiptController.openBrowse();
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const $browse = ReceiptController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = ReceiptController.ActiveViewFields;
             request.uniqueids = {
@@ -425,11 +418,11 @@ class Customer {
             }
         });
         //Billing Address Type Change
-        $form.find('.billing_address_type').on('change', () => {
+        $form.find('div[data-datafield="BillingAddressType"]').on('change', () => {
             this.addressTypeChange($form);
         });
         //Shipping Address Type Change
-        $form.find('.shipping_address_type').on('change', () => {
+        $form.find('div[data-datafield="ShippingAddressType"]').on('change', () => {
             this.addressTypeChange($form);
         });
         //Customer Address Change
@@ -455,8 +448,6 @@ class Customer {
     }
     //----------------------------------------------------------------------------------------------
     updateExternalInputsWithGridValues($tr: JQuery): void {
-        let TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
-
         $tr.find('.column > .field').each((i, e) => {
             let $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
             if (value === undefined || null) {
@@ -465,7 +456,8 @@ class Customer {
                 jQuery(`.${id}`).find(':input').val(value);
             }
         });
-        jQuery('.TaxOption').find(':input').val(TaxOption);
+        const taxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
+        jQuery('.TaxOption').find(':input').val(taxOption);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
@@ -667,29 +659,29 @@ class Customer {
                     <div class="flexcolumn" style="flex:0 1 425px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Address">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield billing_address_type" data-caption="Default Address" data-datafield="BillingAddressType"></div>
+                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Default Address" data-datafield="BillingAddressType"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billing_att1" data-caption="Attention 1" data-datafield="BillToAttention1" style="flex:1 1 300px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention 1" data-datafield="BillToAttention1" style="flex:1 1 300px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billing_att2" data-caption="Attention 2" data-datafield="BillToAttention2" style="flex:1 1 300px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention 2" data-datafield="BillToAttention2" style="flex:1 1 300px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billingaddress billing_add1" data-caption="Address 1" data-datafield="BillToAddress1" data-enabled="false" style="flex:1 1 300px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billingaddress" data-caption="Address 1" data-datafield="BillToAddress1" data-enabled="false" style="flex:1 1 300px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billingaddress billing_add2" data-caption="Address 2" data-datafield="BillToAddress2" data-enabled="false" style="flex:1 1 300px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billingaddress" data-caption="Address 2" data-datafield="BillToAddress2" data-enabled="false" style="flex:1 1 300px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billingaddress billing_city" data-caption="City" data-datafield="BillToCity" data-enabled="false" style="flex:1 1 300px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billingaddress" data-caption="City" data-datafield="BillToCity" data-enabled="false" style="flex:1 1 300px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billingaddress billing_state" data-caption="State" data-datafield="BillToState" data-enabled="false" style="flex:1 1 150px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billingaddress billing_zip" data-caption="Zip/Postal" data-datafield="BillToZipCode" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billingaddress" data-caption="State" data-datafield="BillToState" data-enabled="false" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billingaddress" data-caption="Zip/Postal" data-datafield="BillToZipCode" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield billingaddress billing_country" data-caption="Country" data-datafield="BillToCountryId" data-enabled="false" data-displayfield="BillToCountry" data-validationname="CountryValidation" style="flex:1 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield billingaddress" data-caption="Country" data-datafield="BillToCountryId" data-enabled="false" data-displayfield="BillToCountry" data-validationname="CountryValidation" style="flex:1 1 175px;"></div>
                         </div>
                       </div>
                     </div>
@@ -987,23 +979,23 @@ class Customer {
                     <div class="flexcolumn" style="flex:0 1 425px;"">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Shipping Address">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield  shipping_address_type" data-caption="Default Address" data-datafield="ShippingAddressType"></div>
+                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Default Address" data-datafield="ShippingAddressType"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_att shippingaddress" data-caption="Attention" data-datafield="ShipAttention" data-enabled="false" style="flex:1 1 275px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shippingaddress" data-caption="Attention" data-datafield="ShipAttention" data-enabled="false" style="flex:1 1 275px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_add1 shippingaddress" data-caption="Address 1" data-datafield="ShipAddress1" data-enabled="false" style="flex:1 1 275px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shippingaddress" data-caption="Address 1" data-datafield="ShipAddress1" data-enabled="false" style="flex:1 1 275px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_add2 shippingaddress" data-caption="Address 2" data-datafield="ShipAddress2" data-enabled="false" style="flex:1 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shippingaddress" data-caption="Address 2" data-datafield="ShipAddress2" data-enabled="false" style="flex:1 1 250px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_city shippingaddress" data-caption="City" data-datafield="ShipCity" data-enabled="false" style="flex:1 1 275px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shippingaddress" data-caption="City" data-datafield="ShipCity" data-enabled="false" style="flex:1 1 275px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_state shippingaddress" data-caption="State" data-datafield="ShipState" data-enabled="false" style="flex:1 1 150px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_zip shippingaddress" data-caption="Zip/Postal" data-datafield="ShipZipCode" data-enabled="false" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shippingaddress" data-caption="State" data-datafield="ShipState" data-enabled="false" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shippingaddress" data-caption="Zip/Postal" data-datafield="ShipZipCode" data-enabled="false" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield shippingaddress" data-caption="Country" data-datafield="ShipCountryId" data-enabled="false" data-displayfield="ShipCountry" data-validationname="CountryValidation" style="flex:1 1 175px;"></div>
@@ -1044,41 +1036,39 @@ class Customer {
                 </div>
               </div>
             </div>
-          </div>
-`;
+          </div>`;
     }
     //----------------------------------------------------------------------------------------------
     addressTypeChange($form) {
-        if (FwFormField.getValue($form, '.billing_address_type') === 'CUSTOMER') {
+        const billingAddressType = FwFormField.getValueByDataField($form, 'BillingAddressType');
+        if (billingAddressType === 'CUSTOMER') {
             // Values from Customer fields in general tab
-            //FwFormField.setValue($form, '.billing_att1', "");
-            //FwFormField.setValue($form, '.billing_att2', "");
-            FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
-            FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
-            FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
-            FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
-            FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-            FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+            FwFormField.setValueByDataField($form, 'BillToAddress1', FwFormField.getValueByDataField($form, 'Address1'));
+            FwFormField.setValueByDataField($form, 'BillToAddress2', FwFormField.getValueByDataField($form, 'Address2'));
+            FwFormField.setValueByDataField($form, 'BillToCity', FwFormField.getValueByDataField($form, 'City'));
+            FwFormField.setValueByDataField($form, 'BillToState', FwFormField.getValueByDataField($form, 'State'));
+            FwFormField.setValueByDataField($form, 'BillToZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
+            FwFormField.setValueByDataField($form, 'BillToCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        }
+        const shippingAddressType = FwFormField.getValueByDataField($form, 'ShippingAddressType');
+        if (shippingAddressType === 'CUSTOMER') {
+            // Values from Customer fields in general tab
+            FwFormField.enable($form.find('div[ data-datafield="ShipAttention"]'));
+            FwFormField.setValueByDataField($form, 'ShipAddress1', FwFormField.getValueByDataField($form, 'Address1'));
+            FwFormField.setValueByDataField($form, 'ShipAddress2', FwFormField.getValueByDataField($form, 'Address2'));
+            FwFormField.setValueByDataField($form, 'ShipCity', FwFormField.getValueByDataField($form, 'City'));
+            FwFormField.setValueByDataField($form, 'ShipState', FwFormField.getValueByDataField($form, 'State'));
+            FwFormField.setValueByDataField($form, 'ShipZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
+            FwFormField.setValueByDataField($form, 'ShipCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
         }
 
-        if (FwFormField.getValue($form, '.shipping_address_type') === 'CUSTOMER') {
-            // Values from Customer fields in general tab
-            FwFormField.enable($form.find('.shipping_att'));
-            FwFormField.setValue($form, '.shipping_add1', FwFormField.getValueByDataField($form, 'Address1'));
-            FwFormField.setValue($form, '.shipping_add2', FwFormField.getValueByDataField($form, 'Address2'));
-            FwFormField.setValue($form, '.shipping_city', FwFormField.getValueByDataField($form, 'City'));
-            FwFormField.setValue($form, '.shipping_state', FwFormField.getValueByDataField($form, 'State'));
-            FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-            FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-        }
-
-        if (FwFormField.getValue($form, '.billing_address_type') === 'OTHER') {
+        if (billingAddressType === 'OTHER') {
             FwFormField.enable($form.find('.billingaddress'));
-        };
+        }
 
-        if (FwFormField.getValue($form, '.shipping_address_type') === 'OTHER') {
+        if (shippingAddressType === 'OTHER') {
             FwFormField.enable($form.find('.shippingaddress'));
-        };
+        }
     }
     //----------------------------------------------------------------------------------------------
     disableFields($form: JQuery, fields: string[]): void {
