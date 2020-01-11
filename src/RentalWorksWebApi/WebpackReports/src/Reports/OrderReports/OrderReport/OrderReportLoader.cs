@@ -51,17 +51,27 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercentDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitdiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
         public string UnitDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string UnitExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklygrossextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyGrossExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklygrossextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyGrossExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklydiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "perioddiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
-        public string PeriodDiscountAmount { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "unitextended", modeltype: FwDataTypes.DecimalString2Digits)]
-        public string UnitExtended { get; set; }
+        [FwSqlDataField(column: "weeklydiscountamtsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyDiscountAmountSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyExtended { get; set; }
@@ -69,12 +79,29 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "weeklyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodgrossextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodGrossExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodgrossextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodGrossExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "perioddiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "perioddiscountamtsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodDiscountAmountSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PeriodExtendedSubTotal{ get; set; }
         //------------------------------------------------------------------------------------ 
+
+
+
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
