@@ -1669,7 +1669,7 @@ class SearchInterface {
                                        <div class="columnorder" data-column="SubCategory"></div>
                                        <div class="columnorder note-button" data-column="Note"><textarea class="value">${response.Rows[i][note]}</textarea>${response.Rows[i][note].length > 0 ? '<i class="material-icons">insert_drive_file</i>' : ''}</div>
                                        <div class="columnorder" data-column="Rate"></div>
-                                       <div class="columnorder" data-column="QC"></div>
+                                       <div class="columnorder hideColumns" data-column="QC"></div>
                                      </div>`;
                 let $itemaccessoryinfo = jQuery(accessoryhtml);
                 accessoryContainer.append($itemaccessoryinfo);
@@ -1713,11 +1713,6 @@ class SearchInterface {
                     $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
                 }
 
-                let type = $popup.find('#itemsearch').attr('data-moduletype');
-                if (type === 'PurchaseOrder' || type === 'Template') {
-                    $popup.find('.hideColumns').css('display', 'none');
-                }
-
                 //custom display/sequencing for columns
                 let columnsToHide = $popup.find('#itemsearch').data('columnstohide');
                 $popup.find('.item-accessories .columnorder').css('display', '');
@@ -1728,6 +1723,11 @@ class SearchInterface {
                 let columnOrder = $popup.find('#itemsearch').data('columnorder');
                 for (let i = 0; i < columnOrder.length; i++) {
                     $popup.find(`.item-accessories [data-column="${columnOrder[i]}"]`).css('order', i);
+                }
+
+                let type = $popup.find('#itemsearch').attr('data-moduletype');
+                if (type === 'PurchaseOrder' || type === 'Template') {
+                    $popup.find('.hideColumns').css('display', 'none');
                 }
             }
 
