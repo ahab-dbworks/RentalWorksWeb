@@ -627,18 +627,19 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     navigate($control, date) {
-        var navcalendar, nav5week, navmonth, navyear, navscheduler, $changeview, dpmonth;
+        let navcalendar, nav5week, navmonth, navscheduler;
 
         if (typeof date === 'string') {
             date = DayPilot.Date(new Date(date).toISOString(), true).getDatePart();
         }
         FwScheduler.setSelectedDay($control, date);
-        $changeview = $control.find('div.changeview[data-selected="true"]');
+        const $changeview = $control.find('div.changeview[data-selected="true"]');
         switch ($changeview.html()) {
             case 'Day':
             case 'Week':
                 navcalendar = $control.data('navcalendar');
                 navcalendar.select(date);
+                navcalendar._timeRangeSelectedDispatch();
                 break;
             case '5 Week':
                 nav5week = $control.data('nav5week');
@@ -660,11 +661,10 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     showDayView($control) {
-        var navcalendar, dpcalendar, selectedstartdate;
-        navcalendar = $control.data('navcalendar');
+        const navcalendar = $control.data('navcalendar');
         navcalendar.selectMode = "day";
         navcalendar.update();
-        dpcalendar = $control.data('dpcalendar');
+        const dpcalendar = $control.data('dpcalendar');
         dpcalendar.viewType = "Day"
         dpcalendar.update();
         $control.find('.fiveweekcontainer').hide();
@@ -682,17 +682,16 @@ class FwSchedulerClass {
             $control.next().data('dpscheduler').update();
         }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
-            selectedstartdate = $control.data('selectedstartdate');
+            const selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
         }
     };
     //---------------------------------------------------------------------------------
     showWeekView($control) {
-        var navcalendar, dpcalendar, selectedstartdate;
-        navcalendar = $control.data('navcalendar');
+        const navcalendar = $control.data('navcalendar');
         navcalendar.selectMode = "week";
         navcalendar.update();
-        dpcalendar = $control.data('dpcalendar');
+        const dpcalendar = $control.data('dpcalendar');
         dpcalendar.viewType = "Week"
         dpcalendar.update();
         $control.find('.fiveweekcontainer').hide();
@@ -710,14 +709,13 @@ class FwSchedulerClass {
             $control.next().data('dpscheduler').update();
         }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
-            selectedstartdate = $control.data('selectedstartdate');
+            const selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
         }
     };
     //---------------------------------------------------------------------------------
     show5WeekView($control) {
-        var navcalendar, dpcalendar, selectedstartdate;
-        navcalendar = $control.data('navcalendar');
+        const navcalendar = $control.data('navcalendar');
         navcalendar.selectMode = "week";
         navcalendar.update();
         $control.find('.fiveweekcontainer').show();
@@ -735,17 +733,16 @@ class FwSchedulerClass {
             $control.next().data('dpscheduler').update();
         }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
-            selectedstartdate = $control.data('selectedstartdate');
+            const selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
         }
     };
     //---------------------------------------------------------------------------------
     showMonthView($control) {
-        var navcalendar, selectedstartdate, dpcalendar;
-        navcalendar = $control.data('navcalendar');
+        const navcalendar = $control.data('navcalendar');
         navcalendar.selectMode = "month";
         navcalendar.update();
-        dpcalendar = $control.data('dpcalendar');
+        const dpcalendar = $control.data('dpcalendar');
         dpcalendar.viewType = "Month"
         dpcalendar.update();
         $control.find('.fiveweekcontainer').hide();
@@ -763,14 +760,13 @@ class FwSchedulerClass {
             $control.next().data('dpscheduler').update();
         }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
-            selectedstartdate = $control.data('selectedstartdate');
+            const selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
         }
     };
     //---------------------------------------------------------------------------------
     showYearView($control) {
-        var selectedstartdate, dpcalendar;
-        dpcalendar = $control.data('dpcalendar');
+        const dpcalendar = $control.data('dpcalendar');
         dpcalendar.viewType = "Year"
         dpcalendar.update();
         $control.find('.fiveweekcontainer').hide();
@@ -781,15 +777,14 @@ class FwSchedulerClass {
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnYear').attr('data-selected', 'true');
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
-            selectedstartdate = $control.data('selectedstartdate');
+            const selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
         }
         FwScheduler.refresh($control);
     };
     //---------------------------------------------------------------------------------
     showScheduleView($control) {
-        var navcalendar, selectedstartdate;
-        navcalendar = $control.data('navcalendar');
+        const navcalendar = $control.data('navcalendar');
         navcalendar.selectMode = "month";
         navcalendar.update();
         $control.find('.calendarcontainer').hide();
@@ -798,7 +793,7 @@ class FwSchedulerClass {
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnSchedule').attr('data-selected', 'true');
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
-            selectedstartdate = $control.data('selectedstartdate');
+            const selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
         }
     };
@@ -808,14 +803,14 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     loadEvents($control) {
-        var ongetevents, request, dpcalendar, dp5week, dpmonth, dpscheduler, start, days;
-        dpcalendar = $control.data('dpcalendar');
-        dp5week = $control.data('dp5week');
-        dpmonth = $control.data('dpmonth');
-        dpscheduler = $control.data('dpscheduler');
+        let start, days;
+        const dpcalendar = $control.data('dpcalendar');
+        const dp5week = $control.data('dp5week');
+        const dpmonth = $control.data('dpmonth');
+        const dpscheduler = $control.data('dpscheduler');
 
         if (typeof $control.data('ongetevents') === 'function') {
-            ongetevents = $control.data('ongetevents');
+            const ongetevents = $control.data('ongetevents');
             switch ($control.find('div.changeview[data-selected="true"]').html()) {
                 case 'Day':
                 case 'Week':
@@ -841,7 +836,7 @@ class FwSchedulerClass {
             }
             //start       = dpmonth.startDate.addDays(-dpmonth.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible
             //days        = dpmonth.days + dpmonth.startDate.dayOfWeek() + (6 - dpmonth.startDate.addDays(dpmonth.days).dayOfWeek()) // add the first few days from the next month that are visible
-            request = {
+            const request: any = {
                 start: start,
                 days: days,
                 mode: $control.find('div.changeview[data-selected="true"]').html()
