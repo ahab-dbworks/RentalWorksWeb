@@ -65,13 +65,11 @@ class Customer {
             { value: 'CUSTOMER', caption: 'Customer', checked: true },
             { value: 'OTHER', caption: 'Other' }
         ]);
-
         //Toggle Buttons on Tax tab
         FwFormField.loadItems($form.find('div[data-datafield="Taxable"]'), [
             { value: 'TRUE', caption: 'Taxable', checked: true },
             { value: 'FALSE', caption: 'Non-Taxable' }
         ]);
-
         //Toggle Buttons on Shipping tab
         FwFormField.loadItems($form.find('div[data-datafield="ShippingAddressType"]'), [
             { value: 'CUSTOMER', caption: 'Customer', checked: true },
@@ -83,56 +81,68 @@ class Customer {
         $form.find('.deal-page').append($submoduleDealBrowse);
         $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            const dealFormData: any = {};
-            dealFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            dealFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
-            dealFormData.Address1 = FwFormField.getValueByDataField($form, 'Address1');
-            dealFormData.Address2 = FwFormField.getValueByDataField($form, 'Address2');
-            dealFormData.City = FwFormField.getValueByDataField($form, 'City');
-            dealFormData.State = FwFormField.getValueByDataField($form, 'State');
-            dealFormData.ZipCode = FwFormField.getValueByDataField($form, 'ZipCode');
-            dealFormData.CountryId = FwFormField.getValueByDataField($form, 'CountryId');
-            dealFormData.Country = FwFormField.getTextByDataField($form, 'CountryId');
-            dealFormData.Phone = FwFormField.getValueByDataField($form, 'Phone');
+            if ($form.attr('data-mode') !== 'NEW') {
+                const dealFormData: any = {};
+                dealFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                dealFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+                dealFormData.Address1 = FwFormField.getValueByDataField($form, 'Address1');
+                dealFormData.Address2 = FwFormField.getValueByDataField($form, 'Address2');
+                dealFormData.City = FwFormField.getValueByDataField($form, 'City');
+                dealFormData.State = FwFormField.getValueByDataField($form, 'State');
+                dealFormData.ZipCode = FwFormField.getValueByDataField($form, 'ZipCode');
+                dealFormData.CountryId = FwFormField.getValueByDataField($form, 'CountryId');
+                dealFormData.Country = FwFormField.getTextByDataField($form, 'CountryId');
+                dealFormData.Phone = FwFormField.getValueByDataField($form, 'Phone');
 
-            const $browse = jQuery(this).closest('.fwbrowse');
-            const controller = $browse.attr('data-controller');
-            if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
-            if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-            const $dealForm = window[controller]['openForm']('NEW', dealFormData);
-            FwModule.openSubModuleTab($browse, $dealForm);
+                const $browse = jQuery(this).closest('.fwbrowse');
+                const controller = $browse.attr('data-controller');
+                if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+                const $dealForm = window[controller]['openForm']('NEW', dealFormData);
+                FwModule.openSubModuleTab($browse, $dealForm);
+            } else {
+                FwNotification.renderNotification('WARNING', 'Save the record first.')
+            }
         });
         // Quote submodule
-        let $submoduleQuoteBrowse = this.openQuoteBrowse($form);
+        const $submoduleQuoteBrowse = this.openQuoteBrowse($form);
         $form.find('.quote-page').append($submoduleQuoteBrowse);
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            const quoteFormData: any = {};
-            quoteFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            quoteFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+            if ($form.attr('data-mode') !== 'NEW') {
+                const quoteFormData: any = {};
+                quoteFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                quoteFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
 
-            const $browse = jQuery(this).closest('.fwbrowse');
-            const controller = $browse.attr('data-controller');
-            if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
-            if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-            const $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
-            FwModule.openSubModuleTab($browse, $quoteForm);
+                const $browse = jQuery(this).closest('.fwbrowse');
+                const controller = $browse.attr('data-controller');
+                if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+                const $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
+                FwModule.openSubModuleTab($browse, $quoteForm);
+            } else {
+                FwNotification.renderNotification('WARNING', 'Save the record first.')
+            }
         });
         // Order submodule 
-        let $submoduleOrderBrowse = this.openOrderBrowse($form);
+        const $submoduleOrderBrowse = this.openOrderBrowse($form);
         $form.find('.order-page').append($submoduleOrderBrowse);
         $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            const orderFormData: any = {};
-            orderFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            orderFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+            if ($form.attr('data-mode') !== 'NEW') {
+                const orderFormData: any = {};
+                orderFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                orderFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
 
-            const $browse = jQuery(this).closest('.fwbrowse');
-            const controller = $browse.attr('data-controller');
-            if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
-            if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-            const $orderForm = window[controller]['openForm']('NEW', orderFormData);
-            FwModule.openSubModuleTab($browse, $orderForm);
+                const $browse = jQuery(this).closest('.fwbrowse');
+                const controller = $browse.attr('data-controller');
+                if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+                const $orderForm = window[controller]['openForm']('NEW', orderFormData);
+                FwModule.openSubModuleTab($browse, $orderForm);
+            } else {
+                FwNotification.renderNotification('WARNING', 'Save the record first.')
+            }
         });
         // Customer Credit submodule
         const $submoduleCustomerCreditBrowse = this.openCustomerCreditBrowse($form);
