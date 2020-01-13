@@ -19,6 +19,9 @@ namespace WebApi.Modules.Settings.SystemSettings.AvailabilitySettings
         [FwSqlDataField(column: "keepcurrentseconds", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? KeepCurrentSeconds { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "daystocache", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        public int? DaysToCache { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -34,7 +34,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public string GrandParentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer, sqltype: "numeric", precision: 12, scale: 2)]
-        public decimal? Quantity { get; set; }
+        public float? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         // this property is only used to hold the request value for the availability check in overridden save method below
         public DateTime? FromDate { get; set; }
@@ -43,7 +43,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public DateTime? ToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         // this property is only used to hold the return value in the overridden save method below
-        public decimal? QuantityAvailable { get; set; }
+        public float? QuantityAvailable { get; set; }
         //------------------------------------------------------------------------------------ 
         // this property is only used to hold the return value in the overridden save method below
         public DateTime? ConflictDate { get; set; }

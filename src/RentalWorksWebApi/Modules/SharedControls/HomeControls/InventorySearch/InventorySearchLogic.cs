@@ -45,7 +45,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public string GrandParentId { get { return inventorySearch.GrandParentId; } set { inventorySearch.GrandParentId = value; } }
 
         [FwLogicProperty(Id:"UG7rknSx0rbh")]
-        public decimal? Quantity { get { return inventorySearch.Quantity; } set { inventorySearch.Quantity = value; } }
+        public float? Quantity { get { return inventorySearch.Quantity; } set { inventorySearch.Quantity = value; } }
 
         [FwLogicProperty(Id: "A31rHKgRnqgGv")]
         public DateTime? FromDate { get { return inventorySearch.FromDate; } set { inventorySearch.FromDate = value; } }
@@ -54,7 +54,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public DateTime? ToDate { get { return inventorySearch.ToDate; } set { inventorySearch.ToDate = value; } }
         
         [FwLogicProperty(Id: "oQb7QncbU0rA1")]
-        public decimal? QuantityAvailable { get { return inventorySearch.QuantityAvailable; } }
+        public float? QuantityAvailable { get { return inventorySearch.QuantityAvailable; } }
 
         [FwLogicProperty(Id: "63DshaJDHrYHw")]
         public DateTime? ConflictDate { get { return inventorySearch.ConflictDate; } }

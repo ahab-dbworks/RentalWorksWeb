@@ -221,9 +221,9 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
                         {
                             string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
                             string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                            decimal qty = FwConvert.ToDecimal(row[dt.GetColumnNo("Quantity")]);
+                            float qty = FwConvert.ToFloat(row[dt.GetColumnNo("Quantity")]);
 
-                            decimal qtyAvailable = 0;
+                            float qtyAvailable = 0;
                             bool isStale = true;
                             DateTime? conflictDate = null;
                             string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);

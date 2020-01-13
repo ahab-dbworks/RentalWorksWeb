@@ -961,7 +961,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
                         TInventoryWarehouseAvailability availData = null;
 
-                        decimal qtyAvailable = 0;
+                        float qtyAvailable = 0;
                         bool isStale = true;
                         DateTime? conflictDate = null;
                         string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);

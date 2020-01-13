@@ -27,6 +27,8 @@ namespace WebApi.Modules.Settings.SystemSettings.AvailabilitySettings
         public bool? KeepAvailabilityCacheCurrent { get { return availabilitySettings.KeepAvailabilityCacheCurrent; } set { availabilitySettings.KeepAvailabilityCacheCurrent = value; } }
         [FwLogicProperty(Id: "cLtuI1Mlbrpil")]
         public int? KeepCurrentSeconds { get { return availabilitySettings.KeepCurrentSeconds; } set { availabilitySettings.KeepCurrentSeconds = value; } }
+        [FwLogicProperty(Id: "zPzKIIRU4cRrz")]
+        public int? DaysToCache { get { return availabilitySettings.DaysToCache; } set { availabilitySettings.DaysToCache = value; } }
         [FwLogicProperty(Id: "FURV6hJjjsQVQ")]
         public string DateStamp { get { return availabilitySettings.DateStamp; } set { availabilitySettings.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

@@ -193,10 +193,10 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                         {
                             string inventoryId = row[dtOut.GetColumnNo("InventoryId")].ToString();
                             string warehouseId = row[dtOut.GetColumnNo("WarehouseId")].ToString();
-                            decimal qty = FwConvert.ToDecimal(row[dtOut.GetColumnNo("Quantity")]);
+                            float qty = FwConvert.ToFloat(row[dtOut.GetColumnNo("Quantity")]);
 
                             // this warehouse available
-                            decimal qtyAvailable = 0;
+                            float qtyAvailable = 0;
                             bool isStale = true;
                             DateTime? conflictDate = null;
                             string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
@@ -217,7 +217,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                             row[dtOut.GetColumnNo("AvailabilityState")] = availabilityState;
 
                             // all warehouses available
-                            decimal qtyAvailableAllWarehouses = 0;
+                            float qtyAvailableAllWarehouses = 0;
                             bool isStaleAllWarehouses = true;
                             DateTime? conflictDateAllWarehouses = null;
                             string availabilityStateAllWarehouses = RwConstants.AVAILABILITY_STATE_STALE;

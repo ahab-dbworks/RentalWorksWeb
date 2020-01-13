@@ -46,9 +46,11 @@ class AvailabilitySettings {
         $form.find('[data-datafield="KeepAvailabilityCacheCurrent"] .fwformfield-value').on('change', function () {
             let $this = jQuery(this);
             if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="DaysToCache"]'));
                 FwFormField.enable($form.find('[data-datafield="KeepCurrentSeconds"]'));
             }
             else {
+                FwFormField.disable($form.find('[data-datafield="DaysToCache"]'));
                 FwFormField.disable($form.find('[data-datafield="KeepCurrentSeconds"]'));
             }
         });
@@ -84,8 +86,10 @@ class AvailabilitySettings {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         if ($form.find('[data-datafield="KeepAvailabilityCacheCurrent"] .fwformfield-value').prop('checked')) {
+            FwFormField.enable($form.find('div[data-datafield="DaysToCache"]'))
             FwFormField.enable($form.find('div[data-datafield="KeepCurrentSeconds"]'))
         } else {
+            FwFormField.disable($form.find('div[data-datafield="DaysToCache"]'))
             FwFormField.disable($form.find('div[data-datafield="KeepCurrentSeconds"]'))
         }
 
