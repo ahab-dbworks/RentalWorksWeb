@@ -1,4 +1,4 @@
-﻿class OrderItemGrid {
+class OrderItemGrid {
     Module: string = 'OrderItemGrid';
     apiurl: string = 'api/v1/orderitem';
 
@@ -162,9 +162,12 @@
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
                 // Lock Fields
                 if ($tr.find('.order-item-lock').text() === 'true') {
-                    $tr.find('.field-to-lock').css({
+                    $tr.find('.field-to-lock').parent('td').css({
                         'background-color': '#f5f5f5',
-                        'border': '1.5px inset'
+                        //'border': '1.5px inset'
+                        'border-top': '2px solid black',
+                        'border-bottom': '2px solid black'
+
                     });
                     $tr.find('.field-to-lock').attr('data-formreadonly', 'true');
                     // disabled grids were rendering with different shade background color
