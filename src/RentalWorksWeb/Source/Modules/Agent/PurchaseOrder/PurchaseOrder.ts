@@ -631,7 +631,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.calculateOrderItemGridTotals($form, 'part');
+                this.calculateOrderItemGridTotals($form, 'parts');
                 const partItems = $form.find('.partsgrid tbody').children();
                 partItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Parts"]')) : FwFormField.enable($form.find('[data-datafield="Parts"]'));
             }
