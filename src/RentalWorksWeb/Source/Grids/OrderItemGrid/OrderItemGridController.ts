@@ -162,7 +162,10 @@
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
                 // Lock Fields
                 if ($tr.find('.order-item-lock').text() === 'true') {
-                    $tr.find('.field-to-lock').css('background-color', "#f5f5f5");
+                    $tr.find('.field-to-lock').css({
+                        'background-color': '#f5f5f5',
+                        'border': '1.5px inset'
+                    });
                     $tr.find('.field-to-lock').attr('data-formreadonly', 'true');
                     // disabled grids were rendering with different shade background color
                     if ($control.attr('data-enabled') === 'false') {
