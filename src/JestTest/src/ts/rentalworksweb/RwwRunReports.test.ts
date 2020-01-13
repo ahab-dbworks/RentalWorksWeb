@@ -105,16 +105,16 @@ export class RunReportsTest extends BaseTest {
             'SubRentalBillingAnalysisReport',
             'VendorInvoiceSummaryReport']
         // ----------
-        async function getReportNamesDynamic() {
-            return await page.evaluate(() => {
-                const reports = jQuery('.well .panel-group');
-                const names: Array<string> = [];
-                reports.each((i, el) => {
-                    names.push(jQuery(el).attr('id'));
-                })
-                return names;
-            })
-        }
+        //async function getReportNamesDynamic() {
+        //    return await page.evaluate(() => {
+        //        const reports = jQuery('.well .panel-group');
+        //        const names: Array<string> = [];
+        //        reports.each((i, el) => {
+        //            names.push(jQuery(el).attr('id'));
+        //        })
+        //        return names;
+        //    })
+        //}
         // ----------
         async function runReport(reportName: string) {
             let closeUnexpectedErrors = false;
@@ -184,7 +184,7 @@ export class RunReportsTest extends BaseTest {
             expect(testError).toBeNull();
         }
         //---------------------------------------------------------------------------------------
-        describe('Go to Reports page and run reports', () => {
+        describe('Run all Reports', () => {
             // ----------
             let testName: string = 'Navigate to report section';
             test(testName, async () => {
@@ -193,7 +193,7 @@ export class RunReportsTest extends BaseTest {
             // ----------
             // Iterate through all Reports
             for (let i = 0; i < reportNames.length; i++) {
-                testName = `Running ${reportNames[i]}`;
+                testName = `Run ${reportNames[i]}`;
                 test(testName, async () => {
                     Logging.logInfo(`About to run ${reportNames[i]}`);
                     await runReport(reportNames[i]);
