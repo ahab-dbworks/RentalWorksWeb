@@ -79,18 +79,27 @@ class Customer {
         ]);
         // SUBMODULES
         // Deal  submodule
-        let $submoduleDealBrowse = this.openDealBrowse($form);
+        const $submoduleDealBrowse = this.openDealBrowse($form);
         $form.find('.deal-page').append($submoduleDealBrowse);
         $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            var $dealForm, controller, $browse, dealFormData: any = {};
-            $browse = jQuery(this).closest('.fwbrowse');
-            controller = $browse.attr('data-controller');
+            const dealFormData: any = {};
             dealFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
             dealFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
-            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-            $dealForm = window[controller]['openForm']('NEW', dealFormData);
+            dealFormData.Address1 = FwFormField.getValueByDataField($form, 'Address1');
+            dealFormData.Address2 = FwFormField.getValueByDataField($form, 'Address2');
+            dealFormData.City = FwFormField.getValueByDataField($form, 'City');
+            dealFormData.State = FwFormField.getValueByDataField($form, 'State');
+            dealFormData.ZipCode = FwFormField.getValueByDataField($form, 'ZipCode');
+            dealFormData.CountryId = FwFormField.getValueByDataField($form, 'CountryId');
+            dealFormData.Country = FwFormField.getTextByDataField($form, 'CountryId');
+            dealFormData.Phone = FwFormField.getValueByDataField($form, 'Phone');
+
+            const $browse = jQuery(this).closest('.fwbrowse');
+            const controller = $browse.attr('data-controller');
+            if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+            if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+            const $dealForm = window[controller]['openForm']('NEW', dealFormData);
             FwModule.openSubModuleTab($browse, $dealForm);
         });
         // Quote submodule
@@ -98,14 +107,15 @@ class Customer {
         $form.find('.quote-page').append($submoduleQuoteBrowse);
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            var $quoteForm, controller, $browse, quoteFormData: any = {};
-            $browse = jQuery(this).closest('.fwbrowse');
-            controller = $browse.attr('data-controller');
+            const quoteFormData: any = {};
             quoteFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
             quoteFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
-            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-            $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
+
+            const $browse = jQuery(this).closest('.fwbrowse');
+            const controller = $browse.attr('data-controller');
+            if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+            if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+            const $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
             FwModule.openSubModuleTab($browse, $quoteForm);
         });
         // Order submodule 
@@ -113,14 +123,15 @@ class Customer {
         $form.find('.order-page').append($submoduleOrderBrowse);
         $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            var $orderForm, controller, $browse, orderFormData: any = {};
-            $browse = jQuery(this).closest('.fwbrowse');
-            controller = $browse.attr('data-controller');
+            const orderFormData: any = {};
             orderFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
             orderFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
-            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-            $orderForm = window[controller]['openForm']('NEW', orderFormData);
+
+            const $browse = jQuery(this).closest('.fwbrowse');
+            const controller = $browse.attr('data-controller');
+            if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+            if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+            const $orderForm = window[controller]['openForm']('NEW', orderFormData);
             FwModule.openSubModuleTab($browse, $orderForm);
         });
         // Customer Credit submodule
@@ -172,7 +183,7 @@ class Customer {
         });
 
         this.events($form);
-       
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------

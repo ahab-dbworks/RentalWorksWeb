@@ -130,8 +130,8 @@ class Deal {
             quoteFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
             quoteFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
             quoteFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
-            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+            if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
             const $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
             FwModule.openSubModuleTab($browse, $quoteForm);
         });
@@ -149,8 +149,8 @@ class Deal {
             orderFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
             orderFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
             orderFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
-            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+            if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
             const $orderForm = window[controller]['openForm']('NEW', orderFormData);
             FwModule.openSubModuleTab($browse, $orderForm);
         });
@@ -165,7 +165,14 @@ class Deal {
         //]);
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            FwFormField.setValue($form, 'div[data-datafield="CustomerId"]', parentmoduleinfo.CustomerId, parentmoduleinfo.Customer);
+            FwFormField.setValueByDataField($form, 'CustomerId', parentmoduleinfo.CustomerId, parentmoduleinfo.Customer);
+            FwFormField.setValueByDataField($form, 'Address1', parentmoduleinfo.Address1);
+            FwFormField.setValueByDataField($form, 'Address2', parentmoduleinfo.Address2);
+            FwFormField.setValueByDataField($form, 'City', parentmoduleinfo.City);
+            FwFormField.setValueByDataField($form, 'State', parentmoduleinfo.State);
+            FwFormField.setValueByDataField($form, 'ZipCode', parentmoduleinfo.ZipCode);
+            FwFormField.setValueByDataField($form, 'CountryId', parentmoduleinfo.CountryId, parentmoduleinfo.Country);
+            FwFormField.setValueByDataField($form, 'Phone', parentmoduleinfo.Phone);
         }
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);

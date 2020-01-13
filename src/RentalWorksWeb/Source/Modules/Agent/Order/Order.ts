@@ -437,7 +437,6 @@ class Order extends OrderBase {
                 parentModuleInfo.DealId = FwFormField.getValueByDataField($form, 'DealId');
                 parentModuleInfo.DealNumber = FwFormField.getValueByDataField($form, 'DealNumber');
 
-
                 if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
                 if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
                 const $billingWorksheetForm = window[controller]['openForm']('NEW', parentModuleInfo);

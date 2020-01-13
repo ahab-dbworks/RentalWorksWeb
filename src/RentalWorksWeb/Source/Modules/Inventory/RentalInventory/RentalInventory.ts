@@ -943,8 +943,8 @@ class RentalInventory extends InventoryBase {
                 //    $browse = jQuery(this).closest('.fwbrowse');
                 //    controller = $browse.attr('data-controller');
                 //    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                //    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-                //    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+                //    if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                //    if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
                 //    $assetForm = window[controller]['openForm']('NEW', assetFormData);
                 //    FwModule.openSubModuleTab($browse, $assetForm);
                 //});
