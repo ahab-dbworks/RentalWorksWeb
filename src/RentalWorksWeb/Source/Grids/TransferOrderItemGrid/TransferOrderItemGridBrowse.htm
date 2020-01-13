@@ -1,12 +1,21 @@
-﻿<div data-name="TransferOrderItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Items" data-rendermode="template" data-showsearch="false" data-controller="TransferOrderItemGridController">
+﻿<div data-name="TransferOrderItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Items" data-rendermode="template" data-showsearch="false" data-controller="TransferOrderItemGridController" data-paging="true" data-multisave="true" data-manualsorting="true">
   <div class="column" data-width="0" data-visible="false">
-    <div class="field" data-isuniqueid="true" data-datafield="OrderItemId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-isuniqueid="true" data-datafield="OrderItemId" data-datatype="key" data-formreadonly="true" data-sort="none"></div>
+  </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-datafield="OrderId" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-datafield="ItemOrder" data-datatype="text" data-formreadonly="true" data-sort="asc"></div>
+  </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field itemclass" data-datafield="ItemClass" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="I-Code"  data-datafield="InventoryId" data-browsedisplayfield="ICode" data-fullcellcolor="ICodeColor" data-datatype="validation" data-validationname="GeneralItemValidation" data-sort="asc" data-mappedfield="ICode" style="white-space: pre;"></div>
+    <div class="field" data-caption="I-Code" data-datafield="InventoryId" data-browsedisplayfield="ICode" data-fullcellcolor="ICodeColor" data-datatype="validation" data-validationname="GeneralItemValidation" data-sort="none" data-mappedfield="ICode" style="white-space: pre;"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Description" data-datafield="Description" data-halfcellcolor="DescriptionColor" data-datatype="text" data-sort="off" data-mappedfield="Description" style="min-width:250px;"></div>
+    <div class="field" data-caption="Description" data-datafield="Description" data-halfcellcolor="DescriptionColor" data-datatype="text" data-sort="none" data-mappedfield="Description" style="min-width:250px;"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Qty" data-datafield="QuantityOrdered" data-datatype="number" data-sort="none" data-mappedfield="QuantityOrdered"></div>
@@ -18,10 +27,10 @@
     <div class="field" data-caption="All W/H" data-datafield="AvailableAllWarehousesQuantity" data-datatype="number" data-sort="none" data-formreadonly="true" data-mappedfield="AvailableAllWarehousesQuantity"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="From" data-datafield="WarehouseId" data-browsedisplayfield="WarehouseCode" data-datatype="validation" data-validationname="WarehouseValidation" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-caption="From" data-datafield="WarehouseId" data-browsedisplayfield="WarehouseCode" data-datatype="validation" data-validationname="WarehouseValidation" data-formreadonly="true" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="To" data-datafield="ReturnToWarehouseId" data-browsedisplayfield="ReturnToWarehouseCode" data-datatype="validation" data-validationname="WarehouseValidation" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-caption="To" data-datafield="ReturnToWarehouseId" data-browsedisplayfield="ReturnToWarehouseCode" data-datatype="validation" data-validationname="WarehouseValidation" data-formreadonly="true" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Note" data-datafield="Notes" data-datatype="note" data-sort="none" data-mappedfield="Notes"></div>
