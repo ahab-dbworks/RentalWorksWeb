@@ -6,6 +6,8 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using System;
+
 namespace WebApi.Modules.Reports.SalesInventoryReports.SalesInventoryMasterReport
 {
     [FwSqlTable("dbo.funcsalesmasterrpt(@revenuefromdate, @revenuetodate)")]
@@ -125,8 +127,24 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesInventoryMasterRepor
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
 
-                    select.AddParameter("@revenuefromdate", request.RevenueFromDate);
-                    select.AddParameter("@revenuetodate", request.RevenueToDate);
+                    //select.AddParameter("@revenuefromdate", request.RevenueFromDate);
+                    //select.AddParameter("@revenuetodate", request.RevenueToDate);
+                    if (request.RevenueFromDate == null)
+                    {
+                        select.AddParameter("@revenuefromdate", DBNull.Value);
+                    }
+                    else 
+                    {
+                        select.AddParameter("@revenuefromdate", request.RevenueFromDate);
+                    }
+                    if (request.RevenueToDate == null)
+                    {
+                        select.AddParameter("@revenuetodate", DBNull.Value);
+                    }
+                    else
+                    {
+                        select.AddParameter("@revenuetodate", request.RevenueToDate);
+                    }
 
                     select.AddWhereIn("warehouseid", request.WarehouseId);
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
