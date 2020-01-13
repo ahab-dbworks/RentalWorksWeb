@@ -23,8 +23,8 @@ namespace WebApi.Modules.Reports.OrderReports.QuoteOrderMasterReport
 {
     public class QuoteOrderMasterReportRequest : AppReportRequest
     {
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public string DateType { get; set; }
         public bool? FilterDates { get; set; }
         public string OfficeLocationId { get; set; }
