@@ -2,7 +2,7 @@ routes.push({ pattern: /^module\/transferout$/, action: function (match: RegExpE
 
 class TransferOut extends StagingCheckoutBase {
     Module:                    string  = 'TransferOut';
-    apirul:                    string  = 'api/v1/transferout'
+    apiurl:                    string  = 'api/v1/transferout'
     caption:                   string  = Constants.Modules.Transfers.children.TransferOut.caption;
     nav:                       string  = Constants.Modules.Transfers.children.TransferOut.nav;
     id:                        string  = Constants.Modules.Transfers.children.TransferOut.id;
