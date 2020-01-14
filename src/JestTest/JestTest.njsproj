@@ -66,6 +66,7 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Settings.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwTransfers.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwInventoryIntegrity.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwLoginLogout.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwRunReports.test.ts" />

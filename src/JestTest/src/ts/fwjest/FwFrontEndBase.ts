@@ -31,6 +31,25 @@ export class FwFrontEndBase {
         return `div .fwform-menu .submenubutton i`;
     }
     //---------------------------------------------------------------------------------------
+    async clickMenuWithConfirmation(securityId: string) {
+        let moduleMenuSelector: string = this.getFormMenuSelector();
+        let functionMenuSelector = `div .fwform [data-securityid="${securityId}"]`;
+        await page.waitForSelector(moduleMenuSelector);
+        await page.click(moduleMenuSelector);
+        await page.waitForSelector(functionMenuSelector);
+        await page.click(functionMenuSelector);
+        await page.waitForSelector('.advisory');
+        const options = await page.$$('.advisory .fwconfirmation-button');
+        await options[0].click();
+        await FwTestUtils.waitForPleaseWait();
+        try {
+            let toasterCloseSelector = `.advisory .messageclose`;
+            await page.waitForSelector(toasterCloseSelector, { timeout: 2000 });
+            await page.click(toasterCloseSelector);
+            await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+        } catch (error) { } // assume that we missed the toaster
+    }
+    //---------------------------------------------------------------------------------------
     static async wait(milliseconds: number): Promise<void> {
         await page.waitFor(milliseconds);
     }

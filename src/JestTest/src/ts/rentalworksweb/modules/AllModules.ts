@@ -25,6 +25,7 @@ export { Exchange } from '../modules/FrontEnds';
 export { PickList } from '../modules/Home';
 export { ReceiveFromVendor } from '../modules/FrontEnds';
 export { Staging } from '../modules/FrontEnds';
+export { CheckIn } from '../modules/FrontEnds';
 
 //Home - Container
 export { Container } from '../modules/Home';
@@ -33,6 +34,8 @@ export { Container } from '../modules/Home';
 export { Manifest } from '../modules/Home';
 export { TransferOrder } from '../modules/Home';
 export { TransferReceipt } from '../modules/Home';
+export { TransferOut } from '../modules/FrontEnds';
+export { TransferIn } from '../modules/FrontEnds';
 
 //Home - Billing
 export { Invoice } from '../modules/Home';

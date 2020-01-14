@@ -213,7 +213,7 @@ export abstract class FwBaseTest {
                 const element = await page.$(selector);
                 const userName = await page.evaluate(element => element.textContent, element);
                 let expectedUserName = this.globalScopeRef["User~ME"]["FirstName"] + " " + this.globalScopeRef["User~ME"]["LastName"];
-                FwLogging.logInfo(`Valiating User Name on toolbar:\n     Expecting: "${expectedUserName}"\n     Found:     "${userName}"`);
+                FwLogging.logInfo(`Validating User Name on toolbar:\n     Expecting: "${expectedUserName}"\n     Found:     "${userName}"`);
                 expect(userName).toBe(expectedUserName);
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -224,7 +224,7 @@ export abstract class FwBaseTest {
                 const element = await page.$(selector);
                 const officeLocation = await page.evaluate(element => element.textContent, element);
                 let expectedOfficeLocation = this.globalScopeRef["User~ME"]["OfficeLocation"];
-                FwLogging.logInfo(`Valiating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
+                FwLogging.logInfo(`Validating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
                 expect(officeLocation).toBe(expectedOfficeLocation);
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------

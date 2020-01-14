@@ -298,8 +298,8 @@ export class InventoryIntegrityTest extends BaseTest {
                     Rental: true,
                     Sales: true,
                     Parts: true,
-                    Miscellaneous: true,
-                    Labor: true,
+                    Miscellaneous: false,
+                    Labor: false,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
