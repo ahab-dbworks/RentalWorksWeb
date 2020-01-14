@@ -191,7 +191,7 @@ export abstract class CheckInBase extends FrontEndModule {
         await page.click(gridMenuSelector);
         await ModuleBase.wait(1000);
 
-        let cancelItemsSelector = `div [data-name="CheckedInItemGrid"] .???????`;
+        let cancelItemsSelector = `div [data-name="CheckedInItemGrid"] .???????`;  //8bSrfYlth57y
         await page.click(cancelItemsSelector);
 
         await page.waitForSelector('.advisory');

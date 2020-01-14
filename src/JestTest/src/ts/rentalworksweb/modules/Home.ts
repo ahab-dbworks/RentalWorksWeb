@@ -1905,8 +1905,13 @@ export class Project extends HomeModule {
     }
     //---------------------------------------------------------------------------------------
 }
+
 //---------------------------------------------------------------------------------------
-export class RentalInventory extends HomeModule {
+export class InventoryModule extends HomeModule { }
+//---------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------
+export class RentalInventory extends InventoryModule {
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
@@ -2374,7 +2379,7 @@ export class RentalInventory extends HomeModule {
     //---------------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------------
-export class SalesInventory extends HomeModule {
+export class SalesInventory extends InventoryModule {
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
@@ -2752,7 +2757,7 @@ export class SalesInventory extends HomeModule {
     //---------------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------------
-export class PartsInventory extends HomeModule {
+export class PartsInventory extends InventoryModule {
     //---------------------------------------------------------------------------------------
     constructor() {
         super();

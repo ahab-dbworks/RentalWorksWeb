@@ -14,6 +14,7 @@ export { Vendor } from '../modules/Home';
 export { Asset } from '../modules/Home';
 export { PartsInventory } from '../modules/Home';
 export { PhysicalInventory } from '../modules/Home';
+export { InventoryModule } from '../modules/Home';
 export { RentalInventory } from '../modules/Home';
 export { RepairOrder } from '../modules/Home';
 export { SalesInventory } from '../modules/Home';
