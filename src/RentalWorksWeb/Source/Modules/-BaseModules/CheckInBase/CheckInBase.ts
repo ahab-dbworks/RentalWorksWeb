@@ -123,7 +123,7 @@ abstract class CheckInBase implements IModule {
                 options.hasEdit   = false;
                 options.hasDelete = false;
 
-                FwMenu.addSubMenuItem(options.$groupActions, 'Cancel Selected Items', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem(options.$groupActions, 'Cancel Selected Items', '8bSrfYlth57y', (e: JQuery.ClickEvent) => {
                     try {
                         this.cancelItems($form, e);
                     } catch (ex) {
