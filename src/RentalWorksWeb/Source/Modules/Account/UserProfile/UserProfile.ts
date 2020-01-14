@@ -197,6 +197,10 @@
                 $availableModules.find(`[data-value="${selectedModules[i].value}"]`).remove();
             }
         }
+
+        //if there is no theme set, selects the first option
+        const theme = FwFormField.getValueByDataField($form, 'ApplicationTheme');
+        if ($form.find(`[data-datafield="ApplicationTheme"] option[value="${theme}"]`).length === 0) FwFormField.setValueByDataField($form, 'ApplicationTheme', $form.find('[data-datafield="ApplicationTheme"] option').eq(0).val());
     }
     //----------------------------------------------------------------------------------------------
 }
