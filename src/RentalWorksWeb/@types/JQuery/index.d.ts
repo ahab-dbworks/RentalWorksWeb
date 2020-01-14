@@ -1,4 +1,6 @@
 ﻿interface JQuery {
+    intlTelInput: any;
+    [x: string]: any;
     ckeditor();
     clockpicker(options: any);
     colResizable();

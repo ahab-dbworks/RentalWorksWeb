@@ -1,4 +1,4 @@
-﻿class FwFormField_phoneInternationalClass implements IFwFormField {
+﻿class FwFormField_phoneinternationalClass implements IFwFormField {
     //---------------------------------------------------------------------------------
     renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
@@ -29,6 +29,8 @@
         html.push('</div>');
         $control.html(html.join(''));
         $control.find('input').inputmask('(999) 999-9999');
+        $control.find('input').intlTelInput();
+        $control.css('overflow', 'hidden');
     }
     //---------------------------------------------------------------------------------
     loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
@@ -43,7 +45,7 @@
     }
     //---------------------------------------------------------------------------------
     disable($control: JQuery<HTMLElement>): void {
-
+       
     }
     //---------------------------------------------------------------------------------
     enable($control: JQuery<HTMLElement>): void {
@@ -63,4 +65,4 @@
     //---------------------------------------------------------------------------------
 }
 
-var FwFormField_phoneInternational = new FwFormField_phoneInternationalClass();
+var FwFormField_phoneinternational = new FwFormField_phoneinternationalClass();
