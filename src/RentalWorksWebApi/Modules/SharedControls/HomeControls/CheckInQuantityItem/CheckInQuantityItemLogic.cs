@@ -27,6 +27,9 @@ namespace WebApi.Modules.HomeControls.CheckInQuantityItem
         [FwLogicProperty(Id:"eAZ0bqjMFAF7", IsReadOnly:true)]
         public string OrderDescription { get; set; }
 
+        [FwLogicProperty(Id: "q2Y2uRlF716L", IsReadOnly: true)]
+        public string InventoryId { get; set; }
+
         [FwLogicProperty(Id:"YTSXol609kWr", IsReadOnly:true)]
         public string ICode { get; set; }
 

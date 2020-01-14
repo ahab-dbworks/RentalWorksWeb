@@ -30,6 +30,9 @@ namespace WebApi.Modules.HomeControls.CheckInQuantityItem
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
+        public string InventoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 

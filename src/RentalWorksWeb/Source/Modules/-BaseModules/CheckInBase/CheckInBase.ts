@@ -122,6 +122,19 @@ abstract class CheckInBase implements IModule {
                 options.hasNew    = false;
                 options.hasEdit   = false;
                 options.hasDelete = false;
+
+                FwMenu.addSubMenuItem(options.$groupActions, 'Cancel Selected Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        //if ($form.attr('data-controller') === 'TransferOutController') {
+                        //    (<any>window).TransferOutController.unstageItems($form, e);
+                        //} else {
+                        //    StagingCheckoutController.unstageItems($form, e);
+                        //}
+                        this.cancelItems($form, e);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -190,6 +203,19 @@ abstract class CheckInBase implements IModule {
                 options.hasNew    = false;
                 options.hasEdit   = false;
                 options.hasDelete = false;
+
+                FwMenu.addSubMenuItem(options.$groupActions, 'Cancel Selected Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        //if ($form.attr('data-controller') === 'TransferOutController') {
+                        //    (<any>window).TransferOutController.unstageItems($form, e);
+                        //} else {
+                        //    StagingCheckoutController.unstageItems($form, e);
+                        //}
+                        this.cancelItems($form, e);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -200,6 +226,91 @@ abstract class CheckInBase implements IModule {
                 };
             }
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    async cancelItems($form: JQuery, event): Promise<any> {
+        const $element = jQuery(event.currentTarget);
+        const $grid = jQuery($element.closest('[data-type="Grid"]'));
+        const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
+        const errorMsg = $form.find('.error-msg:not(.qty)');
+
+        if ($selectedCheckBoxes.length !== 0) {
+            await this.cancelSelectedItems($form, $selectedCheckBoxes).then(errorMessages => {
+                FwBrowse.search($grid);
+                // Determine tabs to render
+                //const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                //const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                //FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
+                //    res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
+                //    res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
+                //    res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
+                //    //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
+                //    res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
+                //}, ex => {
+                //    FwFunc.showError(ex)
+                //}, $form);
+
+                if (errorMessages.length == 0) {
+                    errorMsg.html('');
+                    FwFunc.playSuccessSound();
+                }
+                else {
+                    FwFunc.playErrorSound();
+                    errorMsg.html(`<div><span>${errorMessages.join('<br>')}</span></div>`);
+                }
+            });
+
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select rows to unstage in order to perform this function.');
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    async cancelSelectedItems($form, $selectedCheckBoxes): Promise<Array<string>> {
+        function delay(ms: number) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        let responseCount = 0;
+        //let errorMessages: Array<string> = new Array();
+        const errorMessages: Array<string> = [];
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            const $tr = $selectedCheckBoxes.eq(i).closest('tr');
+            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            const orderItemId = FwBrowse.getValueByDataField(null, $tr, 'OrderItemId');
+            const inventoryId = FwBrowse.getValueByDataField(null, $tr, 'InventoryId');
+            const vendorId = FwBrowse.getValueByDataField(null, $tr, 'VendorId');
+            const qty = FwBrowse.getValueByDataField(null, $tr, 'Quantity');
+            const description = FwBrowse.getValueByDataField(null, $tr, 'Description');
+   
+            const request = {
+                ContractId: contractId,
+                OrderId: orderId,
+                OrderItemId: orderItemId,
+                InventoryId: inventoryId,
+                Description: description,
+                Quantity: qty,
+                VendorId: vendorId
+            }
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkin/cancelcheckinitems`, request, FwServices.defaultTimeout, response => {
+                responseCount++;
+                if (response.success) {
+                 //
+                }
+                else {
+                    errorMessages.push(response.msg);  // gather all errors into the errorMessages array
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        }
+
+        while (responseCount < $selectedCheckBoxes.length) {
+            await delay(1000);
+        }
+
+        return errorMessages;
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {

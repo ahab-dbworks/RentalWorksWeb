@@ -142,6 +142,28 @@ namespace WebApi.Modules.Warehouse.CheckIn
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkin/cancelcheckinitems
+        [HttpPost("cancelcheckinitems")]
+        [FwControllerMethod(Id: "8bSrfYlth57y", ActionType: FwControllerActionTypes.Browse, Caption: "Cancel Selected Items")]
+        public async Task<ActionResult<CancelCheckInItemResponse>> CancelCheckInItems([FromBody]CancelCheckInItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                CancelCheckInItemResponse response = new CancelCheckInItemResponse();
+                response = await CheckInFunc.CancelCheckInItems(AppConfig, UserSession, request);
+
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/checkin/validateorder/browse 
         [HttpPost("validateorder/browse")]
         [FwControllerMethod(Id: "BnNjcfxTX4vw", ActionType: FwControllerActionTypes.Browse)]

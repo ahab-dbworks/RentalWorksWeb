@@ -63,6 +63,19 @@ namespace WebApi.Modules.Warehouse.CheckIn
         public bool ShowSwap;
     }
 
+    public class CancelCheckInItemRequest
+    {
+        public string ContractId;
+        public string OrderId;
+        public string OrderItemId;
+        public string InventoryId;
+        public string VendorId;
+        public string Description;
+        public int Quantity;
+    }
+
+    public class CancelCheckInItemResponse : TSpStatusResponse { };
+
     public static class CheckInFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -203,6 +216,27 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                     response.status = 107;
                 }
 
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<CancelCheckInItemResponse>CancelCheckInItems(FwApplicationConfig appConfig, FwUserSession userSession, CancelCheckInItemRequest request)
+        {
+            CancelCheckInItemResponse response = new CancelCheckInItemResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "chkinitemcancel", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderItemId);
+                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+                qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, request.VendorId ?? "");
+                qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Input, request.Description);
+                qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@ordertranid", SqlDbType.Int, ParameterDirection.Input, 0);
+                qry.AddParameter("@internalchar", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                await qry.ExecuteNonQueryAsync();
             }
             return response;
         }
