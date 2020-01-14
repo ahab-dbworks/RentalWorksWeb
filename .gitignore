@@ -28,6 +28,10 @@
 /src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js.map
 /src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js
 /src/RentalWorksQuikScan/scripts/_references.js
+/src/RentalWorksQuikScan/scripts/Constants.js
+/src/RentalWorksQuikScan/scripts/Constants.js.map
+/src/RentalWorksQuikScan/scripts/NearfieldRfidScanner.js
+/src/RentalWorksQuikScan/scripts/NearfieldRfidScanner.js.map
 /src/RentalWorksQuikScan/scripts/Program.js
 /src/RentalWorksQuikScan/scripts/Program.js.map
 /src/RentalWorksQuikScan/scripts/RwVirtualNumpad.js.map
@@ -108,6 +112,8 @@
 **/Fw/scripts/FwControls/FwAppImage.js.map
 **/Fw/scripts/FwControls/FwApplicationTree.js
 **/Fw/scripts/FwControls/FwApplicationTree.js.map
+**/Fw/scripts/FwControls/FwAudit.js
+**/Fw/scripts/FwControls/FwAudit.js.map
 **/Fw/scripts/FwControls/FwBrowse.js
 **/Fw/scripts/FwControls/FwBrowse.js.map
 **/Fw/scripts/FwControls/FwConfirmation.js
@@ -120,6 +126,8 @@
 **/Fw/scripts/FwControls/FwFileMenu.js.map
 **/Fw/scripts/FwControls/FwFormField.js
 **/Fw/scripts/FwControls/FwFormField.js.map
+**/Fw/scripts/FwControls/FwGrid.js
+**/Fw/scripts/FwControls/FwGrid.js.map
 **/Fw/scripts/FwControls/FwGridMenu.js
 **/Fw/scripts/FwControls/FwGridMenu.js.map
 **/Fw/scripts/FwControls/FwMenu.js
