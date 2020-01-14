@@ -13,6 +13,7 @@ using WebApi.Modules.Settings.InventorySettings.BarCodeRange;
 using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.TaxSettings.TaxOption;
 
 namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
 {
@@ -148,7 +149,8 @@ namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
         [FwControllerMethod(Id: "xdjds1uHFUsx", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
+            return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------
     }
 }
