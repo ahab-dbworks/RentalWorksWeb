@@ -55,7 +55,7 @@ class AssignBarCodes {
             gridSecurityId: 'qH0cLrQVt9avI',
             moduleSecurityId: this.id,
             $form: $form,
-            //pageSize: 9999,
+            pageSize: 50,  // for regression test to be able to see all bar codes
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = true;
