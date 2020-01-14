@@ -147,6 +147,7 @@ class TransferOrder {
         }
 
         this.events($form);
+        this.renderSearchButton($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -161,6 +162,19 @@ class TransferOrder {
 
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    renderSearchButton($form: any) {
+        const $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'QuikSearch', 'searchbtn');
+        $search.prepend('<i class="material-icons">search</i>');
+        $search.on('click', () => {
+            try {
+                this.Search($form);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     Search($form: JQuery) {
         try {
