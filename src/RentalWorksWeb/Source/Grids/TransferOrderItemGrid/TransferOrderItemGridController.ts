@@ -9,8 +9,6 @@
              const toWarehouseId = FwFormField.getValueByDataField($form, 'ToWarehouseId');
              $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
              $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-             //$generatedtr.find('.field[data-browsedatafield="WarehouseId"]').attr('data-originalvalue', fromWarehouseId);
-             //$generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"]').attr('data-originalvalue', toWarehouseId);
              $generatedtr.find('.field[data-browsedatafield="WarehouseId"]').text(FwFormField.getTextByDataField($form, 'FromWarehouseId'));
              $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"]').text(FwFormField.getTextByDataField($form, 'ToWarehouseId'));
 
@@ -30,6 +28,19 @@
              const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
              $availQty.attr('data-state', availabilityState);
              $availQty.css('cursor', 'pointer');
+
+             const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
+             const $td = $tr.find('[data-browsedatafield="InventoryId"]');
+             let peekForm;
+             switch (recType) {
+                 case 'R':
+                     peekForm = 'RentalInventory';
+                     break;
+                 case 'S':
+                     peekForm = 'SalesInventory';
+                     break;
+             }
+             $td.attr('data-peekForm', peekForm);
          });
 
          //availability calendar popup
@@ -119,19 +130,6 @@
          });
      }
 
-     //beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
-     //    const availFor = $grid.find('.active [data-grid="TransferOrderItemGrid"]');
-
-     //    if (availFor.hasClass('R')) {
-     //        request.uniqueids = {
-     //            AvailFor: 'R'
-     //        };
-     //    } else if (availFor.hasClass('S')) {
-     //        request.uniqueids = {
-     //            AvailFor: 'S'
-     //        };
-     //    }
-     //};
      beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
          switch (datafield) {
              case 'InventoryId':
