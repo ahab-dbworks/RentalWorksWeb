@@ -15,6 +15,12 @@ namespace WebApi.Modules.HomeControls.CheckedInItem
         [FwLogicProperty(Id:"eRYUffFWHxQ")]
         public string ContractId { get; set; }
 
+        [FwLogicProperty(Id: "OyVoJgnPfnV75")]
+        public int? OrderTranId { get; set; }
+
+        [FwLogicProperty(Id: "DdYhjtLdisK2R")]
+        public string InternalChar { get; set; }
+
         [FwLogicProperty(Id:"PWqggU3Rbjl")]
         public string OrderId { get; set; }
 

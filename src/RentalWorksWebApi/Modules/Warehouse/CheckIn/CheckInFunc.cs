@@ -65,6 +65,8 @@ namespace WebApi.Modules.Warehouse.CheckIn
 
     public class CancelCheckInItemRequest
     {
+        public int? OrderTranId;
+        public string InternalChar;
         public string ContractId;
         public string OrderId;
         public string OrderItemId;
@@ -234,8 +236,8 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Input, request.Description);
                 qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@ordertranid", SqlDbType.Int, ParameterDirection.Input, 0);
-                qry.AddParameter("@internalchar", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                qry.AddParameter("@ordertranid", SqlDbType.Int, ParameterDirection.Input, request.OrderTranId.GetValueOrDefault(0));
+                qry.AddParameter("@internalchar", SqlDbType.NVarChar, ParameterDirection.Input, request.InternalChar);
                 await qry.ExecuteNonQueryAsync();
             }
             return response;

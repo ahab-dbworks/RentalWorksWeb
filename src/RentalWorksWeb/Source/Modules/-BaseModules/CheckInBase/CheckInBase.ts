@@ -243,8 +243,11 @@ abstract class CheckInBase implements IModule {
         const errorMessages: Array<string> = [];
         for (let i = 0; i < $selectedCheckBoxes.length; i++) {
             const $tr = $selectedCheckBoxes.eq(i).closest('tr');
+
             const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            const orderTranId = FwBrowse.getValueByDataField(null, $tr, 'OrderTranId');
+            const internalChar = FwBrowse.getValueByDataField(null, $tr, 'InternalChar');
             const orderItemId = FwBrowse.getValueByDataField(null, $tr, 'OrderItemId');
             const inventoryId = FwBrowse.getValueByDataField(null, $tr, 'InventoryId');
             const vendorId = FwBrowse.getValueByDataField(null, $tr, 'VendorId');
@@ -252,6 +255,8 @@ abstract class CheckInBase implements IModule {
             const description = FwBrowse.getValueByDataField(null, $tr, 'Description');
    
             const request = {
+                OrderTranId: orderTranId,
+                InternalChar: internalChar,
                 ContractId: contractId,
                 OrderId: orderId,
                 OrderItemId: orderItemId,
@@ -263,12 +268,13 @@ abstract class CheckInBase implements IModule {
 
             FwAppData.apiMethod(true, 'POST', `api/v1/checkin/cancelcheckinitems`, request, FwServices.defaultTimeout, response => {
                 responseCount++;
-                if (response.success) {
-                 //
-                }
-                else {
-                    errorMessages.push(response.msg);  // gather all errors into the errorMessages array
-                }
+                // success/error response not programmed yet
+                //if (response.success) {
+                // //
+                //}
+                //else {
+                //    errorMessages.push(response.msg);  // gather all errors into the errorMessages array
+                //}
             }, function onError(response) {
                 FwFunc.showError(response);
             }, $form);

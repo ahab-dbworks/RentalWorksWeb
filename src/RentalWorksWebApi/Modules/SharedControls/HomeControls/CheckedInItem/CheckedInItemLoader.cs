@@ -17,6 +17,12 @@ namespace WebApi.Modules.HomeControls.CheckedInItem
         [FwSqlDataField(column: "contractid", modeltype: FwDataTypes.Text)]
         public string ContractId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertranid", modeltype: FwDataTypes.Integer)]
+        public int? OrderTranId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text)]
+        public string InternalChar { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
