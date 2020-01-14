@@ -125,11 +125,6 @@ abstract class CheckInBase implements IModule {
 
                 FwMenu.addSubMenuItem(options.$groupActions, 'Cancel Selected Items', '', (e: JQuery.ClickEvent) => {
                     try {
-                        //if ($form.attr('data-controller') === 'TransferOutController') {
-                        //    (<any>window).TransferOutController.unstageItems($form, e);
-                        //} else {
-                        //    StagingCheckoutController.unstageItems($form, e);
-                        //}
                         this.cancelItems($form, e);
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -203,19 +198,6 @@ abstract class CheckInBase implements IModule {
                 options.hasNew    = false;
                 options.hasEdit   = false;
                 options.hasDelete = false;
-
-                FwMenu.addSubMenuItem(options.$groupActions, 'Cancel Selected Items', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        //if ($form.attr('data-controller') === 'TransferOutController') {
-                        //    (<any>window).TransferOutController.unstageItems($form, e);
-                        //} else {
-                        //    StagingCheckoutController.unstageItems($form, e);
-                        //}
-                        this.cancelItems($form, e);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -237,19 +219,6 @@ abstract class CheckInBase implements IModule {
         if ($selectedCheckBoxes.length !== 0) {
             await this.cancelSelectedItems($form, $selectedCheckBoxes).then(errorMessages => {
                 FwBrowse.search($grid);
-                // Determine tabs to render
-                //const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-                //const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                //FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
-                //    res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
-                //    res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
-                //    res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
-                //    //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
-                //    res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
-                //}, ex => {
-                //    FwFunc.showError(ex)
-                //}, $form);
-
                 if (errorMessages.length == 0) {
                     errorMsg.html('');
                     FwFunc.playSuccessSound();
@@ -271,7 +240,6 @@ abstract class CheckInBase implements IModule {
         }
 
         let responseCount = 0;
-        //let errorMessages: Array<string> = new Array();
         const errorMessages: Array<string> = [];
         for (let i = 0; i < $selectedCheckBoxes.length; i++) {
             const $tr = $selectedCheckBoxes.eq(i).closest('tr');
