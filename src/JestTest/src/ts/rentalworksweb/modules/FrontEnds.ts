@@ -191,21 +191,9 @@ export abstract class CheckInBase extends FrontEndModule {
         await page.click(gridMenuSelector);
         await ModuleBase.wait(1000);
 
-        let cancelItemsSelector = `div [data-name="CheckedInItemGrid"] .???????`;  //8bSrfYlth57y
+        let cancelItemsSelector = `div [data-name="CheckedInItemGrid"] [data-securityid="8bSrfYlth57y"]`;
         await page.click(cancelItemsSelector);
-
-        await page.waitForSelector('.advisory');
-        const options = await page.$$('.advisory .fwconfirmation-button');
-        await options[0].click();
         await TestUtils.waitForPleaseWait();
-        try {
-            let toasterCloseSelector = `.advisory .messageclose`;
-            await page.waitForSelector(toasterCloseSelector, { timeout: 2000 });
-            await page.click(toasterCloseSelector);
-            await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
-        } catch (error) { } // assume that we missed the toaster
-
-
     }
     //---------------------------------------------------------------------------------------
 }
