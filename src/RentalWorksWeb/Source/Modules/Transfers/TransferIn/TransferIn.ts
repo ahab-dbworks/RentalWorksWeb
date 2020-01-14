@@ -11,7 +11,7 @@ class TransferIn extends CheckInBase {
         options.hasSave = false;
         FwMenu.addFormMenuButtons(options);
 
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel Transfer In Session', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel Transfer In Session', 'S8ybdjuN7MU', (e: JQuery.ClickEvent) => {
             try {
                 this.cancelTransferIn(options.$form);
             } catch (ex) {
