@@ -660,7 +660,7 @@ abstract class CheckInBase implements IModule {
         $form.find('.fwformfield').not('[data-datafield="DepartmentId"]').find('input').val('');
         $form.find('div[data-name="CheckedInItemGrid"] tr.viewmode').empty();
         errorMsg.html('');
-        FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
+        FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"], [data-datafield="TransferId"]'));
 
         $form.find('.suspendedsession').show();
     }
