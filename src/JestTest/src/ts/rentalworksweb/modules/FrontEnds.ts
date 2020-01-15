@@ -47,7 +47,7 @@ export abstract class StagingBase extends FrontEndModule {
         //if pending items exist and pop-up occurs, click "Continue" to proceed:
         var popUp;
         try {
-            popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+            popUp = await page.waitForSelector('.advisory', { timeout: 5000 });
         } catch (error) { } // no pop-up
 
         if (popUp !== undefined) {
@@ -193,7 +193,7 @@ export abstract class CheckInBase extends FrontEndModule {
     async cancelAllItemsInGrid() {
         let gridAllRowsBoxSelector = `div [data-name="CheckedInItemGrid"] .divselectrow`;
         await page.click(gridAllRowsBoxSelector);
-        await ModuleBase.wait(1000);
+        await ModuleBase.wait(2000);
 
         let gridMenuSelector = `div [data-name="CheckedInItemGrid"] .submenubutton`;
         await page.click(gridMenuSelector);
@@ -201,8 +201,8 @@ export abstract class CheckInBase extends FrontEndModule {
 
         let cancelItemsSelector = `div [data-name="CheckedInItemGrid"] [data-securityid="8bSrfYlth57y"]`;
         await page.click(cancelItemsSelector);
-        await TestUtils.waitForPleaseWait();
-        await ModuleBase.wait(5000);
+        //await TestUtils.waitForPleaseWait();
+        await ModuleBase.wait(10000);
     }
     //---------------------------------------------------------------------------------------
 }

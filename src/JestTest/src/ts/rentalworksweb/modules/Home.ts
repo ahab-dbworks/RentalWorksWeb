@@ -3283,8 +3283,8 @@ export class Contract extends HomeModule {
         this.canDelete = false;
 
         let summaryItemGrid: GridBase = new GridBase("Summary Item Grid", "ContractSummaryGrid");
-        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "ContractDetailGrid", ["rentaldetailgrid"]);
-        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "ContractDetailGrid", ["salesdetailgrid"]);
+        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "ContractDetailGrid", ["R"]);
+        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "ContractDetailGrid", ["S"]);
 
         this.grids.push(summaryItemGrid);
         this.grids.push(rentalItemGrid);
@@ -3317,8 +3317,8 @@ export class Manifest extends HomeModule {
         this.canDelete = false;
 
         let summaryItemGrid: GridBase = new GridBase("Summary Item Grid", "ContractSummaryGrid");
-        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "ContractDetailGrid", ["rentaldetailgrid"]);
-        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "ContractDetailGrid", ["salesdetailgrid"]);
+        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "ContractDetailGrid", ["R"]);
+        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "ContractDetailGrid", ["S"]);
 
         this.grids.push(summaryItemGrid);
         this.grids.push(rentalItemGrid);
@@ -3400,8 +3400,8 @@ export class TransferReceipt extends HomeModule {
         this.canDelete = false;
 
         let summaryItemGrid: GridBase = new GridBase("Summary Item Grid", "ContractSummaryGrid");
-        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "ContractDetailGrid", ["rentaldetailgrid"]);
-        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "ContractDetailGrid", ["salesdetailgrid"]);
+        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "ContractDetailGrid", ["R"]);
+        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "ContractDetailGrid", ["S"]);
 
         this.grids.push(summaryItemGrid);
         this.grids.push(rentalItemGrid);

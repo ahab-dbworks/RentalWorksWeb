@@ -924,11 +924,9 @@ export class TransfersTest extends BaseTest {
                     await transferInModule.checkInBarCode(bc);
                 }
 
-                //await transferInModule.cancelAllItemsInGrid();
+                await transferInModule.cancelAllItemsInGrid();
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
-
-/*
             testName = "Change to 'My' Office/Warehouse";
             test(testName, async () => {
                 let toOffice: string = this.globalScopeRef["OfficeLocation~MINE"].Location;
@@ -1604,8 +1602,6 @@ export class TransfersTest extends BaseTest {
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
-*/
-
         });
     }
     //---------------------------------------------------------------------------------------

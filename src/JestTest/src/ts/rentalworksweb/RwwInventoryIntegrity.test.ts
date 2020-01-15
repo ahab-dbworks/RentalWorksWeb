@@ -1424,6 +1424,145 @@ export class InventoryIntegrityTest extends BaseTest {
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
+            testName = "Check-In inventory from the Order";
+            test(testName, async () => {
+                await checkInModule.openModule();
+
+                let order: any = this.globalScopeRef[orderModule.moduleName + "~" + orderKey1];
+                let rentalInv: any = this.globalScopeRef[rentalInventoryModule.moduleName + "~" + quantityRentalInventoryKey];
+                let rentalBarCode3: any = this.globalScopeRef[rentalBarCodeKey + "~" + "3"];
+                let rentalBarCode4: any = this.globalScopeRef[rentalBarCodeKey + "~" + "4"];
+                let rentalBarCode5: any = this.globalScopeRef[rentalBarCodeKey + "~" + "5"];
+                let rentalBarCode6: any = this.globalScopeRef[rentalBarCodeKey + "~" + "6"];
+
+                //let salesInv: any = this.globalScopeRef[salesInventoryModule.moduleName + "~" + quantitySalesInventoryKey];
+                //let salesBarCode3: any = this.globalScopeRef[salesBarCodeKey + "~" + "3"];
+                //let salesBarCode4: any = this.globalScopeRef[salesBarCodeKey + "~" + "4"];
+                //let salesBarCode5: any = this.globalScopeRef[salesBarCodeKey + "~" + "5"];
+                //let salesBarCode6: any = this.globalScopeRef[salesBarCodeKey + "~" + "6"];
+
+                await checkInModule.loadOrder(order.OrderNumber);
+                await checkInModule.checkInQuantity(rentalInv.ICode, qtyToCheckOut1);
+                await checkInModule.checkInBarCode(rentalBarCode3.BarCode);
+                await checkInModule.checkInBarCode(rentalBarCode4.BarCode);
+                await checkInModule.checkInBarCode(rentalBarCode5.BarCode);
+                await checkInModule.checkInBarCode(rentalBarCode6.BarCode);
+                //await checkInModule.checkInQuantity(salesInv.ICode, qtyToCheckOut1);
+                //await checkInModule.checkInBarCode(salesBarCode3.BarCode);
+                //await checkInModule.checkInBarCode(salesBarCode4.BarCode);
+                //await checkInModule.checkInBarCode(salesBarCode5.BarCode);
+                //await checkInModule.checkInBarCode(salesBarCode6.BarCode);
+                await checkInModule.cancelSession();
+
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = "Test Inventory Integrity";
+            test(testName, async () => {
+                //quantity
+                let expectedInvData: InventoryData = new InventoryData();
+
+                expectedInvData.qtyTotal = 20;
+                expectedInvData.qtyIn = 13;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyOut = 4;
+                expectedInvData.qtyInRepair = 2;
+                expectedInvData.qtyInTransit = 0;
+                //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
+                expectedInvData.populateAvailDates([" 12", "  6", "  6", "  3", " -7", " -7", " -7", "  3", "  3", "  5", "  7", " 10", " 10", " 10", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16",]);
+
+                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "060");
+
+                //barcode
+                expectedInvData = new InventoryData();
+
+                expectedInvData.qtyTotal = 20;
+                expectedInvData.qtyIn = 13;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyOut = 4;
+                expectedInvData.qtyInRepair = 2;
+                expectedInvData.qtyInTransit = 0;
+                //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
+                expectedInvData.populateAvailDates([" 12", "  6", "  6", "  3", " -7", " -7", " -7", "  3", "  3", "  5", "  7", " 10", " 10", " 10", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16",]);
+
+                record = rentalInventoryModule.newRecordsToCreate[1];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "061");
+
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------            testName = "Check-In inventory from the Order";
+            test(testName, async () => {
+                await checkInModule.openModule();
+
+                let order: any = this.globalScopeRef[orderModule.moduleName + "~" + orderKey1];
+                let rentalInv: any = this.globalScopeRef[rentalInventoryModule.moduleName + "~" + quantityRentalInventoryKey];
+                let rentalBarCode3: any = this.globalScopeRef[rentalBarCodeKey + "~" + "3"];
+                let rentalBarCode4: any = this.globalScopeRef[rentalBarCodeKey + "~" + "4"];
+                let rentalBarCode5: any = this.globalScopeRef[rentalBarCodeKey + "~" + "5"];
+                let rentalBarCode6: any = this.globalScopeRef[rentalBarCodeKey + "~" + "6"];
+
+                //let salesInv: any = this.globalScopeRef[salesInventoryModule.moduleName + "~" + quantitySalesInventoryKey];
+                //let salesBarCode3: any = this.globalScopeRef[salesBarCodeKey + "~" + "3"];
+                //let salesBarCode4: any = this.globalScopeRef[salesBarCodeKey + "~" + "4"];
+                //let salesBarCode5: any = this.globalScopeRef[salesBarCodeKey + "~" + "5"];
+                //let salesBarCode6: any = this.globalScopeRef[salesBarCodeKey + "~" + "6"];
+
+                await checkInModule.loadOrder(order.OrderNumber);
+                await checkInModule.checkInQuantity(rentalInv.ICode, qtyToCheckOut1);
+                await checkInModule.checkInBarCode(rentalBarCode3.BarCode);
+                await checkInModule.checkInBarCode(rentalBarCode4.BarCode);
+                await checkInModule.checkInBarCode(rentalBarCode5.BarCode);
+                await checkInModule.checkInBarCode(rentalBarCode6.BarCode);
+                //await checkInModule.checkInQuantity(salesInv.ICode, qtyToCheckOut1);
+                //await checkInModule.checkInBarCode(salesBarCode3.BarCode);
+                //await checkInModule.checkInBarCode(salesBarCode4.BarCode);
+                //await checkInModule.checkInBarCode(salesBarCode5.BarCode);
+                //await checkInModule.checkInBarCode(salesBarCode6.BarCode);
+                await checkInModule.cancelAllItemsInGrid();
+
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = "Test Inventory Integrity";
+            test(testName, async () => {
+                //quantity
+                let expectedInvData: InventoryData = new InventoryData();
+
+                expectedInvData.qtyTotal = 20;
+                expectedInvData.qtyIn = 13;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyOut = 4;
+                expectedInvData.qtyInRepair = 2;
+                expectedInvData.qtyInTransit = 0;
+                //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
+                expectedInvData.populateAvailDates([" 12", "  6", "  6", "  3", " -7", " -7", " -7", "  3", "  3", "  5", "  7", " 10", " 10", " 10", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16",]);
+
+                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "060");
+
+                //barcode
+                expectedInvData = new InventoryData();
+
+                expectedInvData.qtyTotal = 20;
+                expectedInvData.qtyIn = 13;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyOut = 4;
+                expectedInvData.qtyInRepair = 2;
+                expectedInvData.qtyInTransit = 0;
+                //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
+                expectedInvData.populateAvailDates([" 12", "  6", "  6", "  3", " -7", " -7", " -7", "  3", "  3", "  5", "  7", " 10", " 10", " 10", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16",]);
+
+                record = rentalInventoryModule.newRecordsToCreate[1];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "061");
+
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
             testName = "Pending Exchange";
             test(testName, async () => {
                 await exchangeModule.openModule();
@@ -1473,11 +1612,11 @@ export class InventoryIntegrityTest extends BaseTest {
                 let rentalBarCode5: any = this.globalScopeRef[rentalBarCodeKey + "~" + "5"];
                 let rentalBarCode6: any = this.globalScopeRef[rentalBarCodeKey + "~" + "6"];
 
-                let salesInv: any = this.globalScopeRef[salesInventoryModule.moduleName + "~" + quantitySalesInventoryKey];
-                let salesBarCode3: any = this.globalScopeRef[salesBarCodeKey + "~" + "3"];
-                let salesBarCode4: any = this.globalScopeRef[salesBarCodeKey + "~" + "4"];
-                let salesBarCode5: any = this.globalScopeRef[salesBarCodeKey + "~" + "5"];
-                let salesBarCode6: any = this.globalScopeRef[salesBarCodeKey + "~" + "6"];
+                //let salesInv: any = this.globalScopeRef[salesInventoryModule.moduleName + "~" + quantitySalesInventoryKey];
+                //let salesBarCode3: any = this.globalScopeRef[salesBarCodeKey + "~" + "3"];
+                //let salesBarCode4: any = this.globalScopeRef[salesBarCodeKey + "~" + "4"];
+                //let salesBarCode5: any = this.globalScopeRef[salesBarCodeKey + "~" + "5"];
+                //let salesBarCode6: any = this.globalScopeRef[salesBarCodeKey + "~" + "6"];
 
                 await checkInModule.loadOrder(order.OrderNumber);
                 await checkInModule.checkInQuantity(rentalInv.ICode, qtyToCheckOut1);
@@ -1485,11 +1624,11 @@ export class InventoryIntegrityTest extends BaseTest {
                 await checkInModule.checkInBarCode(rentalBarCode4.BarCode);
                 await checkInModule.checkInBarCode(rentalBarCode5.BarCode);
                 await checkInModule.checkInBarCode(rentalBarCode6.BarCode);
-                await checkInModule.checkInQuantity(salesInv.ICode, qtyToCheckOut1);
-                await checkInModule.checkInBarCode(salesBarCode3.BarCode);
-                await checkInModule.checkInBarCode(salesBarCode4.BarCode);
-                await checkInModule.checkInBarCode(salesBarCode5.BarCode);
-                await checkInModule.checkInBarCode(salesBarCode6.BarCode);
+                //await checkInModule.checkInQuantity(salesInv.ICode, qtyToCheckOut1);
+                //await checkInModule.checkInBarCode(salesBarCode3.BarCode);
+                //await checkInModule.checkInBarCode(salesBarCode4.BarCode);
+                //await checkInModule.checkInBarCode(salesBarCode5.BarCode);
+                //await checkInModule.checkInBarCode(salesBarCode6.BarCode);
                 await checkInModule.createContract();
 
             }, this.testTimeout);
@@ -1508,7 +1647,7 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInRepair = 2;
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
-                expectedInvData.populateAvailDates([" 16", " 10", " 10", "  7", " 11", " 11", " 11", "  7", "  7", "  9", " 11", " 14", " 14", " 14", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20",]);
+                expectedInvData.populateAvailDates([" 16", " 10", " 10", "  7", " -3", " -3", " -3", "  7", "  7", "  9", "  7", " 10", " 10", " 10", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16",]);
 
                 let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "060");
@@ -1525,7 +1664,7 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInRepair = 2;
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
-                expectedInvData.populateAvailDates([" 15", "  9", "  9", "  6", " 12", " 12", " 12", "  6", "  6", "  8", " 10", " 13", " 13", " 13", " 19", " 19", " 19", " 19", " 19", " 19", " 19", " 19", " 19", " 19", " 19",]);
+                expectedInvData.populateAvailDates([" 15", "  9", "  9", "  6", " -4", " -4", " -4", "  6", "  6", "  8", " 6", "  9", "  9", "  9", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15",]);
 
                 record = rentalInventoryModule.newRecordsToCreate[1];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "061");
