@@ -463,6 +463,9 @@
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        let subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         request.uniqueids = {
             WarehouseId: warehouse.warehouseid
@@ -475,12 +478,42 @@
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
             case 'CategoryId':
+                if (inventoryTypeId) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    };
+                }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                 break;
             case 'SubCategoryId':
+                if (inventoryTypeId) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    };
+                }
+                if (categoryId) {
+                    request.uniqueids = {
+                        CategoryId: categoryId,
+                    };
+                }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
             case 'ICode':
+                if (inventoryTypeId) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    };
+                }
+                if (categoryId) {
+                    request.uniqueids = {
+                        CategoryId: categoryId,
+                    };
+                }
+                if (subCategoryId) {
+                    request.uniqueids = {
+                        SubCategoryId: subCategoryId,
+                    };
+                }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicode`);
                 break;
             case 'WarehouseId':

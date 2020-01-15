@@ -248,7 +248,7 @@ class AvailabilityConflicts {
                         Sales: true,
                     };
                 }
-                //$validationbrowse.attr('data-apiurl', `${this.apiurl}/validatexxxxxxxx`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
             case 'CategoryId':
                 if (inventoryTypeId) {
@@ -256,7 +256,7 @@ class AvailabilityConflicts {
                         InventoryTypeId: inventoryTypeId,
                     };
                 }
-                //$validationbrowse.attr('data-apiurl', `${this.apiurl}/validatexxxxxxxx`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                 break;
             case 'SubCategoryId':
                 if (inventoryTypeId) {
@@ -269,7 +269,7 @@ class AvailabilityConflicts {
                         CategoryId: categoryId,
                     };
                 }
-                //$validationbrowse.attr('data-apiurl', `${this.apiurl}/validatexxxxxxxx`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
             case 'InventoryId':
                 if (availFor) {
@@ -292,8 +292,18 @@ class AvailabilityConflicts {
                         SubCategoryId: subCategoryId,
                     };
                 }
-                //$validationbrowse.attr('data-apiurl', `${this.apiurl}/validatexxxxxxxx`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                 break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'DealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'OrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
+
         }
     }
     //----------------------------------------------------------------------------------------------
