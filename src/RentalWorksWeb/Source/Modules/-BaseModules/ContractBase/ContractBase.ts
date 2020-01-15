@@ -260,7 +260,7 @@ abstract class ContractBase {
                 options.hasEdit = false;
                 options.hasDelete = false;
 
-                FwMenu.addSubMenuItem(options.$groupActions, 'Void Items', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem(options.$groupActions, 'Void Items', 'pbZeqJ3pd8r', (e: JQuery.ClickEvent) => {
                     try {
                         this.VoidItems($form, e);
                     } catch (ex) {
@@ -287,7 +287,7 @@ abstract class ContractBase {
                 options.hasEdit = false;
                 options.hasDelete = false;
 
-                FwMenu.addSubMenuItem(options.$groupActions, 'Void Items', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem(options.$groupActions, 'Void Items', 'pbZeqJ3pd8r', (e: JQuery.ClickEvent) => {
                     try {
                         this.VoidItems($form, e);
                     } catch (ex) {
