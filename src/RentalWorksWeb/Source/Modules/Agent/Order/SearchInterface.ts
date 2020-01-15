@@ -212,6 +212,8 @@ class SearchInterface {
                 FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, response => {
                     FwFormField.setValueByDataField($popup, 'OrderTypeId', response.DefaultOrderTypeId, response.DefaultOrderType);
                 }, ex => FwFunc.showError(ex), null);
+
+                this.disableAddToModules($popup);
                 break;
             case 'Order':
             case 'Quote':
@@ -366,7 +368,7 @@ class SearchInterface {
         $popup.find('#addToTab [data-datafield="DealId"]').data('onchange', $tr => {
             FwFormField.setValue2($popup.find('#addToTab [data-datafield="DealNumber"]'), $tr.find('[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
         });
-
+    
         //toggle fields shown based on type selected
         $popup.find('[data-datafield="AddToType"]').on('change', e => {
             const addToType = jQuery(e.target).val();
@@ -490,6 +492,36 @@ class SearchInterface {
             }
         });
     }
+    //----------------------------------------------------------------------------------------------
+    disableAddToModules($popup: JQuery) {
+        //disables radio options based on security settings
+        const nodeModules = ['Quote', 'Order', 'PurchaseOrder', 'TransferOrder'];
+        const modules = FwApplicationTree.getChildrenByType(FwApplicationTree.tree, 'Module');
+        let activeModule = "";
+        for (let i = 0; i < nodeModules.length; i++) {
+            let moduleName = nodeModules[i];
+            const nodeModule = modules.filter((el) => { return el.caption === moduleName });
+            if (nodeModule) {
+                const nodeActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule[0], {}, (node: any, args: any) => {
+                    return (node.nodetype === 'ModuleActions');
+                });
+                const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'New');
+                });
+                let hasNew = (nodeNew !== null && nodeNew.properties.visible === 'T');
+                if (hasNew && activeModule == "") {
+                    activeModule = moduleName;
+                } else if (!hasNew) {
+                    if (moduleName == 'PurchaseOrder') moduleName = 'Purchase';
+                    if (moduleName == 'TransferOrder') moduleName = 'Transfer';
+                    $popup.find(`#addToTab [data-datafield="AddToType"] input[value="${moduleName}"]`).parent('label').hide();
+                }
+            }
+        }
+
+        FwFormField.setValueByDataField($popup, 'AddToType', activeModule, null, true);
+    }
+
     //----------------------------------------------------------------------------------------------
     populateTypeMenu($popup) {
         let self                      = this;
