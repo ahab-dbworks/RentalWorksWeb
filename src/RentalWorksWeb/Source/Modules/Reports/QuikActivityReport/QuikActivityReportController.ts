@@ -25,8 +25,8 @@ const quikActivityReportTemplate = `
             <div class="row" style="display:flex;flex-wrap:wrap;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
                 <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="IsSummary">
-                  <div data-value="T" data-caption="Summary"></div>
-                  <div data-value="F" data-caption="Detail"></div>
+                  <div data-value="true" data-caption="Summary"></div>
+                  <div data-value="false" data-caption="Detail"></div>
                 </div>
               </div>
             </div>
