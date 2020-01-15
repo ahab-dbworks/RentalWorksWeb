@@ -251,6 +251,7 @@
             try {
                 $valuefield.val('').change();
                 $searchfield.val('');
+                $control.find('.btnpeek').hide();
                 FwValidation.clearSearchCriteria($validationbrowse, $btnvalidate);
                 $popup = $validationbrowse.closest('.fwpopup');
                 FwPopup.detachPopup($popup);
@@ -299,7 +300,7 @@
                 setTimeout(() => {
                     this.validationPeek($control, validationName.slice(0, -10), $valuefield.val().toString(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
                     $validationbrowse.data('$control').find('.validation-loader').hide();
-                    $control.find('.btnpeek').show()
+                    $control.find('.btnpeek').show();
                 })
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -391,30 +392,30 @@
     };
     //---------------------------------------------------------------------------------
     selectRow($control: JQuery, $tr: JQuery, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $validationbrowse: JQuery) {
-        var $validationUniqueIdField, uniqueid, $validationDisplayField, text, $popup;
         FwValidation.hideValidateButtonLoadingIcon($btnvalidate);
 
-        $validationUniqueIdField = ($tr.find('.field[data-validationvaluefield="true"]').length !== 0) ? $tr.find('.field[data-validationvaluefield="true"]') : $tr.find('.field[data-isuniqueid="true"]');
-        uniqueid = $validationUniqueIdField.attr('data-originalvalue');
+        const $validationUniqueIdField = ($tr.find('.field[data-validationvaluefield="true"]').length !== 0) ? $tr.find('.field[data-validationvaluefield="true"]') : $tr.find('.field[data-isuniqueid="true"]');
+        const uniqueid = $validationUniqueIdField.attr('data-originalvalue');
         $valuefield.val(uniqueid).change();
 
-        $validationDisplayField = $tr.find('.field[data-validationdisplayfield="true"]');
-        text = $validationDisplayField.attr('data-originalvalue');
+        const $validationDisplayField = $tr.find('.field[data-validationdisplayfield="true"]');
+        const text = $validationDisplayField.attr('data-originalvalue');
         $searchfield.val(text);
 
         if (typeof $control.data('onchange') === 'function') {
             $control.data('onchange')($tr);
         }
 
+        this.showHidePeek($control, uniqueid);
         FwValidation.clearSearchCriteria($validationbrowse, $btnvalidate);
-        $popup = $validationbrowse.parents('.fwpopup');
+        const $popup = $validationbrowse.parents('.fwpopup');
         FwPopup.detachPopup($popup);
     };
     //---------------------------------------------------------------------------------
     clearSearchCriteria($validationbrowse: JQuery, $btnvalidate: JQuery) {
-        var $validationSearchboxes, $validationSearchbox;
+        let $validationSearchbox;
         FwValidation.hideValidateButtonLoadingIcon($btnvalidate);
-        $validationSearchboxes = $validationbrowse.find('thead .field > .search > input');
+        const $validationSearchboxes = $validationbrowse.find('thead .field > .search > input');
         $validationSearchboxes.each(function (index, element) {
             $validationSearchbox = jQuery(element);
             $validationSearchbox.val('');
@@ -428,7 +429,7 @@
     validationPeek($control: JQuery, validationName: string, validationId: string, validationDatafield: string, $parentFormOrBrowse, title) {
         let $popupForm;
 
-        var $validationbrowse = jQuery(jQuery(`#tmpl-validations-${validationName}ValidationBrowse`).html());
+        const $validationbrowse = jQuery(jQuery(`#tmpl-validations-${validationName}ValidationBrowse`).html());
         const peekForm = $validationbrowse.attr('data-peekForm');      // for validations without a form, this attr can be added to point to an alternate form to open in peek - J. Pace
         validationDatafield = $validationbrowse.find('div[data-browsedatatype="key"]').data('datafield');
 
@@ -501,9 +502,9 @@
     };
     //---------------------------------------------------------------------------------
     newValidation($control, validationName, $object, $this, $valuefield, $btnvalidate, title) {
-        var $popupForm;
+        let $popupForm;
         var $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
-        var $validationbrowse = $this.closest('div[data-control="FwBrowse"][data-type="Validation"]');
+        const $validationbrowse = $this.closest('div[data-control="FwBrowse"][data-type="Validation"]');
 
         try {
             if (jQuery('#tmpl-modules-' + validationName + 'Form').html() === undefined) {
@@ -616,5 +617,22 @@
         return result;
     }
     //----------------------------------------------------------------------------------------------
+    showHidePeek($control: JQuery<HTMLElement>, value: any) {
+        const isWebAdmin = (sessionStorage.getItem('userid') !== null) ? JSON.parse(sessionStorage.getItem('userid')).webadministrator === 'true' : false;
+        let showPeek = false;
+        if (!($control.attr('data-validationpeek') === 'false')) {
+            if (isWebAdmin === true) {
+                showPeek = true;
+            }
+            else if (isWebAdmin === false && FwValidation.isValidationWithPeek($control)) {
+                showPeek = true;
+            }
+        }
+        if (showPeek && (value !== '' && value !== undefined)) {
+            $control.find('.btnpeek').show();
+        } else {
+            $control.find('.btnpeek').hide();
+        }
+    }
 }
 var FwValidation = new FwValidationClass();
