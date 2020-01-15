@@ -434,7 +434,7 @@
         validationDatafield = $validationbrowse.find('div[data-browsedatatype="key"]').data('datafield');
 
         try {
-            if (validationId !== '') {
+            if (validationId !== '' && validationId !== undefined) {
                 //if (jQuery(`#tmpl-modules-${validationName}Form`).html() === undefined) {
                 //    if (peekForm) {
                 //        $popupForm = window[`${peekForm}Controller`].openForm('EDIT');
