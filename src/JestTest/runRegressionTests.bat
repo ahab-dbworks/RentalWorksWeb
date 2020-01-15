@@ -43,6 +43,7 @@ call :runtest "LoginLogout" "Login Logout"
 call :runtest "RwwShallowRegression" "Shallow Regression"
 call :runtest "RwwMediumRegression" "Medium Regression"
 call :runtest "RwwInventoryIntegrity" "Inventory Integrity"
+call :runtest "RwwTransfers" "Transferring Inventory"
 call :runtest "RwwRunReports" "Reports"
 
 set "file=%testrootpath%\jest.rentalworksweb%testnumber%.config.js"
