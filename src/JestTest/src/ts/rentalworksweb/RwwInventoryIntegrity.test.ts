@@ -1424,7 +1424,7 @@ export class InventoryIntegrityTest extends BaseTest {
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
-            testName = "Check-In inventory from the Order";
+            testName = "Check-In inventory from the Order, cancel entire Session";
             test(testName, async () => {
                 await checkInModule.openModule();
 
@@ -1493,7 +1493,8 @@ export class InventoryIntegrityTest extends BaseTest {
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "061");
 
             }, this.testTimeout);
-            //---------------------------------------------------------------------------------------            testName = "Check-In inventory from the Order";
+            //---------------------------------------------------------------------------------------            
+            testName = "Check-In inventory from the Order, cancel all Items in grid";
             test(testName, async () => {
                 await checkInModule.openModule();
 
