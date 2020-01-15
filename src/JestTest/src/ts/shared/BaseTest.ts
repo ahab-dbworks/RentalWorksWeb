@@ -49,6 +49,12 @@ export abstract class BaseTest extends FwBaseTest {
 
         let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
         await page.waitForSelector(selector);
+        const element = await page.$(selector);
+        const officeLocation = await page.evaluate(element => element.textContent, element);
+        let expectedOfficeLocation = toOffice;
+        Logging.logInfo(`Validating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
+        expect(officeLocation).toBe(expectedOfficeLocation);
+
     }
     //---------------------------------------------------------------------------------------
 }

@@ -172,10 +172,18 @@ export abstract class CheckInBase extends FrontEndModule {
         await TestUtils.waitForPleaseWait();
     }
     //---------------------------------------------------------------------------------------
-    async createContract() {
+    async createContract(): Promise<string> {
         await ModuleBase.wait(5000); // temporary
         const createContractElementHandle = await page.$(`div .createcontract`);
         await createContractElementHandle.click();
+        await TestUtils.waitForPleaseWait();
+
+        await ModuleBase.wait(3000); 
+        const contractNumberSelector = `div[data-datafield="ContractNumber"] .fwformfield-value`;
+        const contractNumber = await page.$eval(contractNumberSelector, (e: any) => { return e.value });
+
+        return contractNumber;
+
     }
     //---------------------------------------------------------------------------------------
     async cancelSession() {
@@ -194,6 +202,7 @@ export abstract class CheckInBase extends FrontEndModule {
         let cancelItemsSelector = `div [data-name="CheckedInItemGrid"] [data-securityid="8bSrfYlth57y"]`;
         await page.click(cancelItemsSelector);
         await TestUtils.waitForPleaseWait();
+        await ModuleBase.wait(5000);
     }
     //---------------------------------------------------------------------------------------
 }

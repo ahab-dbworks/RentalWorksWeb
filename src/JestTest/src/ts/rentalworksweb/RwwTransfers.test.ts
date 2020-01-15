@@ -4,7 +4,7 @@ import { Logging } from '../shared/Logging';
 import { TestUtils } from '../shared/TestUtils';
 import {
     InventoryModule, RentalInventory, SalesInventory, PurchaseOrder, User, Warehouse,
-    ReceiveFromVendor, TransferOrder, AssignBarCodes, Asset, TransferOut, TransferIn, OfficeLocation
+    ReceiveFromVendor, TransferOrder, AssignBarCodes, Asset, TransferOut, TransferIn, OfficeLocation, TransferReceipt
 } from './modules/AllModules';
 
 
@@ -54,11 +54,13 @@ export class TransfersTest extends BaseTest {
         this.DoLogin();
     }
     //---------------------------------------------------------------------------------------
-    async openModuleRecord(module: ModuleBase, seekObject: any, registerWithRecordKey?: string) {
+    async openModuleRecord(module: ModuleBase, seekObject: any, registerWithRecordKey?: string, keepOpen?: boolean) {
         await module.openBrowse();
         await module.browseSeek(seekObject);
         await module.openRecord(1, true, registerWithRecordKey);
-        await module.closeRecord();
+        if (!keepOpen) {
+            await module.closeRecord();
+        }
     }
     //---------------------------------------------------------------------------------------
     async createModuleRecord(module: ModuleBase, record: any, registerWithRecordKey?: string, doBeforeClosing?: () => void) {
@@ -141,6 +143,7 @@ export class TransfersTest extends BaseTest {
         if (screenshotFileName) {
             await page.screenshot({ path: `./transfertest_${this.testToken}_${screenshotFileName}.jpg`, fullPage: true });
         }
+
         return invData;
     }
     //---------------------------------------------------------------------------------------
@@ -196,9 +199,9 @@ export class TransfersTest extends BaseTest {
         this.OpenSpecificRecord(new Warehouse(), { Warehouse: "NEW YORK" }, true, "OTHER");
 
 
-        let qtyToPurchase: number = 20;
-        let qtyToTransferOrder: number = 5;
-        let qtyToTransferOut: number = 4;
+        let qtyToPurchase: number = 10;
+        let qtyToTransferOrder: number = 7;
+        let qtyToTransferOut: number = 6;
         let qtyToTransferStage: number = 1;
 
         const quantityRentalInventoryKey: string = "QUANTITYRENTALINVENTORY";
@@ -210,6 +213,7 @@ export class TransfersTest extends BaseTest {
         const transferOrderKey: string = "CONFIRMEDTRANSFER";
         const rentalBarCodeKey: string = "RENTALBARCODE";
         const salesBarCodeKey: string = "SALESBARCODE";
+        const transferReceiptKey: string = "TRANSFERRECEIPT";
 
         //---------------------------------------------------------------------------------------
         let rentalInventoryModule: RentalInventory = new RentalInventory();
@@ -289,7 +293,7 @@ export class TransfersTest extends BaseTest {
         let poModule: PurchaseOrder = new PurchaseOrder();
         poModule.newRecordsToCreate = [
             {
-                //rental po
+                //rental PO
                 record: {
                     VendorId: 2,
                     Description: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken R`,
@@ -305,7 +309,7 @@ export class TransfersTest extends BaseTest {
                 },
             },
             {
-                //sales po
+                //sales PO
                 record: {
                     VendorId: 2,
                     Description: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken S`,
@@ -428,6 +432,8 @@ export class TransfersTest extends BaseTest {
         let assignBarCodesModule: AssignBarCodes = new AssignBarCodes();
         let transferOutModule: TransferOut = new TransferOut();
         let transferInModule: TransferIn = new TransferIn();
+        let transferReceiptModule: TransferReceipt = new TransferReceipt();
+
         //---------------------------------------------------------------------------------------
         describe("Transfer Inventory", () => {
             let testName: string = "";
@@ -605,8 +611,8 @@ export class TransfersTest extends BaseTest {
                 //quantity inventory
                 let expectedInvData: InventoryData = new InventoryData();
 
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 20;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
                 expectedInvData.qtyStaged = 0;
@@ -620,8 +626,8 @@ export class TransfersTest extends BaseTest {
 
                 //barcode rental inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 20;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
                 expectedInvData.qtyStaged = 0;
@@ -635,8 +641,8 @@ export class TransfersTest extends BaseTest {
 
                 //barcode sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 20;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
                 expectedInvData.qtyStaged = 0;
@@ -649,8 +655,8 @@ export class TransfersTest extends BaseTest {
 
                 //quantity sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 20;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
                 expectedInvData.qtyStaged = 0;
@@ -702,28 +708,35 @@ export class TransfersTest extends BaseTest {
                 await transferOutModule.openModule();
 
                 let transfer: any = this.globalScopeRef[transferModule.moduleName + "~" + transferOrderKey];
+
                 let rentalInv: any = this.globalScopeRef[rentalInventoryModule.moduleName + "~" + quantityRentalInventoryKey];
+                //let rentalBarcodes: Array<string>;
+                let rentalBarcodes: string[] = new Array();
+                var i: number;
+                for (i = 1; i <= qtyToTransferOut; i++) {
+                    let barcode: any = this.globalScopeRef[rentalBarCodeKey + "~" + i.toString()];
+                    let bc: string = barcode.BarCode;
+                    rentalBarcodes.push(bc);
+                }
                 let salesInv: any = this.globalScopeRef[salesInventoryModule.moduleName + "~" + quantitySalesInventoryKey];
-                let rentalBarCode3: any = this.globalScopeRef[rentalBarCodeKey + "~" + "3"];
-                let rentalBarCode4: any = this.globalScopeRef[rentalBarCodeKey + "~" + "4"];
-                let rentalBarCode5: any = this.globalScopeRef[rentalBarCodeKey + "~" + "5"];
-                let rentalBarCode6: any = this.globalScopeRef[rentalBarCodeKey + "~" + "6"];
-                let salesBarCode3: any = this.globalScopeRef[salesBarCodeKey + "~" + "3"];
-                let salesBarCode4: any = this.globalScopeRef[salesBarCodeKey + "~" + "4"];
-                let salesBarCode5: any = this.globalScopeRef[salesBarCodeKey + "~" + "5"];
-                let salesBarCode6: any = this.globalScopeRef[salesBarCodeKey + "~" + "6"];
+                //let salesBarcodes: Array<string>;
+                let salesBarcodes: string[] = new Array();
+                for (i = 1; i <= qtyToTransferOut; i++) {
+                    let barcode: any = this.globalScopeRef[salesBarCodeKey + "~" + i.toString()];
+                    let bc: string = barcode.BarCode;
+                    salesBarcodes.push(bc);
+                }
 
                 await transferOutModule.loadTransfer(transfer.TransferNumber);
                 await transferOutModule.stageQuantity(rentalInv.ICode, qtyToTransferOut);
-                await transferOutModule.stageBarCode(rentalBarCode3.BarCode);
-                await transferOutModule.stageBarCode(rentalBarCode4.BarCode);
-                await transferOutModule.stageBarCode(rentalBarCode5.BarCode);
-                await transferOutModule.stageBarCode(rentalBarCode6.BarCode);
+                for (var bc of rentalBarcodes) {
+                   await transferOutModule.stageBarCode(bc);
+                }
+
                 await transferOutModule.stageQuantity(salesInv.ICode, qtyToTransferOut);
-                await transferOutModule.stageBarCode(salesBarCode3.BarCode);
-                await transferOutModule.stageBarCode(salesBarCode4.BarCode);
-                await transferOutModule.stageBarCode(salesBarCode5.BarCode);
-                await transferOutModule.stageBarCode(salesBarCode6.BarCode);
+                for (var bc of salesBarcodes) {
+                    await transferOutModule.stageBarCode(bc);
+                }
                 await transferOutModule.createContract();
 
             }, this.testTimeout);
@@ -735,14 +748,14 @@ export class TransfersTest extends BaseTest {
                 let transfer: any = this.globalScopeRef[transferModule.moduleName + "~" + transferOrderKey];
                 let rentalInv: any = this.globalScopeRef[rentalInventoryModule.moduleName + "~" + quantityRentalInventoryKey];
                 let salesInv: any = this.globalScopeRef[salesInventoryModule.moduleName + "~" + quantitySalesInventoryKey];
-                let rentalBarCode7: any = this.globalScopeRef[rentalBarCodeKey + "~" + "7"];
-                let salesBarCode7: any = this.globalScopeRef[salesBarCodeKey + "~" + "7"];
+                let rentalBarCode: any = this.globalScopeRef[rentalBarCodeKey + "~" + (qtyToTransferOut + 1).toString()];
+                let salesBarCode: any = this.globalScopeRef[salesBarCodeKey + "~" + (qtyToTransferOut + 1).toString()];
 
                 await transferOutModule.loadTransfer(transfer.TransferNumber);
                 await transferOutModule.stageQuantity(rentalInv.ICode, qtyToTransferStage);
-                await transferOutModule.stageBarCode(rentalBarCode7.BarCode);
+                await transferOutModule.stageBarCode(rentalBarCode.BarCode);
                 await transferOutModule.stageQuantity(salesInv.ICode, qtyToTransferStage);
-                await transferOutModule.stageBarCode(salesBarCode7.BarCode);
+                await transferOutModule.stageBarCode(salesBarCode.BarCode);
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -751,14 +764,14 @@ export class TransfersTest extends BaseTest {
                 //rental quantity 
                 let expectedInvData: InventoryData = new InventoryData();
 
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "050");
@@ -766,14 +779,14 @@ export class TransfersTest extends BaseTest {
                 //rental barcode
                 expectedInvData = new InventoryData();
 
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 record = rentalInventoryModule.newRecordsToCreate[1];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "060");
@@ -781,28 +794,28 @@ export class TransfersTest extends BaseTest {
 
                 //barcode sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 record = salesInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(salesInventoryModule, record, expectedInvData, "020");
 
                 //quantity sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 record = salesInventoryModule.newRecordsToCreate[1];
                 await this.TestInventoryIntegrity(salesInventoryModule, record, expectedInvData, "020");
@@ -811,21 +824,11 @@ export class TransfersTest extends BaseTest {
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
-            //this.ChangeOfficeWarehouse("GlobalScope.OfficeLocation~OTHER.Location", "GlobalScope.Warehouse~OTHER.Warehouse");
             testName = "Change to 'Other' Office/Warehouse";
             test(testName, async () => {
                 let toOffice: string = this.globalScopeRef["OfficeLocation~OTHER"].Location;
                 let toWarehouse: string = this.globalScopeRef["Warehouse~OTHER"].Warehouse;
                 await this.ChangeOfficeWarehouse(toOffice, toWarehouse);
-
-                let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
-                await page.waitForSelector(selector);
-                const element = await page.$(selector);
-                const officeLocation = await page.evaluate(element => element.textContent, element);
-                let expectedOfficeLocation = toOffice;
-                Logging.logInfo(`Validating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
-                expect(officeLocation).toBe(expectedOfficeLocation);
-
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Test Inventory Integrity";
@@ -895,44 +898,42 @@ export class TransfersTest extends BaseTest {
 
                 let transfer: any = this.globalScopeRef[transferModule.moduleName + "~" + transferOrderKey];
                 let rentalInv: any = this.globalScopeRef[rentalInventoryModule.moduleName + "~" + quantityRentalInventoryKey];
+                //let rentalBarcodes: Array<string>;
+                let rentalBarcodes: string[] = new Array();
+                var i: number;
+                for (i = 1; i <= qtyToTransferOut; i++) {
+                    let barcode: any = this.globalScopeRef[rentalBarCodeKey + "~" + i.toString()];
+                    let bc: string = barcode.BarCode;
+                    rentalBarcodes.push(bc);
+                }
                 let salesInv: any = this.globalScopeRef[salesInventoryModule.moduleName + "~" + quantitySalesInventoryKey];
-                let rentalBarCode3: any = this.globalScopeRef[rentalBarCodeKey + "~" + "3"];
-                let rentalBarCode4: any = this.globalScopeRef[rentalBarCodeKey + "~" + "4"];
-                let rentalBarCode5: any = this.globalScopeRef[rentalBarCodeKey + "~" + "5"];
-                let rentalBarCode6: any = this.globalScopeRef[rentalBarCodeKey + "~" + "6"];
-                let salesBarCode3: any = this.globalScopeRef[salesBarCodeKey + "~" + "3"];
-                let salesBarCode4: any = this.globalScopeRef[salesBarCodeKey + "~" + "4"];
-                let salesBarCode5: any = this.globalScopeRef[salesBarCodeKey + "~" + "5"];
-                let salesBarCode6: any = this.globalScopeRef[salesBarCodeKey + "~" + "6"];
-
+                //let salesBarcodes: Array<string>;
+                let salesBarcodes: string[] = new Array();
+                for (i = 1; i <= qtyToTransferOut; i++) {
+                    let barcode: any = this.globalScopeRef[salesBarCodeKey + "~" + i.toString()];
+                    let bc: string = barcode.BarCode;
+                    salesBarcodes.push(bc);
+                }
                 await transferInModule.loadTransfer(transfer.TransferNumber);
                 await transferInModule.checkInQuantity(rentalInv.ICode, qtyToTransferOut);
                 await transferInModule.checkInQuantity(salesInv.ICode, qtyToTransferOut);
-                await transferInModule.checkInBarCode(rentalBarCode3.BarCode);
-                await transferInModule.checkInBarCode(rentalBarCode4.BarCode);
-                await transferInModule.checkInBarCode(rentalBarCode5.BarCode);
-                await transferInModule.checkInBarCode(rentalBarCode6.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode3.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode4.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode5.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode6.BarCode);
-                await transferInModule.cancelAllItemsInGrid();
+                for (var bc of rentalBarcodes) {
+                    await transferInModule.checkInBarCode(bc);
+                }
+                for (var bc of salesBarcodes) {
+                    await transferInModule.checkInBarCode(bc);
+                }
+
+                //await transferInModule.cancelAllItemsInGrid();
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
+
+/*
             testName = "Change to 'My' Office/Warehouse";
             test(testName, async () => {
                 let toOffice: string = this.globalScopeRef["OfficeLocation~MINE"].Location;
                 let toWarehouse: string = this.globalScopeRef["Warehouse~MINE"].Warehouse;
                 await this.ChangeOfficeWarehouse(toOffice, toWarehouse);
-
-                let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
-                await page.waitForSelector(selector);
-                const element = await page.$(selector);
-                const officeLocation = await page.evaluate(element => element.textContent, element);
-                let expectedOfficeLocation = toOffice;
-                Logging.logInfo(`Validating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
-                expect(officeLocation).toBe(expectedOfficeLocation);
-
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Test Inventory Integrity";
@@ -940,29 +941,28 @@ export class TransfersTest extends BaseTest {
                 //rental quantity 
                 let expectedInvData: InventoryData = new InventoryData();
 
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "050");
 
                 //rental barcode
                 expectedInvData = new InventoryData();
-
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 record = rentalInventoryModule.newRecordsToCreate[1];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "060");
@@ -970,28 +970,28 @@ export class TransfersTest extends BaseTest {
 
                 //barcode sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 record = salesInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(salesInventoryModule, record, expectedInvData, "020");
 
                 //quantity sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 record = salesInventoryModule.newRecordsToCreate[1];
                 await this.TestInventoryIntegrity(salesInventoryModule, record, expectedInvData, "020");
@@ -1005,15 +1005,6 @@ export class TransfersTest extends BaseTest {
                 let toOffice: string = this.globalScopeRef["OfficeLocation~OTHER"].Location;
                 let toWarehouse: string = this.globalScopeRef["Warehouse~OTHER"].Warehouse;
                 await this.ChangeOfficeWarehouse(toOffice, toWarehouse);
-
-                let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
-                await page.waitForSelector(selector);
-                const element = await page.$(selector);
-                const officeLocation = await page.evaluate(element => element.textContent, element);
-                let expectedOfficeLocation = toOffice;
-                Logging.logInfo(`Validating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
-                expect(officeLocation).toBe(expectedOfficeLocation);
-
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Test Inventory Integrity";
@@ -1083,27 +1074,29 @@ export class TransfersTest extends BaseTest {
 
                 let transfer: any = this.globalScopeRef[transferModule.moduleName + "~" + transferOrderKey];
                 let rentalInv: any = this.globalScopeRef[rentalInventoryModule.moduleName + "~" + quantityRentalInventoryKey];
+                let rentalBarcodes: string[] = new Array();
+                var i: number;
+                for (i = 1; i <= qtyToTransferOut; i++) {
+                    let barcode: any = this.globalScopeRef[rentalBarCodeKey + "~" + i.toString()];
+                    let bc: string = barcode.BarCode;
+                    rentalBarcodes.push(bc);
+                }
                 let salesInv: any = this.globalScopeRef[salesInventoryModule.moduleName + "~" + quantitySalesInventoryKey];
-                let rentalBarCode3: any = this.globalScopeRef[rentalBarCodeKey + "~" + "3"];
-                let rentalBarCode4: any = this.globalScopeRef[rentalBarCodeKey + "~" + "4"];
-                let rentalBarCode5: any = this.globalScopeRef[rentalBarCodeKey + "~" + "5"];
-                let rentalBarCode6: any = this.globalScopeRef[rentalBarCodeKey + "~" + "6"];
-                let salesBarCode3: any = this.globalScopeRef[salesBarCodeKey + "~" + "3"];
-                let salesBarCode4: any = this.globalScopeRef[salesBarCodeKey + "~" + "4"];
-                let salesBarCode5: any = this.globalScopeRef[salesBarCodeKey + "~" + "5"];
-                let salesBarCode6: any = this.globalScopeRef[salesBarCodeKey + "~" + "6"];
-
+                let salesBarcodes: string[] = new Array();
+                for (i = 1; i <= qtyToTransferOut; i++) {
+                    let barcode: any = this.globalScopeRef[salesBarCodeKey + "~" + i.toString()];
+                    let bc: string = barcode.BarCode;
+                    salesBarcodes.push(bc);
+                }
                 await transferInModule.loadTransfer(transfer.TransferNumber);
                 await transferInModule.checkInQuantity(rentalInv.ICode, qtyToTransferOut);
                 await transferInModule.checkInQuantity(salesInv.ICode, qtyToTransferOut);
-                await transferInModule.checkInBarCode(rentalBarCode3.BarCode);
-                await transferInModule.checkInBarCode(rentalBarCode4.BarCode);
-                await transferInModule.checkInBarCode(rentalBarCode5.BarCode);
-                await transferInModule.checkInBarCode(rentalBarCode6.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode3.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode4.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode5.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode6.BarCode);
+                for (var bc of rentalBarcodes) {
+                    await transferInModule.checkInBarCode(bc);
+                }
+                for (var bc of salesBarcodes) {
+                    await transferInModule.checkInBarCode(bc);
+                }
 
                 await transferInModule.cancelSession();
             }, this.testTimeout);
@@ -1172,79 +1165,67 @@ export class TransfersTest extends BaseTest {
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
-            //this.ChangeOfficeWarehouse("GlobalScope.OfficeLocation~MINE.Location", "GlobalScope.Warehouse~MINE.Warehouse");
             testName = "Change to 'My' Office/Warehouse";
             test(testName, async () => {
                 let toOffice: string = this.globalScopeRef["OfficeLocation~MINE"].Location;
                 let toWarehouse: string = this.globalScopeRef["Warehouse~MINE"].Warehouse;
                 await this.ChangeOfficeWarehouse(toOffice, toWarehouse);
-
-                let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
-                await page.waitForSelector(selector);
-                const element = await page.$(selector);
-                const officeLocation = await page.evaluate(element => element.textContent, element);
-                let expectedOfficeLocation = toOffice;
-                Logging.logInfo(`Validating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
-                expect(officeLocation).toBe(expectedOfficeLocation);
-
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Test Inventory Integrity";
             test(testName, async () => {
                 //quantity 
                 let expectedInvData: InventoryData = new InventoryData();
-
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "090");
 
                 //barcode 
                 expectedInvData = new InventoryData();
-
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 record = rentalInventoryModule.newRecordsToCreate[1];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "100");
 
                 //barcode sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 record = salesInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(salesInventoryModule, record, expectedInvData, "020");
 
                 //quantity sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 15;
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
-                expectedInvData.qtyInTransit = 4;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
 
                 record = salesInventoryModule.newRecordsToCreate[1];
                 await this.TestInventoryIntegrity(salesInventoryModule, record, expectedInvData, "020");
@@ -1253,21 +1234,11 @@ export class TransfersTest extends BaseTest {
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
-            //this.ChangeOfficeWarehouse("GlobalScope.OfficeLocation~OTHER.Location", "GlobalScope.Warehouse~OTHER.Warehouse");
             testName = "Change to 'Other' Office/Warehouse";
             test(testName, async () => {
                 let toOffice: string = this.globalScopeRef["OfficeLocation~OTHER"].Location;
                 let toWarehouse: string = this.globalScopeRef["Warehouse~OTHER"].Warehouse;
                 await this.ChangeOfficeWarehouse(toOffice, toWarehouse);
-
-                let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
-                await page.waitForSelector(selector);
-                const element = await page.$(selector);
-                const officeLocation = await page.evaluate(element => element.textContent, element);
-                let expectedOfficeLocation = toOffice;
-                Logging.logInfo(`Validating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
-                expect(officeLocation).toBe(expectedOfficeLocation);
-
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Transfer-In inventory from the Transfer Order";
@@ -1276,28 +1247,33 @@ export class TransfersTest extends BaseTest {
 
                 let transfer: any = this.globalScopeRef[transferModule.moduleName + "~" + transferOrderKey];
                 let rentalInv: any = this.globalScopeRef[rentalInventoryModule.moduleName + "~" + quantityRentalInventoryKey];
+                let rentalBarcodes: string[] = new Array();
+                var i: number;
+                for (i = 1; i <= qtyToTransferOut; i++) {
+                    let barcode: any = this.globalScopeRef[rentalBarCodeKey + "~" + i.toString()];
+                    let bc: string = barcode.BarCode;
+                    rentalBarcodes.push(bc);
+                }
                 let salesInv: any = this.globalScopeRef[salesInventoryModule.moduleName + "~" + quantitySalesInventoryKey];
-                let rentalBarCode3: any = this.globalScopeRef[rentalBarCodeKey + "~" + "3"];
-                let rentalBarCode4: any = this.globalScopeRef[rentalBarCodeKey + "~" + "4"];
-                let rentalBarCode5: any = this.globalScopeRef[rentalBarCodeKey + "~" + "5"];
-                let rentalBarCode6: any = this.globalScopeRef[rentalBarCodeKey + "~" + "6"];
-                let salesBarCode3: any = this.globalScopeRef[salesBarCodeKey + "~" + "3"];
-                let salesBarCode4: any = this.globalScopeRef[salesBarCodeKey + "~" + "4"];
-                let salesBarCode5: any = this.globalScopeRef[salesBarCodeKey + "~" + "5"];
-                let salesBarCode6: any = this.globalScopeRef[salesBarCodeKey + "~" + "6"];
-
+                let salesBarcodes: string[] = new Array();
+                for (i = 1; i <= qtyToTransferOut; i++) {
+                    let barcode: any = this.globalScopeRef[salesBarCodeKey + "~" + i.toString()];
+                    let bc: string = barcode.BarCode;
+                    salesBarcodes.push(bc);
+                }
                 await transferInModule.loadTransfer(transfer.TransferNumber);
                 await transferInModule.checkInQuantity(rentalInv.ICode, qtyToTransferOut);
                 await transferInModule.checkInQuantity(salesInv.ICode, qtyToTransferOut);
-                await transferInModule.checkInBarCode(rentalBarCode3.BarCode);
-                await transferInModule.checkInBarCode(rentalBarCode4.BarCode);
-                await transferInModule.checkInBarCode(rentalBarCode5.BarCode);
-                await transferInModule.checkInBarCode(rentalBarCode6.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode3.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode4.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode5.BarCode);
-                await transferInModule.checkInBarCode(salesBarCode6.BarCode);
-                await transferInModule.createContract();
+                for (var bc of rentalBarcodes) {
+                    await transferInModule.checkInBarCode(bc);
+                }
+                for (var bc of salesBarcodes) {
+                    await transferInModule.checkInBarCode(bc);
+                }
+                let contractNumber: string = await transferInModule.createContract();
+
+                await this.openModuleRecord(transferReceiptModule, { ManifestNumber: contractNumber }, transferReceiptKey);
+
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -1306,8 +1282,8 @@ export class TransfersTest extends BaseTest {
                 //quantity 
                 let expectedInvData: InventoryData = new InventoryData();
 
-                expectedInvData.qtyTotal = 4;
-                expectedInvData.qtyIn = 4;
+                expectedInvData.qtyTotal = qtyToTransferOut;
+                expectedInvData.qtyIn = qtyToTransferOut;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
                 expectedInvData.qtyStaged = 0;
@@ -1321,8 +1297,8 @@ export class TransfersTest extends BaseTest {
                 //barcode 
                 expectedInvData = new InventoryData();
 
-                expectedInvData.qtyTotal = 4;
-                expectedInvData.qtyIn = 4;
+                expectedInvData.qtyTotal = qtyToTransferOut;
+                expectedInvData.qtyIn = qtyToTransferOut;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
                 expectedInvData.qtyStaged = 0;
@@ -1335,8 +1311,8 @@ export class TransfersTest extends BaseTest {
 
                 //barcode sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 4;
-                expectedInvData.qtyIn = 4;
+                expectedInvData.qtyTotal = qtyToTransferOut;
+                expectedInvData.qtyIn = qtyToTransferOut;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
                 expectedInvData.qtyStaged = 0;
@@ -1349,8 +1325,8 @@ export class TransfersTest extends BaseTest {
 
                 //quantity sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 4;
-                expectedInvData.qtyIn = 4;
+                expectedInvData.qtyTotal = qtyToTransferOut;
+                expectedInvData.qtyIn = qtyToTransferOut;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
                 expectedInvData.qtyStaged = 0;
@@ -1365,21 +1341,11 @@ export class TransfersTest extends BaseTest {
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
-            //this.ChangeOfficeWarehouse("GlobalScope.OfficeLocation~MINE.Location", "GlobalScope.Warehouse~MINE.Warehouse");
             testName = "Change to 'My' Office/Warehouse";
             test(testName, async () => {
                 let toOffice: string = this.globalScopeRef["OfficeLocation~MINE"].Location;
                 let toWarehouse: string = this.globalScopeRef["Warehouse~MINE"].Warehouse;
                 await this.ChangeOfficeWarehouse(toOffice, toWarehouse);
-
-                let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
-                await page.waitForSelector(selector);
-                const element = await page.$(selector);
-                const officeLocation = await page.evaluate(element => element.textContent, element);
-                let expectedOfficeLocation = toOffice;
-                Logging.logInfo(`Validating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
-                expect(officeLocation).toBe(expectedOfficeLocation);
-
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Test Inventory Integrity";
@@ -1387,11 +1353,11 @@ export class TransfersTest extends BaseTest {
                 //quantity 
                 let expectedInvData: InventoryData = new InventoryData();
 
-                expectedInvData.qtyTotal = 16;
-                expectedInvData.qtyIn = 11;
+                expectedInvData.qtyTotal = qtyToPurchase - qtyToTransferOut;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
                 expectedInvData.qtyInTransit = 0;
@@ -1401,12 +1367,11 @@ export class TransfersTest extends BaseTest {
 
                 //barcode 
                 expectedInvData = new InventoryData();
-
-                expectedInvData.qtyTotal = 16;
-                expectedInvData.qtyIn = 11;
+                expectedInvData.qtyTotal = qtyToPurchase - qtyToTransferOut;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
                 expectedInvData.qtyInTransit = 0;
@@ -1416,11 +1381,11 @@ export class TransfersTest extends BaseTest {
 
                 //barcode sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 16;
-                expectedInvData.qtyIn = 11;
+                expectedInvData.qtyTotal = qtyToPurchase - qtyToTransferOut;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
                 expectedInvData.qtyInTransit = 0;
@@ -1430,11 +1395,11 @@ export class TransfersTest extends BaseTest {
 
                 //quantity sales inventory
                 expectedInvData = new InventoryData();
-                expectedInvData.qtyTotal = 16;
-                expectedInvData.qtyIn = 11;
+                expectedInvData.qtyTotal = qtyToPurchase - qtyToTransferOut;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
-                expectedInvData.qtyStaged = 1;
+                expectedInvData.qtyStaged = qtyToTransferStage;
                 expectedInvData.qtyOut = 0;
                 expectedInvData.qtyInRepair = 0;
                 expectedInvData.qtyInTransit = 0;
@@ -1446,6 +1411,201 @@ export class TransfersTest extends BaseTest {
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
+            testName = "Change to 'Other' Office/Warehouse";
+            test(testName, async () => {
+                let toOffice: string = this.globalScopeRef["OfficeLocation~OTHER"].Location;
+                let toWarehouse: string = this.globalScopeRef["Warehouse~OTHER"].Warehouse;
+                await this.ChangeOfficeWarehouse(toOffice, toWarehouse);
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = "Void all activity on the Transfer Receipt";
+            test(testName, async () => {
+                let transferReceiptObject: any = this.globalScopeRef["TransferReceipt~" + transferReceiptKey];
+                let contractNumber: string = transferReceiptObject.ManifestNumber;
+                await this.openModuleRecord(transferReceiptModule, { ManifestNumber: contractNumber }, transferReceiptKey, true);
+                await ModuleBase.wait(2000);
+
+                //rentals
+                let rentalTabSelector = `div [data-tabpageid="rentaltabpage1"]`;
+                await page.click(rentalTabSelector);
+                await ModuleBase.wait(1000);
+
+                let rentalGridAllRowsBoxSelector = `${transferReceiptModule.grids[1].gridSelector} .divselectrow`;
+                await page.click(rentalGridAllRowsBoxSelector);
+                await ModuleBase.wait(1000);
+
+                let rentalGridMenuSelector = `${transferReceiptModule.grids[1].gridSelector} .submenubutton`;
+                await page.click(rentalGridMenuSelector);
+                await ModuleBase.wait(1000);
+
+                let rentalVoidItemsSelector = `${transferReceiptModule.grids[1].gridSelector} [data-securityid="pbZeqJ3pd8r"]`;
+                await page.click(rentalVoidItemsSelector);
+                await page.waitForSelector('.advisory');
+                const rentalVoidOptions = await page.$$('.advisory .fwconfirmation-button');
+                await rentalVoidOptions[0].click();
+                await TestUtils.waitForPleaseWait();
+
+
+                //sales
+                let salesTabSelector = `div [data-tabpageid="salestabpage1"]`;
+                await page.click(salesTabSelector);
+                await ModuleBase.wait(1000);
+
+                let salesGridAllRowsBoxSelector = `${transferReceiptModule.grids[2].gridSelector} .divselectrow`;
+                await page.click(salesGridAllRowsBoxSelector);
+                await ModuleBase.wait(1000);
+
+                let salesGridMenuSelector = `${transferReceiptModule.grids[2].gridSelector} .submenubutton`;
+                await page.click(salesGridMenuSelector);
+                await ModuleBase.wait(1000);
+
+                let salesVoidItemsSelector = `${transferReceiptModule.grids[2].gridSelector} [data-securityid="pbZeqJ3pd8r"]`;
+                await page.click(salesVoidItemsSelector);
+                await page.waitForSelector('.advisory');
+                const salesVoidOptions = await page.$$('.advisory .fwconfirmation-button');
+                await salesVoidOptions[0].click();
+                await TestUtils.waitForPleaseWait();
+
+
+            }, this.testTimeout);
+
+
+            //---------------------------------------------------------------------------------------
+            testName = "Test Inventory Integrity";
+            test(testName, async () => {
+                //quantity 
+                let expectedInvData: InventoryData = new InventoryData();
+
+                expectedInvData.qtyTotal = 0;
+                expectedInvData.qtyIn = 0;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = 0;
+                expectedInvData.qtyOut = 0;
+                expectedInvData.qtyInRepair = 0;
+                expectedInvData.qtyInTransit = 0;
+
+                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "070");
+
+                //barcode 
+                expectedInvData = new InventoryData();
+
+                expectedInvData.qtyTotal = 0;
+                expectedInvData.qtyIn = 0;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = 0;
+                expectedInvData.qtyOut = 0;
+                expectedInvData.qtyInRepair = 0;
+                expectedInvData.qtyInTransit = 0;
+
+                record = rentalInventoryModule.newRecordsToCreate[1];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "080");
+
+
+                //barcode sales inventory
+                expectedInvData = new InventoryData();
+                expectedInvData.qtyTotal = 0;
+                expectedInvData.qtyIn = 0;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = 0;
+                expectedInvData.qtyOut = 0;
+                expectedInvData.qtyInRepair = 0;
+                expectedInvData.qtyInTransit = 0;
+
+                record = salesInventoryModule.newRecordsToCreate[0];
+                await this.TestInventoryIntegrity(salesInventoryModule, record, expectedInvData, "020");
+
+                //quantity sales inventory
+                expectedInvData = new InventoryData();
+                expectedInvData.qtyTotal = 0;
+                expectedInvData.qtyIn = 0;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = 0;
+                expectedInvData.qtyOut = 0;
+                expectedInvData.qtyInRepair = 0;
+                expectedInvData.qtyInTransit = 0;
+
+                record = salesInventoryModule.newRecordsToCreate[1];
+                await this.TestInventoryIntegrity(salesInventoryModule, record, expectedInvData, "020");
+
+
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = "Change to 'My' Office/Warehouse";
+            test(testName, async () => {
+                let toOffice: string = this.globalScopeRef["OfficeLocation~MINE"].Location;
+                let toWarehouse: string = this.globalScopeRef["Warehouse~MINE"].Warehouse;
+                await this.ChangeOfficeWarehouse(toOffice, toWarehouse);
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = "Test Inventory Integrity";
+            test(testName, async () => {
+                //quantity 
+                let expectedInvData: InventoryData = new InventoryData();
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = qtyToTransferStage;
+                expectedInvData.qtyOut = 0;
+                expectedInvData.qtyInRepair = 0;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
+
+                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "090");
+
+                //barcode 
+                expectedInvData = new InventoryData();
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = qtyToTransferStage;
+                expectedInvData.qtyOut = 0;
+                expectedInvData.qtyInRepair = 0;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
+
+                record = rentalInventoryModule.newRecordsToCreate[1];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "100");
+
+                //barcode sales inventory
+                expectedInvData = new InventoryData();
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = qtyToTransferStage;
+                expectedInvData.qtyOut = 0;
+                expectedInvData.qtyInRepair = 0;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
+
+                record = salesInventoryModule.newRecordsToCreate[0];
+                await this.TestInventoryIntegrity(salesInventoryModule, record, expectedInvData, "020");
+
+                //quantity sales inventory
+                expectedInvData = new InventoryData();
+                expectedInvData.qtyTotal = qtyToPurchase;
+                expectedInvData.qtyIn = qtyToPurchase - qtyToTransferOut - qtyToTransferStage;
+                expectedInvData.qtyQcRequired = 0;
+                expectedInvData.qtyInContainer = 0;
+                expectedInvData.qtyStaged = qtyToTransferStage;
+                expectedInvData.qtyOut = 0;
+                expectedInvData.qtyInRepair = 0;
+                expectedInvData.qtyInTransit = qtyToTransferOut;
+
+                record = salesInventoryModule.newRecordsToCreate[1];
+                await this.TestInventoryIntegrity(salesInventoryModule, record, expectedInvData, "020");
+
+
+
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+*/
+
         });
     }
     //---------------------------------------------------------------------------------------

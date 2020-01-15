@@ -3281,6 +3281,14 @@ export class Contract extends HomeModule {
         this.moduleCaption = 'Contract';
         this.canNew = false;
         this.canDelete = false;
+
+        let summaryItemGrid: GridBase = new GridBase("Summary Item Grid", "ContractSummaryGrid");
+        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "ContractDetailGrid", ["rentaldetailgrid"]);
+        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "ContractDetailGrid", ["salesdetailgrid"]);
+
+        this.grids.push(summaryItemGrid);
+        this.grids.push(rentalItemGrid);
+        this.grids.push(salesItemGrid);
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3307,6 +3315,15 @@ export class Manifest extends HomeModule {
         this.moduleCaption = 'Transfer Manifest';
         this.canNew = false;
         this.canDelete = false;
+
+        let summaryItemGrid: GridBase = new GridBase("Summary Item Grid", "ContractSummaryGrid");
+        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "ContractDetailGrid", ["rentaldetailgrid"]);
+        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "ContractDetailGrid", ["salesdetailgrid"]);
+
+        this.grids.push(summaryItemGrid);
+        this.grids.push(rentalItemGrid);
+        this.grids.push(salesItemGrid);
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3381,6 +3398,15 @@ export class TransferReceipt extends HomeModule {
         this.moduleCaption = 'Transfer Receipt';
         this.canNew = false;
         this.canDelete = false;
+
+        let summaryItemGrid: GridBase = new GridBase("Summary Item Grid", "ContractSummaryGrid");
+        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "ContractDetailGrid", ["rentaldetailgrid"]);
+        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "ContractDetailGrid", ["salesdetailgrid"]);
+
+        this.grids.push(summaryItemGrid);
+        this.grids.push(rentalItemGrid);
+        this.grids.push(salesItemGrid);
+
     }
     //---------------------------------------------------------------------------------------
 }
