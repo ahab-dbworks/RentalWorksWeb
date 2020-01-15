@@ -30,7 +30,12 @@
         $control.html(html.join(''));
         $control.find('input').inputmask('(999) 999-9999');
         $control.find('input').intlTelInput();
-        $control.css('overflow', 'hidden');
+        //$control.css('overflow', 'hidden');
+
+        $control.find('input').on("countrychange", e => {
+            const $this = jQuery(e.currentTarget);
+            $this.change();
+        });
     }
     //---------------------------------------------------------------------------------
     loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
