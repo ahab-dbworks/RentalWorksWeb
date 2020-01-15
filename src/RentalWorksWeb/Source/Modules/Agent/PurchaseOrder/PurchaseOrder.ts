@@ -214,17 +214,18 @@ class PurchaseOrder implements IModule {
         $form.find('.contractSubModule').append(this.openContractBrowse($form));
 
         //replace default click event on "New" button in Vendor Invoice sub-module to default PO
-        $vendorInvoiceBrowse.find('[data-type="NewMenuBarButton"]')
-            .off('click')
-            .on('click', createNewVendorInvoice);
-
-        function createNewVendorInvoice() {
-            const $vendorInvoiceForm = VendorInvoiceController.openForm('NEW');
-            const poNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-            const poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            FwFormField.setValueByDataField($vendorInvoiceForm, 'PurchaseOrderId', poId, poNumber, true);
-            FwModule.openSubModuleTab($vendorInvoiceBrowse, $vendorInvoiceForm);
-        }
+        $vendorInvoiceBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $vendorInvoiceBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            if ($form.attr('data-mode') !== 'NEW') {
+                const $vendorInvoiceForm = VendorInvoiceController.openForm('NEW');
+                const poNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+                const poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+                FwFormField.setValueByDataField($vendorInvoiceForm, 'PurchaseOrderId', poId, poNumber, true);
+                FwModule.openSubModuleTab($vendorInvoiceBrowse, $vendorInvoiceForm);
+            } else {
+                FwNotification.renderNotification('WARNING', 'Save the record first.')
+            }
+        });
 
         return $form;
     };

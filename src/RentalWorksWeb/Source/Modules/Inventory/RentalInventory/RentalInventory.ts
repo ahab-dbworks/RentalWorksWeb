@@ -939,6 +939,8 @@ class RentalInventory extends InventoryBase {
                 $form.find('.tab.asset').show();
                 //$submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
                 //$submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                //   if ($form.attr('data-mode') !== 'NEW') {
+
                 //    var $assetForm, controller, $browse, assetFormData: any = {};
                 //    $browse = jQuery(this).closest('.fwbrowse');
                 //    controller = $browse.attr('data-controller');
@@ -947,6 +949,9 @@ class RentalInventory extends InventoryBase {
                 //    if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
                 //    $assetForm = window[controller]['openForm']('NEW', assetFormData);
                 //    FwModule.openSubModuleTab($browse, $assetForm);
+                // } else {
+                //    FwNotification.renderNotification('WARNING', 'Save the record first.')
+                //  }
                 //});
             }
         }
