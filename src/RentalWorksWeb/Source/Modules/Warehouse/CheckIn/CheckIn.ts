@@ -12,7 +12,7 @@ class CheckIn extends CheckInBase {
         options.hasSave = false;
         FwMenu.addFormMenuButtons(options);
 
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel Check In', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel Check In', 'S8ybdjuN7MU', (e: JQuery.ClickEvent) => {
             try {
                 this.cancelCheckIn(options.$form);
             } catch (ex) {

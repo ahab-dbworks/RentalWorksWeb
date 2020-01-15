@@ -273,7 +273,10 @@ abstract class ContractBase {
                     ContractId: FwFormField.getValueByDataField($form, this.uniqueIdFieldName),
                     RecType: 'R'
                 };
-            }
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('R');
+            },
         });
 
         FwBrowse.renderGrid({
@@ -300,7 +303,10 @@ abstract class ContractBase {
                     ContractId: FwFormField.getValueByDataField($form, this.uniqueIdFieldName),
                     RecType: 'S'
                 };
-            }
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('S');
+            },
         });
 
         FwBrowse.renderGrid({

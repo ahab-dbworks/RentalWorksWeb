@@ -118,6 +118,7 @@ abstract class CheckInBase implements IModule {
             gridSecurityId:   'RanTH3xgxNy',
             moduleSecurityId: this.id,
             $form:            $form,
+            pageSize: 9999,  // for regression test to be able to select all rows and cancel them
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew    = false;
                 options.hasEdit   = false;
@@ -244,8 +245,8 @@ abstract class CheckInBase implements IModule {
         for (let i = 0; i < $selectedCheckBoxes.length; i++) {
             const $tr = $selectedCheckBoxes.eq(i).closest('tr');
 
-            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            const orderId = FwBrowse.getValueByDataField(null, $tr, 'OrderId');
+            const contractId = FwBrowse.getValueByDataField(null, $tr, 'ContractId');
             const orderTranId = FwBrowse.getValueByDataField(null, $tr, 'OrderTranId');
             const internalChar = FwBrowse.getValueByDataField(null, $tr, 'InternalChar');
             const orderItemId = FwBrowse.getValueByDataField(null, $tr, 'OrderItemId');
