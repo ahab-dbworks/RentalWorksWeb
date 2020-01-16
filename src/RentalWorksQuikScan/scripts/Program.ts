@@ -183,7 +183,10 @@ class Program extends FwApplication {
                                 FwFunc.showError(ex);
                             }
                         });
-                        NearfieldRfidScanner.enable();
+                        const connectionState = jQuery('html').attr('connectionstate');
+                        if (connectionState !== undefined && connectionState === 'CONNECTED') {
+                            NearfieldRfidScanner.enable();
+                        }
 
                         //set the connection state when it changes
                         DTDevices.registerListener('connectionState', 'connectionState_applicationjs', (connectionState) => {
