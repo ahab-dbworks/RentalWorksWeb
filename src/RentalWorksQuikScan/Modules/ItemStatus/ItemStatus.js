@@ -252,25 +252,6 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
         // setup TSL RFID Reader
         RwRFID.registerEvents(screen.rfidscan);
 
-        // setup Linea Pro HF RFID Reader
-        if (program.hasHfRfidApplicationOption === true) {
-            if (typeof window.DTDevices !== 'undefined' && typeof window.DTDevices.rfInitWithFieldGain === 'function') {
-                DTDevices.registerListener('rfCardDetected', 'rfCardDetected_applicationjs',
-                    function (returnUid, returnType, cardIndex) {
-                        jQuery('.scanTarget').val(returnUid).change();
-                        FwNotification.renderNotification('INFO', returnUid);
-                        DTDevices.rfRemoveCard(cardIndex,
-                            function success() {
-                                FwNotification.renderNotification('SUCCESS', 'rfRemoveCard success');
-                            },
-                            function fail() {
-                                FwNotification.renderNotification('ERROR', 'rfRemoveCard failed');
-                            });
-                    }
-                );
-            }
-        }
-
         //if (typeof window.TslReader !== 'undefined') {
         //    window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getItemStatusScreen', function() {
         //        RwRFID.isConnected = true;
@@ -306,11 +287,6 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
         }
 
         RwRFID.unregisterEvents();
-
-        // setup Linea Pro HF RFID Reader
-        if (program.hasHfRfidApplicationOption === true) {
-
-        }
 
         //if (typeof window.ZebraRFIDScanner !== 'undefined') {
         //    window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionEstablished', 'srfidEventCommunicationSessionEstablished_rwordercontrollerjs_getItemStatusScreen');
