@@ -3798,5 +3798,21 @@ namespace RentalWorksQuikScan.Source
             return appdocumentid;
         }
         //----------------------------------------------------------------------------------------------------
+        public static dynamic GetBarcodeFromRfid(FwSqlConnection conn, string rfid)
+        {
+            FwSqlCommand qry = new FwSqlCommand(conn);
+            qry.Add("select top 1 barcode");
+            qry.Add("from rentalitem with (nolock)");
+            qry.Add("where rfid = @rfid");
+            qry.AddParameter("@rfid", rfid);
+            qry.Execute();
+            string barcode = qry.GetField("barcode").ToString().TrimEnd();
+            if (string.IsNullOrEmpty(barcode))
+            {
+                barcode = rfid;
+            }
+            return barcode;
+        }
+        //----------------------------------------------------------------------------------------------------
     }
 }

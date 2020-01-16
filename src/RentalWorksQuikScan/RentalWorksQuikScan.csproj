@@ -424,6 +424,7 @@
     </Content>
     <Content Include="tsconfig.json" />
     <TypeScriptCompile Include="%40types\QuikScan\index.d.ts" />
+    <TypeScriptCompile Include="scripts\NearfieldRfidScanner.ts" />
     <TypeScriptCompile Include="scripts\RwVirtualNumpad.ts" />
   </ItemGroup>
   <ItemGroup>
