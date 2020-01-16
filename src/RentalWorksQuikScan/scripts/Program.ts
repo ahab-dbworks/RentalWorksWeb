@@ -3,10 +3,13 @@ var application: Program;
 //---------------------------------------------------------------------------------
 class Program extends FwApplication {
     activeTextBox:      string;
+    activeNearfieldTextBox: string;
     htmlname:           string;
     didLoadApplication: boolean;
     onBarcodeData:      (data: string, type?: string) => void;
     onScanBarcode:      (data: string, type?: string) => void;
+    onLpNearfieldData:      (uid: string, uidType?: string) => void;
+    onScanLpNearfield:      (uid: string, uidType?: string) => void;
     localstorageprefix: string;
     localstorageitems:  object;
     runningInCordova: boolean = false;
@@ -71,6 +74,26 @@ class Program extends FwApplication {
                 }
             }
         };
+
+        me.setScanTargetLpNearfield('');
+        me.onLpNearfieldData = function(uid: string, uidType: string) {
+            if (typeof me.onScanLpNearfield === 'function') {
+                me.onScanLpNearfield(uid, uidType);
+            } else {
+                var scanTargetLpNearfield = sessionStorage.getItem('scanTargetLpNearfield');
+                var $scantarget = jQuery(scanTargetLpNearfield);
+                if ((typeof me.activeNearfieldTextBox === 'undefined') || ($scantarget.length === 0)) {
+                    // do nothing
+                } else {
+                    if ($scantarget.hasClass('fwformfield')) {
+                        FwFormField.setValue(jQuery('html'), scanTargetLpNearfield, uid, '', true);
+                    } else {
+                        $scantarget.val(uid).change();
+                    }
+                }
+            }
+        };
+
         setTimeout(function() {
             me.loadApplication();
         }, 2000);
@@ -153,7 +176,7 @@ class Program extends FwApplication {
                             try {
                                 program.setAudioMode('DTDevices');
                                 RwServices.inventory.getBarcodeFromRfid({ rfid: uid }, (response: any) => {
-                                    this.onBarcodeData(response.barcode);
+                                    this.onLpNearfieldData(response.barcode, uidType);
                                 });
                                 //FwNotification.renderNotification('INFO', `UID: ${uid}. UID Type: ${uidType}`);
                             } catch (ex) {
@@ -273,8 +296,15 @@ class Program extends FwApplication {
     setScanTarget(selector: string) {
         this.activeTextBox = selector;
         sessionStorage.setItem('scanTarget', selector);
-        jQuery('.textbox').removeClass('scanTarget');
+        jQuery('input[type="text"]').removeClass('scanTarget');
         jQuery(this.activeTextBox).addClass('scanTarget');
+    };
+    //---------------------------------------------------------------------------------
+    setScanTargetLpNearfield(selector: string) {
+        this.activeNearfieldTextBox = selector;
+        sessionStorage.setItem('scanTargetLpNearfield', selector);
+        jQuery('input[type="text"]').removeClass('scanTargetLpNearfield');
+        jQuery(this.activeNearfieldTextBox).addClass('scanTargetLpNearfield');
     };
     //---------------------------------------------------------------------------------
     navigate(path: string) {

@@ -1786,6 +1786,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
 
     screen.load = function() {
         program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData');
 
         RwVirtualNumpad.init('#scanBarcodeView-txtBarcodeData');
 
@@ -1818,6 +1819,10 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     };
 
     screen.unload = function() {
+        // Reset the LineaPro
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('');
+
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getCheckInScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getCheckInScreen');

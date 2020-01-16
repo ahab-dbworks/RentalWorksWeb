@@ -789,6 +789,7 @@ AssignItems.getExistingItemsScreen = function() {
         $itemassign.data('recorddata', recorddata);
         $itemassign.show();
         program.setScanTarget('div[data-datafield="barcode"] input');
+
         $itemassign.find('.itemassign-title').html(selectedrecord.master);
 
         $itemassign.find('div[data-datafield="rfid"]').hide();
@@ -843,6 +844,8 @@ AssignItems.getExistingItemsScreen = function() {
     };
 
     screen.load = function() {
+        program.setScanTargetLpNearfield('.txtrfid .fwformfield-value');
+        
         $scan.showscreen();
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.registerListener('deviceConnected', 'deviceConnected_unassigneditemscontrollerjs_getUnassignedItemsScreen', function() {
@@ -855,6 +858,10 @@ AssignItems.getExistingItemsScreen = function() {
     }
 
     screen.unload = function () {
+        if (typeof window.DTDevices === 'object') {
+            program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+            program.setScanTargetLpNearfield('');
+        }
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_unassigneditemscontrollerjs_getUnassignedItemsScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_unassigneditemscontrollerjs_getUnassignedItemsScreen');

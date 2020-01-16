@@ -247,6 +247,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     screen.load = function() {
         // setup Linea Pro Barcode Scanner
         program.setScanTarget('.fwmobilecontrol-value');
+        program.setScanTargetLpNearfield('.fwmobilecontrol-value');
 
         // setup TSL RFID Reader
         RwRFID.registerEvents(screen.rfidscan);
@@ -276,6 +277,10 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     };
 
     screen.unload = function() {
+        // reset scan target for LineaPro
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('');
+
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getItemStatusScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getItemStatusScreen');
