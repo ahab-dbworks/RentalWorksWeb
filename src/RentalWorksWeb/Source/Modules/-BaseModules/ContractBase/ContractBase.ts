@@ -332,6 +332,7 @@ abstract class ContractBase {
         try {
             const $element = jQuery(event.currentTarget);
             const $grid = jQuery($element.closest('[data-type="Grid"]'));
+            const $summaryGrid = $form.find('[data-name="ContractSummaryGrid"]');
             const contractItems: any = [];
             const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
             const contractId = FwFormField.getValueByDataField($form, this.uniqueIdFieldName);
@@ -385,6 +386,7 @@ abstract class ContractBase {
                                 FwNotification.renderNotification('ERROR', response.msg);
                             }
                             FwBrowse.search($grid);
+                            FwBrowse.search($summaryGrid);
                             FwConfirmation.destroyConfirmation($confirmation);
                         },
                         ex => FwFunc.showError(ex), $confirmation.find('.fwconfirmationbox'));
