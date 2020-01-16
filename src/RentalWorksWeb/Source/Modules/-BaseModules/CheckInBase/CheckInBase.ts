@@ -553,8 +553,21 @@ abstract class CheckInBase implements IModule {
         //Order Status Button
         $form.find('.orderstatus').on('click', e => {
             let orderInfo: any = {}, $orderStatusForm;
-            orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
-            orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
+            const $checkedInItemGrid = $form.find('[data-name="CheckedInItemGrid"]');
+            if ($checkedInItemGrid.find('tbody >').length === 0) {
+                orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
+                orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
+            } else {
+                let $tr;
+                if ($checkedInItemGrid.find('tbody tr .tdselectrow input:checked').length === 0) {
+                    $tr = $checkedInItemGrid.find('tbody tr .tdselectrow:visible').eq(0).parent('tr');
+                } else {
+                    $tr = $checkedInItemGrid.find('tbody tr .tdselectrow input:checked').eq(0).parents('tr');
+                }
+                orderInfo.OrderId = FwBrowse.getValueByDataField($checkedInItemGrid, $tr, 'OrderId');
+                orderInfo.OrderNumber = FwBrowse.getValueByDataField($checkedInItemGrid, $tr, 'OrderNumber');
+            }
+
             if (this.Module == 'TransferIn') {
                 $orderStatusForm = (<any>window).TransferStatusController.openForm('EDIT', orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
