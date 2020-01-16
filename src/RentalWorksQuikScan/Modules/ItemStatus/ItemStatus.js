@@ -254,17 +254,6 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
 
         // setup Linea Pro HF RFID Reader
         if (program.hasHfRfidApplicationOption === true) {
-            //alert('initing HF RFID...');
-            if (typeof window.DTDevices !== 'undefined' && typeof window.DTDevices.rfInitWithFieldGain === 'function') {
-                DTDevices.rfInitWithFieldGain('ISO15', -1000,
-                    function () {
-                        FwNotification.renderNotification('SUCCESS', 'Enabled nearfield scanner.');
-                    },
-                    function () {
-                        FwNotification.renderNotification('ERROR', 'Can\'t enable nearfield scanner.');
-                    }
-                );
-            }
             if (typeof window.DTDevices !== 'undefined' && typeof window.DTDevices.rfInitWithFieldGain === 'function') {
                 DTDevices.registerListener('rfCardDetected', 'rfCardDetected_applicationjs',
                     function (returnUid, returnType, cardIndex) {
