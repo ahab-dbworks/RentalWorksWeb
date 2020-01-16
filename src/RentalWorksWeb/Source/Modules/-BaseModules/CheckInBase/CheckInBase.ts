@@ -554,7 +554,7 @@ abstract class CheckInBase implements IModule {
         $form.find('.orderstatus').on('click', e => {
             let orderInfo: any = {}, $orderStatusForm;
             const $checkedInItemGrid = $form.find('[data-name="CheckedInItemGrid"]');
-            if ($checkedInItemGrid.find('tbody >').length === 0) {
+            if ($checkedInItemGrid.find('tbody >:not(.empty)').length === 0) {
                 orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
                 orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
             } else {
