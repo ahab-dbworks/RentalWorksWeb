@@ -2372,7 +2372,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     barColor = "";
                     textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_POSITIVE;
                     response.InventoryAvailabilityScheduleResources.Add(newScheduleResource(ref resourceId, availData.InventoryWarehouse.WarehouseCode + " Available (of " + AvailabilityNumberToString(availData.Total.Total) + " Total)"));
-                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, request.FromDate, request.ToDate, null, RwConstants.NO_AVAILABILITY_CAPTION, backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, false));
+                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, request.FromDate, request.ToDate, null, RwConstants.NO_AVAILABILITY_CAPTION, backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, true));
                 }
                 else
                 {
@@ -2400,7 +2400,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                     backColor = RwGlobals.AVAILABILITY_COLOR_LOW;
                                     textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_LOW;
                                 }
-                                response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDate, theDate, null, AvailabilityNumberToString(inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned), backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, false));
+                                response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDate, theDate, null, AvailabilityNumberToString(inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned), backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, true));
                             }
                             theDate = theDate.AddDays(1); //daily availability
                         }
@@ -2428,7 +2428,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                     backColor = RwGlobals.AVAILABILITY_COLOR_LOW;
                                     textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_LOW;
                                 }
-                                response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDate, theDate, null, AvailabilityNumberToString(inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned), backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, false));
+                                response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDate, theDate, null, AvailabilityNumberToString(inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned), backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, true));
                             }
                             theDate = theDate.AddDays(1); //daily availability
                         }
