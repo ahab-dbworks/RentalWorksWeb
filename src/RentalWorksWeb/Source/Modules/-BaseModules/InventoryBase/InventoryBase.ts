@@ -282,7 +282,7 @@ abstract class InventoryBase {
                         const schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                         for (let i = 0; i < schedulerEvents.length; i++) {
                             if (schedulerEvents[i].isWarehouseTotal === true) {
-                                schedulerEvents[i].html = `<div class="warehouse" style="color:${schedulerEvents[i].textColor};text-align:center;">${schedulerEvents[i].text}</div>`
+                                schedulerEvents[i].html = `<div class="warehouse" style="color:${schedulerEvents[i].textColor};text-align:center;pointer-events:none;">${schedulerEvents[i].text}</div>`
                             } else {
                                 //schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`
                                 let html: string = "";
@@ -305,52 +305,55 @@ abstract class InventoryBase {
                     let datafield;
                     let id;
                     let title;
-                    switch (data.orderType) {
-                        case 'O': //ORDER
-                            module = 'Order';
-                            datafield = 'OrderId';
-                            id = data.orderId;
-                            title = data.orderDescription;
-                            break;
-                        case 'Q': //QUOTE
-                            module = 'Quote';
-                            datafield = 'QuoteId';
-                            id = data.orderId;
-                            title = data.orderDescription;
-                            break;
-                        case 'C': //PURCHASE ORDER
-                            module = 'PurchaseOrder';
-                            datafield = 'PurchaseOrderId';
-                            id = data.orderId;
-                            title = data.orderDescription;
-                            break;
-                        case 'T': //TRANSFER
-                            module = 'TransferOrder';
-                            datafield = 'TransferId';
-                            id = data.orderId;
-                            title = data.orderDescription;
-                            break;
-                        case 'R': //REPAIR
-                            module = 'Repair';
-                            datafield = 'RepairId';
-                            id = data.orderId;
-                            title = data.orderDescription;
-                            break;
-                        case 'N': //CONTAINER
-                            module = 'Container';
-                            datafield = 'ContainerItemId';
-                            id = data.orderId;
-                            title = data.orderDescription;
-                            break;
-                        case 'PENDING': //PENDING EXCHANGE
-                            module = 'Contract';
-                            datafield = 'ContractId';
-                            id = data.contractId;
-                            title = data.orderDescription;
-                            break;
-                        default:
-                            FwFunc.showError('Invalid Order Type');
-                            break;
+                    const orderType = data.orderType;
+                    if (orderType) {
+                        switch (data.orderType) {
+                            case 'O': //ORDER
+                                module = 'Order';
+                                datafield = 'OrderId';
+                                id = data.orderId;
+                                title = data.orderDescription;
+                                break;
+                            case 'Q': //QUOTE
+                                module = 'Quote';
+                                datafield = 'QuoteId';
+                                id = data.orderId;
+                                title = data.orderDescription;
+                                break;
+                            case 'C': //PURCHASE ORDER
+                                module = 'PurchaseOrder';
+                                datafield = 'PurchaseOrderId';
+                                id = data.orderId;
+                                title = data.orderDescription;
+                                break;
+                            case 'T': //TRANSFER
+                                module = 'TransferOrder';
+                                datafield = 'TransferId';
+                                id = data.orderId;
+                                title = data.orderDescription;
+                                break;
+                            case 'R': //REPAIR
+                                module = 'Repair';
+                                datafield = 'RepairId';
+                                id = data.orderId;
+                                title = data.orderDescription;
+                                break;
+                            case 'N': //CONTAINER
+                                module = 'Container';
+                                datafield = 'ContainerItemId';
+                                id = data.orderId;
+                                title = data.orderDescription;
+                                break;
+                            case 'PENDING': //PENDING EXCHANGE
+                                module = 'Contract';
+                                datafield = 'ContractId';
+                                id = data.contractId;
+                                title = data.orderDescription;
+                                break;
+                            default:
+                                FwFunc.showError('Invalid Order Type');
+                                break;
+                        }
                     }
 
                     FwValidation.validationPeek($control, module, id, datafield, $form, title);
@@ -735,7 +738,7 @@ abstract class InventoryBase {
         } else if (classification == 'C') {
             $fields = $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] .can-enable');
         }
-       
+
         jQuery.each($fields, (i, el) => {
             const $cell = jQuery(el);
             if ($cell) {
@@ -743,7 +746,7 @@ abstract class InventoryBase {
             }
         });
     }
-      //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     renderReservationsPopup($control: any, event: any): void {
         const date = event.start.value.substring(0, 10);
         const reserveDates = $control.data('reserveDates');
