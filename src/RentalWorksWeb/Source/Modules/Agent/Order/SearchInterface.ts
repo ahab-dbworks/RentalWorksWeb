@@ -230,6 +230,8 @@ class SearchInterface {
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);
                 break;
             case 'Transfer':
+                $popup.find('[data-datafield="InventoryType"] [value="M"]').parent('.togglebutton-item').hide();
+                $popup.find('[data-datafield="InventoryType"] [value="L"]').parent('.togglebutton-item').hide();
                 pickDate = FwFormField.getValueByDataField($form, 'PickDate');
                 let shipDate = FwFormField.getValueByDataField($form, 'ShipDate');
                 if (new Date(pickDate).getTime() == new Date(shipDate).getTime()) {
