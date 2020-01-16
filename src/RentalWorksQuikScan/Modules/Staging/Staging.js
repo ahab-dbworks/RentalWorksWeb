@@ -1064,6 +1064,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabpending');
             screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabrfid');
             screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabstaged');
+            program.setScanTargetLpNearfield('');
         },
         stagingmenu: {
             name: 'stagingmenu',
@@ -1228,6 +1229,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 });
                 screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
                 screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
+                program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData');
                 screen.toggleRfid();
             },
             forward: function() {
@@ -3059,6 +3061,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     
     screen.load = function() {
         program.setScanTarget('');
+        program.setScanTargetLpNearfield('');
 
         RwVirtualNumpad.init('#scanBarcodeView-txtBarcodeData');
 
@@ -3101,6 +3104,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     };
 
     screen.unload = function() {
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('');
         program.onScanBarcode = null;
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getStagingScreen');
