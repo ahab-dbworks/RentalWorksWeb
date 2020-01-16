@@ -627,7 +627,7 @@ abstract class CheckInBase implements IModule {
                 $form.find('.suspendedsession').hide();
 
                 if (this.Module == 'CheckIn') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
-                if (type !== 'SwapItem') {
+                if (type !== 'SwapItem' && type != undefined) {
                     FwFormField.setValueByDataField($form, `${idType}Id`, response[`${idType}Id`], response[`${idType}Number`]);
                     FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
                 }
