@@ -105,8 +105,8 @@ class Deal {
             FwFormField.setValueByDataField($form, 'DefaultRate', officeLocation.ratetype, officeLocation.ratetype);
         }
 
-        let userassigneddealno = JSON.parse(sessionStorage.getItem('controldefaults')).userassigneddealnumber;
-        if (userassigneddealno) {
+        const userAssignedDealNo = JSON.parse(sessionStorage.getItem('controldefaults')).userassigneddealnumber;
+        if (userAssignedDealNo) {
             FwFormField.enable($form.find('[data-datafield="DealNumber"]'));
             $form.find('[data-datafield="DealNumber"]').attr(`data-required`, `true`);
         }
@@ -114,7 +114,6 @@ class Deal {
             FwFormField.disable($form.find('[data-datafield="DealNumber"]'));
             $form.find('[data-datafield="DealNumber"]').attr(`data-required`, `false`);
         }
-
 
         // SUBMODULES
         const $submoduleQuoteBrowse = this.openQuoteBrowse($form);
@@ -181,6 +180,7 @@ class Deal {
             FwFormField.setValueByDataField($form, 'ZipCode', parentmoduleinfo.ZipCode);
             FwFormField.setValueByDataField($form, 'CountryId', parentmoduleinfo.CountryId, parentmoduleinfo.Country);
             FwFormField.setValueByDataField($form, 'Phone', parentmoduleinfo.Phone);
+            this.customerChange($form);
         }
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
