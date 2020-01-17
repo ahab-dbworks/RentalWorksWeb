@@ -288,11 +288,6 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
 
         RwRFID.unregisterEvents();
 
-        // setup Linea Pro HF RFID Reader
-        if (program.hasHfRfidApplicationOption === true) {
-
-        }
-
         //if (typeof window.ZebraRFIDScanner !== 'undefined') {
         //    window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionEstablished', 'srfidEventCommunicationSessionEstablished_rwordercontrollerjs_getItemStatusScreen');
         //    window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionTerminated', 'srfidEventCommunicationSessionTerminated_rwordercontrollerjs_getItemStatusScreen');

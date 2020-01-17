@@ -183,17 +183,13 @@ class Program extends FwApplication {
                                 FwFunc.showError(ex);
                             }
                         });
-                        NearfieldRfidScanner.enable();
 
                         //set the connection state when it changes
                         DTDevices.registerListener('connectionState', 'connectionState_applicationjs', (connectionState) => {
-                            //FwNotification.renderNotification('INFO', `ConnectionState: ${connectionState}`);
                             if (connectionState === 'CONNECTED') {
                                 program.setScanMode('DTDevices');
-                                NearfieldRfidScanner.enable();
                             } else {
                                 program.setScanMode('NativeAudio');
-                                NearfieldRfidScanner.disable();
                             }
                             me.setDeviceConnectionState(connectionState);
                         });
@@ -562,10 +558,13 @@ class Program extends FwApplication {
     };
     //---------------------------------------------------------------------------------
     setDeviceConnectionState(connectionState: string) {
-        if (jQuery('html').attr('connectionstate') !== connectionState) {
-            if (connectionState === 'CONNECTED') {
+        NearfieldRfidScanner.disable();
+        const oldConnectionState = jQuery('html').attr('connectionstate');
+        if (typeof oldConnectionState === 'undefined' || oldConnectionState !== connectionState) {
+            if (connectionState == 'CONNECTED') {
                 jQuery('#master-footer-connectionstate').text('CONNECTED').show();
                 setTimeout(function() {
+                    NearfieldRfidScanner.enable();
                     if (jQuery('#master-footer-connectionstate').text() === 'CONNECTED') {
                         jQuery('#master-footer-connectionstate').hide();
                         jQuery('#master-footer').hide();
