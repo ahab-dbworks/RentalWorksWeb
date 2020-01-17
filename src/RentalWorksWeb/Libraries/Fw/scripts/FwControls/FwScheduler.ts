@@ -351,6 +351,8 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         };
+        navcalendar.eventDoubleClickHandling = "Enabled";
+        if (typeof $control.data('oneventdoubleclick') === 'function') navcalendar.onEventDoubleClick = $control.data('oneventdoubleclick');
         navcalendar.init();
     };
     //---------------------------------------------------------------------------------
@@ -372,6 +374,8 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         };
+        nav5week.eventDoubleClickHandling = "Enabled";
+        if (typeof $control.data('oneventdoubleclick') === 'function') nav5week.onEventDoubleClick = $control.data('oneventdoubleclick');
         nav5week.init();
     };
     //---------------------------------------------------------------------------------
@@ -393,6 +397,8 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         };
+        navmonth.eventDoubleClickHandling = "Enabled";
+        if (typeof $control.data('oneventdoubleclick') === 'function') navmonth.onEventDoubleClick = $control.data('oneventdoubleclick');
         navmonth.init();
     };
     //---------------------------------------------------------------------------------
@@ -421,7 +427,7 @@ class FwSchedulerClass {
         const dpcalendar = new DayPilot.Calendar($control.attr('data-dpcalendarid'));
         $control.data('dpcalendar', dpcalendar);
         dpcalendar.cellGroupBy = "Day"
-        dpcalendar.eventClickHandling = 'Disabled';
+        dpcalendar.eventClickHandling = 'Enabled';
         dpcalendar.eventMoveHandling = 'Disabled';
         dpcalendar.eventResizeHandling = 'Disabled';
         dpcalendar.heightSpec = 'Full';
@@ -439,6 +445,9 @@ class FwSchedulerClass {
             }
         };
         if (typeof $control.data('onheaderclick') === 'function') dpcalendar.onHeaderClick = $control.data('onheaderclick');
+        dpcalendar.eventDoubleClickHandling = "Enabled";
+        if (typeof $control.data('oneventdoubleclicked') === 'function') dpcalendar.onEventDoubleClicked = $control.data('oneventdoubleclicked');
+
         dpcalendar.init();
     };
     //---------------------------------------------------------------------------------
@@ -450,7 +459,7 @@ class FwSchedulerClass {
         dpmonth.headerHeight = 25;
         dpmonth.rowHeaderWidth = 200;
         dpmonth.weekStarts = 0;
-        dpmonth.eventClickHandling = 'Disabled';
+        dpmonth.eventClickHandling = 'Enabled';
         dpmonth.eventMoveHandling = 'Disabled';
         dpmonth.eventResizeHandling = 'Disabled';
         dpmonth.viewType = 'Month';
@@ -461,8 +470,8 @@ class FwSchedulerClass {
             dpmonth.clearSelection();
             dpmonth.update();
         };
-
         if (typeof $control.data('ontimerangedoubleclicked') === 'function') dpmonth.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
+        dpmonth.eventDoubleClickHandling = "Enabled";
         if (typeof $control.data('oneventdoubleclick') === 'function') dpmonth.onEventDoubleClick = $control.data('oneventdoubleclick');
         if (typeof $control.data('oneventclick') === 'function') dpmonth.onEventClick = $control.data('oneventclick');
         if (typeof $control.data('ontimerangeselect') === 'function') dpmonth.onTimeRangeSelect = $control.data('ontimerangeselect');
@@ -511,7 +520,7 @@ class FwSchedulerClass {
         dp5week.headerHeight = 25;
         dp5week.rowHeaderWidth = 200;
         dp5week.weekStarts = 0;
-        dp5week.eventClickHandling = 'Disabled';
+        dp5week.eventClickHandling = 'Enabled';
         dp5week.eventMoveHandling = 'Disabled';
         dp5week.eventResizeHandling = 'Disabled';
         dp5week.viewType = 'Weeks';
@@ -523,8 +532,8 @@ class FwSchedulerClass {
             dp5week.clearSelection();
             dp5week.update();
         };
-
         if (typeof $control.data('ontimerangedoubleclicked') === 'function') dp5week.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
+        dp5week.eventDoubleClickHandling = "Enabled";
         if (typeof $control.data('oneventdoubleclick') === 'function') dp5week.onEventDoubleClick = $control.data('oneventdoubleclick');
         if (typeof $control.data('oneventclick') === 'function') dp5week.onEventClick = $control.data('oneventclick');
         if (typeof $control.data('ontimerangeselect') === 'function') dp5week.onTimeRangeSelect = $control.data('ontimerangeselect');
@@ -592,6 +601,8 @@ class FwSchedulerClass {
 
             }
         });
+        dpyear.eventDoubleClickHandling = "Enabled";
+        if (typeof $control.data('oneventdoubleclick') === 'function') dpyear.onEventDoubleClick = $control.data('oneventdoubleclick');
         dpyear.init();
     };
     //---------------------------------------------------------------------------------

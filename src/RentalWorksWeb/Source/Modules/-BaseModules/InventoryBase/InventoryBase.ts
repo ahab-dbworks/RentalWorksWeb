@@ -253,6 +253,9 @@ abstract class InventoryBase {
                         FwFunc.showError(ex);
                     }
                 })
+                .data('oneventdoubleclicked', request => {
+                    alert('oneventdoubleclicked');
+                })
         } else if ($control.hasClass('realscheduler')) {
             $control
                 .data('ongetevents', request => {
