@@ -2,7 +2,7 @@
 
 class MigrateOrders {
     Module: string = 'MigrateOrders';
-    apiurl: string = 'api/v1/migrateorders';
+    apiurl: string = 'api/v1/migrate';
     caption: string = Constants.Modules.Utilities.children.MigrateOrders.caption;
     nav: string = Constants.Modules.Utilities.children.MigrateOrders.nav;
     id: string = Constants.Modules.Utilities.children.MigrateOrders.id;
