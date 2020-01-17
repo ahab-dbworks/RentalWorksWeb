@@ -352,20 +352,23 @@ abstract class ContractBase {
                 $select.on('click', () => {
                     for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                         const $this = jQuery($selectedCheckBoxes[i]);
-                        const $tr = $this.closest('tr')
-                        const orderId = $tr.find('div[data-browsedatafield="OrderId"]').attr('data-originalvalue');
-                        const orderItemId = $tr.find('div[data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
-                        const vendorId = $tr.find('div[data-browsedatafield="VendorId"]').attr('data-originalvalue');
-                        const barCode = $tr.find('div[data-browsedatafield="Barcode"]').attr('data-originalvalue');
-                        const quantity = $tr.find('div[data-browsedatafield="Quantity"]').attr('data-originalvalue');
-                        const item = {
-                            OrderId: orderId,
-                            OrderItemId: orderItemId,
-                            VendorId: vendorId,
-                            BarCode: barCode,
-                            Quantity: quantity
+                        const $tr = $this.closest('tr');
+                        const isVoid = $tr.find('div[data-browsedatafield="IsVoid"]').attr('data-originalvalue');
+                        if (isVoid == 'false') {
+                            const orderId = $tr.find('div[data-browsedatafield="OrderId"]').attr('data-originalvalue');
+                            const orderItemId = $tr.find('div[data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
+                            const vendorId = $tr.find('div[data-browsedatafield="VendorId"]').attr('data-originalvalue');
+                            const barCode = $tr.find('div[data-browsedatafield="Barcode"]').attr('data-originalvalue');
+                            const quantity = $tr.find('div[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+                            const item = {
+                                OrderId: orderId,
+                                OrderItemId: orderItemId,
+                                VendorId: vendorId,
+                                BarCode: barCode,
+                                Quantity: quantity
+                            }
+                            contractItems.push(item);
                         }
-                        contractItems.push(item);
                     };
 
                     const request: any = {
