@@ -3,28 +3,27 @@
 class FwSchedulerClass {
     //---------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
-        var html, $daypilotcontrol, dp, nav, navcalendarid, dpcalendarid, navmonthid, nav5weekid, dpmonthid, dp5weekid, dpyearid, navschedulerid, dpschedulerid, viewCount, schedulerbtns,
-            $schedulerbtns, $calendarmenu, $menucontrol, $form, controller;
+        var controller;
 
-        navcalendarid = FwControl.generateControlId('navcalendar');
-        dpcalendarid = FwControl.generateControlId('dpcalendar');
-        navmonthid = FwControl.generateControlId('navmonth');
-        dpmonthid = FwControl.generateControlId('dpmonth');
-        nav5weekid = FwControl.generateControlId('nav5week');
-        dp5weekid = FwControl.generateControlId('dp5weekid');
-        dpyearid = FwControl.generateControlId('dpyearid');
-        navschedulerid = FwControl.generateControlId('navscheduler');
-        dpschedulerid = FwControl.generateControlId('dpscheduler');
+        const navcalendarid = FwControl.generateControlId('navcalendar');
         $control.attr('data-navcalendarid', navcalendarid);
+        const dpcalendarid = FwControl.generateControlId('dpcalendar');
         $control.attr('data-dpcalendarid', dpcalendarid);
+        const navmonthid = FwControl.generateControlId('navmonth');
         $control.attr('data-navmonthid', navmonthid);
+        const dpmonthid = FwControl.generateControlId('dpmonth');
         $control.attr('data-dpmonthid', dpmonthid);
+        const nav5weekid = FwControl.generateControlId('nav5week');
         $control.attr('data-nav5weekid', nav5weekid);
+        const dp5weekid = FwControl.generateControlId('dp5weekid');
         $control.attr('data-dp5weekid', dp5weekid);
+        const dpyearid = FwControl.generateControlId('dpyearid');
         $control.attr('data-dpyearid', dpyearid);
+        const navschedulerid = FwControl.generateControlId('navscheduler');
         $control.attr('data-navschedulerid', navschedulerid);
+        const dpschedulerid = FwControl.generateControlId('dpscheduler');
         $control.attr('data-dpschedulerid', dpschedulerid);
-        html = [];
+        const html: Array<string> = [];
         html.push('<div class="calendarmenu">');
         html.push('</div>');
         html.push('<div class="content">');
@@ -66,13 +65,12 @@ class FwSchedulerClass {
         html.push('    </div>');
         html.push('  </div>');
         html.push('</div>');
-        html = html.join('\n');
-        $control.html(html);
+        $control.html(html.join('\n'));
 
-        $calendarmenu = $control.find('.calendarmenu');
-        $menucontrol = FwMenu.getMenuControl('default');
+        const $calendarmenu = $control.find('.calendarmenu');
+        const $menucontrol = FwMenu.getMenuControl('default');
         $calendarmenu.append($menucontrol);
-        schedulerbtns = [];
+        const schedulerbtns: Array<string> = [];
         schedulerbtns.push('<div class="schedulerbtns">');
         //schedulerbtns.push('  <div class="lblView">View:</div>');
         schedulerbtns.push('  <div class="toggleView">');
@@ -88,16 +86,16 @@ class FwSchedulerClass {
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="datecallout"></div>');
         schedulerbtns.push('</div>');
-        $schedulerbtns = schedulerbtns.join('\n');
+        const $schedulerbtns: any = schedulerbtns.join('\n');
         FwMenu.addCustomContent($menucontrol, $schedulerbtns);
 
-        $form = $control.closest('.fwform');
+        const $form = $control.closest('.fwform');
         controller = window[$form.attr('data-controller')];
         if ((typeof controller !== 'undefined') && (typeof controller.addSchedulerMenuItems !== 'undefined')) {
             controller.addSchedulerMenuItems($menucontrol, $form);
         }
 
-        viewCount = 0;
+        let viewCount = 0;
         if ($control.attr('data-hidedayview') != 'true') viewCount++;
         if ($control.attr('data-hideweekview') != 'true') viewCount++;
         if ($control.attr('data-hidemonthview') != 'true') viewCount++;
@@ -351,8 +349,8 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         };
-        navcalendar.eventDoubleClickHandling = "Enabled";
-        if (typeof $control.data('oneventdoubleclick') === 'function') navcalendar.onEventDoubleClick = $control.data('oneventdoubleclick');
+        //navcalendar.eventDoubleClickHandling = "Enabled";
+        //if (typeof $control.data('oneventdoubleclicked') === 'function') navcalendar.onEventDoubleClicked = $control.data('oneventdoubleclicked');
         navcalendar.init();
     };
     //---------------------------------------------------------------------------------
@@ -374,8 +372,8 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         };
-        nav5week.eventDoubleClickHandling = "Enabled";
-        if (typeof $control.data('oneventdoubleclick') === 'function') nav5week.onEventDoubleClick = $control.data('oneventdoubleclick');
+        //nav5week.eventDoubleClickHandling = "Enabled";
+        //if (typeof $control.data('oneventdoubleclicked') === 'function') nav5week.onEventDoubleClicked = $control.data('oneventdoubleclicked');
         nav5week.init();
     };
     //---------------------------------------------------------------------------------
@@ -397,8 +395,8 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         };
-        navmonth.eventDoubleClickHandling = "Enabled";
-        if (typeof $control.data('oneventdoubleclick') === 'function') navmonth.onEventDoubleClick = $control.data('oneventdoubleclick');
+        //navmonth.eventDoubleClickHandling = "Enabled";
+        //if (typeof $control.data('oneventdoubleclicked') === 'function') navmonth.onEventDoubleClicked = $control.data('oneventdoubleclicked');
         navmonth.init();
     };
     //---------------------------------------------------------------------------------
@@ -408,7 +406,7 @@ class FwSchedulerClass {
         navscheduler.showMonths = 2;
         navscheduler.skipMonths = 2;
         navscheduler.selectMode = "month";
-        navscheduler.weekStarts = 0;
+        navscheduler.weekStarts = 0; 
         navscheduler.onTimeRangeSelected = function (args) {
             try {
                 const dpscheduler = $control.data('dpscheduler');
@@ -447,6 +445,7 @@ class FwSchedulerClass {
         if (typeof $control.data('onheaderclick') === 'function') dpcalendar.onHeaderClick = $control.data('onheaderclick');
         dpcalendar.eventDoubleClickHandling = "Enabled";
         if (typeof $control.data('oneventdoubleclicked') === 'function') dpcalendar.onEventDoubleClicked = $control.data('oneventdoubleclicked');
+        if (typeof $control.data('oneventclick') === 'function') dpcalendar.onEventClick = $control.data('oneventclick');
 
         dpcalendar.init();
     };
@@ -472,7 +471,7 @@ class FwSchedulerClass {
         };
         if (typeof $control.data('ontimerangedoubleclicked') === 'function') dpmonth.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
         dpmonth.eventDoubleClickHandling = "Enabled";
-        if (typeof $control.data('oneventdoubleclick') === 'function') dpmonth.onEventDoubleClick = $control.data('oneventdoubleclick');
+        if (typeof $control.data('oneventdoubleclicked') === 'function') dpmonth.onEventDoubleClicked = $control.data('oneventdoubleclicked');
         if (typeof $control.data('oneventclick') === 'function') dpmonth.onEventClick = $control.data('oneventclick');
         if (typeof $control.data('ontimerangeselect') === 'function') dpmonth.onTimeRangeSelect = $control.data('ontimerangeselect');
         dpmonth.onBeforeCellRender = function (args) {
@@ -534,7 +533,7 @@ class FwSchedulerClass {
         };
         if (typeof $control.data('ontimerangedoubleclicked') === 'function') dp5week.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
         dp5week.eventDoubleClickHandling = "Enabled";
-        if (typeof $control.data('oneventdoubleclick') === 'function') dp5week.onEventDoubleClick = $control.data('oneventdoubleclick');
+        if (typeof $control.data('oneventdoubleclicked') === 'function') dp5week.onEventDoubleClicked = $control.data('oneventdoubleclicked');
         if (typeof $control.data('oneventclick') === 'function') dp5week.onEventClick = $control.data('oneventclick');
         if (typeof $control.data('ontimerangeselect') === 'function') dp5week.onTimeRangeSelect = $control.data('ontimerangeselect');
 
@@ -585,7 +584,7 @@ class FwSchedulerClass {
         dpyear.days = 37;
         dpyear.scale = "Day";
         dpyear.timeHeaders = [{ groupBy: "Day", format: "ddd" }];
-        dpyear.eventClickHandling = 'Disabled';
+        dpyear.eventClickHandling = 'Enabled';
         dpyear.eventMoveHandling = 'Disabled';
         dpyear.eventResizeHandling = 'Disabled';
 
@@ -602,7 +601,9 @@ class FwSchedulerClass {
             }
         });
         dpyear.eventDoubleClickHandling = "Enabled";
-        if (typeof $control.data('oneventdoubleclick') === 'function') dpyear.onEventDoubleClick = $control.data('oneventdoubleclick');
+        if (typeof $control.data('oneventdoubleclicked') === 'function') dpyear.onEventDoubleClicked = $control.data('oneventdoubleclicked');
+        if (typeof $control.data('oneventclick') === 'function') dpyear.onEventClick = $control.data('oneventclick');
+
         dpyear.init();
     };
     //---------------------------------------------------------------------------------

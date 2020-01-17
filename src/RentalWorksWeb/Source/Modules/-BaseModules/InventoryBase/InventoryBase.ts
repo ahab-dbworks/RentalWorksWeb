@@ -209,7 +209,7 @@ abstract class InventoryBase {
                         warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
                     }
                     if (inventoryId === null || inventoryId === '') {
-                        inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                        inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');            // err here if line in grid has no icode selected
                     }
                     const availRequest: any = {
                         InventoryId: inventoryId,
@@ -248,13 +248,18 @@ abstract class InventoryBase {
                         //DriverController.openTicket($form);
                         $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
                         $form.find('div.tab.schedule').click();
-                        this.renderReservationsPopup($control, event);
+                        const reservationDate = moment(event.start.value).format('YYYY-MM-DD');
+                        const displayDate = moment(event.start.value).format('MM/DD/YYYY');
+                        this.renderReservationsPopup($control, reservationDate, displayDate);
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 })
-                .data('oneventdoubleclicked', request => {
-                    alert('oneventdoubleclicked');
+                .data('oneventdoubleclicked', e => {
+                    const data = e.e.data;
+                    const reservationDate = moment(data.start.value).format('YYYY-MM-DD');
+                    const displayDate = moment(data.start.value).format('MM/DD/YYYY');
+                    this.renderReservationsPopup($control, reservationDate, displayDate);
                 })
         } else if ($control.hasClass('realscheduler')) {
             $control
@@ -750,11 +755,10 @@ abstract class InventoryBase {
         });
     }
     //----------------------------------------------------------------------------------------------
-    renderReservationsPopup($control: any, event: any): void {
-        const date = event.start.value.substring(0, 10);
+    renderReservationsPopup($control: any, reservationDate: string, displayDate): void {
         const reserveDates = $control.data('reserveDates');
         const theDate = reserveDates.filter(el => {
-            return el.TheDate.startsWith(date);
+            return el.TheDate.startsWith(reservationDate);
         })
         if (theDate.length) {
             const html: Array<string> = [];
@@ -794,7 +798,6 @@ abstract class InventoryBase {
                   </div>
                 </div>`);
 
-            const displayDate = event.start.toString('MM/dd/yyyy');
             const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, `Reservations ${displayDate}`);
             FwPopup.showPopup($popup);
             const $rows: any = [];
