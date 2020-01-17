@@ -146,10 +146,10 @@ class Billing {
                     , DepartmentId: FwFormField.getValueByDataField($popup, 'DepartmentId')
                     , AgentId: FwFormField.getValueByDataField($popup, 'UserId')
                     , OrderId: FwFormField.getValueByDataField($popup, 'OrderId')
-                    , ShowOrdersWithPendingPO: (FwFormField.getValueByDataField($popup, 'ShowOrdersWithPendingPO') == 'T' ? true : false)
-                    , BillIfComplete: (FwFormField.getValueByDataField($popup, 'BillIfComplete') == 'T' ? true : false)
-                    , CombinePeriods: (FwFormField.getValueByDataField($popup, 'CombinePeriods') == 'T' ? true : false)
-                    , IncludeTotals: (FwFormField.getValueByDataField($popup, 'IncludeTotals') == 'T' ? true : false)
+                    , ShowOrdersWithPendingPO: FwFormField.getValueByDataField($popup, 'ShowOrdersWithPendingPO')
+                    , BillIfComplete: FwFormField.getValueByDataField($popup, 'BillIfComplete')
+                    , CombinePeriods: FwFormField.getValueByDataField($popup, 'CombinePeriods')
+                    , IncludeTotals: FwFormField.getValueByDataField($popup, 'IncludeTotals')
                 };
                 FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, response => {
                     //load browse with sessionId
