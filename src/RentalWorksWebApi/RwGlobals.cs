@@ -55,6 +55,7 @@ namespace WebApi
         public static string ORDER_LATE_COLOR { get; set; }
         public static string ORDER_REPAIR_COLOR { get; set; }
         public static string ORDER_LOSS_AND_DAMAGE_COLOR { get; set; }
+        public static string ORDER_PENDING_PO_COLOR { get; set; }
 
         //INVOICE
         public static string INVOICE_LOCKED_COLOR { get; set; }
@@ -207,7 +208,7 @@ namespace WebApi
             ORDER_LATE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_LATE_COLOR);
             ORDER_REPAIR_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_REPAIR_COLOR);
             ORDER_LOSS_AND_DAMAGE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_LOSS_AND_DAMAGE_COLOR);
-
+            ORDER_PENDING_PO_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_PENDING_PO_COLOR);
 
             INVOICE_LOCKED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_LOCKED_COLOR);
             INVOICE_NO_CHARGE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_NO_CHARGE_COLOR);

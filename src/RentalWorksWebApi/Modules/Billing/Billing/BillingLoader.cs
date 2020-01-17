@@ -2,6 +2,7 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
 
 namespace WebApi.Modules.Billing.Billing
@@ -9,6 +10,11 @@ namespace WebApi.Modules.Billing.Billing
     [FwSqlTable("dbo.funcbilling(@sessionid)")]
     public class BillingLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------
+        public BillingLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sessionid", modeltype: FwDataTypes.Text)]
         public string SessionId { get; set; }
@@ -189,30 +195,43 @@ namespace WebApi.Modules.Billing.Billing
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
-
         //------------------------------------------------------------------------------------ 
-
-
-        [FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string OrderNumberColor { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string OrderNumberColor
+        {
+            get { return getOrderNumberColor(IsNoCharge); }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string OrderDescriptionColor
+        {
+            get { return getOrderDescriptionColor(IsRepair, IsFinalLossAndDamage); }
+        }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingstopcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string BillingStopDateColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderdatecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string OrderDateColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ponocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string PurchaseOrderNumberColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "totalcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string TotalColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-
-
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string BillingStopDateColor
+        {
+            get { return getBillingStopDateColor(BillingPeriodEndDate, BillingStopDate); }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string OrderDateColor
+        {
+            get { return getOrderDateColor(BillingNotes); }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string PurchaseOrderNumberColor
+        {
+            get { return getPurchaseOrderNumberColor(IsFlatPo, PendingPo); }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string TotalColor
+        {
+            get { return getTotalColor(BilledHiatus); }
+        }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             string sessionId = GetUniqueIdAsString("SessionId", request) ?? "";
@@ -222,5 +241,97 @@ namespace WebApi.Modules.Billing.Billing
             select.AddParameter("@sessionid", sessionId);
         }
         //------------------------------------------------------------------------------------
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("OrderNumberColor")] = getOrderNumberColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsNoCharge")].ToString()));
+                        row[dt.GetColumnNo("OrderDescriptionColor")] = getOrderDescriptionColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsRepair")].ToString()), FwConvert.ToBoolean(row[dt.GetColumnNo("IsFinalLossAndDamage")].ToString()));
+                        row[dt.GetColumnNo("BillingStopDateColor")] = getBillingStopDateColor(row[dt.GetColumnNo("BillingPeriodEndDate")].ToString(), row[dt.GetColumnNo("BillingStopDate")].ToString());
+                        row[dt.GetColumnNo("OrderDateColor")] = getOrderDateColor(FwConvert.ToBoolean(row[dt.GetColumnNo("BillingNotes")].ToString()));
+                        row[dt.GetColumnNo("PurchaseOrderNumberColor")] = getPurchaseOrderNumberColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsFlatPo")].ToString()), FwConvert.ToBoolean(row[dt.GetColumnNo("PendingPo")].ToString()));
+                        row[dt.GetColumnNo("TotalColor")] = getTotalColor(FwConvert.ToBoolean(row[dt.GetColumnNo("BilledHiatus")].ToString()));
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
+        protected string getOrderNumberColor(bool? isNoCharge)
+        {
+            string color = null;
+            if (isNoCharge.GetValueOrDefault(false))
+            {
+                color = RwGlobals.QUOTE_ORDER_NO_CHARGE_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getOrderDescriptionColor(bool? isRepair, bool? isLossAndDamage)
+        {
+            string color = null;
+            if (isRepair.GetValueOrDefault(false))
+            {
+                color = RwGlobals.ORDER_REPAIR_COLOR;
+            }
+            else if (isLossAndDamage.GetValueOrDefault(false))
+            {
+                color = RwGlobals.ORDER_LOSS_AND_DAMAGE_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getBillingStopDateColor(string billingPeriodEndDate, string billingStopDate)
+        {
+            string color = null;
+            if (!string.IsNullOrEmpty(billingPeriodEndDate))
+            {
+                if (FwConvert.ToDateTime(billingPeriodEndDate) < FwConvert.ToDateTime(billingStopDate))
+                {
+                    color = "#00FF00";
+                }
+            }
+           
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getOrderDateColor(bool? billingNotes)
+        {
+            string color = null;
+            if (billingNotes.GetValueOrDefault(false))
+            {
+                color = "#00FFFF";
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getPurchaseOrderNumberColor(bool? isFlatPo, bool? isPendingPo)
+        {
+            string color = null;
+            if (isFlatPo.GetValueOrDefault(false))
+            {
+                color = RwGlobals.INVOICE_FLAT_PO_COLOR;
+            }
+            else if (isPendingPo.GetValueOrDefault(false))
+            {
+                color = RwGlobals.ORDER_PENDING_PO_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getTotalColor(bool? billedHiatus)
+        {
+            string color = null;
+            if (billedHiatus.GetValueOrDefault(false))
+            {
+                color = "#00B95C";
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

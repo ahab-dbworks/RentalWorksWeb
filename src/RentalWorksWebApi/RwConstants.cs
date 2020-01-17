@@ -114,6 +114,8 @@ namespace WebApi
         public const int ORDER_LATE_COLOR = 14267391;                      // pink/light purple
         public const int ORDER_REPAIR_COLOR = 11447902;                    // teal
         public const int ORDER_LOSS_AND_DAMAGE_COLOR = 4194368;            // dark purple
+        public const int ORDER_PENDING_PO_COLOR = 33023;                   // orange
+
 
         public const string QUOTE_ORDER_DATE_TYPE_ORDER_DATE = "ORDER_DATE";
         public const string QUOTE_ORDER_DATE_TYPE_ESTIMATED_START_DATE = "ESTIMATED_START_DATE";

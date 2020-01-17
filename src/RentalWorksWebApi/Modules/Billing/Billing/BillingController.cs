@@ -6,37 +6,16 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Logic;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Agent.Customer;
 using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Agent.Order;
+using System.Collections.Generic;
 
 namespace WebApi.Modules.Billing.Billing
 {
-    public class PopulateBillingRequest
-    {
-        public DateTime BillAsOfDate { get; set; }
-        public string OfficeLocationId { get; set; }
-        public string CustomerId { get; set; }
-        public string DealId { get; set; }
-        public string DepartmentId { get; set; }
-        public string AgentId { get; set; }
-        public string OrderId { get; set; }
-        public bool? ShowOrdersWithPendingPO { get; set; }
-        public bool? BillIfComplete { get; set; }
-        public bool? CombinePeriods { get; set; }
-        public bool? IncludeTotals { get; set; }
-    }
-
-    public class PopulateBillingResponse : TSpStatusResponse
-    {
-        public string SessionId { get; set; }
-        public int BillingMessages { get; set; }
-    }
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "67cZ8IUbw53c")]
@@ -79,6 +58,28 @@ namespace WebApi.Modules.Billing.Billing
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/billing/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "D6LHhXoFGn9eL", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            //legend.Add("Missing Crew Times", "#FF9D9D");
+            //legend.Add("Missing Break Times", "#B7B7FF");
+            legend.Add("No Charge", RwGlobals.QUOTE_ORDER_NO_CHARGE_COLOR);
+            legend.Add("Outside Order Billing Dates", "#00FF00");
+            legend.Add("Flat PO", "#8888FF");
+            legend.Add("Repair", RwGlobals.ORDER_REPAIR_COLOR);
+            //legend.Add("Rebill Adds", "#F709DF");
+            legend.Add("Has Billing Note", "#00FFFF");
+            legend.Add("PO Pending", RwGlobals.ORDER_PENDING_PO_COLOR);
+            legend.Add("L&D", RwGlobals.ORDER_LOSS_AND_DAMAGE_COLOR);
+            legend.Add("Hiatus", "#00B95C");
+
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/billing/A0000001
@@ -157,5 +158,6 @@ namespace WebApi.Modules.Billing.Billing
         {
             return await DoBrowseAsync<OrderLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }

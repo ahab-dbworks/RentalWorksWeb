@@ -1,5 +1,6 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -7,6 +8,29 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Billing.Billing
 {
+
+
+    public class PopulateBillingRequest
+    {
+        public DateTime BillAsOfDate { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string CustomerId { get; set; }
+        public string DealId { get; set; }
+        public string DepartmentId { get; set; }
+        public string AgentId { get; set; }
+        public string OrderId { get; set; }
+        public bool? ShowOrdersWithPendingPO { get; set; }
+        public bool? BillIfComplete { get; set; }
+        public bool? CombinePeriods { get; set; }
+        public bool? IncludeTotals { get; set; }
+    }
+
+    public class PopulateBillingResponse : TSpStatusResponse
+    {
+        public string SessionId { get; set; }
+        public int BillingMessages { get; set; }
+    }
+
 
     public class CreateInvoicesRequest
     {
