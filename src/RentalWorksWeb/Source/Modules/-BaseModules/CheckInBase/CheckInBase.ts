@@ -397,28 +397,29 @@ abstract class CheckInBase implements IModule {
         $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
             if (e.which === 13) {
                 errorMsg.html('');
-                this.checkInItem($form);
+                let checkInTranType = 'BarCode';
+                this.checkInItem($form, checkInTranType);
             }
         });
         //Quantity input
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (e.which === 13) {
                 errorMsg.html('');
-                let type = 'Quantity';
-                this.checkInItem($form, type);
+                let checkInTranType = 'Quantity';
+                this.checkInItem($form, checkInTranType);
             }
         });
         //Add Order to Contract
         $form.find('.addordertocontract').on('click', e => {
             errorMsg.html('');
-            let type = 'AddOrderToContract';
-            this.checkInItem($form, type);
+            let checkInTranType = 'AddOrderToContract';
+            this.checkInItem($form, checkInTranType);
         });
         //Swap Item
         $form.find('.swapitem').on('click', e => {
             errorMsg.html('');
-            let type = 'SwapItem';
-            this.checkInItem($form, type);
+            let checkInTranType = 'SwapItem';
+            this.checkInItem($form, checkInTranType);
         });
         //Create Contract
         $form.find('.createcontract').on('click', e => {
@@ -586,7 +587,7 @@ abstract class CheckInBase implements IModule {
         });
     }
     //----------------------------------------------------------------------------------------------
-    checkInItem($form, type?: string) {
+    checkInItem($form, checkInTranType?: string) {
         const module = this.Module;
         const request: any = {};
         let idType;
@@ -609,7 +610,7 @@ abstract class CheckInBase implements IModule {
             request.ContractId = contractId;
         }
 
-        switch (type) {
+        switch (checkInTranType) {
             case 'Quantity':
                 request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
                 break;
@@ -640,10 +641,11 @@ abstract class CheckInBase implements IModule {
                 $form.find('.suspendedsession').hide();
 
                 if (this.Module == 'CheckIn') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
-                if (type !== 'SwapItem' && type != undefined) {
-                    FwFormField.setValueByDataField($form, `${idType}Id`, response[`${idType}Id`], response[`${idType}Number`]);
+                if (checkInTranType !== 'SwapItem') {
+                    FwFormField.setValueByDataField($form, `${idType}Id`, response.OrderId, response.OrderNumber);
                     FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
                 }
+
                 FwFormField.disable($form.find(`[data-datafield=${idType}Id]`));
                 if (this.Module == 'CheckIn') FwFormField.disable($form.find(`[data-datafield="DealId"]`));
 
@@ -656,7 +658,7 @@ abstract class CheckInBase implements IModule {
                     $form.find('[data-datafield="Quantity"] input').select();
                 }
 
-                if (type === 'Quantity') {
+                if (checkInTranType === 'Quantity') {
                     FwFormField.setValueByDataField($form, 'Quantity', 0);
                     $form.find('[data-datafield="BarCode"] input').select();
                 }
