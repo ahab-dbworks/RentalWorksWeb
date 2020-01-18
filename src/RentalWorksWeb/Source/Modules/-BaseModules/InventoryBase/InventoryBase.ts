@@ -206,10 +206,10 @@ abstract class InventoryBase {
                             warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
                         }
                     } else {
-                        warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
+                        warehouseId = FwFormField.getValue($form, '.warehousefilter');            //justin 11/11/2018 fixing build error
                     }
                     if (inventoryId === null || inventoryId === '') {
-                        inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');            // err here if line in grid has no icode selected
+                        inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');     // err here if line in grid has no icode selected
                     }
                     const availRequest: any = {
                         InventoryId: inventoryId,
@@ -220,7 +220,7 @@ abstract class InventoryBase {
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
                         FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
                         const calendarevents = response.InventoryAvailabilityCalendarEvents;
-                        $control.data('reserveDates', response.Dates);                  // loading reservation data onto control for use in renderDatePopup()
+                        $control.data('reserveDates', response.Dates);                           // loading reservation data onto control for use in renderDatePopup()
                         for (let i = 0; i < calendarevents.length; i++) {
                             if (calendarevents[i].textColor !== 'rgb(0,0,0)') {
                                 calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
@@ -760,7 +760,7 @@ abstract class InventoryBase {
         const theDate = reserveDates.filter(el => {
             return el.TheDate.startsWith(reservationDate);
         })
-        if (theDate.length) {
+        if (theDate.length && theDate[0].Reservations.length) {
             const html: Array<string> = [];
             html.push(
                 `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Reservations" style="height:900px;">

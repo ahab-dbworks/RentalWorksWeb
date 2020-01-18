@@ -222,26 +222,25 @@ class OrderItemGrid {
                     FwPopup.detachPopup($popup);
                 });
 
-                const $calendar = $popup.find('.calendar');
-                const $scheduler = $popup.find('.realscheduler');
-                const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 const warehouseText = FwFormField.getTextByDataField($form, 'WarehouseId');
-
                 FwFormField.setValue2($popup.find('.warehousefilter'), warehouseId, warehouseText);
+                const schddate = FwScheduler.getTodaysDate();
 
+                const $calendar = $popup.find('.calendar');
                 FwScheduler.renderRuntimeHtml($calendar);
                 FwScheduler.init($calendar);
-                FwScheduler.loadControl($calendar);
+                const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
                 RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
-                const schddate = FwScheduler.getTodaysDate();
+                FwScheduler.loadControl($calendar);
                 FwScheduler.navigate($calendar, schddate);
                 FwScheduler.refresh($calendar);
-
+                // sequence of these invocations is important so that events are properly stored on the control ^ v
+                const $scheduler = $popup.find('.realscheduler');
                 FwSchedulerDetailed.renderRuntimeHtml($scheduler);
                 FwSchedulerDetailed.init($scheduler);
-                FwSchedulerDetailed.loadControl($scheduler);
                 RentalInventoryController.addCalSchedEvents($generatedtr, $scheduler, inventoryId);
+                FwSchedulerDetailed.loadControl($scheduler);
                 FwSchedulerDetailed.navigate($scheduler, schddate, 35);
                 FwSchedulerDetailed.refresh($scheduler);
 
@@ -277,31 +276,27 @@ class OrderItemGrid {
             });
 
             $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-                var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                const warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
-                let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
-                let officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-                let rateType = $form.find('[data-datafield="RateType"] input').val();
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-                let discountPercent;
-                let daysPerWeek;
-                let isRentalGrid = jQuery($control).parent('[data-grid="OrderItemGrid"]').hasClass('R');
                 $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
                 if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
-                    discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
+                    const discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
                     FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
                     FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
+                    const isRentalGrid = jQuery($control).parent('[data-grid="OrderItemGrid"]').hasClass('R');
                     if (isRentalGrid === true) {
-                        daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
+                        const daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
                         FwBrowse.setFieldValue($control, $generatedtr, 'DaysPerWeek', { value: daysPerWeek });
                     }
                 }
 
                 if ($generatedtr.hasClass("newmode")) {
-                    FwAppData.apiMethod(true, 'GET', "api/v1/pricing/" + inventoryId + "/" + warehouseId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
+                    const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                    FwAppData.apiMethod(true, 'GET', `api/v1/pricing/${inventoryId}/${warehouseId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        const rateType = $form.find('[data-datafield="RateType"] input').val();
                         switch (rateType) {
                             case 'DAILY':
                                 $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
@@ -315,7 +310,8 @@ class OrderItemGrid {
                         }
                     }, null, $form);
 
-                    FwAppData.apiMethod(true, 'GET', "api/v1/taxable/" + inventoryId + "/" + officeLocationId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                    FwAppData.apiMethod(true, 'GET', `api/v1/taxable/${inventoryId}/${officeLocationId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response[0].Taxable) {
                             $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
                         }
@@ -324,6 +320,7 @@ class OrderItemGrid {
                     $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
                     $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
                     $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
+                    const warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
                     $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
                     $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
                 }
@@ -374,22 +371,21 @@ class OrderItemGrid {
         }
         if ($form.attr('data-controller') === 'TemplateController') {
             $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-                let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                let warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
-                let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
-                let rateType = FwFormField.getValueByDataField($form, 'RateType');
-
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
                 $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
+                const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
+                const warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
                 $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
 
                 if ($generatedtr.hasClass("newmode")) {
+                    const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
                     FwAppData.apiMethod(true, 'GET', `api/v1/pricing/${inventoryId}/${warehouseId}`, null, FwServices.defaultTimeout,
                         response => {
+                            const rateType = FwFormField.getValueByDataField($form, 'RateType');
                             switch (rateType) {
                                 case 'DAILY':
                                     FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response[0].DailyRate });
