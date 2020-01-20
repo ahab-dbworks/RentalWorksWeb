@@ -197,7 +197,8 @@ abstract class InventoryBase {
             $control
                 .data('ongetevents', request => {
                     const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
-                    const endOfMonth = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY');
+                    const days = request.days ? request.days : 34;
+                    const endOfMonth = moment(request.start.value).add(days, 'days').format('MM/DD/YYYY');
                     let warehouseId;
                     if ($form.is('tr')) {
                         if (typeof $form.data('warehousefilter') === 'string') {
@@ -230,7 +231,6 @@ abstract class InventoryBase {
                         FwFormField.setValue($form, 'div[data-totalfield="InventoryDailyRate"]', response.InventoryData.InventoryWarehouse.DailyRate);
                         FwFormField.setValue($form, 'div[data-totalfield="InventoryWeeklyRate"]', response.InventoryData.InventoryWarehouse.WeeklyRate);
                         FwFormField.setValue($form, 'div[data-totalfield="InventoryMonthlyRate"]', response.InventoryData.InventoryWarehouse.MonthlyRate);
-
                         FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarevents);
 
                         if ($form.is('tr')) {
