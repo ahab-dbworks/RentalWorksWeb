@@ -1691,6 +1691,20 @@ namespace FwStandard.Data
             return fieldValue;
         }
         //------------------------------------------------------------------------------------
+        protected string GetFilterFieldAsString(string filterFieldName, BrowseRequest request)
+        {
+            string fieldValue = null;
+            if ((request != null) && (request.filterfields != null))
+            {
+                IDictionary<string, string> filterfields = ((IDictionary<string, string>)request.filterfields);
+                if (filterfields.ContainsKey(filterFieldName))
+                {
+                    fieldValue = filterfields[filterFieldName].ToString();
+                }
+            }
+            return fieldValue;
+        }
+        //------------------------------------------------------------------------------------
         protected string GetMiscFieldAsString(string miscFieldName, BrowseRequest request)
         {
             string fieldValue = null;
