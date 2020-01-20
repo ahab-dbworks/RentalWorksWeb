@@ -369,22 +369,6 @@ class FwModule {
         FwControl.renderRuntimeControls($fwcontrols);
         FwControl.setIds($fwcontrols, formid);
 
-        $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
-        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
-
-        $form.attr('data-modified', 'false');
-        if (typeof window[controller]['renderGrids'] === 'function') {
-            window[controller]['renderGrids']($form);
-        }
-        $form.data('grids', $form.find('div[data-control="FwGrid"]'));
-        if (typeof window[controller]['setFormProperties'] === 'function') {
-            window[controller]['setFormProperties']($form);
-        }
-
-        if (typeof window[controller]['addButtonMenu'] === 'function') {
-            window[controller]['addButtonMenu']($form);
-        }
-
         $formTabControl = $form.find('.fwtabs');
         if (typeof $form.data('customformdata') !== 'undefined') {
             //add custom form info tab
@@ -576,6 +560,22 @@ class FwModule {
         //    }
         //});
 
+        $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
+        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
+
+        $form.attr('data-modified', 'false');
+        if (typeof window[controller]['renderGrids'] === 'function') {
+            window[controller]['renderGrids']($form);
+        }
+        $form.data('grids', $form.find('div[data-control="FwGrid"]'));
+        if (typeof window[controller]['setFormProperties'] === 'function') {
+            window[controller]['setFormProperties']($form);
+        }
+
+        if (typeof window[controller]['addButtonMenu'] === 'function') {
+            window[controller]['addButtonMenu']($form);
+        }
+
         FwModule.addFormMenu($form);
 
         // hide grids based on security tree
@@ -730,6 +730,9 @@ class FwModule {
                 window[controller]['afterLoad']($form, response);
             }
         }
+        $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
+        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
+        $form.data('grids', $form.find('div[data-control="FwGrid"]'));
     }
     //----------------------------------------------------------------------------------------------
     static saveForm(module: string, $form: JQuery, parameters: { closetab?: boolean; afterCloseForm?: Function; closeparent?: boolean; navigationpath?: string; refreshRootTab?: boolean }) {
