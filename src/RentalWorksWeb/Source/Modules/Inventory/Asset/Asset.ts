@@ -266,6 +266,22 @@ class RwAsset {
         if (isContainer == 'true') {
             $form.find('.containertab').show();
         }
+
+        const currentOrderType = FwFormField.getValueByDataField($form, 'CurrentOrderType');
+        const $validationField = $form.find('[data-datafield="CurrentOrderId"]');
+        let peekForm;
+        switch (currentOrderType) {
+            case 'T':
+                peekForm = 'TransferOrder';
+                break;
+            case 'O':
+                peekForm = 'Order';
+                break;
+            case 'N':
+                peekForm = 'Container';
+                break;
+        }
+        $validationField.attr('data-peekForm', peekForm);
     };
     //---------------------------------------------------------------------------------------------
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
@@ -435,6 +451,7 @@ class RwAsset {
                     <div class="formrow">
                       <div class="formcolumn" style="width:400px;">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Current Order Type" data-datafield="CurrentOrderType" style="display:none;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="CurrentOrderId" data-displayfield="CurrentOrderNumber" data-validationname="OrderValidation" data-enabled="false" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Order Date" data-datafield="CurrentOrderDate" data-enabled="false" style="float:left;width:125px;"></div>
                         </div>
