@@ -9,6 +9,11 @@ class CompleteQc {
     itemQcId: string = '';
 
     //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions) {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
