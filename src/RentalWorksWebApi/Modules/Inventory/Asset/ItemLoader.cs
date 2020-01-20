@@ -414,6 +414,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "currentorderno", modeltype: FwDataTypes.Text)]
         public string CurrentOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentordertype", modeltype: FwDataTypes.Text)]
+        public string CurrentOrderType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currentorderdesc", modeltype: FwDataTypes.Text)]
         public string CurrentOrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -496,6 +496,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "FQtzKNsjzNU2", IsReadOnly: true)]
         public string CurrentOrderNumber { get; set; }
 
+        [FwLogicProperty(Id: "axktpsOUUxgVC", IsReadOnly: true)]
+        public string CurrentOrderType { get; set; }
+
         [FwLogicProperty(Id: "An5X1tCqWMgj", IsReadOnly: true)]
         public string CurrentOrderDescription { get; set; }
 
