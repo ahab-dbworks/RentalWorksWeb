@@ -191,6 +191,9 @@ abstract class ContractBase {
                     if (contractType && contractType === 'MANIFEST') {
                         $report = TransferManifestReportController.openForm();
                     }
+                    if (contractType && contractType === 'RECEIPT') {
+                        $report = TransferReceiptReportController.openForm();
+                    }
                     FwModule.openSubModuleTab($form, $report);
                     break;
                 case 'Manifest':
