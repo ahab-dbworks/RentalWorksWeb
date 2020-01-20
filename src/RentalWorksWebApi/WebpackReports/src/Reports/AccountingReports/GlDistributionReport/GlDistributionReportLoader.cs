@@ -37,6 +37,15 @@ namespace WebApi.Modules.Reports.AccountingReports.GlDistributionReport
         [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text)]
         public string InvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicestatus", modeltype: FwDataTypes.Text)]
+        public string InvoiceStatus { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicebillingstart", modeltype: FwDataTypes.Date)]
+        public string InvoiceBillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicebillingend", modeltype: FwDataTypes.Date)]
+        public string InvoiceBillingEndDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "gldate", modeltype: FwDataTypes.Date)]
         public string GlDate { get; set; }
         //------------------------------------------------------------------------------------ 
