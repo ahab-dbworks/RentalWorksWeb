@@ -177,7 +177,7 @@ namespace FwStandard.SqlServer
                             {
                                 const decimal V = 100;
                                 decimal value = FwConvert.ToDecimal(this.GetValue(rowno, colno).ToString().Replace('%', ' ')) / V;
-                                worksheet.Cells[rowno + 2, worksheetcol].Style.Numberformat.Format = "#,###.0000%"; 
+                                worksheet.Cells[rowno + 2, worksheetcol].Style.Numberformat.Format = "#,###.0000%";
                                 worksheet.Cells[rowno + 2, worksheetcol].Value = value;
                                 worksheetcol++;
                             }
@@ -189,14 +189,12 @@ namespace FwStandard.SqlServer
                             else if (col.DataType == FwDataTypes.Date)
                             {
                                 worksheet.Cells[rowno + 2, worksheetcol].Style.Numberformat.Format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
-                                if (worksheet.Cells[rowno + 2, worksheetcol].Value != null)
-                                {
-                                    worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDateTime();
-                                }
-                                else
+                                worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDateTime();
+                                if (worksheet.Cells[rowno + 2, worksheetcol].Value == null)
                                 {
                                     worksheet.Cells[rowno + 2, worksheetcol].Value = string.Empty;
                                 }
+
                                 worksheetcol++;
                             }
                             else
