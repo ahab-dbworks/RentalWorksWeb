@@ -3,12 +3,19 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Utilities.GLDistribution
 {
     [FwSqlTable("dbo.funcvendorinvoiceglweb(@vendorinvoiceid)")]
     public class GLDistributionLoader : AppDataLoadRecord
     {
+        private bool _previewing = false;
+        //------------------------------------------------------------------------------------ 
+        public GLDistributionLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "gldate", modeltype: FwDataTypes.Date)]
         public string Date { get; set; }
@@ -43,6 +50,24 @@ namespace WebApi.Modules.Utilities.GLDistribution
             string invoiceId = GetUniqueIdAsString("InvoiceId", request) ?? "";
             string receiptId = GetUniqueIdAsString("ReceiptId", request) ?? "";
             string vendorInvoiceId = GetUniqueIdAsString("VendorInvoiceId", request) ?? "";
+            _previewing = GetMiscFieldAsBoolean("Preview", request) ?? false;
+
+            if (_previewing)
+            {
+                if (!string.IsNullOrEmpty(invoiceId))
+                {
+                    string invoiceStatus = AppFunc.GetStringDataAsync(AppConfig, "invoice", "invoiceid", invoiceId, "status").Result;
+                    if ((invoiceStatus != RwConstants.INVOICE_STATUS_NEW) && (invoiceStatus != RwConstants.INVOICE_STATUS_APPROVED))
+                    {
+                        _previewing = false;
+                    }
+                }
+
+                if (_previewing)
+                {
+                    //GLDistributionFunc.PostGlForInvoice(invoiceId, true);
+                }
+            }
 
             if (!invoiceId.Equals(string.Empty))
             {
@@ -71,6 +96,14 @@ namespace WebApi.Modules.Utilities.GLDistribution
             if (!vendorInvoiceId.Equals(string.Empty))
             {
                 select.AddParameter("@vendorinvoiceid", vendorInvoiceId);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (_previewing)
+            {
+                //GLDistributionFunc.DeleteGlForInvoice(invoiceId);
             }
         }
         //------------------------------------------------------------------------------------ 
