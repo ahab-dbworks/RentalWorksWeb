@@ -48,7 +48,7 @@ namespace WebApi.Modules.Settings.EventSettings.EventType
         //rental fields
         [JsonIgnore]
         [FwLogicProperty(Id:"pquxmMyipqK")]
-        public string RentalOrderTypeFieldsId { get { return rentalOrderTypeFields.OrderTypeFieldsId; } set { rentalOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string RentalOrderTypeFieldsId { get { return rentalOrderTypeFields.OrderTypeFieldsId; } set { eventType.RentalOrderTypeFieldsId = value; rentalOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"gCczVI3Lz3c")]
         //public bool? RentalShowOrderNumber { get { return rentalOrderTypeFields.ShowOrderNumber; } set { rentalOrderTypeFields.ShowOrderNumber = value; } }
@@ -230,7 +230,7 @@ namespace WebApi.Modules.Settings.EventSettings.EventType
         //sales fields
         [JsonIgnore]
         [FwLogicProperty(Id:"hbLmJMvgNKF")]
-        public string SalesOrderTypeFieldsId { get { return salesOrderTypeFields.OrderTypeFieldsId; } set { salesOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string SalesOrderTypeFieldsId { get { return salesOrderTypeFields.OrderTypeFieldsId; } set { eventType.SalesOrderTypeFieldsId = value; salesOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"hpKkaV0Weq6")]
         //public bool? SalesShowOrderNumber { get { return salesOrderTypeFields.ShowOrderNumber; } set { salesOrderTypeFields.ShowOrderNumber = value; } }
@@ -419,7 +419,7 @@ namespace WebApi.Modules.Settings.EventSettings.EventType
         //facilities fields
         [JsonIgnore]
         [FwLogicProperty(Id:"Ou6T1TswyEAD")]
-        public string FacilityOrderTypeFieldsId { get { return spaceOrderTypeFields.OrderTypeFieldsId; } set { spaceOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string FacilityOrderTypeFieldsId { get { return spaceOrderTypeFields.OrderTypeFieldsId; } set { eventType.FacilityOrderTypeFieldsId = value; spaceOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"MQX4cm487Vk2")]
         //public bool? FacilityShowOrderNumber { get { return spaceOrderTypeFields.ShowOrderNumber; } set { spaceOrderTypeFields.ShowOrderNumber = value; } }
@@ -642,7 +642,7 @@ namespace WebApi.Modules.Settings.EventSettings.EventType
         //labor/crew fields
         [JsonIgnore]
         [FwLogicProperty(Id:"zfko4EafV6EV")]
-        public string LaborOrderTypeFieldsId { get { return laborOrderTypeFields.OrderTypeFieldsId; } set { laborOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string LaborOrderTypeFieldsId { get { return laborOrderTypeFields.OrderTypeFieldsId; } set { eventType.LaborOrderTypeFieldsId = value; laborOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"uOOFMiYbWlRk")]
         //public bool? LaborShowOrderNumber { get { return laborOrderTypeFields.ShowOrderNumber; } set { laborOrderTypeFields.ShowOrderNumber = value; } }
@@ -844,7 +844,7 @@ namespace WebApi.Modules.Settings.EventSettings.EventType
         //misc fields
         [JsonIgnore]
         [FwLogicProperty(Id:"IkUIJpMqXHSp")]
-        public string MiscOrderTypeFieldsId { get { return miscOrderTypeFields.OrderTypeFieldsId; } set { miscOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string MiscOrderTypeFieldsId { get { return miscOrderTypeFields.OrderTypeFieldsId; } set { eventType.MiscOrderTypeFieldsId = value; miscOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"ONWK0RLslMqD")]
         //public bool? MiscShowOrderNumber { get { return miscOrderTypeFields.ShowOrderNumber; } set { miscOrderTypeFields.ShowOrderNumber = value; } }
@@ -1043,7 +1043,7 @@ namespace WebApi.Modules.Settings.EventSettings.EventType
         //finalld
         [JsonIgnore]
         [FwLogicProperty(Id:"usecIiGpd0kG")]
-        public string LossAndDamageOrderTypeFieldsId { get { return lossAndDamageOrderTypeFields.OrderTypeFieldsId; } set { lossAndDamageOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string LossAndDamageOrderTypeFieldsId { get { return lossAndDamageOrderTypeFields.OrderTypeFieldsId; } set { eventType.LossAndDamageOrderTypeFieldsId = value; lossAndDamageOrderTypeFields.OrderTypeFieldsId = value; } }
 
         [FwLogicProperty(Id:"PXop9xJCyfML")]
         public bool? LossAndDamageShowOrderNumber { get { return lossAndDamageOrderTypeFields.ShowOrderNumber; } set { lossAndDamageOrderTypeFields.ShowOrderNumber = value; } }

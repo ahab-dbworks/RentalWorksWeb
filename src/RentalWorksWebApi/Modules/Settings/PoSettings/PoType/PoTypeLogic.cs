@@ -65,7 +65,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
         //sub rental fields
         [JsonIgnore]
         [FwLogicProperty(Id:"BckcxH3tgp9V")]
-        public string SubRentalOrderTypeFieldsId { get { return subRentalOrderTypeFields.OrderTypeFieldsId; } set { subRentalOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string SubRentalOrderTypeFieldsId { get { return subRentalOrderTypeFields.OrderTypeFieldsId; } set { poType.SubrentalordertypefieldsId = value; subRentalOrderTypeFields.OrderTypeFieldsId = value; } }
 
         [FwLogicProperty(Id:"vYVG4whEsJ6y")]
         public bool? SubRentalShowOrderNumber { get { return subRentalOrderTypeFields.ShowOrderNumber; } set { subRentalOrderTypeFields.ShowOrderNumber = value; } }
@@ -254,7 +254,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
         //sub sales fields
         [JsonIgnore]
         [FwLogicProperty(Id:"5XFqtOCAgXLu")]
-        public string SubSaleOrderTypeFieldsId { get { return subSaleOrderTypeFields.OrderTypeFieldsId; } set { subSaleOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string SubSaleOrderTypeFieldsId { get { return subSaleOrderTypeFields.OrderTypeFieldsId; } set { poType.SubsalesordertypefieldsId = value; subSaleOrderTypeFields.OrderTypeFieldsId = value; } }
 
         [FwLogicProperty(Id:"9QFiMsKUvGGk")]
         public bool? SubSaleShowOrderNumber { get { return subSaleOrderTypeFields.ShowOrderNumber; } set { subSaleOrderTypeFields.ShowOrderNumber = value; } }
@@ -435,7 +435,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
         //purchase fields
         [JsonIgnore]
         [FwLogicProperty(Id:"xJEg5wjMfA18")]
-        public string PurchaseOrderTypeFieldsId { get { return purchaseOrderTypeFields.OrderTypeFieldsId; } set { purchaseOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string PurchaseOrderTypeFieldsId { get { return purchaseOrderTypeFields.OrderTypeFieldsId; } set { poType.PurchaseordertypefieldsId = value; purchaseOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"FGCC1mra7al5")]
         //public bool? PurchaseShowOrderNumber { get { return purchaseOrderTypeFields.ShowOrderNumber; } set { purchaseOrderTypeFields.ShowOrderNumber = value; } }
@@ -660,7 +660,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
         //labor/crew fields
         [JsonIgnore]
         [FwLogicProperty(Id:"UOAioR3JMapn")]
-        public string LaborOrderTypeFieldsId { get { return laborOrderTypeFields.OrderTypeFieldsId; } set { laborOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string LaborOrderTypeFieldsId { get { return laborOrderTypeFields.OrderTypeFieldsId; } set { poType.LaborOrderTypeFieldsId = value; laborOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"g0IqSvft7Pyf")]
         //public bool? LaborShowOrderNumber { get { return laborOrderTypeFields.ShowOrderNumber; } set { laborOrderTypeFields.ShowOrderNumber = value; } }
@@ -861,7 +861,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
         //misc fields
         [JsonIgnore]
         [FwLogicProperty(Id:"QV7w1TUEjy6R")]
-        public string MiscOrderTypeFieldsId { get { return miscOrderTypeFields.OrderTypeFieldsId; } set { miscOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string MiscOrderTypeFieldsId { get { return miscOrderTypeFields.OrderTypeFieldsId; } set { poType.MiscOrderTypeFieldsId = value; miscOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"ns6nkjIcqIYK")]
         //public bool? MiscShowOrderNumber { get { return miscOrderTypeFields.ShowOrderNumber; } set { miscOrderTypeFields.ShowOrderNumber = value; } }
@@ -1061,7 +1061,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
         //sub-crew fields
         [JsonIgnore]
         [FwLogicProperty(Id:"qimgekhI2KS2")]
-        public string SubLaborOrderTypeFieldsId { get { return subLaborOrderTypeFields.OrderTypeFieldsId; } set { subLaborOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string SubLaborOrderTypeFieldsId { get { return subLaborOrderTypeFields.OrderTypeFieldsId; } set { poType.SublaborordertypefieldsId = value; subLaborOrderTypeFields.OrderTypeFieldsId = value; } }
 
         [FwLogicProperty(Id:"34VI7iBQMCKP")]
         public bool? SubLaborShowOrderNumber { get { return subLaborOrderTypeFields.ShowOrderNumber; } set { subLaborOrderTypeFields.ShowOrderNumber = value; } }
@@ -1257,7 +1257,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
         //sub-misc fields
         [JsonIgnore]
         [FwLogicProperty(Id:"bYJMqcajrzOH")]
-        public string SubMiscOrderTypeFieldsId { get { return subMiscOrderTypeFields.OrderTypeFieldsId; } set { subMiscOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string SubMiscOrderTypeFieldsId { get { return subMiscOrderTypeFields.OrderTypeFieldsId; } set { poType.SubmiscordertypefieldsId = value; subMiscOrderTypeFields.OrderTypeFieldsId = value; } }
 
         [FwLogicProperty(Id:"Ai1gTQgtpOtm")]
         public bool? SubMiscShowOrderNumber { get { return subMiscOrderTypeFields.ShowOrderNumber; } set { subMiscOrderTypeFields.ShowOrderNumber = value; } }
@@ -1447,7 +1447,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
         //repairfields
         [JsonIgnore]
         [FwLogicProperty(Id:"Ad5ho9X6IDQ2")]
-        public string RepairOrderTypeFieldsId { get { return repairOrderTypeFields.OrderTypeFieldsId; } set { repairOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string RepairOrderTypeFieldsId { get { return repairOrderTypeFields.OrderTypeFieldsId; } set { poType.RepairordertypefieldsId = value; repairOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"UpQ5AKtVUPOA")]
         //public bool? RepairShowOrderNumber { get { return repairOrderTypeFields.ShowOrderNumber; } set { repairOrderTypeFields.ShowOrderNumber = value; } }
