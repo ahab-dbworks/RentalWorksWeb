@@ -226,28 +226,31 @@ namespace WebApi.Modules.HomeControls.OrderStatusSummary
         {
             useWithNoLock = false;
 
-            string orderId = "!none!";
-            string filterStatus = string.Empty;
-            if (request != null)
-            {
-                if (request.uniqueids != null)
-                {
-                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                    if (uniqueIds.ContainsKey("OrderId"))
-                    {
-                        orderId = uniqueIds["OrderId"].ToString();
-                    }
-                }
+            //string orderId = "!none!";
+            //string filterStatus = string.Empty;
+            //if (request != null)
+            //{
+            //    if (request.uniqueids != null)
+            //    {
+            //        IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+            //        if (uniqueIds.ContainsKey("OrderId"))
+            //        {
+            //            orderId = uniqueIds["OrderId"].ToString();
+            //        }
+            //    }
+            //
+            //    if (request.filterfields != null)
+            //    {
+            //        IDictionary<string, string> filterfields = ((IDictionary<string, string>)request.filterfields);
+            //        if (filterfields.ContainsKey("Status"))
+            //        {
+            //            filterStatus = filterfields["Status"].ToString();
+            //        }
+            //    }
+            //}
 
-                if (request.filterfields != null)
-                {
-                    IDictionary<string, string> filterfields = ((IDictionary<string, string>)request.filterfields);
-                    if (filterfields.ContainsKey("Status"))
-                    {
-                        filterStatus = filterfields["Status"].ToString();
-                    }
-                }
-            }
+            string orderId = GetUniqueIdAsString("OrderId", request) ?? "!none!";
+            string filterStatus = GetFilterFieldAsString("Status", request) ?? "";
 
 
             base.SetBaseSelectQuery(select, qry, customFields, request);

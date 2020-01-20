@@ -230,7 +230,7 @@ namespace WebApi.Modules.HomeControls.OrderStatusDetail
             useWithNoLock = false;
 
             string orderId = GetUniqueIdAsString("OrderId", request) ?? "!none!";
-            string filterStatus = GetUniqueIdAsString("Status", request) ?? "";
+            string filterStatus = GetFilterFieldAsString("Status", request) ?? "";
 
             string orderType = AppFunc.GetStringDataAsync(AppConfig, "dealorder", "orderid", orderId, "ordertype").Result;
             bool? allHistory = GetUniqueIdAsBoolean("AllHistory", request);
