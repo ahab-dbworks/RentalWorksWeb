@@ -160,29 +160,38 @@ AssignItems.getNewItemsScreen = function() {
         };
         RwServices.callMethod("AssignItem", "GetAssignAssetDetails", request, function(response) {
             $assetdetails.find('.details').empty();
-            for (var i = 0; i < response.results.length; i++) {
-                var html = [];
-                html.push('<div class="detailrecord ' + ((response.results[i].statustype === 'IN') ? 'in' : 'out') + '">');
-                html.push('  <div class="row">');
-                html.push('    <div class="caption">Status:</div>');
-                html.push('    <div class="value">' + response.results[i].statustype + '</div>');
-                html.push('    <div class="caption">Qty:</div>');
-                html.push('    <div class="value">' + response.results[i].qty + '</div>');
-                html.push('  </div>');
-                if (response.results[i].orderid !== '') {
+            if (typeof response !== 'undefined' && typeof response.results !== 'undefined' && response.results.length === 1 && 
+                typeof response.results[0].orderno !== 'undefined' && response.results[0].orderno === '' &&
+                typeof response.results[0].statustype !== 'undefined' && response.results[0].statustype === 'IN') {
+                $assetdetails.hide();
+                selectedstatus = response.results[0];
+                selectedstatus.goBackToSearch = true;
+                $itemlist.showscreen();
+            } else {
+                for (var i = 0; i < response.results.length; i++) {
+                    var html = [];
+                    html.push('<div class="detailrecord ' + ((response.results[i].statustype === 'IN') ? 'in' : 'out') + '">');
                     html.push('  <div class="row">');
-                    html.push('    <div class="caption">Order No:</div>');
-                    html.push('    <div class="value">' + response.results[i].orderno + '</div>');
+                    html.push('    <div class="caption">Status:</div>');
+                    html.push('    <div class="value">' + response.results[i].statustype + '</div>');
+                    html.push('    <div class="caption">Qty:</div>');
+                    html.push('    <div class="value">' + response.results[i].qty + '</div>');
                     html.push('  </div>');
-                    html.push('  <div class="row">');
-                    html.push('    <div class="caption">Order:</div>');
-                    html.push('    <div class="value">' + response.results[i].orderdesc + '</div>');
-                    html.push('  </div>');
-                    html.push('</div>');
+                    if (response.results[i].orderid !== '') {
+                        html.push('  <div class="row">');
+                        html.push('    <div class="caption">Order No:</div>');
+                        html.push('    <div class="value">' + response.results[i].orderno + '</div>');
+                        html.push('  </div>');
+                        html.push('  <div class="row">');
+                        html.push('    <div class="caption">Order:</div>');
+                        html.push('    <div class="value">' + response.results[i].orderdesc + '</div>');
+                        html.push('  </div>');
+                        html.push('</div>');
+                    }
+                    var $record = jQuery(html.join(''));
+                    $record.data('recorddata', response.results[i]);
+                    $assetdetails.find('.details').append($record);
                 }
-                var $record = jQuery(html.join(''));
-                $record.data('recorddata', response.results[i]);
-                $assetdetails.find('.details').append($record);
             }
         });
     };
@@ -204,8 +213,13 @@ AssignItems.getNewItemsScreen = function() {
                 buttonclick: function () {
                     try {
                         if (selectedrecord.rowtype === 'I-CODE') {
-                            selectedstatus = {};
-                            $assetdetails.showscreen();
+                            if (typeof selectedstatus.goBackToSearch === 'boolean' && selectedstatus.goBackToSearch) {
+                                selectedstatus = {};
+                                $search.showscreen();
+                            } else {
+                                selectedstatus = {};
+                                $assetdetails.showscreen();
+                            }
                         } else if (selectedrecord.rowtype === 'PO') {
                             selectedrecord = {};
                             $search.showscreen();
@@ -678,6 +692,7 @@ AssignItems.getExistingItemsScreen = function() {
     $scan.showscreen = function() {
         $scan.show();
         program.setScanTarget('.ui-scan .fwmobilecontrol-value');
+        program.setScanTargetLpNearfield('.ui-scan .fwmobilecontrol-value');
         RwRFID.registerEvents($scan.rfidscan);
     };
     $scan.on('change', '.fwmobilecontrol-value', function() {
@@ -789,6 +804,7 @@ AssignItems.getExistingItemsScreen = function() {
         $itemassign.data('recorddata', recorddata);
         $itemassign.show();
         program.setScanTarget('div[data-datafield="barcode"] input');
+        program.setScanTargetLpNearfield('.txtrfid .fwformfield-value');
 
         $itemassign.find('.itemassign-title').html(selectedrecord.master);
 
@@ -844,8 +860,9 @@ AssignItems.getExistingItemsScreen = function() {
     };
 
     screen.load = function() {
-        program.setScanTargetLpNearfield('.txtrfid .fwformfield-value');
-        
+        program.setScanTarget('');
+        program.setScanTargetLpNearfield('');
+
         $scan.showscreen();
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.registerListener('deviceConnected', 'deviceConnected_unassigneditemscontrollerjs_getUnassignedItemsScreen', function() {
