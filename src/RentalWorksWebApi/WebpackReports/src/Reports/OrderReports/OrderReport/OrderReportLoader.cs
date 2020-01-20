@@ -375,6 +375,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "usagedatesandtimes", modeltype: FwDataTypes.Text)]
         public string UsageDatesAndTimes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingstart", modeltype: FwDataTypes.Date)]
+        public string BillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingend", modeltype: FwDataTypes.Date)]
+        public string BillingStopDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
         public string BillingDates { get; set; }
         //------------------------------------------------------------------------------------ 
