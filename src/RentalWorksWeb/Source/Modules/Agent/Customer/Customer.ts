@@ -741,7 +741,7 @@ class Customer {
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Through Date" data-datafield="CreditStatusThroughDate" style="flex:1 1 175px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount" data-digits="0" data-datafield="CreditLimit" style="flex:1 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount" data-dontsavedecimal="true" data-datafield="CreditLimit" style="flex:1 1 175px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Customer A/R Balance" data-datafield="CreditBalance" data-enabled="false" style="flex:1 1 175px;"></div>

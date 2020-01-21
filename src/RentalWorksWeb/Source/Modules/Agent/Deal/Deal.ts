@@ -1264,7 +1264,7 @@ class Deal {
                       <!-- Deal Credit section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Deal Credit">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount" data-datafield="CreditLimit" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount" data-dontsavedecimal="true" data-datafield="CreditLimit" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deal A/R Balance" data-datafield="CreditBalance" data-enabled="false" style="flex:1 1 125px;"></div>

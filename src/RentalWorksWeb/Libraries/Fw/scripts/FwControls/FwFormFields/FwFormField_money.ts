@@ -49,6 +49,10 @@
     getValue2($fwformfield: JQuery<HTMLElement>): any {
         var valuecontainer = $fwformfield.find('.fwformfield-value').inputmask('unmaskedvalue');
         var value = valuecontainer !== null ? valuecontainer : ''; //Fix for jquery.inputmask('unmaskedvalue') change to return null on empty value instead of ''
+
+        if ($fwformfield.attr('data-dontsavedecimal') === 'true') {
+            value = value.substring(0, value.length - 3);
+        }
         return value;
     }
     //---------------------------------------------------------------------------------
