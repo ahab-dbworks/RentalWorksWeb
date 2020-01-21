@@ -50,7 +50,7 @@
         var valuecontainer = $fwformfield.find('.fwformfield-value').inputmask('unmaskedvalue');
         var value = valuecontainer !== null ? valuecontainer : ''; //Fix for jquery.inputmask('unmaskedvalue') change to return null on empty value instead of ''
 
-        if ($fwformfield.attr('data-dontsavedecimal') === 'true') {
+        if ($fwformfield.attr('data-dontsavedecimal') === 'true') { // remove '.00' from value for int type API fields yet retain '$' on FE
             value = value.substring(0, value.length - 3);
         }
         return value;
