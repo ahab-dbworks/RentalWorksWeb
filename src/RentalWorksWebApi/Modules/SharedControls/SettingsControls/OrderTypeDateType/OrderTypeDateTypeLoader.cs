@@ -3,10 +3,9 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
-using System.Collections.Generic;
 namespace WebApi.Modules.Settings.OrderTypeDateType
 {
-    [FwSqlTable("ordertypedatetypeview")]
+    [FwSqlTable("ordertypeactivityview")]
     public class OrderTypeDateTypeLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -19,36 +18,39 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
         public string OrderType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
-        public string Description { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptionrename", modeltype: FwDataTypes.Text)]
-        public string DescriptionRename { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptiondisplay", modeltype: FwDataTypes.Text)]
-        public string DescriptionDisplay { get; set; }
+        [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer)]
+        public int? ActivityTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytype", modeltype: FwDataTypes.Text)]
         public string ActivityType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
+        public string Description { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rename", modeltype: FwDataTypes.Text)]
+        public string Rename { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "descriptiondisplay", modeltype: FwDataTypes.Text)]
+        public string DescriptionDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "systemtype", modeltype: FwDataTypes.Boolean)]
         public bool? SystemType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "enabled", modeltype: FwDataTypes.Boolean)]
-        public bool? Enabled { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "milestone", modeltype: FwDataTypes.Boolean)]
-        public bool? Milestone { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "productionactivity", modeltype: FwDataTypes.Boolean)]
-        public bool? ProductionActivity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "requiredquote", modeltype: FwDataTypes.Boolean)]
-        public bool? RequiredOnQuote { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "requiredorder", modeltype: FwDataTypes.Boolean)]
-        public bool? RequiredOnOrder { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "enabled", modeltype: FwDataTypes.Boolean)]
+        //public bool? Enabled { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "milestone", modeltype: FwDataTypes.Boolean)]
+        //public bool? Milestone { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "productionactivity", modeltype: FwDataTypes.Boolean)]
+        //public bool? ProductionActivity { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "requiredquote", modeltype: FwDataTypes.Boolean)]
+        //public bool? RequiredOnQuote { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "requiredorder", modeltype: FwDataTypes.Boolean)]
+        //public bool? RequiredOnOrder { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
         public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
