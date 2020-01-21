@@ -433,7 +433,8 @@ AssignItems.getNewItemsScreen = function() {
     $itemassign.showscreen = function(recorddata) {
         $itemassign.data('recorddata', recorddata);
         $itemassign.show();
-        program.setScanTarget('div[data-datafield="barcode"] input');
+        program.setScanTarget('.txtbarcode .fwformfield-value');
+        program.setScanTargetLpNearfield('.txtrfid .fwformfield-value');
         $itemassign.find('.itemassign-title').html(selectedrecord.master);
 
         $itemassign.find('div[data-datafield="rfid"]').hide();
@@ -488,6 +489,8 @@ AssignItems.getNewItemsScreen = function() {
         }
     };
     $itemassign.clearscreen = function() {
+        program.setScanTarget('');
+        program.setScanTargetLpNearfield('');
         $itemassign.hide();
         $itemassign.data('recorddata', '');
         FwFormField.setValue($itemassign, 'div[data-datafield="barcode"]', '');
