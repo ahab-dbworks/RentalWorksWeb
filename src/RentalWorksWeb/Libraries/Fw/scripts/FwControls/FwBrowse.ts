@@ -3967,7 +3967,7 @@ class FwBrowseClass {
         FwPopup.showPopup($popup);
 
         const controller = $tr.parents('[data-type="Grid"]').attr('data-controller');
-        let module: string = window[controller].Module;
+        let module: string = $tr.parents('[data-type="Grid"]').attr('data-auditmodule') || window[controller].Module;
         if (this.endsWith(module, 'Grid')) {
             module = module.substring(0, module.length - 4);
         }
