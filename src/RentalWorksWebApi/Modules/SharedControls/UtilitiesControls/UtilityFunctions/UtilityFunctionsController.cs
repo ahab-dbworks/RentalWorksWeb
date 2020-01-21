@@ -20,6 +20,21 @@ namespace WebApi.Modules.UtilitiesControls.UtilityFunctions
     {
         public UtilityFunctionsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/utilityfunctions/istraining
+        [HttpGet("istraining")]
+        [FwControllerMethod(Id: "axktpsOUUxgVC", ValidateSecurityGroup: false)]
+        public async Task<ActionResult<bool>> GetIsTraining()
+        {
+            try
+            {
+                return new OkObjectResult(await FwSqlData.IsTraining(AppConfig.DatabaseSettings));
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // GET api/v1/utilityfunctions/newsessionid
         [HttpGet("newsessionid")]
         [FwControllerMethod(Id:"cDT0iXnq4OCgX")]
