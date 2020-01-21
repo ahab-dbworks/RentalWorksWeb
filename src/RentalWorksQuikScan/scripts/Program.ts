@@ -175,9 +175,17 @@ class Program extends FwApplication {
                         NearfieldRfidScanner.init((uid: string, uidType: string) => {
                             try {
                                 program.setAudioMode('DTDevices');
-                                RwServices.inventory.getBarcodeFromRfid({ rfid: uid }, (response: any) => {
-                                    this.onLpNearfieldData(response.barcode, uidType);
-                                });
+                                if (sessionStorage.getItem('scanTargetLpNearfieldReplaceWithBC') === null) {
+                                    sessionStorage.setItem('scanTargetLpNearfieldReplaceWithBC', 'true');
+                                }
+                                if (sessionStorage.getItem('scanTargetLpNearfieldReplaceWithBC') === 'true') {
+                                    RwServices.inventory.getBarcodeFromRfid({ rfid: uid }, (response: any) => {
+                                        this.onLpNearfieldData(response.barcode, uidType);
+                                    });
+                                } else {
+                                    this.onLpNearfieldData(uid, uidType);
+                                }
+                                
                                 //FwNotification.renderNotification('INFO', `UID: ${uid}. UID Type: ${uidType}`);
                             } catch (ex) {
                                 FwFunc.showError(ex);
@@ -296,9 +304,13 @@ class Program extends FwApplication {
         jQuery(this.activeTextBox).addClass('scanTarget');
     };
     //---------------------------------------------------------------------------------
-    setScanTargetLpNearfield(selector: string) {
+    setScanTargetLpNearfield(selector: string, replaceWithBC?: boolean) {
         this.activeNearfieldTextBox = selector;
         sessionStorage.setItem('scanTargetLpNearfield', selector);
+        if (replaceWithBC === undefined) {
+            replaceWithBC = true;
+        }
+        sessionStorage.setItem('scanTargetLpNearfieldReplaceWithBC', replaceWithBC.toString());
         jQuery('input[type="text"]').removeClass('scanTargetLpNearfield');
         jQuery(this.activeNearfieldTextBox).addClass('scanTargetLpNearfield');
     };

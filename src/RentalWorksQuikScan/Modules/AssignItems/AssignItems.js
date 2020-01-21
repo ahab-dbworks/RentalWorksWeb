@@ -434,7 +434,7 @@ AssignItems.getNewItemsScreen = function() {
         $itemassign.data('recorddata', recorddata);
         $itemassign.show();
         program.setScanTarget('.txtbarcode .fwformfield-value');
-        program.setScanTargetLpNearfield('.txtrfid .fwformfield-value');
+        program.setScanTargetLpNearfield('.txtrfid .fwformfield-value', false);
         $itemassign.find('.itemassign-title').html(selectedrecord.master);
 
         $itemassign.find('div[data-datafield="rfid"]').hide();
@@ -695,7 +695,7 @@ AssignItems.getExistingItemsScreen = function() {
     $scan.showscreen = function() {
         $scan.show();
         program.setScanTarget('.ui-scan .fwmobilecontrol-value');
-        program.setScanTargetLpNearfield('.ui-scan .fwmobilecontrol-value');
+        program.setScanTargetLpNearfield('.ui-scan .fwmobilecontrol-value', false);
         RwRFID.registerEvents($scan.rfidscan);
     };
     $scan.on('change', '.fwmobilecontrol-value', function() {
@@ -807,7 +807,7 @@ AssignItems.getExistingItemsScreen = function() {
         $itemassign.data('recorddata', recorddata);
         $itemassign.show();
         program.setScanTarget('div[data-datafield="barcode"] input');
-        program.setScanTargetLpNearfield('.txtrfid .fwformfield-value');
+        program.setScanTargetLpNearfield('.txtrfid .fwformfield-value', false);
 
         $itemassign.find('.itemassign-title').html(selectedrecord.master);
 
