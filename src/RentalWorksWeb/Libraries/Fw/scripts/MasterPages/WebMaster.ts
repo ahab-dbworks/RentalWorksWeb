@@ -8,7 +8,7 @@
                               </div>`);
 
         const applicationTheme = sessionStorage.getItem('applicationtheme');
-        const masterHeader     = $view.find('#master-header');
+        const masterHeader = $view.find('#master-header');
 
         masterHeader.append(this.getHeaderView());
         program.setApplicationTheme(applicationTheme);
@@ -33,7 +33,15 @@
         const $view = jQuery(`<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>`);
 
         FwControl.renderRuntimeControls($view);
-        $view.find('.logo').append(`<span class="bgothm">${program.title}</span>`);
+        const isTraining = sessionStorage.getItem('istraining');
+        let trainingEl;
+        if (isTraining === 'true') {
+            trainingEl = `<span style="color:#0b0d0b;background-color:#07b907;border-radius:4px;padding:2px 4px 2px 4px;"> - TRAINING</span>`;
+        } else {
+            trainingEl = '';
+        }
+
+        $view.find('.logo').append(`<span class="bgothm">${program.title}${trainingEl}</span>`);
 
         this.buildMainMenu($view);
         this.getUserControl($view);

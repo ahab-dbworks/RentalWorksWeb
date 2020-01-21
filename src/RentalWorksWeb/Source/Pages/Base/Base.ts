@@ -1,13 +1,12 @@
 class Base {
     //----------------------------------------------------------------------------------------------
-    getDefaultScreen() {
-        let viewModel = {
+    async getDefaultScreen() {
+        const viewModel = {
             captionProgramTitle: 'RentalWorks',
             valueYear: new Date().getFullYear(),
             valueVersion: applicationConfig.version
         };
-        let screen: any = {};
-        screen = FwBasePages.getDefaultScreen(viewModel);
+        const screen = FwBasePages.getDefaultScreen(viewModel);
 
         screen.$view
             .on('click', '.btnLogin', function () {
@@ -24,7 +23,7 @@ class Base {
     }
     //----------------------------------------------------------------------------------------------
     getLoginScreen() {
-        let viewModel = {
+        const viewModel = {
             captionPanelLogin: 'RentalWorks Login',
             captionEmail: RwLanguages.translate('E-mail / Username'),
             valueEmail: (localStorage.getItem('email') ? localStorage.getItem('email') : ''),
@@ -172,6 +171,11 @@ class Base {
                                         }
                                     }
                                 });
+                                const promiseGetIsTraining = FwAjax.callWebApi<any, any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/utilityfunctions/istraining`,
+                                    $elementToBlock: $loginWindow
+                                });
 
                                 // wait for all the queries to finish
                                 await Promise.all([
@@ -184,6 +188,7 @@ class Base {
                                     promiseGetDepartment,               // 06
                                     promiseGetDocumentBarCodeSettings,  // 07
                                     promiseGetSystemNumbers,            // 08
+                                    promiseGetIsTraining,               // 09
                                 ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
@@ -195,6 +200,7 @@ class Base {
                                         const responseGetDepartment = values[6];
                                         const responseGetDocumentBarCodeSettings = values[7];
                                         const responseGetSystemNumbers = values[8];
+                                        const responseGetIsTraining = values[8];
 
                                         let sounds: any = {}, homePage: any = {}, toolbar: any = {};
                                         sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
@@ -267,7 +273,7 @@ class Base {
                                                 userassigneddealnum = isAssignedByUser;
                                             }
                                         }
- 
+
                                         const controlDefaults = {
                                             defaultdealstatusid: responseGetDefaultSettings.DefaultDealStatusId
                                             , defaultdealstatus: responseGetDefaultSettings.DefaultDealStatus
@@ -290,6 +296,12 @@ class Base {
                                         }
                                         sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 
+
+                                        if (responseGetIsTraining === true) {
+                                            sessionStorage.setItem('istraining', "true");
+                                        } else {
+                                            sessionStorage.setItem('istraining', "false");
+                                        }
 
 
                                         // set redirectPath to navigate user to default home page, still need to go to the home page to run startup code if the user refreshes the browser
@@ -316,8 +328,9 @@ class Base {
                     FwFunc.showError(ex);
                 }
             })
+
             //.find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span></div>');
-            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works</span></div>');
+            .find('.programlogo').empty().html(`<div class="bgothm">Rental<span class="rwpurple">Works</span></div>`);
 
         screen.load = function () {
             setTimeout(function () {
