@@ -5,7 +5,7 @@
     generateRow($control, $generatedtr) {
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             //set validation dynamically
-            const availFor = FwBrowse.getValueByDataField($control, $tr, 'AvailFor');
+            const availFor = FwBrowse.getValueByDataField($control, $tr, 'AvailableFor');
             const $td = $tr.find('[data-browsedatafield="InventoryId"]');
             let peekForm;
             switch (availFor) {
