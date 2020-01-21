@@ -406,7 +406,7 @@ class FwSchedulerClass {
         navscheduler.showMonths = 2;
         navscheduler.skipMonths = 2;
         navscheduler.selectMode = "month";
-        navscheduler.weekStarts = 0; 
+        navscheduler.weekStarts = 0;
         navscheduler.onTimeRangeSelected = function (args) {
             try {
                 const dpscheduler = $control.data('dpscheduler');

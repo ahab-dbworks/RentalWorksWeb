@@ -318,6 +318,61 @@ class FwApplicationTreeClass {
         });
     }
     //---------------------------------------------------------------------------------
+    moduleHasNew(moduleId: string) {
+        let nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, moduleId);
+        let hasNew = false;
+        if (nodeModule !== null) {
+            const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node, args) => {
+                return node.nodetype === 'ModuleActions';
+            });
+            if (nodeModuleActions !== null) {
+                const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node, args) => {
+                    return node.nodetype === 'ModuleAction' && node.properties.action === 'New';
+                });
+                hasNew = (nodeNew !== null && nodeNew.properties.visible === 'T');
+            }
+        }
+    }
+    //---------------------------------------------------------------------------------
+    moduleHasEdit(moduleId: string): boolean {
+        let nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, moduleId);
+        let hasEdit = false;
+        if (nodeModule !== null) {
+            const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node, args) => {
+                return node.nodetype === 'ModuleActions';
+            });
+            if (nodeModuleActions !== null) {
+                const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node, args) => {
+                    return node.nodetype === 'ModuleAction' && node.properties.action === 'Edit';
+                });
+                hasEdit = (nodeEdit !== null && nodeEdit.properties.visible === 'T');
+            }
+        }
+        return hasEdit;
+    }
+    //---------------------------------------------------------------------------------
+    moduleHasNewOrEdit(moduleId: string): boolean {
+        let nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, moduleId);
+        let hasModify = false;
+        if (nodeModule !== null) {
+            const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node, args) => {
+                return node.nodetype === 'ModuleActions';
+            });
+            if (nodeModuleActions !== null) {
+                const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node, args) => {
+                    return node.nodetype === 'ModuleAction' && node.properties.action === 'New';
+                });
+                const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node, args) => {
+                    return node.nodetype === 'ModuleAction' && node.properties.action === 'Edit';
+                });
+                const hasNew = (nodeNew !== null && nodeNew.properties.visible === 'T');
+                const hasEdit = (nodeEdit !== null && nodeEdit.properties.visible === 'T');
+                hasModify = hasNew || hasEdit;
+            }
+        }
+        return hasModify;
+    }
+    //---------------------------------------------------------------------------------
 }
 var FwApplicationTree = new FwApplicationTreeClass();
 //---------------------------------------------------------------------------------

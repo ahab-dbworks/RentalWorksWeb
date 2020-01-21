@@ -36,7 +36,7 @@
         const isTraining = sessionStorage.getItem('istraining');
         let trainingEl;
         if (isTraining === 'true') {
-            trainingEl = `<span style="color:#0b0d0b;background-color:#07b907;border-radius:4px;padding:2px 4px 2px 4px;"> - TRAINING</span>`;
+            trainingEl = `<span style="color:#0b0d0b;background-color:#07b907;border-radius:4px;padding:2px 4px 2px 4px;">TRAINING</span>`;
         } else {
             trainingEl = '';
         }
