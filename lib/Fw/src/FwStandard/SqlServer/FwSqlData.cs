@@ -1,4 +1,4 @@
-﻿using FwStandard.Models;
+using FwStandard.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -39,7 +39,7 @@ namespace FwStandard.SqlServer
         public static async Task<dynamic> GetWebControlAsync(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
-            { 
+            {
                 qry.Add("select top 1 *");
                 qry.Add("from webcontrol with(nolock)");
                 qry.Add("where webcontrolid = 1");
@@ -55,10 +55,10 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        static public async Task<String> GetClientCodeAsync(FwSqlConnection conn, SqlServerConfig dbConfig) 
+        static public async Task<String> GetClientCodeAsync(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
-            { 
+            {
                 qry.Add("select value = dbo.getclientcode()");
                 await qry.ExecuteAsync();
                 string value = qry.GetField("value").ToString().TrimEnd().ToUpper();
@@ -678,6 +678,20 @@ namespace FwStandard.SqlServer
                 }
 
                 return result.ToString();
+            }
+        }
+        //-----------------------------------------------------------------------------
+        static public async Task<bool> IsTraining(SqlServerConfig dbConfig)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                {
+                    qry.Add("select value = dbo.fw_istrainingdb()");
+                    await qry.ExecuteAsync();
+                    string value = qry.GetField("value").ToString().TrimEnd().ToUpper();
+                    return FwConvert.ToBoolean(value);
+                }
             }
         }
         //-----------------------------------------------------------------------------
