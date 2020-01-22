@@ -18,7 +18,7 @@
     renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
         html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
-        html.push('<input class="fwformfield-value" type="tel" autocapitalize="none"');
+        html.push('<input class="fwformfield-value" type="tel" maxlength="14" autocapitalize="none"');
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
@@ -28,12 +28,23 @@
         html.push(' />');
         html.push('</div>');
         $control.html(html.join(''));
-        $control.find('input').inputmask('(999) 999-9999');
-        $control.find('input').intlTelInput();
-        //$control.css('overflow', 'hidden');
-        
-        $control.find('input').on("countrychange", e => {
+        const $input = $control.find('input');
+
+        $input.intlTelInput(
+            {
+                nationalMode: true,
+                utilsScript: "https://localhost/rentalworksweb/libraries/fw/scripts/jquery/internationalphone/build/js/utils.js"
+            }
+        );
+
+        $input.on("countrychange", e => {
             const $this = jQuery(e.currentTarget);
+            const countryCode = $this.intlTelInput('getSelectedCountryData').dialCode;
+            if (countryCode === '1') {
+                $this.inputmask('(999) 999-9999');
+            } else {
+                $this.inputmask('remove');
+            }
             $this.change();
         });
     }
@@ -43,14 +54,21 @@
     }
     //---------------------------------------------------------------------------------
     loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+        const $input = $fwformfield.find('input');
+        const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
+        if (countryCode === '1') {
+            $input.inputmask('(999) 999-9999');
+        } else {
+            $input.inputmask('remove');
+        }
+
         $fwformfield
             .attr('data-originalvalue', value)
             .find('input').intlTelInput('setNumber', value);
-            //.val(value);
     }
     //---------------------------------------------------------------------------------
     disable($control: JQuery<HTMLElement>): void {
-       
+
     }
     //---------------------------------------------------------------------------------
     enable($control: JQuery<HTMLElement>): void {
@@ -64,7 +82,6 @@
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
         const $inputvalue = $fwformfield.find('input').intlTelInput('setNumber', value);
-        //$inputvalue.val(value);
         if (firechangeevent) $inputvalue.change();
     }
     //---------------------------------------------------------------------------------
