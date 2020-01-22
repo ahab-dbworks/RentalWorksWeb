@@ -1037,6 +1037,7 @@
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
+    <Content Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PresentationLayerValidation\PresentationLayerValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomerCreditValidation\CustomerCreditValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomFormValidation\CustomFormValidationBrowse.htm" />
