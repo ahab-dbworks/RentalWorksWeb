@@ -1,6 +1,7 @@
 ﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
+using Fw.Json.ValueTypes;
 using FwStandard.Models;
 using RentalWorksQuikScan.Source;
 using System;
@@ -14,6 +15,8 @@ namespace RentalWorksQuikScan
         {
             FwFunc.WriteLog("Begin Application Start");
             AccountService.Current = new AccountService();
+            string pathFwApplicationSchema = this.Server.MapPath("FwApplicationSchema.config");
+            FwApplicationSchema.Load(pathFwApplicationSchema);
             FwSqlConnection.AppDatabase = FwDatabases.RentalWorks;
             FwReport.AddLicense();
             SqlServerConfig sqlServerConfig = new SqlServerConfig();
