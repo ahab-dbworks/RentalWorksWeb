@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Logic;
+using System;
+
 namespace WebApi.Modules.Settings.ActivityStatus
 {
     [Route("api/v1/[controller]")]
@@ -69,6 +72,25 @@ namespace WebApi.Modules.Settings.ActivityStatus
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ActivityStatusLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/activitystatus/sort
+        [HttpPost("sort")]
+        [FwControllerMethod(Id: "b51hoxyRXK19", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<SortItemsResponse>> SortActivityStatusAsync([FromBody]SortActivityStatusRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await ActivityStatusFunc.SortActivityStatus(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -36,6 +36,9 @@ namespace WebApi.Modules.Settings.ActivityStatus
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Integer)]
+        public int? OrderBy { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

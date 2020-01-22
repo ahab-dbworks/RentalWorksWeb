@@ -35,6 +35,8 @@ namespace WebApi.Modules.Settings.ActivityStatus
         public string TextColor { get { return activityStatus.TextColor; } set { activityStatus.TextColor = value; } }
         [FwLogicProperty(Id: "eDJzA6mVlfB9l")]
         public bool? Inactive { get { return activityStatus.Inactive; } set { activityStatus.Inactive = value; } }
+        [FwLogicProperty(Id: "EbGGuzSp40DS")]
+        public int? OrderBy { get { return activityStatus.OrderBy; } set { activityStatus.OrderBy = value; } }
         [FwLogicProperty(Id: "EDx6vxS8alPR0")]
         public string DateStamp { get { return activityStatus.DateStamp; } set { activityStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
