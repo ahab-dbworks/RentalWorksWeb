@@ -22,26 +22,6 @@
         $item       = screen.$view.find('.qc-item');
         $itemstatus = screen.$view.find('.qc-item-status');
 
-        if (program.hasHfRfidApplicationOption === true) {
-            if (typeof (<any>window).DTDevices !== 'undefined' && typeof (<any>window).DTDevices.rfInitWithFieldGain === 'function') {
-                DTDevices.rfInitWithFieldGain('ISO15', -1000,
-                    function () {
-                        FwNotification.renderNotification('SUCCESS', 'Enabled nearfield scanner.');
-                    },
-                    function () {
-                        FwNotification.renderNotification('ERROR', 'Can\'t enable nearfield scanner.');
-                    }
-                );
-            }
-            if (typeof (<any>window).DTDevices !== 'undefined' && typeof (<any>window).DTDevices.rfInitWithFieldGain === 'function') {
-                DTDevices.registerListener('rfCardDetected', 'rfCardDetected_applicationjs',
-                    function (returnUid, returnType) {
-                        FwNotification.renderNotification('INFO', returnUid);
-                    }
-                );
-            }
-        }
-
         screen.$view.find('#qccontrol').fwmobilemodulecontrol({
             buttons: [
                 {
