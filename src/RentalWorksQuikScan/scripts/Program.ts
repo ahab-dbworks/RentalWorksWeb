@@ -85,11 +85,24 @@ class Program extends FwApplication {
                 if ((typeof me.activeNearfieldTextBox === 'undefined') || ($scantarget.length === 0)) {
                     // do nothing
                 } else {
-                    if ($scantarget.hasClass('fwformfield')) {
-                        FwFormField.setValue(jQuery('html'), scanTargetLpNearfield, uid, '', true);
-                    } else {
-                        $scantarget.val(uid).change();
+                    const updateTextbox = function($scantarget: JQuery, scanTargetLpNearfieldm, code: string, uidType: string) {
+                        if ($scantarget.hasClass('fwformfield')) {
+                            FwFormField.setValue(jQuery('html'), scanTargetLpNearfield, code, '', true);
+                        } else {
+                            $scantarget.val(code).change();
+                        }
+                    };
+                    if (sessionStorage.getItem('scanTargetLpNearfieldReplaceWithBC') === null) {
+                        sessionStorage.setItem('scanTargetLpNearfieldReplaceWithBC', 'true');
                     }
+                    if (sessionStorage.getItem('scanTargetLpNearfieldReplaceWithBC') === 'true') {
+                        RwServices.inventory.getBarcodeFromRfid({ rfid: uid }, (response: any) => {
+                            updateTextbox($scantarget, scanTargetLpNearfield, response.barcode, uidType);
+                        });
+                    } else {
+                        updateTextbox($scantarget, scanTargetLpNearfield, uid, uidType);
+                    }
+                    
                 }
             }
         };
@@ -175,17 +188,7 @@ class Program extends FwApplication {
                         NearfieldRfidScanner.init((uid: string, uidType: string) => {
                             try {
                                 program.setAudioMode('DTDevices');
-                                if (sessionStorage.getItem('scanTargetLpNearfieldReplaceWithBC') === null) {
-                                    sessionStorage.setItem('scanTargetLpNearfieldReplaceWithBC', 'true');
-                                }
-                                if (sessionStorage.getItem('scanTargetLpNearfieldReplaceWithBC') === 'true') {
-                                    RwServices.inventory.getBarcodeFromRfid({ rfid: uid }, (response: any) => {
-                                        this.onLpNearfieldData(response.barcode, uidType);
-                                    });
-                                } else {
-                                    this.onLpNearfieldData(uid, uidType);
-                                }
-                                
+                                this.onLpNearfieldData(uid, uidType);
                                 //FwNotification.renderNotification('INFO', `UID: ${uid}. UID Type: ${uidType}`);
                             } catch (ex) {
                                 FwFunc.showError(ex);
