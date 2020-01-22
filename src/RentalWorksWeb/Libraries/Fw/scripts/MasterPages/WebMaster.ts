@@ -34,9 +34,10 @@
 
         FwControl.renderRuntimeControls($view);
         const isTraining = sessionStorage.getItem('istraining');
+
         let trainingEl;
-        if (isTraining === 'true') {
-            trainingEl = `<span style="color:#0b0d0b;background-color:#07b907;border-radius:4px;padding:2px 4px 2px 4px;">TRAINING</span>`;
+        if (isTraining !== null && isTraining === 'true') {
+            trainingEl = `<span style="color:#0b0d0b;background-color:#07b907;border-radius:4px;padding:2px 4px 2px 4px;font-size:.9em;margin-left:5px;">TRAINING</span>`;
         } else {
             trainingEl = '';
         }
