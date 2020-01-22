@@ -155,6 +155,7 @@
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
+    <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
     <Content Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridBrowse.htm" />
@@ -317,6 +318,7 @@
     <Content Include="Source\Grids\InventoryLocationTaxGrid\InventoryLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridController.ts" />
@@ -544,6 +546,7 @@
     <TypeScriptCompile Include="Source\Modules\Containers\ContainerStatus\ContainerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\FillContainer\FillContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SuspendedSession\SuspendedSession.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\OrderSettings\ActivityType\ActivityType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationSettings\FormDesign\FormDesign.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationSettings\PresentationLayer\PresentationLayer.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SystemSettings\AvailabilitySettings\AvailabilitySettings.ts" />
@@ -724,6 +727,8 @@
     <Content Include="Source\Modules\Billing\Billing\BillingBrowse.htm" />
     <Content Include="Source\Modules\Billing\Billing\BillingForm.htm" />
     <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
+    <Content Include="Source\Modules\Settings\OrderSettings\ActivityType\ActivityTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\OrderSettings\ActivityType\ActivityTypeForm.htm" />
     <Content Include="Source\Modules\Settings\PresentationSettings\FormDesign\FormDesignBrowse.htm" />
     <Content Include="Source\Modules\Settings\PresentationSettings\PresentationLayer\PresentationLayerBrowse.htm" />
     <Content Include="Source\Modules\Settings\PresentationSettings\PresentationLayer\PresentationLayerForm.htm" />
