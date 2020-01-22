@@ -1192,17 +1192,17 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$view.on('keydown', '.scannableitem .fwformfield-value', function(event) {
-        var $this;
-        try {
-            $this = jQuery(this);
-            if (event.which === 13) {
-                $this.change();
-            }
-        } catch(ex) {
-            FwFunc.showError(ex);
-        }
-    });
+    //screen.$view.on('keydown', '.scannableitem .fwformfield-value', function(event) {
+    //    var $this;
+    //    try {
+    //        $this = jQuery(this);
+    //        if (event.which === 13) {
+    //            $this.change();
+    //        }
+    //    } catch(ex) {
+    //        FwFunc.showError(ex);
+    //    }
+    //});
 
     //screen.$view.on('change', '.containerdesc .fwformfield-value', function() {
     //    if (properties.mode === 'fillcontainer') {
