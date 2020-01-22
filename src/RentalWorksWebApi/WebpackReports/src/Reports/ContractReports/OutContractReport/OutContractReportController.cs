@@ -9,14 +9,12 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Data;
+using WebApi.Modules.Reports.ContractReports.ContractReport;
 using WebApi.Modules.Warehouse.Contract;
 
 namespace WebApi.Modules.Reports.ContractReports.OutContractReport
 {
-    public class OutContractReportRequest : AppReportRequest
-    {
-        public string ContractId { get; set; }
-    }
+    public class OutContractReportRequest : ContractReportRequest { }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id:"p2tH0HSDc930")]
@@ -50,15 +48,6 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        //[HttpGet("{contractid}")]
-        //[FwControllerMethod(Id:"HCPKa35FPjMY")]
-        //public async Task<ActionResult<OutContractReport>> GetContract([FromRoute] string contractid)
-        //{
-        //    OutContractReportLogic contractReportRepo = new OutContractReportLogic(this.AppConfig, this.UserSession);
-        //    var contractReport = await contractReportRepo.Get(contractid);
-        //    return new OkObjectResult(contractReport);
-        //}
-        ////------------------------------------------------------------------------------------ 
         // POST api/v1/outcontractreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "HCPKa35FPjMY")]
@@ -80,7 +69,6 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
             }
         }
         //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
         // POST api/v1/outcontractreport/validatecontract/browse 
         [HttpPost("validatecontract/browse")]
         [FwControllerMethod(Id: "lbquhpmzhoyz", ActionType: FwControllerActionTypes.Browse)]
@@ -88,5 +76,6 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
         {
             return await DoBrowseAsync<ContractLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }
