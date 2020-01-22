@@ -200,7 +200,7 @@ class Base {
                                         const responseGetDepartment = values[6];
                                         const responseGetDocumentBarCodeSettings = values[7];
                                         const responseGetSystemNumbers = values[8];
-                                        const responseGetIsTraining = values[8];
+                                        const responseGetIsTraining = values[9];
 
                                         let sounds: any = {}, homePage: any = {}, toolbar: any = {};
                                         sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
