@@ -571,6 +571,7 @@
     <Copy SourceFiles="$(FwApplicationDirectory)\version.txt" DestinationFiles="$(FwDeploymentDirectory)\version.txt" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Web.config" DestinationFiles="$(FwDeploymentDirectory)\Web.config" />
     <Copy SourceFiles="$(FwApplicationDirectory)\app_startupscript.js" DestinationFiles="$(FwDeploymentDirectory)\app_startupscript.js" />
+    <Copy SourceFiles="$(FwApplicationDirectory)\FwApplicationSchema.config" DestinationFiles="$(FwDeploymentDirectory)\FwApplicationSchema.config" />
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwDeploymentDirectory)\web.config&quot; -pattern &quot;debug=&quot;&quot;true&quot;&quot;&quot; -replacement &quot;debug=&quot;&quot;false&quot;&quot;&quot;" ContinueOnError="false" IgnoreExitCode="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\bin" Condition="!Exists('$(FwDeploymentDirectory)\bin')" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentDirectory)\bin&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
