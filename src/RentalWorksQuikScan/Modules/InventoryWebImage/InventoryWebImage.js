@@ -234,6 +234,12 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
 
     screen.load = function() {
         program.setScanTarget('.fwmobilecontrol-value');
+        program.setScanTargetLpNearfield('.fwmobilecontrol-value', true);
+    };
+
+    screen.unload = function() {
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('');
     };
 
     return screen;

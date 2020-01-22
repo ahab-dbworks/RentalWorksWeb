@@ -67,6 +67,8 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
     
     
     screen.resetRepairOrder = function() {
+        program.setScanTarget('.repairorder-search .fwmobilecontrol-value');
+        program.setScanTargetLpNearfield('.repairorder-search .fwmobilecontrol-value', true);
         if (properties.mode === 'repairorder') {
             screen.$btncancel.hide();
             screen.loadRepairOrders();
@@ -138,6 +140,8 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
     });
     
     screen.selectRepairOrder = function(barcode) {
+        program.setScanTarget('');
+        program.setScanTargetLpNearfield('');
         var requestSelectRepairOrder
         screen.$view.find('.browserepairorders-container').hide();
         jQuery('#repairorder-msg').hide();
@@ -315,7 +319,6 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
 
     screen.load = function() {
         screen.resetRepairOrder();
-        program.setScanTarget('.repairorder-search .fwmobilecontrol-value');
         if (!Modernizr.touch) {
             jQuery('.repairorder-search .fwmobilecontrol-value').select();
         }
@@ -328,6 +331,12 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
             screen.loadRepairOrders();
         }
     };
+
+    screen.unload = function() {
+        // reset scan target for LineaPro
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('');
+    }
 
     return screen;
 };

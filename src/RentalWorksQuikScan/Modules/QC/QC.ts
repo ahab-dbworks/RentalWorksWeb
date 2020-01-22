@@ -243,6 +243,7 @@ class QCClass {
 
         screen.load = function() {
             program.setScanTarget('.fwmobilecontrol-value');
+            program.setScanTargetLpNearfield('.fwmobilecontrol-value', true);
             if (typeof (<any>window).TslReader !== 'undefined') {
                 (<any>window).TslReader.registerListener('deviceConnected', 'deviceConnected_rwinventorycontrollerjs_getQCScreen', function() {
                     RwRFID.isConnected = true;
@@ -254,6 +255,9 @@ class QCClass {
         };
 
         screen.unload = function () {
+            // reset scan target for LineaPro
+            program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+            program.setScanTargetLpNearfield('');
             if (typeof (<any>window).TslReader !== 'undefined') {
                 (<any>window).TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwinventorycontrollerjs_getQCScreen');
                 (<any>window).TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwinventorycontrollerjs_getQCScreen');

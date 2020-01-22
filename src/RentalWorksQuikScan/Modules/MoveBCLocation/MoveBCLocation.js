@@ -59,9 +59,15 @@ RwInventoryController.getMoveBCLocationScreen = function(viewModel, properties) 
 
     screen.load = function() {
         program.setScanTarget('.fwmobilecontrol-value');
+        program.setScanTargetLpNearfield('');
         screendata.aisle = '';
         screendata.shelf = '';
     };
+
+    screen.unload = function () {
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('');
+    }
 
     return screen;
 };
