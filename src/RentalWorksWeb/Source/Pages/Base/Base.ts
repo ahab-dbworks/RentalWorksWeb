@@ -1,6 +1,6 @@
 class Base {
     //----------------------------------------------------------------------------------------------
-    async getDefaultScreen() {
+    getDefaultScreen() {
         const viewModel = {
             captionProgramTitle: 'RentalWorks',
             valueYear: new Date().getFullYear(),
