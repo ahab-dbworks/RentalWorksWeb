@@ -260,6 +260,7 @@ RwInventoryController.getRepairItemScreen = function(viewModel, properties) {
 
     screen.load = function() {
         program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData', true);
         if (!Modernizr.touch) {
             jQuery('#scanBarcodeView-txtBarcodeData').select();
         }
@@ -277,6 +278,8 @@ RwInventoryController.getRepairItemScreen = function(viewModel, properties) {
     };
 
     screen.unload = function() {
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('');
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwinventorycontrollerjs_getRepairItemScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwinventorycontrollerjs_getRepairItemScreen');

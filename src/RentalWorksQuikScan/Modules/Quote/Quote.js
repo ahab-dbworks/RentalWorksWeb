@@ -582,6 +582,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
 
     screen.load = function() {
         program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData', true);
         if (!Modernizr.touch) {
             jQuery('#scanBarcodeView-txtBarcodeData').select();
         }
@@ -589,7 +590,8 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
     };
 
     screen.unload = function() {
-
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('');
     };
     
     return screen;

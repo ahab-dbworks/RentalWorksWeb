@@ -1039,6 +1039,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
         screen.$view.find('.scannableitemrow').hide();
         screen.$view.find('.containeritemrow').show();
         program.setScanTarget('.container .containeritem .fwformfield-value');
+        program.setScanTargetLpNearfield('.container .containeritem .fwformfield-value', true);
         if (!Modernizr.touch) {
             screen.$view.find('.containeritem .fwformfield-value').select();
         }
@@ -1153,6 +1154,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                             FwFormField.setValue(screen.$view, '.containerdesc', response.selectcontainer.defaultcontainerdesc.containerid, response.selectcontainer.defaultcontainerdesc.master);
                             screen.$view.find('.containerdescrow').show();
                             program.setScanTarget('');
+                            program.setScanTargetLpNearfield('', true);
                         }
                         // Case 4: User is doing a Fill Container: so need to prompt them to select a container type
                         else if (properties.mode === 'fillcontainer') {
@@ -1162,6 +1164,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                             screen.$view.find('.btnnewcontainerrow').hide();
                             screen.$view.find('.containertoolbar').hide();
                             program.setScanTarget('');
+                            program.setScanTargetLpNearfield('', true);
                             if (typeof response.selectcontainer.selectcontainers === 'object') {
                                 // There are no container definitions
                                 if (response.selectcontainer.selectcontainers.length === 0) {
@@ -1375,6 +1378,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                                 screen.$view.find('.fillcontainerheader .containernorow').hide();
                             }
                             program.setScanTarget('.container .scannableitem .fwformfield-value');
+                            program.setScanTargetLpNearfield('.container .scannableitem .fwformfield-value', true);
                             if (!Modernizr.touch) {
                                 screen.$view.find('.scannableitem .fwformfield-value').select();
                             }
@@ -1419,6 +1423,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                     try {
                         program.popScreen();
                         program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+                        program.setScanTargetLpNearfield('');
                     } catch(ex) {
                         FwFunc.showError(ex);
                     }
@@ -1426,6 +1431,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             } else {
                 program.popScreen();
                 program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+                program.setScanTargetLpNearfield('');
             }
         } catch(ex) {
             FwFunc.showError(ex);
@@ -1807,6 +1813,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             //screen.$view.find('.btnclosecontainerrow').hide();
             screen.$view.find('.containeritem .fwformfield-value').val('');
             program.setScanTarget('.container .scannableitem .fwformfield-value');
+            program.setScanTargetLpNearfield('.container .scannableitem .fwformfield-value', true);
             if (!Modernizr.touch) {
                 jQuery('.container .scannableitem .fwformfield-value').select();
             }
@@ -1830,6 +1837,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             //screen.$view.find('.btnclosecontainerrow').show();
             screen.$btncreatecontainer.hide();
             program.setScanTarget('.container .scannableitem .fwformfield-value');
+            program.setScanTargetLpNearfield('.container .scannableitem .fwformfield-value', true);
             if (!Modernizr.touch) {
                 jQuery('.container .scannableitem .fwformfield-value').select();
             }
