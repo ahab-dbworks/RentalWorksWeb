@@ -33,7 +33,8 @@
         $input.intlTelInput(
             {
                 nationalMode: true,
-                utilsScript: "https://localhost/rentalworksweb/libraries/fw/scripts/jquery/internationalphone/build/js/utils.js"
+                separateDialCode: true,
+                utilsScript: "https://localhost/rentalworksweb/libraries/fw/scripts/jquery/internationalphone/build/js/utils.js",
             }
         );
 
