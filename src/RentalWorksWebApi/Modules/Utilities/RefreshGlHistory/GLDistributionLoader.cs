@@ -48,7 +48,7 @@ namespace WebApi.Modules.Utilities.GLDistribution
         {
             useWithNoLock = false;
             string invoiceId = GetUniqueIdAsString("InvoiceId", request) ?? "";
-            string receiptId = GetUniqueIdAsString("ReceiptId", request) ?? "";
+            string receiptId = GetUniqueIdAsString("ReceiptId", request) ?? ""; 
             string vendorInvoiceId = GetUniqueIdAsString("VendorInvoiceId", request) ?? "";
             _previewing = GetMiscFieldAsBoolean("Preview", request) ?? false;
 
@@ -65,7 +65,7 @@ namespace WebApi.Modules.Utilities.GLDistribution
 
                 if (_previewing)
                 {
-                    //GLDistributionFunc.PostGlForInvoice(invoiceId, true);
+                    GLDistributionFunc.PostGlForInvoice(AppConfig, invoiceId, true);
                 }
             }
 
@@ -103,7 +103,8 @@ namespace WebApi.Modules.Utilities.GLDistribution
         {
             if (_previewing)
             {
-                //GLDistributionFunc.DeleteGlForInvoice(invoiceId);
+                string invoiceId = e.Request.uniqueids.InvoiceId;
+                GLDistributionFunc.DeleteGlForInvoice(AppConfig, invoiceId);
             }
         }
         //------------------------------------------------------------------------------------ 

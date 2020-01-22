@@ -17,6 +17,9 @@ namespace WebApi.Modules.Utilities.GLDistribution
     {
     }
 
+    public class PreviewGLHistoryResponse : TSpStatusResponse
+    {
+    }
 
     public static class GLDistributionFunc
     {
@@ -35,6 +38,33 @@ namespace WebApi.Modules.Utilities.GLDistribution
                 //response.msg = qry.GetParameter("@msg").ToString();
             }
             return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> PostGlForInvoice(FwApplicationConfig appConfig, string invoiceId, bool previewing)
+        {
+            bool success = false;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "postglforinvoice", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, invoiceId);
+                qry.AddParameter("@preview", SqlDbType.NVarChar, ParameterDirection.Input, previewing);
+                await qry.ExecuteNonQueryAsync();
+                success = true;
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
+     public static async Task<bool> DeleteGlForInvoice(FwApplicationConfig appConfig, string invoiceId)
+        {
+            bool success = false;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "deleteglforinvoice", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, invoiceId);
+                await qry.ExecuteNonQueryAsync();
+                success = true;
+            }
+            return success;
         }
         //-------------------------------------------------------------------------------------------------------
     }

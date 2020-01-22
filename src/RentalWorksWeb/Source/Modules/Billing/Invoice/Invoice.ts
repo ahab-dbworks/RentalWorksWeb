@@ -557,6 +557,15 @@ class Invoice {
                 options.hasNew = false;
                 options.hasEdit = false;
                 options.hasDelete = false;
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'Preview G/L Distribution', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.previewGlDistribution($form);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                })
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -953,6 +962,14 @@ class Invoice {
         if (status === 'CLOSED' || status === 'PROCESSED' || status === 'VOID') {
             FwModule.setFormReadOnly($form);
         }
+
+        //enables/disables GL distribution grid preview option
+        if (status != 'NEW' && status != 'APPROVED') {
+            $form.find('.submenu-btn').filter(function () {
+                return jQuery(this).text() === 'Preview G/L Distribution';
+            }).css({ 'pointer-events': 'none', 'color': '#E0E0E0' });
+        }
+
         // Hide tab behavior
         if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
@@ -1069,13 +1086,28 @@ class Invoice {
         }
     };
     //----------------------------------------------------------------------------------------------
+    previewGlDistribution($form: JQuery) {
+        const $glDistributionGrid = $form.find('[data-name="GlDistributionGrid"]');
+        const onDataBind = $glDistributionGrid.data('ondatabind');
+        if (typeof onDataBind == 'function') {
+            $glDistributionGrid.data('ondatabind', request => {
+                onDataBind(request);
+                request.miscfields = {
+                    Preview: true
+                }
+            });
+        }
+        FwBrowse.search($glDistributionGrid);
+    };
+    //----------------------------------------------------------------------------------------------
+
     InvoiceCredit($form: JQuery) {
         const invoiceType = FwFormField.getValueByDataField($form, 'InvoiceType');
 
         if (invoiceType === 'CREDIT') {
             $form.find('div[data-datafield="CreditingInvoiceId"]').show();
         }
-    }
+    };
     //----------------------------------------------------------------------------------------------
     calculateInvoiceItemGridTotals($form: JQuery, gridType: string, totals?, isAdjustment?: boolean): void {
         if (isAdjustment) {
