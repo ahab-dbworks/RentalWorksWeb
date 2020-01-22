@@ -65,7 +65,7 @@ namespace WebApi.Modules.Utilities.GLDistribution
 
                 if (_previewing)
                 {
-                    GLDistributionFunc.PostGlForInvoice(AppConfig, invoiceId, true);
+                    bool b = GLDistributionFunc.PostGlForInvoice(AppConfig, invoiceId, true).Result;
                 }
             }
 
@@ -104,7 +104,7 @@ namespace WebApi.Modules.Utilities.GLDistribution
             if (_previewing)
             {
                 string invoiceId = e.Request.uniqueids.InvoiceId;
-                GLDistributionFunc.DeleteGlForInvoice(AppConfig, invoiceId);
+                bool b = GLDistributionFunc.DeleteGlForInvoice(AppConfig, invoiceId).Result;
             }
         }
         //------------------------------------------------------------------------------------ 
