@@ -32,19 +32,22 @@ class SubWorksheet {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        this.OrderId = parentmoduleinfo.OrderId;
-        this.RecType = parentmoduleinfo.RecType;
-        $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
-        //disables asterisk and save prompt
-        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
+        if (typeof parentmoduleinfo !== 'undefined') {
+            this.OrderId = parentmoduleinfo.OrderId;
+            this.RecType = parentmoduleinfo.RecType;
+            $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
+            //disables asterisk and save prompt
+            $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
-        FwFormField.setValueByDataField($form, 'RequiredDate', parentmoduleinfo.EstimatedStartDate);
-        FwFormField.setValueByDataField($form, 'FromDate', parentmoduleinfo.EstimatedStartDate);
-        FwFormField.setValueByDataField($form, 'ToDate', parentmoduleinfo.EstimatedStopDate);
-        FwFormField.setValueByDataField($form, 'RequiredTime', parentmoduleinfo.EstimatedStartTime);
-        FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', parentmoduleinfo.CurrencyId, parentmoduleinfo.CurrencyCode);
+            FwFormField.setValueByDataField($form, 'RequiredDate', parentmoduleinfo.EstimatedStartDate);
+            FwFormField.setValueByDataField($form, 'FromDate', parentmoduleinfo.EstimatedStartDate);
+            FwFormField.setValueByDataField($form, 'ToDate', parentmoduleinfo.EstimatedStopDate);
+            FwFormField.setValueByDataField($form, 'RequiredTime', parentmoduleinfo.EstimatedStartTime);
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', parentmoduleinfo.CurrencyId, parentmoduleinfo.CurrencyCode);
 
-        this.events($form, parentmoduleinfo)
+            this.events($form, parentmoduleinfo);
+        }
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -473,6 +476,30 @@ class SubWorksheet {
             }
         });
     }
+    //----------------------------------------------------------------------------------------------
+    dynamicColumns($form: any): void {
+        if (this.RecType !== 'R') {
+            const subPurchaseOrderItemGrid = $form.find('.rentalgrid [data-name="SubPurchaseOrderItemGrid"]');
+            const fields = jQuery(subPurchaseOrderItemGrid).find('thead tr.fieldnames > td.column > div.field');
+            const fieldNames: Array<string> = [];
+
+            for (let i = 3; i < fields.length; i++) {
+                let name = jQuery(fields[i]).attr('data-mappedfield');
+                if (name !== "QuantityOrdered") {
+                    fieldNames.push(name);
+                }
+            }
+
+            const hiddenSubPO: Array<string> = [];
+
+            // Non-specific showfields
+            for (let i = 0; i < hiddenSubPO.length; i++) {
+                jQuery(subPurchaseOrderItemGrid.find(`[data-mappedfield="${hiddenSubPO[i]}"]`)).parent().hide();
+            }
+            // Specific showfields
+            for (let i = 0; i < hiddenSubPO.length; i++) { jQuery(subPurchaseOrderItemGrid.find(`[data-mappedfield="${hiddenSubPO[i]}"]`)).parent().hide(); }
+        }
+    };
     //----------------------------------------------------------------------------------------------
 }
 var SubWorksheetController = new SubWorksheet();
