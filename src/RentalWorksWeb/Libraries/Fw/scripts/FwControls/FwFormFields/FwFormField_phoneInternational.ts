@@ -31,7 +31,7 @@
         $control.find('input').inputmask('(999) 999-9999');
         $control.find('input').intlTelInput();
         //$control.css('overflow', 'hidden');
-
+        
         $control.find('input').on("countrychange", e => {
             const $this = jQuery(e.currentTarget);
             $this.change();
@@ -45,8 +45,8 @@
     loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
         $fwformfield
             .attr('data-originalvalue', value)
-            .find('.fwformfield-value')
-            .val(value);
+            .find('input').intlTelInput('setNumber', value);
+            //.val(value);
     }
     //---------------------------------------------------------------------------------
     disable($control: JQuery<HTMLElement>): void {
@@ -58,13 +58,13 @@
     }
     //---------------------------------------------------------------------------------
     getValue2($fwformfield: JQuery<HTMLElement>): any {
-        const value = $fwformfield.find('.fwformfield-value').val();
+        const value = $fwformfield.find('.fwformfield-value').intlTelInput('getNumber');
         return value;
     }
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
-        const $inputvalue = $fwformfield.find('.fwformfield-value');
-        $inputvalue.val(value);
+        const $inputvalue = $fwformfield.find('input').intlTelInput('setNumber', value);
+        //$inputvalue.val(value);
         if (firechangeevent) $inputvalue.change();
     }
     //---------------------------------------------------------------------------------

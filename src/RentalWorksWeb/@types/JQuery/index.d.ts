@@ -1,5 +1,5 @@
 ﻿interface JQuery {
-    intlTelInput: any;
+    intlTelInput(arg1?: any, arg2?: any);
     [x: string]: any;
     ckeditor();
     clockpicker(options: any);
