@@ -22,8 +22,8 @@
                 EmailHistory:  { id: '3XHEm3Q8WSD8z', caption: 'Email History',  nav: 'module/emailhistory', nodetype: 'Module' },
                 Group:         { id: '0vP4rXxgGL1M',  caption: 'Group',          nav: 'module/group', nodetype: 'Module' },
                 Hotfix:        { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',         nav: 'module/hotfix', nodetype: 'Module' },
-                Reports:       { id: '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C', caption: 'Reports', nav: 'module/reports', nodetype: 'Module' },
-                Settings:      { id: '57150967-486A-42DE-978D-A2B0F843341A', caption: 'Settings', nav: 'module/settings', nodetype: 'Module' },
+                Reports:       { id: '', caption: 'Reports', nav: 'module/reports', nodetype: 'Module' },
+                Settings:      { id: '', caption: 'Settings', nav: 'module/settings', nodetype: 'Module' },
                 User:          { id: 'r1fKvn1KaFd0u', caption: 'User',           nav: 'module/user', nodetype: 'Module' }
             }
         },
