@@ -23,7 +23,7 @@ namespace WebApi.Modules.Settings.ActivityStatus
         public string ActivityStatus { get { return activityStatus.ActivityStatus; } set { activityStatus.ActivityStatus = value; } }
         [FwLogicProperty(Id: "eCvYpGm3ZWHP9")]
         public string Rename { get { return activityStatus.Rename; } set { activityStatus.Rename = value; } }
-        [FwLogicProperty(Id: "eCXirPSPzbahG")]
+        [FwLogicProperty(Id: "eCXirPSPzbahG", DisableDirectModify: true)]
         public bool? IsSystemStatus { get { return activityStatus.IsSystemStatus; } set { activityStatus.IsSystemStatus = value; } }
         [FwLogicProperty(Id: "EcXoMVdsMcgvR")]
         public int? ActivityTypeId { get { return activityStatus.ActivityTypeId; } set { activityStatus.ActivityTypeId = value; } }

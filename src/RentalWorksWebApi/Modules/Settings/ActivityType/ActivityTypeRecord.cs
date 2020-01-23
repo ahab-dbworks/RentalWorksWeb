@@ -7,13 +7,13 @@ namespace WebApi.Modules.Settings.ActivityType
     public class ActivityTypeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true)]
+        [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true, identity: true)]
         public int? ActivityTypeId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitytype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
+        [FwSqlDataField(column: "activitytype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string ActivityType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]

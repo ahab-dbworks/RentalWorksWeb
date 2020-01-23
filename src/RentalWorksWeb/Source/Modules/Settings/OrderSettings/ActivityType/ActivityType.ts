@@ -61,6 +61,9 @@
                 request.uniqueids = {
                     ActivityTypeId: FwFormField.getValueByDataField($form, 'ActivityTypeId')
                 };
+            },
+            beforeSave: (request: any) => {
+                request.ActivityTypeId = FwFormField.getValueByDataField($form, 'ActivityTypeId');
             }
         });
     }

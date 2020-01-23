@@ -7,7 +7,7 @@ namespace WebApi.Modules.Settings.ActivityStatus
     public class ActivityStatusRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitystatusid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true)]
+        [FwSqlDataField(column: "activitystatusid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true, identity: true)]
         public int? ActivityStatusId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitystatus", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]

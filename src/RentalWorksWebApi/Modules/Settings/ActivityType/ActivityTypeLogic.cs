@@ -26,7 +26,7 @@ namespace WebApi.Modules.Settings.ActivityType
         public string Description { get { return activityType.Description; } set { activityType.Description = value; } }
         [FwLogicProperty(Id: "e2GJ0za4mBUys")]
         public string Rename { get { return activityType.Rename; } set { activityType.Rename = value; } }
-        [FwLogicProperty(Id: "E3dPVa4QG6PTP")]
+        [FwLogicProperty(Id: "E3dPVa4QG6PTP", DisableDirectModify: true)]
         public bool? IsSystemType { get { return activityType.IsSystemType; } set { activityType.IsSystemType = value; } }
         [FwLogicProperty(Id: "E3Nbpw9nEmyvE")]
         public string Color { get { return activityType.Color; } set { activityType.Color = value; } }
