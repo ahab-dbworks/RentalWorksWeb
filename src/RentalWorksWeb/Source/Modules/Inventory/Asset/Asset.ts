@@ -102,10 +102,52 @@ class RwAsset {
         FwFormField.setValueByDataField($form, 'ItemId', uniqueids.ItemId);
         FwModule.loadForm(this.Module, $form);
 
-        let $submoduleRepairOrderBrowse = this.openRepairOrderBrowse($form);
-        $form.find('.repairOrderSubModule').append($submoduleRepairOrderBrowse);
+        $form.find('.repairOrderSubModule').append(this.openRepairOrderBrowse($form));
+        $form.find('.orderSubModule').append(this.openOrderBrowse($form));
+        $form.find('.transferSubModule').append(this.openTransferBrowse($form));
+        $form.find('.invoiceSubModule').append(this.openInvoiceBrowse($form));
         return $form;
     };
+    //---------------------------------------------------------------------------------------------
+    openTransferBrowse($form) {
+        let itemId = FwFormField.getValueByDataField($form, 'ItemId');
+        let $browse;
+        $browse = TransferOrderController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = TransferOrderController.ActiveViewFields;
+            request.uniqueids = {
+                ItemId: itemId
+            };
+        });
+        return $browse;
+    }
+    //---------------------------------------------------------------------------------------------
+    openInvoiceBrowse($form) {
+        let itemId = FwFormField.getValueByDataField($form, 'ItemId');
+        let $browse;
+        $browse = InvoiceController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = InvoiceController.ActiveViewFields;
+            request.uniqueids = {
+                ItemId: itemId
+            };
+        });
+        return $browse;
+    }
+    //---------------------------------------------------------------------------------------------
+    openOrderBrowse($form) {
+        let itemId = FwFormField.getValueByDataField($form, 'ItemId');
+        let $browse;
+        $browse = OrderController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = OrderController.ActiveViewFields;
+            request.uniqueids = {
+                ItemId: itemId
+            };
+        });
+       
+        return $browse;
+    }
     //---------------------------------------------------------------------------------------------
     openRepairOrderBrowse($form) {
         let itemId = FwFormField.getValueByDataField($form, 'ItemId');
@@ -361,6 +403,9 @@ class RwAsset {
               <div data-type="tab" id="attributetab" class="tab" data-tabpageid="attributetabpage" data-caption="Attribute"></div>
               <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="Quality Control"></div>
               <div data-type="tab" id="repairordertab" class="tab submodule" data-tabpageid="repairordertabpage" data-caption="Repair Orders"></div>
+              <div data-type="tab" id="ordertab" class="tab submodule" data-tabpageid="ordertabpage" data-caption="Orders"></div>
+              <div data-type="tab" id="transfertab" class="tab submodule" data-tabpageid="transfertabpage" data-caption="Transfers"></div>
+              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -600,6 +645,15 @@ class RwAsset {
               </div>
               <!-- Repair Order tab -->
               <div data-type="tabpage" id="repairordertabpage" class="tabpage repairOrderSubModule rwSubModule" data-tabid="repairordertab">
+              </div>
+              <!-- Order tab -->
+              <div data-type="tabpage" id="ordertabpage" class="tabpage orderSubModule rwSubModule" data-tabid="ordertab">
+              </div>
+              <!-- Transfer tab -->
+              <div data-type="tabpage" id="transfertabpage" class="tabpage transferSubModule rwSubModule" data-tabid="transfertab">
+              </div>
+              <!-- Invoice tab -->
+              <div data-type="tabpage" id="invoicetabpage" class="tabpage invoiceSubModule rwSubModule" data-tabid="invoicestab">
               </div>
               <!-- Notes tab -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
