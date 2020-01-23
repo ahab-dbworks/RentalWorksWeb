@@ -730,9 +730,14 @@ class FwModule {
                 window[controller]['afterLoad']($form, response);
             }
         }
+        
+        // work around for when devs add fields in the afterLoad
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
         $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
         $form.data('grids', $form.find('div[data-control="FwGrid"]'));
+        if ($form.data('mode') !== undefined && $form.data('mode') === 'READONLY') {
+            FwModule.setFormReadOnly($form);
+        }
     }
     //----------------------------------------------------------------------------------------------
     static saveForm(module: string, $form: JQuery, parameters: { closetab?: boolean; afterCloseForm?: Function; closeparent?: boolean; navigationpath?: string; refreshRootTab?: boolean }) {
