@@ -16,8 +16,8 @@
             isChecked = $field.find('input').is(':checked');
         } else if ($tr.hasClass('viewmode')) {
             isChecked = $field.attr('data-originalvalue').toUpperCase() === 'T' ||
-                        $field.attr('data-originalvalue').toUpperCase() === 'Y' ||
-                        $field.attr('data-originalvalue').toUpperCase() === 'true';
+                $field.attr('data-originalvalue').toUpperCase() === 'Y' ||
+                $field.attr('data-originalvalue').toUpperCase() === 'true';
         }
         return isChecked;
     }
@@ -35,30 +35,29 @@
     }
     //---------------------------------------------------------------------------------
     isModified($browse: JQuery, $tr: JQuery, $field: JQuery): boolean {
-        var isModified = false;
-        var controller = FwBrowse.getController($browse);
-        let originalValue = $field.attr('data-originalvalue');
+        let isModified = false;
+        const controller = FwBrowse.getController($browse);
+        const originalValue = $field.attr('data-originalvalue');
         if ($tr.hasClass('editmode') || $tr.hasClass('newmode')) {
-            let currentValue = $field.find('input').is(':checked').toString();
+            const currentValue = $field.find('input').is(':checked').toString();
             isModified = currentValue !== originalValue;
         }
         return isModified;
     }
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse: JQuery, $tr: JQuery, $field: JQuery): void {
-        var me = this;
-        var originalCheckedValue = false;
-        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        let originalCheckedValue = false;
+        const originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if (originalvalue === 'T' || originalvalue === 'Y' || originalvalue === 'true') {
             originalCheckedValue = true;
         }
         $field.data('checkthebox', originalCheckedValue);
-        let html = [];
+        const html = [];
         html.push('<div class="checkboxwrapper">');
         html.push('  <input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;" />');  // click events don't bubble to parent on disabled inputs unless pointer-events:none is set
         html.push('  <label></label>');
         html.push('</div>');
-        let $checkboxwrapper = jQuery(html.join(''));
+        const $checkboxwrapper = jQuery(html.join(''));
         $checkboxwrapper.on('click', 'label', function (e: JQuery.Event) {
             try {
                 e.stopPropagation();
@@ -73,23 +72,21 @@
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse: JQuery, $tr: JQuery, $field: JQuery): void {
-        var cbuniqueId = FwApplication.prototype.uniqueId(10);
+        const cbuniqueId = FwApplication.prototype.uniqueId(10);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        let html = [];
+        const html = [];
         html.push('<div class="checkboxwrapper">');
-        html.push('  <input id="' + cbuniqueId + '" class="value" type="checkbox"');
+        html.push(`  <input id="${cbuniqueId}" class="value" type="checkbox"`);
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
         html.push(' />');
-        html.push('  <label for="' + cbuniqueId + '"></label>');
+        html.push(`  <label for="${cbuniqueId}"></label>`);
         html.push('</div>');
-        let htmlString = html.join('');
-        $field.html(htmlString);
+        $field.html(html.join(''));
         this.setFieldValue($browse, $tr, $field, { value: $field.data('checkthebox') });
     }
     //---------------------------------------------------------------------------------
-
 }
 
 var FwBrowseColumn_checkbox = new FwBrowseColumn_checkboxClass();

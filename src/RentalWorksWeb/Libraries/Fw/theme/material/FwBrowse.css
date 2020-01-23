@@ -163,7 +163,7 @@ html.theme-material .fwbrowse > .designer thead > tr > td > .field > .deletefiel
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="text"] input.value {width:100%;box-sizing:border-box;height:100%;line-height:100%;border:0;}
 
 html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] {text-align:center;}
-html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] .checkboxwrapper {position:relative;width: 32px;height: 100%;/* padding: 10px; */margin: 0 auto;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] .checkboxwrapper {position:relative;width: 32px;height: 100%;margin: 0 auto;}
 html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] input.value {position: absolute;top:0;right:0;bottom:0;left:0;box-sizing:border-box;opacity:0;padding:0;width:25px;height:25px;cursor:pointer;}
 html.theme-material .fwbrowse table tbody tr.viewmode .field[data-formdatatype="checkbox"] input.value + label {cursor:pointer;}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="checkbox"] input.value + label {cursor:pointer;}
@@ -392,6 +392,8 @@ html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="numericupdown"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="validation"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="combobox"] {border:1px solid #bdbdbd;}
+html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="olecolor"] {border:1px solid #bdbdbd;}
+
 
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="text"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="date"] {background-color:transparent;}
@@ -403,7 +405,10 @@ html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="checkbox"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="checkbox"] .checkboxwrapper {pointer-events:none;cursor:default;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="note"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="olecolor"] {background-color:transparent;}
+
 
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="text"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="date"] {background-color: #F5F5F5;}
@@ -415,8 +420,11 @@ html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .f
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="checkbox"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="checkbox"] .checkboxwrapper {pointer-events:none;cursor:default;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="note"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="time"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="olecolor"] {background-color: #F5F5F5;}
+
 
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="text"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="date"] {padding: 0 10px;}
@@ -427,6 +435,9 @@ html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="money"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="validation"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="combobox"] {padding: 0 10px;}
+html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="olecolor"] {padding: 0 10px;}
+html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="checkbox"] .checkboxwrapper {pointer-events:none;cursor:default;}
+
 
 html.theme-material .fwbrowse table tbody tr.editrow td .field input:focus {outline:0;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field input.error {background-color:rgba(255, 0, 0, .3);border:1px solid red !important;}
