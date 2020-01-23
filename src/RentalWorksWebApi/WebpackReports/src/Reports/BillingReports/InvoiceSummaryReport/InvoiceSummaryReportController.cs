@@ -66,7 +66,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceSummaryReport
         [FwControllerMethod(Id:"WOX6IuhVMSRA")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest();
+            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
         }

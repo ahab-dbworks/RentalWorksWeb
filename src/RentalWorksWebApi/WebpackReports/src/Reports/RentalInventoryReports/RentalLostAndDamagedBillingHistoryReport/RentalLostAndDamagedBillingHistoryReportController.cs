@@ -68,7 +68,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalLostAndDamagedBill
         [FwControllerMethod(Id: "CqLN3PFVB3Xh")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest();
+            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
         }

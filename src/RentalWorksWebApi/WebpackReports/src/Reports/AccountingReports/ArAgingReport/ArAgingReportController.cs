@@ -62,7 +62,7 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
         [FwControllerMethod(Id:"7vZrn15t6u1")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest();
+            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
         }

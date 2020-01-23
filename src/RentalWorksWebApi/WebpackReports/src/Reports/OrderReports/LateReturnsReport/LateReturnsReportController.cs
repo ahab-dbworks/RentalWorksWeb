@@ -64,7 +64,7 @@ namespace WebApi.Modules.Reports.OrderReports.LateReturnsReport
         [FwControllerMethod(Id:"CM0Y0pZoY03N")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest();
+            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
         }

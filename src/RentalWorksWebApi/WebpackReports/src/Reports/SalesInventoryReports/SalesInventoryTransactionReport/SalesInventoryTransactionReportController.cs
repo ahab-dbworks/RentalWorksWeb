@@ -49,7 +49,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesInventoryTransaction
         [FwControllerMethod(Id:"i1iFq7kwLytBu")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest();
+            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
         }

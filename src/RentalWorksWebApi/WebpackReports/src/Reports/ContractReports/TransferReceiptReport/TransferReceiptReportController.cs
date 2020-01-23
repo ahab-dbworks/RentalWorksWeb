@@ -45,7 +45,7 @@ namespace WebApi.Modules.Reports.ContractReports.TransferReceiptReport
         [FwControllerMethod(Id: "ZtZcIsvTh2iA5")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest();
+            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
         }
