@@ -695,18 +695,18 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         }
         //------------------------------------------------------------------------------------
 
-        public async Task<string> CreateReceiveContract()
-        {
-            string contractId = await purchaseOrder.CreateReceiveContract();
-            return contractId;
-        }
-        //------------------------------------------------------------------------------------
-
-        public async Task<string> CreateReturnContract()
-        {
-            string contractId = await purchaseOrder.CreateReturnContract();
-            return contractId;
-        }
+        //public async Task<string> CreateReceiveContract()
+        //{
+        //    string contractId = await purchaseOrder.CreateReceiveContract();
+        //    return contractId;
+        //}
+        ////------------------------------------------------------------------------------------
+        //
+        //public async Task<string> CreateReturnContract()
+        //{
+        //    string contractId = await purchaseOrder.CreateReturnContract();
+        //    return contractId;
+        //}
         //------------------------------------------------------------------------------------
         public async Task<VoidPurchaseOrderResponse> Void()
         {

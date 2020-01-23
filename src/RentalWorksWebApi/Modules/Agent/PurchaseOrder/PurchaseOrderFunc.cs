@@ -8,15 +8,16 @@ using WebApi.Logic;
 using WebApi.Modules.HomeControls.PurchaseOrderReceiveItem;
 using WebApi.Modules.HomeControls.PurchaseOrderReturnItem;
 using WebApi;
+using System.ComponentModel.DataAnnotations;
+using WebApi.Modules.Warehouse.Contract;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
 
-
-
     public class ReceiveContractRequest
     {
         public string PurchaseOrderId;
+        public string WarehouseId;
     }
 
     public class ReceiveContractResponse
@@ -29,6 +30,43 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public bool? CreateOutContracts;
     }
 
+    public class ReceiveItemRequest
+    {
+        [Required]
+        public string ContractId { get; set; }
+        [Required]
+        public string PurchaseOrderId { get; set; }
+        [Required]
+        public string PurchaseOrderItemId { get; set; }
+        [Required]
+        public int Quantity { get; set; }
+    }
+
+    public class ReceiveItemResponse : TSpStatusResponse
+    {
+        public string ContractId;
+        public string PurchaseOrderId;
+        public string PurchaseOrderItemId;
+        public int Quantity;
+        public double QuantityOrdered;
+        public double QuantityReceived;
+        public double QuantityNeedBarCode;
+        public string QuantityColor;
+    }
+
+
+    public class SelectAllNoneReceiveItemRequest
+    {
+        [Required]
+        public string ContractId { get; set; }
+        [Required]
+        public string PurchaseOrderId { get; set; }
+    }
+
+
+    public class SelectAllNoneReceiveItemResponse : TSpStatusResponse
+    {
+    }
 
     public class ReturnContractRequest
     {
@@ -40,10 +78,51 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public string ContractId;
     }
 
+    public class ReturnItemRequest
+    {
+        [Required]
+        public string ContractId { get; set; }
+        [Required]
+        public string PurchaseOrderId { get; set; }
+        //[Required]
+        public string PurchaseOrderItemId { get; set; }
+        [Required]
+        public int Quantity { get; set; }
+        public string BarCode { get; set; }
+    }
+
+
+    public class ReturnItemResponse : TSpStatusResponse
+    {
+        public string ContractId;
+        public string PurchaseOrderId;
+        public string PurchaseOrderItemId;
+        public int Quantity;
+        public double QuantityOrdered;
+        public double QuantityReceived;
+        public double QuantityReturned;
+    }
+
+    public class SelectAllNoneReturnItemRequest
+    {
+        [Required]
+        public string ContractId { get; set; }
+        [Required]
+        public string PurchaseOrderId { get; set; }
+    }
+
+
+    public class SelectAllNoneReturnItemResponse : TSpStatusResponse
+    {
+    }
+
+
+
     public class PurchaseOrderReceiveBarCodeAddItemsRequest
     {
         public string PurchaseOrderId;
         public string ContractId;
+        public string WarehouseId;
     }
 
     public class PurchaseOrderReceiveBarCodeAddItemsResponse : TSpStatusResponse
@@ -73,6 +152,51 @@ namespace WebApi.Modules.Agent.PurchaseOrder
     public static class PurchaseOrderFunc
     {
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<ReceiveContractResponse> CreateReceiveContract(FwApplicationConfig appConfig, FwUserSession userSession, ReceiveContractRequest request)
+        {
+            ReceiveContractResponse response = new ReceiveContractResponse();
+
+            PurchaseOrderLogic l = new PurchaseOrderLogic();
+            l.SetDependencies(appConfig, userSession);
+            l.PurchaseOrderId = request.PurchaseOrderId;
+            if (await l.LoadAsync<PurchaseOrderLogic>())
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "createreceivecontract", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, request.PurchaseOrderId);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.ContractId = qry.GetParameter("@contractid").ToString();
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<ReturnContractResponse> CreateReturnContract(FwApplicationConfig appConfig, FwUserSession userSession, ReturnContractRequest request)
+        {
+            ReturnContractResponse response = new ReturnContractResponse();
+
+            PurchaseOrderLogic l = new PurchaseOrderLogic();
+            l.SetDependencies(appConfig, userSession);
+            l.PurchaseOrderId = request.PurchaseOrderId;
+            if (await l.LoadAsync<PurchaseOrderLogic>())
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "createreturncontract", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, request.PurchaseOrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.ContractId = qry.GetParameter("@contractid").ToString();
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
         public static async Task<ReceiveItemResponse> ReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string purchaseOrderItemId, int quantity)
         {
             ReceiveItemResponse response = new ReceiveItemResponse();

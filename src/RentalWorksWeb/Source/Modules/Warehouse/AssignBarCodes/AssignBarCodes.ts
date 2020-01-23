@@ -100,12 +100,14 @@ class AssignBarCodes {
 
         //Add items button
         $form.find('.additems').on('click', e => {
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             let request: any = {};
             request = {
                 PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                WarehouseId: warehouse.warehouseid
             }
-            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/receivebarcodeadditems', request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/additems`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success) {
                     FwNotification.renderNotification('SUCCESS', `${response.ItemsAdded} items added.`);
                     FwFormField.setValueByDataField($form, 'PurchaseOrderId', '', '');
@@ -128,7 +130,7 @@ class AssignBarCodes {
                 PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 ContractId: FwFormField.getValueByDataField($form, 'ContractId')
             }
-            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/assignbarcodesfromreceive', request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/assignbarcodes`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.search($poReceiveBarCodeGridControl);
             }, null, $form);
         });

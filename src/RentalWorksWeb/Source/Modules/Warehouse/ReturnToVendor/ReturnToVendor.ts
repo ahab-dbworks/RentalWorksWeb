@@ -82,7 +82,7 @@ class ReturnToVendor {
                     try {
                         const request: any = {};
                         request.ContractId = contractId;
-                        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+                        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/cancelcontract`, request, FwServices.defaultTimeout,
                             response => {
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 ReturnToVendorController.resetForm($form);
@@ -106,7 +106,7 @@ class ReturnToVendor {
         let sessionType = 'RETURN';
 
         if (showSuspendedSessions != "false") {
-            FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/returnsuspendedsessionsexist?warehouseId=${warehouse.warehouseid}`, null, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/suspendedsessionsexist?warehouseId=${warehouse.warehouseid}`, null, FwServices.defaultTimeout,
                 response => {
                     if (response) {
                         $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
@@ -162,7 +162,7 @@ class ReturnToVendor {
                 let request = {
                     PurchaseOrderId: purchaseOrderId
                 }
-                FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/startreturncontract', request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/startsession`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     let contractId = response.ContractId,
                         $pOReturnItemGridControl: any;
 
@@ -227,7 +227,7 @@ class ReturnToVendor {
                 currentDate = date.toLocaleString(),
                 currentTime = date.toLocaleTimeString();
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereturncontract/${contractId}`, null, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/completecontract/${contractId}`, null, FwServices.defaultTimeout,
                 response => {
                     try {
                         let contractInfo: any = {}, $contractForm;
@@ -254,7 +254,7 @@ class ReturnToVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.search($returnItemsGridControl);
             }, function onError(response) {
                 FwFunc.showError(response);
@@ -269,7 +269,7 @@ class ReturnToVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.search($returnItemsGridControl);
             }, function onError(response) {
                 FwFunc.showError(response);
@@ -286,7 +286,7 @@ class ReturnToVendor {
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                     BarCode: FwFormField.getValueByDataField($form, 'BarCode')
                 };
-                FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/returnitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/returnitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success === true) {
                         FwBrowse.search($returnBarCodeGridControl);
                         FwBrowse.search($returnItemsGridControl);

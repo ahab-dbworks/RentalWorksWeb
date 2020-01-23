@@ -1333,42 +1333,6 @@ public string DateStamp { get; set; }
             return newId;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<string> CreateReceiveContract()
-        {
-            string contractId = "";
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER)))
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "createreceivecontract", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    contractId = qry.GetParameter("@contractid").ToString();
-                }
-            }
-            return contractId;
-        }
-        //-------------------------------------------------------------------------------------------------------    
-        public async Task<string> CreateReturnContract()
-        {
-            string contractId = "";
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER)))
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "createreturncontract", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    contractId = qry.GetParameter("@contractid").ToString();
-                }
-            }
-            return contractId;
-        }
-        //-------------------------------------------------------------------------------------------------------    
         public async Task<bool> SubmitQuote()
         {
             bool success = false;

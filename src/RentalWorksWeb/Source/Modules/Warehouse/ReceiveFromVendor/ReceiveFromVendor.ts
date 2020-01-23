@@ -1,11 +1,11 @@
 //routes.push({ pattern: /^module\/receivefromvendor$/, action: function (match: RegExpExecArray) { return ReceiveFromVendorController.getModuleScreen(); } });
 
 class ReceiveFromVendor {
-    Module:                    string = 'ReceiveFromVendor';
-    apiurl:                    string = 'api/v1/receivefromvendor';
-    caption:                   string = Constants.Modules.Warehouse.children.ReceiveFromVendor.caption;
-    nav:                       string = Constants.Modules.Warehouse.children.ReceiveFromVendor.nav;
-    id:                        string = Constants.Modules.Warehouse.children.ReceiveFromVendor.id;
+    Module: string = 'ReceiveFromVendor';
+    apiurl: string = 'api/v1/receivefromvendor';
+    caption: string = Constants.Modules.Warehouse.children.ReceiveFromVendor.caption;
+    nav: string = Constants.Modules.Warehouse.children.ReceiveFromVendor.nav;
+    id: string = Constants.Modules.Warehouse.children.ReceiveFromVendor.id;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
@@ -67,17 +67,17 @@ class ReceiveFromVendor {
     //----------------------------------------------------------------------------------------------
     CancelReceiveFromVendor($form: JQuery): void {
         try {
-            const contractId    = FwFormField.getValueByDataField($form, 'ContractId');
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (contractId != '') {
                 const $confirmation = FwConfirmation.renderConfirmation('Cancel Receive From Vendor', 'Cancelling this Receive From Vendor Session will cause all transacted items to be cancelled. Continue?');
-                const $yes          = FwConfirmation.addButton($confirmation, 'Yes', false);
-                const $no           = FwConfirmation.addButton($confirmation, 'No', true);
+                const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                const $no = FwConfirmation.addButton($confirmation, 'No', true);
 
                 $yes.on('click', () => {
                     try {
                         const request: any = {};
                         request.ContractId = contractId;
-                        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+                        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/cancelcontract`, request, FwServices.defaultTimeout,
                             response => {
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 ReceiveFromVendorController.resetForm($form);
@@ -100,7 +100,7 @@ class ReceiveFromVendor {
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
         let sessionType = 'RECEIVE';
         if (showSuspendedSessions != "false") {
-            FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/receivesuspendedsessionsexist?warehouseId=${warehouse.warehouseid}`, null, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/suspendedsessionsexist?warehouseId=${warehouse.warehouseid}`, null, FwServices.defaultTimeout,
                 response => {
                     if (response) {
                         $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
@@ -149,13 +149,15 @@ class ReceiveFromVendor {
             FwFormField.setValueByDataField($form, 'ReferenceNumber', $tr.find('[data-browsedatafield="ReferenceNumber"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (contractId.length === 0) {
                 let request = {
-                    PurchaseOrderId: purchaseOrderId
+                    PurchaseOrderId: purchaseOrderId,
+                    WarehouseId: warehouse.warehouseid
                 }
 
-                FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/startreceivecontract', request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/startsession`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     let contractId = response.ContractId,
                         $receiveItemsGridControl: any;
 
@@ -179,19 +181,19 @@ class ReceiveFromVendor {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         FwBrowse.renderGrid({
-            nameGrid:         'POReceiveItemGrid',
-            gridSecurityId:   'uYBpfQCZBM4V6',
+            nameGrid: 'POReceiveItemGrid',
+            gridSecurityId: 'uYBpfQCZBM4V6',
             moduleSecurityId: this.id,
-            $form:            $form,
-            pageSize:         9999,
+            $form: $form,
+            pageSize: 9999,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    ContractId:      FwFormField.getValueByDataField($form, 'ContractId'),
+                    ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
                 };
             }
@@ -210,7 +212,7 @@ class ReceiveFromVendor {
                 }
             }
             if (contractId) {
-                FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, requestBody, FwServices.defaultTimeout, response => {
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/completecontract/` + contractId, requestBody, FwServices.defaultTimeout, response => {
                     try {
                         for (let i = 0; i < response.length; i++) {
                             let contractInfo: any = {}, $contractForm;
@@ -237,7 +239,7 @@ class ReceiveFromVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectnone`, request, FwServices.defaultTimeout, response => {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/selectnone`, request, FwServices.defaultTimeout, response => {
                 FwBrowse.search($receiveItemsGridControl);
             }, ex => {
                 FwFunc.showError(ex);
@@ -255,7 +257,7 @@ class ReceiveFromVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectall`, request, FwServices.defaultTimeout, response => {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/selectall`, request, FwServices.defaultTimeout, response => {
                 FwBrowse.search($receiveItemsGridControl);
             }, ex => {
                 FwFunc.showError(ex);
@@ -303,7 +305,7 @@ class ReceiveFromVendor {
             e.stopPropagation();
             let request: any = {};
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereceivecontract/${contractId}`, request, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/completecontract/${contractId}`, request, FwServices.defaultTimeout,
                 response => {
                     let contractInfo: any = {}, $contractForm, $assignBarCodesForm;
 

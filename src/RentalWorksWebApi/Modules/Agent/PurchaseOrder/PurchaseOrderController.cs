@@ -8,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Logic;
-using WebApi.Modules.Warehouse.Contract;
 using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Settings.RateType;
@@ -18,7 +16,6 @@ using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
 using WebApi.Modules.Settings.CurrencySettings.Currency;
 using WebApi.Modules.Settings.TaxSettings.TaxOption;
-using WebApi;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
@@ -93,16 +90,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return await DoEditAsync<PurchaseOrderLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// DELETE api/v1/purchaseorder/A0000001 
-        //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id:"slEQG9pj9a", ActionType: FwControllerActionTypes.Delete)]
-        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        //{
-        //    return await <PurchaseOrderLogic>DoDeleteAsync(id);
-        //}
-        ////------------------------------------------------------------------------------------ 
-
-
         // POST api/v1/purchaseorder/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
         [FwControllerMethod(Id: "kS5BrDluy5bBu", ActionType: FwControllerActionTypes.Edit, Caption: "Apply Bottom Line Days Per Week")]
@@ -130,11 +117,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -165,11 +148,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -200,278 +179,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
-            }
-        }
-
-        //------------------------------------------------------------------------------------       
-
-
-        // GET api/v1/purchaseorder/receivesuspendedsessionsexist
-        [HttpGet("receivesuspendedsessionsexist")]
-        [FwControllerMethod(Id: "RyFgNYsAQk5p9", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<bool>> ReceiveSuspendedSessionsExist(string warehouseId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_RECEIVE, warehouseId);
-            }
-            catch (Exception ex)
-            {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
-            }
-        }
-        //------------------------------------------------------------------------------------ 
-
-
-        // POST api/v1/purchaseorder/startreceivecontract
-        [HttpPost("startreceivecontract")]
-        [FwControllerMethod(Id: "Xs4EV6zXN8jsa", ActionType: FwControllerActionTypes.Edit, Caption: "Start Receive Contract")]
-        public async Task<ActionResult<ReceiveContractResponse>> StartReceiveContractAsync([FromBody]ReceiveContractRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                PurchaseOrderLogic l = new PurchaseOrderLogic();
-                l.SetDependencies(this.AppConfig, this.UserSession);
-                l.PurchaseOrderId = request.PurchaseOrderId;
-                if (await l.LoadAsync<PurchaseOrderLogic>())
-                {
-                    string ContractId = await l.CreateReceiveContract();
-                    ReceiveContractResponse response = new ReceiveContractResponse();
-                    response.ContractId = ContractId;
-                    return new OkObjectResult(response);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception ex)
-            {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
-            }
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorder/completereceivecontract
-        [HttpPost("completereceivecontract/{id}")]
-        [FwControllerMethod(Id: "SFnrq53IYU6HS", ActionType: FwControllerActionTypes.Edit, Caption: "Complete Receive Contract")]
-        public async Task<ActionResult<List<ContractLogic>>> CompleteReceiveContractAsync([FromRoute]string id, [FromBody] CompleteReceiveContractRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-
-                TSpStatusResponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
-                if (response.success)
-                {
-                    List<ContractLogic> contracts = new List<ContractLogic>();
-                    ContractLogic contract = new ContractLogic();
-                    contract.SetDependencies(AppConfig, UserSession);
-                    contract.ContractId = id;
-                    await contract.LoadAsync<ContractLogic>();
-                    contracts.Add(contract);
-                    if (request.CreateOutContracts.GetValueOrDefault(false))
-                    {
-                        List<string> outContractIds = await PurchaseOrderFunc.CreateOutContractsFromReceive(AppConfig, UserSession, id);
-                        foreach (string outContractId in outContractIds)
-                        {
-                            contract = new ContractLogic();
-                            contract.SetDependencies(AppConfig, UserSession);
-                            contract.ContractId = outContractId;
-                            await contract.LoadAsync<ContractLogic>();
-                            contracts.Add(contract);
-                        }
-                    }
-                    return new OkObjectResult(contracts);
-                }
-                else
-                {
-                    throw new Exception(response.msg);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
-            }
-        }
-        //------------------------------------------------------------------------------------       
-
-
-        // GET api/v1/purchaseorder/returnsuspendedsessionsexist
-        [HttpGet("returnsuspendedsessionsexist")]
-        [FwControllerMethod(Id: "zPuvlEmQXvmog", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<bool>> ReturnSuspendedSessionsExist(string warehouseId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_RETURN, warehouseId);
-            }
-            catch (Exception ex)
-            {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
-            }
-        }
-        //------------------------------------------------------------------------------------ 
-
-
-
-        // POST api/v1/purchaseorder/startreturncontract
-        [HttpPost("startreturncontract")]
-        [FwControllerMethod(Id: "IHQC7YuIlyflM", ActionType: FwControllerActionTypes.Edit, Caption: "Start Return Contract")]
-        public async Task<ActionResult<ReturnContractResponse>> StartReturnContractAsync([FromBody]ReturnContractRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                PurchaseOrderLogic l = new PurchaseOrderLogic();
-                l.SetDependencies(this.AppConfig, this.UserSession);
-                l.PurchaseOrderId = request.PurchaseOrderId;
-                if (await l.LoadAsync<PurchaseOrderLogic>())
-                {
-                    string ContractId = await l.CreateReturnContract();
-                    ReturnContractResponse response = new ReturnContractResponse();
-                    response.ContractId = ContractId;
-                    return new OkObjectResult(response);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception ex)
-            {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
-            }
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorder/completereturncontract
-        [HttpPost("completereturncontract/{id}")]
-        [FwControllerMethod(Id: "Yu4sDt9BpjVrt", ActionType: FwControllerActionTypes.Edit, Caption: "Complete Return Contract")]
-        public async Task<ActionResult<ContractLogic>> CompleteReturnContractAsync([FromRoute]string id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-
-                TSpStatusResponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
-                if (response.success)
-                {
-
-                    ContractLogic contract = new ContractLogic();
-                    contract.SetDependencies(AppConfig, UserSession);
-                    contract.ContractId = id;
-                    bool x = await contract.LoadAsync<ContractLogic>();
-                    return new OkObjectResult(contract);
-                }
-                else
-                {
-                    throw new Exception(response.msg);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
-            }
-        }
-        //------------------------------------------------------------------------------------    
-        // POST api/v1/purchaseorder/receivebarcodeadditems
-        [HttpPost("receivebarcodeadditems")]
-        [FwControllerMethod(Id: "x7nZuntw3E0dk", ActionType: FwControllerActionTypes.Edit, Caption: "Receive Bar Code Add Items")]
-        public async Task<ActionResult<PurchaseOrderReceiveBarCodeAddItemsResponse>> ReceiveBarCodeAddItems([FromBody] PurchaseOrderReceiveBarCodeAddItemsRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-
-                PurchaseOrderReceiveBarCodeAddItemsResponse response = await ContractFunc.AddInventoryFromReceive(AppConfig, UserSession, request.PurchaseOrderId, request.ContractId);
-                return new OkObjectResult(response);
-            }
-            catch (Exception ex)
-            {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
-            }
-        }
-        //------------------------------------------------------------------------------------       
-        // POST api/v1/purchaseorder/assignbarcodesfromreceive
-        [HttpPost("assignbarcodesfromreceive")]
-        [FwControllerMethod(Id: "RFMr1ZCHMVvo4", ActionType: FwControllerActionTypes.Edit, Caption: "Assign Bar-Codes From Receive")]
-        public async Task<ActionResult<PurchaseOrderReceiveAssignBarCodesResponse>> AssignBarCodesFromReceive([FromBody] PurchaseOrderReceiveAssignBarCodesRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-
-                PurchaseOrderReceiveAssignBarCodesResponse response = await ContractFunc.AssignBarCodesFromReceive(AppConfig, UserSession, request.PurchaseOrderId, request.ContractId);
-                return new OkObjectResult(response);
-            }
-            catch (Exception ex)
-            {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
@@ -511,11 +219,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------       
@@ -614,5 +318,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         {
             return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------
     }
 }

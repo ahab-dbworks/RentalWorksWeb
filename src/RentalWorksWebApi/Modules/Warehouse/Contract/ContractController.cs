@@ -99,31 +99,6 @@ namespace WebApi.Modules.Warehouse.Contract
             return await DoDeleteAsync<ContractLogic>(id);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/contract/cancelcontract
-        [HttpPost("cancelcontract")]
-        [FwControllerMethod(Id: "S8ybdjuN7MU", ActionType: FwControllerActionTypes.Option, Caption: "Cancel Contract")]
-        public async Task<ActionResult<TSpStatusResponse>> CancelContract([FromBody]CancelContractRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                TSpStatusResponse response = await ContractFunc.CancelContract(AppConfig, UserSession, request);
-                return response;
-            }
-            catch (Exception ex)
-            {
-                //FwApiException jsonException = new FwApiException();
-                //jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                //jsonException.Message = ex.Message;
-                //jsonException.StackTrace = ex.StackTrace;
-                //return StatusCode(jsonException.StatusCode, jsonException);
-                return GetApiExceptionResult(ex);
-            }
-        }
-        //------------------------------------------------------------------------------------
         // POST api/v1/contract/voidcontract
         [HttpPost("voidcontract")]
         [FwControllerMethod(Id: "bwrnjBpQv1P", ActionType: FwControllerActionTypes.Option, Caption: "Void Contract")]
