@@ -1016,6 +1016,9 @@ class Deal {
           <div class="column" data-width="300px" data-visible="true">
             <div class="field" data-caption="Customer" data-datafield="Customer" data-browsedatatype="text" data-sort="off"></div>
           </div>
+          <div class="column" data-width="300px" data-visible="true">
+            <div class="field" data-caption="Phone" data-datafield="Phone" data-browsedatatype="phone" data-sort="off"></div>
+          </div>
           <div class="column spacer" data-width="auto" data-visible="true"></div>
         </div>`;
     }
