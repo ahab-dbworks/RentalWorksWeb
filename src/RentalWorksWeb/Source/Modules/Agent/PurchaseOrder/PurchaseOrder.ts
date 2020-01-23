@@ -209,24 +209,6 @@ class PurchaseOrder implements IModule {
         $form.find('div.fwformfield[data-datafield="PurchaseOrderId"] input').val(uniqueids.PurchaseOrderId);
         FwModule.loadForm(this.Module, $form);
 
-        const $vendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
-        $form.find('.vendorinvoice').append($vendorInvoiceBrowse);
-        $form.find('.contractSubModule').append(this.openContractBrowse($form));
-
-        //replace default click event on "New" button in Vendor Invoice sub-module to default PO
-        $vendorInvoiceBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        $vendorInvoiceBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            if ($form.attr('data-mode') !== 'NEW') {
-                const $vendorInvoiceForm = VendorInvoiceController.openForm('NEW');
-                const poNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-                const poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-                FwFormField.setValueByDataField($vendorInvoiceForm, 'PurchaseOrderId', poId, poNumber, true);
-                FwModule.openSubModuleTab($vendorInvoiceBrowse, $vendorInvoiceForm);
-            } else {
-                FwNotification.renderNotification('WARNING', 'Save the record first.')
-            }
-        });
-
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -1577,6 +1559,23 @@ class PurchaseOrder implements IModule {
             this.calculateOrderItemGridTotals($form, gridType);
         });
         this.disableCheckboxesOnLoad($form);
+
+        const $vendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
+        $form.find('.vendorinvoice').empty().append($vendorInvoiceBrowse);
+        $form.find('.contractSubModule').empty().append(this.openContractBrowse($form));
+
+        //replace default click event on "New" button in Vendor Invoice sub-module to default PO
+        $vendorInvoiceBrowse.find('div.btn[data-type="NewMenuBarButton"]').off().on('click', function () {
+            if ($form.attr('data-mode') !== 'NEW') {
+                const $vendorInvoiceForm = VendorInvoiceController.openForm('NEW');
+                const poNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+                const poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+                FwFormField.setValueByDataField($vendorInvoiceForm, 'PurchaseOrderId', poId, poNumber, true);
+                FwModule.openSubModuleTab($vendorInvoiceBrowse, $vendorInvoiceForm);
+            } else {
+                FwNotification.renderNotification('WARNING', 'Save the record first.')
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
