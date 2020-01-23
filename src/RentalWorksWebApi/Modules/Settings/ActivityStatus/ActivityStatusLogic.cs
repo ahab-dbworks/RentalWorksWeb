@@ -47,6 +47,20 @@ namespace WebApi.Modules.Settings.ActivityStatus
             {
                 IsSystemStatus = false;
             }
+
+            if (IsSystemStatus.GetValueOrDefault(false))
+            {
+                if (original != null)
+                {
+                    string origActivityStatus = ((ActivityStatusLogic)original).ActivityStatus;
+                    if (!ActivityStatus.Equals(origActivityStatus))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot modify the Activity Status of a System Default {this.BusinessLogicModuleName} record.";
+                    }
+                }
+            }
+
             return isValid;
         }
         //------------------------------------------------------------------------------------
@@ -59,6 +73,7 @@ namespace WebApi.Modules.Settings.ActivityStatus
             if (l2.IsSystemStatus.Value)
             {
                 e.PerformDelete = false;
+                e.ErrorMessage = $"Cannot delete a System Default {this.BusinessLogicModuleName} record.";
             }
         }
         //------------------------------------------------------------------------------------ 

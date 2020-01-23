@@ -31,6 +31,17 @@ namespace WebApi.Modules.Settings.ActivityType
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/activitytype/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "SimkgFK38JhXq", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("User Activity", RwGlobals.USER_DEFINED_ACTIVITY_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
+        //------------------------------------------------------------------------------------ 
         // GET api/v1/activitytype 
         [HttpGet]
         [FwControllerMethod(Id: "dZYTnIyHRp3fJ", ActionType: FwControllerActionTypes.Browse)]

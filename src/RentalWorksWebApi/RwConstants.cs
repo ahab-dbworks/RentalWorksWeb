@@ -590,6 +590,11 @@ namespace WebApi
         public const string PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED = "UD";
         public const int PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR = 16776960;   // aqua
 
+
+        // ACTIVITY
+        public const int USER_DEFINED_ACTIVITY_COLOR = 11447902;                    // teal
+
+
     }
 
     public class QuoteOrderCopyRequest

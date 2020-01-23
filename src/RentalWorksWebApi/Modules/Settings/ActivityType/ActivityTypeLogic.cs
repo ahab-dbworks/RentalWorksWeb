@@ -20,14 +20,18 @@ namespace WebApi.Modules.Settings.ActivityType
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "E227PJ3po6bhS", IsPrimaryKey: true)]
         public int? ActivityTypeId { get { return activityType.ActivityTypeId; } set { activityType.ActivityTypeId = value; } }
-        [FwLogicProperty(Id: "E2CHlWqgXsDLZ", IsRecordTitle: true)]
+        [FwLogicProperty(Id: "E2CHlWqgXsDLZ")]
         public string ActivityType { get { return activityType.ActivityType; } set { activityType.ActivityType = value; } }
-        [FwLogicProperty(Id: "E2DZmrMSNqHhY")]
+        [FwLogicProperty(Id: "E2DZmrMSNqHhY", IsRecordTitle: true)]
         public string Description { get { return activityType.Description; } set { activityType.Description = value; } }
         [FwLogicProperty(Id: "e2GJ0za4mBUys")]
         public string Rename { get { return activityType.Rename; } set { activityType.Rename = value; } }
         [FwLogicProperty(Id: "E3dPVa4QG6PTP", DisableDirectModify: true)]
         public bool? IsSystemType { get { return activityType.IsSystemType; } set { activityType.IsSystemType = value; } }
+        [FwLogicProperty(Id: "tPwWW9VUPc4ou", IsReadOnly: true)]
+        public string SystemUser { get; set; }
+        [FwLogicProperty(Id: "y5oZv9jMZpah7", IsReadOnly: true)]
+        public string SystemUserColor { get; set; }
         [FwLogicProperty(Id: "E3Nbpw9nEmyvE")]
         public string Color { get { return activityType.Color; } set { activityType.Color = value; } }
         [FwLogicProperty(Id: "e3OMNwqVy5ar8")]
@@ -44,6 +48,20 @@ namespace WebApi.Modules.Settings.ActivityType
             {
                 IsSystemType = false;
             }
+
+            if (IsSystemType.GetValueOrDefault(false))
+            {
+                if (original != null)
+                {
+                    string origActivityType = ((ActivityTypeLogic)original).ActivityType;
+                    if (!ActivityType.Equals(origActivityType))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot modify the Activity Type of a System {this.BusinessLogicModuleName} record.";
+                    }
+                }
+            }
+
             return isValid;
         }
         //------------------------------------------------------------------------------------
@@ -56,6 +74,7 @@ namespace WebApi.Modules.Settings.ActivityType
             if (l2.IsSystemType.Value)
             {
                 e.PerformDelete = false;
+                e.ErrorMessage = $"Cannot delete a System {this.BusinessLogicModuleName} record.";
             }
         }
         //------------------------------------------------------------------------------------ 

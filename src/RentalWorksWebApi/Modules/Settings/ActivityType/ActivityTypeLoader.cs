@@ -2,12 +2,18 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
 namespace WebApi.Modules.Settings.ActivityType
 {
     [FwSqlTable("activitytypeview")]
     public class ActivityTypeLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public ActivityTypeLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
         public int? ActivityTypeId { get; set; } = 0;
@@ -24,6 +30,16 @@ namespace WebApi.Modules.Settings.ActivityType
         [FwSqlDataField(column: "systemtype", modeltype: FwDataTypes.Boolean)]
         public bool? IsSystemType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "systemuser", modeltype: FwDataTypes.Text)]
+        public string SystemUser { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string SystemUserColor
+        {
+            get { return getSystemUserColor(IsSystemType); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
         public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -40,6 +56,31 @@ namespace WebApi.Modules.Settings.ActivityType
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("SystemUserColor")] = getSystemUserColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsSystemType")].ToString()));
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getSystemUserColor(bool? isSystemType)
+        {
+            string color = null;
+            if (!isSystemType.GetValueOrDefault(false))
+            {
+                color = RwGlobals.USER_DEFINED_ACTIVITY_COLOR;
+            }
+            return color;
         }
         //------------------------------------------------------------------------------------ 
     }
