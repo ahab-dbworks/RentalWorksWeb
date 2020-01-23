@@ -407,7 +407,7 @@ class FwSettingsClass {
                                 html.push(`<div class="checkboxwrapper"><input class="value" data-datafield="${browseData[j]['datafield']}" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>`);
                             }
                         } else {
-                            if (browseData[j]['color']) {
+                            if (browseData[j]['color'] && response[i][browseData[j]['color']] != null ) {
                                 html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:${response[i][browseData[j]['color']]};width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">`);
                             } else {
                                 html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">`);
@@ -815,7 +815,7 @@ class FwSettingsClass {
                                                 }
                                             } else {
                                                 const color = response[i][browseData[j]['color']];
-                                                if (browseData[j]['color'] && color !== '') {
+                                                if (browseData[j]['color'] && color !== '' && color != null) {
                                                     html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:${response[i][browseData[j]['color']]};width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">`);
                                                 } else {
                                                     html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">`);
@@ -1368,7 +1368,7 @@ class FwSettingsClass {
                         html.push(`<div class="checkboxwrapper"><input class="value" data-datafield="${browseData[i]['datafield']}" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>`);
                     }
                 } else {
-                    if (browseData[i]['color']) {
+                    if (browseData[i]['color'] && saveData[browseData[i]['color']] != null) {
                         html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:${saveData[browseData[i]['color']]};width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">`);
                     } else {
                         html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">`);
