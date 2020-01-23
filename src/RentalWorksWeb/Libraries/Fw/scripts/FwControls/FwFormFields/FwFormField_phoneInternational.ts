@@ -18,7 +18,7 @@
     renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
         html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
-        html.push('<input class="fwformfield-value" type="tel" maxlength="14" autocapitalize="none"');
+        html.push('<input class="fwformfield-value" type="tel" autocapitalize="none"');
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
@@ -43,8 +43,10 @@
             const countryCode = $this.intlTelInput('getSelectedCountryData').dialCode;
             if (countryCode === '1') {
                 $this.inputmask('(999) 999-9999');
+                $input.attr('maxlength', '14');
             } else {
                 $this.inputmask('remove');
+                $input.attr('maxlength', '10')
             }
             $this.change();
         });
@@ -59,8 +61,10 @@
         const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
         if (countryCode === '1') {
             $input.inputmask('(999) 999-9999');
+            $input.attr('maxlength', '14');
         } else {
             $input.inputmask('remove');
+            $input.attr('maxlength', '10');
         }
 
         $fwformfield
@@ -77,7 +81,14 @@
     }
     //---------------------------------------------------------------------------------
     getValue2($fwformfield: JQuery<HTMLElement>): any {
-        const value = $fwformfield.find('.fwformfield-value').intlTelInput('getNumber');
+        const $input = $fwformfield.find('input');
+        let value;
+        const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
+        if (countryCode === '1') {
+            value = $input.val();
+        } else {
+            value = $input.intlTelInput('getNumber');
+        }
         return value;
     }
     //---------------------------------------------------------------------------------
