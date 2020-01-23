@@ -128,11 +128,10 @@ IF "%commitandftp%"=="y" (
     cd %DwRentalWorksWebPath%
     copy releasedocumentlogo.png build /y
 
-    rem command-line gren make Build Release Document
+    rem command-line gren make Build Release Document for all issues between the previous version's tag and this current tag
     cd %DwRentalWorksWebPath%\build
-    call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%fullversionno% -c ..\config.grenrc
-	rem syntax to produce a cumulative document for a range of tags:
-    rem call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t web/vNEWWESTVERSION..web/vLASTVERSIONRELEASED -c ..\config.grenrc
+    rem call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%fullversionno% -c ..\config.grenrc
+    call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%previousversionno%..%tagprefix%/v%fullversionno% -c ..\config.grenrc
     start v%fullversionno%.md
 
     rem produce a PDF of the MD file
