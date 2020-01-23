@@ -227,7 +227,7 @@ class SubWorksheet {
             FwBrowse.multiSaveRow($subPurchaseOrderItemGridControl, $trs);
         });
 
-        $form.find('.bottom_line_daysperweek').on('change', e => {
+        $form.find('div[data-datafield="DaysPerWeek"]').on('change', e => {
             const $element = jQuery(e.currentTarget);
             const daysPerWeek = FwFormField.getValue2($element);
             const $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
@@ -297,7 +297,9 @@ class SubWorksheet {
                     FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.vendordaily').show() : $form.find('.vendordaily').hide();
                     FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $dwColumn.show() : $dwColumn.hide();
                     parentmoduleinfo.RateType === 'DAILY' ? $dealDwColumn.show() : $dealDwColumn.hide();
-
+                    if (this.RecType && this.RecType !== 'R') {
+                        this.hideWeekly($form);
+                    }
                 } else {
                     $form.find('.error-msg:not(.qty)').html(`<div style="margin-left:5px;"><span>${response.msg}</span></div>`);
                 }
@@ -353,6 +355,9 @@ class SubWorksheet {
                         $form.find('.create-modify-po').text('Update Purchase Order');
 
                         FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.daily').show() : $form.find('.daily').hide();
+                        if (this.RecType && this.RecType !== 'R') {
+                            this.hideWeekly($form);
+                        }
                     } else {
                         $form.find('.error-msg:not(.qty)').html(`<div style="margin-left:5px;"><span>${response.msg}</span></div>`);
                     }
@@ -439,20 +444,6 @@ class SubWorksheet {
     }
     //----------------------------------------------------------------------------------------------
     renderPOGrid($form: JQuery): void {
-        //const $subPurchaseOrderItemGrid = $form.find('div[data-grid="SubPurchaseOrderItemGrid"]');
-        //const $subPurchaseOrderItemGridControl = FwBrowse.loadGridFromTemplate('SubPurchaseOrderItemGrid');
-        //$subPurchaseOrderItemGrid.empty().append($subPurchaseOrderItemGridControl);
-        //$subPurchaseOrderItemGridControl.data('ondatabind', request => {
-        //    request.pagesize = 0;
-        //    request.uniqueids = { OrderId: this.OrderId };
-        //    request.totalfields = this.gridTotalFields;
-        //});
-        //$subPurchaseOrderItemGridControl.data('beforesave', request => {
-        //    request.SessionId = this.SessionId;
-        //});
-        //FwBrowse.init($subPurchaseOrderItemGridControl);
-        //FwBrowse.renderRuntimeHtml($subPurchaseOrderItemGridControl);
-
         // ----------
         FwBrowse.renderGrid({
             nameGrid: 'SubPurchaseOrderItemGrid',
@@ -477,28 +468,17 @@ class SubWorksheet {
         });
     }
     //----------------------------------------------------------------------------------------------
-    dynamicColumns($form: any): void {
-        if (this.RecType !== 'R') {
-            const subPurchaseOrderItemGrid = $form.find('.rentalgrid [data-name="SubPurchaseOrderItemGrid"]');
-            const fields = jQuery(subPurchaseOrderItemGrid).find('thead tr.fieldnames > td.column > div.field');
-            const fieldNames: Array<string> = [];
+    hideWeekly($form: any): void {
+        const subPurchaseOrderItemGrid = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+        const hiddenSubPO: Array<string> = ["DealDaysPerWeek", "VendorDaysPerWeek", "VendorWeeklyExtended", "DealWeeklyExtended"];
 
-            for (let i = 3; i < fields.length; i++) {
-                let name = jQuery(fields[i]).attr('data-mappedfield');
-                if (name !== "QuantityOrdered") {
-                    fieldNames.push(name);
-                }
-            }
-
-            const hiddenSubPO: Array<string> = [];
-
-            // Non-specific showfields
-            for (let i = 0; i < hiddenSubPO.length; i++) {
-                jQuery(subPurchaseOrderItemGrid.find(`[data-mappedfield="${hiddenSubPO[i]}"]`)).parent().hide();
-            }
-            // Specific showfields
-            for (let i = 0; i < hiddenSubPO.length; i++) { jQuery(subPurchaseOrderItemGrid.find(`[data-mappedfield="${hiddenSubPO[i]}"]`)).parent().hide(); }
+        // hide fields
+        for (let i = 0; i < hiddenSubPO.length; i++) {
+            jQuery(subPurchaseOrderItemGrid.find(`[data-mappedfield="${hiddenSubPO[i]}"]`)).parent().hide();
         }
+        $form.find('div[data-datafield="DayPerWeek"]').hide();
+        FwFormField.setValueByDataField($form, 'GridView', 'P');
+        $form.find('div[data-datatype="GridView"]').hide();
     };
     //----------------------------------------------------------------------------------------------
 }

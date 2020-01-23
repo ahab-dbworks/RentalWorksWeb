@@ -730,7 +730,7 @@
                 const $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
                 FwBrowse.search($grid).then(() => {
                     if ($grid.find('tbody tr').length > 0) {
-                        FwFormField.setValueByDataField($form, 'GridView', 'PENDING')
+                        FwFormField.setValueByDataField($form, 'GridView', 'PENDING');
                         $form.find('div[data-datafield="GridView"] input').change();
                         const $confirmation = FwConfirmation.renderConfirmation(`Confirm?`, '');
                         const html = `<div class="flexrow">Pending items exist. Continue with Contract?</div>`;
