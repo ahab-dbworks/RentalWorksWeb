@@ -80,7 +80,22 @@ namespace WebApi.Modules.Administrator.Group
         {
             return await DoGetApplicationTree(id);
         }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/group/copysecuritynode
+        [HttpPost("copysecuritynode")]
+        [FwControllerMethod("VFM1H0DG464L", FwControllerActionTypes.Option)]
+        public async Task<ActionResult<FwAmSecurityTreeNode>> CopySecurityNode([FromBody]CopySecurityNodeRequest request)
+        {
+            return await DoCopySecurityGroup(request);
+        }
+        //------------------------------------------------------------------------------------
+        // GET api/v1/group/lookupgroup
+        [HttpGet("lookupgroup")]
+        [FwControllerMethod("YG15U7JIb8Ew", FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<GetResponse<LookupGroupResponse>>> LookupGroupAsync([FromQuery]LookupGroupRequest request)
+        {
+            return await this.DoGetManyAsync<LookupGroupResponse>(request, typeof(FwGroupLogic));
+        }
         //---------------------------------------------------------------------------------------------
-
     }
 }
