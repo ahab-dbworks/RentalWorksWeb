@@ -339,6 +339,7 @@ abstract class FwWebApiReport {
                         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
                             (successResponse: RenderResponse) => {
                                 try {
+                                    FwNotification.renderNotification('SUCCESS', 'Email Sent');
                                 } catch (ex) {
                                     FwFunc.showError(ex);
                                 } finally {
@@ -366,7 +367,7 @@ abstract class FwWebApiReport {
                     if (isValid) {
                         const $confirmation = FwConfirmation.renderConfirmation(FwLanguages.translate('E-mail PDF'), '');
                         FwConfirmation.addControls($confirmation, this.getEmailTemplate());
-                        const $btnSend = FwConfirmation.addButton($confirmation, 'Send');
+                        const $btnSend = FwConfirmation.addButton($confirmation, 'Send', false);
                         FwConfirmation.addButton($confirmation, 'Cancel');
 
                         let email = '[me]';
@@ -385,8 +386,8 @@ abstract class FwWebApiReport {
                                 const requestEmailPdf: any = this.getRenderRequest($form);
                                 requestEmailPdf.renderMode = 'Email';
                                 requestEmailPdf.email.from = FwFormField.getValueByDataField($confirmation, 'from');
-                                requestEmailPdf.email.to = $confirmation.find('[data-datafield="tousers"] input.fwformfield-text').val();
-                                requestEmailPdf.email.cc = $confirmation.find('[data-datafield="ccusers"] input.fwformfield-text').val();
+                                requestEmailPdf.email.to = $confirmation.find('[data-datafield="tousers"] input.fwformfield-value').val();
+                                requestEmailPdf.email.cc = $confirmation.find('[data-datafield="ccusers"] input.fwformfield-value').val();
                                 requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
                                 requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
                                 requestEmailPdf.parameters = await this.convertParameters(this.getParameters($form));
@@ -396,6 +397,7 @@ abstract class FwWebApiReport {
                                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
                                         (successResponse) => {
                                             try {
+                                                FwConfirmation.destroyConfirmation($confirmation);
                                                 FwNotification.renderNotification('SUCCESS', 'Email Sent');
                                             } catch (ex) {
                                                 FwFunc.showError(ex);
@@ -659,10 +661,10 @@ abstract class FwWebApiReport {
                   <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers email" data-allcaps="false" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
+                  <div data-datafield="tousers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield tousers email" data-caption="To" data-allcaps="false" style="box-sizing:border-box;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers email" data-allcaps="false" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="box-sizing:border-box;"></div>
+                  <div data-datafield="ccusers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ccusers email" data-caption="CC" data-allcaps="false" style="box-sizing:border-box;"></div>
                </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-allcaps="false" data-enabled="true"></div>
@@ -672,6 +674,8 @@ abstract class FwWebApiReport {
                 </div>
               </div>
             </div>`;
+        //<div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers email" data-allcaps="false" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
+        //<div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers email" data-allcaps="false" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="box-sizing:border-box;"></div>
     }
     //----------------------------------------------------------------------------------------------
 }
