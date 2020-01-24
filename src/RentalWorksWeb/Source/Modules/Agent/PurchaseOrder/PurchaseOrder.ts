@@ -195,7 +195,35 @@ class PurchaseOrder implements IModule {
             { value: 'M', caption: 'Monthly' },
             { value: 'P', caption: 'Period' }
         ]);
+        FwFormField.loadItems($form.find('div[data-datafield="ReceiveDeliveryDeliveryType"]'), [
+            { value: 'DELIVER', text: 'Vendor Deliver' },
+            { value: 'SHIP', text: 'Vendor Ship' },
+            { value: 'PICK UP', text: 'Pick Up' }
+        ], true);
+        FwFormField.loadItems($form.find('div[data-datafield="ReceiveDeliveryAddressType"]'), [
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'VENUE', caption: 'Venue' },
+            { value: 'WAREHOUSE', caption: 'Warehouse' },
+            { value: 'OTHER', caption: 'Other' }
+        ]);
 
+        FwFormField.loadItems($form.find('div[data-datafield="ReceiveDeliveryOnlineOrderStatus"]'), [
+            { value: 'PARTIAL', text: 'Partial' },
+            { value: 'COMPLETE', text: 'Complete' }
+        ], true);
+
+        FwFormField.loadItems($form.find('div[data-datafield="ReturnDeliveryDeliveryType"]'), [
+            { value: 'DELIVER', text: 'Deliver' },
+            { value: 'SHIP', text: 'Ship' },
+            { value: 'PICK UP', text: 'Vendor Pick Up' }
+        ], true);
+
+        FwFormField.loadItems($form.find('div[data-datafield="ReturnDeliveryAddressType"]'), [
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'VENUE', caption: 'Venue' },
+            { value: 'WAREHOUSE', caption: 'Warehouse' },
+            { value: 'OTHER', caption: 'Other' }
+        ], true);
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         this.renderSearchButton($form);
@@ -1964,6 +1992,9 @@ class PurchaseOrder implements IModule {
                 $yes.text('Voiding...');
                 $yes.off('click');
 
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
                 const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
                 FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/void/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Purchase Order Successfully Voided');
@@ -1976,7 +2007,7 @@ class PurchaseOrder implements IModule {
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
                     FwModule.refreshForm($form);
-                }, $confirmation);
+                }, $realConfirm);
             };
         } else {
             FwNotification.renderNotification('WARNING', 'Only NEW Purchase Orders can be voided.');
@@ -2160,13 +2191,108 @@ class PurchaseOrder implements IModule {
             }, $form);
         });
 
-
+        // Out / In DeliveryType radio in Deliver tab
+        $form.find('.delivery-type-radio').on('change', event => {
+            this.deliveryTypeAddresses($form, event);
+        });
         //Hide/Show summary buttons based on rate type
         $form.find('[data-datafield="RateType"]').data('onchange', e => {
             this.applyRateType($form);
         });
 
     };
+    //----------------------------------------------------------------------------------------------
+    deliveryTypeAddresses($form: any, event: any): void {
+        const $element = jQuery(event.currentTarget);
+        if ($element.attr('data-datafield') === 'OutDeliveryAddressType') {
+            const value = FwFormField.getValueByDataField($form, 'OutDeliveryAddressType');
+            if (value === 'WAREHOUSE') {
+                this.getWarehouseAddress($form, 'Out');
+            } else if (value === 'DEAL') {
+                this.fillDeliveryAddressFieldsforDeal($form, 'Out');
+            }
+        }
+        else if ($element.attr('data-datafield') === 'InDeliveryAddressType') {
+            const value = FwFormField.getValueByDataField($form, 'InDeliveryAddressType');
+            if (value === 'WAREHOUSE') {
+                this.getWarehouseAddress($form, 'In');
+            } else if (value === 'DEAL') {
+                this.fillDeliveryAddressFieldsforDeal($form, 'In');
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    getWarehouseAddress($form: any, prefix: string): void {
+        //const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid; - J.Pace :: changed from user warehouse to order warehouse at request of mgmt 12/31/19
+        const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+
+        let WHresponse: any = {};
+
+        if ($form.data('whAddress')) {
+            WHresponse = $form.data('whAddress');
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, WHresponse.Warehouse);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, WHresponse.Attention);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, WHresponse.Address1);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, WHresponse.Address2);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, WHresponse.City);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, WHresponse.State);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, WHresponse.Zip);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
+        } else {
+            if (warehouseId) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${warehouseId}`, null, FwServices.defaultTimeout, response => {
+                    WHresponse = response;
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, WHresponse.Warehouse);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, WHresponse.Attention);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, WHresponse.Address1);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, WHresponse.Address2);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, WHresponse.City);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, WHresponse.State);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, WHresponse.Zip);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
+                    // Preventing unnecessary API calls once warehouse addresses have been requested once
+                    $form.data('whAddress', {
+                        'Warehouse': response.Warehouse,
+                        'Attention': response.Attention,
+                        'Address1': response.Address1,
+                        'Address2': response.Address2,
+                        'City': response.City,
+                        'State': response.State,
+                        'Zip': response.Zip,
+                        'CountryId': response.CountryId,
+                        'Country': response.Country
+                    })
+                }, null, null);
+            } else {
+                FwNotification.renderNotification('INFO', 'No Warehouse chosen on Order.');
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    fillDeliveryAddressFieldsforDeal($form: any, prefix: string, response?: any): void {
+        if (!response) {
+            const dealId = FwFormField.getValueByDataField($form, 'DealId');
+            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, res => {
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, res.Deal);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, res.ShipAttention);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, res.ShipAddress1);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, res.ShipAddress2);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, res.ShipCity);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, res.ShipState);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, res.ShipZipCode);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, res.ShipCountryId, res.ShipCountry);
+            }, null, null);
+        } else {
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, response.Deal);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, response.ShipAttention);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, response.ShipAddress1);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, response.ShipAddress2);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, response.ShipCity);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, response.ShipState);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, response.ShipZipCode);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.ShipCountryId, response.ShipCountry);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     assignBarCodes($form) {
         const mode = 'EDIT';
