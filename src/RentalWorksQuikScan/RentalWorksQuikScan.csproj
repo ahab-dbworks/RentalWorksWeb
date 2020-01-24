@@ -196,7 +196,7 @@
     <Content Include="Modules\Staging\PopupSelectSerialNo.html" />
     <Content Include="Modules\AssignItems\AssignItems.css" />
     <Content Include="Modules\AssignItems\NewItems.html" />
-    <Content Include="Modules\AssignItems\AssignItems.js" />
+    <TypeScriptCompile Include="Modules\AssignItems\AssignItems.ts" />
     <Content Include="Modules\TimeLog\TimeLog.js" />
     <Content Include="Modules\TimeLog\TimeLog.css" />
     <Content Include="Modules\TimeLog\TimeLog.html" />

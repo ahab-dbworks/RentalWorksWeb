@@ -16,9 +16,10 @@ declare var RwQuoteMenu: any;
 declare var RwRFID: any;
 declare var RwRoutes: any;
 declare var RwServices: any;
+declare var RwAppData: any;
+
 
 declare var AssetSetLocation: any;
-declare var AssignItems: any;
 declare var Exchange: any;
 declare var PhysicalInventory: any;
 declare var ReceiveOnSet: any;
