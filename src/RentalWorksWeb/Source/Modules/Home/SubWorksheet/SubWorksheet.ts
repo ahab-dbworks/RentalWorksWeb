@@ -476,9 +476,9 @@ class SubWorksheet {
         for (let i = 0; i < hiddenSubPO.length; i++) {
             jQuery(subPurchaseOrderItemGrid.find(`[data-mappedfield="${hiddenSubPO[i]}"]`)).parent().hide();
         }
-        $form.find('div[data-datafield="DayPerWeek"]').hide();
+        $form.find('div[data-datafield="DaysPerWeek"]').hide();
         FwFormField.setValueByDataField($form, 'GridView', 'P');
-        $form.find('div[data-datatype="GridView"]').hide();
+        $form.find('div[data-datafield="GridView"]').hide();
     };
     //----------------------------------------------------------------------------------------------
 }
