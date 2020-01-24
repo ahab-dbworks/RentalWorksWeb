@@ -191,7 +191,6 @@ namespace WebApi.Modules.Billing.Invoice
             //addFilterToSelect("OrderId", "orderid", select, request);
 
             string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
-
             if (!string.IsNullOrEmpty(orderId))
             {
                 select.AddWhere("exists (select * from orderinvoice oi where oi.invoiceid = " + TableAlias + ".invoiceid and oi.orderid = @orderid)");
@@ -205,6 +204,12 @@ namespace WebApi.Modules.Billing.Invoice
                 select.AddParameter("@masterid", inventoryId);
             }
 
+            string itemId = GetUniqueIdAsString("ItemId", request) ?? "";
+            if (!string.IsNullOrEmpty(itemId))
+            {
+                select.AddWhere("exists (select * from gl join gldetail gld on (gl.glid = gld.glid and gl.internalchar = gld.internalchar) where gl.invoiceid = " + TableAlias + ".invoiceid and gld.rentalitemid = @itemid)");
+                select.AddParameter("@itemid", itemId);
+            }
 
             AddActiveViewFieldToSelect("Status", "status", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
