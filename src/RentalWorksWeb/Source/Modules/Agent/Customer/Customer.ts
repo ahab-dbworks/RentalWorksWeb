@@ -382,6 +382,26 @@ class Customer {
                 request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
             },
         });
+
+        // Documents Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'AppDocumentGrid',
+            gridSecurityId: '',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    uniqueid1: FwFormField.getValueByDataField($form, 'CustomerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.uniqueid1 = FwFormField.getValueByDataField($form, 'CustomerId');
+            },
+            getTemplate: () => {
+                return FwAppDocumentGrid.getTemplate();
+            }
+        });
     }
 
     //----------------------------------------------------------------------------------------------
@@ -1053,6 +1073,15 @@ class Customer {
                 <div class="flexpage">
                   <div class="flexrow">
                     <div data-control="FwGrid" data-grid="CustomerNoteGrid" data-securitycaption="Customer Note"></div>
+                  </div>
+                </div>
+              </div>
+              
+             <!-- DOCUMENTS TAB -->
+              <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
+                <div class="flexpage">
+                  <div class="flexrow">
+                    <div data-control="FwAppDocumentGrid"></div>
                   </div>
                 </div>
               </div>

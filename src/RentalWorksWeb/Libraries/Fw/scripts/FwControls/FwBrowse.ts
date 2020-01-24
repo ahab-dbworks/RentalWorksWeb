@@ -4135,6 +4135,7 @@ class FwBrowseClass {
         beforeSave?: (request: any) => void,
         addGridMenu?: (options: IAddGridMenuOptions) => void,
         beforeInit?: ($fwgrid: JQuery, $browse: JQuery) => void
+        getTemplate?: () => string
     }): JQuery {
         if (typeof options.gridSelector !== 'string' || options.gridSelector.length === 0) {
             options.gridSelector = `div[data-grid="${options.nameGrid}"]`;
@@ -4143,7 +4144,12 @@ class FwBrowseClass {
             options.pageSize = 15;
         }
         const $fwgrid: JQuery = options.$form.find(options.gridSelector);
-        const $browse: JQuery = FwBrowse.loadGridFromTemplate(options.nameGrid);
+        let $browse: JQuery;
+        if (typeof options.getTemplate !== 'function') {
+            $browse = FwBrowse.loadGridFromTemplate(options.nameGrid);
+        } else {
+            $browse = jQuery(options.getTemplate());
+        }
         $fwgrid.empty().append($browse);
         $browse.data('secid', options.gridSecurityId);
         $browse.attr('data-pagesize', options.pageSize);
