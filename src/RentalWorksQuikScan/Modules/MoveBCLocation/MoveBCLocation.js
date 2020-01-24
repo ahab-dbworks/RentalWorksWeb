@@ -50,6 +50,7 @@ RwInventoryController.getMoveBCLocationScreen = function(viewModel, properties) 
                     $aisleshelfinfo.find('.shelf .value').html(screendata.shelf);
                     $this.val('');
                     $movebclocationstatus.hide();
+                    program.setScanTargetLpNearfield('.fwmobilecontrol-value', true);
                 }
             } catch(ex) {
                 FwFunc.showError(ex);
