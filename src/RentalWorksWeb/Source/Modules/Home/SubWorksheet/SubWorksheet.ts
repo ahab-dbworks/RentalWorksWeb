@@ -212,7 +212,7 @@ class SubWorksheet {
         });
 
 
-        $form.find('.bottom_line_discount_percent').on('change', e => {
+        $form.find('div[data-datafield="DiscountPercent"]').on('change', e => {
             const $element = jQuery(e.currentTarget);
             const discountPercent = FwFormField.getValue2($element);
             const $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
@@ -294,7 +294,7 @@ class SubWorksheet {
 
                     const $dwColumn = $subPurchaseOrderItemGridControl.find('thead [data-browsedatafield="VendorDaysPerWeek"]').parent('td');
                     const $dealDwColumn = $subPurchaseOrderItemGridControl.find('thead [data-browsedatafield="DealDaysPerWeek"]').parent('td');
-                    FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.vendordaily').show() : $form.find('.vendordaily').hide();
+                    FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('div[data-datafield="DaysPerWeek"]').show() : $form.find('div[data-datafield="DaysPerWeek"]').hide();
                     FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $dwColumn.show() : $dwColumn.hide();
                     parentmoduleinfo.RateType === 'DAILY' ? $dealDwColumn.show() : $dealDwColumn.hide();
                     if (this.RecType && this.RecType !== 'R') {
