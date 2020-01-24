@@ -16,35 +16,35 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
     {
         public ReceiptProcessBatchController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ReceiptProcessBatchLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptprocessbatch/export
-        [HttpPost("export")]
-        [FwControllerMethod(Id: "qJl9ySG3Dc4", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<ExportReceiptResponse>> Export([FromBody]ExportReceiptRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                ReceiptProcessBatchLogic batch = new ReceiptProcessBatchLogic();
-                batch.SetDependencies(AppConfig, UserSession);
-                batch.BatchId = request.BatchId;
-                if (await batch.LoadAsync<ReceiptProcessBatchLogic>())
-                {
-                    ExportReceiptResponse response = await ReceiptProcessBatchFunc.Export(AppConfig, UserSession, batch);
-                    return response;
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception ex)
-            {
-                return GetApiExceptionResult(ex);
-            }
-        }
+        //// POST api/v1/receiptprocessbatch/export
+        //[HttpPost("export")]
+        //[FwControllerMethod(Id: "qJl9ySG3Dc4", ActionType: FwControllerActionTypes.Browse)]
+        //public async Task<ActionResult<ExportReceiptResponse>> Export([FromBody]ExportReceiptRequest request)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    try
+        //    {
+        //        ReceiptProcessBatchLogic batch = new ReceiptProcessBatchLogic();
+        //        batch.SetDependencies(AppConfig, UserSession);
+        //        batch.BatchId = request.BatchId;
+        //        if (await batch.LoadAsync<ReceiptProcessBatchLogic>())
+        //        {
+        //            ExportReceiptResponse response = await ReceiptProcessBatchFunc.Export(AppConfig, UserSession, batch);
+        //            return response;
+        //        }
+        //        else
+        //        {
+        //            return NotFound();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return GetApiExceptionResult(ex);
+        //    }
+        //}
         //------------------------------------------------------------------------------------ 
         // POST api/v1/receiptprocessbatch/createbatch
         [HttpPost("createbatch")]
@@ -89,5 +89,6 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
         {
             return await DoBrowseAsync<ReceiptProcessBatchLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------
     }
 }

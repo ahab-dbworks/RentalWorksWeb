@@ -41,41 +41,41 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
     {
         public InvoiceProcessBatchController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InvoiceProcessBatchLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/invoiceprocessbatch/export
-        [HttpPost("export")]
-        [FwControllerMethod(Id: "BrButJ3Xi3P", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<ExportInvoiceResponse>> Export([FromBody]ExportInvoiceRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                //validate the batchId before proceeding to export
-                InvoiceProcessBatchLogic batch = new InvoiceProcessBatchLogic();
-                batch.SetDependencies(AppConfig, UserSession);
-                batch.BatchId = request.BatchId;
-                if (await batch.LoadAsync<InvoiceProcessBatchLogic>())
-                {
-                    ExportInvoiceResponse response = await InvoiceProcessBatchFunc.Export(AppConfig, UserSession, batch);
-                    // the response contains "downloadUrl" which we want to harvest on the front-end and initiate the download
-                    return response;
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception ex)
-            {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
-            }
-        }
+        //// POST api/v1/invoiceprocessbatch/export
+        //[HttpPost("export")]
+        //[FwControllerMethod(Id: "BrButJ3Xi3P", ActionType: FwControllerActionTypes.Browse)]
+        //public async Task<ActionResult<ExportInvoiceResponse>> Export([FromBody]ExportInvoiceRequest request)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    try
+        //    {
+        //        //validate the batchId before proceeding to export
+        //        InvoiceProcessBatchLogic batch = new InvoiceProcessBatchLogic();
+        //        batch.SetDependencies(AppConfig, UserSession);
+        //        batch.BatchId = request.BatchId;
+        //        if (await batch.LoadAsync<InvoiceProcessBatchLogic>())
+        //        {
+        //            ExportInvoiceResponse response = await InvoiceProcessBatchFunc.Export(AppConfig, UserSession, batch);
+        //            // the response contains "downloadUrl" which we want to harvest on the front-end and initiate the download
+        //            return response;
+        //        }
+        //        else
+        //        {
+        //            return NotFound();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        FwApiException jsonException = new FwApiException();
+        //        jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+        //        jsonException.Message = ex.Message;
+        //        jsonException.StackTrace = ex.StackTrace;
+        //        return StatusCode(jsonException.StatusCode, jsonException);
+        //    }
+        //}
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoiceprocessbatch/createbatch
         [HttpPost("createbatch")]
@@ -93,11 +93,7 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -124,5 +120,6 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
         {
             return await DoBrowseAsync<InvoiceProcessBatchLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------
     }
 }
