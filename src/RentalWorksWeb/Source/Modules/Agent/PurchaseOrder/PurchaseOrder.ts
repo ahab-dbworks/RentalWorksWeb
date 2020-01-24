@@ -1196,6 +1196,27 @@ class PurchaseOrder implements IModule {
         //FwBrowse.renderRuntimeHtml($orderItemGridSubMiscControl);
 
         FwBrowse.renderGrid({
+            nameGrid: 'OrderContactGrid',
+            gridSecurityId: 'B9CzDEmYe1Zf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                let companyId = FwFormField.getValueByDataField($form, 'DealId');
+                if (companyId === '') {
+                    companyId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                }
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                request.CompanyId = companyId;
+            }
+        });
+
+        FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.submiscgrid div[data-grid="OrderItemGrid"]',
             gridSecurityId: 'RFgCJpybXoEb',
