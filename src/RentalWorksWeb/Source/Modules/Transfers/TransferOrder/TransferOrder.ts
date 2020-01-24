@@ -215,14 +215,14 @@ class TransferOrder {
 
             $yes.on('click', e => {
                 const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
                 const transferId = FwFormField.getValueByDataField($form, 'TransferId');
                 FwAppData.apiMethod(true, 'POST', `api/v1/transferorder/confirm/${transferId}`, null, FwServices.defaultTimeout, response => {
                     FwNotification.renderNotification('SUCCESS', `Transfer Order Successfully ${action}ed.`);
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwModule.refreshForm($form);
-                }, null, realConfirm);
+                }, null, $realConfirm);
             });
         } catch (ex) {
             FwFunc.showError(ex);
