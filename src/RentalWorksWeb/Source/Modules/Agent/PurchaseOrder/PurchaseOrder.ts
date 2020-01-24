@@ -1207,7 +1207,7 @@ class PurchaseOrder implements IModule {
                 };
             },
             beforeSave: (request: any) => {
-                let companyId = FwFormField.getValueByDataField($form, 'DealId');
+                let companyId = FwFormField.getValueByDataField($form, 'VendorId');
                 if (companyId === '') {
                     companyId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
                 }
@@ -1976,7 +1976,7 @@ class PurchaseOrder implements IModule {
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
                     FwModule.refreshForm($form);
-                }, $form);
+                }, $confirmation);
             };
         } else {
             FwNotification.renderNotification('WARNING', 'Only NEW Purchase Orders can be voided.');
