@@ -78,7 +78,7 @@ class PurchaseOrder implements IModule {
         });
         FwMenu.addSubMenuItem(options.$groupOptions, 'Void', 'u5eAwyixomSFN', (e: JQuery.ClickEvent) => {
             try {
-                this.void(options.$form);
+                this.voidPO(options.$form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -2188,19 +2188,8 @@ class PurchaseOrder implements IModule {
         jQuery('.tab.submodule.active').find('.caption').html('Return To Vendor');
     }
     //----------------------------------------------------------------------------------------------
-    void($form) {
-        let orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-
-        if (orderId == "") {
-            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-        } else {
-            let search = new SearchInterface();
-            let $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');
-        }
-    }
-    //----------------------------------------------------------------------------------------------
     search($form) {
-        let orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        const orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
 
         if (orderId == "") {
             FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
