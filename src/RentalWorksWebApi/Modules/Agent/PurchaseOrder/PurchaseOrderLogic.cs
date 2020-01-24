@@ -12,6 +12,7 @@ using WebApi.Modules.HomeControls.Tax;
 using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
 using WebApi;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
+using WebApi.Modules.HomeControls.Delivery;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -22,6 +23,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         DealOrderRecord purchaseOrder = new DealOrderRecord();
         DealOrderDetailRecord purchaseOrderDetail = new DealOrderDetailRecord();
         TaxRecord tax = new TaxRecord();
+        protected DeliveryRecord receiveDelivery = new DeliveryRecord();
+        protected DeliveryRecord returnDelivery = new DeliveryRecord();
 
         PurchaseOrderLoader purchaseOrderLoader = new PurchaseOrderLoader();
         PurchaseOrderBrowseLoader purchaseOrderBrowseLoader = new PurchaseOrderBrowseLoader();
@@ -31,6 +34,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             dataRecords.Add(purchaseOrder);
             dataRecords.Add(purchaseOrderDetail);
             dataRecords.Add(tax);
+            dataRecords.Add(receiveDelivery);
+            dataRecords.Add(returnDelivery);
+            
             dataLoader = purchaseOrderLoader;
             browseLoader = purchaseOrderBrowseLoader;
 
@@ -237,14 +243,364 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "37LvI2DfgGPrz", IsReadOnly: true)]
         public string ProjectManager { get; set; }
 
-        [FwLogicProperty(Id: "RBduUGu4mQ9s")]
-        public string OutDeliveryId { get { return purchaseOrder.OutDeliveryId; } set { purchaseOrder.OutDeliveryId = value; } }
+        //[FwLogicProperty(Id: "RBduUGu4mQ9s")]
+        //public string OutDeliveryId { get { return purchaseOrder.OutDeliveryId; } set { purchaseOrder.OutDeliveryId = value; } }
 
-        [FwLogicProperty(Id: "apaJjUkKu4UIk", IsReadOnly: true)]
-        public bool? DropShip { get; set; }
+        //[FwLogicProperty(Id: "apaJjUkKu4UIk", IsReadOnly: true)]
+        //public bool? DropShip { get; set; }
 
-        [FwLogicProperty(Id: "Y9sD3wDUch7o")]
-        public string InDeliveryId { get { return purchaseOrder.InDeliveryId; } set { purchaseOrder.InDeliveryId = value; } }
+        //[FwLogicProperty(Id: "Y9sD3wDUch7o")]
+        //public string InDeliveryId { get { return purchaseOrder.InDeliveryId; } set { purchaseOrder.InDeliveryId = value; } }
+
+
+        [FwLogicProperty(Id: "VbzfiyaOOxpVz", DisableDirectAssign: true, DisableDirectModify: true)]
+        public string ReceiveDeliveryId { get { return purchaseOrder.OutDeliveryId; } set { purchaseOrder.OutDeliveryId = value; receiveDelivery.DeliveryId = value; } }
+
+        [FwLogicProperty(Id: "KBuwJdGyxbnXc")]
+        public string ReceiveDeliveryDeliveryType { get { return receiveDelivery.DeliveryType; } set { receiveDelivery.DeliveryType = value; } }
+
+        [FwLogicProperty(Id: "atX65xHYlpl7c")]
+        public string ReceiveDeliveryRequiredDate { get { return receiveDelivery.RequiredDate; } set { receiveDelivery.RequiredDate = value; } }
+
+        [FwLogicProperty(Id: "DDzdH8BAzfqZU")]
+        public string ReceiveDeliveryRequiredTime { get { return receiveDelivery.RequiredTime; } set { receiveDelivery.RequiredTime = value; } }
+
+        [FwLogicProperty(Id: "KG7cAIBNaJQmw")]
+        public string ReceiveDeliveryTargetShipDate { get { return receiveDelivery.TargetShipDate; } set { receiveDelivery.TargetShipDate = value; } }
+
+        [FwLogicProperty(Id: "2qgTYAjHHc4ia")]
+        public string ReceiveDeliveryTargetShipTime { get { return receiveDelivery.TargetShipTime; } set { receiveDelivery.TargetShipTime = value; } }
+
+        [FwLogicProperty(Id: "1BSbdr987Fp0B")]
+        public string ReceiveDeliveryDirection { get { return receiveDelivery.Direction; } set { receiveDelivery.Direction = value; } }
+
+        [FwLogicProperty(Id: "XFkWoGbAjnwqp")]
+        public string ReceiveDeliveryAddressType { get { return receiveDelivery.AddressType; } set { receiveDelivery.AddressType = value; } }
+
+        [FwLogicProperty(Id: "vfAZRRNxnhnmQ")]
+        public string ReceiveDeliveryFromLocation { get { return receiveDelivery.FromLocation; } set { receiveDelivery.FromLocation = value; } }
+
+        [FwLogicProperty(Id: "yFreEMRR6H0TF")]
+        public string ReceiveDeliveryFromContact { get { return receiveDelivery.FromContact; } set { receiveDelivery.FromContact = value; } }
+
+        [FwLogicProperty(Id: "AWwIY5d10frqc")]
+        public string ReceiveDeliveryFromContactPhone { get { return receiveDelivery.FromContactPhone; } set { receiveDelivery.FromContactPhone = value; } }
+
+        [FwLogicProperty(Id: "bKKHr75SDOaJM")]
+        public string ReceiveDeliveryFromAlternateContact { get { return receiveDelivery.FromAlternateContact; } set { receiveDelivery.FromAlternateContact = value; } }
+
+        [FwLogicProperty(Id: "pwBg4ipOYl7GY")]
+        public string ReceiveDeliveryFromAlternateContactPhone { get { return receiveDelivery.FromAlternateContactPhone; } set { receiveDelivery.FromAlternateContactPhone = value; } }
+
+        [FwLogicProperty(Id: "FjGdS9yqss26O")]
+        public string ReceiveDeliveryFromAttention { get { return receiveDelivery.FromAttention; } set { receiveDelivery.FromAttention = value; } }
+
+        [FwLogicProperty(Id: "tNYfEztYi4nzv")]
+        public string ReceiveDeliveryFromAddress1 { get { return receiveDelivery.FromAddress1; } set { receiveDelivery.FromAddress1 = value; } }
+
+        [FwLogicProperty(Id: "47ge1qsw7qw6Z")]
+        public string ReceiveDeliveryFromAdd2ress { get { return receiveDelivery.FromAdd2ress; } set { receiveDelivery.FromAdd2ress = value; } }
+
+        [FwLogicProperty(Id: "aPq9UMBGkce85")]
+        public string ReceiveDeliveryFromCity { get { return receiveDelivery.FromCity; } set { receiveDelivery.FromCity = value; } }
+
+        [FwLogicProperty(Id: "heiqkICHKnm1X")]
+        public string ReceiveDeliveryFromState { get { return receiveDelivery.FromState; } set { receiveDelivery.FromState = value; } }
+
+        [FwLogicProperty(Id: "irM9I4a8PVQ7U")]
+        public string ReceiveDeliveryFromZipCode { get { return receiveDelivery.FromZipCode; } set { receiveDelivery.FromZipCode = value; } }
+
+        [FwLogicProperty(Id: "QhKx5DT9rvnN0", IsReadOnly: true)]
+        public string ReceiveDeliveryFromCountry { get; set; }
+
+        [FwLogicProperty(Id: "Gr8h1yq2NZrf0")]
+        public string ReceiveDeliveryFromCountryId { get { return receiveDelivery.FromCountryId; } set { receiveDelivery.FromCountryId = value; } }
+
+        [FwLogicProperty(Id: "3Kwreds37Nteu")]
+        public string ReceiveDeliveryFromCrossStreets { get { return receiveDelivery.FromCrossStreets; } set { receiveDelivery.FromCrossStreets = value; } }
+
+        [FwLogicProperty(Id: "JrNBOenz20mgV")]
+        public string ReceiveDeliveryToLocation { get { return receiveDelivery.Location; } set { receiveDelivery.Location = value; } }
+
+        [FwLogicProperty(Id: "4B9teVhfJV6QQ")]
+        public string ReceiveDeliveryToContact { get { return receiveDelivery.Contact; } set { receiveDelivery.Contact = value; } }
+
+        [FwLogicProperty(Id: "nCZ5rJ3cpwebr")]
+        public string ReceiveDeliveryToContactPhone { get { return receiveDelivery.ContactPhone; } set { receiveDelivery.ContactPhone = value; } }
+
+        [FwLogicProperty(Id: "qK1apI9RpEcT2")]
+        public string ReceiveDeliveryToAlternateContact { get { return receiveDelivery.AlternateContact; } set { receiveDelivery.AlternateContact = value; } }
+
+        [FwLogicProperty(Id: "YAKAYpa2gwwUE")]
+        public string ReceiveDeliveryToAlternateContactPhone { get { return receiveDelivery.AlternateContactPhone; } set { receiveDelivery.AlternateContactPhone = value; } }
+
+        [FwLogicProperty(Id: "u8jW0DZPWP7U8")]
+        public string ReceiveDeliveryToAttention { get { return receiveDelivery.Attention; } set { receiveDelivery.Attention = value; } }
+
+        [FwLogicProperty(Id: "JRfmyDhX9OP2v")]
+        public string ReceiveDeliveryToAddress1 { get { return receiveDelivery.Address1; } set { receiveDelivery.Address1 = value; } }
+
+        [FwLogicProperty(Id: "giQZkNNHssed5")]
+        public string ReceiveDeliveryToAddress2 { get { return receiveDelivery.Address2; } set { receiveDelivery.Address2 = value; } }
+
+        [FwLogicProperty(Id: "kEUB4FtxIIzHI")]
+        public string ReceiveDeliveryToCity { get { return receiveDelivery.City; } set { receiveDelivery.City = value; } }
+
+        [FwLogicProperty(Id: "2ecxHlZpjwsTq")]
+        public string ReceiveDeliveryToState { get { return receiveDelivery.State; } set { receiveDelivery.State = value; } }
+
+        [FwLogicProperty(Id: "iqWPgqZ1Gem05")]
+        public string ReceiveDeliveryToZipCode { get { return receiveDelivery.ZipCode; } set { receiveDelivery.ZipCode = value; } }
+
+        [FwLogicProperty(Id: "9OVkZt4B9NEb2")]
+        public string ReceiveDeliveryToCountryId { get { return receiveDelivery.CountryId; } set { receiveDelivery.CountryId = value; } }
+
+        [FwLogicProperty(Id: "DmhXWw6R55ao6", IsReadOnly: true)]
+        public string ReceiveDeliveryToCountry { get; set; }
+
+        [FwLogicProperty(Id: "373fH74e44uDG")]
+        public string ReceiveDeliveryToContactFax { get { return receiveDelivery.ContactFax; } set { receiveDelivery.ContactFax = value; } }
+
+        [FwLogicProperty(Id: "lacnVzgJnrsI8")]
+        public string ReceiveDeliveryToCrossStreets { get { return receiveDelivery.CrossStreets; } set { receiveDelivery.CrossStreets = value; } }
+
+        [FwLogicProperty(Id: "N5X7WeYEgjSko")]
+        public string ReceiveDeliveryDeliveryNotes { get { return receiveDelivery.DeliveryNotes; } set { receiveDelivery.DeliveryNotes = value; } }
+
+        [FwLogicProperty(Id: "6CtMjzlLosFZk")]
+        public string ReceiveDeliveryCarrierId { get { return receiveDelivery.CarrierId; } set { receiveDelivery.CarrierId = value; } }
+
+        [FwLogicProperty(Id: "2DmQ0SV7GesDr", IsReadOnly: true)]
+        public string ReceiveDeliveryCarrier { get; set; }
+
+        [FwLogicProperty(Id: "8v23t8hnBzZml")]
+        public string ReceiveDeliveryCarrierAccount { get { return receiveDelivery.CarrierAccount; } set { receiveDelivery.CarrierAccount = value; } }
+
+        [FwLogicProperty(Id: "QLextWePKEp6i")]
+        public string ReceiveDeliveryShipViaId { get { return receiveDelivery.ShipViaId; } set { receiveDelivery.ShipViaId = value; } }
+
+        [FwLogicProperty(Id: "xRCrL5qNdeA2R", IsReadOnly: true)]
+        public string ReceiveDeliveryShipVia { get; set; }
+
+        [FwLogicProperty(Id: "XlpcobgGgzNQQ")]
+        public string ReceiveDeliveryInvoiceId { get { return receiveDelivery.InvoiceId; } set { receiveDelivery.InvoiceId = value; } }
+
+        [FwLogicProperty(Id: "jtXD9RSIaAYxy")]
+        public string ReceiveDeliveryVendorInvoiceId { get { return receiveDelivery.VendorInvoiceId; } set { receiveDelivery.VendorInvoiceId = value; } }
+
+        [FwLogicProperty(Id: "RZhq8E7Z3tDlq")]
+        public decimal? ReceiveDeliveryEstimatedFreight { get { return receiveDelivery.EstimatedFreight; } set { receiveDelivery.EstimatedFreight = value; } }
+
+        [FwLogicProperty(Id: "7cSJsNb3D0Jlr")]
+        public decimal? ReceiveDeliveryFreightInvoiceAmount { get { return receiveDelivery.FreightInvoiceAmount; } set { receiveDelivery.FreightInvoiceAmount = value; } }
+
+        [FwLogicProperty(Id: "A890J05VGAOEb")]
+        public string ReceiveDeliveryChargeType { get { return receiveDelivery.ChargeType; } set { receiveDelivery.ChargeType = value; } }
+
+        [FwLogicProperty(Id: "BfmE8ADxjYQBh")]
+        public string ReceiveDeliveryFreightTrackingNumber { get { return receiveDelivery.FreightTrackingNumber; } set { receiveDelivery.FreightTrackingNumber = value; } }
+
+        [FwLogicProperty(Id: "mCEZJYR1C6QeS", IsReadOnly: true)]
+        public string ReceiveDeliveryFreightTrackingUrl { get; set; }
+
+        [FwLogicProperty(Id: "nx9s1akP7WLO9")]
+        public bool? ReceiveDeliveryDropShip { get { return receiveDelivery.DropShip; } set { receiveDelivery.DropShip = value; } }
+
+        [FwLogicProperty(Id: "MnD8L4iIQhaAs")]
+        public string ReceiveDeliveryPackageCode { get { return receiveDelivery.PackageCode; } set { receiveDelivery.PackageCode = value; } }
+
+        [FwLogicProperty(Id: "L1nrYLiK6bMki")]
+        public bool? ReceiveDeliveryBillPoFreightOnOrder { get { return receiveDelivery.BillPoFreightOnOrder; } set { receiveDelivery.BillPoFreightOnOrder = value; } }
+
+        [FwLogicProperty(Id: "SCLJcw3l4lhUp")]
+        public string ReceiveDeliveryOnlineOrderNumber { get { return receiveDelivery.OnlineOrderNumber; } set { receiveDelivery.OnlineOrderNumber = value; } }
+
+        [FwLogicProperty(Id: "MNXlQ7XoB1ptF")]
+        public string ReceiveDeliveryOnlineOrderStatus { get { return receiveDelivery.OnlineOrderStatus; } set { receiveDelivery.OnlineOrderStatus = value; } }
+
+        [FwLogicProperty(Id: "eeovdgmAZ2080")]
+        public string ReceiveDeliveryDateStamp { get { return receiveDelivery.DateStamp; } set { receiveDelivery.DateStamp = value; } }
+
+
+
+
+
+
+
+
+
+
+        [FwLogicProperty(Id: "Z1dGQSClQXZ3A", DisableDirectAssign: true, DisableDirectModify: true)]
+        public string ReturnDeliveryId { get { return purchaseOrder.InDeliveryId; } set { purchaseOrder.InDeliveryId = value; returnDelivery.DeliveryId = value; } }
+
+        [FwLogicProperty(Id: "1EiJO5WYBJHKc")]
+        public string ReturnDeliveryDeliveryType { get { return returnDelivery.DeliveryType; } set { returnDelivery.DeliveryType = value; } }
+
+        [FwLogicProperty(Id: "KXSDw9RdlYDJD")]
+        public string ReturnDeliveryRequiredDate { get { return returnDelivery.RequiredDate; } set { returnDelivery.RequiredDate = value; } }
+
+        [FwLogicProperty(Id: "4PiTpvj0ZHLvk")]
+        public string ReturnDeliveryRequiredTime { get { return returnDelivery.RequiredTime; } set { returnDelivery.RequiredTime = value; } }
+
+        [FwLogicProperty(Id: "Ve9yRBXEtn8Sg")]
+        public string ReturnDeliveryTargetShipDate { get { return returnDelivery.TargetShipDate; } set { returnDelivery.TargetShipDate = value; } }
+
+        [FwLogicProperty(Id: "JD0AOezpyKz92")]
+        public string ReturnDeliveryTargetShipTime { get { return returnDelivery.TargetShipTime; } set { returnDelivery.TargetShipTime = value; } }
+
+        [FwLogicProperty(Id: "FWEe1evT89EfZ")]
+        public string ReturnDeliveryDirection { get { return returnDelivery.Direction; } set { returnDelivery.Direction = value; } }
+
+        [FwLogicProperty(Id: "VlVqD2Yt0SpWh")]
+        public string ReturnDeliveryAddressType { get { return returnDelivery.AddressType; } set { returnDelivery.AddressType = value; } }
+
+        [FwLogicProperty(Id: "dgIuNGBgFnhrA")]
+        public string ReturnDeliveryFromLocation { get { return returnDelivery.FromLocation; } set { returnDelivery.FromLocation = value; } }
+
+        [FwLogicProperty(Id: "ztpmhpbgWZvK3")]
+        public string ReturnDeliveryFromContact { get { return returnDelivery.FromContact; } set { returnDelivery.FromContact = value; } }
+
+        [FwLogicProperty(Id: "vf32SrblWCYzs")]
+        public string ReturnDeliveryFromContactPhone { get { return returnDelivery.FromContactPhone; } set { returnDelivery.FromContactPhone = value; } }
+
+        [FwLogicProperty(Id: "P1NpRsLqsONhb")]
+        public string ReturnDeliveryFromAlternateContact { get { return returnDelivery.FromAlternateContact; } set { returnDelivery.FromAlternateContact = value; } }
+
+        [FwLogicProperty(Id: "AFngcs1VAa7rb")]
+        public string ReturnDeliveryFromAlternateContactPhone { get { return returnDelivery.FromAlternateContactPhone; } set { returnDelivery.FromAlternateContactPhone = value; } }
+
+        [FwLogicProperty(Id: "qkElmmsitLQW5")]
+        public string ReturnDeliveryFromAttention { get { return returnDelivery.FromAttention; } set { returnDelivery.FromAttention = value; } }
+
+        [FwLogicProperty(Id: "K43AdTBdiCeOx")]
+        public string ReturnDeliveryFromAddress1 { get { return returnDelivery.FromAddress1; } set { returnDelivery.FromAddress1 = value; } }
+
+        [FwLogicProperty(Id: "nB5161R0gQEQh")]
+        public string ReturnDeliveryFromAdd2ress { get { return returnDelivery.FromAdd2ress; } set { returnDelivery.FromAdd2ress = value; } }
+
+        [FwLogicProperty(Id: "uFRfalXVuTdGN")]
+        public string ReturnDeliveryFromCity { get { return returnDelivery.FromCity; } set { returnDelivery.FromCity = value; } }
+
+        [FwLogicProperty(Id: "wjHw1O4T5QCFM")]
+        public string ReturnDeliveryFromState { get { return returnDelivery.FromState; } set { returnDelivery.FromState = value; } }
+
+        [FwLogicProperty(Id: "JhdC1cihQ9vSr")]
+        public string ReturnDeliveryFromZipCode { get { return returnDelivery.FromZipCode; } set { returnDelivery.FromZipCode = value; } }
+
+        [FwLogicProperty(Id: "lcO2Ecatxw9h2", IsReadOnly: true)]
+        public string ReturnDeliveryFromCountry { get; set; }
+
+        [FwLogicProperty(Id: "NUZkhn1cINilN")]
+        public string ReturnDeliveryFromCountryId { get { return returnDelivery.FromCountryId; } set { returnDelivery.FromCountryId = value; } }
+
+        [FwLogicProperty(Id: "BdHtcNh0prtQ7")]
+        public string ReturnDeliveryFromCrossStreets { get { return returnDelivery.FromCrossStreets; } set { returnDelivery.FromCrossStreets = value; } }
+
+        [FwLogicProperty(Id: "ABo61n9d3riek")]
+        public string ReturnDeliveryToLocation { get { return returnDelivery.Location; } set { returnDelivery.Location = value; } }
+
+        [FwLogicProperty(Id: "ycjMc0bNwxX4W")]
+        public string ReturnDeliveryToContact { get { return returnDelivery.Contact; } set { returnDelivery.Contact = value; } }
+
+        [FwLogicProperty(Id: "sBIVcAgl0idSF")]
+        public string ReturnDeliveryToContactPhone { get { return returnDelivery.ContactPhone; } set { returnDelivery.ContactPhone = value; } }
+
+        [FwLogicProperty(Id: "wyDvxjtfZcfeo")]
+        public string ReturnDeliveryToAlternateContact { get { return returnDelivery.AlternateContact; } set { returnDelivery.AlternateContact = value; } }
+
+        [FwLogicProperty(Id: "XWzTek1UhTYdB")]
+        public string ReturnDeliveryToAlternateContactPhone { get { return returnDelivery.AlternateContactPhone; } set { returnDelivery.AlternateContactPhone = value; } }
+
+        [FwLogicProperty(Id: "tiMYs2AFzJJrp")]
+        public string ReturnDeliveryToAttention { get { return returnDelivery.Attention; } set { returnDelivery.Attention = value; } }
+
+        [FwLogicProperty(Id: "Qp73E13QXoh8h")]
+        public string ReturnDeliveryToAddress1 { get { return returnDelivery.Address1; } set { returnDelivery.Address1 = value; } }
+
+        [FwLogicProperty(Id: "Zx79ZUdbhlpkn")]
+        public string ReturnDeliveryToAddress2 { get { return returnDelivery.Address2; } set { returnDelivery.Address2 = value; } }
+
+        [FwLogicProperty(Id: "aetwOyjJv79Mx")]
+        public string ReturnDeliveryToCity { get { return returnDelivery.City; } set { returnDelivery.City = value; } }
+
+        [FwLogicProperty(Id: "Q77Jsdazree0Y")]
+        public string ReturnDeliveryToState { get { return returnDelivery.State; } set { returnDelivery.State = value; } }
+
+        [FwLogicProperty(Id: "Oxgb5hqp3T5Ry")]
+        public string ReturnDeliveryToZipCode { get { return returnDelivery.ZipCode; } set { returnDelivery.ZipCode = value; } }
+
+        [FwLogicProperty(Id: "yqMTEZWAXKu7e")]
+        public string ReturnDeliveryToCountryId { get { return returnDelivery.CountryId; } set { returnDelivery.CountryId = value; } }
+
+        [FwLogicProperty(Id: "yEyEmZvSDQafX", IsReadOnly: true)]
+        public string ReturnDeliveryToCountry { get; set; }
+
+        [FwLogicProperty(Id: "JBMr8Ic5cpPPs")]
+        public string ReturnDeliveryToContactFax { get { return returnDelivery.ContactFax; } set { returnDelivery.ContactFax = value; } }
+
+        [FwLogicProperty(Id: "1aaxoOLAxMxIC")]
+        public string ReturnDeliveryToCrossStreets { get { return returnDelivery.CrossStreets; } set { returnDelivery.CrossStreets = value; } }
+
+        [FwLogicProperty(Id: "9RUEofSWa3XuD")]
+        public string ReturnDeliveryDeliveryNotes { get { return returnDelivery.DeliveryNotes; } set { returnDelivery.DeliveryNotes = value; } }
+
+        [FwLogicProperty(Id: "RubhJNNvpwrSU")]
+        public string ReturnDeliveryCarrierId { get { return returnDelivery.CarrierId; } set { returnDelivery.CarrierId = value; } }
+
+        [FwLogicProperty(Id: "IHuIIaxHqgW4B", IsReadOnly: true)]
+        public string ReturnDeliveryCarrier { get; set; }
+
+        [FwLogicProperty(Id: "4r3aJWCiCDwGO")]
+        public string ReturnDeliveryCarrierAccount { get { return returnDelivery.CarrierAccount; } set { returnDelivery.CarrierAccount = value; } }
+
+        [FwLogicProperty(Id: "MedYJ6nl9XU22")]
+        public string ReturnDeliveryShipViaId { get { return returnDelivery.ShipViaId; } set { returnDelivery.ShipViaId = value; } }
+
+        [FwLogicProperty(Id: "jAaI7tAbEjKtM", IsReadOnly: true)]
+        public string ReturnDeliveryShipVia { get; set; }
+
+        [FwLogicProperty(Id: "er92XmfiaNDw8")]
+        public string ReturnDeliveryInvoiceId { get { return returnDelivery.InvoiceId; } set { returnDelivery.InvoiceId = value; } }
+
+        [FwLogicProperty(Id: "0Y7GQSaLJ82i3")]
+        public string ReturnDeliveryVendorInvoiceId { get { return returnDelivery.VendorInvoiceId; } set { returnDelivery.VendorInvoiceId = value; } }
+
+        [FwLogicProperty(Id: "qLQGnmBQPFPiR")]
+        public decimal? ReturnDeliveryEstimatedFreight { get { return returnDelivery.EstimatedFreight; } set { returnDelivery.EstimatedFreight = value; } }
+
+        [FwLogicProperty(Id: "zOTA7JNAsjqvJ")]
+        public decimal? ReturnDeliveryFreightInvoiceAmount { get { return returnDelivery.FreightInvoiceAmount; } set { returnDelivery.FreightInvoiceAmount = value; } }
+
+        [FwLogicProperty(Id: "uEMMSdjH2ewSB")]
+        public string ReturnDeliveryChargeType { get { return returnDelivery.ChargeType; } set { returnDelivery.ChargeType = value; } }
+
+        [FwLogicProperty(Id: "tMXK7XFgMcmoY")]
+        public string ReturnDeliveryFreightTrackingNumber { get { return returnDelivery.FreightTrackingNumber; } set { returnDelivery.FreightTrackingNumber = value; } }
+
+        [FwLogicProperty(Id: "stWEHA0ipF1Dp", IsReadOnly: true)]
+        public string ReturnDeliveryFreightTrackingUrl { get; set; }
+
+        [FwLogicProperty(Id: "CedfxyziQuCOU")]
+        public bool? ReturnDeliveryDropShip { get { return returnDelivery.DropShip; } set { returnDelivery.DropShip = value; } }
+
+        [FwLogicProperty(Id: "jyxgobQ9OMPuh")]
+        public string ReturnDeliveryPackageCode { get { return returnDelivery.PackageCode; } set { returnDelivery.PackageCode = value; } }
+
+        [FwLogicProperty(Id: "M3QqR1NDphrKi")]
+        public bool? ReturnDeliveryBillPoFreightOnOrder { get { return returnDelivery.BillPoFreightOnOrder; } set { returnDelivery.BillPoFreightOnOrder = value; } }
+
+        [FwLogicProperty(Id: "BLjosdbeQi2BP")]
+        public string ReturnDeliveryOnlineOrderNumber { get { return returnDelivery.OnlineOrderNumber; } set { returnDelivery.OnlineOrderNumber = value; } }
+
+        [FwLogicProperty(Id: "WG1awnsh71Kmw")]
+        public string ReturnDeliveryOnlineOrderStatus { get { return returnDelivery.OnlineOrderStatus; } set { returnDelivery.OnlineOrderStatus = value; } }
+
+        [FwLogicProperty(Id: "g1K0q6Vn89Oj9")]
+        public string ReturnDeliveryDateStamp { get { return returnDelivery.DateStamp; } set { returnDelivery.DateStamp = value; } }
+
+
+
+
 
         [FwLogicProperty(Id: "TJnlyuYOArN3")]
         public string ProjectId { get { return purchaseOrder.ProjectId; } set { purchaseOrder.ProjectId = value; } }
@@ -547,8 +903,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return isValid;
         }
         //------------------------------------------------------------------------------------
-
-
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
@@ -589,15 +943,28 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 }
 
             }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (e.Original != null)
+                {
+                    PurchaseOrderLogic orig = ((PurchaseOrderLogic)e.Original);
+                    ReceiveDeliveryId = orig.ReceiveDeliveryId;
+                    ReturnDeliveryId = orig.ReturnDeliveryId;
+                    //BillToAddressId = orig.BillToAddressId;
+                    TaxId = orig.TaxId;
+                }
+            }
+
         }
         //------------------------------------------------------------------------------------ 
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
-                // this is a new Quote/Order.  OutDeliveryId, InDeliveryId, and TaxId were not known at time of insert.  Need to re-update the data with the known ID's
-                //purchaseOrder.OutDeliveryId = outDelivery.DeliveryId;
-                //purchaseOrder.InDeliveryId = inDelivery.DeliveryId;
+                // this is a newPO.  ReceiveDeliveryId, ReturnDeliveryId, and TaxId were not known at time of insert.  Need to re-update the data with the known ID's
+                purchaseOrder.OutDeliveryId = receiveDelivery.DeliveryId;
+                purchaseOrder.InDeliveryId = returnDelivery.DeliveryId;
                 purchaseOrder.TaxId = tax.TaxId;
                 int i = purchaseOrder.SaveAsync(null, e.SqlConnection).Result;
             }
@@ -693,20 +1060,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             bool success = await purchaseOrder.ApplyBottomLineTotal(request);
             return success;
         }
-        //------------------------------------------------------------------------------------
-
-        //public async Task<string> CreateReceiveContract()
-        //{
-        //    string contractId = await purchaseOrder.CreateReceiveContract();
-        //    return contractId;
-        //}
-        ////------------------------------------------------------------------------------------
-        //
-        //public async Task<string> CreateReturnContract()
-        //{
-        //    string contractId = await purchaseOrder.CreateReturnContract();
-        //    return contractId;
-        //}
         //------------------------------------------------------------------------------------
         public async Task<VoidPurchaseOrderResponse> Void()
         {
