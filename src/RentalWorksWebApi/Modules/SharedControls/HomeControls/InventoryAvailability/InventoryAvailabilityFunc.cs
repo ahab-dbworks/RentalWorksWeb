@@ -2342,12 +2342,20 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             }
                             response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Available", inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned, backColor, textColor, ref eventId, request.InventoryId, warehouseId));
 
-                            //reserved
+                            //reserved (owned)
                             if (inventoryWarehouseAvailabilityDateTime.Reserved.OwnedAndConsigned != 0)
                             {
                                 backColor = RwGlobals.AVAILABILITY_COLOR_RESERVED;
                                 textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_RESERVED;
                                 response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Reserved", inventoryWarehouseAvailabilityDateTime.Reserved.OwnedAndConsigned, backColor, textColor, ref eventId, request.InventoryId, warehouseId));
+                            }
+
+                            //reserved (subbed)
+                            if (inventoryWarehouseAvailabilityDateTime.Reserved.Subbed != 0)
+                            {
+                                backColor = RwGlobals.SUB_COLOR;
+                                textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_RESERVED;
+                                response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Sub", inventoryWarehouseAvailabilityDateTime.Reserved.Subbed, backColor, textColor, ref eventId, request.InventoryId, warehouseId));
                             }
 
                             //returning
