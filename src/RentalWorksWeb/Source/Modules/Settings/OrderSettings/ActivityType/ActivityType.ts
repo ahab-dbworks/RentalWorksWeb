@@ -81,6 +81,15 @@
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
+
+        const isSystemType = FwFormField.getValueByDataField($form, 'IsSystemType');
+        if (isSystemType) {
+            FwFormField.disable($form.find('[data-datafield="Description"]'));
+        }
+        else {
+            FwFormField.enable($form.find('[data-datafield="Description"]'));
+        }
+
         const $activityStatusGrid = $form.find('[data-name="ActivityStatusGrid"]');
         FwBrowse.search($activityStatusGrid);
     }
