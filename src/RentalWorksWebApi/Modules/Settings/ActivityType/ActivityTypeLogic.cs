@@ -22,8 +22,10 @@ namespace WebApi.Modules.Settings.ActivityType
         public int? ActivityTypeId { get { return activityType.ActivityTypeId; } set { activityType.ActivityTypeId = value; } }
         [FwLogicProperty(Id: "E2CHlWqgXsDLZ")]
         public string ActivityType { get { return activityType.ActivityType; } set { activityType.ActivityType = value; } }
-        [FwLogicProperty(Id: "E2DZmrMSNqHhY", IsRecordTitle: true)]
+        [FwLogicProperty(Id: "E2DZmrMSNqHhY")]
         public string Description { get { return activityType.Description; } set { activityType.Description = value; } }
+        [FwLogicProperty(Id: "CoW3eutj0pfbH", IsRecordTitle: true)]
+        public string DescriptionDisplay { get; set; }
         [FwLogicProperty(Id: "e2GJ0za4mBUys")]
         public string Rename { get { return activityType.Rename; } set { activityType.Rename = value; } }
         [FwLogicProperty(Id: "E3dPVa4QG6PTP", DisableDirectModify: true)]

@@ -51,17 +51,18 @@ class QuikActivityCalendar {
     //----------------------------------------------------------------------------------------------
     populateCheckboxes($form: any) {
         const request = {};
-        FwAppData.apiMethod(true, 'POST', `api/v1/quikactivitytype/browse`, request, FwServices.defaultTimeout, response => {
+        FwAppData.apiMethod(true, 'POST', `api/v1/activitytype/browse`, request, FwServices.defaultTimeout, response => {
             try {
                 const $activities = $form.find('.activities');
-                const descriptionIndex = response.ColumnIndex.Description;
-                const activityType = response.ColumnIndex.ActivityType;
-                const isSystemTypeIndex = response.ColumnIndex.IsSystemType;
+                const descriptionIndex = response.ColumnIndex.DescriptionDisplay;
+                const activityTypeIdIndex = response.ColumnIndex.ActivityTypeId;
+                const activityTypeIndex = response.ColumnIndex.ActivityType;
+                //const isSystemTypeIndex = response.ColumnIndex.IsSystemType;
                 const colorIndex = response.ColumnIndex.Color;
                 for (let i = 0; i < response.Rows.length; i++) {
                     const self = response.Rows[i];
                     const item = `<div class="flexrow" style="max-height:2em;">
-                                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="${self[descriptionIndex]}" data-datafield="${self[activityType]}"></div>
+                                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="${self[descriptionIndex]}" data-datafield="${self[activityTypeIdIndex]}"></div>
                                     <div style="background-color:${self[colorIndex]}; max-width:30px; margin:16px 0px; border:1px solid black;"></div>
                                   </div>`;
                     $activities.append(item);

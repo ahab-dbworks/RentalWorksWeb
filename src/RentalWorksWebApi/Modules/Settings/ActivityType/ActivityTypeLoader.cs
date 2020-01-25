@@ -27,6 +27,9 @@ namespace WebApi.Modules.Settings.ActivityType
         [FwSqlDataField(column: "rename", modeltype: FwDataTypes.Text)]
         public string Rename { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "descriptiondisplay", modeltype: FwDataTypes.Text)]
+        public string DescriptionDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "systemtype", modeltype: FwDataTypes.Boolean)]
         public bool? IsSystemType { get; set; }
         //------------------------------------------------------------------------------------ 

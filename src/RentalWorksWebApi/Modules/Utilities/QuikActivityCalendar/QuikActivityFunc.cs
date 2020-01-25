@@ -28,7 +28,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
             public List<TQuikActivityCalendarEvent> QuikActivityCalendarEvents { get; set; } = new List<TQuikActivityCalendarEvent>();
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TQuikActivityCalendarResponse> GetQuikActivityCalendarData(FwApplicationConfig appConfig, FwUserSession userSession, string WarehouseId, DateTime FromDate, DateTime ToDate, bool IncludeTimes, string ActivityType)
+        public static async Task<TQuikActivityCalendarResponse> GetQuikActivityCalendarData(FwApplicationConfig appConfig, FwUserSession userSession, string WarehouseId, DateTime FromDate, DateTime ToDate, bool IncludeTimes, string ActivityTypeId)
         {
             TQuikActivityCalendarResponse response = new TQuikActivityCalendarResponse();
             string sessionId = AppFunc.GetNextIdAsync(appConfig).Result;
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, FromDate);
                     qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, ToDate);
                     qry.AddParameter("@includetimes", SqlDbType.NVarChar, ParameterDirection.Input, IncludeTimes);
-                    qry.AddParameter("@activitytype", SqlDbType.NVarChar, ParameterDirection.Input, ActivityType);
+                    qry.AddParameter("@activitytypeid", SqlDbType.NVarChar, ParameterDirection.Input, ActivityTypeId);
                     FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync(true);
 
                     foreach (List<object> row in dt.Rows)

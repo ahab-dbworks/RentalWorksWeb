@@ -78,7 +78,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
             string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
             DateTime fromDate = GetUniqueIdAsDate("FromDate", request).GetValueOrDefault(DateTime.Today);
             DateTime toDate = GetUniqueIdAsDate("ToDate", request).GetValueOrDefault(DateTime.Today);
-            string activityType = GetUniqueIdAsString("ActivityType", request) ?? "";
+            string activityTypeid = GetUniqueIdAsString("ActivityTypeId", request) ?? "";
             bool summary = GetUniqueIdAsBoolean("Summary", request).GetValueOrDefault(false);
 
             FwJsonDataTable dt = null;
@@ -91,7 +91,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, fromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, toDate);
-                    qry.AddParameter("@activitytype", SqlDbType.NVarChar, ParameterDirection.Input, activityType);
+                    qry.AddParameter("@activitytypeid", SqlDbType.NVarChar, ParameterDirection.Input, activityTypeid);
                     qry.AddParameter("@summarizeorders", SqlDbType.NVarChar, ParameterDirection.Input, (summary ? "T" : "F"));
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
