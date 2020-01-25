@@ -344,10 +344,8 @@ html.theme-material .fwbrowse[data-type="Validation"] table tbody tr td.column {
 html.theme-material .fwbrowse[data-type="Validation"] tfoot tr.pagerrow .pager div.buttons .button[data-enabled="true"]:hover {background-color:rgba(0,0,0,.2);}
 html.theme-material .fwbrowse[data-type="Validation"] tfoot tr.pagerrow .pager div.count {color:#000000;}
 html.theme-material .fwbrowse[data-type="Validation"] .validationbuttons {padding:.3rem;}
-html.theme-material .fwbrowse[data-type="Validation"] .tablewrapper { max-height: calc(100vh - 140px); }
-html.theme-material .fwbrowse.show-all[data-type="Validation"] table {overflow:auto;height:500px;display:block;}
+html.theme-material .fwbrowse[data-type="Validation"] .tablewrapper { overflow:auto;max-height: calc(100vh - 140px); }
 
-html.theme-material .fwbrowse[data-type="Validation"] .browsecaption {text-align:center;font-size:1.1em;line-height:24px;height:24px;vertical-align:middle;font-weight:bold;cursor:default;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
 html.theme-material .fwbrowse[data-type="Validation"] .pager {border-bottom: 1px solid #BDBDBD;background-color: #efefef;overflow: hidden;}
 html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons {display:inline-block;}
 html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons .button {cursor:pointer;float:left;padding:4px;}
