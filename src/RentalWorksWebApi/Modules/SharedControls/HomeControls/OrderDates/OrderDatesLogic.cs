@@ -35,7 +35,18 @@ namespace WebApi.Modules.HomeControls.OrderDates
         [FwLogicProperty(Id: "G4deOHC8ZaCXR", IsReadOnly: true)]
         public string DescriptionDisplay { get; set; }
         [FwLogicProperty(Id: "VztT3BvgL7j4V", IsReadOnly: true)]
-        public string DescriptionDisplayTitleCase { get { return FwConvert.ToTitleCase(DescriptionDisplay??"".ToLower()); } }
+        public string DescriptionDisplayTitleCase
+        {
+            get
+            {
+                string s = DescriptionDisplay;
+                if (!string.IsNullOrEmpty(s))
+                {
+                    s = FwConvert.ToTitleCase(s.ToLower());
+                }
+                return s;
+            }
+        }
         [FwLogicProperty(Id: "RuCxNc4aMHA2l", IsReadOnly: true)]
         public bool? IsEnabled { get; set; }
         [FwLogicProperty(Id: "6VJRz3bf3pb6G", IsReadOnly: true)]
