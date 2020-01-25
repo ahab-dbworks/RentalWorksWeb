@@ -70,8 +70,17 @@ class FwBrowseClass {
             $control.attr('data-pageno', '1');
         }
         if (typeof $control.attr('data-pagesize') !== 'string') {
-            if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Grid') {
+            //if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Grid') {
+            //    $control.attr('data-pagesize', sessionStorage.getItem('browsedefaultrows'));
+            //} else {
+            //    $control.attr('data-pagesize', '15');  
+            //}
+
+            //justin hoffman 01/25/2020 RWW#1659
+            if ($control.attr('data-type') === 'Browse') {
                 $control.attr('data-pagesize', sessionStorage.getItem('browsedefaultrows'));
+            } else if ($control.attr('data-type') === 'Grid') {
+                $control.attr('data-pagesize', '50');
             } else {
                 $control.attr('data-pagesize', '15');
             }
@@ -4139,9 +4148,10 @@ class FwBrowseClass {
         if (typeof options.gridSelector !== 'string' || options.gridSelector.length === 0) {
             options.gridSelector = `div[data-grid="${options.nameGrid}"]`;
         }
-        if (typeof options.pageSize !== 'number') {
-            options.pageSize = 15;
-        }
+        //justin hoffman 01/25/2020 RWW#1659 (commented)
+        //if (typeof options.pageSize !== 'number') {
+        //    options.pageSize = 15;
+        //}
         const $fwgrid: JQuery = options.$form.find(options.gridSelector);
         const $browse: JQuery = FwBrowse.loadGridFromTemplate(options.nameGrid);
         $fwgrid.empty().append($browse);
