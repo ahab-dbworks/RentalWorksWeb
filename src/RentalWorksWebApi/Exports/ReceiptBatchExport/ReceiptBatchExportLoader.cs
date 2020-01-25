@@ -12,9 +12,7 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
         public string BatchId { get; set; }
     }
 
-    public class ReceiptBatchExportResponse : AppExportResponse
-    {
-    }
+    public class ReceiptBatchExportResponse : AppExportResponse { }
 
     public class ReceiptBatchExportLoader : AppExportLoader  // maybe add a new superclass that all Exports inherit from?
     {
@@ -44,40 +42,6 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
 
         public List<BatchReceipt> Receipts = new List<BatchReceipt>(new BatchReceipt[] { new BatchReceipt() });
 
-        //protected string recType = "";
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
-        //public string InvoiceId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
-        //public string RowType { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
-        //public string RecType { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
-        //public string RecTypeDisplay { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
-        //public string ICode { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
-        //public string Description { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Quantity { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "extended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        //public decimal? Extended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
-        //public string OrderBy { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        //public decimal? Rate { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
-        //public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<bool> DoLoad<ReceiptBatchExportLoader>(ReceiptBatchExportRequest request)
         {

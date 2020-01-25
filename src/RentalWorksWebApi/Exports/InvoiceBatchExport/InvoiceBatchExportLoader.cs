@@ -11,9 +11,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
         public string BatchId { get; set; }
     }
 
-    public class InvoiceBatchExportResponse : AppExportResponse
-    {
-    }
+    public class InvoiceBatchExportResponse : AppExportResponse { }
 
     public class InvoiceBatchExportLoader : AppExportLoader
     {
@@ -90,40 +88,6 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
 
         public List<BatchInvoice> Invoices = new List<BatchInvoice>(new BatchInvoice[] { new BatchInvoice() });
 
-        //protected string recType = "";
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
-        //public string InvoiceId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
-        //public string RowType { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
-        //public string RecType { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
-        //public string RecTypeDisplay { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
-        //public string ICode { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
-        //public string Description { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Quantity { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "extended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        //public decimal? Extended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
-        //public string OrderBy { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        //public decimal? Rate { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
-        //public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<bool> DoLoad<InvoiceBatchExportLoader>(InvoiceBatchExportRequest request)
         {
