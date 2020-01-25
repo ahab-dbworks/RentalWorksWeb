@@ -54,7 +54,6 @@ class RwInventoryGroup {
             gridSecurityId: 'IC5rbdvS3Me7',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryGroupId: FwFormField.getValueByDataField($form, 'InventoryGroupId')

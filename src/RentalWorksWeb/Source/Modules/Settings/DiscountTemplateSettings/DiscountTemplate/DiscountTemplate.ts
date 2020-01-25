@@ -78,7 +78,6 @@
             gridSecurityId: 'UMKuETy6vOLA',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10, 
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
@@ -116,7 +115,6 @@
             gridSecurityId: 'UMKuETy6vOLA',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
@@ -151,7 +149,6 @@
             gridSecurityId: 'UMKuETy6vOLA',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
@@ -187,7 +184,6 @@
             gridSecurityId: 'UMKuETy6vOLA',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),

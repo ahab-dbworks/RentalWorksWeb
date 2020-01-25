@@ -51,7 +51,6 @@ class OrderBase {
             gridSecurityId: 'B9CzDEmYe1Zf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -86,7 +85,6 @@ class OrderBase {
             gridSecurityId: 'B9CzDEmYe1Zf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
 
             },
@@ -122,7 +120,6 @@ class OrderBase {
             moduleSecurityId: this.id,
 
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
 
             },
@@ -148,7 +145,6 @@ class OrderBase {
             moduleSecurityId: this.id,
 
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;
@@ -196,7 +192,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -368,7 +363,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -541,7 +535,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -714,7 +707,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -881,7 +873,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -1037,7 +1028,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')

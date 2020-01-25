@@ -213,7 +213,6 @@ class BillingWorksheet {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
@@ -266,7 +265,6 @@ class BillingWorksheet {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
@@ -323,7 +321,6 @@ class BillingWorksheet {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
@@ -414,7 +411,6 @@ class BillingWorksheet {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
@@ -470,7 +466,6 @@ class BillingWorksheet {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
@@ -513,7 +508,6 @@ class BillingWorksheet {
             gridSecurityId: '8YECGu7qFOty',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: $form.find('div.fwformfield[data-datafield="BillingWorksheetId"] input').val()
@@ -546,7 +540,6 @@ class BillingWorksheet {
             gridSecurityId: '8YECGu7qFOty',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
@@ -582,7 +575,6 @@ class BillingWorksheet {
             gridSecurityId: '8YECGu7qFOty',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
@@ -613,7 +605,6 @@ class BillingWorksheet {
             gridSecurityId: '8YECGu7qFOty',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
@@ -637,7 +628,6 @@ class BillingWorksheet {
             gridSecurityId: '8YECGu7qFOty',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
@@ -661,7 +651,6 @@ class BillingWorksheet {
             gridSecurityId: '8YECGu7qFOty',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
@@ -685,7 +674,6 @@ class BillingWorksheet {
             gridSecurityId: '8YECGu7qFOty',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
@@ -731,7 +719,6 @@ class BillingWorksheet {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
@@ -790,7 +777,6 @@ class BillingWorksheet {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
             request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
@@ -848,7 +834,6 @@ class BillingWorksheet {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),

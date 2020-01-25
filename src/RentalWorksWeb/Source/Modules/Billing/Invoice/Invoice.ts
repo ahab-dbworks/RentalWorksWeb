@@ -255,7 +255,6 @@ class Invoice {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
@@ -307,7 +306,6 @@ class Invoice {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
@@ -364,7 +362,6 @@ class Invoice {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
@@ -422,7 +419,6 @@ class Invoice {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
@@ -476,7 +472,6 @@ class Invoice {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
@@ -520,7 +515,6 @@ class Invoice {
             gridSecurityId: 'PjT15E4lWmo7',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
@@ -552,7 +546,6 @@ class Invoice {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;
@@ -601,7 +594,6 @@ class Invoice {
             gridSecurityId: '00B9yDUY6RQfB',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
@@ -631,7 +623,6 @@ class Invoice {
             gridSecurityId: 'xAv0ILs8aJA5C',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = true;
@@ -659,7 +650,6 @@ class Invoice {
             gridSecurityId: '2wrr1zqjxBeJ',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
@@ -682,7 +672,6 @@ class Invoice {
             gridSecurityId: 'cYUr48pou4fc',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;
@@ -710,7 +699,6 @@ class Invoice {
             gridSecurityId: '3bf1WgNHvIyF',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),

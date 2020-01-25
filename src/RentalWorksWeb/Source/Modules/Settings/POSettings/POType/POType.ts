@@ -74,7 +74,6 @@ class POType {
             gridSecurityId: 'acguZNBoT1XC',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -110,7 +109,6 @@ class POType {
             gridSecurityId: 'acguZNBoT1XC',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;

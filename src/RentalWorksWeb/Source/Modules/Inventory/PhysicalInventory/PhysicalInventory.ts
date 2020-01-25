@@ -383,7 +383,6 @@
             gridSecurityId: 'juyq8FkxJPR5Q',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PhysicalInventoryId: FwFormField.getValueByDataField($form, 'PhysicalInventoryId')

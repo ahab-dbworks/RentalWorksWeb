@@ -194,7 +194,6 @@ class RwAsset {
             gridSecurityId: 'CntxgVXDQtQ7',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ItemId: FwFormField.getValueByDataField($form, 'ItemId')
@@ -223,7 +222,6 @@ class RwAsset {
             gridSecurityId: 'u4UHiW7AOeZ5',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ItemId: FwFormField.getValueByDataField($form, 'ItemId')
@@ -262,7 +260,6 @@ class RwAsset {
             gridSecurityId: 'NlKSJj2fN0ly',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10, 
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId')

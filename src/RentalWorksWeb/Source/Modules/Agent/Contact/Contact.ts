@@ -150,7 +150,6 @@ class Contact {
             gridSecurityId: 'mkJ1Ry8nqSnw',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ContactId: FwFormField.getValueByDataField($form, 'ContactId')
@@ -181,7 +180,6 @@ class Contact {
             gridSecurityId: '35was7r004gg',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ContactId: FwFormField.getValueByDataField($form, 'ContactId')
@@ -213,7 +211,6 @@ class Contact {
             gridSecurityId: 'gQHuhVDA5Do2',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
 
             },

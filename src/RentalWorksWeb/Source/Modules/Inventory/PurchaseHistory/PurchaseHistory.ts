@@ -102,7 +102,6 @@ class PurchaseHistory {
         //    gridSecurityId: 'CntxgVXDQtQ7',
         //    moduleSecurityId: this.id,
         //    $form: $form,
-        //    pageSize: 10,
         //    onDataBind: (request: any) => {
         //        request.uniqueids = {
         //            ItemId: FwFormField.getValueByDataField($form, 'ItemId')

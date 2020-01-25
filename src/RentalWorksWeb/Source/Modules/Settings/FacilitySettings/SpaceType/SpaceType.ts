@@ -84,7 +84,6 @@ class SpaceType {
             gridSecurityId: 'oVjmeqXtHEJCm',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;

@@ -154,7 +154,6 @@ class VendorInvoice {
             gridSecurityId: 'mEYOByOhi5yT0',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -189,7 +188,6 @@ class VendorInvoice {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;
@@ -222,7 +220,6 @@ class VendorInvoice {
             gridSecurityId: 'cD51xfgax4oY',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
@@ -245,7 +242,6 @@ class VendorInvoice {
             gridSecurityId: '8YECGu7qFOty',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     UniqueId1: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
@@ -271,7 +267,6 @@ class VendorInvoice {
             gridSecurityId: 'laMVsOwWI4Wkj',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
@@ -294,7 +289,6 @@ class VendorInvoice {
             gridSecurityId: 'QriRQnYpPbxn',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
@@ -327,7 +321,6 @@ class VendorInvoice {
             gridSecurityId: 'mEYOByOhi5yT0',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId'),

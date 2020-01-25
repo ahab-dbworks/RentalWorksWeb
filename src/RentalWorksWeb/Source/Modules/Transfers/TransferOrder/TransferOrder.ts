@@ -357,7 +357,6 @@ class TransferOrder {
         //    gridSecurityId: 'bggVQOivrIgi',
         //    moduleSecurityId: this.id,
         //    $form: $form,
-        //    pageSize: 10,
         //    onDataBind: (request: any) => {
         //        request.uniqueids = {
         //            OrderId: FwFormField.getValueByDataField($form, 'TransferId')
@@ -388,7 +387,6 @@ class TransferOrder {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = true;
                 options.hasEdit = true;
@@ -450,7 +448,6 @@ class TransferOrder {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = true;
                 options.hasEdit = true;

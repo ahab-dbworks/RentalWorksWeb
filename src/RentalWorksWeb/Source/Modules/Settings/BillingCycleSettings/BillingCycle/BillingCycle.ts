@@ -84,7 +84,6 @@
             gridSecurityId: 'KSA8EsXjcrt',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;

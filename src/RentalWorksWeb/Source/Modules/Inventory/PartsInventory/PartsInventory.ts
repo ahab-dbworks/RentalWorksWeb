@@ -29,7 +29,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'dpDtvVrXRZrd',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -69,7 +68,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'g8sCuKjUVrW1',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -114,7 +112,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'g8sCuKjUVrW1',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -140,7 +137,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'g8sCuKjUVrW1',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -164,7 +160,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'g8sCuKjUVrW1',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -200,7 +195,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'gflkb5sQf7it',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -229,7 +223,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: '5sN9zKtGzNTq',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -262,7 +255,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'mlAKf5gRPNNI',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -294,7 +286,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'CntxgVXDQtQ7',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -326,7 +317,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'CzNh6kOVsRO4',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -389,7 +379,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'ABL0XJQpsQQo',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -476,7 +465,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: 'ABL0XJQpsQQo',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -541,7 +529,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: '15yjeHiHe1x99',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -577,7 +564,6 @@ class PartsInventory extends InventoryBase {
             gridSecurityId: '2BkAgaVVrDD3',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
                 request.uniqueids = {

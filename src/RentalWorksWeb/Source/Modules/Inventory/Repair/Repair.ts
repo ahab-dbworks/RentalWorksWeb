@@ -356,7 +356,6 @@ class Repair {
             gridSecurityId: 'THGHEcObwRTDc',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     RepairId: FwFormField.getValueByDataField($form, 'RepairId')
@@ -404,7 +403,6 @@ class Repair {
             gridSecurityId: 'k1Qn9brpxHGhp',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     RepairId: FwFormField.getValueByDataField($form, 'RepairId')
@@ -445,7 +443,6 @@ class Repair {
             gridSecurityId: 'O2lL9RZYzdjNg',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     RepairId: FwFormField.getValueByDataField($form, 'RepairId')

@@ -260,7 +260,6 @@ class Receipt {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;

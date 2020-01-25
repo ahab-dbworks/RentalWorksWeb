@@ -84,7 +84,6 @@ class CompleteQc {
             gridSecurityId: 'buplkDkxM1hC',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ItemId: this.itemId

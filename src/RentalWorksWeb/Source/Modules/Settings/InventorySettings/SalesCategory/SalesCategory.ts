@@ -118,7 +118,6 @@ class SalesCategory {
             gridSecurityId: 'vHMa0l5PUysXo',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),

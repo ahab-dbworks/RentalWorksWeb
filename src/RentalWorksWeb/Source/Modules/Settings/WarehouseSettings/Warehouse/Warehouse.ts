@@ -83,7 +83,6 @@
             gridSecurityId: 'BlB26FHHFsaQx',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -99,7 +98,6 @@
             gridSecurityId: 'HRLS0W2gCu4lD',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -115,7 +113,6 @@
         //    gridSecurityId: '1iBtCdzhTkio4',
         //    moduleSecurityId: this.id,
         //    $form: $form,
-        //    pageSize: 10,
         //    onDataBind: (request: any) => {
         //        request.uniqueids = {
         //            WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -131,7 +128,6 @@
             gridSecurityId: 'BlB26FHHFsaQx',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -147,7 +143,6 @@
             gridSecurityId: 'B1kMAlpwQNPLG',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -163,7 +158,6 @@
             gridSecurityId: 'IBGJoUXyFbKmm',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
