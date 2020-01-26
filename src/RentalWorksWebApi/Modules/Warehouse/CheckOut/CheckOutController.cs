@@ -153,7 +153,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
             try
             {
-                CheckOutAllStagedResponse checkOutAllStagedResponse = await CheckOutFunc.CheckOutAllStaged(AppConfig, UserSession, request.OrderId);
+                CheckOutAllStagedResponse checkOutAllStagedResponse = await CheckOutFunc.CheckOutAllStaged(AppConfig, UserSession, request);
                 return new OkObjectResult(checkOutAllStagedResponse);
 
             }
@@ -174,7 +174,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
             try
             {
-                CreateOutContractResponse response = await CheckOutFunc.CreateOutContract(AppConfig, UserSession, request.OrderId);
+                CreateOutContractResponse response = await CheckOutFunc.CreateOutContract(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
 
             }
