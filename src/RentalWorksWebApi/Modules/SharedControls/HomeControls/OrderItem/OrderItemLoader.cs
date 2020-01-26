@@ -99,6 +99,13 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityOrdered { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string QuantityColor
+        {
+            get { return getQuantityColor(ModifiedAtStaging); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal)]
         public decimal? SubQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -398,6 +405,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
 
 
+
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hascheckoutaudit", modeltype: FwDataTypes.Boolean)]
+        public bool? ModifiedAtStaging { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -928,6 +940,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
             return AppFunc.GetItemClassDescriptionColor(itemClass);
         }
         //------------------------------------------------------------------------------------ 
+        private string getQuantityColor(bool? modifiedAtStaging)
+        {
+            return (modifiedAtStaging.GetValueOrDefault(false) ? RwGlobals.ORDER_QUANTITY_ADJUSTED_AT_STAGING_COLOR : null);
+        }
+        //------------------------------------------------------------------------------------ 
         private string getSubQuantityColor(string poItemId)
         {
             return (string.IsNullOrEmpty(poItemId) ? null : RwGlobals.SUB_COLOR);
@@ -986,6 +1003,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         row[dt.GetColumnNo("AvailabilityState")] = availabilityState;
                         row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("QuantityColor")] = getQuantityColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ModifiedAtStaging")].ToString()));
                         row[dt.GetColumnNo("SubQuantityColor")] = getSubQuantityColor(row[dt.GetColumnNo("SubPurchaseOrderItemId")].ToString());
                     }
                 }

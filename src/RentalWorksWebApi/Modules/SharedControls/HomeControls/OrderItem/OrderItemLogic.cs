@@ -91,6 +91,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwLogicProperty(Id: "4zAONsnFq94R")]
         public decimal? QuantityOrdered { get { return orderItem.QuantityOrdered; } set { orderItem.QuantityOrdered = value; } }
 
+        [FwLogicProperty(Id: "sEGn6Ws6ZPJpz", IsReadOnly: true)]
+        public string QuantityColor { get; set; }
+
         [FwLogicProperty(Id: "fzTd0fTQvjjS")]
         public decimal? SubQuantity { get { return orderItem.SubQuantity; } set { orderItem.SubQuantity = value; } }
 
@@ -367,6 +370,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
         //------------------------------------------------------------------------------------ 
 
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "FLcnFK2Oltf6Q", IsReadOnly: true)]
+        public bool? ModifiedAtStaging { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
