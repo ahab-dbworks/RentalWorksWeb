@@ -46,7 +46,7 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwLogicProperty(Id: "OPCHq5JjF8V7")]
         public string TrackedBy { get { return master.TrackedBy; } set { master.TrackedBy = value; } }
 
-        [FwLogicProperty(Id: "VXivpyosX92Kc")]
+        [FwLogicProperty(Id: "VXivpyosX92Kc", IsNotAudited: true)]
         public string ConfirmTrackedBy { get; set; }
 
         [FwLogicProperty(Id: "tKUIWhrXo9ht")]
