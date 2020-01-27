@@ -910,6 +910,10 @@ class RentalInventory extends InventoryBase {
         !threeWeekPricing.enabled ? jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
     };
     //----------------------------------------------------------------------------------------------
+    afterSave($form: any) {
+        $form.find('[data-datafield="ConfirmTrackedBy"]').hide();
+    }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
         this.iCodeMask($form);

@@ -738,6 +738,10 @@ class SalesInventory extends InventoryBase {
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="MonthlyRate"]').parent('td').hide();
     }
     //----------------------------------------------------------------------------------------------
+    afterSave($form: any) {
+        $form.find('[data-datafield="ConfirmTrackedBy"]').hide();
+    }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
 
