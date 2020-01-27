@@ -135,6 +135,9 @@ namespace WebApi.Modules.Warehouse.CheckOut
             {
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
+
+                    //if (request.AddItemToOrder.GetValueOrDefault(false) || request.AddCompleteToOrder.GetValueOrDefault(false)) { }  // do auditing here
+
                     FwSqlCommand qry = new FwSqlCommand(conn, "pdastageitem", appConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.OrderItemId);
