@@ -157,11 +157,19 @@
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const location = JSON.parse(sessionStorage.getItem('location'));
-
-        request.uniqueids = {
-            LocationId: location.locationid
-        };
+        switch (datafield) {
+            case 'BatchId':
+                const location = JSON.parse(sessionStorage.getItem('location'));
+                request.uniqueids = {
+                    LocationId: location.locationid
+                };
+                break;
+            case 'DataExportFormatId':
+                request.uniqueids = {
+                    ExportType: this.exporttype
+                };
+                break;
+        }
     };
     //----------------------------------------------------------------------------------------------
 }
