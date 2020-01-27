@@ -32,6 +32,8 @@ export class FwTestUtils {
             await page.waitForNavigation({timeout: 120000});
         }
 
+        await FwTestUtils.sleepAsync(2000);
+
         let selector = `.btnLogin`;
         await page.waitForSelector(selector, { visible: true });
         await page.click(selector);
