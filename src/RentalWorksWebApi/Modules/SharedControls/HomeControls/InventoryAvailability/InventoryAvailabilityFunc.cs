@@ -827,7 +827,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
     public class TAvailabilityNeedRecalcMetaData
     {
         public TAvailabilityNeedRecalcMetaData() { }
-        public TAvailabilityNeedRecalcMetaData(string classification, bool preCache) 
+        public TAvailabilityNeedRecalcMetaData(string classification, bool preCache)
         {
             this.classification = classification;
             this.preCache = preCache;
@@ -2058,7 +2058,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public static async Task<TInventoryWarehouseAvailability> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string inventoryId, string warehouseId, DateTime fromDate, DateTime toDate, bool refreshIfNeeded = false, bool forceRefresh = false)
 
         {
-            TInventoryWarehouseAvailability availData = null;
+            //TInventoryWarehouseAvailability availData = null;
+            TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability("", "");
 
             if ((!string.IsNullOrEmpty(inventoryId)) && (!inventoryId.Equals("undefined")) && (!string.IsNullOrEmpty(warehouseId)) && (!warehouseId.Equals("undefined")))
             {
@@ -2275,18 +2276,21 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             {
                 TInventoryWarehouseAvailability whAvailData = await GetAvailability(appConfig, userSession, request.InventoryId, whId, request.FromDate, request.ToDate, refreshIfNeeded: true, forceRefresh: true);
 
-                TInventoryWarehouseAvailability whAvailData2 = new TInventoryWarehouseAvailability(request.InventoryId, whId);
-                whAvailData2.CloneFrom(whAvailData);
+                if (whAvailData != null)
+                {
+                    TInventoryWarehouseAvailability whAvailData2 = new TInventoryWarehouseAvailability(request.InventoryId, whId);
+                    whAvailData2.CloneFrom(whAvailData);
 
-                eachWhAvailData.Add(whAvailData2);
-                if (availData == null)
-                {
-                    availData = new TInventoryWarehouseAvailability(request.InventoryId, whId);
-                    availData.CloneFrom(whAvailData2);
-                }
-                else
-                {
-                    availData += whAvailData2;
+                    eachWhAvailData.Add(whAvailData2);
+                    if (availData == null)
+                    {
+                        availData = new TInventoryWarehouseAvailability(request.InventoryId, whId);
+                        availData.CloneFrom(whAvailData2);
+                    }
+                    else
+                    {
+                        availData += whAvailData2;
+                    }
                 }
             }
 
