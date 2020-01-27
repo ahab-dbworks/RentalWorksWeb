@@ -756,9 +756,22 @@ class SalesInventory extends InventoryBase {
                 $form.find('.tab.asset').show();
             }
         }
+
+        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+        let textToReplace: string = 'TRACKEDBYTYPE';
+        $form.find('[data-datafield="TrackedBy"]').on('change', e => {
+            let newTrackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+            const $confirmTrackedByField = $form.find('[data-datafield="ConfirmTrackedBy"]');
+            if (trackedBy !== newTrackedBy) {
+                let text = $confirmTrackedByField.find('.fwformfield-caption').text().replace(textToReplace, newTrackedBy);
+                textToReplace = newTrackedBy;
+                $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
+                $confirmTrackedByField.show();
+            } else {
+                $confirmTrackedByField.hide();
+            }
+        });
     }
-
-
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
