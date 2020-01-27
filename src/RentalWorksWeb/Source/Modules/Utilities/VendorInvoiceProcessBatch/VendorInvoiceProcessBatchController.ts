@@ -4,6 +4,7 @@
     caption: string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.caption;
     nav: string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.nav;
     id: string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.id;
+    exporttype: string = 'VendorInvoiceBatchExport';
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
@@ -35,6 +36,21 @@
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         FwFormField.setValueByDataField($form, 'Process', true);
+
+        const request: any = {};
+        request.uniqueids = {
+            ExportType: this.exporttype,
+            DefaultFormat: true
+        }
+        FwAppData.apiMethod(true, 'POST', `api/v1/dataexportformat/browse`, request, FwServices.defaultTimeout, response => {
+            if (response.TotalRows > 0) {
+                const idIndex = response.ColumnIndex.DataExportFormatId;
+                const defaultExportFormatId = response.Rows[0][idIndex];
+                const exportDescIndex = response.ColumnIndex.Description;
+                const desc = response.Rows[0][exportDescIndex];
+                FwFormField.setValueByDataField($form, 'DataExportFormatId', defaultExportFormatId, desc);
+            }
+        }, ex => FwFunc.showError(ex), $form);
 
         this.events($form);
         return $form;
