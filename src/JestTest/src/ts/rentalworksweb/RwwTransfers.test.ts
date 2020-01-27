@@ -443,6 +443,8 @@ export class TransfersTest extends BaseTest {
                 let module: ModuleBase = rentalInventoryModule;
                 await this.createModuleRecord(module, module.newRecordsToCreate[0], quantityRentalInventoryKey);
                 await this.createModuleRecord(module, module.newRecordsToCreate[1], barCodeRentalInventoryKey);
+                this.globalScopeRef[module.moduleName + "~" + quantityRentalInventoryKey].ICode = this.globalScopeRef[module.moduleName + "~" + quantityRentalInventoryKey].ICode.replace('_', '');
+                this.globalScopeRef[module.moduleName + "~" + barCodeRentalInventoryKey].ICode = this.globalScopeRef[module.moduleName + "~" + barCodeRentalInventoryKey].ICode.replace('_', '');
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Create new Sales Inventory";
@@ -450,6 +452,8 @@ export class TransfersTest extends BaseTest {
                 let module: ModuleBase = salesInventoryModule;
                 await this.createModuleRecord(module, module.newRecordsToCreate[0], quantitySalesInventoryKey);
                 await this.createModuleRecord(module, module.newRecordsToCreate[1], barCodeSalesInventoryKey);
+                this.globalScopeRef[module.moduleName + "~" + quantitySalesInventoryKey].ICode = this.globalScopeRef[module.moduleName + "~" + quantitySalesInventoryKey].ICode.replace('_', '');
+                this.globalScopeRef[module.moduleName + "~" + barCodeSalesInventoryKey].ICode = this.globalScopeRef[module.moduleName + "~" + barCodeSalesInventoryKey].ICode.replace('_', '');
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Test Inventory Integrity";
