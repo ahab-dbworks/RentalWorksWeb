@@ -78,7 +78,7 @@ class PurchaseOrder implements IModule {
         });
         FwMenu.addSubMenuItem(options.$groupOptions, 'Void', 'u5eAwyixomSFN', (e: JQuery.ClickEvent) => {
             try {
-                this.void(options.$form);
+                this.voidPO(options.$form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -195,7 +195,35 @@ class PurchaseOrder implements IModule {
             { value: 'M', caption: 'Monthly' },
             { value: 'P', caption: 'Period' }
         ]);
+        FwFormField.loadItems($form.find('div[data-datafield="ReceiveDeliveryDeliveryType"]'), [
+            { value: 'DELIVER', text: 'Vendor Deliver' },
+            { value: 'SHIP', text: 'Vendor Ship' },
+            { value: 'PICK UP', text: 'Pick Up' }
+        ], true);
+        FwFormField.loadItems($form.find('div[data-datafield="ReceiveDeliveryAddressType"]'), [
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'VENUE', caption: 'Venue' },
+            { value: 'WAREHOUSE', caption: 'Warehouse' },
+            { value: 'OTHER', caption: 'Other' }
+        ]);
 
+        FwFormField.loadItems($form.find('div[data-datafield="ReceiveDeliveryOnlineOrderStatus"]'), [
+            { value: 'PARTIAL', text: 'Partial' },
+            { value: 'COMPLETE', text: 'Complete' }
+        ], true);
+
+        FwFormField.loadItems($form.find('div[data-datafield="ReturnDeliveryDeliveryType"]'), [
+            { value: 'DELIVER', text: 'Deliver' },
+            { value: 'SHIP', text: 'Ship' },
+            { value: 'PICK UP', text: 'Vendor Pick Up' }
+        ], true);
+
+        FwFormField.loadItems($form.find('div[data-datafield="ReturnDeliveryAddressType"]'), [
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'VENUE', caption: 'Venue' },
+            { value: 'WAREHOUSE', caption: 'Warehouse' },
+            { value: 'OTHER', caption: 'Other' }
+        ], true);
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         this.renderSearchButton($form);
@@ -290,7 +318,6 @@ class PurchaseOrder implements IModule {
             gridSecurityId: 'lATsdnAx7B4s',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
@@ -335,7 +362,6 @@ class PurchaseOrder implements IModule {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -442,7 +468,6 @@ class PurchaseOrder implements IModule {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -548,7 +573,6 @@ class PurchaseOrder implements IModule {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -655,7 +679,6 @@ class PurchaseOrder implements IModule {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -763,7 +786,6 @@ class PurchaseOrder implements IModule {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -873,7 +895,6 @@ class PurchaseOrder implements IModule {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -984,7 +1005,6 @@ class PurchaseOrder implements IModule {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -1096,7 +1116,6 @@ class PurchaseOrder implements IModule {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -1196,12 +1215,31 @@ class PurchaseOrder implements IModule {
         //FwBrowse.renderRuntimeHtml($orderItemGridSubMiscControl);
 
         FwBrowse.renderGrid({
+            nameGrid: 'OrderContactGrid',
+            gridSecurityId: 'B9CzDEmYe1Zf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                let companyId = FwFormField.getValueByDataField($form, 'VendorId');
+                if (companyId === '') {
+                    companyId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                }
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                request.CompanyId = companyId;
+            }
+        });
+
+        FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.submiscgrid div[data-grid="OrderItemGrid"]',
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -1287,7 +1325,6 @@ class PurchaseOrder implements IModule {
             gridSecurityId: '8aq0E3nK2upt',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
@@ -1943,6 +1980,9 @@ class PurchaseOrder implements IModule {
                 $yes.text('Voiding...');
                 $yes.off('click');
 
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
                 const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
                 FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/void/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Purchase Order Successfully Voided');
@@ -1955,7 +1995,7 @@ class PurchaseOrder implements IModule {
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
                     FwModule.refreshForm($form);
-                }, $form);
+                }, $realConfirm);
             };
         } else {
             FwNotification.renderNotification('WARNING', 'Only NEW Purchase Orders can be voided.');
@@ -2103,6 +2143,41 @@ class PurchaseOrder implements IModule {
         $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
+            const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
+
+            FwAppData.apiMethod(true, 'GET', `api/v1/vendor/${vendorId}`, null, FwServices.defaultTimeout, response => {
+                //FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
+                //FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
+                //FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);
+                //FwFormField.setValueByDataField($form, 'IssuedToAddress2', response.BillToAddress2);
+                //FwFormField.setValueByDataField($form, 'IssuedToCity', response.BillToCity);
+                //FwFormField.setValueByDataField($form, 'IssuedToState', response.BillToState);
+                //FwFormField.setValueByDataField($form, 'IssuedToZipCode', response.BillToZipCode);
+                //FwFormField.setValueByDataField($form, 'IssuedToCountryId', response.BillToCountryId, response.BillToCountry);
+                //FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', response.BillToAddressType);
+
+                if ($form.attr('data-mode') === 'NEW') {
+                    FwFormField.setValueByDataField($form, 'ReceiveDeliveryDeliveryType', response.DefaultOutgoingDeliveryType);
+                    FwFormField.setValueByDataField($form, 'ReturnDeliveryDeliveryType', response.DefaultIncomingDeliveryType);
+                    if (response.DefaultOutgoingDeliveryType === 'DELIVER' || response.DefaultOutgoingDeliveryType === 'SHIP') {
+                        FwFormField.setValueByDataField($form, 'ReceiveDeliveryAddressType', 'DEAL');
+                        this.fillDeliveryAddressFieldsforDeal($form, 'Receive', response);
+                    }
+                    else if (response.DefaultOutgoingDeliveryType === 'PICK UP') {
+                        FwFormField.setValueByDataField($form, 'ReceiveDeliveryAddressType', 'WAREHOUSE');
+                        this.getWarehouseAddress($form, 'Receive');
+                    }
+
+                    if (response.DefaultIncomingDeliveryType === 'DELIVER' || response.DefaultIncomingDeliveryType === 'SHIP') {
+                        FwFormField.setValueByDataField($form, 'ReturnDeliveryAddressType', 'WAREHOUSE');
+                        this.getWarehouseAddress($form, 'Return');
+                    }
+                    else if (response.DefaultIncomingDeliveryType === 'PICK UP') {
+                        FwFormField.setValueByDataField($form, 'ReturnDeliveryAddressType', 'DEAL');
+                        this.fillDeliveryAddressFieldsforDeal($form, 'Return', response);
+                    }
+                }
+            }, null, null);
         });
         //Populate tax info fields with validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
@@ -2139,13 +2214,200 @@ class PurchaseOrder implements IModule {
             }, $form);
         });
 
+        // Out / In DeliveryType radio in Deliver tab
+        $form.find('.delivery-type-radio').on('change', event => {
+            this.deliveryTypeAddresses($form, event);
+        });
+        // Stores previous value for Receive / ReturnDeliveryDeliveryType
+        $form.find('.delivery-delivery').on('click', event => {
+            const $element = jQuery(event.currentTarget);
+            if ($element.attr('data-datafield') === 'ReceiveDeliveryDeliveryType') {
+                $element.data('prevValue', FwFormField.getValueByDataField($form, 'ReceiveDeliveryDeliveryType'))
+            } else {
+                $element.data('prevValue', FwFormField.getValueByDataField($form, 'ReturnDeliveryDeliveryType'))
+            }
+        });
+        // Delivery type select field on Deliver tab
+        $form.find('.delivery-delivery').on('change', event => {
+            const $element = jQuery(event.currentTarget);
+            const newValue = $element.find('.fwformfield-value').val();
+            const prevValue = $element.data('prevValue');
 
+            if ($element.attr('data-datafield') === 'ReceiveDeliveryDeliveryType') {
+                if (newValue === 'DELIVER' && prevValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'ReceiveDeliveryAddressType', 'DEAL');
+                }
+                if (newValue === 'SHIP' && prevValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'ReceiveDeliveryAddressType', 'DEAL');
+                }
+                if (newValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'ReceiveDeliveryAddressType', 'WAREHOUSE');
+                }
+                $form.find('div[data-datafield="ReceiveDeliveryAddressType"]').change();
+            }
+            else if ($element.attr('data-datafield') === 'ReturnDeliveryDeliveryType') {
+                if (newValue === 'DELIVER' && prevValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'ReturnDeliveryAddressType', 'WAREHOUSE');
+                }
+                if (newValue === 'SHIP' && prevValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'ReturnDeliveryAddressType', 'WAREHOUSE');
+                }
+                if (newValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'ReturnDeliveryAddressType', 'DEAL');
+                }
+                $form.find('div[data-datafield="ReturnDeliveryAddressType"]').change();
+            }
+        });
+
+        //Track shipment-Receive
+        $form.find('.track-shipment-return').on('click', e => {
+            const trackingURL = FwFormField.getValueByDataField($form, 'ReceiveDeliveryFreightTrackingUrl');
+            if (trackingURL !== '') {
+                try {
+                    window.open(trackingURL);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+
+        //Track shipment-Return
+        $form.find('.track-shipment-return').on('click', e => {
+            const trackingURL = FwFormField.getValueByDataField($form, 'ReturnDeliveryFreightTrackingUrl');
+            if (trackingURL !== '') {
+                try {
+                    window.open(trackingURL);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+        $form.find('.addresscopy').on('click', e => {
+            const $confirmation = FwConfirmation.renderConfirmation('Confirm Copy', '');
+            const html: Array<string> = [];
+            html.push('<div class="flexrow">Copy Receive Address into Return Address?</div>');
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+            $yes.on('click', copyAddress);
+            function copyAddress() {
+                FwNotification.renderNotification('SUCCESS', 'Address Successfully Copied.');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryToLocation', FwFormField.getValueByDataField($form, 'ReceiveDeliveryToLocation'));
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryToAttention', FwFormField.getValueByDataField($form, 'ReceiveDeliveryToAttention'));
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryToAddress1', FwFormField.getValueByDataField($form, 'ReceiveDeliveryToAddress1'));
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryToAddress2', FwFormField.getValueByDataField($form, 'ReceiveDeliveryToAddress2'));
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryToCity', FwFormField.getValueByDataField($form, 'ReceiveDeliveryToCity'));
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryToState', FwFormField.getValueByDataField($form, 'ReceiveDeliveryToState'));
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryToZipCode', FwFormField.getValueByDataField($form, 'ReceiveDeliveryToZipCode'));
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryToCountryId', FwFormField.getValueByDataField($form, 'ReceiveDeliveryToCountryId'), FwFormField.getTextByDataField($form, 'ReceiveDeliveryToCountryId'));
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryToCrossStreets', FwFormField.getValueByDataField($form, 'ReceiveDeliveryToCrossStreets'));
+                $form.attr('data-modified', 'true');
+                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+            }
+        });
         //Hide/Show summary buttons based on rate type
         $form.find('[data-datafield="RateType"]').data('onchange', e => {
             this.applyRateType($form);
         });
 
     };
+    //----------------------------------------------------------------------------------------------
+    deliveryTypeAddresses($form: any, event: any): void {
+        const $element = jQuery(event.currentTarget);
+        if ($element.attr('data-datafield') === 'ReceiveDeliveryAddressType') {
+            const value = FwFormField.getValueByDataField($form, 'ReceiveDeliveryAddressType');
+            if (value === 'WAREHOUSE') {
+                this.getWarehouseAddress($form, 'Receive');
+            } else if (value === 'DEAL') {
+                this.fillDeliveryAddressFieldsforDeal($form, 'Receive');
+            }
+        }
+        else if ($element.attr('data-datafield') === 'ReturnDeliveryAddressType') {
+            const value = FwFormField.getValueByDataField($form, 'ReturnDeliveryAddressType');
+            if (value === 'WAREHOUSE') {
+                this.getWarehouseAddress($form, 'Return');
+            } else if (value === 'DEAL') {
+                this.fillDeliveryAddressFieldsforDeal($form, 'Return');
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    getWarehouseAddress($form: any, prefix: string): void {
+        //const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid; - J.Pace :: changed from user warehouse to order warehouse at request of mgmt 12/31/19
+        const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+
+        let WHresponse: any = {};
+
+        if ($form.data('whAddress')) {
+            WHresponse = $form.data('whAddress');
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, WHresponse.Warehouse);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, WHresponse.Attention);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, WHresponse.Address1);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, WHresponse.Address2);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, WHresponse.City);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, WHresponse.State);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, WHresponse.Zip);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
+        } else {
+            if (warehouseId) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${warehouseId}`, null, FwServices.defaultTimeout, response => {
+                    WHresponse = response;
+
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, WHresponse.Warehouse);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, WHresponse.Attention);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, WHresponse.Address1);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, WHresponse.Address2);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, WHresponse.City);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, WHresponse.State);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, WHresponse.Zip);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
+                    // Preventing unnecessary API calls once warehouse addresses have been requested once
+                    $form.data('whAddress', {
+                        'Warehouse': response.Warehouse,
+                        'Attention': response.Attention,
+                        'Address1': response.Address1,
+                        'Address2': response.Address2,
+                        'City': response.City,
+                        'State': response.State,
+                        'Zip': response.Zip,
+                        'CountryId': response.CountryId,
+                        'Country': response.Country
+                    })
+                }, null, null);
+            } else {
+                FwNotification.renderNotification('INFO', 'No Warehouse chosen on Purchase Order.');
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    fillDeliveryAddressFieldsforDeal($form: any, prefix: string, response?: any): void {
+        if (!response) {
+            const dealId = FwFormField.getValueByDataField($form, 'DealId');
+            if (dealId !== '') {
+                FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, res => {
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, res.Deal);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, res.ShipAttention);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, res.ShipAddress1);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, res.ShipAddress2);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, res.ShipCity);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, res.ShipState);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, res.ShipZipCode);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, res.ShipCountryId, res.ShipCountry);
+                }, null, null);
+            }
+        } else {
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, response.Deal);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, response.ShipAttention);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, response.ShipAddress1);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, response.ShipAddress2);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, response.ShipCity);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, response.ShipState);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, response.ShipZipCode);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.ShipCountryId, response.ShipCountry);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     assignBarCodes($form) {
         const mode = 'EDIT';
@@ -2167,19 +2429,8 @@ class PurchaseOrder implements IModule {
         jQuery('.tab.submodule.active').find('.caption').html('Return To Vendor');
     }
     //----------------------------------------------------------------------------------------------
-    void($form) {
-        let orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-
-        if (orderId == "") {
-            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-        } else {
-            let search = new SearchInterface();
-            let $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');
-        }
-    }
-    //----------------------------------------------------------------------------------------------
     search($form) {
-        let orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        const orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
 
         if (orderId == "") {
             FwNotification.renderNotification('WARNING', 'Save the record before performing this function');

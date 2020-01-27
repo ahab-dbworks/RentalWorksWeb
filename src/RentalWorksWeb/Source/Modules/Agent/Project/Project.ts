@@ -176,7 +176,6 @@ class Project {
             gridSecurityId: 'ZvjyLW5OM5s1X',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
@@ -208,7 +207,6 @@ class Project {
             gridSecurityId: 'kaGlUrLG9GjN',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
@@ -239,7 +237,6 @@ class Project {
             gridSecurityId: 'tR09bf745p0YU',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')

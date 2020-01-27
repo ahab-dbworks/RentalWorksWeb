@@ -64,7 +64,6 @@ class GeneratorType {
             gridSecurityId: 'N400cxkXaRDx',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;

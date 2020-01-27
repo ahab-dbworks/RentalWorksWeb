@@ -55,7 +55,6 @@ class EventType {
             gridSecurityId: 'CbjLxfIjRyg',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     EventTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')

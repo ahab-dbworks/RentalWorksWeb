@@ -1,4 +1,4 @@
-﻿class Program extends FwApplication {
+class Program extends FwApplication {
     name = Constants.appCaption;
     title = Constants.appTitle;
     //---------------------------------------------------------------------------------
@@ -247,6 +247,7 @@ routes.push({ pattern: /^module\/dashboard$/, action: function (match: RegExpExe
 routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExecArray) { return ContractController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/physicalinventory$/, action: function (match: RegExpExecArray) { return PhysicalInventoryController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dataexportformat$/, action: function (match: RegExpExecArray) { return DataExportFormatController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/marketsegment$/, action: function (match: RegExpExecArray) { return MarketSegmentController.getModuleScreen(); } });
 
 //Reports                                             
 //routes.push({ pattern: /^module\/dealoutstanding$/, action: function (match: RegExpExecArray) { return RwDealOutstandingController.getModuleScreen(); } });

@@ -12,7 +12,8 @@ namespace WebApi
         public static string ITEM_COLOR { get; set; }
         public static string ACCESSORY_COLOR { get; set; }
         public static string PERCENTAGE_ITEM_COLOR { get; set; }
-        
+
+        public static string ORDER_QUANTITY_ADJUSTED_AT_STAGING_COLOR { get; set; }
 
         public static string STAGED_COLOR { get; set; }
         public static string OUT_COLOR { get; set; }
@@ -138,7 +139,7 @@ namespace WebApi
             ITEM_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ITEM_COLOR);
             ACCESSORY_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ACCESSORY_COLOR);
             PERCENTAGE_ITEM_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PERCENTAGE_ITEM_COLOR);
-            
+            ORDER_QUANTITY_ADJUSTED_AT_STAGING_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_QUANTITY_ADJUSTED_AT_STAGING_COLOR);
 
             INVENTORY_AVAILABLE_FOR_SALE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVENTORY_AVAILABLE_FOR_SALE_COLOR);
             INVENTORY_AVAILABLE_FOR_PARTS_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVENTORY_AVAILABLE_FOR_PARTS_COLOR);
@@ -146,7 +147,7 @@ namespace WebApi
 
 
 
-            
+
             using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
             {
                 INVENTORY_STATUS_IN_ID = FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_IN, "rentalstatusid").Result.ToString().TrimEnd();

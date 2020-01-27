@@ -8,6 +8,7 @@ using System.Reflection;
 using WebApi;
 using FwStandard.SqlServer;
 using WebApi.Logic;
+using WebApi.Modules.Inventory.Inventory;
 
 namespace WebApi.Modules.HomeControls.Inventory
 {
@@ -18,6 +19,7 @@ namespace WebApi.Modules.HomeControls.Inventory
         protected ItemDimensionRecord primaryDimension = new ItemDimensionRecord();
         protected ItemDimensionRecord secondaryDimension = new ItemDimensionRecord();
         InventoryBrowseLoader inventoryBrowseLoader = new InventoryBrowseLoader();
+        private bool _changingTrackedBy = false;
 
         public InventoryLogic() : base()
         {
@@ -43,6 +45,9 @@ namespace WebApi.Modules.HomeControls.Inventory
 
         [FwLogicProperty(Id: "OPCHq5JjF8V7")]
         public string TrackedBy { get { return master.TrackedBy; } set { master.TrackedBy = value; } }
+
+        [FwLogicProperty(Id: "VXivpyosX92Kc", IsNotAudited: true)]
+        public string ConfirmTrackedBy { get; set; }
 
         [FwLogicProperty(Id: "tKUIWhrXo9ht")]
         public string Rank { get { return master.Rank; } set { master.Rank = value; } }
@@ -431,27 +436,47 @@ namespace WebApi.Modules.HomeControls.Inventory
                 AvailableFrom = RwConstants.INVENTORY_AVAILABLE_FROM_WAREHOUSE;
             }
 
-            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
-            {
-                InventoryLogic orig = ((InventoryLogic)e.Original);
-                PrimaryDimensionUniqueId = orig.PrimaryDimensionUniqueId;
-                SecondaryDimensionUniqueId = orig.SecondaryDimensionUniqueId;
-            }
-
+            InventoryLogic orig = null;
             string trackedBy = TrackedBy;
             string classification = Classification;
             if (e.Original != null)
             {
-                InventoryLogic orig = (InventoryLogic)e.Original;
+                orig = (InventoryLogic)e.Original;
                 trackedBy = trackedBy ?? orig.TrackedBy;
                 classification = classification ?? orig.Classification;
             }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (orig != null)
+                {
+                    PrimaryDimensionUniqueId = orig.PrimaryDimensionUniqueId;
+                    SecondaryDimensionUniqueId = orig.SecondaryDimensionUniqueId;
+                }
+            }
+
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if ((orig != null) && (!string.IsNullOrEmpty(TrackedBy)) && (!TrackedBy.Equals(orig.TrackedBy)))
+                {
+                    if ((!string.IsNullOrEmpty(ConfirmTrackedBy)) && (TrackedBy.Equals(ConfirmTrackedBy)))
+                    {
+                        _changingTrackedBy = true;
+                    }
+                    else
+                    {
+                        _changingTrackedBy = false;
+                        TrackedBy = orig.TrackedBy;
+                    }
+                }
+            }
+
 
             if (string.IsNullOrEmpty(trackedBy))
             {
                 if (classification.Equals(RwConstants.ITEMCLASS_COMPLETE))
                 {
-
                     string primaryInventoryId = AppFunc.GetStringDataAsync(AppConfig, "packageitem", new string[] { "packageid", "primaryflg" }, new string[] { InventoryId, "T" }, new string[] { "masterid" }).Result[0];
                     trackedBy = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", primaryInventoryId, "trackedby").Result;
                     if (!string.IsNullOrEmpty(trackedBy))
@@ -463,13 +488,19 @@ namespace WebApi.Modules.HomeControls.Inventory
                 {
                     TrackedBy = RwConstants.INVENTORY_TRACKED_BY_BAR_CODE;  // hard-coded for now.  Maybe someday we will support serial
                 }
-
             }
         }
         //------------------------------------------------------------------------------------
         public override void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             base.OnAfterSave(sender, e);
+
+            InventoryLogic orig = null;
+
+            if (e.Original != null)
+            {
+                orig = (InventoryLogic)e.Original;
+            }
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
@@ -487,8 +518,20 @@ namespace WebApi.Modules.HomeControls.Inventory
                     master.SecondayDimensionId = secondaryDimension.UniqueId;
                     int i = master.SaveAsync(null, e.SqlConnection).Result;
                 }
-            }
 
+                if (_changingTrackedBy)
+                {
+                    ChangeInventoryTrackedByRequest request = new ChangeInventoryTrackedByRequest();
+                    request.InventoryId = InventoryId;
+                    request.OldTrackedBy = orig.TrackedBy;
+                    request.NewTrackedBy = TrackedBy;
+                    ChangeInventoryTrackedByResponse response = InventoryFunc.ChangeInventoryTrackedBy(AppConfig, UserSession, request, e.SqlConnection).Result;
+                    if (!response.success)  // need an error message here
+                    {
+                        bool b = AppFunc.UpdateDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { InventoryId }, new string[] { "trackedby" }, new string[] { orig.TrackedBy }).Result;
+                    }
+                }
+            }
 
             bool doSaveWardrobeDescription = false;
             bool doSaveWebDescription = false;
@@ -497,11 +540,13 @@ namespace WebApi.Modules.HomeControls.Inventory
                 doSaveWardrobeDescription = true;
                 doSaveWebDescription = true;
             }
-            else if (e.Original != null)
+            else
             {
-                InventoryLogic orig = (InventoryLogic)e.Original;
-                doSaveWardrobeDescription = (!orig.WardrobeDetailedDescription.Equals(WardrobeDetailedDescription));
-                doSaveWebDescription = (!orig.WebDetailedDescription.Equals(WebDetailedDescription));
+                if (orig != null)
+                {
+                    doSaveWardrobeDescription = (!orig.WardrobeDetailedDescription.Equals(WardrobeDetailedDescription));
+                    doSaveWebDescription = (!orig.WebDetailedDescription.Equals(WebDetailedDescription));
+                }
             }
             if (doSaveWardrobeDescription)
             {

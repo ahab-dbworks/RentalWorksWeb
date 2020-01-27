@@ -279,7 +279,6 @@ class Vendor {
             gridSecurityId: 'B9CzDEmYe1Zf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -312,7 +311,6 @@ class Vendor {
             gridSecurityId: 'zuywROD73X60O',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
 
                 request.uniqueids = {
@@ -343,7 +341,6 @@ class Vendor {
             gridSecurityId: 'gQHuhVDA5Do2',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CompanyId: FwFormField.getValueByDataField($form, 'VendorId')

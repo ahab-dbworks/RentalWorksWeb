@@ -1,4 +1,4 @@
-﻿abstract class StagingCheckoutBase {
+abstract class StagingCheckoutBase {
     Module: string;
     caption: string;
     nav: string;
@@ -126,21 +126,22 @@
                 options.hasEdit = false;
                 options.hasDelete = false;
 
-                FwMenu.addSubMenuItem(options.$groupActions, 'Unstage Selected Items', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        if ($form.attr('data-controller') === 'TransferOutController') {
-                            (<any>window).TransferOutController.unstageItems($form, e);
-                        } else {
-                            StagingCheckoutController.unstageItems($form, e);
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
+                //FwMenu.addSubMenuItem(options.$groupActions, 'Unstage Selected Items', '', (e: JQuery.ClickEvent) => {
+                //    try {
+                //        if ($form.attr('data-controller') === 'TransferOutController') {
+                //            (<any>window).TransferOutController.unstageItems($form, e);
+                //        } else {
+                //            StagingCheckoutController.unstageItems($form, e);
+                //        }
+                //    } catch (ex) {
+                //        FwFunc.showError(ex);
+                //    }
+                //});
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
                     IncludeZeroRemaining: FwFormField.getValueByDataField($form, 'IncludeZeroRemaining')
                 };
                 request.orderby = 'ItemOrder';
@@ -161,6 +162,7 @@
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
                     IncludeZeroRemaining: FwFormField.getValueByDataField($form, 'IncludeZeroRemaining')
                 };
                 request.orderby = 'ItemOrder';
@@ -332,7 +334,8 @@
                 const $stageQuantityItemGridControl = $form.find('[data-name="StageQuantityItemGrid"]');
                 $stageQuantityItemGridControl.data('ondatabind', request => {
                     request.uniqueids = {
-                        OrderId: orderId
+                        OrderId: orderId,
+                        WarehouseId: warehouseId,
                     }
                     request.pagesize = 20;
                 })
@@ -412,13 +415,20 @@
     startPartialCheckoutItems = ($form: JQuery, event): void => {
         $form.find('.error-msg:not(.qty)').html('');
 
-        const requestBody: any = {};
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+
+        let request: any = {};
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-        requestBody.OrderId = orderId;
+        request = {
+            OrderId: orderId,
+            OfficeLocationId: location.locationid,
+            WarehouseId: warehouse.warehouseid,
+        }
         if (orderId != '') {
             this.partialContractGridVisibility($form);
             if (this.contractId == '' || this.contractId == undefined) {
-                FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
+                FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, request, FwServices.defaultTimeout, response => {
                     try {
                         this.contractId = response.ContractId;
                         $form.find('.suspendedsession').hide();
@@ -722,8 +732,9 @@
         const errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
         const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
+        const location = JSON.parse(sessionStorage.getItem('location'));
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const request: any = {};
+        let request: any = {};
 
         setTimeout(() => {
             if (this.Module === 'StagingCheckout' && warehouse.promptforcheckoutexceptions == true) {
@@ -754,7 +765,11 @@
 
         function checkout() {
             if (orderId != '') {
-                request.OrderId = orderId;
+                request = {
+                    OrderId: orderId,
+                    OfficeLocationId: location.locationid,
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                }
                 FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, response => {
                     if (response.success === true) {
                         $form.find('div[data-datafield="GridView"]').hide();
@@ -1014,6 +1029,7 @@
                 const includeZeroRemaining = FwFormField.getValueByDataField($form, 'IncludeZeroRemaining');
                 request.uniqueids = {
                     OrderId: orderId,
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
                     IncludeZeroRemaining: includeZeroRemaining
                 };
                 request.pagesize = 20;
@@ -1076,7 +1092,10 @@
                 FwConfirmation.destroyConfirmation($confirmation);
                 let request: any = {};
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-                request.OrderId = orderId;
+                request = {
+                    OrderId: orderId,
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                }
                 FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectnone`, request, FwServices.defaultTimeout, response => {
                     errorMsgQty.html('');
                     if (response.success === false) {
@@ -1098,7 +1117,10 @@
             $form.find('.option-list').show();
             FwFormField.setValueByDataField($form, 'IncludeZeroRemaining', true);
             const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-            request.OrderId = orderId;
+            request = {
+                OrderId: orderId,
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+            }
             FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectall`, request, FwServices.defaultTimeout, response => {
                 errorMsgQty.html('');
                 if (response.success === false) {
@@ -1223,13 +1245,12 @@
         const $form = jQuery($element).closest('.fwform');
 
         let request: any = {};
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const code = FwFormField.getValueByDataField($form, 'Code');
         request = {
             OrderId: orderId,
             Code: code,
-            Warehouse: warehouse.warehouseid,
+            WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
             UnstageItem: true
         }
 

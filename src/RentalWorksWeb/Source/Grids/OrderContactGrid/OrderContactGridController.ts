@@ -19,10 +19,17 @@
         let $form;
         $form = $control.closest('.fwform');
 
-        if ($form.attr('data-controller') === 'QuoteController') {
-            FwBrowse.addLegend($control, 'Quoted For', '#00c400');
-        } else {
-            FwBrowse.addLegend($control, 'Ordered By', '#00c400');
+        const controller = $form.attr('data-controller');
+        switch (controller) {
+            case 'QuoteController':
+                FwBrowse.addLegend($control, 'Quoted For', '#00c400');
+                break;
+            case 'PurchaseOrderController':
+                FwBrowse.addLegend($control, 'Ordered From', '#00c400');
+                break;
+            default:
+                FwBrowse.addLegend($control, 'Ordered By', '#00c400');
+                break;
         }
     }
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {

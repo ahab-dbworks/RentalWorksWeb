@@ -1,10 +1,5 @@
-using FwStandard.Data;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
-using System.Collections.Generic;
-using WebApi;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -92,6 +87,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "consignment", modeltype: FwDataTypes.Boolean)]
         public bool? Consignment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
         public string DealNumber { get; set; }
@@ -201,12 +199,382 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
         public string ProjectManager { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outdeliveryid", modeltype: FwDataTypes.Text)]
-        public string OutDeliveryId { get; set; }
+        //[FwSqlDataField(column: "outdeliveryid", modeltype: FwDataTypes.Text)]
+        //public string OutDeliveryId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "indeliveryid", modeltype: FwDataTypes.Text)]
+        //public string InDeliveryId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "indeliveryid", modeltype: FwDataTypes.Text)]
-        public string InDeliveryId { get; set; }
+
+
+
+
+        [FwSqlDataField(column: "receivedeliveryid", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverydeliverytype", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryDeliveryType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryrequireddate", modeltype: FwDataTypes.Date)]
+        public string ReceiveDeliveryRequiredDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryrequiredtime", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryRequiredTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytargetshipdate", modeltype: FwDataTypes.Date)]
+        public string ReceiveDeliveryTargetShipDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytargetshiptime", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryTargetShipTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromlocation", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromcontact", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromContact { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromcontactalternate", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromAlternateContact { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromcontactphone", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromcontactphonealternate", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromAlternateContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromattention", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromAttention { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromadd1", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromadd2", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromAdd2ress { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromcity", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromCity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromstate", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromState { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromzip", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromcountry", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromcrossstreets", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromCrossStreets { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytolocation", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytoattention", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToAttention { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytoadd1", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytoadd2", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytocity", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToCity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytostate", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToState { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytozip", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytocountry", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytocountryid", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToCountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytocrossstreets", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToCrossStreets { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytometric", modeltype: FwDataTypes.Boolean)]
+        public bool? ReceiveDeliveryToMetric { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytocontact", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToContact { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytocontactalternate", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToAlternateContact { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytocontactphone", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytocontactphonealternate", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToAlternateContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytocontactfax", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryToContactFax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverydeliverynotes", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryDeliveryNotes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverycarrierid", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryCarrierId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverycarrier", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryCarrier { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryshipviaid", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryShipViaId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryshipvia", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryShipVia { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryinvoiceid", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryInvoiceId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryvendorinvoiceid", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryVendorInvoiceId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverycarrieracct", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryCarrierAccount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryestimatedfreight", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReceiveDeliveryEstimatedFreight { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfreightinvamt", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReceiveDeliveryFreightInvoiceAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverychargetype", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryChargeType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfreighttrackno", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFreightTrackingNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytrackingurl", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFreightTrackingUrl { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryfromcountryid", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryFromCountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverytemplate", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryTemplate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryaddresstype", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryAddressType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverydirection", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryDirection { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverydropship", modeltype: FwDataTypes.Boolean)]
+        public bool? ReceiveDeliveryDropShip { get; set; }
+        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "receivedeliveryorderid", modeltype: FwDataTypes.Text)]
+        //public string ReceiveDeliveryOrderId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverypackagecode", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryPackageCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverybillpofreightonorder", modeltype: FwDataTypes.Boolean)]
+        public bool? ReceiveDeliveryBillPoFreightOnOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryonlineorderno", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryOnlineOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliveryonlineorderstatus", modeltype: FwDataTypes.Text)]
+        public string ReceiveDeliveryOnlineOrderStatus { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedeliverydatestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string ReceiveDeliveryDateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
+        [FwSqlDataField(column: "returndeliveryid", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverydeliverytype", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryDeliveryType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryrequireddate", modeltype: FwDataTypes.Date)]
+        public string ReturnDeliveryRequiredDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryrequiredtime", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryRequiredTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytargetshipdate", modeltype: FwDataTypes.Date)]
+        public string ReturnDeliveryTargetShipDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytargetshiptime", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryTargetShipTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromlocation", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromcontact", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromContact { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromcontactalternate", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromAlternateContact { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromcontactphone", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromcontactphonealternate", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromAlternateContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromattention", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromAttention { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromadd1", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromadd2", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromAdd2ress { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromcity", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromCity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromstate", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromState { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromzip", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromcountry", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromcrossstreets", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromCrossStreets { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytolocation", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytoattention", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToAttention { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytoadd1", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytoadd2", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytocity", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToCity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytostate", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToState { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytozip", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytocountry", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytocountryid", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToCountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytocrossstreets", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToCrossStreets { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytometric", modeltype: FwDataTypes.Boolean)]
+        public bool? ReturnDeliveryToMetric { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytocontact", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToContact { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytocontactalternate", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToAlternateContact { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytocontactphone", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytocontactphonealternate", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToAlternateContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytocontactfax", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryToContactFax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverydeliverynotes", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryDeliveryNotes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverycarrierid", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryCarrierId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverycarrier", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryCarrier { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryshipviaid", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryShipViaId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryshipvia", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryShipVia { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryinvoiceid", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryInvoiceId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryvendorinvoiceid", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryVendorInvoiceId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverycarrieracct", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryCarrierAccount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryestimatedfreight", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReturnDeliveryEstimatedFreight { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfreightinvamt", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReturnDeliveryFreightInvoiceAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverychargetype", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryChargeType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfreighttrackno", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFreightTrackingNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytrackingurl", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFreightTrackingUrl { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryfromcountryid", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryFromCountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverytemplate", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryTemplate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryaddresstype", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryAddressType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverydirection", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryDirection { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverydropship", modeltype: FwDataTypes.Boolean)]
+        public bool? ReturnDeliveryDropShip { get; set; }
+        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "returndeliveryorderid", modeltype: FwDataTypes.Text)]
+        //public string ReturnDeliveryOrderId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverypackagecode", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryPackageCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverybillpofreightonorder", modeltype: FwDataTypes.Boolean)]
+        public bool? ReturnDeliveryBillPoFreightOnOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryonlineorderno", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryOnlineOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliveryonlineorderstatus", modeltype: FwDataTypes.Text)]
+        public string ReturnDeliveryOnlineOrderStatus { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverydatestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string ReturnDeliveryDateStamp { get; set; }
+
+
+
+
+
+
+
+
+
         [FwSqlDataField(column: "projectid", modeltype: FwDataTypes.Text)]
         public string ProjectId { get; set; }
         //------------------------------------------------------------------------------------ 

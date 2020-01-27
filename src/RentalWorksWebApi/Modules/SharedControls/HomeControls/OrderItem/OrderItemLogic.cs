@@ -91,6 +91,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwLogicProperty(Id: "4zAONsnFq94R")]
         public decimal? QuantityOrdered { get { return orderItem.QuantityOrdered; } set { orderItem.QuantityOrdered = value; } }
 
+        [FwLogicProperty(Id: "sEGn6Ws6ZPJpz", IsReadOnly: true)]
+        public string QuantityColor { get; set; }
+
         [FwLogicProperty(Id: "fzTd0fTQvjjS")]
         public decimal? SubQuantity { get { return orderItem.SubQuantity; } set { orderItem.SubQuantity = value; } }
 
@@ -103,22 +106,22 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwLogicProperty(Id: "0DIiGv2TZoYQ", IsReadOnly: true)]
         public int? ReservedItemQuantity { get; set; }
 
-        [FwLogicProperty(Id: "9GCGUd4nSEzY", IsReadOnly: true)]
+        [FwLogicProperty(Id: "9GCGUd4nSEzY", IsReadOnly: true, IsNotAudited: true)]
         public decimal? AvailableQuantity { get; set; }
 
-        [FwLogicProperty(Id: "eNrj2HGEqivOG", IsReadOnly: true)]
+        [FwLogicProperty(Id: "eNrj2HGEqivOG", IsReadOnly: true, IsNotAudited: true)]
         public string AvailabilityState { get; set; }
 
-        [FwLogicProperty(Id: "72nuyMc1ObMF", IsReadOnly: true)]
+        [FwLogicProperty(Id: "72nuyMc1ObMF", IsReadOnly: true, IsNotAudited: true)]
         public decimal? AvailableAllWarehousesQuantity { get; set; }
 
-        [FwLogicProperty(Id: "uyqTEgf63XVZ", IsReadOnly: true)]
+        [FwLogicProperty(Id: "uyqTEgf63XVZ", IsReadOnly: true, IsNotAudited: true)]
         public string ConflictDate { get; set; }
 
-        [FwLogicProperty(Id: "uyqTEgf63XVZ", IsReadOnly: true)]
+        [FwLogicProperty(Id: "uyqTEgf63XVZ", IsReadOnly: true, IsNotAudited: true)]
         public string ConflictDateAllWarehouses { get; set; }
 
-        [FwLogicProperty(Id: "uyqTEgf63XVZ", IsReadOnly: true)]
+        [FwLogicProperty(Id: "uyqTEgf63XVZ", IsReadOnly: true, IsNotAudited: true)]
         public string ConflictDateConsignment { get; set; }
 
         [FwLogicProperty(Id: "iveRLjAjbZfE")]
@@ -367,6 +370,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
         //------------------------------------------------------------------------------------ 
 
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "FLcnFK2Oltf6Q", IsReadOnly: true)]
+        public bool? ModifiedAtStaging { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -1054,33 +1062,77 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+            OrderItemLogic orig = null;
+            if (e.Original != null)
+            {
+                orig = (OrderItemLogic)e.Original;
+            }
+
+            string inventoryId = InventoryId;
+            if (string.IsNullOrEmpty(inventoryId))
+            {
+                if (orig != null)
+                {
+                    inventoryId = orig.InventoryId;
+                }
+            }
+
+            string inventoryClass = "";
+            string inventoryDescription = "";
+            if (!string.IsNullOrEmpty(inventoryId))
+            {
+                string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { InventoryId }, new string[] { "class", "master" }).Result;
+                inventoryClass = inventoryData[0];
+                inventoryDescription = inventoryData[1];
+            }
+
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
-                if ((InventoryId != null) && (!InventoryId.Equals(string.Empty)))
+                if ((inventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (inventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
                 {
-                    ItemClass = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", InventoryId, "class").Result;
-                    if ((ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
-                    {
-                        OrderItemId = OrderFunc.InsertPackage(AppConfig, UserSession, this).Result;
-                        e.PerformSave = false;
-                    }
+                    // inserting a new record, it is a Complete or Kit, so call this procedure to add the entire Complete/Kit
+                    OrderItemId = OrderFunc.InsertPackage(AppConfig, UserSession, this).Result;
+                    e.PerformSave = false;  // all framework save functions will be skipped
                 }
+                if (!inventoryClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS))
+                {
+                    Description = inventoryDescription; // don't let user change the description on a new row, unless MISC
+                }
+                ItemClass = inventoryClass;
                 ItemOrder = "";
                 DetailOnly = true;
             }
             else  // updating
             {
-                string OriginalItemClass = "";
-                decimal? OriginalQuantityOrdered = 0;
-                decimal? OriginalSubQuantity = 0;
-                OrderItemLogic oiOrig = null;
-
-                if (e.Original != null)
+                // don't let user change the description on existing row, unless MISC, GROUPHEADING, TEXT, or SUBTOTAL
+                if (orig != null)
                 {
-                    oiOrig = ((OrderItemLogic)e.Original);
-                    OriginalItemClass = oiOrig.ItemClass;
-                    OriginalQuantityOrdered = oiOrig.QuantityOrdered;
-                    OriginalSubQuantity = oiOrig.SubQuantity;
+                    if (!(orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL)))
+                    {
+                        Description = orig.Description;
+                    }
+                }
+
+                //need to make sure the user doesn't change from package-type to non-package-type or vice-versa
+
+                if ((orig != null) && (orig.Locked.GetValueOrDefault(false)))
+                {
+                    Price = orig.Price;
+                    Price2 = orig.Price2;
+                    Price3 = orig.Price3;
+                    Price4 = orig.Price4;
+                    Price5 = orig.Price5;
+                    DiscountPercent = orig.DiscountPercent;
+                    DaysPerWeek = orig.DaysPerWeek;
+                }
+
+                if ((orig != null) && ((orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))))
+                {
+                    Price = 0;
+                    Price2 = 0;
+                    Price3 = 0;
+                    Price4 = 0;
+                    Price5 = 0;
                 }
 
                 if (RowsRolledUp.GetValueOrDefault(false))
@@ -1090,60 +1142,19 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 else
                 {
                     DetailOnly = true;
-
-                    if (oiOrig != null)
-                    {
-                        if (oiOrig.Locked.GetValueOrDefault(false))
-                        {
-                            Price = oiOrig.Price;
-                            Price2 = oiOrig.Price2;
-                            Price3 = oiOrig.Price3;
-                            Price4 = oiOrig.Price4;
-                            Price5 = oiOrig.Price5;
-                            DiscountPercent = oiOrig.DiscountPercent;
-                            DaysPerWeek = oiOrig.DaysPerWeek;
-                        }
-                    }
-
-                    if (OriginalItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || OriginalItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || OriginalItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
-                    {
-                        Price = 0;
-                        Price2 = 0;
-                        Price3 = 0;
-                        Price4 = 0;
-                        Price5 = 0;
-                    }
-
                 }
 
-                if (QuantityOrdered != null)
+                if ((orig != null) && (orig.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || orig.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
                 {
-                    if (OriginalItemClass != null)
+                    if ((QuantityOrdered != null) && (orig.QuantityOrdered != QuantityOrdered))
                     {
-                        if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
-                        {
-                            if (OriginalQuantityOrdered != QuantityOrdered)
-                            {
-                                bool b2 = OrderFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
-                            }
-                        }
+                        bool b2 = OrderFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
+                    }
+                    if ((SubQuantity != null) && (orig.SubQuantity != SubQuantity))
+                    {
+                        bool b2 = OrderFunc.UpdatePackageSubQuantities(AppConfig, UserSession, this).Result;
                     }
                 }
-                if (SubQuantity != null)
-                {
-                    if (OriginalItemClass != null)
-                    {
-                        if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
-                        {
-                            if (OriginalSubQuantity != SubQuantity)
-                            {
-                                bool b2 = OrderFunc.UpdatePackageSubQuantities(AppConfig, UserSession, this).Result;
-                            }
-                        }
-                    }
-                }
-
-
             }
         }
         //------------------------------------------------------------------------------------

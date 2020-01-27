@@ -10,8 +10,8 @@ namespace WebApi.Modules.Settings.InventoryGroupInventory
     public class InventoryGroupInventoryLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inventorygroupmasterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string InventoryGroupInventoryId { get; set; } = "";
+        [FwSqlDataField(column: "inventorygroupmasterid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
+        public int? InventoryGroupInventoryId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorygroupid", modeltype: FwDataTypes.Text)]
         public string InventoryGroupId { get; set; }

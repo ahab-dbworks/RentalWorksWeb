@@ -141,7 +141,6 @@ class Building {
             gridSecurityId: 'LrybQVClgY6f',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     BuildingId: FwFormField.getValueByDataField($form, 'BuildingId')
@@ -169,7 +168,6 @@ class Building {
             gridSecurityId: 'DgWXultjwPXkU',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     BuildingId: FwFormField.getValueByDataField($form, 'BuildingId')
@@ -199,7 +197,6 @@ class Building {
             gridSecurityId: 'iWPadFxStXkcL',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     BuildingId: FwFormField.getValueByDataField($form, 'BuildingId'),

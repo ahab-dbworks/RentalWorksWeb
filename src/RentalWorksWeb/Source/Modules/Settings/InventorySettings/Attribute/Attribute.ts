@@ -79,7 +79,6 @@ class Attribute {
             gridSecurityId: '2uvN8jERScu',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     AttributeId: FwFormField.getValueByDataField($form, 'AttributeId'),

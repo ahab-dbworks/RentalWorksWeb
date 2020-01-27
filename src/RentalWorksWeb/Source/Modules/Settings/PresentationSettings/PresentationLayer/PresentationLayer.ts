@@ -59,7 +59,6 @@ class PresentationLayer {
             gridSecurityId: 'QiLcE27ZUg0sE',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
@@ -75,7 +74,6 @@ class PresentationLayer {
             gridSecurityId: 'HWjX0WDoiG79H',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
@@ -91,7 +89,6 @@ class PresentationLayer {
             gridSecurityId: 'FcJ0Ld64KSUqv',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;

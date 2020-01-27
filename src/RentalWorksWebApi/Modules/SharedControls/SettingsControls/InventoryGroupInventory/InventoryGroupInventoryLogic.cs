@@ -15,7 +15,7 @@ namespace WebApi.Modules.Settings.InventoryGroupInventory
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"UVUMkmhN4qji", IsPrimaryKey:true)]
-        public string InventoryGroupInventoryId { get { return inventoryGroupInventory.InventoryGroupInventoryId; } set { inventoryGroupInventory.InventoryGroupInventoryId = value; } }
+        public int? InventoryGroupInventoryId { get { return inventoryGroupInventory.InventoryGroupInventoryId; } set { inventoryGroupInventory.InventoryGroupInventoryId = value; } }
 
         [FwLogicProperty(Id:"pKmFm33ikCk")]
         public string InventoryGroupId { get { return inventoryGroupInventory.InventoryGroupId; } set { inventoryGroupInventory.InventoryGroupId = value; } }

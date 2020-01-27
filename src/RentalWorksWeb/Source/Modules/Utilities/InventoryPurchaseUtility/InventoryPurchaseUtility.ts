@@ -206,7 +206,6 @@ class InventoryPurchaseUtility {
             gridSecurityId: 'qH0cLrQVt9avI',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     SessionId: $form.data('sessionid')

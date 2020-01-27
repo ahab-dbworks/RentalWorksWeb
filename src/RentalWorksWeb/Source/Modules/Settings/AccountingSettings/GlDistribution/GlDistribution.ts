@@ -7,6 +7,7 @@
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasNew = false;
+        options.hasDelete = false;
         FwMenu.addBrowseMenuButtons(options);
     }
     //----------------------------------------------------------------------------------------------

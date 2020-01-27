@@ -269,7 +269,6 @@ class SearchInterface {
             gridSecurityId: 'JLDAuUcvHEx1',
             moduleSecurityId: this.id,
             $form: $popup,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
 
             },

@@ -233,7 +233,6 @@ class Deal {
             gridSecurityId: 'k48X9sulRpmb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CompanyId: FwFormField.getValueByDataField($form, 'DealId')
@@ -261,7 +260,6 @@ class Deal {
             gridSecurityId: 'B9CzDEmYe1Zf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -296,7 +294,6 @@ class Deal {
             gridSecurityId: 'jcwmVLFEU88k',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
 
             },
@@ -331,7 +328,6 @@ class Deal {
             gridSecurityId: '5cMD0y0jSUgz',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     DealId: FwFormField.getValueByDataField($form, 'DealId')
@@ -361,7 +357,6 @@ class Deal {
             gridSecurityId: 'gQHuhVDA5Do2',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CompanyId: FwFormField.getValueByDataField($form, 'DealId')

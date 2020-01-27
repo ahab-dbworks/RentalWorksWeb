@@ -87,7 +87,7 @@ if exist %pdfFileName% (del %pdfFileName%)
 call jest --config=jest.rentalworksweb%testnumber%.config.js "%testname%"
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%pdfFileName% %htmlFileName%
 if exist %htmlFileName% (del %htmlFileName%)
-IF "%DwRegressionTestEmail%"=="" start %pdfFileName%
+rem IF "%DwRegressionTestEmail%"=="" start %pdfFileName%
 IF not "%DwRegressionTestEmail%"=="" call powershell.exe -file %DwRentalWorksWebPath%\src\JestTest\emailtestresults.ps1 -subject %emailSubject% -attachment %pdfFileName%
 exit /b
 

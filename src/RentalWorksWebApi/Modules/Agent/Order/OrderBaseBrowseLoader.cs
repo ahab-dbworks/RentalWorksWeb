@@ -306,6 +306,13 @@ namespace WebApi.Modules.Agent.Order
                 select.AddParameter("@masterid", inventoryId);
             }
 
+            string itemId = GetUniqueIdAsString("ItemId", request) ?? "";
+            if (!string.IsNullOrEmpty(itemId))
+            {
+                select.AddWhere("exists (select * from masteritem mi join ordertran ot on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and ot.rentalitemid = @itemid)");
+                select.AddParameter("@itemid", itemId);
+            }
+
 
             AddActiveViewFieldToSelect("Status", "status", select, request);
             if (UserSession.UserType == "USER")

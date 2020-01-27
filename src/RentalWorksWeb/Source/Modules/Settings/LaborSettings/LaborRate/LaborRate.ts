@@ -113,7 +113,6 @@ class RwLaborRate {
             gridSecurityId: 'Bm6TN9A4IRIuT',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -144,7 +143,6 @@ class RwLaborRate {
             gridSecurityId: 'oVjmeqXtHEJCm',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -175,7 +173,6 @@ class RwLaborRate {
             gridSecurityId: 'oVjmeqXtHEJCm',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;

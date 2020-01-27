@@ -74,7 +74,6 @@ class GeneratorMake {
             gridSecurityId: 'CFnh3uxNiWZy',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     GeneratorMakeId: FwFormField.getValueByDataField($form, 'GeneratorMakeId'),

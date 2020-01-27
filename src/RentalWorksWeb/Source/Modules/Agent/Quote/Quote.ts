@@ -1602,7 +1602,7 @@ class Quote extends OrderBase {
             $yes.text('Completing...');
             $yes.off('click');
             const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-            const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+            const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -1616,7 +1616,7 @@ class Quote extends OrderBase {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form);
-            }, realConfirm);
+            }, $realConfirm);
         };
     }
     //-----------------------------------------------------------------------------------------------------
@@ -1741,7 +1741,7 @@ class Quote extends OrderBase {
             $yes.on('click', function () {
                 const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
                 const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
                 FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwConfirmation.destroyConfirmation($confirmation);
                     const $quoteTab = jQuery(`#${$form.closest('.tabpage').attr('data-tabid')}`);
@@ -1752,7 +1752,7 @@ class Quote extends OrderBase {
                     const $orderform = OrderController.loadForm(uniqueids);
                     FwModule.openModuleTab($orderform, "", true, 'FORM', true);
                     FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
-                }, null, realConfirm);
+                }, null, $realConfirm);
             });
         } else {
             FwNotification.renderNotification('WARNING', 'Can only convert an "ACTIVE" or "RESERVED" Quote to an Order.');
@@ -1765,7 +1765,7 @@ class Quote extends OrderBase {
         const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
         FwConfirmation.addButton($confirmation, 'No', true);
         const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-        const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+        const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
         $yes.on('click', () => {
             const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/makequoteactive/${quoteId}`, null, FwServices.defaultTimeout,
@@ -1775,7 +1775,7 @@ class Quote extends OrderBase {
                     //FwModule.refreshForm($form, QuoteController);
                     FwModule.refreshForm($form);
                 },
-                ex => FwFunc.showError(ex), realConfirm);
+                ex => FwFunc.showError(ex), $realConfirm);
         });
     }
     //-----------------------------------------------------------------------------------------------------

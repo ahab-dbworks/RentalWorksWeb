@@ -80,7 +80,6 @@
             gridSecurityId: 'shA9rX1DYWp3',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CrewId: FwFormField.getValueByDataField($form, 'CrewId')
@@ -110,7 +109,6 @@
             gridSecurityId: 'vCrMyhsLCP7h',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CrewId: FwFormField.getValueByDataField($form, 'CrewId')
@@ -141,7 +139,6 @@
             gridSecurityId: 'mkJ1Ry8nqSnw',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ContactId: FwFormField.getValueByDataField($form, 'CrewId')

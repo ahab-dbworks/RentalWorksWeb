@@ -53,11 +53,13 @@
             DefaultFormat: true
         }
         FwAppData.apiMethod(true, 'POST', `api/v1/dataexportformat/browse`, request, FwServices.defaultTimeout, response => {
-            const idIndex = response.ColumnIndex.DataExportFormatId;
-            const defaultExportFormatId = response.Rows[0][idIndex];
-            const exportDescIndex = response.ColumnIndex.Description;
-            const desc = response.Rows[0][exportDescIndex];
-            FwFormField.setValueByDataField($form, 'DataExportFormatId', defaultExportFormatId, desc);
+            if (response.TotalRows > 0) {
+                const idIndex = response.ColumnIndex.DataExportFormatId;
+                const defaultExportFormatId = response.Rows[0][idIndex];
+                const exportDescIndex = response.ColumnIndex.Description;
+                const desc = response.Rows[0][exportDescIndex];
+                FwFormField.setValueByDataField($form, 'DataExportFormatId', defaultExportFormatId, desc);
+            }
         }, ex => FwFunc.showError(ex), $form);
 
         this.events($form);
@@ -193,8 +195,14 @@
             LocationId: location.locationid
         };
         switch (datafield) {
-            case 'BatchId': 
+            case 'BatchId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebatch`);
+                break;
+            case 'DataExportFormatId':
+                request.uniqueids = {
+                    ExportType: this.exporttype
+                };
+                break;
         }
     }
     //----------------------------------------------------------------------------------------------

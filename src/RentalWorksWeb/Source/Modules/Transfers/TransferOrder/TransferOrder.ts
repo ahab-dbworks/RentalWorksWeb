@@ -215,14 +215,14 @@ class TransferOrder {
 
             $yes.on('click', e => {
                 const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
                 const transferId = FwFormField.getValueByDataField($form, 'TransferId');
                 FwAppData.apiMethod(true, 'POST', `api/v1/transferorder/confirm/${transferId}`, null, FwServices.defaultTimeout, response => {
                     FwNotification.renderNotification('SUCCESS', `Transfer Order Successfully ${action}ed.`);
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwModule.refreshForm($form);
-                }, null, realConfirm);
+                }, null, $realConfirm);
             });
         } catch (ex) {
             FwFunc.showError(ex);
@@ -357,7 +357,6 @@ class TransferOrder {
         //    gridSecurityId: 'bggVQOivrIgi',
         //    moduleSecurityId: this.id,
         //    $form: $form,
-        //    pageSize: 10,
         //    onDataBind: (request: any) => {
         //        request.uniqueids = {
         //            OrderId: FwFormField.getValueByDataField($form, 'TransferId')
@@ -388,7 +387,6 @@ class TransferOrder {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = true;
                 options.hasEdit = true;
@@ -450,7 +448,6 @@ class TransferOrder {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = true;
                 options.hasEdit = true;

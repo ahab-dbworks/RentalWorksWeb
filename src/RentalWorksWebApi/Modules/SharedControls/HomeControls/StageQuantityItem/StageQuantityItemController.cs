@@ -46,7 +46,7 @@ namespace WebApi.Modules.HomeControls.StageQuantityItem
             }
             try
             {
-                SelectAllNoneStageQuantityItemResponse response = await CheckOutFunc.SelectAllStageQuantityItem(AppConfig, UserSession, request.OrderId);
+                SelectAllNoneStageQuantityItemResponse response = await CheckOutFunc.SelectAllStageQuantityItem(AppConfig, UserSession, request.OrderId, request.WarehouseId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace WebApi.Modules.HomeControls.StageQuantityItem
             }
             try
             {
-                SelectAllNoneStageQuantityItemResponse response = await CheckOutFunc.SelectNoneStageQuantityItem(AppConfig, UserSession, request.OrderId);
+                SelectAllNoneStageQuantityItemResponse response = await CheckOutFunc.SelectNoneStageQuantityItem(AppConfig, UserSession, request.OrderId, request.WarehouseId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

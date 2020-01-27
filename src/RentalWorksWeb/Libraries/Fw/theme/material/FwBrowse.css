@@ -338,14 +338,14 @@ html.theme-material .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.btn
 html.theme-material .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.count {color:#000000;}
 
 html.theme-material .fwbrowse[data-type="Validation"] {background:#e0e0e0;border:1px solid #A1A1A1;}
-html.theme-material .fwbrowse[data-type="Validation"] .browsecaption {color: #ffffff;border-bottom: 1px solid rgba(0,0,0,.2);font-size: 1rem;background-color: #0D47A1;padding: .7rem 1rem;text-align: left;}
+html.theme-material .fwbrowse[data-type="Validation"] .browsecaption {color: #ffffff;border-bottom: 1px solid rgba(0,0,0,.2);font-size:1rem;background-color: #0D47A1;padding:.7rem 1rem;text-align: left;}
+html.theme-material .fwbrowse[data-type="Validation"] .browsecaption {text-align:center;font-size:1.1em;line-height:24px;height:24px;vertical-align:middle;font-weight:bold;cursor:default;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
 html.theme-material .fwbrowse[data-type="Validation"] table tbody tr td.column {border-bottom:1px solid #e0e0e0;height:32px;}
 html.theme-material .fwbrowse[data-type="Validation"] tfoot tr.pagerrow .pager div.buttons .button[data-enabled="true"]:hover {background-color:rgba(0,0,0,.2);}
 html.theme-material .fwbrowse[data-type="Validation"] tfoot tr.pagerrow .pager div.count {color:#000000;}
 html.theme-material .fwbrowse[data-type="Validation"] .validationbuttons {padding:.3rem;}
-html.theme-material .fwbrowse.show-all[data-type="Validation"] table {overflow:auto;height:500px;display:block;}
+html.theme-material .fwbrowse[data-type="Validation"] .tablewrapper { overflow:auto;max-height: calc(100vh - 140px); }
 
-html.theme-material .fwbrowse[data-type="Validation"] .browsecaption {text-align:center;font-size:1.1em;line-height:24px;height:24px;vertical-align:middle;font-weight:bold;cursor:default;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
 html.theme-material .fwbrowse[data-type="Validation"] .pager {border-bottom: 1px solid #BDBDBD;background-color: #efefef;overflow: hidden;}
 html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons {display:inline-block;}
 html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons .button {cursor:pointer;float:left;padding:4px;}

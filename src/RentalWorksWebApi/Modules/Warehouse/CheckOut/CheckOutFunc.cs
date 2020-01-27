@@ -55,6 +55,8 @@ namespace WebApi.Modules.Warehouse.CheckOut
     public class CheckOutAllStagedRequest
     {
         public string OrderId { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string WarehouseId { get; set; }
     }
     public class CheckOutAllStagedResponse : TSpStatusResponse
     {
@@ -64,6 +66,8 @@ namespace WebApi.Modules.Warehouse.CheckOut
     public class CreateOutContractRequest
     {
         public string OrderId { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string WarehouseId { get; set; }
     }
     public class CreateOutContractResponse : TSpStatusResponse
     {
@@ -97,6 +101,8 @@ namespace WebApi.Modules.Warehouse.CheckOut
     {
         [Required]
         public string OrderId { get; set; }
+        [Required]
+        public string WarehouseId { get; set; }
     }
     public class SelectAllNoneStageQuantityItemResponse : TSpStatusResponse
     {
@@ -260,7 +266,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        private static async Task<SelectAllNoneStageQuantityItemResponse> SelectAllNoneStageQuantityItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, bool selectAll)
+        private static async Task<SelectAllNoneStageQuantityItemResponse> SelectAllNoneStageQuantityItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string warehouseId, bool selectAll)
         {
             SelectAllNoneStageQuantityItemResponse response = new SelectAllNoneStageQuantityItemResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -269,6 +275,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
                 qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
@@ -279,30 +286,40 @@ namespace WebApi.Modules.Warehouse.CheckOut
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<SelectAllNoneStageQuantityItemResponse> SelectAllStageQuantityItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        public static async Task<SelectAllNoneStageQuantityItemResponse> SelectAllStageQuantityItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string warehouseId)
         {
-            return await SelectAllNoneStageQuantityItem(appConfig, userSession, orderId, true);
+            return await SelectAllNoneStageQuantityItem(appConfig, userSession, orderId, warehouseId, true);
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<SelectAllNoneStageQuantityItemResponse> SelectNoneStageQuantityItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        public static async Task<SelectAllNoneStageQuantityItemResponse> SelectNoneStageQuantityItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string warehouseId)
         {
-            return await SelectAllNoneStageQuantityItem(appConfig, userSession, orderId, false);
+            return await SelectAllNoneStageQuantityItem(appConfig, userSession, orderId, warehouseId, false);
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<CheckOutAllStagedResponse> CheckOutAllStaged(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        public static async Task<CheckOutAllStagedResponse> CheckOutAllStaged(FwApplicationConfig appConfig, FwUserSession userSession, CheckOutAllStagedRequest request)
         {
             CheckOutAllStagedResponse response = new CheckOutAllStagedResponse();
-            if (string.IsNullOrEmpty(orderId))
+            if (string.IsNullOrEmpty(request.OrderId))
             {
                 response.msg = "OrderId is required.";
+            }
+            else if (string.IsNullOrEmpty(request.OfficeLocationId))
+            {
+                response.msg = "OfficeLocationId is required.";
+            }
+            else if (string.IsNullOrEmpty(request.WarehouseId))
+            {
+                response.msg = "WarehouseId is required.";
             }
             else
             {
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "checkoutallstaged", appConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -398,20 +415,30 @@ namespace WebApi.Modules.Warehouse.CheckOut
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<CreateOutContractResponse> CreateOutContract(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        public static async Task<CreateOutContractResponse> CreateOutContract(FwApplicationConfig appConfig, FwUserSession userSession, CreateOutContractRequest request)
         {
             CreateOutContractResponse response = new CreateOutContractResponse();
-            if (string.IsNullOrEmpty(orderId))
+            if (string.IsNullOrEmpty(request.OrderId))
             {
                 response.msg = "OrderId is required.";
+            }
+            else if (string.IsNullOrEmpty(request.OfficeLocationId))
+            {
+                response.msg = "OfficeLocationId is required.";
+            }
+            else if (string.IsNullOrEmpty(request.WarehouseId))
+            {
+                response.msg = "WarehouseId is required.";
             }
             else
             {
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "createoutcontract", appConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
                     response.ContractId = qry.GetParameter("@contractid").ToString();

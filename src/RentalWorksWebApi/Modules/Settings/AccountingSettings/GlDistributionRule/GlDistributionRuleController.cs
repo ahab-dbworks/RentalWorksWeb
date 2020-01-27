@@ -49,14 +49,14 @@ namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
             return await DoGetAsync<GlDistributionRuleLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/gldistributionrule 
-        [HttpPost]
-        [FwControllerMethod(Id:"nAF3lRel3dXS", ActionType: FwControllerActionTypes.New)]
-        public async Task<ActionResult<GlDistributionRuleLogic>> NewAsync([FromBody]GlDistributionRuleLogic l)
-        {
-            return await DoNewAsync<GlDistributionRuleLogic>(l);
-        }
-        //------------------------------------------------------------------------------------ 
+        //// POST api/v1/gldistributionrule 
+        //[HttpPost]
+        //[FwControllerMethod(Id:"nAF3lRel3dXS", ActionType: FwControllerActionTypes.New)]
+        //public async Task<ActionResult<GlDistributionRuleLogic>> NewAsync([FromBody]GlDistributionRuleLogic l)
+        //{
+        //    return await DoNewAsync<GlDistributionRuleLogic>(l);
+        //}
+        ////------------------------------------------------------------------------------------ 
         // PUT api/v1/gldistributionrule/A0000001
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "XBiXLUfo4NbOE", ActionType: FwControllerActionTypes.Edit)]
@@ -65,14 +65,14 @@ namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
             return await DoEditAsync<GlDistributionRuleLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/gldistributionrule/A0000001 
-        [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"olBYTapfO7Rm", ActionType: FwControllerActionTypes.Delete)]
-        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        {
-            return await DoDeleteAsync<GlDistributionRuleLogic>(id);
-        }
-        //------------------------------------------------------------------------------------ 
+        //// DELETE api/v1/gldistributionrule/A0000001 
+        //[HttpDelete("{id}")]
+        //[FwControllerMethod(Id:"olBYTapfO7Rm", ActionType: FwControllerActionTypes.Delete)]
+        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync<GlDistributionRuleLogic>(id);
+        //}
+        ////------------------------------------------------------------------------------------ 
         // POST api/v1/settings/validateglaccount/browse
         [HttpPost("validateglaccount/browse")]
         [FwControllerMethod(Id: "Lgb2SEdYtXzu", ActionType: FwControllerActionTypes.Browse)]
@@ -80,5 +80,6 @@ namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
         {
             return await DoBrowseAsync<GlAccountLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }

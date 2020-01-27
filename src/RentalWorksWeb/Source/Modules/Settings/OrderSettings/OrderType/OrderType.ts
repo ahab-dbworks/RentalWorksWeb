@@ -98,7 +98,6 @@ class OrderType {
             gridSecurityId: 'acguZNBoT1XC',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -118,7 +117,6 @@ class OrderType {
             gridSecurityId: 'DZwS6DaO7Ed8',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId')
@@ -134,7 +132,6 @@ class OrderType {
             gridSecurityId: 'acguZNBoT1XC',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -166,7 +163,6 @@ class OrderType {
             gridSecurityId: 'acguZNBoT1XC',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -183,7 +179,6 @@ class OrderType {
             gridSecurityId: 'HzNQkWcZ8vEC',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId')
@@ -199,7 +194,6 @@ class OrderType {
             gridSecurityId: 'acguZNBoT1XC',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;

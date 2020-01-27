@@ -51,7 +51,6 @@ class OrderBase {
             gridSecurityId: 'B9CzDEmYe1Zf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -86,7 +85,6 @@ class OrderBase {
             gridSecurityId: 'B9CzDEmYe1Zf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
 
             },
@@ -122,7 +120,6 @@ class OrderBase {
             moduleSecurityId: this.id,
 
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
 
             },
@@ -148,7 +145,6 @@ class OrderBase {
             moduleSecurityId: this.id,
 
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;
@@ -196,7 +192,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -368,7 +363,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -541,7 +535,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -714,7 +707,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -881,7 +873,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -1037,7 +1028,6 @@ class OrderBase {
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
@@ -1352,19 +1342,24 @@ class OrderBase {
         let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
         $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
 
-        FwFormField.loadItems($form.find('.outtype'), [
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeSubRental"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period' }
+        ]);
+        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Deliver to Customer' },
             { value: 'SHIP', text: 'Ship to Customer' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
 
-        FwFormField.loadItems($form.find('.intype'), [
+        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryAddressType"]'), [
             { value: 'DELIVER', text: 'Customer Deliver' },
             { value: 'SHIP', text: 'Customer Ship' },
             { value: 'PICK UP', text: 'Pick Up from Customer' }
         ], true);
 
-        FwFormField.loadItems($form.find('.online'), [
+        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryOnlineOrderStatus"]'), [
             { value: 'PARTIAL', text: 'Partial' },
             { value: 'COMPLETE', text: 'Complete' }
         ], true);
@@ -2827,6 +2822,7 @@ class OrderBase {
             }
         }
     }
+    //----------------------------------------------------------------------------------------------
     issueToAddresses($form: JQuery, event: any): void {
         const value = FwFormField.getValueByDataField($form, 'PrintIssuedToAddressFrom');
 
@@ -2930,7 +2926,6 @@ class OrderBase {
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.ShipCountryId, response.ShipCountry);
         }
     }
-
     //----------------------------------------------------------------------------------------------
     disableWithTaxCheckbox($form: any): void {
         if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
@@ -3051,7 +3046,7 @@ class OrderBase {
             $yes.text('Canceling...');
             $yes.off('click');
             const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-            const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+            const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             FwAppData.apiMethod(true, 'POST', `api/v1/${module}/cancel/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', `${module} Successfully Cancelled`);
@@ -3064,7 +3059,7 @@ class OrderBase {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form);
-            }, realConfirm);
+            }, $realConfirm);
         };
 
         function uncancelOrder() {
@@ -3142,7 +3137,7 @@ class OrderBase {
                 $yes.text('Changing...');
                 $yes.off('click');
                 const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/${module}/changeofficelocation/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success) {
@@ -3165,7 +3160,7 @@ class OrderBase {
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
                     FwModule.refreshForm($form);
-                }, realConfirm);
+                }, $realConfirm);
             }
         };
     };

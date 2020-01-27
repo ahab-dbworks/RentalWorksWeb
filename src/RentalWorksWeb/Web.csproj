@@ -157,6 +157,7 @@
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
+    <Content Include="Source\Grids\ContractHistoryGrid\ContractHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridBrowse.htm" />
     <Content Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridController.js" />
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridBrowse.htm" />
@@ -319,6 +320,7 @@
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ContractHistoryGrid\ContractHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.ts" />

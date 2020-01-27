@@ -110,6 +110,8 @@ namespace WebApi.Modules.HomeControls.StageQuantityItem
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
+            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
+
             bool includeZeroRemaining = GetUniqueIdAsBoolean("IncludeZeroRemaining", request) ?? false;
 
             FwJsonDataTable dt = null;
@@ -119,6 +121,7 @@ namespace WebApi.Modules.HomeControls.StageQuantityItem
                 {
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
                     qry.AddParameter("@includezeroremaining", SqlDbType.NVarChar, ParameterDirection.Input, includeZeroRemaining ? "T" : "F");
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);

@@ -4,6 +4,8 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
+using WebApi.Modules.Utilities.GLDistribution;
+
 namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
 {
     [FwSqlTable("gldistributionview")]
@@ -33,6 +35,9 @@ namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            InitializeGlDistributionRulesResponse x = GLDistributionFunc.InitializeGlDistributionRules(AppConfig, UserSession).Result;
+
+
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 

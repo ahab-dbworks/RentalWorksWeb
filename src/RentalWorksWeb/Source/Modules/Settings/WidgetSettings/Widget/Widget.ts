@@ -142,7 +142,6 @@ class Widget {
             gridSecurityId: 'BXv7mQIbXokIW',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
@@ -172,7 +171,6 @@ class Widget {
             gridSecurityId: 'CTzXYDyNzi8ET',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')

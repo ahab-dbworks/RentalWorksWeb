@@ -349,8 +349,21 @@ namespace RentalWorksQuikScan.Modules
                                                      usersId: session.security.webUser.usersid);
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
-            qry.Add("select *");
-            qry.Add("  from dbo.funcassignassetdetail(@warehouseid, @masterid)");
+            //qry.Add("select *");
+            //qry.Add("  from dbo.funcassignassetdetail(@warehouseid, @masterid)");
+            qry.Add("WITH Assignment_CTE(masterid, masterno, master, trackedby, qty, orderid, orderno, orderdesc, statustype, allowmassrfidassignment, orderby)");
+            qry.Add("AS");
+            qry.Add("(select *, orderby = 1");
+            qry.Add("from funcassignassetdetail('0000000H', 'A0000949')");
+            qry.Add("where statustype = 'IN'");
+            qry.Add("union");
+            qry.Add("select *, orderby = 2");
+            qry.Add("from funcassignassetdetail('0000000H', 'A0000949') ");
+            qry.Add("where statustype <> 'IN')");
+
+            qry.Add("select masterid, masterno, master, trackedby, qty, orderid, orderno, orderdesc, statustype, allowmassrfidassignment");
+            qry.Add("from Assignment_CTE");
+            qry.Add("order by orderby, statustype");
             qry.AddParameter("@warehouseid", userLocation.warehouseId);
             qry.AddParameter("@masterid",    request.selectedrecord.masterid);
 

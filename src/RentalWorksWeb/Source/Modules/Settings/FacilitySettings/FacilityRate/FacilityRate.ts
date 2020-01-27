@@ -106,7 +106,6 @@ class FacilityRate {
             gridSecurityId: 'Bm6TN9A4IRIuT',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -137,7 +136,6 @@ class FacilityRate {
             gridSecurityId: 'oVjmeqXtHEJCm',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     RateId: FwFormField.getValueByDataField($form, 'RateId'),

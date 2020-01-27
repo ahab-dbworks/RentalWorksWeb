@@ -87,7 +87,6 @@ class PartsCategory {
             gridSecurityId: 'vHMa0l5PUysXo',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 //options.hasAdd = false;
                 //options.hasDelete = false;

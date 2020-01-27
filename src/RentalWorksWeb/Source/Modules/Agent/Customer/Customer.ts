@@ -273,7 +273,6 @@ class Customer {
             gridSecurityId: 'k48X9sulRpmb',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
@@ -302,7 +301,6 @@ class Customer {
             gridSecurityId: '6AHfzr9WBEW9',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
@@ -336,7 +334,6 @@ class Customer {
             gridSecurityId: 'B9CzDEmYe1Zf',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
@@ -372,7 +369,6 @@ class Customer {
             gridSecurityId: 'gQHuhVDA5Do2',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
