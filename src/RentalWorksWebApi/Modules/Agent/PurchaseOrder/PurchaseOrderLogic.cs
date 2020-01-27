@@ -183,6 +183,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "n7knYwXQ91Mbr", IsReadOnly: true)]
         public string DealNumber { get; set; }
 
+        [FwLogicProperty(Id: "e3NTOWFojYz9E", IsReadOnly: true)]
+        public string DealId { get; set; }
+
         [FwLogicProperty(Id: "n7knYwXQ91Mbr", IsReadOnly: true)]
         public string Deal { get; set; }
 
