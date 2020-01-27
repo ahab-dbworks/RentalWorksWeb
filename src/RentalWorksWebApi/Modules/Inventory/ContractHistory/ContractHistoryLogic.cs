@@ -81,6 +81,8 @@ namespace WebApi.Modules.Inventory.ContractHistory
         [FwLogicProperty(Id: "gaUAaclLDWqcV", IsReadOnly: true)]
         public string OutDateTime { get; set; }
         [FwLogicProperty(Id: "gaWUElqRIuvtE", IsReadOnly: true)]
+        public string OutUserId { get; set; }
+        [FwLogicProperty(Id: "9UON7DpPdLKq", IsReadOnly: true)]
         public string OutUserName { get; set; }
         [FwLogicProperty(Id: "gBcF3XlLW21KW", IsReadOnly: true)]
         public string OutWarehouseId { get; set; }

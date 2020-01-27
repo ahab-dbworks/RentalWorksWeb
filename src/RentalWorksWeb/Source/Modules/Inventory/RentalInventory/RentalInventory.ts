@@ -878,6 +878,19 @@ class RentalInventory extends InventoryBase {
         });
         // ----------
 
+
+        FwBrowse.renderGrid({
+            nameGrid: 'ContractHistoryGrid',
+            gridSecurityId: 'fY1Au6CjXlodD',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                };
+            }
+        });
+
         //hide columns
         $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] div[data-browsedatafield="Price"]').parent('td').hide();
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="Price"]').parent('td').hide();
