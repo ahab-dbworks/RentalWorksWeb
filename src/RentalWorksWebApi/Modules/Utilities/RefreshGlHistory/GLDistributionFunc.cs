@@ -7,6 +7,11 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Utilities.GLDistribution
 {
+
+    public class InitializeGlDistributionRulesResponse : TSpStatusResponse
+    {
+    }
+
     public class RefreshGLHistoryRequest
     {
         public DateTime? FromDate { get; set; }
@@ -23,6 +28,17 @@ namespace WebApi.Modules.Utilities.GLDistribution
 
     public static class GLDistributionFunc
     {
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<InitializeGlDistributionRulesResponse> InitializeGlDistributionRules(FwApplicationConfig appConfig, FwUserSession userSession)
+        {
+            InitializeGlDistributionRulesResponse response = new InitializeGlDistributionRulesResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "initgldistribution", appConfig.DatabaseSettings.QueryTimeout);
+                await qry.ExecuteNonQueryAsync();
+            }
+            return response;
+        }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<RefreshGLHistoryResponse> RefreshGLHistory(FwApplicationConfig appConfig, FwUserSession userSession, RefreshGLHistoryRequest request)
         {
