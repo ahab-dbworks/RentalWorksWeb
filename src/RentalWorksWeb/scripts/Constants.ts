@@ -821,6 +821,7 @@ var Constants = {
         ContainerWarehouseGrid: { id: '4gsBzepUJdWm', caption: 'Container Warehouse' },
         ContractDetailGrid: { id: 'uJtRkkpKi8zT', caption: 'Contract Detail' },
         ContractExchangeItemGrid: { id: 'Azkpehs1tvl', caption: 'Contract Exchange Item' },
+        ContractHistoryGrid: { id: 'fY1Au6CjXlodD', caption: 'Contract History' },
         ContractSummaryGrid: { id: 'a8I3UCKA3LN3', caption: 'Contract Summary' },
         CrewLocationGrid: { id: 'vCrMyhsLCP7h', caption: 'Crew Location' },
         CrewPositionGrid: { id: 'shA9rX1DYWp3', caption: 'Crew Position' },
