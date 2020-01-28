@@ -258,6 +258,33 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "locwebaddress", modeltype: FwDataTypes.Text)]
         public string OfficeLocationWebAddress { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
+        public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whadd1", modeltype: FwDataTypes.Text)]
+        public string WarehouseAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whadd2", modeltype: FwDataTypes.Text)]
+        public string WarehouseAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcitystatezip", modeltype: FwDataTypes.Text)]
+        public string WarehouseCityStateZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcountry", modeltype: FwDataTypes.Text)]
+        public string WarehouseCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcitystatezipcountry", modeltype: FwDataTypes.Text)]
+        public string WarehouseCityStateZipCodeCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whphone", modeltype: FwDataTypes.Text)]
+        public string WarehousePhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whfax", modeltype: FwDataTypes.Text)]
+        public string WarehouseFax { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealwithno", modeltype: FwDataTypes.Text)]
         public string DealAndDealNumber { get; set; }
         //------------------------------------------------------------------------------------ 
