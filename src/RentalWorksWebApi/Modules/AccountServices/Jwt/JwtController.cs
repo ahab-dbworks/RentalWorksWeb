@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
+using FwCore.Logic;
 
 namespace WebApi.Modules.AccountServices.Jwt
 {
@@ -24,6 +25,21 @@ namespace WebApi.Modules.AccountServices.Jwt
         public async Task<ActionResult<JwtResponseModel>> Post([FromBody] FwApplicationUser user)
         {
             return await DoPost(user);
+        }
+        //---------------------------------------------------------------------------------------------
+        [HttpPost("okta")]
+        [FwControllerMethod(Id: "pIEMqgu0mQQp", FwControllerActionTypes.Browse, AllowAnonymous: true, ValidateSecurityGroup: false)]
+        public async Task<ActionResult<JwtResponseModel>> OktaPost([FromBody] OktaRequest request)
+        {
+            return await DoOktaPost(request);
+        }
+        //---------------------------------------------------------------------------------------------
+        [HttpPost("oktaverify")]
+        [FwControllerMethod(Id: "O9LIBJ0ssg8d", FwControllerActionTypes.Browse, AllowAnonymous: true, ValidateSecurityGroup: false)]
+        public async Task<ActionResult<OktaSessionResponseModel>> OktaVerify([FromBody] OktaSessionRequest request)
+        {
+            request.appConfig = this._appConfig;
+            return await FwJwtLogic.OktaVerifySession(request);
         }
     }
 }

@@ -415,7 +415,12 @@ class FwApplication {
             document.body.scrollTop = 0;
         }
         if (!foundmatch) {
-            FwFunc.showError(`404: Not Found - ${path}`);
+            //okta redirects to the base url without a hash symbol, so if its active and we are there its probaly redirecting with tokens to the base app page, so we redirect to login.
+            if ((window.location.href === "http://localhost/rentalworksweb/" || "http://localhost/gateworksweb")  && applicationConfig.isOktaLogin === true) {
+                program.navigate('login');
+            } else {
+                FwFunc.showError(`404: Not Found - ${path}`);
+            }
         }
     };
     //---------------------------------------------------------------------------------
@@ -437,6 +442,36 @@ class FwApplication {
             }
             this.navigate('home');
         } else {
+            if (applicationConfig.oktaSignIn) {
+                if (applicationConfig.oktaSignIn.hasTokensInUrl()) {
+                    applicationConfig.oktaSignIn.authClient.token.parseFromUrl().then(
+                        function success(tokens) {
+                            // Save the tokens for later use, e.g. if the page gets refreshed:
+                            // Add the token to tokenManager to automatically renew the token when needed
+                            tokens.forEach(token => {
+                                if (token.idToken) {
+
+                                    applicationConfig.oktaSignIn.authClient.tokenManager.add('idToken', token);
+                                }
+                                if (token.accessToken) {
+                                    applicationConfig.oktaSignIn.authClient.tokenManager.add('accessToken', token);
+                                }
+                            });
+
+                            // Say hello to the person who just signed in:
+                            var idToken = applicationConfig.oktaSignIn.signIn.tokenManager.get('idToken');
+                            console.log('Hello, ' + idToken.claims.email);
+
+                            // Remove the tokens from the window location hash
+                            window.location.hash = '';
+                        },
+                        function error(err) {
+                            // handle errors as needed
+                            console.error(err);
+                        }
+                    );
+                }
+            }
             this.navigate('default');
         }
     }

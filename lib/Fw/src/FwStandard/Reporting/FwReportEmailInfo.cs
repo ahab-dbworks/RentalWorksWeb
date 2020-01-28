@@ -10,14 +10,14 @@ namespace FwStandard.Reporting
         [Required]
         [MaxLength(255)]
         public string from { get; set; }
-        
+
         [Required]
         [MaxLength(255)]
         public string to { get; set; }
-        
+
         [MaxLength(255)]
         public string cc { get; set; }
-        
+
         [MaxLength(255)]
         public string subject { get; set; }
 

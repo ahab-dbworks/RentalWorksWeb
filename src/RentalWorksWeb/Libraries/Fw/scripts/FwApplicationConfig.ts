@@ -12,4 +12,7 @@
     photoWidth = 1024;
     photoHeight = 1024;
     allCaps = false;
+    isOktaLogin = false;
+    oktaSignIn: FwOktaSignIn;
+    oktaApiUrl = '';
 }
