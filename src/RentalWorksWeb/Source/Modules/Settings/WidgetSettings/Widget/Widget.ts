@@ -230,10 +230,12 @@ class Widget {
             case 'GROUPS':
                 $form.find('.groupGrid').show();
                 $form.find('.userGrid').hide();
+                FwBrowse.search($form.find('[data-name="WidgetGroupGrid"]'));
                 break;
             case 'USERS':
                 $form.find('.groupGrid').hide();
                 $form.find('.userGrid').show();
+                FwBrowse.search($form.find('[data-name="WidgetUserGrid"]'));
                 break;
             case 'ALL':
                 $form.find('.groupGrid').hide();
