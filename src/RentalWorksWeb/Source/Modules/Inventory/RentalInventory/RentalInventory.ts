@@ -911,7 +911,9 @@ class RentalInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
-        $form.find('[data-datafield="ConfirmTrackedBy"]').hide();
+        let $confirmTrackedByField = $form.find('[data-datafield="ConfirmTrackedBy"]');
+        $confirmTrackedByField.hide();
+        FwFormField.setValue2($confirmTrackedByField, '');
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -983,6 +985,7 @@ class RentalInventory extends InventoryBase {
                 $confirmTrackedByField.show();
             } else {
                 $confirmTrackedByField.hide();
+                FwFormField.setValue2($confirmTrackedByField, '');
             }
         });
     }
