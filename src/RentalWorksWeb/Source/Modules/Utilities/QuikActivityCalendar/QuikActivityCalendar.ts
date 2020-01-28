@@ -50,7 +50,11 @@ class QuikActivityCalendar {
     };
     //----------------------------------------------------------------------------------------------
     populateCheckboxes($form: any) {
-        const request = {};
+        let request: any = {};
+        request.searchfieldoperators = ["<>"];
+        request.searchfields = ["Inactive"];
+        request.searchfieldvalues = ["T"];
+        request.OrderBy = 'DescriptionDisplay';
         FwAppData.apiMethod(true, 'POST', `api/v1/activitytype/browse`, request, FwServices.defaultTimeout, response => {
             try {
                 const $activities = $form.find('.activities');
