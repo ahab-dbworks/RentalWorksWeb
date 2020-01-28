@@ -43,6 +43,7 @@ class SubWorksheet {
             FwFormField.setValueByDataField($form, 'FromDate', parentmoduleinfo.EstimatedStartDate);
             FwFormField.setValueByDataField($form, 'ToDate', parentmoduleinfo.EstimatedStopDate);
             FwFormField.setValueByDataField($form, 'RequiredTime', parentmoduleinfo.EstimatedStartTime);
+            FwFormField.setValueByDataField($form, 'OrderRateType', parentmoduleinfo.RateType);
             FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', parentmoduleinfo.CurrencyId, parentmoduleinfo.CurrencyCode);
 
             this.events($form, parentmoduleinfo);
@@ -292,14 +293,7 @@ class SubWorksheet {
                     $form.find('.completeorder').show();
                     $form.find('.create-modify-po').text('Create Purchase Order');
 
-                    const $dwColumn = $subPurchaseOrderItemGridControl.find('thead [data-browsedatafield="VendorDaysPerWeek"]').parent('td');
-                    const $dealDwColumn = $subPurchaseOrderItemGridControl.find('thead [data-browsedatafield="DealDaysPerWeek"]').parent('td');
-                    FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('div[data-datafield="DaysPerWeek"]').show() : $form.find('div[data-datafield="DaysPerWeek"]').hide();
-                    FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $dwColumn.show() : $dwColumn.hide();
-                    parentmoduleinfo.RateType === 'DAILY' ? $dealDwColumn.show() : $dealDwColumn.hide();
-                    if (this.RecType && this.RecType !== 'R') {
-                        this.hideWeekly($form);
-                    }
+                    this.hideFieldsColumns($form);
                 } else {
                     $form.find('.error-msg:not(.qty)').html(`<div style="margin-left:5px;"><span>${response.msg}</span></div>`);
                 }
@@ -354,10 +348,8 @@ class SubWorksheet {
                         $form.find('.completeorder').show();
                         $form.find('.create-modify-po').text('Update Purchase Order');
 
-                        FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.daily').show() : $form.find('.daily').hide();
-                        if (this.RecType && this.RecType !== 'R') {
-                            this.hideWeekly($form);
-                        }
+                        this.hideFieldsColumns($form);
+
                     } else {
                         $form.find('.error-msg:not(.qty)').html(`<div style="margin-left:5px;"><span>${response.msg}</span></div>`);
                     }
@@ -467,17 +459,67 @@ class SubWorksheet {
         });
     }
     //----------------------------------------------------------------------------------------------
-    hideWeekly($form: any): void {
-        const subPurchaseOrderItemGrid = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
-        const hiddenSubPO: Array<string> = ["DealDaysPerWeek", "VendorDaysPerWeek", "VendorWeeklyExtended", "DealWeeklyExtended"];
-
-        // hide fields
-        for (let i = 0; i < hiddenSubPO.length; i++) {
-            jQuery(subPurchaseOrderItemGrid.find(`[data-mappedfield="${hiddenSubPO[i]}"]`)).parent().hide();
+    hideFieldsColumns($form: any): void {
+        let hiddenSubPOFields: Array<string> = [];
+        const orderRateType = FwFormField.getValueByDataField($form, 'OrderRateType');
+        const vendorRateType = FwFormField.getValueByDataField($form, 'RateId');
+        const daysPerWeekAdjustment = $form.find('div[data-datafield="DaysPerWeek"]');
+        if (this.RecType !== 'S') {  // R, L, M
+            switch (orderRateType) {
+                case 'DAILY':
+                    if (vendorRateType === 'DAILY') {
+                        daysPerWeekAdjustment.show();
+                        hiddenSubPOFields = ["VendorMonthlyExtended", "DealMonthlyExtended"];
+                    }
+                    if (vendorRateType === 'WEEKLY') {
+                        hiddenSubPOFields = ["VendorDaysPerWeek", "VendorMonthlyExtended", "DealMonthlyExtended"];
+                    }
+                    if (vendorRateType === 'MONTHLY') {
+                        $form.find('div[data-datafield="GridView"] .monthlyType').show();
+                        $form.find('div[data-datafield="GridView"] .weeklyType').hide();
+                        hiddenSubPOFields = ["VendorDaysPerWeek", "VendorWeeklyExtended", "DealMonthlyExtended"];
+                    }
+                    break;
+                case 'WEEKLY':
+                    if (vendorRateType === 'DAILY') {
+                        daysPerWeekAdjustment.show();
+                        hiddenSubPOFields = ["VendorMonthlyExtended", "DealDaysPerWeek", "DealMonthlyExtended"];
+                    }
+                    if (vendorRateType === 'WEEKLY') {
+                        hiddenSubPOFields = ["VendorDaysPerWeek", "VendorMonthlyExtended", "DealDaysPerWeek", "DealMonthlyExtended"];
+                    }
+                    if (vendorRateType === 'MONTHLY') {
+                        $form.find('div[data-datafield="GridView"] .monthlyType').show();
+                        $form.find('div[data-datafield="GridView"] .weeklyType').hide();
+                        hiddenSubPOFields = ["VendorDaysPerWeek", "VendorWeeklyExtended", "DealDaysPerWeek", "DealMonthlyExtended"];
+                    }
+                    break;
+                case 'MONTHLY':
+                    if (vendorRateType === 'DAILY') {
+                        daysPerWeekAdjustment.show();
+                        hiddenSubPOFields = ["VendorMonthlyExtended", "DealDaysPerWeek", "DealWeeklyExtended"];
+                    }
+                    if (vendorRateType === 'WEEKLY') {
+                        hiddenSubPOFields = ["VendorDaysPerWeek", "VendorMonthlyExtended", "DealDaysPerWeek", "DealWeeklyExtended"];
+                    }
+                    if (vendorRateType === 'MONTHLY') {
+                        $form.find('div[data-datafield="GridView"] .monthlyType').show();
+                        $form.find('div[data-datafield="GridView"] .weeklyType').hide();
+                        hiddenSubPOFields = ["VendorDaysPerWeek", "VendorWeeklyExtended", "DealDaysPerWeek", "DealWeeklyExtended"];
+                    }
+                    break;
+            }
+        } else if (this.RecType === 'S') {
+            hiddenSubPOFields = ["VendorDaysPerWeek", "VendorWeeklyExtended", "VendorMonthlyExtended", "DealDaysPerWeek", "DealWeeklyExtended", "DealMonthlyExtended"];
+            $form.find('div[data-datafield="GridView"] .weeklyType').hide();
         }
-        $form.find('div[data-datafield="DaysPerWeek"]').hide();
+        // hide fields in grid
+        const subPurchaseOrderItemGrid = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+        for (let i = 0; i < hiddenSubPOFields.length; i++) {
+            jQuery(subPurchaseOrderItemGrid.find(`[data-mappedfield="${hiddenSubPOFields[i]}"]`)).parent().hide();
+        }
+
         FwFormField.setValueByDataField($form, 'GridView', 'P');
-        $form.find('div[data-datafield="GridView"]').hide();
     };
     //----------------------------------------------------------------------------------------------
 }
