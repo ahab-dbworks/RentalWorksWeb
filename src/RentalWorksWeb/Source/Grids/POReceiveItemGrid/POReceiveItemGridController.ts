@@ -1,4 +1,4 @@
-﻿class POReceiveItemGrid {
+class POReceiveItemGrid {
     Module: string = 'POReceiveItemGrid';
     apiurl: string = 'api/v1/purchaseorderreceiveitem';
     barCodedItemIncreased: boolean = false;
@@ -46,7 +46,7 @@
                 }
 
                 if (quantity != 0) {
-                    FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout, response =>  {
+                    FwAppData.apiMethod(true, 'POST', `api/v1/receivefromvendor/receiveitems`, request, FwServices.defaultTimeout, response => {
                             $form.find('.error-msg').html('');
                             if (response.success) {
                                 $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
