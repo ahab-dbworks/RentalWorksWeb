@@ -482,6 +482,7 @@
     //---------------------------------------------------------------------------------
     clear(validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         $browse.data('selectedrows', {});
+        $browse.data('selectedrowsuniqueids', []);
         jQuery($valuefield.siblings('.multiselectitems')).find('.multiitem').remove();
         $valuefield.val('').change();
         $searchfield.val('');
