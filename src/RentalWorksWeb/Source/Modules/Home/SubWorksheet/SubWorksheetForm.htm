@@ -20,6 +20,7 @@
           <div class="flexrow" style="max-width:120em">
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subworksheet new" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" data-formbeforevalidate="beforeValidateVendor" style="flex:0 1 350px;"></div>
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subworksheet new" data-caption="Rate" data-datafield="RateId" data-displayfield="Rate" data-validationname="RateTypeValidation" style="flex:0 1 200px;"></div>
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Rate Type from Order" data-datafield="OrderRateType" style="flex:0 1 200px;display:none;"></div>
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subworksheet new" data-caption="Currency" data-datafield="CurrencyId" data-displayfield="Currency" data-validationname="CurrencyValidation" style="flex:0 1 150px;"></div>
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subworksheet new" data-caption="Billing Cycle" data-datafield="BillingCycleId" data-displayfield="BillingCycle" data-validationname="BillingCycleValidation" style="flex:0 1 250px;"></div>
           </div>
@@ -51,7 +52,7 @@
         <div class="selectnone fwformcontrol" data-type="button" style="flex: 0 1 100px;margin-top:1em;margin-left:1em;">Select None</div>
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Adjustments" style="margin-left:auto;flex:0 1 15em">
           <div class="flexrow">
-            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="D/W" data-datafield="DaysPerWeek" data-digits="2" style="flex:1 1 50px;" data-enabled="true"></div>
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="D/W" data-datafield="DaysPerWeek" data-digits="2" style="flex:1 1 50px;display:none;" data-enabled="true"></div>
             <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Disc. %" data-datafield="DiscountPercent" data-digits="2" style="flex:1 1 50px;" data-enabled="true"></div>
           </div>
         </div>

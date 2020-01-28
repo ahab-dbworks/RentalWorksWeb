@@ -111,6 +111,9 @@ namespace WebApi.Modules.Inventory.ContractHistory
         [FwSqlDataField(column: "outdatetime", modeltype: FwDataTypes.Date)]
         public string OutDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outusersid", modeltype: FwDataTypes.Text)]
+        public string OutUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outusername", modeltype: FwDataTypes.Text)]
         public string OutUserName { get; set; }
         //------------------------------------------------------------------------------------ 

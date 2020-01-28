@@ -628,10 +628,14 @@ class OrderItemGrid {
     colorLegend(event: any) {
         const html = `
                 <div id="previewHtml">
-                    <div style="margin-bottom:10px;">Availability</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Availability</div>
                     <div class="flexrow" style="margin-bottom:5px"><div data-browsedatafield="QuantityAvailable" data-state="enough"><div class="fieldvalue">32</div></div><div>Enough Available</div></div>
                     <div class="flexrow" style="margin-bottom:5px"><div data-browsedatafield="QuantityAvailable" data-state="negative"><div class="fieldvalue">-7</div></div><div>Inventory Shortage</div></div>
                     <div class="flexrow" style="margin-bottom:5px"><div data-browsedatafield="QuantityAvailable" data-state="low"><div class="fieldvalue">4</div></div><div>Low Availability</div></div>
+                    <div style="margin-bottom:10px; margin-top: 1em; font-weight:bold;">Quantity</div>
+                    <div class="flexrow" style="margin-bottom:5px"><div data-browsedatafield="QuantityAvailable"><div class="fieldvalue" style="background-color:#f44336; height:.8em; margin-top:1em;"></div></div><div>Quantity modified at</br> Staging/Check-Out</div></div>
+                    <div style="margin-bottom:10px; margin-top: 1em; font-weight:bold;">Sub-Quantity</div>
+                    <div class="flexrow" style="margin-bottom:5px"><div data-browsedatafield="QuantityAvailable"><div class="fieldvalue" style="background-color:#ffe5b4; height:.8em;"></div></div><div>Sub Purchase Order created</div></div>
                 </div>`;
 
         const $confirmation = FwConfirmation.renderConfirmation(`Color Legend`, html);

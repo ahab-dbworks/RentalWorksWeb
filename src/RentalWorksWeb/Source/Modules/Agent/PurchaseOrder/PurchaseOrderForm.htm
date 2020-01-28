@@ -37,6 +37,7 @@
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" data-required="true" style="flex:1 1 275px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 275px;display:none;"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-required="true" style="flex:1 1 275px;"></div>
@@ -816,7 +817,7 @@
             <div class="flexcolumn" style="flex:1 1 425px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Receive (Deliver)">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Type" data-datafield="ReceiveDeliveryDeliveryType" style="flex:1 1 150px;"></div>
+                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield delivery-delivery" data-caption="Type" data-datafield="ReceiveDeliveryDeliveryType" style="flex:1 1 150px;"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="On" data-datafield="ReceiveDeliveryTargetShipDate" style="flex:1 1 125px;"></div>
@@ -834,12 +835,12 @@
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="ReceiveDeliveryFreightTrackingUrl" data-allcaps="false" style="display:none;flex:1 1 200px;"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-datafield="ReceiveDeliveryFreightTrackingNumber" data-allcaps="false" style="flex:1 1 200px;"></div>
-                  <div class="fwformcontrol track-shipment-out" data-type="button" data-enabled="false" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
+                  <div class="fwformcontrol track-shipment-receive" data-type="button" data-enabled="false" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
                 </div>
               </div>
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Receive Address">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="ReceiveDeliveryAddressType"></div>
+                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield delivery-type-radio" data-caption="" data-datafield="ReceiveDeliveryAddressType"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="ReceiveDeliveryToLocation"></div>
@@ -881,7 +882,7 @@
             <div class="flexcolumn" style="flex:1 1 425px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Return (Deliver)">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Type" data-datafield="ReturnDeliveryDeliveryType" style="flex:1 1 150px;"></div>
+                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield delivery-delivery" data-caption="Type" data-datafield="ReturnDeliveryDeliveryType" style="flex:1 1 150px;"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="On" data-datafield="ReturnDeliveryTargetShipDate" style="flex:1 1 125px;"></div>
@@ -899,12 +900,12 @@
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="ReturnDeliveryFreightTrackingUrl" data-allcaps="false" style="display:none;flex:1 1 200px;"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-datafield="ReturnDeliveryFreightTrackingNumber" data-allcaps="false" style="flex:1 1 200px;"></div>
-                  <div class="fwformcontrol track-shipment-in" data-type="button" data-enabled="false" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
+                  <div class="fwformcontrol track-shipment-return" data-type="button" data-enabled="false" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
                 </div>
               </div>
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Return Address">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="ReturnDeliveryAddressType"></div>
+                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield delivery-type-radio" data-caption="" data-datafield="ReturnDeliveryAddressType"></div>
                   <div class="addresscopy fwformcontrol" data-type="button" style="flex:0 1 40px;margin:16px 5px 0px 15px;text-align:center;">Copy</div>
                 </div>
                 <div class="flexrow">

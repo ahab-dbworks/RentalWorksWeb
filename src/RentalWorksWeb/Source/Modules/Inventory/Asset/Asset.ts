@@ -271,6 +271,17 @@ class RwAsset {
             //}
         });
         // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'ContractHistoryGrid',
+            gridSecurityId: 'fY1Au6CjXlodD',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ItemId: FwFormField.getValueByDataField($form, 'ItemId')
+                };
+            }
+        });
  };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
@@ -432,6 +443,7 @@ class RwAsset {
               <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="Quality Control"></div>
               <div data-type="tab" id="repairordertab" class="tab submodule" data-tabpageid="repairordertabpage" data-caption="Repair Orders"></div>
               <div data-type="tab" id="ordertab" class="tab submodule" data-tabpageid="ordertabpage" data-caption="Orders"></div>
+              <div data-type="tab" id="contracttab" class="tab" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
               <div data-type="tab" id="transfertab" class="tab submodule" data-tabpageid="transfertabpage" data-caption="Transfers"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
@@ -677,6 +689,14 @@ class RwAsset {
               <!-- Order tab -->
               <div data-type="tabpage" id="ordertabpage" class="tabpage orderSubModule rwSubModule" data-tabid="ordertab">
               </div>
+               <!-- Contract Tab-->
+               <div data-type="tabpage" id="contracttabpage" class="tabpage submodule rwSubModule" data-tabid="contracttab">
+                 <div class="wideflexrow">
+                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contract">
+                     <div data-control="FwGrid" data-grid="ContractHistoryGrid" data-securitycaption="Contract History"></div>
+                   </div>
+                 </div>
+               </div>
               <!-- Transfer tab -->
               <div data-type="tabpage" id="transfertabpage" class="tabpage transferSubModule rwSubModule" data-tabid="transfertab">
               </div>

@@ -9,6 +9,7 @@ restore database "rentalworks_qa2019" (copied from SQLDEMO03..rentalworks_demo20
 exec "refreshjobs" on the new database
 exec fw_enablecmdshell
 create the "rentalworksweb" server Login and database user, fw_grantall
+download and install 7-Zip
 Control Panel - add Windows Components - Install IIS
 Control Panel - add Windows Components - Install IIS Core Hosting
 Install dot-net-core (download from FTP\update\rentalworksweb\2018

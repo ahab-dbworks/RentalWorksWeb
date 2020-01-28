@@ -1,10 +1,5 @@
-using FwStandard.Data;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
-using System.Collections.Generic;
-using WebApi;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -92,6 +87,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "consignment", modeltype: FwDataTypes.Boolean)]
         public bool? Consignment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
         public string DealNumber { get; set; }

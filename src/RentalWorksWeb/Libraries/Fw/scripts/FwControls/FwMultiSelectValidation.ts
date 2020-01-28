@@ -79,6 +79,11 @@
 
         $popup = FwPopup.renderPopup($browse, { 'ismodal': true });
 
+        const $clearAllBtn = $control.find('.clearall');
+        $clearAllBtn.on('click', e => {
+            FwMultiSelectValidation.clear(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller);
+        });
+
         $searchfield.on('change', function () {
             try {
                 if ((<string>$searchfield.val()).length === 0) {
@@ -476,8 +481,8 @@
     };
     //---------------------------------------------------------------------------------
     clear(validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
-        var uniqueid, $trGrid, $gridUniqueIdField;
         $browse.data('selectedrows', {});
+        jQuery($valuefield.siblings('.multiselectitems')).find('.multiitem').remove();
         $valuefield.val('').change();
         $searchfield.val('');
         $browse.find('tbody tr').removeClass('selected');

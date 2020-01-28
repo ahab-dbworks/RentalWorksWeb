@@ -1245,7 +1245,7 @@ export class EventType extends SettingsModule {
                     record: {
                         PersonnelTypeId: 1,
                     },
-                    attemptDuplicate: true,
+                    attemptDuplicate: false,
                 },
             },
         ];

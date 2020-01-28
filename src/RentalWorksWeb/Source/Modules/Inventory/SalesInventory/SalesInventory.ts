@@ -717,6 +717,18 @@ class SalesInventory extends InventoryBase {
             }
         });
 
+        FwBrowse.renderGrid({
+            nameGrid: 'ContractHistoryGrid',
+            gridSecurityId: 'fY1Au6CjXlodD',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                };
+            }
+        });
+
         //hide columns
         $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] div[data-browsedatafield="DailyRate"]').parent('td').hide();
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="DailyRate"]').parent('td').hide();
@@ -724,6 +736,12 @@ class SalesInventory extends InventoryBase {
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="WeeklyRate"]').parent('td').hide();
         $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] div[data-browsedatafield="MonthlyRate"]').parent('td').hide();
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="MonthlyRate"]').parent('td').hide();
+    }
+    //----------------------------------------------------------------------------------------------
+    afterSave($form: any) {
+        let $confirmTrackedByField = $form.find('[data-datafield="ConfirmTrackedBy"]');
+        $confirmTrackedByField.hide();
+        FwFormField.setValue2($confirmTrackedByField, '');
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -744,9 +762,23 @@ class SalesInventory extends InventoryBase {
                 $form.find('.tab.asset').show();
             }
         }
+
+        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+        let textToReplace: string = 'TRACKEDBYTYPE';
+        $form.find('[data-datafield="TrackedBy"]').on('change', e => {
+            let newTrackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+            const $confirmTrackedByField = $form.find('[data-datafield="ConfirmTrackedBy"]');
+            if (trackedBy !== newTrackedBy) {
+                let text = $confirmTrackedByField.find('.fwformfield-caption').text().replace(textToReplace, newTrackedBy);
+                textToReplace = newTrackedBy;
+                $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
+                $confirmTrackedByField.show();
+            } else {
+                $confirmTrackedByField.hide();
+                FwFormField.setValue2($confirmTrackedByField, '');
+            }
+        });
     }
-
-
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');

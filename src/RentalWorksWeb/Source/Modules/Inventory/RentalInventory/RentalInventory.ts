@@ -878,6 +878,19 @@ class RentalInventory extends InventoryBase {
         });
         // ----------
 
+
+        FwBrowse.renderGrid({
+            nameGrid: 'ContractHistoryGrid',
+            gridSecurityId: 'fY1Au6CjXlodD',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                };
+            }
+        });
+
         //hide columns
         $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] div[data-browsedatafield="Price"]').parent('td').hide();
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="Price"]').parent('td').hide();
@@ -896,6 +909,12 @@ class RentalInventory extends InventoryBase {
 
         !threeWeekPricing.enabled ? jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
     };
+    //----------------------------------------------------------------------------------------------
+    afterSave($form: any) {
+        let $confirmTrackedByField = $form.find('[data-datafield="ConfirmTrackedBy"]');
+        $confirmTrackedByField.hide();
+        FwFormField.setValue2($confirmTrackedByField, '');
+    }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
@@ -953,6 +972,22 @@ class RentalInventory extends InventoryBase {
         if (FwFormField.getValueByDataField($form, 'TrackSoftware')) FwFormField.enable($form.find('.track-software'));
 
         this.dynamicColumns($form);
+
+        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+        let textToReplace: string = 'TRACKEDBYTYPE';
+        $form.find('[data-datafield="TrackedBy"]').on('change', e => {
+            let newTrackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+            const $confirmTrackedByField = $form.find('[data-datafield="ConfirmTrackedBy"]');
+            if (trackedBy !== newTrackedBy) {
+                let text = $confirmTrackedByField.find('.fwformfield-caption').text().replace(textToReplace, newTrackedBy);
+                textToReplace = newTrackedBy;
+                $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
+                $confirmTrackedByField.show();
+            } else {
+                $confirmTrackedByField.hide();
+                FwFormField.setValue2($confirmTrackedByField, '');
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     quikSearch(event) {
