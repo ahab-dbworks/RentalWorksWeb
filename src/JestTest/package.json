@@ -33,6 +33,7 @@
     "jest-html-reporter": "2.6.2"
   },
   "scripts": {
+    "test-rentalworkswebapi": "npx jest --config=jest.rentalworkswebapi.config.js -t WebApiTest",
     "test-rentalworksapi": "jest --config=jest.rentalworksapi.config.js",
     "test-rentalworksweb": "jest --config=jest.rentalworksweb.config.js",
     "InventoryIntegrityTest": "jest --config=jest.rentalworksweb.config.js -t InventoryIntegrityTest",
