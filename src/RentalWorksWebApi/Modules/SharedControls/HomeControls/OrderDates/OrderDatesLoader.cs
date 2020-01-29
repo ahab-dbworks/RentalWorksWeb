@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.HomeControls.OrderDates
 {
-    [FwSqlTable("dbo.funcorderdates(@orderid, @ordertypeid)")]
+    [FwSqlTable("dbo.funcorderactivity(@orderid, @ordertypeid)")]
     public class OrderDatesLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -21,6 +21,9 @@ namespace WebApi.Modules.HomeControls.OrderDates
         [FwSqlDataField(column: "systemtype", modeltype: FwDataTypes.Boolean)]
         public bool? IsSystemType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Text)]
+        public string ActivityTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytype", modeltype: FwDataTypes.Text)]
         public string ActivityType { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -34,7 +37,7 @@ namespace WebApi.Modules.HomeControls.OrderDates
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "descriptiondisplay", modeltype: FwDataTypes.Text)]
-        public string Descriptiondisplay { get; set; }
+        public string DescriptionDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "enabled", modeltype: FwDataTypes.Boolean)]
         public bool? IsEnabled { get; set; }
@@ -75,12 +78,12 @@ namespace WebApi.Modules.HomeControls.OrderDates
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
-            string orderId = GetUniqueIdAsString("OrderId", request) ?? ""; 
-            string orderTypeId = GetUniqueIdAsString("OrderTypeId", request) ?? ""; 
+            string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
+            string orderTypeId = GetUniqueIdAsString("OrderTypeId", request) ?? "";
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddParameter("@orderid", orderId); 
-            select.AddParameter("@ordertypeid", orderTypeId); 
+            select.AddParameter("@orderid", orderId);
+            select.AddParameter("@ordertypeid", orderTypeId);
         }
         //------------------------------------------------------------------------------------ 
     }

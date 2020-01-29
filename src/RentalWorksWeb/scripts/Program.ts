@@ -116,6 +116,7 @@ routes.push({ pattern: /^module\/billingcycle$/, action: function (match: RegExp
 routes.push({ pattern: /^module\/paymenttype$/, action: function (match: RegExpExecArray) { return PaymentTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/paymentterms$/, action: function (match: RegExpExecArray) { return PaymentTermsController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/customersettings$/, action: function (match: RegExpExecArray) { return RwCustomerSettingsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/activitytype$/, action: function (match: RegExpExecArray) { return ActivityTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/ordertype$/, action: function (match: RegExpExecArray) { return OrderTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/userprofile$/, action: function (match: RegExpExecArray) { return UserProfileController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/vendorclass$/, action: function (match: RegExpExecArray) { return VendorClassController.getModuleScreen(); } });

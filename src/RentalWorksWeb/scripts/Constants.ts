@@ -535,6 +535,7 @@ var Constants = {
                     id: 'Settings.OrderSettings',
                     nodetype: 'Category',
                     children: {
+                        ActivityType:   { id: 'dZaqY68fhRSXm', caption: 'Activity Type',    nav: 'settings/ordersettings/activitytype', nodetype: 'Module', description: '' },
                         OrderType:      { id: 'yFStSrvTlwWY', caption: 'Order Type',        nav: 'settings/ordersettings/ordertype', nodetype: 'Module', description: '' },
                         DiscountReason: { id: 'XyjAvHBEaKL7', caption: 'Discount Reason',   nav: 'settings/ordersettings/discountreason', nodetype: 'Module', description: '' },
                         MarketSegment:  { id: 'NPu4Lci1ndrl', caption: 'Market Segment',    nav: 'settings/ordersettings/marketsegment', nodetype: 'Module', description: '' },
@@ -807,6 +808,7 @@ var Constants = {
         }
     },
     Grids: {
+        ActivityStatusGrid: { id: 'E7cf8EVeQXuUY', caption: 'Activity Status' },
         AdditionalItemsGrid: { id: 'mEYOByOhi5yT0', caption: 'Additional Items' },
         AlertWebUsersGrid: { id: 'REgcmntq4LWE', caption: 'Alert Web Users' },
         AlternativeDescriptionGrid: { id: '2BkAgaVVrDD3', caption: 'Alternative Description' },
