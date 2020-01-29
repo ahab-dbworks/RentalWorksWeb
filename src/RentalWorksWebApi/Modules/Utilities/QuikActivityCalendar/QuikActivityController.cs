@@ -18,18 +18,10 @@ namespace WebApi.Modules.Utilities.QuikActivity
     {
         public QuikActivityController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(QuikActivityLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/quikactivity/browse 
-        [HttpPost("browse")]
-        [FwControllerMethod(Id: "U48xqYD5BCIsF", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
         // GET api/v1/quikactivity/calendardata 
-        [HttpGet("calendardata")]
+        [HttpPost("calendardata")]
         [FwControllerMethod(Id: "RhaSuoafWaVn0", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<TQuikActivityCalendarResponse>> GetCalendarDataAsync(string WarehouseId, DateTime FromDate, DateTime ToDate, bool IncludeTimes, string ActivityType)
+        public async Task<ActionResult<TQuikActivityCalendarResponse>> GetCalendarDataAsync([FromBody]QuikActivityCalendarRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -37,13 +29,21 @@ namespace WebApi.Modules.Utilities.QuikActivity
             }
             try
             {
-                TQuikActivityCalendarResponse response = await QuikActivityFunc.GetQuikActivityCalendarData(AppConfig, UserSession, WarehouseId, FromDate, ToDate, IncludeTimes, ActivityType);
+                TQuikActivityCalendarResponse response = await QuikActivityFunc.GetQuikActivityCalendarData(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
             {
                 return GetApiExceptionResult(ex);
             }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/quikactivity/browse 
+        [HttpPost("browse")]
+        [FwControllerMethod(Id: "U48xqYD5BCIsF", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/quikactivity/validatewarehouse/browse
@@ -53,5 +53,6 @@ namespace WebApi.Modules.Utilities.QuikActivity
         {
             return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }

@@ -57,7 +57,7 @@ namespace WebApi
         public const string ORDER_TYPE_PENDING_EXCHANGE = "PENDING";
 
         public const string ORDER_TYPE_DESCRIPTION_QUOTE = "QUOTE";
-        public const string ORDER_TYPE_DESCRIPTION_RESERVED = "RESERVED";
+        //public const string ORDER_TYPE_DESCRIPTION_RESERVED = "RESERVED";
         public const string ORDER_TYPE_DESCRIPTION_ORDER = "ORDER";
         public const string ORDER_TYPE_DESCRIPTION_PROJECT = "PROJECT";
         public const string ORDER_TYPE_DESCRIPTION_PURCHASE_ORDER = "PO";

@@ -525,25 +525,25 @@ namespace WebApi.Logic
             string frontEndControllerName = "Unknown";
             switch (orderTypeDescription)
             {
-                case RwConstants.ORDER_TYPE_DESCRIPTION_RESERVED:
+                case RwConstants.ORDER_TYPE_QUOTE:
                     frontEndControllerName = "Quote";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_ORDER:
+                case RwConstants.ORDER_TYPE_ORDER:
                     frontEndControllerName = "Order";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_PROJECT:
+                case RwConstants.ORDER_TYPE_PROJECT:
                     frontEndControllerName = "Project";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_PURCHASE_ORDER:
+                case RwConstants.ORDER_TYPE_PURCHASE_ORDER:
                     frontEndControllerName = "PurchaseOrder";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_TRANSFER:
+                case RwConstants.ORDER_TYPE_TRANSFER:
                     frontEndControllerName = "TransferOrder";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_CONTAINER:
+                case RwConstants.ORDER_TYPE_CONTAINER:
                     frontEndControllerName = "Container";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_REPAIR:
+                case RwConstants.ORDER_TYPE_REPAIR:
                     frontEndControllerName = "Repair";
                     break;
             }

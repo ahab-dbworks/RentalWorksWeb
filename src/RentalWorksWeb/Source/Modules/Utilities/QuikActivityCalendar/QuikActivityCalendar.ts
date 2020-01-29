@@ -6,7 +6,6 @@ class QuikActivityCalendar {
     caption: string = Constants.Modules.Utilities.children.QuikActivityCalendar.caption;
     nav: string = Constants.Modules.Utilities.children.QuikActivityCalendar.nav;
     id: string = Constants.Modules.Utilities.children.QuikActivityCalendar.id;
-    SessionId: string;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions) {
         options.hasSave = false;
@@ -152,16 +151,25 @@ class QuikActivityCalendar {
                 const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                 const endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
                 const summary = FwFormField.getValueByDataField($popup, 'Summary');
+                let officeLocationId: string = '';  //placeholder
+                let departmentId: string = '';  //placeholder
                 let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
                     warehouseId = '';
                 }
-                let apiURL = `api/v1/quikactivity/calendardata?WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`;
-                apiURL += activityTypes != '' ? `&ActivityType=${activityTypes}` : '';
-                apiURL += request.mode === 'Day' || request.mode === 'Week' ? '&IncludeTimes=true' : '';
-                FwAppData.apiMethod(true, 'GET', apiURL, null, FwServices.defaultTimeout, response => {
+                let includeTimes: boolean = (request.mode === 'Day' || request.mode === 'Week');
+                let calendarRequest: any = {
+                    FromDate: startOfMonth,
+                    ToDate: endOfMonth,
+                    OfficeLocationId: officeLocationId,
+                    WarehouseId: warehouseId,
+                    DepartmentId: departmentId,
+                    ActivityTypeId: activityTypes,
+                    IncludeTimes: includeTimes,
+                }
+
+                FwAppData.apiMethod(true, 'POST', `api/v1/quikactivity/calendardata`, calendarRequest, FwServices.defaultTimeout, response => {
                     const calendarEvents = response.QuikActivityCalendarEvents;
-                    this.SessionId = response.SessionId;
                     //FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], calendarEvents);
                     for (var i = 0; i < calendarEvents.length; i++) {
                         if (calendarEvents[i].textColor !== 'rgb(0,0,0)') {
@@ -172,12 +180,13 @@ class QuikActivityCalendar {
 
                     $quikActivityGridControl.data('ondatabind', request => {
                         request.uniqueids = {
-                            WarehouseId: warehouseId,
                             FromDate: startOfMonth,
                             ToDate: endOfMonth,
-                            ActivityType: activityTypes,
+                            OfficeLocationId: officeLocationId,
+                            WarehouseId: warehouseId,
+                            DepartmentId: departmentId,
+                            ActivityTypeId: activityTypes,
                             Summary: summary,
-                            SessionId: this.SessionId,
                         };
                     });
                     FwBrowse.search($quikActivityGridControl);
@@ -208,15 +217,19 @@ class QuikActivityCalendar {
                     if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
                         warehouseId = '';
                     }
+                    let officeLocationId: string = '';  //placeholder
+                    let departmentId: string = '';  //placeholder
                     $popup.find('.activities-header .fwform-section-title').text(`Activities for ${date}`);
                     FwPopup.showPopup($popup);
                     $quikActivityGridControl.data('ondatabind', request => {
                         request.uniqueids = {
-                            WarehouseId: warehouseId,
                             FromDate: date,
                             ToDate: date,
+                            OfficeLocationId: officeLocationId,
+                            WarehouseId: warehouseId,
+                            DepartmentId: departmentId,
+                            ActivityTypeId: activityTypes,
                             Summary: summary,
-                            SessionId: this.SessionId,
                         };
                     });
                     FwBrowse.search($quikActivityGridControl);
@@ -235,15 +248,19 @@ class QuikActivityCalendar {
                     if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
                         warehouseId = '';
                     }
+                    let officeLocationId: string = '';  //placeholder
+                    let departmentId: string = '';  //placeholder
                     $popup.find('.activities-header .fwform-section-title').text(`Activities for ${fromDate}`);
                     FwPopup.showPopup($popup);
                     $quikActivityGridControl.data('ondatabind', request => {
                         request.uniqueids = {
-                            WarehouseId: warehouseId,
                             FromDate: fromDate,
                             ToDate: toDate,
+                            OfficeLocationId: officeLocationId,
+                            WarehouseId: warehouseId,
+                            DepartmentId: departmentId,
+                            ActivityTypeId: activityTypes,
                             Summary: summary,
-                            SessionId: this.SessionId,
                         };
                     });
                     FwBrowse.search($quikActivityGridControl);
@@ -264,16 +281,19 @@ class QuikActivityCalendar {
                     if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
                         warehouseId = '';
                     }
+                    let officeLocationId: string = '';  //placeholder
+                    let departmentId: string = '';  //placeholder
                     $popup.find('.activities-header .fwform-section-title').text(`${activityType} Activities for ${fromDate}`);
                     FwPopup.showPopup($popup);
                     $quikActivityGridControl.data('ondatabind', request => {
                         request.uniqueids = {
-                            WarehouseId: warehouseId,
                             FromDate: fromDate,
                             ToDate: toDate,
-                            ActivityType: activityType,
+                            OfficeLocationId: officeLocationId,
+                            WarehouseId: warehouseId,
+                            DepartmentId: departmentId,
+                            ActivityTypeId: activityTypes,
                             Summary: summary,
-                            SessionId: this.SessionId,
                         };
                     });
                     FwBrowse.search($quikActivityGridControl);
