@@ -353,7 +353,7 @@ class QuikActivityCalendar {
         //Initial settings load
         const id = JSON.parse(sessionStorage.getItem('userid')).webusersid;
         const $loadSettings = $form.find('[data-datafield="Load"]');
-        const loadSettings = () => {
+        const loadSettings = (loadSavedId?: string) => {
             const request: any = {};
             request.WebUsersId = id;
             FwAppData.apiMethod(true, 'GET', `api/v1/quikactivitysettings/`, request, FwServices.defaultTimeout, response => {
@@ -368,6 +368,9 @@ class QuikActivityCalendar {
                     settingsObj.push(setting);
                 }
                 FwFormField.loadItems($loadSettings, settingsObj);
+                if (loadSavedId) {
+                    FwFormField.setValueByDataField($form, 'Load', loadSavedId, null, false);
+                };
             }, ex => {
                 FwFunc.showError(ex);
             }, $calendar);
@@ -376,9 +379,16 @@ class QuikActivityCalendar {
 
         //Save settings
         $form.find('.save-settings').on('click', e => {
+            const isNew = jQuery(e.currentTarget).hasClass('new');
+            const settingId = FwFormField.getValueByDataField($form, 'Load');
+
+            if (!isNew && !settingId) {
+                FwNotification.renderNotification("ERROR", "Select a saved setting to update.");
+                return;
+            }
+
             const request: any = {};
             request.WebUsersId = id;
-            request.Description = FwFormField.getValueByDataField($form, 'Description');
             const $settingsControls = $form.find('.fwformfield[data-savesetting!="false"]');
             let $settingsObj: any = [];
             if ($settingsControls.length > 0) {
@@ -390,16 +400,29 @@ class QuikActivityCalendar {
                         DataField: datafield
                         , DataType: type
                         , Value: FwFormField.getValue2($this)
-                        , Text: FwFormField.getText2($this)
+                        //, Text: FwFormField.getText2($this)
                     });
                 }
             }
             request.Settings = JSON.stringify($settingsObj);
-            FwAppData.apiMethod(true, 'POST', `api/v1/quikactivitysettings/`, request, FwServices.defaultTimeout, response => {
-                loadSettings();
-            }, ex => {
-                FwFunc.showError(ex);
-            }, $calendar);
+
+            if (isNew) {
+                request.Description = FwFormField.getValueByDataField($form, 'Description');
+                FwAppData.apiMethod(true, 'POST', `api/v1/quikactivitysettings/`, request, FwServices.defaultTimeout, response => {
+                    loadSettings(response.Id);
+                    $form.find('.add-new-settings').hide();
+                }, ex => {
+                    FwFunc.showError(ex);
+                }, $form);
+            } else {
+                request.Description = $form.find('[data-datafield="Load"] option:selected').text();
+                request.Id = settingId;
+                FwAppData.apiMethod(true, 'PUT', `api/v1/quikactivitysettings/${settingId}`, request, FwServices.defaultTimeout, response => {
+                    loadSettings(settingId);
+                }, ex => {
+                    FwFunc.showError(ex);
+                }, $form);
+            }
         });
 
         //Load settings
@@ -411,16 +434,29 @@ class QuikActivityCalendar {
                 let savedSettings = JSON.parse(settings[0].Settings);
                 for (let i = 0; i < savedSettings.length; i++) {
                     let item = savedSettings[i];
-                    if (item.DataType === 'checkbox') {
-                        item.Value == "T" ? item.Value = true : item.Value = false;
-                    }
-                    FwFormField.setValueByDataField($form, item.DataField, item.Value, item.Text);
+                    FwFormField.setValueByDataField($form, item.DataField, item.Value);
                 }
                 FwNotification.renderNotification('SUCCESS', 'Settings Successfully Loaded.');
                 $form.find('.activities [data-type="checkbox"]').eq(0).change();
             }
         });
 
+        $form.find('.add-settings').on('click', e => {
+            $form.find('.add-new-settings').show();
+        });
+
+        $form.find('.delete-settings').on('click', e => {
+            const settingId = FwFormField.getValueByDataField($form, 'Load');
+            FwAppData.apiMethod(true, 'DELETE', `api/v1/quikactivitysettings/${settingId}`, null, FwServices.defaultTimeout, response => {
+                loadSettings();
+            }, ex => {
+                FwFunc.showError(ex);
+            }, $calendar);
+        });
+
+        $form.find('.cancel-settings').on('click', e => {
+            $form.find('.add-new-settings').hide();
+        });
     };
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
@@ -438,13 +474,19 @@ class QuikActivityCalendar {
                         </div>
                       </div>
                       <div class="flexrow">
-                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Settings">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QuikActivity Saved Settings">
                             <div class="flexrow">                            
-                                <div data-control="FwFormField" data-type="text" data-savesetting="false" class="fwcontrol fwformfield" data-caption="Save QuikActivity Settings as" data-datafield="Description" style="max-width:200px;"></div>
-                                <i class="material-icons save-settings" style="max-width:25px; margin:25px 0px;">save</i>
+                                <div data-control="FwFormField" data-type="select" data-savesetting="false" class="fwcontrol fwformfield" data-caption="QuikActivity Setting" data-datafield="Load" style="max-width:200px;"></div>
+                                <i class="material-icons save-settings" style="cursor:pointer; max-width:25px; margin:25px 0px;">save</i>
+                                <i class="material-icons add-settings" style="cursor:pointer; max-width:25px; margin:25px 0px; color:#4caf50;">add_circle</i>
+                                <i class="material-icons delete-settings" style="cursor:pointer; max-width:25px; margin:25px 0px;">delete</i>
                             </div>
-                            <div data-control="FwFormField" data-type="select" data-savesetting="false" class="fwcontrol fwformfield" data-caption="Load QuikActivity Settings" data-datafield="Load" style="max-width:250px;"></div>
-                        </div>
+                            <div class="flexrow add-new-settings" style="display:none;">                            
+                                <div data-control="FwFormField" data-type="text" data-savesetting="false" class="fwcontrol fwformfield" data-caption="Load QuikActivity Settings" data-datafield="Description" style="max-width:250px;"></div>            
+                                <i class="material-icons save-settings new" style="cursor:pointer; max-width:25px; margin:25px 0px;">save</i>
+                                <i class="material-icons cancel-settings" style="cursor:pointer; max-width:25px; margin:25px 0px;">highlight_off</i>   
+                            </div>
+                         </div>
                       </div>
                     </div>
                     <div class="flexcolumn" style="margin:30px 0px 0px 50px; min-width:1210px;max-width:1210px;">
