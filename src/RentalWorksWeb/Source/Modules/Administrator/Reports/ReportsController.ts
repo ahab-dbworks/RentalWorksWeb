@@ -27,7 +27,7 @@
             for (let keyCategory in rootConstNodeReports.children) {
                 const constNodeCategory = rootConstNodeReports.children[keyCategory];
                 const secNodeCategory = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeCategory.id);
-                if (secNodeCategory.properties.visible === 'T') {
+                if (secNodeCategory !== null && secNodeCategory.properties.visible === 'T') {
                     for (let keyReport in constNodeCategory.children) {
                         const constNodeReport = constNodeCategory.children[keyReport];
                         const secNodeReport = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeReport.id);
