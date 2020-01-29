@@ -308,9 +308,9 @@ var Constants = {
                     caption: 'Warehouse Reports',
                     nodetype: 'Category',
                     children: {
-                        //WarehouseDispatchReport: { id: '', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all...' },
-                        //WarehouseInReport: { id: '', caption: 'Warehouse In', nav: 'reports/warehouseinreport', nodetype: 'Module', description: 'List all...' },
-                        WarehouseOutReport: { id: 'qaNsYCEv8qu5s', caption: 'Warehouse Out', nav: 'reports/warehouseoutreport', nodetype: 'Module', description: 'List all...' },
+                        WarehouseDispatchReport: { id: 'gs5q3h0v0HzXF', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all...' },
+                        WarehouseInboundReport: { id: 'gQLKq8L9zC32b', caption: 'Warehouse Inbound', nav: 'reports/warehouseinboundreport', nodetype: 'Module', description: 'List all...' },
+                        WarehouseOutboundReport: { id: 'gPuvfa4B1tHuE', caption: 'Warehouse Outbound', nav: 'reports/warehouseoutboundreport', nodetype: 'Module', description: 'List all...' },
                     }
                 }
             }

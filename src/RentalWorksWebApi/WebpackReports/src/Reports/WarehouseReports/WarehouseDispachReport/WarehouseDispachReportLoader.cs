@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.WarehouseDispachReport
+namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
 {
     [FwSqlTable("dispachrptview")]
     public class WarehouseDispachReportLoader : AppReportLoader

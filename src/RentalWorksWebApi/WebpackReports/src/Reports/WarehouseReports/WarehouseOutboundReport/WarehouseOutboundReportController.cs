@@ -13,7 +13,7 @@ using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 
-namespace WebApi.Modules.Reports.WarehouseOutboundReport
+namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
 {
     public class WarehouseOutboundReportRequest : AppReportRequest
     {

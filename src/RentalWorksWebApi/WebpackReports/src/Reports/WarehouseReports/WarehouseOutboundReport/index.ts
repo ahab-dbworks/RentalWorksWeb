@@ -7,12 +7,12 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
-export class WarehouseOutReport extends WebpackReport {
+export class WarehouseOutboundReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-            Ajax.post<DataTable>(`${apiUrl}/api/v1/warehouseoutreport/runreport`, authorizationHeader, parameters)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/warehouseoutboundreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.PrintTime = moment().format('h:mm:ss A');
@@ -20,7 +20,7 @@ export class WarehouseOutReport extends WebpackReport {
                     data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
-                    data.Report = 'Vendor Invoice Summary Report';
+                    data.Report = 'Warehouse Outbound Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     this.renderFooterHtml(data);
@@ -48,4 +48,4 @@ export class WarehouseOutReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new WarehouseOutReport();
+(<any>window).report = new WarehouseOutboundReport();

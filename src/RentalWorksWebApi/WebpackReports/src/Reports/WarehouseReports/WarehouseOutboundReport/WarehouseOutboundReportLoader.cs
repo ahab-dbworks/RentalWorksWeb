@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.WarehouseOutboundReport
+namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
 {
     [FwSqlTable("outboundrptview")]
     public class WarehouseOutboundReportLoader : AppReportLoader
