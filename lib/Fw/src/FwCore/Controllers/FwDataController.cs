@@ -423,7 +423,7 @@ namespace FwCore.Controllers
                 if (l.LoadOriginalBeforeSaving)
                 {
                     //load the original record from the database
-                    original = FwBusinessLogic.CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
+                    original = FwBusinessLogic.CreateBusinessLogic(typeof(T), this.AppConfig, this.UserSession);
                     original.SetPrimaryKeys(l.GetPrimaryKeys());
                     bool exists = await original.LoadAsync<T>();
                     //if (!exists)
@@ -586,18 +586,12 @@ namespace FwCore.Controllers
         }
         //END LEGACY CODE
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<bool>> DoDeleteAsync<T>(string id, Type type = null)
+        protected virtual async Task<ActionResult<bool>> DoDeleteAsync<T>(string id)
         {
             try
             {
-
-                if (type == null)
-                {
-                    type = logicType;
-                }
-
                 string[] ids = id.Split('~');
-                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(typeof(T), this.AppConfig, this.UserSession);
                 l.SetPrimaryKeys(ids);
 
                 if (l.LoadOriginalBeforeDeleting)

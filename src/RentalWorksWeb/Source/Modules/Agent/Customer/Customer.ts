@@ -380,23 +380,18 @@ class Customer {
         });
 
         // Documents Grid
-        FwBrowse.renderGrid({
-            nameGrid: 'AppDocumentGrid',
-            gridSecurityId: '',
-            moduleSecurityId: this.id,
+        FwAppDocumentGrid.renderGrid({
             $form: $form,
-            pageSize: 10,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    uniqueid1: FwFormField.getValueByDataField($form, 'CustomerId')
-                };
+            caption: 'Documents',
+            nameGrid: 'CustomerDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'CustomerId')}/document`;
             },
-            beforeSave: (request: any) => {
-                request.uniqueid1 = FwFormField.getValueByDataField($form, 'CustomerId');
-            },
-            getTemplate: () => {
-                return FwAppDocumentGrid.getTemplate();
-            }
+            gridSecurityId: 'keTrJRIKRGwN',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'CustomerId',
+            uniqueid1: FwFormField.getValueByDataField($form, 'CustomerId'),
+            uniqueid2: ''
         });
     }
 
@@ -593,6 +588,7 @@ class Customer {
               <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
               <div data-type="tab" id="creditstab" class="tab submodule" data-tabpageid="creditstabpage" data-caption="Credits"></div>
+              <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -1063,6 +1059,15 @@ class Customer {
 
               <!-- CREDITS TAB -->
               <div data-type="tabpage" id="creditstabpage" class="tabpage submodule credits-page rwSubModule" data-tabid="creditstab"></div>
+              
+             <!-- DOCUMENTS TAB -->
+              <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+                <div class="flexpage">
+                  <div class="flexrow">
+                    <div data-control="FwGrid" data-grid="CustomerDocumentGrid"></div>
+                  </div>
+                </div>
+              </div>
 
               <!-- NOTES TAB -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
@@ -1072,15 +1077,7 @@ class Customer {
                   </div>
                 </div>
               </div>
-              
-             <!-- DOCUMENTS TAB -->
-              <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
-                <div class="flexpage">
-                  <div class="flexrow">
-                    <div data-control="FwAppDocumentGrid"></div>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </div>`;
     }

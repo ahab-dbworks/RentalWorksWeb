@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 
 namespace FwStandard.Grids.AppDocument
 {
-    [FwSqlTable("appdocumentview")]
+    [FwSqlTable("appdocumentviewweb")]
     public class AppDocumentLoader : FwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -13,52 +13,53 @@ namespace FwStandard.Grids.AppDocument
         public string AppDocumentId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "documenttypeid", modeltype: FwDataTypes.Text)]
-        public string DocumenttypeId { get; set; }
+        public string DocumentTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "uniqueid1", modeltype: FwDataTypes.Text)]
-        public string Uniqueid1 { get; set; }
+        public string UniqueId1 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "uniqueid2", modeltype: FwDataTypes.Text)]
-        public string Uniqueid2 { get; set; }
+        public string UniqueId2 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "uniqueid1int", modeltype: FwDataTypes.Integer)]
-        public int? Uniqueid1int { get; set; }
+        public int? UniqueId1Int { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputbyusersid", modeltype: FwDataTypes.Text)]
-        public string InputbyusersId { get; set; }
+        public string InputByUsersId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "extension", modeltype: FwDataTypes.Text)]
-        public string Extension { get; set; }
+        [FwSqlDataField(column: "fileextension", modeltype: FwDataTypes.Text)]
+        public string FileExtension { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "attachdate", modeltype: FwDataTypes.Date)]
-        public string Attachdate { get; set; }
+        public string AttachDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "attachtime", modeltype: FwDataTypes.Text)]
-        public string Attachtime { get; set; }
+        [FwSqlDataField(column: "attachtime", modeltype: FwDataTypes.Time)]
+        public string AttachTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "documenttype", modeltype: FwDataTypes.Text)]
-        public string Documenttype { get; set; }
+        public string DocumentType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputby", modeltype: FwDataTypes.Text)]
-        public string Inputby { get; set; }
+        public string InputBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasimage", modeltype: FwDataTypes.Boolean)]
-        public bool? Hasimage { get; set; }
+        public bool? HasImage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasfile", modeltype: FwDataTypes.Boolean)]
-        public bool? Hasfile { get; set; }
+        public bool? HasFile { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "attachtoemail", modeltype: FwDataTypes.Boolean)]
-        public bool? Attachtoemail { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool? Inactive { get; set; }
+        public bool? AttachToEmail { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fileappimageid", modeltype: FwDataTypes.Text)]
+        public string FileAppImageId { get; set; }
+        
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

@@ -20,98 +20,81 @@
         //FwControl.renderRuntimeHtml($fwcontrols);
     }
     //---------------------------------------------------------------------------------
-    renderGrid($control: JQuery, nameGrid: string, baseUrl: string, moduleSecurityId: string, gridSecurityId: string, $form: JQuery, uniqueid1: string, uniqueid2: string) {
+    renderGrid(options: {
+        //$control: JQuery, 
+        caption: string, 
+        nameGrid: string, 
+        parentFormDataFields: string, 
+        getBaseApiUrl: () => string, 
+        moduleSecurityId: string, 
+        gridSecurityId: string, 
+        $form: JQuery, 
+        uniqueid1: string, 
+        uniqueid2: string}) {
+        // if a controller does not exist for the grid, then auto-generate one.
+        const controller =  (window[options.nameGrid + 'Controller'] !== undefined) ? window[options.nameGrid + 'Controller'] : {
+            Module: 'CustomerDocumentGrid',
+            apiurl: ''
+        };
+        window[options.nameGrid + 'Controller'] = controller;
+        
         FwBrowse.renderGrid({
-            moduleSecurityId: moduleSecurityId, 
-            $form: $form, 
-            gridSecurityId: gridSecurityId,
-            nameGrid: 'FwAppDocumentGrid',
+            moduleSecurityId: options.moduleSecurityId, 
+            $form: options.$form, 
+            gridSecurityId: options.gridSecurityId,
+            nameGrid: options.nameGrid,
             pageSize: 15,
-            getBaseApiUrl: () => baseUrl,
-            onDataBind: (request) => {
-
+            getBaseApiUrl: () => options.getBaseApiUrl(),
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    uniqueid1: FwFormField.getValueByDataField(options.$form, 'CustomerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.uniqueid1 = FwFormField.getValueByDataField(options.$form, 'CustomerId');
             },
             addGridMenu: (options) => {
                 
             },
             getTemplate: () => {
-                return this.getTemplate();
+                return this.getTemplate(options.caption, options.nameGrid, options.parentFormDataFields);
             }
          });
-        //// load Audit History Grid
-        //const $appDocumentGrid        = $form.find('.appDocumentGrid');
-        //const $auditHistoryGridControl = jQuery(FwBrowse.loadGridFromTemplate('AppDocumentGrid'));
-        //$appDocumentGrid.empty().append($auditHistoryGridControl);
-        //$auditHistoryGridControl.data('ondatabind', function(request) {
-        //    request.module = 'AppDocumentGrid';
-        //    request.uniqueid1 = uniqueid1;
-        //    request.uniqueid2 = uniqueid2;
-        //    FwServices.grid.method(request, request.module, 'Browse', $form, function(response) {
-        //        var createdFlagIndetx, nameIndex, updateDateIndex;
-        //        if (typeof response.browse.ColumnIndex['createdflag'] === 'undefined') {
-        //            throw 'FwAudit.loadAudit: Error loading createdflag.';
-        //        }
-        //        if (typeof response.browse.ColumnIndex['name'] === 'undefined') {
-        //            throw 'FwAudit.loadAudit: Error loading name.';
-        //        }
-        //        if (typeof response.browse.ColumnIndex['updatedate'] === 'undefined') {
-        //            throw 'FwAudit.loadAudit: Error loading updatedate.';
-        //        }
-        //        createdFlagIndex = response.browse.ColumnIndex['createdflag'];
-        //        nameIndex        = response.browse.ColumnIndex['name'];
-        //        updateDateIndex  = response.browse.ColumnIndex['updatedate'];
-        //        for (var i = (response.browse.Rows.length - 1); i >= 0; i--) {
-        //            if (response.browse.Rows[i][createdFlagIndex] === "T") {
-        //                var date = new Date(response.browse.Rows[i][updateDateIndex]);
-        //                $form.find('.inputname input').val(response.browse.Rows[i][nameIndex]);
-        //                $form.find('.inputdate input').val(date.toLocaleDateString() + ' ' + date.toLocaleTimeString());
-
-        //                response.browse.Rows.splice(i, 1)
-        //            }
-        //        }
-
-        //        FwBrowse.databindcallback($auditHistoryGridControl, response.browse);
-        //    });
-        //});
-        //FwBrowse.init($auditHistoryGridControl);
-        //FwBrowse.renderRuntimeHtml($auditHistoryGridControl);
-        //FwBrowse.search($auditHistoryGridControl);
     }
-    getTemplate() {
-        return `<div data-name="AppDocumentGrid" data-control="FwBrowse"
+    getTemplate(caption: string, nameGrid: string, parentFormDataFields: string) {
+  //      data-version="1" 
+  //data-pageno="1" 
+  //data-pagesize="10" 
+  //data-showsearch="false"
+  //data-hasadd="true"
+  //data-hasedit="true"
+  //data-hasdelete="true"
+        
+        return `<div data-name="${nameGrid}" data-control="FwBrowse"
+  data-parentformdatafields="${parentFormDataFields}"
   data-type="Grid" 
   class="fwcontrol fwbrowse" 
-  data-caption="Customer Document" 
-  data-datatable="appdocumentview" 
-  data-version="1" 
-  data-pageno="1" 
-  data-pagesize="10" 
-  data-rendermode="template" 
-  data-orderby="" 
-  data-showsearch="false"
-  data-hasadd="true"
-  data-hasedit="true"
-  data-hasdelete="true"
-  data-controller="CustomerDocumentGridController">
+  data-caption="${caption}"  
+  data-controller="${nameGrid}Controller">
   <div class="column" data-width="0" data-visible="false">
     <div class="field"  
       data-cssclass="appdocumentid" 
       data-caption=""
       data-isuniqueid="true"
-      data-browsedatafield="appdocumentid"
+      data-browsedatafield="AppDocumentId"
       data-browsedatatype="key" 
       data-formsaveorder="1"
-      data-formdatafield="appdocument.appdocumentid"
+      data-formdatafield="AppDocumentId"
       data-formdatatype="key"
       data-formreadonly="true"
       data-sort="off">
     </div>
     <div class="field"  
       data-isuniqueid="false"
-      data-browsedatafield="uniqueid1"
+      data-browsedatafield="UniqueId1"
       data-browsedatatype="key"
+      data-formdatafield=""
       data-formsaveorder="1"
-      data-formdatafield="appdocument.uniqueid1"
       data-formdatatype="key"
       data-formreadonly="true"
       data-sort="off">
@@ -126,7 +109,7 @@
     </div>-->
     <div class="field"
       data-isuniqueid="false"
-      data-browsedatafield="extension"
+      data-browsedatafield="Extension"
       data-browsedatatype="text"
       data-formdatafield=""
       data-formdatatype="text">
@@ -137,12 +120,12 @@
       data-cssclass="documenttype" 
       data-caption="Document Type"
       data-isuniqueid="false"
-      data-browsedatafield="documenttypeid"
-      data-browsedisplayfield="documenttype"
+      data-browsedatafield="DocumentTypeId"
+      data-browsedisplayfield="DocumentType"
       data-browsedatatype="validation"
       data-formvalidationname="DocumentTypeValidation"
       data-formsaveorder="1"
-      data-formdatafield="appdocument.documenttypeid"
+      data-formdatafield="DocumentTypeId"
       data-formdatatype="validation"
       data-formreadonly="false"
       data-sort="off"
@@ -154,10 +137,10 @@
       data-cssclass="description" 
       data-caption="Description"
       data-isuniqueid="false"
-      data-browsedatafield="description"
+      data-browsedatafield="Description"
       data-browsedatatype="text"
       data-formsaveorder="1"
-      data-formdatafield="appdocument.description"
+      data-formdatafield="Description"
       data-formdatatype="text"
       data-formreadonly="false"
       data-sort="off"
@@ -169,11 +152,11 @@
          data-cssclass="inputby" 
          data-caption="Input By"
          data-isuniqueid="false"
-         data-browsedatafield="inputbyusersid"
-         data-browsedisplayfield="inputby"
+         data-browsedatafield="InputByUsersId"
+         data-browsedisplayfield="InputBy"
          data-browsedatatype="validation"
          data-formsaveorder="1"
-         data-formdatafield="appdocument.inputbyusersid"
+         data-formdatafield="InputByUsersId"
          data-formdatatype="validation"
          data-formreadonly="true"
          data-formvalidationname="WebUsersValidation"
@@ -185,13 +168,13 @@
       data-cssclass="attachdate" 
       data-caption="Date"
       data-isuniqueid="false"
-      data-browsedatafield="attachdate"
+      data-browsedatafield="AttachDate"
       data-browsedatatype="date"
       data-formsaveorder="1"
       data-formdatafield=""
       data-formdatatype="date"
       data-formreadonly="true"
-      data-sort="off">
+      data-sort="desc">
     </div>
   </div>
   <div class="column" data-width="80px" data-visible="true">
@@ -199,7 +182,7 @@
       data-cssclass="attachtime" 
       data-caption="Time"
       data-isuniqueid="false"
-      data-browsedatafield="attachtime"
+      data-browsedatafield="AttachTime"
       data-browsedatatype="time12"
       data-formsaveorder="1"
       data-formdatafield=""
@@ -213,19 +196,19 @@
       data-cssclass="file"
       data-caption="File"
       data-isuniqueid="false"
-      data-browsedatafield="fileappimageid"
+      data-browsedatafield="FileAppImageId"
       data-browsedatatype="appdocumentimage"
-      data-browseappdocumentidfield="appdocumentid"
-      data-documenttypeidfield="documenttypeid"
-      data-uniqueid1field="uniqueid1"
-      data-uniqueid2field="uniqueid2"
-      data-browsefilenamefield="documenttype"
-      data-browsefileextensionfield="extension"
+      data-browseappdocumentidfield="AppDocumentId"
+      data-documenttypeidfield="DocumentTypeId"
+      data-uniqueid1field="UniqueId1"
+      data-uniqueid2field="UniqueId2"
+      data-browsefilenamefield="DocumentType"
+      data-browsefileextensionfield="FileExtension"
       data-formsaveorder="1"
       data-formdatafield=""
       data-formdatatype="appdocumentimage"
       data-formreadonly="false"
-      data-miscfield="image"
+      data-miscfield="Image"
       data-sort="off"
       data-showsearch="false">
     </div>

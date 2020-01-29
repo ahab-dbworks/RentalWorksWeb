@@ -93,7 +93,7 @@
         if (html.length > 0) {
             $adiContainer.on('click', 'img', function (event) {
                 try {
-                    window.open('fwappdocument.ashx?operation=getappimage&appimageid=' + appimageid + "&filename=" + filename);
+                    window.open(`${applicationConfig.apiurl}api/v1/appimage/getimage?appimageid=${appimageid}`);
                     event.preventDefault();
                     return false;
                 } catch (ex) {

@@ -123,7 +123,7 @@ class FwAppData {
             .fail(function (jqXHR, textStatus, errorThrown) {
                 var errorContent = jqXHR.responseText;
                 if (jqXHR.status === 404) {
-                    errorThrown = 'Not Found';
+                    errorThrown = `404 Not Found: ${this.url}`;
                     errorContent = JSON.stringify({
                         StatusCode: 404,
                         Message: 'URL: ' + this.url,

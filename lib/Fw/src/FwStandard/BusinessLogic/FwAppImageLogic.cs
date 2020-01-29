@@ -54,20 +54,26 @@ namespace FwStandard.BusinessLogic
                         qry.AddParameter("@orderby", orderby);
                     }
                     await qry.ExecuteAsync();
-                    FwAppImageModel appimage = new FwAppImageModel();
-                    if ((thumbnail != null) && (thumbnail == "true"))
+                    FwAppImageModel appimage = null;
+                    if (qry.RowCount > 0)
                     {
-                        image = qry.GetField("thumbnail").ToByteArray();
+                        appimage = new FwAppImageModel();
+                        if ((thumbnail != null) && (thumbnail == "true"))
+                        {
+                            image = qry.GetField("thumbnail").ToByteArray();
+                        }
+                        else
+                        {
+                            image = qry.GetField("image").ToByteArray();
+                        }
+                        appimage.Image = image;
+                        appimage.Description = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("description").ToString().Trim().ToLower());
+                        appimage.Extension = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("extension").ToString().Trim().ToLower());
+                        appimage.MimeType = FwMimeTypeTranslator.GetMimeTypeFromExtension(appimage.Extension);
+                        appimage.OrderBy = qry.GetField("orderby").ToInt32();
                     }
-                    else
-                    {
-                        image = qry.GetField("image").ToByteArray();
-                    }
-                    appimage.Image = image;
-                    appimage.Description = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("description").ToString().Trim().ToLower());
-                    appimage.Extension = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("extension").ToString().Trim().ToLower());
-                    appimage.MimeType = FwMimeTypeTranslator.GetMimeTypeFromExtension(appimage.Extension);
-                    appimage.OrderBy = qry.GetField("orderby").ToInt32();
+                    
+                    
                     return appimage;
                     //string filename = description + orderby + "." + extension;
                     //if (image != null)

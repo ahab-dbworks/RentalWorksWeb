@@ -12,7 +12,7 @@ namespace WebApi.Modules.Agent.Customer
     {
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Get Akas
+        /// Get Documents
         /// </summary>
         /// <param name="CustomerId">Unique identifier</param>
         /// <param name="BrowseRequest"></param>
@@ -27,7 +27,7 @@ namespace WebApi.Modules.Agent.Customer
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Export Akas to excel
+        /// Export Documents to Excel
         /// </summary>
         /// <param name="CustomerId">Unique identifier</param>
         /// <param name="BrowseRequest"></param>
@@ -50,7 +50,7 @@ namespace WebApi.Modules.Agent.Customer
         //}
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Get an Document
+        /// Get a Document
         /// </summary>
         /// <param name="CustomerId">Unique identifier</param>
         /// <param name="AppDocumentId">Unique identifier</param>
@@ -70,11 +70,11 @@ namespace WebApi.Modules.Agent.Customer
         /// <param name="Model"></param>
         /// <returns></returns>
         // POST api/v1/customer/{CustomerId}/document 
-        [HttpPost("{customerid}/document")]
+        [HttpPost("{CustomerId}/document")]
         [FwControllerMethod(Id: "QTH4eyIyd5Bx", FwControllerActionTypes.ControlNew, ParentId: "keTrJRIKRGwN")]
         public async Task<ActionResult<CustomerDocumentLogic>> DocumentNewAsync([FromRoute]string CustomerId, [FromBody]CustomerDocumentLogic Model)
         {
-            if (Model.Uniqueid1 != CustomerId)
+            if (Model.UniqueId1 != CustomerId)
             {
                 ModelState.AddModelError("UniqueId1", "CustomerId in the url does not match the Uniqueid1 in the model.");
                 return new BadRequestObjectResult(ModelState);
@@ -89,13 +89,18 @@ namespace WebApi.Modules.Agent.Customer
         /// <param name="Model"></param>
         /// <returns></returns>
         // POST api/v1/customer/{CustomerId}/document/{AppDocumentId} 
-        [HttpPut("{CustomerId}/aka/{akaid}")]
+        [HttpPut("{CustomerId}/document/{AppDocumentId}")]
         [FwControllerMethod(Id: "t3NG50C07BRf", FwControllerActionTypes.ControlEdit, ParentId: "keTrJRIKRGwN")]
-        public async Task<ActionResult<CustomerDocumentLogic>> DocumentEditAsync([FromRoute]string CustomerId, [FromBody]CustomerDocumentLogic Model)
+        public async Task<ActionResult<CustomerDocumentLogic>> DocumentEditAsync([FromRoute]string CustomerId, [FromRoute]string AppDocumentId, [FromBody]CustomerDocumentLogic Model)
         {
-            if (Model.Uniqueid1 != CustomerId)
+            if (Model.UniqueId1 != CustomerId)
             {
                 ModelState.AddModelError("UniqueId1", "CustomerId in the url does not match the Uniqueid1 in the model.");
+                return new BadRequestObjectResult(ModelState);
+            }
+            if (Model.AppDocumentId != AppDocumentId)
+            {
+                ModelState.AddModelError("AppDocumentId", "AppDocumentId in the url does not match the AppDocumentId in the model.");
                 return new BadRequestObjectResult(ModelState);
             }
             return await DoEditAsync<CustomerDocumentLogic>(Model);

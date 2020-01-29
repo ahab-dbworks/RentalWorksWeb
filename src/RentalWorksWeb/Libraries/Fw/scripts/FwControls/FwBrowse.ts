@@ -611,7 +611,7 @@ class FwBrowseClass {
 
         //Events only attached when the API is not defined for the control.
         var controllerInstance = (<any>window)[$control.attr('data-controller')];
-        if (($control.attr('data-type') == 'Grid') && (typeof controllerInstance.apiurl === 'undefined')) {
+        if (($control !== undefined) && ($control.attr('data-type') === 'Grid') && (controllerInstance !== undefined) && (typeof controllerInstance.apiurl === 'undefined')) {
             $control.on('change', '.field[data-formnoduplicate="true"]', function () {
                 var $field, value, originalvalue, $form, formuniqueids, formfields, request: any = {};
                 $field = jQuery(this);
@@ -654,7 +654,7 @@ class FwBrowseClass {
 
         //Register Custom Events on grids and validations
         if (controller !== 'AuditHistoryGrid' && (($control.attr('data-type') == 'Grid') || ($control.attr('data-type') == 'Validation')) && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-            if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller] === 'undefined') throw new Error('Missing javascript module: ' + controller);
             if (typeof (<any>window)[controller]['init'] === 'function') {
                 (<any>window)[controller]['init']($control);
             }

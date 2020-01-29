@@ -1,7 +1,7 @@
 require('dotenv').config();
 import {FwAjax, FwAjaxOptions} from '../../../../../fwjest/FwAjax';
 import faker from 'faker';
-import * as util from '../../../shared/Util';
+import { WebApiUtil } from '../../../shared/WebApiUtil';
 
 export class JwtTestResults {
     officerJwt: string;
@@ -15,7 +15,7 @@ export class Jwt {
         describe('Jwt', function() {
             it('can\'t get Jwt Token with an invalid username and password (v1)', async() => {
                 try {
-                    const ajaxOptions = util.getAnonymousAjaxOptions(`${process.env.WEBAPI_BASEURL}/api/v1/jwt`);
+                    const ajaxOptions = WebApiUtil.getAnonymousAjaxOptions(`${process.env.WEBAPI_BASEURL}/api/v1/jwt`);
                     ajaxOptions.data = {
                         UserName: 'oxdLQCGZh8ui',
                         Password: 'm6MItvrylGBN'
@@ -33,7 +33,7 @@ export class Jwt {
     
             it('can get Jwt Token for User (v1)', async() => {
                 try {
-                    const ajaxOptions = util.getAnonymousAjaxOptions(`${process.env.WEBAPI_BASEURL}/api/v1/jwt`);
+                    const ajaxOptions = WebApiUtil.getAnonymousAjaxOptions(`${process.env.WEBAPI_BASEURL}/api/v1/jwt`);
                     ajaxOptions.data = {
                         UserName: process.env.WEBAPI_USER_USERNAME,
                         Password: process.env.WEBAPI_USER_PASSWORD
@@ -50,7 +50,7 @@ export class Jwt {
 
             it('can get Jwt Token for Contact (v1)', async() => {
                 try {
-                    const ajaxOptions = util.getAnonymousAjaxOptions(`${process.env.WEBAPI_BASEURL}/api/v1/jwt`);
+                    const ajaxOptions = WebApiUtil.getAnonymousAjaxOptions(`${process.env.WEBAPI_BASEURL}/api/v1/jwt`);
                     ajaxOptions.data = {
                         UserName: process.env.WEBAPI_CONTACT_EMAIL,
                         Password: process.env.WEBAPI_CONTACT_PASSWORD

@@ -39,6 +39,10 @@ namespace FwCore.Controllers
             }
             var appImageLogic = new FwAppImageLogic(this.AppConfig);
             var getAppImagesResult = await appImageLogic.GetOneAsync(appimageid, thumbnail, uniqueid1, uniqueid2, uniqueid3, orderby);
+            if (getAppImagesResult == null)
+            {
+                return NotFound("404 - Image not found");
+            }
             return new FileContentResult(getAppImagesResult.Image, getAppImagesResult.MimeType);
         }
         //------------------------------------------------------------------------------------

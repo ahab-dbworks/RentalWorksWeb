@@ -1,7 +1,7 @@
 require('dotenv').config();
 import {FwAjax, FwAjaxOptions} from '../../../../../fwjest/FwAjax';
 import faker from 'faker';
-import * as util from '../../../shared/Util';
+import { WebApiUtil } from '../../../shared/WebApiUtil';
 
 export class AccountTestResults {
     userSession: any;
@@ -86,7 +86,7 @@ export class Account {
         describe('Account', function() {
             it('can get User Session (v1)', async() => {
                 try {
-                    const ajaxOptions = util.getUserAjaxOptions(`${process.env.WEBAPI_BASEURL}/api/v1/account/session?applicationid={0A5F2584-D239-480F-8312-7C2B552A30BA}`);
+                    const ajaxOptions = WebApiUtil.getUserAjaxOptions(`${process.env.WEBAPI_BASEURL}/api/v1/account/session?applicationid={0A5F2584-D239-480F-8312-7C2B552A30BA}`);
                     const response = await FwAjax.get<any>(ajaxOptions);
                     expect(ajaxOptions.request.status).toEqual(200);
                     expect(response).toHaveProperty('webUser');
