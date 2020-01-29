@@ -55,9 +55,9 @@ namespace WebApi.Modules.UtilitiesControls.QuikActivitySettings
             return await DoNewAsync<QuikActivitySettingsLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/quikactivitysettings 
-        [HttpPost]
-        [FwControllerMethod(Id: "eBUgt2CJsDCR", ActionType: FwControllerActionTypes.New)]
+        // PUT api/v1/quikactivitysettings 
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "eBUgt2CJsDCR", ActionType: FwControllerActionTypes.Edit)]
         public async Task<ActionResult<QuikActivitySettingsLogic>> EditAsync([FromBody]QuikActivitySettingsLogic l)
         {
             return await DoEditAsync<QuikActivitySettingsLogic>(l);
