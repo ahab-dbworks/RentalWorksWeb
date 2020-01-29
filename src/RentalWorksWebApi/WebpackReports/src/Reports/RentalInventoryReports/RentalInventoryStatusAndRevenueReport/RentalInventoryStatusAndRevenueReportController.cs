@@ -61,9 +61,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryStatusAnd
         [FwControllerMethod(Id: "3Q6CT1bmlcYMJ")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventorystatusandrevenuereport/exportexcelxlsx

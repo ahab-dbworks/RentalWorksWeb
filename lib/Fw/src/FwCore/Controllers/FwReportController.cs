@@ -25,7 +25,7 @@ namespace FwCore.Controllers
         //---------------------------------------------------------------------------------------------
         protected abstract string GetReportFriendlyName();
         //---------------------------------------------------------------------------------------------
-        protected async Task<FwReportRenderResponse> DoRender(FwReportRenderRequest request)
+        protected async Task<ActionResult<FwReportRenderResponse>> DoRender(FwReportRenderRequest request)
         {
             FwReportRenderResponse response = new FwReportRenderResponse();
             string baseUrl = this.GetFullyQualifiedBaseUrl();
@@ -53,7 +53,9 @@ namespace FwCore.Controllers
 
                 if (request.renderMode == "Email")
                 {
-                    if (System.IO.File.Exists(pathPdfReport))
+                    if (String.IsNullOrEmpty(request.email.from)) this.ModelState.AddModelError("email.from", "E-mail From is required.");
+                    if (String.IsNullOrEmpty(request.email.to)) this.ModelState.AddModelError("email.to", "E-mail To is required.");
+                    if (this.ModelState.IsValid && System.IO.File.Exists(pathPdfReport))
                     {
                         if (request.email.from == "[me]")
                         {
@@ -88,7 +90,8 @@ namespace FwCore.Controllers
                     }
                 }
             }
-            return response;
+            if (!this.ModelState.IsValid) return new BadRequestObjectResult(this.ModelState);
+            return new OkObjectResult(response);
         }
 
         //------------------------------------------------------------------------------------ 
