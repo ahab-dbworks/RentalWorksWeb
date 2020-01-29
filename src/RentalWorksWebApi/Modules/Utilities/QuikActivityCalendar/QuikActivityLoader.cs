@@ -21,8 +21,29 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwSqlDataField(column: "activitytime", modeltype: FwDataTypes.Text)]
         public string ActivityTime { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Text)]
+        public string ActivityTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytypedesc", modeltype: FwDataTypes.Text)]
-        public string ActivityDescription { get; set; }
+        public string ActivityTypeDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitytypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ActivityTypeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitytypetextcolor", modeltype: FwDataTypes.Text)]
+        public string ActivityTypeTextColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitystatusid", modeltype: FwDataTypes.Text)]
+        public string ActivityStatusId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitystatusdesc", modeltype: FwDataTypes.Text)]
+        public string ActivityStatus { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitystatuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ActivityStatusColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitystatustextcolor", modeltype: FwDataTypes.Text)]
+        public string ActivityStatusTextColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }

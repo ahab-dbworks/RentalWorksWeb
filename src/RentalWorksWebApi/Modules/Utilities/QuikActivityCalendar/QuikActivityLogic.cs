@@ -19,8 +19,29 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwLogicProperty(Id: "jgDEOKQa2Dxst")]
         public string ActivityTime { get; set; }
 
+        [FwLogicProperty(Id: "rveIxP0YgE4XB")]
+        public string ActivityTypeId { get; set; }
+
         [FwLogicProperty(Id: "32SGrnWiB0jbk")]
-        public string ActivityDescription { get; set; }
+        public string ActivityTypeDescription { get; set; }
+
+        [FwLogicProperty(Id: "nBSClOUSyGeJm")]
+        public string ActivityTypeColor { get; set; }
+
+        [FwLogicProperty(Id: "IP12sBYs3oMqo")]
+        public string ActivityTypeTextColor { get; set; }
+
+        [FwLogicProperty(Id: "WhxNW1CxoDVci")]
+        public string ActivityStatusId { get; set; }
+
+        [FwLogicProperty(Id: "Z7VeqzzJ2TywZ")]
+        public string ActivityStatus { get; set; }
+
+        [FwLogicProperty(Id: "LEQnoOHeRKI85")]
+        public string ActivityStatusColor { get; set; }
+
+        [FwLogicProperty(Id: "Oa6EMnuN9i9re")]
+        public string ActivityStatusTextColor { get; set; }
 
         [FwLogicProperty(Id: "ppcWLsnx6rXtG")]
         public string OrderId { get; set; }
