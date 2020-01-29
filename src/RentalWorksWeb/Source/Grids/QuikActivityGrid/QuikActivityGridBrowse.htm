@@ -6,10 +6,13 @@
     <div class="field" data-caption="Time" data-datafield="ActivityTime" data-datatype="text" data-formreadonly="true" data-sort="desc"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Activity" data-datafield="ActivityDescription" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-caption="Activity" data-datafield="ActivityTypeDescription" data-cellcolor="ActivityTypeColor" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Order Type" data-datafield="OrderType" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-caption="Status" data-datafield="ActivityStatus" data-cellcolor="ActivityStatusColor" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Order Type" data-datafield="OrderTypeDescription" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Order Number" data-datafield="OrderId" data-browsedisplayfield="OrderNumber" data-datatype="validation" data-formreadonly="true" data-sort="off" data-validationname="OrderValidation"></div>
@@ -34,6 +37,9 @@
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Warehouse" data-datafield="WarehouseId" data-browsedisplayfield="Warehouse" data-datatype="validation" data-formreadonly="true" data-sort="off" data-validationname="WarehouseValidation"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="false">
+    <div class="field" data-caption="" data-datafield="OrderType" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="false">
     <div class="field" data-caption="" data-datafield="OrderTypeController" data-datatype="text" data-formreadonly="true" data-sort="off"></div>

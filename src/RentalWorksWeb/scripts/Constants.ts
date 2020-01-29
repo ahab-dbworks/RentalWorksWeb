@@ -302,6 +302,16 @@ var Constants = {
                         SubRentalBillingAnalysisReport: {   id: 'KIE1O1i2tvtsu', caption: 'Sub-Rental Billing Analysis', nav: 'reports/subrentalbillinganalysisreport', nodetype: 'Module', description: 'List all Sub-Rental Billing activity and compare Deal billing amounts with Vendor billing amounts.' },
                         VendorInvoiceSummaryReport: {       id: 'J2Lczm4sL14Ze', caption: 'Vendor Invoice Summary', nav: 'reports/vendorinvoicesummaryreport', nodetype: 'Module', description: 'List all Invoices for a specific date range, subtotalled by Purchase Order and Deal.' }
                     }
+                },
+                WarehouseReports: {
+                    id: 'Reports.WarehouseReports',
+                    caption: 'Warehouse Reports',
+                    nodetype: 'Category',
+                    children: {
+                        //WarehouseDispatchReport: { id: '', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all...' },
+                        //WarehouseInReport: { id: '', caption: 'Warehouse In', nav: 'reports/warehouseinreport', nodetype: 'Module', description: 'List all...' },
+                        WarehouseOutReport: { id: 'qaNsYCEv8qu5s', caption: 'Warehouse Out', nav: 'reports/warehouseoutreport', nodetype: 'Module', description: 'List all...' },
+                    }
                 }
             }
         },
@@ -525,6 +535,7 @@ var Constants = {
                     id: 'Settings.OrderSettings',
                     nodetype: 'Category',
                     children: {
+                        ActivityType:   { id: 'dZaqY68fhRSXm', caption: 'Activity Type',    nav: 'settings/ordersettings/activitytype', nodetype: 'Module', description: '' },
                         OrderType:      { id: 'yFStSrvTlwWY', caption: 'Order Type',        nav: 'settings/ordersettings/ordertype', nodetype: 'Module', description: '' },
                         DiscountReason: { id: 'XyjAvHBEaKL7', caption: 'Discount Reason',   nav: 'settings/ordersettings/discountreason', nodetype: 'Module', description: '' },
                         MarketSegment:  { id: 'NPu4Lci1ndrl', caption: 'Market Segment',    nav: 'settings/ordersettings/marketsegment', nodetype: 'Module', description: '' },
@@ -797,6 +808,7 @@ var Constants = {
         }
     },
     Grids: {
+        ActivityStatusGrid: { id: 'E7cf8EVeQXuUY', caption: 'Activity Status' },
         AdditionalItemsGrid: { id: 'mEYOByOhi5yT0', caption: 'Additional Items' },
         AlertWebUsersGrid: { id: 'REgcmntq4LWE', caption: 'Alert Web Users' },
         AlternativeDescriptionGrid: { id: '2BkAgaVVrDD3', caption: 'Alternative Description' },

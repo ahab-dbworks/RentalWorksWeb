@@ -12,6 +12,7 @@
         }
         html.push('style="display:none" />');
         html.push('<div class="btnvalidate"><i class="material-icons">search</i></div>');
+        html.push('<div class="clearall"><i class="material-icons">clear</i></div>');
         html.push('</div>');
         $control.html(html.join(''));
     }
@@ -33,6 +34,7 @@
         }
         html.push('style="display:none" />');
         html.push('<div class="btnvalidate"><i class="material-icons">search</i></div>');
+        html.push('<div class="clearall"><i class="material-icons">clear</i></div>');
         html.push('</div>');
         $control.html(html.join(''));
         validationName = $control.attr('data-validationname');

@@ -12,9 +12,9 @@ using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
-using WebApi.Modules.Utilities.QuikActivityType;
+//using WebApi.Modules.Utilities.QuikActivityType;
+using WebApi.Modules.Settings.ActivityType;
 using WebApi.Modules.Administrator.User;
-using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 
 namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
@@ -121,7 +121,8 @@ namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
         [FwControllerMethod(Id: "PxdhLjNonhav", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateQuikActivityTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<QuikActivityTypeLogic>(browseRequest);
+            //return await DoBrowseAsync<QuikActivityTypeLogic>(browseRequest);
+            return await DoBrowseAsync<ActivityTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/quikactivityreport/validatedepartment/browse 
@@ -139,5 +140,6 @@ namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
         {
             return await DoBrowseAsync<UserLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }

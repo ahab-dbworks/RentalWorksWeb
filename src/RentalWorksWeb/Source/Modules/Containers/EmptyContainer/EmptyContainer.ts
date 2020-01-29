@@ -24,6 +24,11 @@ class EmptyContainer {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);

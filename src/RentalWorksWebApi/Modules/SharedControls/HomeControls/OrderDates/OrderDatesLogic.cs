@@ -1,5 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.SqlServer;
+
 namespace WebApi.Modules.HomeControls.OrderDates
 {
     [FwLogic(Id: "flcHNd8WETF0M")]
@@ -20,7 +22,9 @@ namespace WebApi.Modules.HomeControls.OrderDates
         public string OrderTypeDateTypeId { get; set; }
         [FwLogicProperty(Id: "H2eNYfdlGHPk8", IsReadOnly: true)]
         public bool? IsSystemType { get; set; }
-        [FwLogicProperty(Id: "5iEoLG6vBclB3", IsReadOnly: true)]
+        [FwLogicProperty(Id: "HTjZoOZc7Ozs6", IsReadOnly: true)]
+        public string ActivityTypeId { get; set; }
+        [FwLogicProperty(Id: "5i2EoLG6vBclB3", IsReadOnly: true)]
         public string ActivityType { get; set; }
         [FwLogicProperty(Id: "LfZRLky4Dzdrm", IsReadOnly: true)]
         public string Activity { get; set; }
@@ -29,7 +33,20 @@ namespace WebApi.Modules.HomeControls.OrderDates
         [FwLogicProperty(Id: "1vw9dwLIf36eq", IsReadOnly: true)]
         public string Description { get; set; }
         [FwLogicProperty(Id: "G4deOHC8ZaCXR", IsReadOnly: true)]
-        public string Descriptiondisplay { get; set; }
+        public string DescriptionDisplay { get; set; }
+        [FwLogicProperty(Id: "VztT3BvgL7j4V", IsReadOnly: true)]
+        public string DescriptionDisplayTitleCase
+        {
+            get
+            {
+                string s = DescriptionDisplay;
+                if (!string.IsNullOrEmpty(s))
+                {
+                    s = FwConvert.ToTitleCase(s.ToLower());
+                }
+                return s;
+            }
+        }
         [FwLogicProperty(Id: "RuCxNc4aMHA2l", IsReadOnly: true)]
         public bool? IsEnabled { get; set; }
         [FwLogicProperty(Id: "6VJRz3bf3pb6G", IsReadOnly: true)]

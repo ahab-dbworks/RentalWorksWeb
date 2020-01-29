@@ -1174,10 +1174,10 @@ export class Deal extends HomeModule {
                     Deal: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
                     DealNumber: "GlobalScope.TestToken~1.TestToken",
                     CustomerId: 1,
+                    DealTypeId: 1,
+                    UseCustomerTax: false,
                     Address2: TestUtils.randomAddress2(),
                     Fax: TestUtils.randomPhone(),
-                    DealTypeId: 1,
-                    UseCustomerTax: false
                 },
                 seekObject: {
                     Deal: "GlobalScope.TestToken~1.TestToken",
@@ -1679,6 +1679,7 @@ export class PurchaseOrder extends HomeModule {
                     Parts: true,
                     Miscellaneous: true,
                     Labor: true,
+                    RateType: 2,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",

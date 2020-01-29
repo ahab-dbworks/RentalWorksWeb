@@ -57,7 +57,7 @@ namespace WebApi
         public const string ORDER_TYPE_PENDING_EXCHANGE = "PENDING";
 
         public const string ORDER_TYPE_DESCRIPTION_QUOTE = "QUOTE";
-        public const string ORDER_TYPE_DESCRIPTION_RESERVED = "RESERVED";
+        //public const string ORDER_TYPE_DESCRIPTION_RESERVED = "RESERVED";
         public const string ORDER_TYPE_DESCRIPTION_ORDER = "ORDER";
         public const string ORDER_TYPE_DESCRIPTION_PROJECT = "PROJECT";
         public const string ORDER_TYPE_DESCRIPTION_PURCHASE_ORDER = "PO";
@@ -591,6 +591,11 @@ namespace WebApi
         //PRESENTATION LAYER
         public const string PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED = "UD";
         public const int PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR = 16776960;   // aqua
+
+
+        // ACTIVITY
+        public const int USER_DEFINED_ACTIVITY_COLOR = 11447902;                    // teal
+
 
     }
 

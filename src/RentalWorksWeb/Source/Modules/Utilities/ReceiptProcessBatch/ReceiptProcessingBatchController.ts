@@ -163,16 +163,18 @@
                 FwFormField.disable($form.find(`${controlsToDisable}`));
             });
 
-        function exportBatch() {
-            let batchId = FwFormField.getValueByDataField($form, 'BatchId');
-            if (batchId !== '') {
+       const exportBatch = () => {
+           const batchId = FwFormField.getValueByDataField($form, 'BatchId');
+           const dataExportFormatId = FwFormField.getValueByDataField($form, 'DataExportFormatId');
+            if (batchId) {
                 let request: any = {};
                 request = {
-                    BatchId: batchId
+                    BatchId: batchId,
+                    DataExportFormatId: dataExportFormatId
                 }
-                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/receiptbatchexport/export`, request, FwServices.defaultTimeout,
+                    response => {
                     if (response.downloadUrl != "") {
-                        //let batch = response.batch;
                         let batchNumber = response.BatchNumber
                         let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
                         jQuery('#application').append($iframe);
@@ -184,8 +186,8 @@
                         $form.find('.success-msg').html(`<div style="margin-left:0;><span>Batch ${batchNumber} Created Successfully.</span><div>`);
                     } else {
                         FwNotification.renderNotification('WARNING', 'Batch could not be exported.');
-                    }
-                }, null, $form);
+                        }
+                    }, ex => FwFunc.showError(ex), $form);
             }
         }
     }
