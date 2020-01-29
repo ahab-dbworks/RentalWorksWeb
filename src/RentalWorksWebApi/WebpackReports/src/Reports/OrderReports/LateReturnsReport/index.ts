@@ -34,7 +34,9 @@ export class LateReturnsReport extends WebpackReport {
                     data.Report = 'Late Return / Due Back Report';
                     data.Type = parameters.Type;
                     data.subtitle = parameters.headerText;
-                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.PrintTime = moment().format('h:mm:ss A');
+                    data.PrintDate = moment().format('MM/DD/YYYY');
+                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                     if (parameters.ShowUnit) { data.ShowUnit = true };
                     if (parameters.ShowReplacement) { data.ShowReplacement = true };
                     if (parameters.ShowBarCode) { data.ShowBarCode = true };

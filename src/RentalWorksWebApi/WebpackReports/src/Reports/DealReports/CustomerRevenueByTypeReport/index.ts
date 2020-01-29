@@ -20,7 +20,9 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
                     data.Report = 'Customer Revenue By Type Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
-                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.PrintTime = moment().format('h:mm:ss A');
+                    data.PrintDate = moment().format('MM/DD/YYYY');
+                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                     data.ContractTime = moment(data.ContractTime, 'h:mm a').format('h:mm a');
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
