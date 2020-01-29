@@ -9,7 +9,7 @@ tbody {
     }
 }
 tbody[data-rowtype="detail"]:nth-child(even) {
-    background-color: #DCDCDC;
+  /*background-color: #DCDCDC;*/
 }
 .sub-header tr > td {
     padding: 0;
@@ -48,7 +48,7 @@ tbody[data-rowtype="detail"]:nth-child(even) {
 body {
     font-size: 15px;
     margin: 0;
-    padding: 0;
+    padding: 10px;
 }
 
 thead {
@@ -75,4 +75,30 @@ span {
 .qrcode {
     height: 75px;
     width: 100px;
+}
+
+.headerRow {
+  background-color: #f1f8e9;
+}
+
+.textRow {
+  font-weight: normal;
+  font-style: italic;
+}
+
+.subTotalRow {
+  background-color: #c8e6c9;
+}
+
+.alignRight {
+  text-align:right;
+}
+
+.grandTotalAllActivities {
+  background-color: #e8f5e9;
+  width: 110px;
+  text-align: right;
+  font-weight: bold;
+  border-top: 1.5px solid black;
+  padding: 10px 0px 6px 0px;
 }
