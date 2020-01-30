@@ -1353,7 +1353,7 @@ class OrderBase {
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
 
-        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryAddressType"]'), [
+        FwFormField.loadItems($form.find('div[data-datafield="InDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Customer Deliver' },
             { value: 'SHIP', text: 'Customer Ship' },
             { value: 'PICK UP', text: 'Pick Up from Customer' }
