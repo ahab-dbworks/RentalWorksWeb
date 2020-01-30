@@ -176,6 +176,22 @@ class OrderItemGrid {
                     }
                 }
 
+                // Mute Fields
+                if ($tr.find('.order-item-mute').text() === 'true') {
+                    $tr.find('.field-to-mute').parent('td').css({
+                        'background-color': '#ffccff',
+                        'border-top': '2px solid black',
+                        'border-bottom': '2px solid black'
+
+                    });
+                    $tr.find('.field-to-mute').attr('data-formreadonly', 'true');
+                    // disabled grids were rendering with different shade background color
+                    if ($control.attr('data-enabled') === 'false') {
+                        $tr.find('.field-to-mute').css('background-color', 'transparent');
+                    }
+                }
+
+
                 //enable editing price on misc items
                 const isMiscClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
                 if (isMiscClass === 'M') {

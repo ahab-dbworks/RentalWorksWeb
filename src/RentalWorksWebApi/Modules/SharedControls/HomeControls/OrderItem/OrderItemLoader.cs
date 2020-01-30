@@ -410,6 +410,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "hascheckoutaudit", modeltype: FwDataTypes.Boolean)]
         public bool? ModifiedAtStaging { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mute", modeltype: FwDataTypes.Boolean)]
+        public bool? Mute { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
