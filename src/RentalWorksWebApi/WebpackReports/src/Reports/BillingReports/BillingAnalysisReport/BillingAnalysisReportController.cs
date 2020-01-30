@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.Billing.BillingAnalysisReport
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "c2AwOP9UmJFw ")]
+    [FwController(Id: "c2AwOP9UmJFw")]
     public class BillingAnalysisReportController : AppReportController
     {
         public BillingAnalysisReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(BillingAnalysisReportLoader); }
@@ -63,9 +63,8 @@ namespace WebApi.Modules.Reports.Billing.BillingAnalysisReport
         [FwControllerMethod(Id: "zhMdzRvkdIjq ")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/billinganalysisreport/exportexcelxlsx

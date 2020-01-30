@@ -255,7 +255,26 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
         }
         //------------------------------------------------------------------------------------       
-        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/cancelcontract
+        [HttpPost("cancelcontract")]
+        [FwControllerMethod(Id: "6A9xouMp1vTaY", ActionType: FwControllerActionTypes.Option, Caption: "Cancel Contract")]
+        public async Task<ActionResult<TSpStatusResponse>> CancelContract([FromBody]CancelContractRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                TSpStatusResponse response = await ContractFunc.CancelContract(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/checkout/validateorder/browse 
         [HttpPost("validateorder/browse")]
         [FwControllerMethod(Id: "bbKYV7nAz5WO", ActionType: FwControllerActionTypes.Browse)]

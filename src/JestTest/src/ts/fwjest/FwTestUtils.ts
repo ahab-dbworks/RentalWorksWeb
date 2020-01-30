@@ -32,10 +32,9 @@ export class FwTestUtils {
             await page.waitForNavigation({timeout: 120000});
         }
 
-        await FwTestUtils.sleepAsync(2000);
-
         let selector = `.btnLogin`;
         await page.waitForSelector(selector, { visible: true });
+        await FwTestUtils.sleepAsync(5000); // wait here for the "sign into systemname" button gets its events
         await page.click(selector);
 
         selector = `#email`;

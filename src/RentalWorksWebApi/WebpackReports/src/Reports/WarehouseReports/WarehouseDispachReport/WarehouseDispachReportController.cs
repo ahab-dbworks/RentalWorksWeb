@@ -13,7 +13,7 @@ using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 
-namespace WebApi.Modules.Reports.WarehouseDispachReport
+namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
 {
     public class WarehouseDispachReportRequest : AppReportRequest
     {
@@ -56,9 +56,8 @@ namespace WebApi.Modules.Reports.WarehouseDispachReport
         [FwControllerMethod(Id: "gSMc6J6Fnj2dC")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest();
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehousedispachreport/exportexcelxlsx/filedownloadname 

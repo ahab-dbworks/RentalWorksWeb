@@ -33,7 +33,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RentalEquipmentRepairHistory
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "bLX4YBftwJvw ")]
+    [FwController(Id: "bLX4YBftwJvw")]
     public class RentalEquipmentRepairHistoryReportController : AppReportController
     {
         public RentalEquipmentRepairHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalEquipmentRepairHistoryReportLoader); }
@@ -60,9 +60,8 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RentalEquipmentRepairHistory
         [FwControllerMethod(Id: "ec9ZraZEZxvv ")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalequipmentrepairhistoryreport/exportexcelxlsx

@@ -49,7 +49,7 @@ export class FwNewRecordToCreate {
     recordToExpect?: any;
     attemptDuplicate?: boolean = false;
     editRecord?: FwRecordToEdit;
-    //persistData?: boolean = false;
+    persistData?: boolean = false;
     gridRecords?: FwGridRecordToCreate[];
 }
 

@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.WarehouseOutboundReport
+namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
 {
     [FwSqlTable("outboundrptview")]
     public class WarehouseOutboundReportLoader : AppReportLoader
@@ -100,26 +100,26 @@ namespace WebApi.Modules.Reports.WarehouseOutboundReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    //select.AddWhere("(xxxxid ^> ')"); 
-                    //select.AddWhereIn("locationid", request.OfficeLocationId); 
-                    //select.AddWhereIn("departmentid", request.DepartmentId); 
-                    //addDateFilterToSelect("datefieldname1", request.DateValue1, select, "^>=", "dateparametername(optional)"); 
-                    //addDateFilterToSelect("datefieldname2", request.DateValue2, select, "^<=", "dateparametername(optional)"); 
-                    //if (!request.BooleanField.GetValueOrDefault(false)) 
-                    //{ 
-                    //    select.AddWhere("somefield ^<^> 'T'"); 
-                    //} 
+                    select.AddWhereIn("warehouseid", request.WarehouseId);
+                    select.AddWhereIn("projectid", request.ActivityTypeId);
+                    select.AddWhereIn("vendorid", request.AgentId);
+                    select.AddWhereIn("departmentid", request.InventoryTypeId);
+                    select.AddWhereIn("departmentid", request.DepartmentId);
                     select.AddOrderBy("field1,field2");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            //if (request.IncludeSubHeadingsAndSubTotals)
-            //{
-            //    string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-            //    dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-            //    dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
-            //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            //}
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "", "" };
+                dt.InsertSubTotalRows("Department", "RowType", totalFields);
+                dt.InsertSubTotalRows("OrderType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Activity", "RowType", totalFields);
+
+                dt.InsertSubTotalRows("OrderType", "RowType", totalFields);
+
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 

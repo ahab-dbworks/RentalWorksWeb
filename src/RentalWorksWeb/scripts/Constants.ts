@@ -297,7 +297,8 @@ var Constants = {
                     nodetype: 'Category',
                     children: {
                         PurchaseOrderMasterReport: {        id: 'zJJl8Frw1U7U7', caption: 'Purchase Order Master', nav: 'reports/purchaseordermasterreport', nodetype: 'Module', description: 'List all Purchase Orders for a specified date range.' },
-                        PurchaseOrderReport: {              id: 'yrvMp4sG8CzF', caption: 'Purchase Order', nav: 'reports/purchaseorderreport', nodetype: 'Module', description: 'List all Purchase Orders for a specified date range.' },
+                        PurchaseOrderSummaryReport: {       id: 'yrvMp4sG8CzF', caption: 'Purchase Order Summary', nav: 'reports/purchaseordersummaryreport', nodetype: 'Module', description: 'List all Purchase Orders for a specified date range.' },
+                        PurchaseOrderReport: {              id: 'ZcNjp0seMeWi', caption: 'Purchase Order', nav: 'reports/purchaseorderreport', nodetype: 'Module', description: 'Purchase Order Document.' },
                         SubItemStatusReport: {              id: 'fL9dlJfzzJf8U', caption: 'Sub Item Status', nav: 'reports/subitemstatusreport', nodetype: 'Module', description: 'List all Sub-Rentals, Sub-Sales, Sub-Misc, and Sub-Labor over a specified date range. Evaluate profitability of each.' },
                         SubRentalBillingAnalysisReport: {   id: 'KIE1O1i2tvtsu', caption: 'Sub-Rental Billing Analysis', nav: 'reports/subrentalbillinganalysisreport', nodetype: 'Module', description: 'List all Sub-Rental Billing activity and compare Deal billing amounts with Vendor billing amounts.' },
                         VendorInvoiceSummaryReport: {       id: 'J2Lczm4sL14Ze', caption: 'Vendor Invoice Summary', nav: 'reports/vendorinvoicesummaryreport', nodetype: 'Module', description: 'List all Invoices for a specific date range, subtotalled by Purchase Order and Deal.' }
@@ -308,9 +309,9 @@ var Constants = {
                     caption: 'Warehouse Reports',
                     nodetype: 'Category',
                     children: {
-                        //WarehouseDispatchReport: { id: '', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all...' },
-                        //WarehouseInReport: { id: '', caption: 'Warehouse In', nav: 'reports/warehouseinreport', nodetype: 'Module', description: 'List all...' },
-                        WarehouseOutReport: { id: 'qaNsYCEv8qu5s', caption: 'Warehouse Out', nav: 'reports/warehouseoutreport', nodetype: 'Module', description: 'List all...' },
+                        WarehouseDispatchReport: { id: 'gs5q3h0v0HzXF', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all...' },
+                        WarehouseInboundReport: { id: 'gQLKq8L9zC32b', caption: 'Warehouse Inbound', nav: 'reports/warehouseinboundreport', nodetype: 'Module', description: 'List all...' },
+                        WarehouseOutboundReport: { id: 'gPuvfa4B1tHuE', caption: 'Warehouse Outbound', nav: 'reports/warehouseoutboundreport', nodetype: 'Module', description: 'List all...' },
                     }
                 }
             }

@@ -28,6 +28,15 @@ namespace WebApi.Modules.Settings.ActivityType
         [FwSqlDataField(column: "systemtype", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? IsSystemType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseoutbound", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? IsWarehouseOutbound { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseinbound", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? IsWarehouseInbound { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehousedispatch", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? IsWarehouseDispatch { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

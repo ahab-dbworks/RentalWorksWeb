@@ -164,27 +164,25 @@
         const exportBatch = () => {
             const batchId = FwFormField.getValueByDataField($form, 'BatchId');
             const dataExportFormatId = FwFormField.getValueByDataField($form, 'DataExportFormatId');
-            if (batchId !== '') {
+            if (batchId) {
                 const request: any = {
                     BatchId: batchId,
                     DataExportFormatId: dataExportFormatId
                 }
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoicebatchexport/export`, request, FwServices.defaultTimeout,
                     response => {
-                    //if ((response.success === true) && (response.batch !== null)) {
                         if (response.downloadUrl != "") {
-                        //let batch = response.batch;
-                        let batchNumber = response.BatchNumber
-                        const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
-                        jQuery('#application').append($iframe);
-                        setTimeout(function () {
-                            $iframe.remove();
-                        }, 500);
+                            let batchNumber = response.BatchNumber
+                            const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
+                            jQuery('#application').append($iframe);
+                            setTimeout(function () {
+                                $iframe.remove();
+                            }, 500);
 
-                        $form.find('.export-success').show();
-                        $form.find('.success-msg').html(`<div style="margin-left:0;><span>Batch ${batchNumber} Created Successfully.</span><div>`);
-                    }
-                }, null, $form);
+                            $form.find('.export-success').show();
+                            $form.find('.success-msg').html(`<div style="margin-left:0;><span>Batch ${batchNumber} Created Successfully.</span><div>`);
+                        }
+                    }, ex => FwFunc.showError(ex), $form);
             }
         }
     }

@@ -166,12 +166,14 @@ if "%productname%"=="RentalWorks" (
     set webpath=%DwRentalWorksWebPath%\build\RentalWorksWeb\
     set quikscanpath=%DwRentalWorksWebPath%\build\RentalWorksQuikScan\
     set webapipath=%DwRentalWorksWebPath%\build\RentalWorksWebApi\
+	set jestsrcpath=%DwRentalWorksWebPath%\src\JestTest\src\
 ) else if "%productname%"=="TrakitWorks" (
     move %DwRentalWorksWebPath%\build\RentalWorksWebApi %DwRentalWorksWebPath%\build\TrakitWorksWebApi
     move %DwRentalWorksWebPath%\build\RentalWorksQuikScan\ %DwRentalWorksWebPath%\build\TrakitWorksQuikScan\
     set webpath=%DwRentalWorksWebPath%\build\TrakitWorksWeb\
     set quikscanpath=%DwRentalWorksWebPath%\build\TrakitWorksQuikScan\
     set webapipath=%DwRentalWorksWebPath%\build\TrakitWorksWebApi\
+	set jestsrcpath=%DwRentalWorksWebPath%\src\JestTest\src\
 )
 del "%webapipath%version-RentalWorksWeb.txt"
 del "%webapipath%version-TrakitWorksWeb.txt"
@@ -180,6 +182,7 @@ rem make the ZIP deliverable
 "c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %webpath%
 "c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %quikscanpath%
 "c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %webapipath%
+"c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %jestsrcpath%ts\
 cd %DwRentalWorksWebPath%\build
 
 rem delete the work files

@@ -13,7 +13,7 @@ using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 
-namespace WebApi.Modules.Reports.WarehouseInboundReport
+namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
 {
     public class WarehouseInboundReportRequest : AppReportRequest
     {
@@ -56,9 +56,8 @@ namespace WebApi.Modules.Reports.WarehouseInboundReport
         [FwControllerMethod(Id: "gqVHY3jo0yDhF")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest();
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehouseinboundreport/exportexcelxlsx/filedownloadname 

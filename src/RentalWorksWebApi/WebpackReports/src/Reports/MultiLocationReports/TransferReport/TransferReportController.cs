@@ -68,9 +68,8 @@ namespace WebApi.Modules.Reports.MultiLocationReports.TransferReport
         [FwControllerMethod(Id: "rQXu8xO5B6uob")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/transferreport/exportexcelxlsx

@@ -96,7 +96,9 @@ class FwSchedulerDetailedClass {
             try {
                 FwSchedulerDetailed.refresh($control);
                 const $calendarControl = $control.parents().find('.calendar');
-                FwScheduler.refresh($calendarControl);
+                if ($calendarControl.length > 0) {
+                    FwScheduler.refresh($calendarControl);
+                }
             } catch (ex) {
                 FwFunc.showError(ex);
             }

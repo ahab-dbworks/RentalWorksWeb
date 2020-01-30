@@ -152,7 +152,7 @@ class RwHome {
         }
 
         jQuery($control).off('click', '#' + widgetData.userWidgetId + 'refresh').on('click', '#' + widgetData.userWidgetId + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/dashboard/loadwidgetbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     widgetcanvas.siblings('.officebar').text(response.locationCodes);
                     let titleArray = [];
@@ -267,7 +267,7 @@ class RwHome {
                     let fullscreenToDate = FwFormField.getValue($confirmation, '.todate');
                     let fullscreenOfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
 
-                    FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${fullscreenDataPointCount}&locationId=${fullscreenOfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${fullscreenDateBehaviorId}&fromDate=${fullscreenFromDate}&toDate=${fullscreenToDate}&datefield=${fullscreenDateField}&stacked=${fullscreenStacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'GET', `api/v1/dashboard/loadwidgetbyname/${widgetData.apiname}?dataPoints=${fullscreenDataPointCount}&locationId=${fullscreenOfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${fullscreenDateBehaviorId}&fromDate=${fullscreenFromDate}&toDate=${fullscreenToDate}&datefield=${fullscreenDateField}&stacked=${fullscreenStacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                         try {
                             $confirmation.find('.fullscreenofficebar').text(response.locationCodes);
                             let titleArray = [];
@@ -359,7 +359,7 @@ class RwHome {
                 FwAppData.apiMethod(true, 'GET', 'api/v1/userwidget/' + widgetData.userWidgetId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     self.loadSettingsFields($confirmation, response);
                 }, null, null);
-                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/dashboard/loadwidgetbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         widgetfullscreen.siblings('.officebar').text(response.locationCodes);
                         let titleArray = [];
@@ -443,7 +443,7 @@ class RwHome {
             }
         })
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/dashboard/loadwidgetbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 widgetcanvas.siblings('.officebar').text(response.locationCodes);
                 let titleArray = [];

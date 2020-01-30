@@ -52,6 +52,9 @@ export abstract class BaseTest extends FwBaseTest {
         const element = await page.$(selector);
         const officeLocation = await page.evaluate(element => element.textContent, element);
         let expectedOfficeLocation = toOffice;
+        if (toOffice != toWarehouse) {
+            expectedOfficeLocation = toOffice + ' / ' + toWarehouse;
+        }
         Logging.logInfo(`Validating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
         expect(officeLocation).toBe(expectedOfficeLocation);
 

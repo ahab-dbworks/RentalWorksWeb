@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/warehouseoutreport/, action: function (match: RegExpExecArray) {
-        return WarehouseOutReportController.getModuleScreen();
+    pattern: /^reports\/warehouseinboundreport/, action: function (match: RegExpExecArray) {
+        return WarehouseInboundReportController.getModuleScreen();
     }
 });
 
-const warehouseOutTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Warehouse OutBound Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="WarehouseOutReportController">
+const warehouseInTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Warehouse InBound Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="WarehouseInboundReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -65,10 +65,10 @@ const warehouseOutTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class WarehouseOutReport extends FwWebApiReport {
+class WarehouseInboundReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('WarehouseOutReport', 'api/v1/warehouseoutreport', warehouseOutTemplate);
+        super('WarehouseInboundReport', 'api/v1/warehouseinboundreport', warehouseInTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -141,5 +141,5 @@ class WarehouseOutReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var WarehouseOutReportController: any = new WarehouseOutReport();
+var WarehouseInboundReportController: any = new WarehouseInboundReport();
 //----------------------------------------------------------------------------------------------

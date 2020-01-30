@@ -13,7 +13,7 @@ using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 
-namespace WebApi.Modules.Reports.WarehouseOutboundReport
+namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
 {
     public class WarehouseOutboundReportRequest : AppReportRequest
     {
@@ -23,9 +23,10 @@ namespace WebApi.Modules.Reports.WarehouseOutboundReport
         public string WarehouseId { get; set; }
         public string DepartmentId { get; set; }
         public string AgentId { get; set; }
+        public string InventoryTypeId { get; set; }
         public string ActivityTypeId { get; set; }
-        //public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
-        //public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        //public SelectedCheckBoxListItems SortBy { get; set; } = new SelectedCheckBoxListItems();
+        //public SelectedCheckBoxListItems OrderTypes { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
@@ -56,9 +57,8 @@ namespace WebApi.Modules.Reports.WarehouseOutboundReport
         [FwControllerMethod(Id: "GQaudpIKXbwjf")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest();
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehouseoutboundreport/exportexcelxlsx/filedownloadname 

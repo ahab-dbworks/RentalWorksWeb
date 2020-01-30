@@ -15,14 +15,17 @@ namespace WebApi.Modules.Utilities.QuikActivity
     public class QuikActivityLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activityid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
+        public int? ActivityId { get; set; } = 0;
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitydate", modeltype: FwDataTypes.Date)]
         public string ActivityDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytime", modeltype: FwDataTypes.Text)]
         public string ActivityTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Text)]
-        public string ActivityTypeId { get; set; }
+        [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer)]
+        public int? ActivityTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytypedesc", modeltype: FwDataTypes.Text)]
         public string ActivityTypeDescription { get; set; }
@@ -33,8 +36,8 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwSqlDataField(column: "activitytypetextcolor", modeltype: FwDataTypes.Text)]
         public string ActivityTypeTextColor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitystatusid", modeltype: FwDataTypes.Text)]
-        public string ActivityStatusId { get; set; }
+        [FwSqlDataField(column: "activitystatusid", modeltype: FwDataTypes.Integer)]
+        public int? ActivityStatusId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitystatusdesc", modeltype: FwDataTypes.Text)]
         public string ActivityStatus { get; set; }
@@ -95,6 +98,18 @@ namespace WebApi.Modules.Utilities.QuikActivity
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemcount", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalqty", modeltype: FwDataTypes.Integer)]
+        public int? TotalQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remainingqty", modeltype: FwDataTypes.Integer)]
+        public int? RemainingQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "completeqty", modeltype: FwDataTypes.Integer)]
+        public int? CompleteQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "completepct", modeltype: FwDataTypes.Decimal)]
+        public decimal? CompletePercent { get; set; }
         //------------------------------------------------------------------------------------ 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {

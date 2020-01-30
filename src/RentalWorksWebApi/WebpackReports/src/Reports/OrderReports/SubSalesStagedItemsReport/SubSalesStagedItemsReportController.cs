@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.OrderReports.SubSalesStagedItemsReport
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "2GIJvJlbIFQN ")]
+    [FwController(Id: "2GIJvJlbIFQN")]
     public class SubSalesStagedItemsReportController : AppReportController
     {
         public SubSalesStagedItemsReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SubSalesStagedItemsReportLoader); }
@@ -63,9 +63,8 @@ namespace WebApi.Modules.Reports.OrderReports.SubSalesStagedItemsReport
         [FwControllerMethod(Id: "dzdPQJ6nkyho ")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/subsalesstageditemsreport/exportexcelxlsx

@@ -18,6 +18,9 @@ rem --------------------------------------------------------------------------
 rem Set the actual paths here for Web and API running directories (do not supply trailing "\")
 set webpath=C:\Temp\xxxweb
 set apipath=C:\Temp\xxxapi
+rem only populate the value below if this environment is used for automated testing (do not supply trailing "\")
+rem set jestsrcpath=C:\Regression\src\JestTest\src
+set jestsrcpath=
 rem --------------------------------------------------------------------------
 
 
@@ -96,6 +99,7 @@ cd %workingdirectory%
 if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
 if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
 if exist RentalWorksQuikScan\ (rmdir RentalWorksQuikScan /S /Q)
+if exist ts\ (rmdir ts /S /Q)
 if exist %ftpcommandfilename% (del %ftpcommandfilename%)
 if exist %zipfilename% (del %zipfilename%)
 
@@ -156,9 +160,32 @@ forfiles /p %apipath% /c "cmd /c if not @isdir==TRUE if not @file==\"appsettings
 rem copy all files from the downloaded api directoy to the target api directory
 xcopy %workingdirectory%\RentalWorksWebApi\*.* %apipath% /e
 
+
+rem --------------------------------------------------------------------------
+rem Jest Test scripts
+rem set jestsrcpath=C:\Regression\src\JestTest\src
+rem --------------------------------------------------------------------------
+if not %jestsrcpath%==\"\" (
+   rem delete the old "ts" directory
+   cd %jestsrcpath%
+   if exist ts\ (rmdir ts /S /Q)
+   mkdir ts
+
+   rem delete any downloaded files that should not be here
+   rem cd %workingdirectory%\ts 
+
+   rem copy all files from the downloaded api directoy to the target api directory
+   xcopy %workingdirectory%\ts\*.* %jestsrcpath%\ts /e
+)
+
+rem --------------------------------------------------------------------------
+rem Delete extracted files from working directory
+rem --------------------------------------------------------------------------
 cd %workingdirectory%
 if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
 if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
+if exist RentalWorksQuikScan\ (rmdir RentalWorksQuikScan /S /Q)
+if exist ts\ (rmdir ts /S /Q)
 
 
 rem grant "modify" permissions for the IIS User to the temp\downloads directory for users to be able to make Excel files

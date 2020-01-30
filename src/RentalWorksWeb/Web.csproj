@@ -518,7 +518,10 @@
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutReport\WarehouseOutReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseDispachReport\WarehouseDispachReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseInboundReport\WarehouseInboundReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutboundReport\WarehouseOutboundReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnContractReport\ReturnContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\InContractReport\InContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ExchangeContractReport\ExchangeContractReportController.ts" />
@@ -603,7 +606,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\CustomerRevenueByMonthReport\CustomerRevenueByMonthReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RepairOrderStatusReport\RepairOrderStatusReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnReceiptReport\ReturnReceiptReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderSummaryReport\PurchaseOrderSummaryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesTaxUSAReport\SalesTaxUSAReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ProfitLossReport\ProfitLossReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\BillingAnalysisReport\BillingAnalysisReportController.ts" />
@@ -1038,6 +1041,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\WidgetSettings\Widget\Widget.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\Dashboard\Dashboard.ts" />
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
+    <Content Include="Source\Validations\ActivityStatusValidation\ActivityStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
     <Content Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationBrowse.htm" />

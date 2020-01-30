@@ -73,9 +73,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderConflictReport
         [FwControllerMethod(Id: "w9buGs2euYcWu")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderconflictreport/exportexcelxlsx

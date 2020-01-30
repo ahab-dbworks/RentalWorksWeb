@@ -226,6 +226,7 @@ class PurchaseOrder implements IModule {
         ], true);
         this.events($form);
         this.activityCheckboxEvents($form, mode);
+        this.renderPrintButton($form);
         this.renderSearchButton($form);
         this.applyRateType($form);
 
@@ -239,6 +240,33 @@ class PurchaseOrder implements IModule {
 
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    renderPrintButton($form: any) {
+        var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
+        $print.prepend('<i class="material-icons">print</i>');
+        $print.on('click', () => {
+            this.printPurchaseOrder($form);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    printPurchaseOrder($form: any) {
+        try {
+            const module = this.Module;
+            const purchaseOrderNumber = FwFormField.getValue($form, `div[data-datafield="PurchaseOrderNumber"]`);
+            const purchaseOrderId = FwFormField.getValue($form, `div[data-datafield="PurchaseOrderId"]`);
+            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+
+            var $report = PurchaseOrderReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValue($report, `div[data-datafield="PurchaseOrderId"]`, purchaseOrderId, purchaseOrderNumber);
+            const printTab = jQuery('.tab.submodule.active');
+            printTab.find('.caption').html(`Print Purchase Order`);
+            printTab.attr('data-caption', `${module} ${recordTitle}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
         const $browse = EmailHistoryController.openBrowse();
