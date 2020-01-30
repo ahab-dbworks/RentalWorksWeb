@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -518,6 +518,7 @@
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseDispachReport\WarehouseDispachReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseInboundReport\WarehouseInboundReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutboundReport\WarehouseOutboundReportController.ts" />
@@ -1040,6 +1041,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\WidgetSettings\Widget\Widget.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\Dashboard\Dashboard.ts" />
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
+    <Content Include="Source\Validations\ActivityStatusValidation\ActivityStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
     <Content Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationBrowse.htm" />

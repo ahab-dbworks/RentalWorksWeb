@@ -1,0 +1,104 @@
+﻿/*Purchase Order Report*/
+tbody {
+    td:after {
+        content: attr(data-value);
+    }
+
+    td {
+        padding: 3px;
+    }
+}
+tbody[data-rowtype="detail"]:nth-child(even) {
+  /*background-color: #DCDCDC;*/
+}
+.sub-header tr > td {
+    padding: 0;
+    width: 33.3%;
+}
+.att-text-align {
+    padding-left: 75px;
+}
+
+.sub-header-left {
+    align-self: flex-start;
+}
+.sub-header-center {
+    align-self: center;
+}
+.sub-header-right {
+    align-self: flex-end;
+}
+
+.header-center {
+    align-self: center;
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.header-right {
+    align-self: flex-end;
+    font-size: 15px;
+}
+
+.header-left {
+    align-self: flex-start;
+    font-size: 15px;
+}
+
+body {
+    font-size: 15px;
+    margin: 0;
+    padding: 10px;
+}
+
+thead {
+    th {
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
+    }
+    th:not(.sub) {
+        border-bottom: 2px solid #000000;
+    }
+}
+.sub {
+    border-top: 2px solid #027cc5;
+    border-bottom: 2px solid #027cc5;
+    background-color: #DCDCDC;
+}
+span {
+    .marker {
+        background-color: yellow;
+    }
+}
+
+.qrcode {
+    height: 75px;
+    width: 100px;
+}
+
+.headerRow {
+  background-color: #f1f8e9;
+}
+
+.textRow {
+  font-weight: normal;
+  font-style: italic;
+}
+
+.subTotalRow {
+  background-color: #c8e6c9;
+}
+
+.alignRight {
+  text-align:right;
+}
+
+.grandTotalAllActivities {
+  background-color: #e8f5e9;
+  width: 110px;
+  text-align: right;
+  font-weight: bold;
+  border-top: 1.5px solid black;
+  padding: 10px 0px 6px 0px;
+}
