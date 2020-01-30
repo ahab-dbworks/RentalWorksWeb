@@ -96,8 +96,12 @@ class QuikActivityCalendar {
                     <div class="flexcolumn">
                       <div class="flexrow" style="max-width:inherit;">
                          <div class="fwcontrol fwcontainer fwform-section activities-header" data-control="FwContainer" data-type="section" data-caption="Activities">
-                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="Summary"></div>
-                        </div>
+                            <div class="flexrow">
+                                <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="Summary"></div>
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="My Activities only" data-datafield="MyActivity"></div>
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Complete Activities" data-datafield="CompleteActivity"></div>
+                            </div>                        
+                         </div>
                       </div>
                       <div class="flexrow" style="max-width:inherit;">
                         <div data-control="FwGrid" data-grid="QuikActivityGrid" data-securitycaption="QuikActivity" style="overflow:auto;max-height:80vh;"></div>
@@ -107,11 +111,20 @@ class QuikActivityCalendar {
         FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
         $popup = FwPopup.renderPopup($popup, { ismodal: true });
         //render QuikActivity grid
+        //const $quikActivityGrid = $popup.find('div[data-grid="QuikActivityGrid"]');
+        //const $quikActivityGridControl = FwBrowse.loadGridFromTemplate('QuikActivityGrid');
+        //$quikActivityGrid.empty().append($quikActivityGridControl);
+        //FwBrowse.init($quikActivityGridControl);
+        //FwBrowse.renderRuntimeHtml($quikActivityGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'QuikActivityGrid',
+            gridSecurityId: 'yhYOLhLE92IT',
+            moduleSecurityId: this.id,
+            $form: $popup
+        });
         const $quikActivityGrid = $popup.find('div[data-grid="QuikActivityGrid"]');
-        const $quikActivityGridControl = FwBrowse.loadGridFromTemplate('QuikActivityGrid');
-        $quikActivityGrid.empty().append($quikActivityGridControl);
-        FwBrowse.init($quikActivityGridControl);
-        FwBrowse.renderRuntimeHtml($quikActivityGridControl);
+        const $quikActivityGridControl = $popup.find('div[data-name="QuikActivityGrid"]');
+
         FwFormField.loadItems($popup.find('div[data-datafield="Summary"]'), [
             { value: 'true', caption: 'Summary', selected: true },
             { value: 'false', caption: 'Detail' }
@@ -122,7 +135,6 @@ class QuikActivityCalendar {
 
         $popup.find('.close-modal').on('click', function (e) {
             FwPopup.detachPopup($popup);
-            //$popup.hide();
         });
 
         $popup.find('[data-datafield="Summary"]').on('change', e => {
@@ -144,6 +156,17 @@ class QuikActivityCalendar {
                 });
             }
             FwBrowse.search($quikActivityGridControl);
+        });
+
+        $popup.find('[data-datafield="MyActivity"], [data-datafield="CompleteActivity"]').on('change', e => {
+            const onDataBind = $quikActivityGridControl.data('ondatabind');
+            if (typeof onDataBind == 'function') {
+                $quikActivityGridControl.data('ondatabind', request => {
+                    onDataBind(request);
+                    request.MyActivity = FwFormField.getValueByDataField($popup, 'MyActivity');
+                    request.CompleteActivity = FwFormField.getValueByDataField($popup, 'CompleteActivity');
+                });
+            }
         });
 
         $calendar
