@@ -38,6 +38,12 @@ namespace WebApi.Modules.Settings.ActivityType
         public string Color { get { return activityType.Color; } set { activityType.Color = value; } }
         [FwLogicProperty(Id: "e3OMNwqVy5ar8")]
         public string TextColor { get { return activityType.TextColor; } set { activityType.TextColor = value; } }
+        [FwLogicProperty(Id: "dvtqERbFSrOnt")]
+        public bool? IsWarehouseOutbound { get { return activityType.IsWarehouseOutbound; } set { activityType.IsWarehouseOutbound = value; } }
+        [FwLogicProperty(Id: "dzbthlrSszpio")]
+        public bool? IsWarehouseInbound { get { return activityType.IsWarehouseInbound; } set { activityType.IsWarehouseInbound = value; } }
+        [FwLogicProperty(Id: "Evv6fua99ARFe")]
+        public bool? IsWarehouseDispatch { get { return activityType.IsWarehouseDispatch; } set { activityType.IsWarehouseDispatch = value; } }
         [FwLogicProperty(Id: "E54G216rnW6rf")]
         public bool? Inactive { get { return activityType.Inactive; } set { activityType.Inactive = value; } }
         [FwLogicProperty(Id: "E6oKVoRG5A9v0")]

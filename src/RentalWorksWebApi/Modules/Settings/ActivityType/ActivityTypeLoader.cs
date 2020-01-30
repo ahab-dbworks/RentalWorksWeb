@@ -49,6 +49,15 @@ namespace WebApi.Modules.Settings.ActivityType
         [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string TextColor { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseoutbound", modeltype: FwDataTypes.Boolean)]
+        public bool? IsWarehouseOutbound { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseinbound", modeltype: FwDataTypes.Boolean)]
+        public bool? IsWarehouseInbound { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehousedispatch", modeltype: FwDataTypes.Boolean)]
+        public bool? IsWarehouseDispatch { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -59,6 +68,9 @@ namespace WebApi.Modules.Settings.ActivityType
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            addFilterToSelect("IsWarehouseOutbound", "warehouseoutbound", select, request);
+            addFilterToSelect("IsWarehouseInbound", "warehouseinbound", select, request);
+            addFilterToSelect("IsWarehouseDispatch", "warehousedispatch", select, request);
         }
         //------------------------------------------------------------------------------------ 
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
