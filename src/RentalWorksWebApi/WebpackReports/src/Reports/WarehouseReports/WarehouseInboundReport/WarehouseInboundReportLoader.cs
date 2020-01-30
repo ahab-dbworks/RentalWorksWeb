@@ -91,26 +91,15 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    //select.AddWhere("(xxxxid ^> ')"); 
-                    //select.AddWhereIn("locationid", request.OfficeLocationId); 
-                    //select.AddWhereIn("departmentid", request.DepartmentId); 
-                    //addDateFilterToSelect("datefieldname1", request.DateValue1, select, "^>=", "dateparametername(optional)"); 
-                    //addDateFilterToSelect("datefieldname2", request.DateValue2, select, "^<=", "dateparametername(optional)"); 
-                    //if (!request.BooleanField.GetValueOrDefault(false)) 
-                    //{ 
-                    //    select.AddWhere("somefield ^<^> 'T'"); 
-                    //} 
-                    select.AddOrderBy("field1,field2");
+                    select.AddWhereIn("warehouseid", request.WarehouseId);
+                    select.AddWhereIn("activitytypeid", request.ActivityTypeId);
+                    select.AddWhereIn("assignedtousersid", request.AgentId);
+                    select.AddWhereIn("departmentid", request.DepartmentId);
+                    //select.AddOrderBy("field1,field2");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            //if (request.IncludeSubHeadingsAndSubTotals)
-            //{
-            //    string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-            //    dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-            //    dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
-            //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            //}
+
             return dt;
         }
         //------------------------------------------------------------------------------------ 

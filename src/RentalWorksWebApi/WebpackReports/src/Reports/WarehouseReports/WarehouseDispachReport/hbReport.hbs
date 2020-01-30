@@ -6,6 +6,7 @@
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
     <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
+    <span class="rpt-header-center">Warehouse: {{Warehouse}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
@@ -15,60 +16,39 @@
   <table>
     <thead>
       <tr>
-        <th>Invoice No.</th>
-        <th>Invoice Date</th>
+        <th>Pick Date</th>
+        <th>Activity Date</th>
+        <th>Order No.</th>
         <th>Deal</th>
-        <th>PO Description</th>
-        <th>Billing Start</th>
-        <th>Billing End</th>
+        <th>Order Type</th>
+        <th>Activity</th>
         <th>Status</th>
-        <th class="number">Invoice Total</th>
+        <th class="number">Item Qty.</th>
+        <th>Ship Type</th>
+        <th>Carrier</th>
+        <th>Ship Via</th>
+        <th>Outgoing Location</th>
+        <th>Freight PO</th>
+        <th>Tracking No.</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Vendorheader"}}
-        <td colspan="5" class="lower header-row">Vendor: {{Vendor}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "PurchaseOrderNumberheader"}}
-        <td colspan="5" class="lower header-row">PO No: {{PurchaseOrderNumber}}</td>
-        {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td data-value="{{InvoiceNumber}}"></td>
-        <td data-value="{{InvoiceDate}}"></td>
+        <td data-value="{{ActivityDateTime}}"></td>
+        <td data-value="{{OrderNumber}}"></td>
         <td data-value="{{Deal}}"></td>
-        <td data-value="{{PurchaseOrderDescription}}"></td>
-        <td data-value="{{BillingStartDate}}"></td>
-        <td data-value="{{BillingEndDate}}"></td>
-        <td data-value="{{Status}}"></td>
-        <td class="number" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Vendorfooter"}}
-        <td colspan="7" class="total-name">{{Vendor}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "PurchaseOrderNumberfooter"}}
-        <td colspan="7" class="total-name">{{PurchaseOrderNumber}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="7" class="total-name">{{Department}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="7" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
+        <td data-value="{{OrderType}}"></td>
+        <td data-value="{{ActivityType}}"></td>
+        <td data-value="{{OrderStatus}}"></td>
+        <td class="number" data-value="{{TotalQuantity}}"></td>
+        <td data-value="{{Carrier}}"></td>
+        <td data-value="{{Carrier}}"></td>
+        <td data-value="{{ShipVia}}"></td>
+        <td data-value="{{OutgoingLocation}}"></td>
+        <td data-value="{{FreightPoNumber}}"></td>
+        <td data-value="{{TrackingNumber}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

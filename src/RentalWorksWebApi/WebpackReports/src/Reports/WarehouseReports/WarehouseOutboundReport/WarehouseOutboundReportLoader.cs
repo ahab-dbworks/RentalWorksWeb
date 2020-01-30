@@ -101,24 +101,13 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddWhereIn("warehouseid", request.WarehouseId);
-                    select.AddWhereIn("projectid", request.ActivityTypeId);
-                    select.AddWhereIn("vendorid", request.AgentId);
-                    select.AddWhereIn("departmentid", request.InventoryTypeId);
+                    select.AddWhereIn("activitytypeid", request.ActivityTypeId);
+                    select.AddWhereIn("assignedtousersid", request.AgentId);
+                    select.AddWhereIn("inventorytypeid", request.InventoryTypeId);
                     select.AddWhereIn("departmentid", request.DepartmentId);
-                    select.AddOrderBy("field1,field2");
+                    //select.AddOrderBy("field1,field2");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
-            }
-            if (request.IncludeSubHeadingsAndSubTotals)
-            {
-                string[] totalFields = new string[] { "", "" };
-                dt.InsertSubTotalRows("Department", "RowType", totalFields);
-                dt.InsertSubTotalRows("OrderType", "RowType", totalFields);
-                dt.InsertSubTotalRows("Activity", "RowType", totalFields);
-
-                dt.InsertSubTotalRows("OrderType", "RowType", totalFields);
-
-                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
         }
