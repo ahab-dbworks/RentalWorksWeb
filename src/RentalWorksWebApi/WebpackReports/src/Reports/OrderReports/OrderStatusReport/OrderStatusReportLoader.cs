@@ -7,7 +7,7 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.OrderStatusReport
 {
-    [FwSqlTable("getorderstatussummary(@orderid)")]
+    [FwSqlTable("dbo.getorderstatussummary(@orderid)")]
     public class OrderStatusReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -213,28 +213,21 @@ namespace WebApi.Modules.Reports.OrderStatusReport
         {
             useWithNoLock = false;
             FwJsonDataTable dt = null;
+
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                //--------------------------------------------------------------------------------- 
-                // below uses a "select" query to populate the FwJsonDataTable 
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-                select.UseOptionRecompile = true;
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getorderstatussummary", this.AppConfig.DatabaseSettings.ReportTimeout))
+				select.UseOptionRecompile = true;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
-                    AddPropertiesAsQueryColumns(qry);
-                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                    select.AddParameter("@orderid", request.OrderId); 
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
-                //--------------------------------------------------------------------------------- 
             }
-            if (request.IncludeSubHeadingsAndSubTotals)
-            {
-                //dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-                //dt.InsertSubTotalRows("Department", "RowType", totalFields);
-            }
+
             return dt;
         }
         //------------------------------------------------------------------------------------ 
