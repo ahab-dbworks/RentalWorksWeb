@@ -2,10 +2,10 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Threading.Tasks;
 using WebApi.Data;
-namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
+namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderSummaryReport
 {
     [FwSqlTable("purchaseorderrptview")]
-    public class PurchaseOrderReportLoader : AppReportLoader
+    public class PurchaseOrderSummaryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -83,7 +83,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
         public string PayType { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(PurchaseOrderReportRequest request)
+        public async Task<FwJsonDataTable> RunReportAsync(PurchaseOrderSummaryReportRequest request)
         {
             useWithNoLock = false;
             FwJsonDataTable dt = null;

@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/purchaseorderreport/, action: function (match: RegExpExecArray) {
-        return PurchaseOrderReportController.getModuleScreen();
+    pattern: /^reports\/purchaseordersummaryreport/, action: function (match: RegExpExecArray) {
+        return PurchaseOrderSummaryReportController.getModuleScreen();
     }
 });
 
-const purchaseOrderReportTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Purchase Order Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PurchaseOrderReportController">
+const purchaseOrderSummaryReportTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Purchase Order Summary Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PurchaseOrderSummaryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -59,10 +59,10 @@ const purchaseOrderReportTemplate = `
   </div>
 </div>`;
 //----------------------------------------------------------------------------------------------
-class PurchaseOrderReport extends FwWebApiReport {
+class PurchaseOrderSummaryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('PurchaseOrderReport', 'api/v1/purchaseorderreport', purchaseOrderReportTemplate);
+        super('PurchaseOrderSummaryReport', 'api/v1/purchaseordersummaryreport', purchaseOrderSummaryReportTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -137,4 +137,4 @@ class PurchaseOrderReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var PurchaseOrderReportController: any = new PurchaseOrderReport();
+var PurchaseOrderSummaryReportController: any = new PurchaseOrderSummaryReport();

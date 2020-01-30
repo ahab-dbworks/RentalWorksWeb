@@ -16,9 +16,9 @@ using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Settings.PoSettings.PoApprovalStatus;
 
-namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
+namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderSummaryReport
 {
-    public class PurchaseOrderReportRequest : AppReportRequest
+    public class PurchaseOrderSummaryReportRequest : AppReportRequest
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
@@ -32,12 +32,12 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "yrvMp4sG8CzF")]
-    public class PurchaseOrderReportController : AppReportController
+    public class PurchaseOrderSummaryReportController : AppReportController
     {
-        public PurchaseOrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(PurchaseOrderReportLoader); }
-        protected override string GetReportFileName() { return "PurchaseOrderReport"; }
+        public PurchaseOrderSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(PurchaseOrderSummaryReportLoader); }
+        protected override string GetReportFileName() { return "PurchaseOrderSummaryReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Purchase Order Report"; }
+        protected override string GetReportFriendlyName() { return "Purchase Order Summary Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -50,32 +50,32 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "PurchaseOrderReport";
+            return "PurchaseOrderSummaryReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreport/render 
+        // POST api/v1/purchaseordersummaryreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id: "2wrr1zqjxBeJ ")]
+        [FwControllerMethod(Id: "23O945zFVMXg")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
             return actionResult;
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreport/exportexcelxlsx
+        // POST api/v1/purchaseordersummaryreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "UI4h7OwUWj3W ")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]PurchaseOrderReportRequest request)
+        [FwControllerMethod(Id: "UI4h7OwUWj3W")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]PurchaseOrderSummaryReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreport/runreport 
+        // POST api/v1/purchaseordersummaryreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id: "DkJYaS2uq9g  ")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]PurchaseOrderReportRequest request)
+        [FwControllerMethod(Id: "DkJYaS2uq9g")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]PurchaseOrderSummaryReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             }
             try
             {
-                PurchaseOrderReportLoader l = new PurchaseOrderReportLoader();
+                PurchaseOrderSummaryReportLoader l = new PurchaseOrderSummaryReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 l.HideDetailColumnsInSummaryDataTable(request, dt);
@@ -95,7 +95,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreport/validatewarehouse/browse 
+        // POST api/v1/purchaseordersummaryreport/validatewarehouse/browse 
         [HttpPost("validatewarehouse/browse")]
         [FwControllerMethod(Id: "z0NBeIxzTYDc", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
@@ -103,7 +103,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreport/validateproject/browse 
+        // POST api/v1/purchaseordersummaryreport/validateproject/browse 
         [HttpPost("validateproject/browse")]
         [FwControllerMethod(Id: "MqPM8K6Qgg5C", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateProjectBrowseAsync([FromBody]BrowseRequest browseRequest)
@@ -111,7 +111,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             return await DoBrowseAsync<ProjectLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreport/validatevendor/browse 
+        // POST api/v1/purchaseordersummaryreport/validatevendor/browse 
         [HttpPost("validatevendor/browse")]
         [FwControllerMethod(Id: "1KjrQPUPd9CI", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateVendorBrowseAsync([FromBody]BrowseRequest browseRequest)
@@ -119,7 +119,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             return await DoBrowseAsync<VendorLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreport/validatedepartment/browse 
+        // POST api/v1/purchaseordersummaryreport/validatedepartment/browse 
         [HttpPost("validatedepartment/browse")]
         [FwControllerMethod(Id: "zWMBC4Is3Lk1", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
@@ -127,7 +127,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             return await DoBrowseAsync<DepartmentLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreport/validatepoapprovalstatus/browse 
+        // POST api/v1/purchaseordersummaryreport/validatepoapprovalstatus/browse 
         [HttpPost("validatepoapprovalstatus/browse")]
         [FwControllerMethod(Id: "v79xM6xt5mKE", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateApprovalStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
