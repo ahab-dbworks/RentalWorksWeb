@@ -33,7 +33,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RentalEquipmentRepairHistory
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "bLX4YBftwJvw ")]
+    [FwController(Id: "bLX4YBftwJvw")]
     public class RentalEquipmentRepairHistoryReportController : AppReportController
     {
         public RentalEquipmentRepairHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalEquipmentRepairHistoryReportLoader); }

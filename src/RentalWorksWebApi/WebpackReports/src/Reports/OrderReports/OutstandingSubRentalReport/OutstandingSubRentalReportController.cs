@@ -35,7 +35,7 @@ namespace WebApi.Modules.Reports.OrderReports.OutstandingSubRentalReport
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "NCFNATdQRx5E ")]
+    [FwController(Id: "NCFNATdQRx5E")]
     public class OutstandingSubRentalReportController : AppReportController
     {
         public OutstandingSubRentalReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OutstandingSubRentalReportLoader); }

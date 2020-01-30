@@ -31,7 +31,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "yrvMp4sG8CzF ")]
+    [FwController(Id: "yrvMp4sG8CzF")]
     public class PurchaseOrderReportController : AppReportController
     {
         public PurchaseOrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(PurchaseOrderReportLoader); }

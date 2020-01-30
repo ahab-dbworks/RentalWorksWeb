@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.OrderReports.SubSalesStagedItemsReport
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "2GIJvJlbIFQN ")]
+    [FwController(Id: "2GIJvJlbIFQN")]
     public class SubSalesStagedItemsReportController : AppReportController
     {
         public SubSalesStagedItemsReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SubSalesStagedItemsReportLoader); }

@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.Billing.BillingAnalysisReport
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "c2AwOP9UmJFw ")]
+    [FwController(Id: "c2AwOP9UmJFw")]
     public class BillingAnalysisReportController : AppReportController
     {
         public BillingAnalysisReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(BillingAnalysisReportLoader); }
