@@ -33,13 +33,14 @@
     "jest-html-reporter": "2.6.2"
   },
   "scripts": {
-    "test-rentalworksapi": "jest --config=jest.rentalworksapi.config.js",
-    "test-rentalworksweb": "jest --config=jest.rentalworksweb.config.js",
-    "InventoryIntegrityTest": "jest --config=jest.rentalworksweb.config.js -t InventoryIntegrityTest",
-    "LoginLogoutTest": "jest --config=jest.rentalworksweb.config.js -t LoginLogoutTest",
-    "MediumRegressionTest": "jest --config=jest.rentalworksweb.config.js -t MediumRegressionTest",
-    "RunReportsTest": "jest --config=jest.rentalworksweb.config.js -t RunReportsTest",
-    "ShallowRegressionTest": "jest --config=jest.rentalworksweb.config.js -t ShallowRegressionTest"
+    "test-rentalworkswebapi": "npx jest --config=jest.rentalworkswebapi.config.js -t WebApiTest",
+    "test-rentalworksapi": "npx jest --config=jest.rentalworksapi.config.js",
+    "test-rentalworksweb": "npx jest --config=jest.rentalworksweb.config.js",
+    "InventoryIntegrityTest": "npx jest --config=jest.rentalworksweb.config.js -t InventoryIntegrityTest",
+    "LoginLogoutTest": "npx jest --config=jest.rentalworksweb.config.js -t LoginLogoutTest",
+    "MediumRegressionTest": "npx jest --config=jest.rentalworksweb.config.js -t MediumRegressionTest",
+    "RunReportsTest": "npx jest --config=jest.rentalworksweb.config.js -t RunReportsTest",
+    "ShallowRegressionTest": "npx jest --config=jest.rentalworksweb.config.js -t ShallowRegressionTest"
   },
   "license": "UNLICENSED"
 }
