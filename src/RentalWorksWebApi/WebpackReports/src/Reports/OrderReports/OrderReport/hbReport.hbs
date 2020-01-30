@@ -217,6 +217,7 @@
         {{#ifEquals ItemClass "ST"}}
         <td data-itemclass="{{ItemClass}}" class="subTotalRow"></td>
         {{/ifEquals}}
+
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
@@ -355,11 +356,12 @@
 </div>
 
 <!-- Sales Activity -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each SalesItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!-- spacer row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
@@ -519,11 +521,12 @@
 </div>
 
 <!-- Misc Activity -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each MiscItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!-- spacer row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
@@ -683,11 +686,12 @@
 </div>
 
 <!-- Labor Activity -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each LaborItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!-- spacer row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
@@ -847,11 +851,12 @@
 </div>
 
 <!-- Facilities Activity -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each FacilityItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!-- spacer row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
@@ -1009,7 +1014,8 @@
     {{/each}}
   </table>
 </div>
-<div class="rpt-flexrow" style="">
+
+<div class="rpt-flexrow" style="margin-top:25px;">
   {{#each Items}}
   {{#ifEquals RowType "grandtotal"}}
   <table class="grandTotalRow">
