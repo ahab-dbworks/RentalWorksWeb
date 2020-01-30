@@ -15,40 +15,51 @@
   <table>
     <thead>
       <tr>
-        <th>Invoice No.</th>
-        <th>Invoice Date</th>
+        <th>Pick Date</th>
+        <th>Start Date</th>
+        <th>Order No.</th>
         <th>Deal</th>
-        <th>PO Description</th>
-        <th>Billing Start</th>
-        <th>Billing End</th>
         <th>Status</th>
-        <th class="number">Invoice Total</th>
+        <th>Assigned To</th>
+        <th class="number">Staged</th>
+        <th class="number">Items</th>
+        <th class="number">Remaining</th>
+        <th class="number">%</th>
+        <th>Load Date</th>
+        <th>Outgoing Address</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentheader"}}
         <td colspan="5" class="lower header-row">Department: {{Department}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Vendorheader"}}
-        <td colspan="5" class="lower header-row">Vendor: {{Vendor}}</td>
+        <td colspan="5" class="lower header-row">Order Type: {{OrderType}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "PurchaseOrderNumberheader"}}
-        <td colspan="5" class="lower header-row">PO No: {{PurchaseOrderNumber}}</td>
+        {{#ifEquals RowType "Activityheader"}}
+        <td colspan="5" class="lower header-row">Activity: {{Activity}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OutboundTypeheader"}}
+        <td colspan="5" class="lower header-row">Outbound Type: {{OutboundType}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td data-value="{{InvoiceNumber}}"></td>
-        <td data-value="{{InvoiceDate}}"></td>
+        <td data-value="{{PickDate}}"></td>
+        <td data-value="{{ActivityDateTime}}"></td>
+        <td data-value="{{OrderNumber}}"></td>
         <td data-value="{{Deal}}"></td>
-        <td data-value="{{PurchaseOrderDescription}}"></td>
-        <td data-value="{{BillingStartDate}}"></td>
-        <td data-value="{{BillingEndDate}}"></td>
-        <td data-value="{{Status}}"></td>
-        <td class="number" data-value="{{InvoiceTotal}}"></td>
+        <td data-value="{{ActivityStatus}}"></td>
+        <td data-value="{{AssignedToUserName}}"></td>
+        <td class="number" data-value="{{TotalQuantity}}"></td>
+        <td class="number" data-value="{{CompleteQuantity}}"></td>
+        <td class="number" data-value="{{RemainingQuantity}}"></td>
+        <td class="number" data-value="{{CompletePercent}}"></td>
+        <td data-value="{{LoadInDateTime}}"></td>
+        <td data-value="{{OutgoingLocation}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Vendorfooter"}}
         <td colspan="7" class="total-name">{{Vendor}}&nbsp;</td>
