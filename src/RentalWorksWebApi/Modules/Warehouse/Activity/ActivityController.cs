@@ -10,14 +10,14 @@ namespace WebApi.Modules.Warehouse.Activity
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "warehouse-v1")]
-    [FwController(Id: "dOXDoJpNXHwlp")]
+    [FwController(Id: "hb52dbhX1mNLZ")]
     public class ActivityController : AppDataController
     {
         public ActivityController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ActivityLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/activity/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "DoxYlQ3m74o7u", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "hbxB4lkqGW1Cc", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -25,7 +25,7 @@ namespace WebApi.Modules.Warehouse.Activity
         //------------------------------------------------------------------------------------ 
         // POST api/v1/activity/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "Dp3vWQz0YlkRG", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "HBzMVbnsD1xOU", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Warehouse.Activity
         //------------------------------------------------------------------------------------ 
         // GET api/v1/activity 
         [HttpGet]
-        [FwControllerMethod(Id: "dPqLDrPyb3ijz", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "HCC9LsTYnihhc", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ActivityLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ActivityLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Warehouse.Activity
         //------------------------------------------------------------------------------------ 
         // GET api/v1/activity/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "DQ9POzO8w97r7", ActionType: FwControllerActionTypes.View)]
+        [FwControllerMethod(Id: "hCRmllkN7i1iF", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<ActivityLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ActivityLogic>(id);
@@ -49,7 +49,7 @@ namespace WebApi.Modules.Warehouse.Activity
         //------------------------------------------------------------------------------------ 
         // POST api/v1/activity 
         [HttpPost]
-        [FwControllerMethod(Id: "Dr4Pnus534GOp", ActionType: FwControllerActionTypes.New)]
+        [FwControllerMethod(Id: "hCrqWIhmu5hOq", ActionType: FwControllerActionTypes.New)]
         public async Task<ActionResult<ActivityLogic>> NewAsync([FromBody]ActivityLogic l)
         {
             return await DoNewAsync<ActivityLogic>(l);
@@ -57,7 +57,7 @@ namespace WebApi.Modules.Warehouse.Activity
         //------------------------------------------------------------------------------------ 
         // PUT api/v1/activity/A0000001 
         [HttpPut("{id}")]
-        [FwControllerMethod(Id: "DRCMNE8EGhzhh", ActionType: FwControllerActionTypes.Edit)]
+        [FwControllerMethod(Id: "HdjMfJo1jBt08", ActionType: FwControllerActionTypes.Edit)]
         public async Task<ActionResult<ActivityLogic>> EditAsync([FromRoute] string id, [FromBody]ActivityLogic l)
         {
             return await DoEditAsync<ActivityLogic>(l);
@@ -65,7 +65,7 @@ namespace WebApi.Modules.Warehouse.Activity
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/activity/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "driUiZiWYzv7W", ActionType: FwControllerActionTypes.Delete)]
+        [FwControllerMethod(Id: "HDKy8swBuurzB", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ActivityLogic>(id);

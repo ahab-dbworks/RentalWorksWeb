@@ -34,6 +34,12 @@ namespace WebApi.Modules.Warehouse.Activity
         [FwSqlDataField(column: "completepct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 6, scale: 3)]
         public decimal? CompletePercent { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string OfficeLocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
