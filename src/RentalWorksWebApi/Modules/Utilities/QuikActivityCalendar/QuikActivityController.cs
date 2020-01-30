@@ -46,6 +46,14 @@ namespace WebApi.Modules.Utilities.QuikActivity
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // PUT api/v1/quikactivity/A0000001 
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "jGm20mzeOp7Qi", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<QuikActivityLogic>> EditAsync([FromRoute] string id, [FromBody]QuikActivityLogic l)
+        {
+            return await DoEditAsync<QuikActivityLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/quikactivity/validatewarehouse/browse
         [HttpPost("validatewarehouse/browse")]
         [FwControllerMethod(Id: "zLGR9juMsCx9", ActionType: FwControllerActionTypes.Browse)]
