@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Agent.OrderManifest
 {
-    [FwSqlTable("dbo.funcvaluesheet(@orderid, @rentalvalue, @salesvalue, @applanguageid, @outonly, @excel)")]
+    [FwSqlTable("dbo.funcvaluesheetweb(@orderid, @rentalvalue, @salesvalue, @filterby, @mode)")]
     public class OrderManifestLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -89,22 +89,17 @@ namespace WebApi.Modules.Agent.OrderManifest
             string orderId          = GetUniqueIdAsString("OrderId", request) ?? ""; 
             string rentalValue      = GetUniqueIdAsString("RentalValue", request) ?? ""; 
             string salesValue       = GetUniqueIdAsString("SalesValue", request) ?? ""; 
-            string appLanguageId    = GetUniqueIdAsString("AppLanguageId", request) ?? ""; 
-            string outOnly          = GetUniqueIdAsString("OutOnly", request) ?? ""; 
-            string excel            = GetUniqueIdAsString("Excel", request) ?? ""; 
+            string filterBy         = GetUniqueIdAsString("FilterBy", request) ?? ""; 
+            string mode             = GetUniqueIdAsString("Mode", request) ?? ""; 
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
-            //select.AddWhere("orderid(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
-
             select.AddParameter("@orderid", orderId); 
             select.AddParameter("@rentalvalue", rentalValue); 
             select.AddParameter("@salesvalue", salesValue); 
-            select.AddParameter("@applanguageid", appLanguageId); 
-            select.AddParameter("@outonly", outOnly); 
-            select.AddParameter("@excel", excel); 
+            select.AddParameter("@filterby", filterBy); 
+            select.AddParameter("@mode", mode); 
         }
         //------------------------------------------------------------------------------------ 
     }
