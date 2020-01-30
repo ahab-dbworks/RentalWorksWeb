@@ -31,6 +31,7 @@
                     for (let keyReport in constNodeCategory.children) {
                         const constNodeReport = constNodeCategory.children[keyReport];
                         const secNodeReport = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeReport.id);
+                        if (secNodeReport === null) { console.error(`${keyReport} not found. Check report API controller and/ or security ids`); }
                         if (secNodeReport !== null && secNodeReport.properties.visible === 'T') {
                             var moduleObj = [];
                             moduleObj.push(constNodeReport.caption, keyReport, constNodeCategory.caption, constNodeReport.description, constNodeCategory.caption);
