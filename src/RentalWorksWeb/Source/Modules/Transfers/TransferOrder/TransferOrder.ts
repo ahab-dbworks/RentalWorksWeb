@@ -554,6 +554,26 @@ class TransferOrder {
             const salesTab = $form.find('.salesTab');
             $this.prop('checked') === true ? salesTab.show() : salesTab.hide();
         });
+
+        //Activity Filters
+        const $activityGrid = $form.find('[data-name="ActivityGrid"]');
+        $form.on('change', '.activity-filters', e => {
+            const onDataBind = $activityGrid.data('ondatabind');
+            if (typeof onDataBind == 'function') {
+                const fromDate = FwFormField.getValueByDataField($form, 'ActivityFromDate');
+                const toDate = FwFormField.getValueByDataField($form, 'ActivityToDate');
+                const activityTypes = FwFormField.getValueByDataField($form, 'ActivityTypeId');
+                const showShipping = FwFormField.getValueByDataField($form, 'ShowShipping');
+                const showSubPo = FwFormField.getValueByDataField($form, 'ShowSubPo');
+                const showComplete = FwFormField.getValueByDataField($form, 'ShowComplete');
+                $activityGrid.data('ondatabind', function (request) {
+                    onDataBind(request);
+                    
+                });
+                FwBrowse.search($activityGrid);
+            }
+
+        });
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
