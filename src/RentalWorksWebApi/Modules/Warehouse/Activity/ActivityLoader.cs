@@ -9,7 +9,7 @@ namespace WebApi.Modules.Warehouse.Activity
     public class ActivityLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activityid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
+        [FwSqlDataField(column: "activityid", modeltype: FwDataTypes.Integer, identity: true, isPrimaryKey: true)]
         public int? ActivityId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer)]
@@ -112,6 +112,7 @@ namespace WebApi.Modules.Warehouse.Activity
             addFilterToSelect("OrderId", "orderid", select, request);
             addFilterToSelect("ActivityTypeId", "activitytypeid", select, request);
             addFilterToSelect("AssignedToUserId", "assignedtousersid", select, request);
+            select.AddWhere("activitydatetime is not null");
         }
         //------------------------------------------------------------------------------------ 
     }
