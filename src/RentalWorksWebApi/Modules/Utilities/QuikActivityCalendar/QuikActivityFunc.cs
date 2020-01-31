@@ -19,6 +19,8 @@ namespace WebApi.Modules.Utilities.QuikActivity
             public string WarehouseId { get; set; }
             public string DepartmentId { get; set; }
             public string ActivityTypeId { get; set; }
+            public string AssignedToUserId { get; set; }
+            public bool? IncludeCompleted { get; set; }
             public bool? IncludeTimes { get; set; }
         }
         public class QuikActivityCalendarEvent
@@ -51,6 +53,8 @@ namespace WebApi.Modules.Utilities.QuikActivity
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, request.DepartmentId);
                     qry.AddParameter("@activitytypeid", SqlDbType.NVarChar, ParameterDirection.Input, request.ActivityTypeId);
+                    qry.AddParameter("@assignedtousersid", SqlDbType.NVarChar, ParameterDirection.Input, request.AssignedToUserId);
+                    qry.AddParameter("@includecompleted", SqlDbType.NVarChar, ParameterDirection.Input, request.IncludeCompleted);
                     qry.AddParameter("@includetimes", SqlDbType.NVarChar, ParameterDirection.Input, request.IncludeTimes);
                     FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync(true);
 
