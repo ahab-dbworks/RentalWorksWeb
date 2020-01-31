@@ -10,7 +10,7 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
-export class OrderStatusReport extends WebpackReport {
+export class OrderStatusSummaryReport extends WebpackReport {
     order: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
@@ -19,45 +19,47 @@ export class OrderStatusReport extends WebpackReport {
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    //Ajax.post<DataTable>(`${apiUrl}/api/v1/orderstatusreport/runreport`, authorizationHeader, parameters)
-                    //    .then((response: DataTable) => {
-                    //        const data: any = response;
-                            let data: any = {
-                                OfficeLocationCompany: "Fuse Technical Group",
-                                OfficeLocationAddress1: "3700 Cohasset St",
-                                OfficeLocationAddress2: "Some Suite",
-                                OfficeLocationCityStateZipCodeCountry: "Burbank, CA 91505",
-                                OfficeLocationPhone: "1-800-IM-GONNA-SHOW-YA",
-                                Report: "Order Status",
-                                OrderNumber: "L301318 AHAB TEST2",
-                                Deal: "L200021 A KNIGHT AT THE OPERA",
+                    Ajax.post<DataTable>(`${apiUrl}/api/v1/orderstatussummaryreport/runreport`, authorizationHeader, parameters)
+                        .then((response: DataTable) => {
+                            const data: any = DataTable.toObjectList(response);
+                            data.Items = data;
 
-                                Items: [
-                                    {
-                                        RowType: "RecTypeDisplayheader",
-                                        RecTypeDisplay: "RENTAL",
-                                        Bold: false
-                                    },
-                                    {
-                                        RowType: "detail",
-                                        RecTypeDisplay: "RENTAL",
-                                        ICode: "100893",
-                                        Description: "MEYER UPA-1P",
-                                        Bold: false,
-                                        QuantityOrdered: "1",
-                                        StageQuantity: 1,
-                                        OutQuantity: 0,
-                                        InQuantity: 1,
-                                        StillOutQuantity: 0
-                                    },
-                                    {
-                                        RowType: "RecTypeDisplayheader",
-                                        RecTypeDisplay: "SALES",
-                                        Bold: false
-                                    },
+                            //let data: any = {
+                            //    OfficeLocationCompany: "Fuse Technical Group",
+                            //    OfficeLocationAddress1: "3700 Cohasset St",
+                            //    OfficeLocationAddress2: "Some Suite",
+                            //    OfficeLocationCityStateZipCodeCountry: "Burbank, CA 91505",
+                            //    OfficeLocationPhone: "1-800-IM-GONNA-SHOW-YA",
+                            //    Report: "Order Status",
+                            //    OrderNumber: "L301318 AHAB TEST2",
+                            //    Deal: "L200021 A KNIGHT AT THE OPERA",
 
-                                ]
-                            };
+                            //    Items: [
+                            //        {
+                            //            RowType: "RecTypeDisplayheader",
+                            //            RecTypeDisplay: "RENTAL",
+                            //            Bold: false
+                            //        },
+                            //        {
+                            //            RowType: "detail",
+                            //            RecTypeDisplay: "RENTAL",
+                            //            ICode: "100893",
+                            //            Description: "MEYER UPA-1P",
+                            //            Bold: false,
+                            //            QuantityOrdered: "1",
+                            //            StageQuantity: 1,
+                            //            OutQuantity: 0,
+                            //            InQuantity: 1,
+                            //            StillOutQuantity: 0
+                            //        },
+                            //        {
+                            //            RowType: "RecTypeDisplayheader",
+                            //            RecTypeDisplay: "SALES",
+                            //            Bold: false
+                            //        },
+
+                            //    ]
+                            //};
                             data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
                             data.TermsAndConditions == '';
@@ -82,18 +84,18 @@ export class OrderStatusReport extends WebpackReport {
                             } else {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
-                            if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
-                                const termEl = document.getElementById('terms');
-                                termEl.innerHTML = data.TermsAndConditions;
-                                if (data.TermsAndConditionsNewPage) {
-                                    const termsRow = document.getElementById('termsRow');
-                                    termsRow.style.cssText = "page-break-before:always;";
-                                }
-                            }
+                            //if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
+                            //    const termEl = document.getElementById('terms');
+                            //    termEl.innerHTML = data.TermsAndConditions;
+                            //    if (data.TermsAndConditionsNewPage) {
+                            //        const termsRow = document.getElementById('termsRow');
+                            //        termsRow.style.cssText = "page-break-before:always;";
+                            //    }
+                            //}
                             this.onRenderReportCompleted();
-                        //}).catch((ex) => {
-                        //    this.onRenderReportFailed(ex);
-                        //});
+                        }).catch((ex) => {
+                            this.onRenderReportFailed(ex);
+                        });
                
 
 
@@ -157,4 +159,4 @@ export class OrderStatusReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new OrderStatusReport();
+(<any>window).report = new OrderStatusSummaryReport();
