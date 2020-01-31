@@ -124,6 +124,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Utilities.children.Dashboard,
                     Constants.Modules.Utilities.children.DashboardSettings,
                     Constants.Modules.Utilities.children.InventoryPurchaseUtility,
+                    Constants.Modules.Utilities.children.InventoryRetireUtility,
                     Constants.Modules.Utilities.children.MigrateOrders,
                     Constants.Modules.Utilities.children.InvoiceProcessBatch,
                     Constants.Modules.Utilities.children.ReceiptProcessBatch,

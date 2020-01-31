@@ -782,6 +782,7 @@ var Constants = {
                 Dashboard:                 { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'home', nodetype: 'Module' },
                 DashboardSettings:         { id: 'lXpomto7a29v', caption: 'Dashboard Settings', nav: 'module/dashboardsettings', nodetype: 'Module' },
                 InventoryPurchaseUtility:  { id: 'sOxbXBmCPc9y', caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility', nodetype: 'Module' },
+                InventoryRetireUtility:    { id: 'nCmN0OJdoK9SZ', caption: 'Inventory Retire Utility', nav: 'module/inventoryretireutility', nodetype: 'Module' },
                 InvoiceProcessBatch:       { id: 'I8d2wTNNRmRJa', caption: 'Process Invoices',        nav: 'module/invoiceprocessbatch', nodetype: 'Module' },
                 MigrateOrders:             { id: '8NYSNibMVoO',   caption: 'Migrate Orders',          nav: 'module/migrateorders', nodetype: 'Module' },
                 QuikActivityCalendar:      { id: 'yhYOLhLE92IT',  caption: 'QuikActivity Calendar',   nav: 'module/quikactivitycalendar', nodetype: 'Module' },
