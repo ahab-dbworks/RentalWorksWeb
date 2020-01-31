@@ -1,13 +1,10 @@
-using FwStandard.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using WebApi.Controllers;
-using System.Threading.Tasks;
-using FwStandard.SqlServer;
-using System.Collections.Generic;
 using FwStandard.AppManager;
-using System;
-using WebApi.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using WebApi.Controllers;
+using WebApi.Modules.Agent.OrderManifest;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -26,7 +23,7 @@ namespace WebApi.Modules.Agent.Order
         [FwControllerMethod(Id: "QCdz6hgmh7Dh", FwControllerActionTypes.ControlBrowse, ParentId: "8uhwXXJ95d3o")]
         public async Task<ActionResult<FwJsonDataTable>> ManifestBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest);
+            return await DoBrowseAsync<OrderManifestLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
@@ -37,7 +34,7 @@ namespace WebApi.Modules.Agent.Order
         /// <returns></returns>
         // POST api/v1/restrictedperson/{id}/aka/exportexcelxlsx 
         [HttpPost("{orderid}/manifest/exportexcelxlsx")]
-        [FwControllerMethod(Id: "KVAhgRQdvHQt", FwControllerActionTypes.ControlBrowse, ParentId: "8uhwXXJ95d3o")]
+        [FwControllerMethod(Id: "C9dUnuLJIb8K", FwControllerActionTypes.ControlBrowse, ParentId: "8uhwXXJ95d3o")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ManifestExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

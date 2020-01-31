@@ -34,73 +34,73 @@ namespace WebApi.Modules.Agent.OrderManifest
         public decimal? SubQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text)]
-        public string OrderitemId { get; set; }
+        public string OrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "countryoforigin", modeltype: FwDataTypes.Text)]
-        public string Countryoforigin { get; set; }
+        public string CountryOfOrigin { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "valueperitem", modeltype: FwDataTypes.Decimal)]
-        public decimal? Valueperitem { get; set; }
+        public decimal? ValuePerItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
         public string ItemOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dimensionslwh", modeltype: FwDataTypes.Text)]
-        public string Dimensionslwh { get; set; }
+        public string DimensionsLWH { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string Barcode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
-        public string Mfgserial { get; set; }
+        public string MfgSerial { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
         public string MfgPartNo { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "valueextended", modeltype: FwDataTypes.Decimal)]
-        public decimal? Valueextended { get; set; }
+        public decimal? ValueExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weightlbs", modeltype: FwDataTypes.Integer)]
-        public int? Weightlbs { get; set; }
+        public int? WeightLbs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weightoz", modeltype: FwDataTypes.Integer)]
-        public int? Weightoz { get; set; }
+        public int? WeightOz { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weightkg", modeltype: FwDataTypes.Integer)]
-        public int? Weightkg { get; set; }
+        public int? WeightKg { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weightgr", modeltype: FwDataTypes.Integer)]
-        public int? Weightgr { get; set; }
+        public int? WeightGr { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extweightlbs", modeltype: FwDataTypes.Integer)]
-        public int? Extweightlbs { get; set; }
+        public int? ExtendedWeightLbs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extweightoz", modeltype: FwDataTypes.Integer)]
-        public int? Extweightoz { get; set; }
+        public int? ExtendedWeightOz { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extweightkg", modeltype: FwDataTypes.Integer)]
-        public int? Extweightkg { get; set; }
+        public int? ExtendedWeightKg { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extweightgr", modeltype: FwDataTypes.Integer)]
-        public int? Extweightgr { get; set; }
+        public int? ExtendedWeightGr { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock           = false;
-            string orderId          = GetUniqueIdAsString("OrderId", request) ?? ""; 
-            string rentalValue      = GetUniqueIdAsString("RentalValue", request) ?? ""; 
-            string salesValue       = GetUniqueIdAsString("SalesValue", request) ?? ""; 
-            string filterBy         = GetUniqueIdAsString("FilterBy", request) ?? ""; 
-            string mode             = GetUniqueIdAsString("Mode", request) ?? ""; 
+            string orderId          = GetUniqueIdAsString("OrderId", request) ?? "";
+            string rentalValue      = GetUniqueIdAsString("RentalValue", request) ?? "";
+            string salesValue       = GetUniqueIdAsString("SalesValue", request) ?? "";
+            string filterBy         = GetUniqueIdAsString("FilterBy", request) ?? "";
+            string mode             = GetUniqueIdAsString("Mode", request) ?? "";
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
-            select.AddParameter("@orderid", orderId); 
-            select.AddParameter("@rentalvalue", rentalValue); 
-            select.AddParameter("@salesvalue", salesValue); 
-            select.AddParameter("@filterby", filterBy); 
-            select.AddParameter("@mode", mode); 
+            select.AddParameter("@orderid", orderId);
+            select.AddParameter("@rentalvalue", rentalValue);
+            select.AddParameter("@salesvalue", salesValue);
+            select.AddParameter("@filterby", filterBy);
+            select.AddParameter("@mode", mode);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -37,31 +37,31 @@ namespace WebApi.Modules.Agent.OrderManifest
         [FwLogicProperty(Id: "bc3T5x2532zHw", IsReadOnly: true)]
         public string ItemOrder { get; set; }
         [FwLogicProperty(Id: "bE3ezuJOGNaj8", IsReadOnly: true)]
-        public string Dimensionslwh { get; set; }
+        public string DimensionsLWH { get; set; }
         [FwLogicProperty(Id: "BwzcG1FurKxQA", IsReadOnly: true)]
         public string Barcode { get; set; }
         [FwLogicProperty(Id: "C7PJb2MhwIvK1", IsReadOnly: true)]
-        public string Mfgserial { get; set; }
+        public string MfgSerial { get; set; }
         [FwLogicProperty(Id: "cfpUE2sF0VN3t", IsReadOnly: true)]
         public string MfgPartNo { get; set; }
         [FwLogicProperty(Id: "CHOHxp0guUrXc", IsReadOnly: true)]
-        public decimal? Valueextended { get; set; }
+        public decimal? ValueExtended { get; set; }
         [FwLogicProperty(Id: "cj839U8ReKOiX", IsReadOnly: true)]
-        public int? Weightlbs { get; set; }
+        public int? WeightLbs { get; set; }
         [FwLogicProperty(Id: "CpWsvL6x4dIoL", IsReadOnly: true)]
-        public int? Weightoz { get; set; }
+        public int? WeightOz { get; set; }
         [FwLogicProperty(Id: "cpXZ3wltAhndU", IsReadOnly: true)]
-        public int? Weightkg { get; set; }
+        public int? WeightKg { get; set; }
         [FwLogicProperty(Id: "CrfHlBnifJiSz", IsReadOnly: true)]
-        public int? Weightgr { get; set; }
+        public int? WeightGr { get; set; }
         [FwLogicProperty(Id: "CvzBFv0ixWVV3", IsReadOnly: true)]
-        public int? Extweightlbs { get; set; }
+        public int? ExtendedWeightLbs { get; set; }
         [FwLogicProperty(Id: "D2eVF6735pf03", IsReadOnly: true)]
-        public int? Extweightoz { get; set; }
+        public int? ExtendedWeightOz { get; set; }
         [FwLogicProperty(Id: "d64pATk13Vu50", IsReadOnly: true)]
-        public int? Extweightkg { get; set; }
+        public int? ExtendedWeightKg { get; set; }
         [FwLogicProperty(Id: "dRh41HpRFx94d", IsReadOnly: true)]
-        public int? Extweightgr { get; set; }
+        public int? ExtendedWeightGr { get; set; }
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{ 
