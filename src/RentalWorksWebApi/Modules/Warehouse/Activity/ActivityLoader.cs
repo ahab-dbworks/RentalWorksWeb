@@ -112,6 +112,7 @@ namespace WebApi.Modules.Warehouse.Activity
             addFilterToSelect("OrderId", "orderid", select, request);
             addFilterToSelect("ActivityTypeId", "activitytypeid", select, request);
             addFilterToSelect("AssignedToUserId", "assignedtousersid", select, request);
+            select.AddWhere("activitydatetime is not null");
         }
         //------------------------------------------------------------------------------------ 
     }
