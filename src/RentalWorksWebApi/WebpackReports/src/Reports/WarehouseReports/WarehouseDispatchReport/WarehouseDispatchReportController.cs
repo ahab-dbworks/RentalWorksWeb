@@ -27,7 +27,7 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispatchReport
         public string DepartmentId { get; set; }
         public string AgentId { get; set; }
         public string ActivityTypeId { get; set; }
-        //public SelectedCheckBoxListItems SortBy { get; set; } = new SelectedCheckBoxListItems();
+        public CheckBoxListItems SortBy { get; set; } = new CheckBoxListItems();
         //public SelectedCheckBoxListItems OrderTypes { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]

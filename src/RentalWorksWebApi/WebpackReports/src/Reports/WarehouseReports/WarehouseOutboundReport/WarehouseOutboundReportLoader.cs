@@ -6,6 +6,8 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using System.Text;
+
 namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
 {
     [FwSqlTable("outboundrptview")]
@@ -94,6 +96,7 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
         {
             useWithNoLock = false;
             FwJsonDataTable dt = null;
+            CheckBoxListItems sortBy = new CheckBoxListItems();
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
@@ -111,6 +114,28 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
                     select.AddWhereIn("inventorytypeid", request.InventoryTypeId);
                     select.AddWhereIn("departmentid", request.DepartmentId);
                     select.AddOrderBy("warehouseid");
+                    if (request.SortBy != null)
+                    {
+                        CheckBoxListItems requestedSortBy = request.SortBy.GetSelectedItems();
+                        if (requestedSortBy.Count > 0)
+                        {
+                            sortBy = requestedSortBy;
+                        }
+                    }
+
+                    StringBuilder orderBy = new StringBuilder();
+                    foreach (CheckBoxListItem item in sortBy)
+                    {
+                        if (orderBy.Length > 0)
+                        {
+                            orderBy.Append(",");
+                        }
+                        //  orderBy.Append(item.value.Equals("OfficeLocation") ? "location" : "");  // can use reflection for this
+                        //  orderBy.Append(item.value.Equals("Name") ? "name" : "");
+                        //  orderBy.Append(item.value.Equals("PaymentType") ? "paytype" : "");
+                    }
+                    //  orderBy.Append(", arid, invoiceid");
+                    select.AddOrderBy(orderBy.ToString());
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
