@@ -109,7 +109,7 @@ class WarehouseDispatchReport extends FwWebApiReport {
             case 'DepartmentId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
                 break;
-            case 'ActivityId':
+            case 'ActivityTypeId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateactivity`);
                 request.uniqueids.IsWarehouseDispatch = true; // ths is not working, don't know why
                 break;
