@@ -1265,14 +1265,14 @@ class OrderBase {
         ]);
         //Toggle Buttons - Manifest tab - Rental Valuation
         FwFormField.loadItems($form.find('div[data-datafield="rentalValueSelector"]'), [
-            { value: 'UNITVALUE', caption: 'Unit Value', checked: 'checked' },
-            { value: 'REPLACEMENTCOST', caption: 'Replacement Cost' }
+            { value: 'UNIT VALUE', caption: 'Unit Value', checked: 'checked' },
+            { value: 'REPLACEMENT COST', caption: 'Replacement Cost' }
         ]);
         //Toggle Buttons - Manifest tab - Sales Valuation
         FwFormField.loadItems($form.find('div[data-datafield="salesValueSelector"]'), [
-            { value: 'SELLPRICE', caption: 'Sell Price', checked: 'checked' },
-            { value: 'DEFAULTCOST', caption: 'Default Cost' },
-            { value: 'AVERAGECOST', caption: 'Average Cost' }
+            { value: 'SELL PRICE', caption: 'Sell Price', checked: 'checked' },
+            { value: 'DEFAULT COST', caption: 'Default Cost' },
+            { value: 'AVERAGE COST', caption: 'Average Cost' }
         ]);
         //Toggle Buttons - Manifest tab - Weight Type
         FwFormField.loadItems($form.find('div[data-datafield="weightSelector"]'), [

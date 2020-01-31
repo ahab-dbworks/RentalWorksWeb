@@ -2,12 +2,18 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
 namespace WebApi.Modules.Agent.OrderManifest
 {
     [FwSqlTable("dbo.funcvaluesheetweb(@orderid, @rentalvalue, @salesvalue, @filterby, @mode)")]
     public class OrderManifestLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------
+        public OrderManifestLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
@@ -83,11 +89,26 @@ namespace WebApi.Modules.Agent.OrderManifest
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extweightgr", modeltype: FwDataTypes.Integer)]
         public int? ExtendedWeightGr { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "manifestshippingcontainer", modeltype: FwDataTypes.Boolean)]
         public bool? ManifestShippingContainer { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "manifeststandaloneitem", modeltype: FwDataTypes.Boolean)]
         public bool? ManifestStandAloneItem { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ShippingContainerColor
+        {
+            get { return getShippingContainerColor(ManifestShippingContainer); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string StandAloneItemColor
+        {
+            get { return getStandAloneItemColor(ManifestStandAloneItem); }
+            set { }
+        }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
@@ -106,6 +127,42 @@ namespace WebApi.Modules.Agent.OrderManifest
             select.AddParameter("@salesvalue", salesValue);
             select.AddParameter("@filterby", filterBy);
             select.AddParameter("@mode", mode);
+        }
+        //------------------------------------------------------------------------------------    
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("ShippingContainerColor")] = getShippingContainerColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ManifestShippingContainer")].ToString()));
+                        row[dt.GetColumnNo("StandAloneItemColor")] = getStandAloneItemColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ManifestStandAloneItem")].ToString()));
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
+        protected string getShippingContainerColor(bool? ManifestShippingContainer)
+        {
+            string color = null;
+            if (ManifestShippingContainer == true)
+            {
+                color = "#ffeb3b";
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------    
+        protected string getStandAloneItemColor(bool? ManifestStandAloneItem)
+        {
+            string color = null;
+            if (ManifestStandAloneItem == true)
+            {
+                color = "#2196f3";
+            }
+            return color;
         }
         //------------------------------------------------------------------------------------ 
     }
