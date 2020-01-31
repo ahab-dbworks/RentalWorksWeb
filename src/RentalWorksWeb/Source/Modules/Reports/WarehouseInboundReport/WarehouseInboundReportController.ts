@@ -100,8 +100,8 @@ class WarehouseInboundReport extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
         const today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'ToDate', today);
-        const aMonthAgo = FwFunc.getDate(today, -30);
-        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
+        const aMonthAway = FwFunc.getDate(today, 30);
+        FwFormField.setValueByDataField($form, 'FromDate', aMonthAway);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
