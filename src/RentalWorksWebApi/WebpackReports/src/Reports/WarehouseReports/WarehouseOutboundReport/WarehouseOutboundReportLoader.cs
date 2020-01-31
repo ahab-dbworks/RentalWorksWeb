@@ -103,6 +103,8 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
+                    addDateFilterToSelect("activitydate", request.FromDate, select, ">=", "fromdate");
+                    addDateFilterToSelect("activitydate", request.ToDate, select, "<=", "todate");
                     select.AddWhereIn("warehouseid", request.WarehouseId);
                     select.AddWhereIn("activitytypeid", request.ActivityTypeId);
                     select.AddWhereIn("assignedtousersid", request.AgentId);

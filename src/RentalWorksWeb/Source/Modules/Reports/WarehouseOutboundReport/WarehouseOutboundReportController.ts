@@ -106,12 +106,17 @@ class WarehouseOutboundReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
-            case 'InventoryTypeId':
-                request.uniqueids.Parts = true;
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
-                break;
             case 'WarehouseId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'ActivityId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateactivity`);
+                break;
+            case 'AgentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
                 break;
         };
     }
