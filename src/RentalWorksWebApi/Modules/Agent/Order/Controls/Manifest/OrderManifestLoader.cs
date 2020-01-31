@@ -86,6 +86,7 @@ namespace WebApi.Modules.Agent.OrderManifest
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            useWithNoLock           = false;
             string orderId          = GetUniqueIdAsString("OrderId", request) ?? ""; 
             string rentalValue      = GetUniqueIdAsString("RentalValue", request) ?? ""; 
             string salesValue       = GetUniqueIdAsString("SalesValue", request) ?? ""; 
