@@ -62,6 +62,10 @@ namespace WebApi.Modules.Agent.OrderManifest
         public int? ExtendedWeightKg { get; set; }
         [FwLogicProperty(Id: "dRh41HpRFx94d", IsReadOnly: true)]
         public int? ExtendedWeightGr { get; set; }
+        [FwLogicProperty(Id: "oR6cF6p1PfvE", IsReadOnly: true)]
+        public bool? ManifestShippingContainer { get; set; }
+        [FwLogicProperty(Id: "GUsCUE3Ueazh", IsReadOnly: true)]
+        public bool? ManifestStandAloneItem { get; set; }
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{ 

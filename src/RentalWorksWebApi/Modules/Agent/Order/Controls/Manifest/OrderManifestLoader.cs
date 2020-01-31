@@ -83,6 +83,11 @@ namespace WebApi.Modules.Agent.OrderManifest
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extweightgr", modeltype: FwDataTypes.Integer)]
         public int? ExtendedWeightGr { get; set; }
+        [FwSqlDataField(column: "manifestshippingcontainer", modeltype: FwDataTypes.Boolean)]
+        public bool? ManifestShippingContainer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifeststandaloneitem", modeltype: FwDataTypes.Boolean)]
+        public bool? ManifestStandAloneItem { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
