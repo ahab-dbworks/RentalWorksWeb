@@ -13,18 +13,18 @@ using WebApi.Controllers;
 using WebApi.Data;
 using static FwCore.Controllers.FwDataController;
 
-namespace WebApi.Modules.Reports.OrderStatusReport
+namespace WebApi.Modules.Reports.OrderStatusDetailReport
 {
-    public class OrderStatusReportRequest : AppReportRequest
+    public class OrderStatusDetailReportRequest : AppReportRequest
     {
         public string OrderId { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "44jjIwel6TP0d")]
-    public class OrderStatusReportController : AppReportController
+    [FwController(Id: "EY9uBXnssjv1")]
+    public class OrderStatusDetailReportController : AppReportController
     {
-        public OrderStatusReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderStatusDetailReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         protected override string GetReportFileName() { return "OrderStatusReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Order Status"; }
@@ -45,7 +45,7 @@ namespace WebApi.Modules.Reports.OrderStatusReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderstatusreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id: "4cMLxL68N5OVv")]
+        [FwControllerMethod(Id: "OmsVMrVdBH02")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -55,8 +55,8 @@ namespace WebApi.Modules.Reports.OrderStatusReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderstatusreport/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "4mzI4jEF8FD2C")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]OrderStatusReportRequest request)
+        [FwControllerMethod(Id: "7Byk9maM4f9x")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]OrderStatusDetailReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
@@ -65,8 +65,8 @@ namespace WebApi.Modules.Reports.OrderStatusReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderstatusreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id: "4VsjqrccU1KZ2")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]OrderStatusReportRequest request)
+        [FwControllerMethod(Id: "HWv77z8LURHY")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]OrderStatusDetailReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace WebApi.Modules.Reports.OrderStatusReport
             }
             try
             {
-                OrderStatusReportLoader l = new OrderStatusReportLoader();
+                OrderStatusDetailReportLoader l = new OrderStatusDetailReportLoader();
                 l.SetDependencies(this.AppConfig, UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 //l.HideSummaryColumnsInDataTable(request, dt);

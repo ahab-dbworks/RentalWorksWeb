@@ -19,8 +19,8 @@ export class OrderReport extends WebpackReport {
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, parameters)
-                        .then((response: Order) => {
+                    Ajax.post<DataTable>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, parameters)
+                        .then((response: DataTable) => {
                             const data: any = response;
                             //data.Items = DataTable.toObjectList(response.Items);
                             //data.RentalItems = DataTable.toObjectList(response.RentalItems);

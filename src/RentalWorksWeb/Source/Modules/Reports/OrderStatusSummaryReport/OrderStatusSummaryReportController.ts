@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/orderstatusreport/, action: function (match: RegExpExecArray) {
-        return OrderStatusReportController.getModuleScreen();
+    pattern: /^reports\/orderstatussummaryreport/, action: function (match: RegExpExecArray) {
+        return OrderStatusSummaryReportController.getModuleScreen();
     }
 });
 
-const orderStatusTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderStatusReportController">
+const orderStatusSummaryTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderStatusSummaryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -29,10 +29,10 @@ const orderStatusTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class OrderStatusReport extends FwWebApiReport {
+class OrderStatusSummaryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('OrderStatusReport', 'api/v1/orderstatusreport', orderStatusTemplate);
+        super('OrderStatusSummaryReport', 'api/v1/orderstatussummaryreport', orderStatusSummaryTemplate);
         this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------
@@ -73,5 +73,5 @@ class OrderStatusReport extends FwWebApiReport {
     }
 };
 
-var OrderStatusReportController: any = new OrderStatusReport();
+var OrderStatusSummaryReportController: any = new OrderStatusSummaryReport();
 //----------------------------------------------------------------------------------------------

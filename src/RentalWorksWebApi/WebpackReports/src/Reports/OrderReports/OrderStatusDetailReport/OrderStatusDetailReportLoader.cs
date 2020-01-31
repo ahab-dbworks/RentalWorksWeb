@@ -5,10 +5,10 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.OrderStatusReport
+namespace WebApi.Modules.Reports.OrderStatusDetailReport
 {
-    [FwSqlTable("dbo.getorderstatussummary(@orderid)")]
-    public class OrderStatusReportLoader : AppReportLoader
+    [FwSqlTable("getorderstatussummary(@orderid)")]
+    public class OrderStatusDetailReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -209,25 +209,32 @@ namespace WebApi.Modules.Reports.OrderStatusReport
         [FwSqlDataField(column: "stagedoutextendedprice", modeltype: FwDataTypes.Decimal)]
         public decimal? StagedOutExtendedPrice { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(OrderStatusReportRequest request)
+        public async Task<FwJsonDataTable> RunReportAsync(OrderStatusDetailReportRequest request)
         {
             useWithNoLock = false;
             FwJsonDataTable dt = null;
-
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
+                //--------------------------------------------------------------------------------- 
+                // below uses a "select" query to populate the FwJsonDataTable 
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
-                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                select.UseOptionRecompile = true;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getorderstatussummary", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddParameter("@orderid", request.OrderId); 
-                    dt = await qry.QueryToFwJsonTableAsync(select, false);
+                    qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
+                    AddPropertiesAsQueryColumns(qry);
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
+                //--------------------------------------------------------------------------------- 
             }
-
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                //dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                //dt.InsertSubTotalRows("Department", "RowType", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 
