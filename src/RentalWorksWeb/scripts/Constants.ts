@@ -810,6 +810,7 @@ var Constants = {
         }
     },
     Grids: {
+        ActivityGrid: { id: 'hb52dbhX1mNLZ', caption: 'Activity' },
         ActivityStatusGrid: { id: 'E7cf8EVeQXuUY', caption: 'Activity Status' },
         AdditionalItemsGrid: { id: 'mEYOByOhi5yT0', caption: 'Additional Items' },
         AlertWebUsersGrid: { id: 'REgcmntq4LWE', caption: 'Alert Web Users' },
