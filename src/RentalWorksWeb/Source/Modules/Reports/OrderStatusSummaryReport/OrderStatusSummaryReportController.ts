@@ -43,7 +43,6 @@ class OrderStatusSummaryReport extends FwWebApiReport {
         screen.properties = {};
 
         const $form = this.openForm();
-
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
@@ -61,6 +60,7 @@ class OrderStatusSummaryReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
+        parameters.hasOrderNo = true;
         return parameters;
     }
     //----------------------------------------------------------------------------------------------

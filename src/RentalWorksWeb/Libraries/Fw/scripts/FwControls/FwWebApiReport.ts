@@ -86,8 +86,13 @@ abstract class FwWebApiReport {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Html';
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
+                        console.log(request.parameters, 'request parameters');
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Preview';
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
 
                         const reportPageMessage = new ReportPageMessage();
                         reportPageMessage.action = 'Preview';
@@ -130,6 +135,10 @@ abstract class FwWebApiReport {
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF';
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
 
                         const $iframe = jQuery(`<iframe src="${urlHtmlReport}" style="display:none;"></iframe>`);
                         jQuery('.application').append($iframe);
@@ -177,6 +186,10 @@ abstract class FwWebApiReport {
                         $confirmation.find('.sub-headings input').prop('checked', false);
                         const request: any = this.getRenderRequest($form);
                         request.downloadPdfAsAttachment = true;
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
                         const convertedparameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         for (let key in convertedparameters) {
                             request[key] = convertedparameters[key];
@@ -226,7 +239,10 @@ abstract class FwWebApiReport {
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF'
-
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo){
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
                         const win = window.open('', '_blank');
                         const head = win.document.head || win.document.getElementsByTagName('head')[0];
                         const loader = jQuery(win.document.body.innerHTML = '<div class="loader-container"><div class="loader"></div></div>');
@@ -333,6 +349,10 @@ abstract class FwWebApiReport {
                         request.email.subject = '[reportname]';
                         request.email.body = '';
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
 
                         const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                         request.parameters.companyName = companyName;
@@ -391,6 +411,10 @@ abstract class FwWebApiReport {
                                 requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
                                 requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
                                 requestEmailPdf.parameters = await this.convertParameters(this.getParameters($form));
+                                //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                                if (requestEmailPdf.parameters.hasOrderNo) {
+                                    requestEmailPdf.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                                }
 
                                 if (requestEmailPdf.parameters != null) {
                                     requestEmailPdf.parameters.companyName = companyName;

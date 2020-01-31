@@ -1,4 +1,4 @@
-﻿<!--Order / Quote Report-->
+﻿<!--Order Status Summary Report-->
 <div class="rpt-flexrow" style="margin:5px 0px 30px 4px;">
   <div class="rpt-flexcolumn" style="padding-bottom:5px;">
     {{#if Logosrc}}
@@ -6,18 +6,17 @@
     {{else}}
     <div></div>
     {{/if}}
-    <span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span>
+    <span class="header-left" style="font-weight:600">{{Company}}</span>
     <span class="header-left">{{OfficeLocationAddress1}}</span>
     <span class="header-left">{{OfficeLocationAddress2}}</span>
     <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
-    <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
+    <!--<span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>-->
   </div>
   <div class="rpt-flexcolumn">
       <span class="sub-title blue">{{Department}}</span>
-      <span class="title blue">{{Report}}</span>
+      <span class="title blue" style="font-size: 22px;">{{Report}}</span>
       <br />
-      <span class="sub-title blue"><span style="font-weight:600;">Order: </span>{{OrderNumber}}</span>
-      <span class="sub-title blue"><span style="font-weight:600;">Deal: </span>{{DealNumber}}</span>
+      <span class="sub-title blue"><span style="font-weight:600;">Order: </span>{{Order}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="header-right blue" style="font-size:16px;"><span style="background-color:#FFF;color:black;padding:2px;">{{System}}</span></span>
@@ -28,7 +27,7 @@
     <table>
         <thead>
             <tr>
-                <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+                <td colspan="8" class="section-header">Items&nbsp;</td>
             </tr>
             <tr>
                 <td></td>

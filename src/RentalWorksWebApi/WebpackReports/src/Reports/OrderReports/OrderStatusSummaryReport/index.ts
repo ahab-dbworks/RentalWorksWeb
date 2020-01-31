@@ -13,6 +13,7 @@ const hbFooter = require("./hbFooter.hbs");
 export class OrderStatusSummaryReport extends WebpackReport {
     order: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
+        console.log(parameters, 'orderstatus params');
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             // Report rendering and Logo
@@ -23,43 +24,9 @@ export class OrderStatusSummaryReport extends WebpackReport {
                         .then((response: DataTable) => {
                             const data: any = DataTable.toObjectList(response);
                             data.Items = data;
-
-                            //let data: any = {
-                            //    OfficeLocationCompany: "Fuse Technical Group",
-                            //    OfficeLocationAddress1: "3700 Cohasset St",
-                            //    OfficeLocationAddress2: "Some Suite",
-                            //    OfficeLocationCityStateZipCodeCountry: "Burbank, CA 91505",
-                            //    OfficeLocationPhone: "1-800-IM-GONNA-SHOW-YA",
-                            //    Report: "Order Status",
-                            //    OrderNumber: "L301318 AHAB TEST2",
-                            //    Deal: "L200021 A KNIGHT AT THE OPERA",
-
-                            //    Items: [
-                            //        {
-                            //            RowType: "RecTypeDisplayheader",
-                            //            RecTypeDisplay: "RENTAL",
-                            //            Bold: false
-                            //        },
-                            //        {
-                            //            RowType: "detail",
-                            //            RecTypeDisplay: "RENTAL",
-                            //            ICode: "100893",
-                            //            Description: "MEYER UPA-1P",
-                            //            Bold: false,
-                            //            QuantityOrdered: "1",
-                            //            StageQuantity: 1,
-                            //            OutQuantity: 0,
-                            //            InQuantity: 1,
-                            //            StillOutQuantity: 0
-                            //        },
-                            //        {
-                            //            RowType: "RecTypeDisplayheader",
-                            //            RecTypeDisplay: "SALES",
-                            //            Bold: false
-                            //        },
-
-                            //    ]
-                            //};
+                            data.Company = parameters.companyName;
+                            data.Order = parameters.orderno;
+                            data.Report = "Order Status Summary";                     
                             data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
                             data.TermsAndConditions == '';
