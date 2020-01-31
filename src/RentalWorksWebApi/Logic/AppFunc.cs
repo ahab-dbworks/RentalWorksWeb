@@ -1071,5 +1071,37 @@ namespace WebApi.Logic
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
+        public static async Task<bool> UserCanDW(FwApplicationConfig appConfig, string usersid, decimal daysperweek)
+        {
+            bool limitDW = false;
+            decimal userDwMin = 0;
+            bool userCanModify = true;
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 limitdw, daysinwkfrom");
+                    qry.Add("from users u with (nolock)");
+                    qry.Add("where u.usersid = @usersid");
+                    qry.AddParameter("@usersid", usersid);
+                    await qry.ExecuteAsync();
+                    limitDW = qry.GetField("limitdw").ToBoolean();
+                    userDwMin = qry.GetField("daysinwkfrom").ToDecimal();
+
+                    if (limitDW)
+                    {
+                        userCanModify = (daysperweek >= userDwMin);
+                        if (userCanModify != true)
+                        {
+                            throw new Exception("User cannot set the D/W this low. User minimum D/W is " + userDwMin.ToString());
+                        }
+                    }
+                }
+            }
+            
+            return userCanModify;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
 }
