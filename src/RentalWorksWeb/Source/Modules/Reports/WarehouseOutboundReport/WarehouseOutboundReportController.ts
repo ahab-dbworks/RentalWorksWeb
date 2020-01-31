@@ -111,7 +111,7 @@ class WarehouseOutboundReport extends FwWebApiReport {
                 break;
             case 'ActivityTypeId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateactivity`);
-                request.uniqueids.IsWarehouseOutbound = true;  // ths is not working, don't know why
+                request.uniqueids.IsWarehouseOutbound = true;
                 break;
             case 'AgentId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
