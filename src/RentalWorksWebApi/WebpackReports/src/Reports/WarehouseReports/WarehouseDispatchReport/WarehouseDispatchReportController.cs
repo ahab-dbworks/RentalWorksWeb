@@ -13,9 +13,9 @@ using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 
-namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
+namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispatchReport
 {
-    public class WarehouseDispachReportRequest : AppReportRequest
+    public class WarehouseDispatchReportRequest : AppReportRequest
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
@@ -24,18 +24,18 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
         public string DepartmentId { get; set; }
         public string AgentId { get; set; }
         public string ActivityTypeId { get; set; }
-        //public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
-        //public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        //public SelectedCheckBoxListItems SortBy { get; set; } = new SelectedCheckBoxListItems();
+        //public SelectedCheckBoxListItems OrderTypes { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "gs5q3h0v0HzXF")]
-    public class WarehouseDispachReportController : AppReportController
+    public class WarehouseDispatchReportController : AppReportController
     {
-        public WarehouseDispachReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "WarehouseDispachReport"; }
+        public WarehouseDispatchReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "WarehouseDispatchReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Warehouse Dispach Report"; }
+        protected override string GetReportFriendlyName() { return "Warehouse Dispatch Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -48,10 +48,10 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "WarehouseDispachReport";
+            return "WarehouseDispatchReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/warehousedispachreport/render 
+        // POST api/v1/warehousedispatchreport/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "gSMc6J6Fnj2dC")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
@@ -60,20 +60,20 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
             return actionResult;
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/warehousedispachreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/warehousedispatchreport/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id: "GsyhDTp5QV53I")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]WarehouseDispachReportRequest request)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]WarehouseDispatchReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/warehousedispachreport/runreport 
+        // POST api/v1/warehousedispatchreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "gtOf2poWCYeve")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]WarehouseDispachReportRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]WarehouseDispatchReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
             }
             try
             {
-                WarehouseDispachReportLoader l = new WarehouseDispachReportLoader();
+                WarehouseDispatchReportLoader l = new WarehouseDispatchReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 //l.HideSummaryColumnsInDataTable(request, dt);

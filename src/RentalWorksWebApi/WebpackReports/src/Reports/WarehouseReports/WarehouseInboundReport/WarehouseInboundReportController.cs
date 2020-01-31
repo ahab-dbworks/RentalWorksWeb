@@ -24,8 +24,8 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
         public string DepartmentId { get; set; }
         public string AgentId { get; set; }
         public string ActivityTypeId { get; set; }
-        //public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
-        //public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        //public SelectedCheckBoxListItems SortBy { get; set; } = new SelectedCheckBoxListItems();
+        //public SelectedCheckBoxListItems OrderTypes { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

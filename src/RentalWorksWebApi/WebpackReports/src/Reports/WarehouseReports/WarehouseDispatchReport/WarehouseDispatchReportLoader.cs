@@ -6,10 +6,10 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
+namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispatchReport
 {
     [FwSqlTable("dispachrptview")]
-    public class WarehouseDispachReportLoader : AppReportLoader
+    public class WarehouseDispatchReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -17,6 +17,9 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitydate", modeltype: FwDataTypes.Date)]
         public string ActivityDate { get; set; }
@@ -90,7 +93,7 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
         [FwSqlDataField(column: "trackingno", modeltype: FwDataTypes.Text)]
         public string TrackingNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(WarehouseDispachReportRequest request)
+        public async Task<FwJsonDataTable> RunReportAsync(WarehouseDispatchReportRequest request)
         {
             useWithNoLock = false;
             FwJsonDataTable dt = null;
@@ -107,11 +110,16 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
                     select.AddWhereIn("activitytypeid", request.ActivityTypeId);
                     select.AddWhereIn("assignedtousersid", request.AgentId);
                     select.AddWhereIn("departmentid", request.DepartmentId);
-                    //select.AddOrderBy("field1,field2");
+                    select.AddOrderBy("warehouseid");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+                string[] totalFields = new string[] { "CompleteQuantity" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 
