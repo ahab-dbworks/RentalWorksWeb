@@ -96,9 +96,9 @@ class WarehouseInboundReport extends FwWebApiReport {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
         const today = FwFunc.getDate();
-        FwFormField.setValueByDataField($form, 'ToDate', today);
+        FwFormField.setValueByDataField($form, 'FromDate', today);
         const aMonthAway = FwFunc.getDate(today, 30);
-        FwFormField.setValueByDataField($form, 'FromDate', aMonthAway);
+        FwFormField.setValueByDataField($form, 'ToDate', aMonthAway);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -125,18 +125,18 @@ class WarehouseInboundReport extends FwWebApiReport {
     loadLists($form: JQuery): void {
         FwFormField.loadItems($form.find('div[data-datafield="SortBy"]'),
             [
-                { value: "ACTIVITY DATE", text: "Activity Date", selected: "T" },
-                { value: "ACTIVITY TYPE", text: "Activity Type", selected: "T" },
-                { value: "DEAL", text: "Deal", selected: "T" },
-                { value: "ORDER TYPE", text: "Order Type", selected: "T" },
-                { value: "ORDER NUMBER", text: "Order Number", selected: "T" },
+                { value: "ActivityDate", text: "Activity Date", selected: "T" },
+                { value: "ActivityType", text: "Activity Type", selected: "T" },
+                { value: "Deal", text: "Deal", selected: "T" },
+                { value: "OrderType", text: "Order Type", selected: "T" },
+                { value: "OrderNumber", text: "Order Number", selected: "T" },
             ]);
         FwFormField.loadItems($form.find('div[data-datafield="OrderTypes"]'),
             [
-                { value: "QUOTES", text: "Reserved Quotes", selected: "T" },
-                { value: "ORDERS", text: "Orders", selected: "T" },
-                { value: "TRANSFERS", text: "Transfers", selected: "T" },
-                { value: "PURCHASEORDERS", text: "Purchase Orders", selected: "T" },
+                { value: "Q", text: "Reserved Quotes", selected: "T" },
+                { value: "O", text: "Orders", selected: "T" },
+                { value: "T", text: "Transfers", selected: "T" },
+                { value: "C", text: "Purchase Orders", selected: "T" },
             ]);
     }
     //----------------------------------------------------------------------------------------------

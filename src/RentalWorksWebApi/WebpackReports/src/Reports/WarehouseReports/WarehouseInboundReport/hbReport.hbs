@@ -15,7 +15,7 @@
   <table>
     <thead>
       <tr>
-        <th>Pick Date</th>
+        <th>Date/Time</th>
         <th>Order No.</th>
         <th>Deal</th>
         <th>Order Type</th>
@@ -36,7 +36,7 @@
         <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td data-value="{{PickDate}}"></td>
+        <td data-value="{{ActivityDateTime}}"></td>
         <td data-value="{{OrderNumber}}"></td>
         <td data-value="{{Deal}}"></td>
         <td data-value="{{OrderTypeDescription}}"></td>

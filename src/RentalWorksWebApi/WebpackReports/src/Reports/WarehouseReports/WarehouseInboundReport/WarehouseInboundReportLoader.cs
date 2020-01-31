@@ -44,6 +44,9 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
         public string OrderType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertypedesc", modeltype: FwDataTypes.Text)]
+        public string OrderTypeDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer)]
         public int? ActivityTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -104,7 +107,6 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
                     select.AddWhereIn("activitytypeid", request.ActivityTypeId);
                     select.AddWhereIn("assignedtousersid", request.AgentId);
                     select.AddWhereIn("ordertype", request.OrderTypes);
-                    select.AddOrderBy("warehouseid");
                     if (request.SortBy != null)
                     {
                         CheckBoxListItems requestedSortBy = request.SortBy.GetSelectedItems();
