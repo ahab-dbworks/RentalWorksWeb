@@ -1362,6 +1362,24 @@ class PurchaseOrder implements IModule {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             }
         });
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'ActivityGrid',
+            gridSecurityId: 'hb52dbhX1mNLZ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.WarehouseId = FwFormField.getValueByDataField($form, `WarehouseId`);
+                request.OfficeLocationId = FwFormField.getValueByDataField($form, `OfficeLocationId`);
+            },
+        });
+
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');

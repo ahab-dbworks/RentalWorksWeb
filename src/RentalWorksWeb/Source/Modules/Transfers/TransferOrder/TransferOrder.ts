@@ -485,6 +485,19 @@ class TransferOrder {
                 $fwgrid.addClass('S');
             },
         });
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'ActivityGrid',
+            gridSecurityId: 'hb52dbhX1mNLZ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `TransferId`)
+                };
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {

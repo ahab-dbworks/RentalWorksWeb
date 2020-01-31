@@ -520,6 +520,7 @@ class Order extends OrderBase {
               <div data-type="tab" id="billingworksheettab" class="tab" data-tabpageid="billingworksheettabpage" data-caption="Billing Worksheet" style="display:none;"></div>
               <div data-type="tab" id="summarytab" class="profitlosstab tab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
+              <div data-type="tab" id="activitytab" class="tab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
               <div data-type="tab" id="picklisttab" class="tab submodule" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
               <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
               <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
@@ -896,6 +897,27 @@ class Order extends OrderBase {
               <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
                 <div class="flexrow">
                   <div class="rwGrid" data-control="FwGrid" data-grid="OrderContactGrid" data-securitycaption="Contacts"></div>
+                </div>
+              </div>
+
+              <!-- ACTIVITY TAB -->
+              <div data-type="tabpage" id="activitytabpage" class="tabpage" data-tabid="activitytab">
+                <div class="wideflexrow">
+                    <div class="flexcolumn">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Activities">
+                            <div class="rwGrid" data-control="FwGrid" data-grid="ActivityGrid" data-securitycaption="Activity"></div>
+                        </div>
+                    </div>
+                    <div class="flexcolumn" style="flex:0 0 0;">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filter Activities">
+                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-datafield="FromDate"></div>
+                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-datafield="ToDate"></div>
+                            <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="ActivityTypeId"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Shipping Activities" data-datafield="ShowShipping"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Sub-PO Activities" data-datafield="ShowSubPo"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Complete Activities" data-datafield="ShowComplete"></div>
+                        </div>
+                    </div>
                 </div>
               </div>
 

@@ -4,6 +4,7 @@
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="General"></div>
       <div data-type="tab" id="salestab" class="salesTab tab" data-tabpageid="salestabpage" data-caption="Sales" style="display:none;"></div>
+      <div data-type="tab" id="activitytab" class="tab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
       <div data-type="tab" id="picklisttab" class="tab submodule" data-tabpageid="picklisttabpage" data-caption="Pick List" style="display:none;"></div>
       <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
       <div data-type="tab" id="manifesttab" class="tab submodule" data-tabpageid="manifesttabpage" data-caption="Manifest" style="display:none;"></div>
@@ -92,6 +93,28 @@
           </div>
         </div>
       </div>
+
+      <!-- ACTIVITY TAB -->
+      <div data-type="tabpage" id="activitytabpage" class="tabpage" data-tabid="activitytab">
+        <div class="wideflexrow">
+          <div class="flexcolumn">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Transfer Activities">
+              <div class="rwGrid" data-control="FwGrid" data-grid="ActivityGrid" data-securitycaption="Activity"></div>
+            </div>
+          </div>
+          <div class="flexcolumn" style="flex:0 0 0;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filter Activities">
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-datafield="FromDate"></div>
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-datafield="ToDate"></div>
+              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="ActivityTypeId"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Shipping Activities" data-datafield="ShowShipping"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Sub-PO Activities" data-datafield="ShowSubPo"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Complete Activities" data-datafield="ShowComplete"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- PICK LIST TAB -->
       <div data-type="tabpage" id="picklisttabpage" class="tabpage picklistSubModule rwSubModule" data-tabid="picklisttab">
       </div>

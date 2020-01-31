@@ -1186,6 +1186,19 @@ class OrderBase {
                 this.calculateOrderItemGridTotals($form, 'combined', dt.Totals);
             }
         });
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'ActivityGrid',
+            gridSecurityId: 'hb52dbhX1mNLZ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            }
+        });
         // ----------
         const itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
         if ($form.attr('data-mode') === 'NEW') {
@@ -1197,6 +1210,7 @@ class OrderBase {
                     })
             }
         }
+
 
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
