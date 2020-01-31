@@ -1119,18 +1119,23 @@ public string DateStamp { get; set; }
             bool success = false;
             if (OrderId != null)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                success = (await AppFunc.UserCanDiscount(this.AppConfig, UserSession.UsersId, request.DiscountPercent));
+
+                if (success)
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateadjustmentdiscount2", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, "");   // supply a value to update all rows in a Complete or Kit
-                    qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
-                    qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T" : "F"));
-                    qry.AddParameter("@discountpct", SqlDbType.Decimal, ParameterDirection.Input, request.DiscountPercent);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync();
-                    success = true;
+                    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                    {
+                        FwSqlCommand qry = new FwSqlCommand(conn, "updateadjustmentdiscount2", this.AppConfig.DatabaseSettings.QueryTimeout);
+                        qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                        qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, "");   // supply a value to update all rows in a Complete or Kit
+                        qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
+                        qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                        qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T" : "F"));
+                        qry.AddParameter("@discountpct", SqlDbType.Decimal, ParameterDirection.Input, request.DiscountPercent);
+                        qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                        await qry.ExecuteNonQueryAsync();
+                        success = true;
+                    }
                 }
             }
             return success;

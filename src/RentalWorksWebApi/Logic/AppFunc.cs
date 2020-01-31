@@ -1103,5 +1103,37 @@ namespace WebApi.Logic
             return userCanModify;
         }
         //-------------------------------------------------------------------------------------------------------    
+        public static async Task<bool> UserCanDiscount(FwApplicationConfig appConfig, string usersid, decimal discount)
+        {
+            bool limitDiscount = false;
+            decimal userDiscountMax = 0;
+            bool userCanModify = true;
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 limitdiscount, discountto");
+                    qry.Add("from users u with (nolock)");
+                    qry.Add("where u.usersid = @usersid");
+                    qry.AddParameter("@usersid", usersid);
+                    await qry.ExecuteAsync();
+                    limitDiscount = qry.GetField("limitdiscount").ToBoolean();
+                    userDiscountMax = qry.GetField("discountto").ToDecimal();
+
+                    if (limitDiscount)
+                    {
+                        userCanModify = (discount < userDiscountMax);
+                        if (userCanModify != true)
+                        {
+                            throw new Exception("User permission max discount is " + userDiscountMax.ToString());
+                        }
+                    }
+                }
+            }
+            
+            return userCanModify;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
 }
