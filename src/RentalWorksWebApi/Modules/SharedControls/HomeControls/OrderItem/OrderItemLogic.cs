@@ -1140,6 +1140,15 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     DaysPerWeek = orig.DaysPerWeek;
                 }
 
+                if ((orig != null) && (Mute.GetValueOrDefault(false) || (orig.Mute.GetValueOrDefault(false))))
+                {
+                    Price = 0;
+                    Price2 = 0;
+                    Price3 = 0;
+                    Price4 = 0;
+                    Price5 = 0;
+                }
+
                 if ((orig != null) && ((orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))))
                 {
                     Price = 0;

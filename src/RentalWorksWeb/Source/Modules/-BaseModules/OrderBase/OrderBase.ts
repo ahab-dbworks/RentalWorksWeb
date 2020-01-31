@@ -236,6 +236,14 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 if ($form.attr('data-controller') !== 'QuoteController') {
                     FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
                         try {
@@ -402,6 +410,14 @@ class OrderBase {
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -1067,6 +1083,14 @@ class OrderBase {
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
