@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.ActivityType;
 
 namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
 {
@@ -91,6 +94,30 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
             {
                 return GetApiExceptionResult(ex);
             }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/warehouseinboundreport/validatewarehouse/browse 
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "ZDLojbiNfUJWh", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/warehouseinboundreport/validatedepartment/browse 
+        [HttpPost("validatedepartment/browse")]
+        [FwControllerMethod(Id: "KrrB1gCOVFGAZ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/warehouseinboundreport/validateactivitytype/browse 
+        [HttpPost("validateactivitytype/browse")]
+        [FwControllerMethod(Id: "tlCAsTa0rWoMC", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateActivityTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ActivityTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }

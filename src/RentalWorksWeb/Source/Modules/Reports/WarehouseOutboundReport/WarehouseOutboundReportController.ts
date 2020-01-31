@@ -140,7 +140,6 @@ class WarehouseOutboundReport extends FwWebApiReport {
                 { value: "ORDERS", text: "Orders", selected: "T" },
                 { value: "TRANSFERS", text: "Transfers", selected: "T" },
                 { value: "PURCHASEORDERS", text: "Purchase Orders", selected: "T" },
-                { value: "ATTRIBUTE", text: "Attribute", selected: "T" }
             ]);
     }
     //----------------------------------------------------------------------------------------------
