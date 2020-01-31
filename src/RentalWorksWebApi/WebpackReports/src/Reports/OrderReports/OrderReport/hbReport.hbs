@@ -25,7 +25,7 @@
       </tr>
       <tr>
         <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
-        <td style="width:50%;font-size:18px;text-align:center;">{{OrderDate}}</td>
+        <td style="width:50%;font-size:18px;text-align:center;">{{PrintDate}}</td>
       </tr>
     </table>
   </div>
@@ -211,6 +211,7 @@
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
+    {{#ifNotEquals QuantityOrdered "0"}}
     <tbody data-rowtype="{{RowType}}">
       <tr data-isbold="{{Bold}}">
         <!-- I-Code -->
@@ -343,6 +344,7 @@
         {{/ifNotEquals}}
       </tr>
     </tbody>
+    {{/ifNotEquals}}
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
     <tr>
