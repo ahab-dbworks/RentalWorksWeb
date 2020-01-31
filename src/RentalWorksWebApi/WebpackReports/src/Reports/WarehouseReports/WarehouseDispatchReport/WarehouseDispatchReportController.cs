@@ -22,13 +22,12 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispatchReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        //public string OfficeLocationId { get; set; }
         public string WarehouseId { get; set; }
         public string DepartmentId { get; set; }
         public string AgentId { get; set; }
         public string ActivityTypeId { get; set; }
         public CheckBoxListItems SortBy { get; set; } = new CheckBoxListItems();
-        //public SelectedCheckBoxListItems OrderTypes { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems OrderTypes { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

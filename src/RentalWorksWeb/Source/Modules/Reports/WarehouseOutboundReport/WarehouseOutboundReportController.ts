@@ -44,13 +44,13 @@ const warehouseOutTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department"  data-validationname="DepartmentValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="ActivityTypeId" data-displayfield="ActivityType"  data-validationname="QuikActivityTypeValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="ActivityTypeId" data-displayfield="ActivityType" data-validationname="ActivityTypeValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent"  data-validationname="UserValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-validationname="UserValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
                 </div>
               </div>
             </div>

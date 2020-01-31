@@ -100,7 +100,6 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispatchReport
             useWithNoLock = false;
             FwJsonDataTable dt = null;
             CheckBoxListItems sortBy = new CheckBoxListItems();
-
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
@@ -113,9 +112,10 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispatchReport
                     addDateFilterToSelect("activitydate", request.FromDate, select, ">=", "fromdate");
                     addDateFilterToSelect("activitydate", request.ToDate, select, "<=", "todate");
                     select.AddWhereIn("warehouseid", request.WarehouseId);
+                    select.AddWhereIn("departmentid", request.DepartmentId);
                     select.AddWhereIn("activitytypeid", request.ActivityTypeId);
                     select.AddWhereIn("assignedtousersid", request.AgentId);
-                    select.AddWhereIn("departmentid", request.DepartmentId);
+                    select.AddWhereIn("ordertype", request.OrderTypes);
                     select.AddOrderBy("warehouseid");
                     if (request.SortBy != null)
                     {
@@ -127,17 +127,19 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispatchReport
                     }
 
                     StringBuilder orderBy = new StringBuilder();
+                    orderBy.Append("warehouse");
                     foreach (CheckBoxListItem item in sortBy)
                     {
                         if (orderBy.Length > 0)
                         {
                             orderBy.Append(",");
                         }
-                        //  orderBy.Append(item.value.Equals("OfficeLocation") ? "location" : "");  // can use reflection for this
-                        //  orderBy.Append(item.value.Equals("Name") ? "name" : "");
-                        //  orderBy.Append(item.value.Equals("PaymentType") ? "paytype" : "");
+                        orderBy.Append(item.value.Equals("ActivityDate") ? "activitydate" : "");  // can use reflection for this
+                        orderBy.Append(item.value.Equals("ActivityType") ? "activitytypedesc" : "");
+                        orderBy.Append(item.value.Equals("Deal") ? "deal" : "");
+                        orderBy.Append(item.value.Equals("OrderType") ? "ordertype" : "");
+                        orderBy.Append(item.value.Equals("OrderNumber") ? "orderno" : "");
                     }
-                    //  orderBy.Append(", arid, invoiceid");
                     select.AddOrderBy(orderBy.ToString());
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
