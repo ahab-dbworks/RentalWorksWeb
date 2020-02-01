@@ -49,7 +49,7 @@ namespace WebApi.Modules.Reports.OrderStatusDetailReport
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
-            FwReportRenderResponse response = await DoRender(request);
+            ActionResult<FwReportRenderResponse> response = await DoRender(request);
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
