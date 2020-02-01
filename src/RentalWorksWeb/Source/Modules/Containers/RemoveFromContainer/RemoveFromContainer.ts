@@ -89,7 +89,7 @@ class RemoveFromContainer {
         $form.find('.container').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="ContainerDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
         });
-        
+
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
@@ -112,7 +112,7 @@ class RemoveFromContainer {
                 request.uniqueids = {
                     WarehouseId: warehouse.warehouseid,
                     TrackedBy: 'QUANTITY',
-                }; 
+                };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
         }
     }
