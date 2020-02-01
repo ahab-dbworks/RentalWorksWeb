@@ -236,6 +236,14 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 if ($form.attr('data-controller') !== 'QuoteController') {
                     FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
                         try {
@@ -402,6 +410,14 @@ class OrderBase {
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -1072,6 +1088,14 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 if ($form.attr('data-controller') !== 'QuoteController') {
                     FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
                         try {
@@ -1162,6 +1186,19 @@ class OrderBase {
                 this.calculateOrderItemGridTotals($form, 'combined', dt.Totals);
             }
         });
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'ActivityGrid',
+            gridSecurityId: 'hb52dbhX1mNLZ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            }
+        });
         // ----------
         const itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
         if ($form.attr('data-mode') === 'NEW') {
@@ -1173,6 +1210,7 @@ class OrderBase {
                     })
             }
         }
+
 
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
@@ -1353,7 +1391,7 @@ class OrderBase {
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
 
-        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryAddressType"]'), [
+        FwFormField.loadItems($form.find('div[data-datafield="InDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Customer Deliver' },
             { value: 'SHIP', text: 'Customer Ship' },
             { value: 'PICK UP', text: 'Pick Up from Customer' }
@@ -2382,6 +2420,26 @@ class OrderBase {
         });
         $form.find('[data-datafield="LockBillingDates"]').on('change', e => {
             this.billingPeriodEvents($form);
+        });
+
+        //Activity Filters
+        const $activityGrid = $form.find('[data-name="ActivityGrid"]');
+        $form.on('change', '.activity-filters', e => {
+            const onDataBind = $activityGrid.data('ondatabind');
+            if (typeof onDataBind == 'function') {
+                const fromDate = FwFormField.getValueByDataField($form, 'ActivityFromDate');
+                const toDate = FwFormField.getValueByDataField($form, 'ActivityToDate');
+                const activityTypes = FwFormField.getValueByDataField($form, 'ActivityTypeId');
+                const showShipping = FwFormField.getValueByDataField($form, 'ShowShipping');
+                const showSubPo = FwFormField.getValueByDataField($form, 'ShowSubPo');
+                const showComplete = FwFormField.getValueByDataField($form, 'ShowComplete');
+                $activityGrid.data('ondatabind', function (request) {
+                    onDataBind(request);
+
+                });
+                FwBrowse.search($activityGrid);
+            }
+
         });
     };
     //----------------------------------------------------------------------------------------------
@@ -3654,8 +3712,8 @@ class OrderBase {
             const row = activityDatesAndTimes[i];
             const $row = jQuery(`<div class="flexrow date-row">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderTypeDateTypeId" style="display:none;"></div>
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="${row.Descriptiondisplay}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
-                              <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="" data-datafield="Time" data-enabled="true" style="flex:0 1 120px;"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="${row.DescriptionDisplayTitleCase} Date" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Time" data-datafield="Time" data-enabled="true" style="flex:0 1 120px;"></div>
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Day" data-datafield="DayOfWeek" data-enabled="false" style="flex:0 1 120px;"></div>                          
                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="display:none; flex:0 1 180px;"></div>                          
                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Milestone" data-datafield="IsMilestone" style="display:none; flex:0 1 110px;"></div>                          

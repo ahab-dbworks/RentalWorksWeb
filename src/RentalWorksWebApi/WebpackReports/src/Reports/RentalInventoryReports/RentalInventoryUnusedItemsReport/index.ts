@@ -14,7 +14,9 @@ export class RentalInventoryUnusedItemsReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventoryunuseditemsreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.PrintTime = moment().format('h:mm:ss A');
+                    data.PrintDate = moment().format('MM/DD/YYYY');
+                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                     data.Report = 'Rental Inventory Unused Items Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;

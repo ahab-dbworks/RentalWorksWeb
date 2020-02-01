@@ -525,25 +525,25 @@ namespace WebApi.Logic
             string frontEndControllerName = "Unknown";
             switch (orderTypeDescription)
             {
-                case RwConstants.ORDER_TYPE_DESCRIPTION_RESERVED:
+                case RwConstants.ORDER_TYPE_QUOTE:
                     frontEndControllerName = "Quote";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_ORDER:
+                case RwConstants.ORDER_TYPE_ORDER:
                     frontEndControllerName = "Order";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_PROJECT:
+                case RwConstants.ORDER_TYPE_PROJECT:
                     frontEndControllerName = "Project";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_PURCHASE_ORDER:
+                case RwConstants.ORDER_TYPE_PURCHASE_ORDER:
                     frontEndControllerName = "PurchaseOrder";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_TRANSFER:
+                case RwConstants.ORDER_TYPE_TRANSFER:
                     frontEndControllerName = "TransferOrder";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_CONTAINER:
+                case RwConstants.ORDER_TYPE_CONTAINER:
                     frontEndControllerName = "Container";
                     break;
-                case RwConstants.ORDER_TYPE_DESCRIPTION_REPAIR:
+                case RwConstants.ORDER_TYPE_REPAIR:
                     frontEndControllerName = "Repair";
                     break;
             }
@@ -1069,6 +1069,70 @@ namespace WebApi.Logic
             InventoryAvailabilityFunc.RequestRecalc(request.InventoryId, request.WarehouseId, classification);
 
             return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<bool> UserCanDW(FwApplicationConfig appConfig, string usersid, decimal daysperweek)
+        {
+            bool limitDW = false;
+            decimal userDwMin = 0;
+            bool userCanModify = true;
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 limitdw, daysinwkfrom");
+                    qry.Add("from users u with (nolock)");
+                    qry.Add("where u.usersid = @usersid");
+                    qry.AddParameter("@usersid", usersid);
+                    await qry.ExecuteAsync();
+                    limitDW = qry.GetField("limitdw").ToBoolean();
+                    userDwMin = qry.GetField("daysinwkfrom").ToDecimal();
+
+                    if (limitDW)
+                    {
+                        userCanModify = (daysperweek >= userDwMin);
+                        if (userCanModify != true)
+                        {
+                            throw new Exception("User cannot set the D/W this low. User minimum D/W is " + userDwMin.ToString());
+                        }
+                    }
+                }
+            }
+            
+            return userCanModify;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<bool> UserCanDiscount(FwApplicationConfig appConfig, string usersid, decimal discount)
+        {
+            bool limitDiscount = false;
+            decimal userDiscountMax = 0;
+            bool userCanModify = true;
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 limitdiscount, discountto");
+                    qry.Add("from users u with (nolock)");
+                    qry.Add("where u.usersid = @usersid");
+                    qry.AddParameter("@usersid", usersid);
+                    await qry.ExecuteAsync();
+                    limitDiscount = qry.GetField("limitdiscount").ToBoolean();
+                    userDiscountMax = qry.GetField("discountto").ToDecimal();
+
+                    if (limitDiscount)
+                    {
+                        userCanModify = (discount < userDiscountMax);
+                        if (userCanModify != true)
+                        {
+                            throw new Exception("User permission max discount is " + userDiscountMax.ToString());
+                        }
+                    }
+                }
+            }
+            
+            return userCanModify;
         }
         //-------------------------------------------------------------------------------------------------------    
     }

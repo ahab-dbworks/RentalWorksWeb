@@ -1,11 +1,14 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Inventory.Asset;
 using WebApi.Modules.Inventory.Inventory;
+using WebApi.Modules.Inventory.RentalInventory;
 
 namespace WebApi.Modules.Utilities.InventoryRetireUtility
 {
@@ -36,6 +39,21 @@ namespace WebApi.Modules.Utilities.InventoryRetireUtility
                 return GetApiExceptionResult(ex);
             }
         }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/inventorypurchaseutility/validateinventory/browse
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "d0PpYQiPX2mWi", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/removefromcontainer/validateitem/browse 
+        [HttpPost("validateitem/browse")]
+        [FwControllerMethod(Id: "q7ErB79tGhFSm", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateItemBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ItemLogic>(browseRequest);
+        }
     }
 }

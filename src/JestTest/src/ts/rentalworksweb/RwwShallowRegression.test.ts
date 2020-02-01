@@ -9,7 +9,7 @@ import {
     Invoice, Receipt, VendorInvoice,
 
     //settings
-    AccountingSettings, GlAccount, GlDistribution, Country, State, BillingCycle, Department, ContactEvent, ContactTitle, MailList, Currency,
+    ActivityType, AccountingSettings, GlAccount, GlDistribution, Country, State, BillingCycle, Department, ContactEvent, ContactTitle, MailList, Currency,
     CreditStatus, CustomerCategory, CustomerStatus, CustomerType, DealClassification, DealType, DealStatus, ProductionType, ScheduleType, DiscountTemplate,
     DocumentType, CoverLetter, TermsConditions, EventCategory, EventType, PersonnelType, PhotographyType, Building, FacilityType, FacilityRate, FacilityScheduleStatus,
     FacilityStatus, FacilityCategory, SpaceType, FiscalYear, GeneratorFuelType, GeneratorMake, GeneratorRating, GeneratorWatts, GeneratorType, Holiday,
@@ -118,6 +118,7 @@ export class ShallowRegressionTest extends BaseTest {
         this.ShallowRegressionOnModule(new VendorInvoice());
 
         //Settings
+        this.ShallowRegressionOnModule(new ActivityType());
         this.ShallowRegressionOnModule(new AccountingSettings());
         this.ShallowRegressionOnModule(new GlAccount());
         this.ShallowRegressionOnModule(new GlDistribution());

@@ -155,6 +155,8 @@
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
+    <Content Include="Source\Grids\ActivityGrid\ActivityGridBrowse.htm" />
+    <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
     <Content Include="Source\Grids\ContractHistoryGrid\ContractHistoryGridBrowse.htm" />
@@ -318,6 +320,8 @@
     <Content Include="Source\Grids\InventoryLocationTaxGrid\InventoryLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="Source\Grids\ActivityGrid\ActivityGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContractHistoryGrid\ContractHistoryGridController.ts" />
@@ -518,6 +522,10 @@
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusSummaryReport\OrderStatusSummaryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutReport\WarehouseOutReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseDispatchReport\WarehouseDispatchReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseInboundReport\WarehouseInboundReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutboundReport\WarehouseOutboundReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnContractReport\ReturnContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\InContractReport\InContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ExchangeContractReport\ExchangeContractReportController.ts" />
@@ -548,6 +556,7 @@
     <TypeScriptCompile Include="Source\Modules\Containers\ContainerStatus\ContainerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\FillContainer\FillContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SuspendedSession\SuspendedSession.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\OrderSettings\ActivityType\ActivityType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationSettings\FormDesign\FormDesign.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationSettings\PresentationLayer\PresentationLayer.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SystemSettings\AvailabilitySettings\AvailabilitySettings.ts" />
@@ -557,6 +566,7 @@
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferIn\TransferIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\InventoryRetireUtility\InventoryRetireUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\CompleteQc\CompleteQc.ts" />
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferOut\TransferOut.ts" />
@@ -601,7 +611,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\CustomerRevenueByMonthReport\CustomerRevenueByMonthReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RepairOrderStatusReport\RepairOrderStatusReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnReceiptReport\ReturnReceiptReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderSummaryReport\PurchaseOrderSummaryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesTaxUSAReport\SalesTaxUSAReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ProfitLossReport\ProfitLossReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\BillingAnalysisReport\BillingAnalysisReportController.ts" />
@@ -728,6 +738,8 @@
     <Content Include="Source\Modules\Billing\Billing\BillingBrowse.htm" />
     <Content Include="Source\Modules\Billing\Billing\BillingForm.htm" />
     <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
+    <Content Include="Source\Modules\Settings\OrderSettings\ActivityType\ActivityTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\OrderSettings\ActivityType\ActivityTypeForm.htm" />
     <Content Include="Source\Modules\Settings\PresentationSettings\FormDesign\FormDesignBrowse.htm" />
     <Content Include="Source\Modules\Settings\PresentationSettings\PresentationLayer\PresentationLayerBrowse.htm" />
     <Content Include="Source\Modules\Settings\PresentationSettings\PresentationLayer\PresentationLayerForm.htm" />
@@ -1034,8 +1046,10 @@
     <TypeScriptCompile Include="Source\Modules\Settings\WidgetSettings\Widget\Widget.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\Dashboard\Dashboard.ts" />
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
+    <Content Include="Source\Validations\ActivityStatusValidation\ActivityStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
+    <Content Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PresentationLayerValidation\PresentationLayerValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomerCreditValidation\CustomerCreditValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomFormValidation\CustomFormValidationBrowse.htm" />
@@ -1285,6 +1299,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <TypeScriptCompile Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\BaseInventoryValidation\BaseInventoryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\CountryValidation\CountryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\ReceiptValidation\ReceiptValidationController.ts" />

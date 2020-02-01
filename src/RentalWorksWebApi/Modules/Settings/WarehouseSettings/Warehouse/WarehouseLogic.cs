@@ -343,6 +343,9 @@ namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
         [FwLogicProperty(Id:"gmUbESjjpR5")]
         public bool? Inactive { get { return warehouse.Inactive; } set { warehouse.Inactive = value; } }
 
+        [FwLogicProperty(Id: "LzavbldDwHUr9")]
+        public bool? DefaultMuteItemsAddedToOrderAtStaging { get { return warehouse.DefaultMuteItemsAddedToOrderAtStaging; } set { warehouse.DefaultMuteItemsAddedToOrderAtStaging = value; } }
+
         [FwLogicProperty(Id:"gErPZwPIJoi")]
         public string DateStamp { get { return warehouse.DateStamp; } set { warehouse.DateStamp = value; } }
 

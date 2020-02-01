@@ -127,6 +127,10 @@ namespace WebApi
         //GLOBAL
         public static string NEGATIVE_VARIANCE_COLOR { get; set; }
 
+        // ACTIVITY
+        public static string USER_DEFINED_ACTIVITY_COLOR { get; set; }
+
+
         //---------------------------------------------------------------------------
         //this gets called one time at system startup
         //can be called when events occur in the system that should change global colors
@@ -281,6 +285,9 @@ namespace WebApi
             CONTACT_TYPE_CREW_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTACT_TYPE_CREW_COLOR);
 
             PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR);
+
+
+            USER_DEFINED_ACTIVITY_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.USER_DEFINED_ACTIVITY_COLOR);
 
         }
         //---------------------------------------------------------------------------

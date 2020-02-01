@@ -301,8 +301,9 @@ class FwSchedulerClass {
             try {
                 FwScheduler.refresh($control);
                 const $schedulerControl = $control.parents().find('.realscheduler');
-                FwSchedulerDetailed.refresh($schedulerControl);
-
+                if ($schedulerControl.length > 0) {
+                    FwSchedulerDetailed.refresh($schedulerControl);
+                }
             } catch (ex) {
                 FwFunc.showError(ex);
             }

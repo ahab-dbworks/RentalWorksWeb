@@ -35,7 +35,7 @@ namespace WebApi.Modules.Reports.OrderReports.OutstandingSubRentalReport
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "NCFNATdQRx5E ")]
+    [FwController(Id: "NCFNATdQRx5E")]
     public class OutstandingSubRentalReportController : AppReportController
     {
         public OutstandingSubRentalReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OutstandingSubRentalReportLoader); }
@@ -62,9 +62,8 @@ namespace WebApi.Modules.Reports.OrderReports.OutstandingSubRentalReport
         [FwControllerMethod(Id: "JudHhMkN1OLa ")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/outstandingsubrentalreport/exportexcelxlsx

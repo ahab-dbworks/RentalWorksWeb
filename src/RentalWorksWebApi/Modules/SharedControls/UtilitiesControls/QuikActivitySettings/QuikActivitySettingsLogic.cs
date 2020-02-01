@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.UtilitiesControls.QuikActivitySettings
 {
-    [FwLogic(Id: "3BG1PpJauKT2 ")]
+    [FwLogic(Id: "3BG1PpJauKT2")]
     public class QuikActivitySettingsLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 

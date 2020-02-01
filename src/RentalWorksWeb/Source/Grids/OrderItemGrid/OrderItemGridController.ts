@@ -176,6 +176,21 @@ class OrderItemGrid {
                     }
                 }
 
+                // Mute Fields
+                if ($tr.find('.order-item-mute').text() === 'true') {
+                    $tr.find('.field-to-mute').css({ 'background-color': '#ffccff' });
+                    $tr.find('.field-to-mute').parent('td').css({
+                        'border-top': '2px solid black',
+                        'border-bottom': '2px solid black'
+                    });
+                    $tr.find('.field-to-mute').attr('data-formreadonly', 'true');
+                    // disabled grids were rendering with different shade background color
+                    if ($control.attr('data-enabled') === 'false') {
+                        $tr.find('.field-to-mute').css('background-color', 'transparent');
+                    }
+                }
+
+
                 //enable editing price on misc items
                 const isMiscClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
                 if (isMiscClass === 'M') {
@@ -970,6 +985,52 @@ class OrderItemGrid {
         });
 
         FwBrowse.search($templateBrowse);
+    }
+    //----------------------------------------------------------------------------------------------
+    async muteUnmute(event: any) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const mutedItems = [];
+        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+                let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+                let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+                let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
+
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                orderItem.Description = description;
+                orderItem.QuantityOrdered = quantityOrdered;
+                orderItem.RecType = recType;
+                orderItem.RowsRolledUp = rowsRolledUp;
+
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Mute"]').attr('data-originalvalue') === 'true') {
+                    orderItem.Mute = false;
+                } else {
+                    orderItem.Mute = true;
+                }
+                mutedItems.push(orderItem);
+            }
+            await muteUnmuteItems(mutedItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+
+        function muteUnmuteItems(orders): void {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
     }
     //----------------------------------------------------------------------------------------------
     async lockUnlock(event: any) {

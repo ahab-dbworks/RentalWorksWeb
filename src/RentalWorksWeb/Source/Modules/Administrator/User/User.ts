@@ -612,8 +612,14 @@ class User {
                         <div class="flexcolumn" style="flex:1 1 350px;">
                           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Limit D/W">
                             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Limit D/W" data-datafield="LimitDaysPerWeek" style="flex:1 1 125px;"></div>
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allow Credit Limit Override" data-datafield="AllowCreditLimitOverride" style="flex:1 1 125px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Allow User to enter D/W from:" data-datafield="MinimumDaysPerWeek" style="flex:1 1 125px;"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flexrow">
+                        <div class="flexcolumn" style="flex:1 1 350px;">
+                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Customer/Deal Credit Limit">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allow Credit Limit Override" data-datafield="AllowCreditLimitOverride" style="flex:1 1 125px;"></div>
                           </div>
                         </div>
                       </div>

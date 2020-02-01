@@ -7,6 +7,7 @@ using WebApi.Modules.Agent.Order;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.MasterItem;
 using WebApi;
+using WebApi.Modules.Home.MasterItemDetail;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -15,22 +16,30 @@ namespace WebApi.Modules.HomeControls.OrderItem
     {
         //------------------------------------------------------------------------------------ 
         MasterItemRecord orderItem = new MasterItemRecord();
+        MasterItemDetailRecord orderItemDetail = new MasterItemDetailRecord();
+
         OrderItemLoader orderItemLoader = new OrderItemLoader();
 
         public OrderItemLogic()
         {
             dataRecords.Add(orderItem);
+            dataRecords.Add(orderItemDetail);
+
             dataLoader = orderItemLoader;
 
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
+
+            orderItem.AfterSave += OnAfterSaveMasterItem;
+
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "j5BoEx9ak5Ry", IsPrimaryKey: true)]
-        public string OrderItemId { get { return orderItem.MasterItemId; } set { orderItem.MasterItemId = value; } }
+        public string OrderItemId { get { return orderItem.MasterItemId; } set { orderItem.MasterItemId = value; orderItemDetail.MasterItemId = value; } }
 
         [FwLogicProperty(Id: "OAKJ6N3eUpao")]
-        public string OrderId { get { return orderItem.OrderId; } set { orderItem.OrderId = value; } }
+        public string OrderId { get { return orderItem.OrderId; } set { orderItem.OrderId = value; orderItemDetail.OrderId = value; } }
 
         [FwLogicProperty(Id: "AsMKdufgM74qt")]
         public bool? RowsRolledUp { get; set; }
@@ -374,6 +383,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "FLcnFK2Oltf6Q", IsReadOnly: true)]
         public bool? ModifiedAtStaging { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "9eVO0B4Y0YfAm")]
+        public bool? Mute { get { return orderItemDetail.Mute; } set { orderItemDetail.Mute = value; } }
         //------------------------------------------------------------------------------------ 
 
 
@@ -1081,7 +1095,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             string inventoryDescription = "";
             if (!string.IsNullOrEmpty(inventoryId))
             {
-                string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { InventoryId }, new string[] { "class", "master" }).Result;
+                string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { inventoryId }, new string[] { "class", "master" }).Result;
                 inventoryClass = inventoryData[0];
                 inventoryDescription = inventoryData[1];
             }
@@ -1126,6 +1140,15 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     DaysPerWeek = orig.DaysPerWeek;
                 }
 
+                if ((orig != null) && (Mute.GetValueOrDefault(false) || (orig.Mute.GetValueOrDefault(false))))
+                {
+                    Price = 0;
+                    Price2 = 0;
+                    Price3 = 0;
+                    Price4 = 0;
+                    Price5 = 0;
+                }
+
                 if ((orig != null) && ((orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))))
                 {
                     Price = 0;
@@ -1168,6 +1191,23 @@ namespace WebApi.Modules.HomeControls.OrderItem
             {
                 InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, ItemClass);
             }
+        }
+        //------------------------------------------------------------------------------------
+        public virtual void OnAfterSaveMasterItem(object sender, AfterSaveDataRecordEventArgs e)
+        {
+            // justin hoffman 01/20/2020
+            // this is really stupid
+            // I am deleting the record that dbwIU_masteritem is giving us, so I can add my own and avoid a unique index error
+
+
+            //if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            //{
+            //    MasterItemDetailRecord detailRec = new MasterItemDetailRecord();
+            //    detailRec.SetDependencies(AppConfig, UserSession);
+            //    detailRec.MasterItemId = GetPrimaryKeys()[0].ToString();
+            //    bool b = detailRec.DeleteAsync(e.SqlConnection).Result;
+            //}
+
         }
         //------------------------------------------------------------------------------------
         public void SaveRolledUpRow(object sender, InsteadOfSaveEventArgs e)

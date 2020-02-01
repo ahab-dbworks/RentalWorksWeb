@@ -1236,7 +1236,7 @@ export class EventType extends SettingsModule {
                     seekObject: {
                         Description: "GlobalScope.TestToken~1.TestToken",
                     },
-                    attemptDuplicate: true,
+                    attemptDuplicate: false, //true,
                 },
             },
             {
@@ -3614,7 +3614,7 @@ export class OrderType extends SettingsModule {
                     seekObject: {
                         Description: "GlobalScope.TestToken~1.TestToken",
                     },
-                    attemptDuplicate: true,
+                    attemptDuplicate: false, //true,
                 },
             },
             {
@@ -4264,7 +4264,7 @@ export class POType extends SettingsModule {
                     seekObject: {
                         Description: "GlobalScope.TestToken~1.TestToken",
                     },
-                    attemptDuplicate: true,
+                    attemptDuplicate: false, //true,
                 },
             },
         ];
@@ -6240,6 +6240,52 @@ export class WorkWeek extends SettingsModule {
         this.moduleName = 'WorkWeek';
         this.moduleId = 'AF91AE34-ADED-4A5A-BD03-113ED817F575';
         this.moduleCaption = 'Work Week';
+    }
+    //---------------------------------------------------------------------------------------
+}
+//---------------------------------------------------------------------------------------
+export class ActivityType extends SettingsModule {
+    //---------------------------------------------------------------------------------------
+    constructor() {
+        super();
+        this.moduleName = 'ActivityType';
+        this.moduleId = 'dZaqY68fhRSXm';
+        this.moduleCaption = 'Activity Type';
+
+        this.defaultNewRecordToExpect = {
+            Description: "",
+            Rename: "",
+            Inactive: false
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    Rename: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    Rename: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+                persistData: true,
+            },
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Rename: this.newRecordsToCreate[0].record.Rename,
+            Inactive: false
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }

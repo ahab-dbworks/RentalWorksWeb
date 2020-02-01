@@ -485,6 +485,19 @@ class TransferOrder {
                 $fwgrid.addClass('S');
             },
         });
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'ActivityGrid',
+            gridSecurityId: 'hb52dbhX1mNLZ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `TransferId`)
+                };
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
@@ -540,6 +553,26 @@ class TransferOrder {
             const $this = jQuery(e.currentTarget);
             const salesTab = $form.find('.salesTab');
             $this.prop('checked') === true ? salesTab.show() : salesTab.hide();
+        });
+
+        //Activity Filters
+        const $activityGrid = $form.find('[data-name="ActivityGrid"]');
+        $form.on('change', '.activity-filters', e => {
+            const onDataBind = $activityGrid.data('ondatabind');
+            if (typeof onDataBind == 'function') {
+                const fromDate = FwFormField.getValueByDataField($form, 'ActivityFromDate');
+                const toDate = FwFormField.getValueByDataField($form, 'ActivityToDate');
+                const activityTypes = FwFormField.getValueByDataField($form, 'ActivityTypeId');
+                const showShipping = FwFormField.getValueByDataField($form, 'ShowShipping');
+                const showSubPo = FwFormField.getValueByDataField($form, 'ShowSubPo');
+                const showComplete = FwFormField.getValueByDataField($form, 'ShowComplete');
+                $activityGrid.data('ondatabind', function (request) {
+                    onDataBind(request);
+                    
+                });
+                FwBrowse.search($activityGrid);
+            }
+
         });
     };
     //----------------------------------------------------------------------------------------------

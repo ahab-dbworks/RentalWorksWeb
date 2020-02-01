@@ -232,6 +232,7 @@ export class InventoryIntegrityTest extends BaseTest {
         const repairOrderKey3: string = "REPAIRORDER3";
         const repairOrderKey4: string = "REPAIRORDER4";
         const confirmedTransferOrderKey: string = "CONFIRMEDTRANSFER";
+        const newTransferOrderKey: string = "NEWTRANSFER";
         const rentalBarCodeKey: string = "RENTALBARCODE";
         const salesBarCodeKey: string = "SALESBARCODE";
 
@@ -319,7 +320,7 @@ export class InventoryIntegrityTest extends BaseTest {
                     Description: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken R`,
                     ReferenceNumber: TestUtils.randomAlphanumeric(8),
                     Rental: true,
-                    Sales: false,
+                    Sales: true,
                     Parts: false,
                     Miscellaneous: false,
                     Labor: false,
@@ -334,7 +335,7 @@ export class InventoryIntegrityTest extends BaseTest {
                     VendorId: 2,
                     Description: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken S`,
                     ReferenceNumber: TestUtils.randomAlphanumeric(8),
-                    Rental: false,
+                    Rental: true,
                     Sales: true,
                     Parts: false,
                     Miscellaneous: false,
@@ -1357,8 +1358,8 @@ export class InventoryIntegrityTest extends BaseTest {
                 let module: ModuleBase = transferModule;
                 let record: NewRecordToCreate = module.newRecordsToCreate[1];
 
-                await this.createModuleRecord(module, record, confirmedTransferOrderKey);
-                let obj: any = this.globalScopeRef[module.moduleName + "~" + confirmedTransferOrderKey];
+                await this.createModuleRecord(module, record, newTransferOrderKey);
+                let obj: any = this.globalScopeRef[module.moduleName + "~" + newTransferOrderKey];
                 expect(obj.Status).toBe("NEW");
 
             }, this.testTimeout);

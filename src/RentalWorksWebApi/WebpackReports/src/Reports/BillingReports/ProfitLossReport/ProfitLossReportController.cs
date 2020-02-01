@@ -63,9 +63,8 @@ namespace WebApi.Modules.Reports.Billing.ProfitLossReport
         [FwControllerMethod(Id: "cNuN1Qyvy2xFp")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/profitlossreport/exportexcelxlsx

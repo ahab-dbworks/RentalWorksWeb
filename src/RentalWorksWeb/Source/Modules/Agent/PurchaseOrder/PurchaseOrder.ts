@@ -226,6 +226,7 @@ class PurchaseOrder implements IModule {
         ], true);
         this.events($form);
         this.activityCheckboxEvents($form, mode);
+        this.renderPrintButton($form);
         this.renderSearchButton($form);
         this.applyRateType($form);
 
@@ -239,6 +240,33 @@ class PurchaseOrder implements IModule {
 
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    renderPrintButton($form: any) {
+        var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
+        $print.prepend('<i class="material-icons">print</i>');
+        $print.on('click', () => {
+            this.printPurchaseOrder($form);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    printPurchaseOrder($form: any) {
+        try {
+            const module = this.Module;
+            const purchaseOrderNumber = FwFormField.getValue($form, `div[data-datafield="PurchaseOrderNumber"]`);
+            const purchaseOrderId = FwFormField.getValue($form, `div[data-datafield="PurchaseOrderId"]`);
+            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+
+            var $report = PurchaseOrderReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValue($report, `div[data-datafield="PurchaseOrderId"]`, purchaseOrderId, purchaseOrderNumber);
+            const printTab = jQuery('.tab.submodule.active');
+            printTab.find('.caption').html(`Print Purchase Order`);
+            printTab.attr('data-caption', `${module} ${recordTitle}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
         const $browse = EmailHistoryController.openBrowse();
@@ -1334,6 +1362,24 @@ class PurchaseOrder implements IModule {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             }
         });
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'ActivityGrid',
+            gridSecurityId: 'hb52dbhX1mNLZ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.WarehouseId = FwFormField.getValueByDataField($form, `WarehouseId`);
+                request.OfficeLocationId = FwFormField.getValueByDataField($form, `OfficeLocationId`);
+            },
+        });
+
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
@@ -2312,6 +2358,25 @@ class PurchaseOrder implements IModule {
             this.applyRateType($form);
         });
 
+        //Activity Filters
+        const $activityGrid = $form.find('[data-name="ActivityGrid"]');
+        $form.on('change', '.activity-filters', e => {
+            const onDataBind = $activityGrid.data('ondatabind');
+            if (typeof onDataBind == 'function') {
+                const fromDate = FwFormField.getValueByDataField($form, 'ActivityFromDate');
+                const toDate = FwFormField.getValueByDataField($form, 'ActivityToDate');
+                const activityTypes = FwFormField.getValueByDataField($form, 'ActivityTypeId');
+                const showShipping = FwFormField.getValueByDataField($form, 'ShowShipping');
+                const showSubPo = FwFormField.getValueByDataField($form, 'ShowSubPo');
+                const showComplete = FwFormField.getValueByDataField($form, 'ShowComplete');
+                $activityGrid.data('ondatabind', function (request) {
+                    onDataBind(request);
+
+                });
+                FwBrowse.search($activityGrid);
+            }
+
+        });
     };
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {

@@ -129,18 +129,19 @@
                 }
                 FwFormField.enable($form.find(`${controlsToEnable}`));
                 FwFormField.disable($form.find(`${controlsToDisable}`));
-            })
-            ;
-        function exportBatch() {
+            });
+
+        const exportBatch = () => {
             const batchId = FwFormField.getValueByDataField($form, 'BatchId');
-            if (batchId !== '') {
+            const dataExportFormatId = FwFormField.getValueByDataField($form, 'DataExportFormatId');
+            if (batchId) {
                 const request: any = {
-                    BatchId: batchId
+                    BatchId: batchId,
+                    DataExportFormatId: dataExportFormatId
                 }
-                FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    //if ((response.success === true) && (response.batch !== null)) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoicebatchexport/export`, request, FwServices.defaultTimeout,
+                    response => {
                     if (response.downloadUrl != "") {
-                        //let batch = response.batch;
                         let batchNumber = response.BatchNumber
                         const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
                         jQuery('#application').append($iframe);
@@ -150,8 +151,8 @@
 
                         $form.find('.export-success').show();
                         $form.find('.success-msg').html(`<div style="margin-left:0;><span>Batch ${batchNumber} Created Successfully.</span><div>`);
-                    }
-                }, null, $form);
+                        }
+                    }, ex => FwFunc.showError(ex), $form);
             }
         }
     };

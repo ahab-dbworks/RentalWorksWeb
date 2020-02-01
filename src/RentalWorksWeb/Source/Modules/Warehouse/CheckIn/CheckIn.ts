@@ -33,7 +33,7 @@ class CheckIn extends CheckInBase {
                 $yes.on('click', () => {
                     try {
                         const request: any = { ContractId: contractId };
-                        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+                        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/cancelcontract`, request, FwServices.defaultTimeout,
                             response => {
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 me.resetForm($form);
