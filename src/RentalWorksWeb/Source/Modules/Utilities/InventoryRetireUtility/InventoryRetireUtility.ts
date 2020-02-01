@@ -56,6 +56,7 @@ class InventoryRetireUtility {
                 FwAppData.apiMethod(true, 'POST', 'api/v1/inventoryretireutility/retireinventory', request, FwServices.defaultTimeout, response => {
                     if (response.success) {
                         $form.find('.fwformfield input').val('');
+                        $form.find('.fwformfield textarea').val('');
                         FwFormField.setValueByDataField($form, 'Quantity', 1);
                         FwModule.refreshForm($form);
                     } else {
