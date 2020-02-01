@@ -27,71 +27,19 @@
         <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
         <td style="width:50%;font-size:18px;text-align:center;">{{OrderDate}}</td>
       </tr>
+      {{#ifCond OutDeliveryRequiredByDateTime '!==' ""}}
+      <tr>
+        <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;"></td>
+        <td style="width:50%;font-size:18px;text-align:center;padding-top:10px;"><span style="color:black;font-size:18px;font-weight:700;text-align:right;">Required By: </span>{{OutDeliveryRequiredByDateTime}}</td>
+      </tr>
+      {{/ifCond}}
     </table>
   </div>
 </div>
-<!-- Agent / Order / Dates -->
-<div class="rpt-flexrow">
-  <div class="rpt-flexcolumn" style="flex:0 0 422px;border-top: 2px solid #027cc5;padding:1px;margin-right:10px;">
-    <table>
-      <tr>
-        <td style="width:90px;background-color:#e3f2fd;font-weight:700;">Description:</td>
-        <td class="">{{Description}}</td>
-      </tr>
-      <tr>
-        <td style="width:90px;background-color:#e3f2fd;font-weight:700;">Customer:</td>
-        <td class="">{{Customer}}</td>
-      </tr>
-      <tr>
-        <td style="width:90px;background-color:#e3f2fd;font-weight:700;">Vendor:</td>
-        <td class="">{{Vendor}}</td>
-      </tr>
-      <tr>
-        <td style="width:90px;background-color:#e3f2fd;font-weight:700;">PO No:</td>
-        <td class="">{{PoNumber}}</td>
-      </tr>
-    </table>
-  </div>
-  <div class="rpt-flexcolumn" style="flex:0 0 321px;border-top: 2px solid #027cc5;padding:1px;margin:0px 10px;">
-    <table>
-      <tr>
-        <td style="width:55px;background-color:#e3f2fd;font-weight:700;">Agent:</td>
-        <td class="">{{Agent}}</td>
-      </tr>
-      <tr>
-        <td style="width:55px;background-color:#e3f2fd;font-weight:700;">Email:</td>
-        <td class="">{{AgentEmail}}</td>
-      </tr>
-      <tr>
-        <td style="width:55px;background-color:#e3f2fd;font-weight:700;">Phone:</td>
-        <td class="">{{AgentPhone}}</td>
-      </tr>
-    </table>
-  </div>
-  <div class="rpt-flexcolumn" style="flex:0 0 321px;border-top: 2px solid #027cc5;padding:1px;margin-left:10px;">
-    <table>
-      <tr>
-        <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Billing Period:</td>
-        <td class="">{{BillingDates}}</td>
-      </tr>
-      <tr>
-        <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Usage Period:</td>
-        <td class="">{{UsageDates}}</td>
-      </tr>
-      <tr>
-        <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Terms:</td>
-        <td class="">{{PaymentTerms}}</td>
-      </tr>
-      <tr>
-        <td style="width:105px;background-color:#e3f2fd;;font-weight:700;">Billing Cycle:</td>
-        <td class="">{{BillingCycle}}</td>
-      </tr>
-    </table>
-  </div>
-</div>
-<!-- Issued To / Outgoing /Incoming -->
-<div class="rpt-flexrow" style="margin-top:25px;">
-  <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-right:10px;">
+
+<div class="rpt-flexrow" style="margin-top:15px;">
+  <div class="rpt-flexcolumn" style="flex:0 0 400px;margin-right:10px;">
+    <!-- Issued To -->
     <table id="issuedTo">
       <tr>
         <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Issued To</th>
@@ -99,11 +47,6 @@
       <tr>
         <td class="" style="font-weight:700;">{{IssuedToCompany}}</td>
       </tr>
-      {{#ifCond IssuedToAttention1 '!==' ""}}
-      <tr>
-        <td class="">{{IssuedToAttention1}}</td>
-      </tr>
-      {{/ifCond}}
       <tr>
         <td class="">{{IssuedToAddress1}}</td>
       </tr>
@@ -123,10 +66,28 @@
       </tr>
     </table>
   </div>
-  <div class="rpt-flexcolumn" style="flex:0 0 321px;margin:0px 10px;">
+  <div class="rpt-flexcolumn" style="flex:0 0 332px;border-top: 2px solid #027cc5;margin:0px 10px;">
+    <!-- Ordered From -->
+    <table>
+      <tr>
+        <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Ordered From:</td>
+        <td class="">{{OrderedBy}}</td>
+      </tr>
+      <tr>
+        <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Phone:</td>
+        <td class="">{{OrderedByPhone}}</td>
+      </tr>
+      <tr>
+        <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Email:</td>
+        <td class="">{{OrderedByEmail}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="rpt-flexcolumn" style="flex:0 0 332px;margin-left:10px;">
+    <!-- Receive from Vendor -->
     <table id="outgoing">
       <tr>
-        <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Outgoing ({{OutDeliveryType}})</th>
+        <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Receive from Vendor ({{OutDeliveryType}})</th>
       </tr>
       <tr>
         <td class=""><span style="font-weight:700;">Location: </span>{{OutDeliveryLocation}}</td>
@@ -156,10 +117,62 @@
       {{/ifCond}}
     </table>
   </div>
-  <div class="rpt-flexcolumn" style="flex:0 0 321px;margin-left:10px;">
+</div>
+
+<!-- Ordered By  -->
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <div class="rpt-flexcolumn" style="flex:0 0 400px;border-top: 2px solid #027cc5;padding:1px;margin-right:10px;">
+    <!-- Description, Billing Period, Usage Period, etc -->
+    <table>
+      {{#ifEquals OrderTypeDescription "INVENTORY"}}
+      <tr>
+        <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Description:</td>
+        <td class="">{{Description}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifNotEquals OrderTypeDescription "INVENTORY"}}
+      <tr>
+        <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Billing Period:</td>
+        <td class="">{{BillingDates}}</td>
+      </tr>
+      <tr>
+        <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Usage Period:</td>
+        <td class="">{{UsageDates}}</td>
+      </tr>
+      {{/ifNotEquals}}
+      <tr>
+        <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Terms:</td>
+        <td class="">{{PaymentTerms}}</td>
+      </tr>
+      <tr>
+        <td style="width:105px;background-color:#e3f2fd;;font-weight:700;">Billing Cycle:</td>
+        <td class="">{{BillingCycle}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="rpt-flexcolumn" style="flex:0 0 332px;padding:1px;border-top: 2px solid #027cc5;margin:0px 10px;">
+    <!-- Ordered By -->
+    <table>
+      <tr>
+        <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Ordered By:</td>
+        <td class="">{{Agent}}</td>
+      </tr>
+      <tr>
+        <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Phone:</td>
+        <td class="">{{AgentPhone}}</td>
+      </tr>
+      <tr>
+        <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Email:</td>
+        <td class="">{{AgentEmail}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="rpt-flexcolumn" style="flex:0 0 332px;padding:1px;margin-left:10px;">
+    <!-- Return to Vendor -->
+    {{#ifNotEquals OrderTypeDescription "INVENTORY"}}
     <table id="incoming">
       <tr>
-        <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Incoming ({{InDeliveryType}})</th>
+        <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Return to Vendor ({{InDeliveryType}})</th>
       </tr>
       <tr>
         <td class=""><span style="font-weight:700;">Location: </span>{{InDeliveryLocation}}</td>
@@ -188,8 +201,10 @@
       </tr>
       {{/ifCond}}
     </table>
+    {{/ifNotEquals}}
   </div>
 </div>
+
 <!-- Activity Items -->
 <div class="rpt-flexrow" style="margin-top:25px;">
   <table style="table-layout:fixed;">
@@ -203,7 +218,11 @@
         <th style="min-width:115px;">I-Code</th>
         <th style="min-width:379px;">Description</th>
         <th style="min-width:90px;" class="number alignRight">Quantity</th>
+        {{#ifCond RecTypeDisplay '==' "PURCHASE"}}
+        <th></th>
+        {{else}}
         <th style="min-width:75px;" class="number alignRight">Days</th>
+        {{/ifCond}}
         <th style="min-width:100px;" class="number alignRight">Price</th>
         <th style="min-width:140px;" class="number alignRight">Discount %</th>
         <th style="min-width:140px;" class="number alignRight">Period Extended</th>
@@ -283,7 +302,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
+        {{#ifCond RecTypeDisplay '!==' "PURCHASE"}}
         <td class="alignRight">{{BillablePeriods}}</td>
+        {{else}}
+        <td></td>
+        {{/ifCond}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -345,8 +368,8 @@
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
     <tr>
-      <td colspan="5"></td>
-      <td class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
+      <td colspan="4"></td>
+      <td colspan="2" class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
       <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
     </tr>
     {{/ifEquals}}
@@ -355,11 +378,12 @@
 </div>
 
 <!-- Sales Activity -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each SalesItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!-- Spacer Row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
@@ -509,8 +533,8 @@
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
     <tr>
-      <td colspan="5"></td>
-      <td class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
+      <td colspan="4"></td>
+      <td colspan="2" class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
       <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
     </tr>
     {{/ifEquals}}
@@ -519,11 +543,12 @@
 </div>
 
 <!-- Misc Activity -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each MiscItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!-- Spacer Row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
@@ -683,11 +708,12 @@
 </div>
 
 <!-- Labor Activity -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each LaborItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!-- Spacer Row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
@@ -847,11 +873,12 @@
 </div>
 
 <!-- Facilities Activity -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each FacilityItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!-- Spacer Row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
@@ -1009,7 +1036,8 @@
     {{/each}}
   </table>
 </div>
-<div class="rpt-flexrow" style="">
+
+<div class="rpt-flexrow" style="margin-top:25px;">
   {{#each Items}}
   {{#ifEquals RowType "grandtotal"}}
   <table class="grandTotalRow">
@@ -1022,4 +1050,5 @@
   {{/ifEquals}}
   {{/each}}
 </div>
+
 <div id="termsRow" style="padding:20px 10px 0px 10px;font-size:1em;" class="rpt-flexrow" colspan="7"><span id="terms"></span></div>
