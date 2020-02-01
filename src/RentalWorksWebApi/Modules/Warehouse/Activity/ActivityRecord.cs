@@ -1,5 +1,6 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System;
 using WebApi.Data;
 namespace WebApi.Modules.Warehouse.Activity
 {
@@ -19,8 +20,8 @@ namespace WebApi.Modules.Warehouse.Activity
         [FwSqlDataField(column: "assignedtousersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string AssignedToUserId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitydatetime", modeltype: FwDataTypes.Date, sqltype: "datetime")]
-        public string ActivityDateTime { get; set; }
+        [FwSqlDataField(column: "activitydatetime", modeltype: FwDataTypes.DateTime, sqltype: "datetime")]
+        public DateTime ActivityDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitystatusid", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? ActivityStatusId { get; set; }

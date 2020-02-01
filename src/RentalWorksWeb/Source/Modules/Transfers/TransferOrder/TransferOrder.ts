@@ -496,7 +496,12 @@ class TransferOrder {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, `TransferId`)
                 };
-            }
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `TransferId`)
+                request.WarehouseId = FwFormField.getValueByDataField($form, `FromWarehouseId`);
+                request.OfficeLocationId = FwFormField.getValueByDataField($form, `OfficeLocationId`);
+            },
         });
     };
     //----------------------------------------------------------------------------------------------
@@ -568,7 +573,7 @@ class TransferOrder {
                 const showComplete = FwFormField.getValueByDataField($form, 'ShowComplete');
                 $activityGrid.data('ondatabind', function (request) {
                     onDataBind(request);
-                    
+
                 });
                 FwBrowse.search($activityGrid);
             }
