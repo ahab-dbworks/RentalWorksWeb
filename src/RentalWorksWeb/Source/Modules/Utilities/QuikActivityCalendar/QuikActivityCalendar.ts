@@ -163,7 +163,7 @@ class QuikActivityCalendar {
             if (typeof onDataBind == 'function') {
                 $quikActivityGridControl.data('ondatabind', request => {
                     onDataBind(request);
-                    request.uniqueids.AssignedToUserId = myActivity == 'T' ? JSON.parse(sessionStorage.getItem('userid')).webusersid : '';
+                    request.uniqueids.AssignedToUserId = myActivity == 'T' ? JSON.parse(sessionStorage.getItem('userid')).usersid : '';
                     request.uniqueids.IncludeCompleted = completeActivity == 'T' ? true : false;
                 });
             }
