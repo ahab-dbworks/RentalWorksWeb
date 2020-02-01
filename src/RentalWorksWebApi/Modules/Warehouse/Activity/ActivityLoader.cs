@@ -86,7 +86,7 @@ namespace WebApi.Modules.Warehouse.Activity
         public string AssignedToUserName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitydatetime", modeltype: FwDataTypes.DateTime)]
-        public DateTime ActivityDateTime { get; set; }
+        public DateTime? ActivityDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitydate", modeltype: FwDataTypes.Date)]
         public string ActivityDate { get; set; }

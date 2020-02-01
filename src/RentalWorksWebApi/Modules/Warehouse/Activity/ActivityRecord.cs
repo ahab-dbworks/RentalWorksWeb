@@ -21,7 +21,7 @@ namespace WebApi.Modules.Warehouse.Activity
         public string AssignedToUserId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitydatetime", modeltype: FwDataTypes.DateTime, sqltype: "datetime")]
-        public DateTime ActivityDateTime { get; set; }
+        public DateTime? ActivityDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitystatusid", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? ActivityStatusId { get; set; }
