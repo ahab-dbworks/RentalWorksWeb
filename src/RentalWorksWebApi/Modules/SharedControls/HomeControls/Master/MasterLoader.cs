@@ -112,7 +112,7 @@ namespace WebApi.Modules.HomeControls.Master
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "returnlistprint", modeltype: FwDataTypes.Boolean)]
         public bool? PrintNoteOnReturnList { get; set; }
-        //------------------------------------------------------------------------------------                 
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "poreceivelistprint", modeltype: FwDataTypes.Boolean)]
         public bool? PrintNoteOnPoReceiveList { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -124,6 +124,12 @@ namespace WebApi.Modules.HomeControls.Master
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifestshippingcontainer", modeltype: FwDataTypes.Boolean)]
+        public bool? ManifestShippingContainer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifeststandaloneitem", modeltype: FwDataTypes.Boolean)]
+        public bool? ManifestStandAloneItem { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

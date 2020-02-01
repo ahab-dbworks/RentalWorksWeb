@@ -40,7 +40,7 @@ namespace WebApi.Modules.Agent.Order
     [FwController(Id: "U8Zlahz3ke9i")]
     [FwOptionsGroup("Copy to Quote / Order", "7pJLfUY1U01T")]
     [FwOptionsGroup("Cancel / Uncancel", "cSxghAONeqcu")]
-    public class OrderController : AppDataController
+    public partial class OrderController : AppDataController
     {
         public OrderController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderLogic); }
         //------------------------------------------------------------------------------------

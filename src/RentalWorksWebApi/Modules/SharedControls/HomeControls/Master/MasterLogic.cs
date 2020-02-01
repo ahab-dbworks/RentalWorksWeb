@@ -201,6 +201,14 @@ namespace WebApi.Modules.HomeControls.Master
         [FwLogicProperty(Id: "EsmQtUkWV6fa")]
         public string DateStamp { get { return master.DateStamp; } set { master.DateStamp = value; } }
 
+
+        [FwLogicProperty(Id: "4emU4L2rvhFz")]
+        public bool? ManifestShippingContainer { get { return master.ManifestShippingContainer; } set { master.ManifestShippingContainer = value; } }
+
+        [FwLogicProperty(Id: "Qg8p4KHsY6t1")]
+        public bool? ManifestStandAloneItem { get { return master.ManifestStandAloneItem; } set { master.ManifestStandAloneItem = value; } }
+        
+
         //------------------------------------------------------------------------------------ 
         public void OnBeforeValidate(object sender, BeforeValidateEventArgs e)
         {
