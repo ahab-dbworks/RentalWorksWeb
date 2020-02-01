@@ -9,6 +9,14 @@
     addFormMenuItems(options: IAddFormMenuOptions) {
         options.hasSave = false;
         FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Order Status Summary', 'Y79RJy4CGwnD', (e: JQuery.ClickEvent) => {
+            try {
+                this.printOrderStatusSummary(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
 }
