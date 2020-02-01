@@ -212,7 +212,10 @@ abstract class InventoryBase {
                     if (inventoryId === null || inventoryId === '') {
                         inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');     // err here if line in grid has no icode selected
                     }
-                    let includeHours: boolean = (request.mode === 'Day' || request.mode === 'Week');
+                    let includeHours: boolean = false;
+                    if ((request.mode === 'Day') || (request.mode === 'Week')) {
+                        includeHours = true;
+                    }
                     const availRequest: any = {
                         InventoryId: inventoryId,
                         WarehouseId: warehouseId.split(','),

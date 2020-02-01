@@ -1430,7 +1430,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         //reservation.ToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availtodatetime")].ToString());
                         DateTime toDate = FwConvert.ToDateTime(row[dt.GetColumnNo("availtodate")].ToString());  // 03/25/2020
                         DateTime toTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availtotime")].ToString());  // 10:15
-                        reservation.ToDateTime = toDate.AddHours(toTime.Hour + 1);                                // 03/25/2020 11:00
+                        reservation.ToDateTime = toDate.AddHours(toTime.Hour + (toTime.Minute == 0 ? 0 : 1));    // 03/25/2020 11:00
                     }
 
                     reservation.QcRequired = FwConvert.ToBoolean(row[dt.GetColumnNo("qcrequired")].ToString());
@@ -2444,7 +2444,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 hour++;
                             }
                         }
-                        else  // just show daily
+                        else  
                         {
                             TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = null;
                             if (availData.AvailabilityDatesAndTimes.TryGetValue(theDateTime, out inventoryWarehouseAvailabilityDateTime))
@@ -2550,6 +2550,10 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         {
                             response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(startDateTime, endDateTime, sub, ref eventId, request.InventoryId, warehouseId));
                         }
+                        if (returning.exists)
+                        {
+                            response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(startDateTime, endDateTime, returning, ref eventId, request.InventoryId, warehouseId));
+                        }
                         if (unknown.exists)
                         {
                             response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(startDateTime, endDateTime, unknown, ref eventId, request.InventoryId, warehouseId));
@@ -2649,7 +2653,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDateTime, theDateTime, avail, ref eventId, request.InventoryId, warehouseId, true));
                             }
 
-                            theDateTime = theDateTime.AddDays(1); 
+                            theDateTime = theDateTime.AddDays(1);
                         }
                     }
 
