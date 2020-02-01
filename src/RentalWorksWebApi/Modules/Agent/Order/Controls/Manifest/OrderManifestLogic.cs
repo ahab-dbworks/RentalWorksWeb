@@ -66,6 +66,26 @@ namespace WebApi.Modules.Agent.OrderManifest
         public bool? ManifestShippingContainer { get; set; }
         [FwLogicProperty(Id: "GUsCUE3Ueazh", IsReadOnly: true)]
         public bool? ManifestStandAloneItem { get; set; }
+        [FwLogicProperty(Id: "SID4zA7y9SGb", IsReadOnly: true)]
+        public decimal? OrderValueTotal { get; set; }
+        [FwLogicProperty(Id: "avbjD5D2KDza", IsReadOnly: true)]
+        public decimal? OrderReplacementTotal { get; set; }
+        [FwLogicProperty(Id: "G1NVAtRw5Rgc", IsReadOnly: true)]
+        public decimal? OwnedValueTotal { get; set; }
+        [FwLogicProperty(Id: "cB8NWA0rJsqE", IsReadOnly: true)]
+        public decimal? OwnedReplacementTotal { get; set; }
+        [FwLogicProperty(Id: "oM2vGwWqjDxH", IsReadOnly: true)]
+        public decimal? SubValueTotal { get; set; }
+        [FwLogicProperty(Id: "Wk8Qbkftp9fc", IsReadOnly: true)]
+        public decimal? SubReplacementTotal { get; set; }
+        [FwLogicProperty(Id: "70flMhApLjIW", IsReadOnly: true)]
+        public decimal? ShippingContainerTotal { get; set; }
+        [FwLogicProperty(Id: "AxYJ403JdA0L", IsReadOnly: true)]
+        public decimal? ShippingItemTotal { get; set; }
+        [FwLogicProperty(Id: "Cjqzn7qpG0yQ", IsReadOnly: true)]
+        public decimal? PieceCountTotal { get; set; }
+        [FwLogicProperty(Id: "qMMbcj6NMkqN", IsReadOnly: true)]
+        public decimal? StandAloneItemTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{ 

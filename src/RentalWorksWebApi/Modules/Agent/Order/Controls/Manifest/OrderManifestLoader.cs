@@ -95,6 +95,36 @@ namespace WebApi.Modules.Agent.OrderManifest
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "manifeststandaloneitem", modeltype: FwDataTypes.Boolean)]
         public bool? ManifestStandAloneItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordervaluetotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? OrderValueTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderreplacementtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? OrderReplacementTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ownedvaluetotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? OwnedValueTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ownedreplacementtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? OwnedReplacementTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subvaluetotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubValueTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subreplacementtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubReplacementTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "shippingcontainertotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? ShippingContainerTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "shippingitemtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? ShippingItemTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "piececounttotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? PieceCountTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "standaloneitemtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? StandAloneItemTotal { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string ShippingContainerColor

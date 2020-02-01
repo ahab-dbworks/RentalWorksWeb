@@ -15,11 +15,10 @@ namespace WebApi.Modules.Agent.Order
         /// <summary>
         /// Get Order Manifest
         /// </summary>
-        /// <param name="OrderId">A unique identifier for Order Manifest</param>
         /// <param name="browseRequest"></param>
         /// <returns></returns>
         // POST api/v1/order/{orderId}/manifest/browse 
-        [HttpPost("{orderid}/manifest/browse")]
+        [HttpPost("manifest/browse")]
         [FwControllerMethod(Id: "QCdz6hgmh7Dh", FwControllerActionTypes.ControlBrowse, ParentId: "8uhwXXJ95d3o")]
         public async Task<ActionResult<FwJsonDataTable>> ManifestBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -27,17 +26,16 @@ namespace WebApi.Modules.Agent.Order
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Export Akas to excel
+        /// Export Manifest to Excel
         /// </summary>
-        /// <param name="OrderId">A unique identifier for RestrictedPerson</param>
         /// <param name="browseRequest"></param>
         /// <returns></returns>
         // POST api/v1/restrictedperson/{id}/aka/exportexcelxlsx 
-        [HttpPost("{orderid}/manifest/exportexcelxlsx")]
+        [HttpPost("manifest/exportexcelxlsx")]
         [FwControllerMethod(Id: "C9dUnuLJIb8K", FwControllerActionTypes.ControlBrowse, ParentId: "8uhwXXJ95d3o")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ManifestExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoExportExcelXlsxFileAsync(browseRequest);
+            return await DoExportExcelXlsxFileAsync<OrderManifestLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }
