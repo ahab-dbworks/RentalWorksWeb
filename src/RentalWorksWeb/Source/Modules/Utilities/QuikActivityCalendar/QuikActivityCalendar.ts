@@ -98,8 +98,8 @@ class QuikActivityCalendar {
                          <div class="fwcontrol fwcontainer fwform-section activities-header" data-control="FwContainer" data-type="section" data-caption="Activities">
                             <div class="flexrow">
                                 <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="Summary" style="flex:1 1 600px"></div>
-                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="My Activities only" data-datafield="MyActivity"></div>
-                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Complete Activities" data-datafield="CompleteActivity"></div>
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="My Activities only" data-datafield="MyActivity" style="margin:.5em;"></div>
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Complete Activities" data-datafield="CompleteActivity" style="margin:.5em;"></div>
                             </div>                        
                          </div>
                       </div>
@@ -110,12 +110,7 @@ class QuikActivityCalendar {
                 </div>`);
         FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
         $popup = FwPopup.renderPopup($popup, { ismodal: true });
-        //render QuikActivity grid
-        //const $quikActivityGrid = $popup.find('div[data-grid="QuikActivityGrid"]');
-        //const $quikActivityGridControl = FwBrowse.loadGridFromTemplate('QuikActivityGrid');
-        //$quikActivityGrid.empty().append($quikActivityGridControl);
-        //FwBrowse.init($quikActivityGridControl);
-        //FwBrowse.renderRuntimeHtml($quikActivityGridControl);
+
         FwBrowse.renderGrid({
             nameGrid: 'QuikActivityGrid',
             gridSecurityId: 'yhYOLhLE92IT',
@@ -142,10 +137,13 @@ class QuikActivityCalendar {
             const $detailColumns = $quikActivityGrid
                 .find('[data-browsedatafield="ICode"], [data-browsedatafield="Description"]')
                 .parents('.column');
+            const detailReadOnlyColumns = $quikActivityGrid.find('[data-browsedatafield="ActivityStatusId"], [data-browsedatafield="AssignedToUserId"]');
             if (isSummary == 'true') {
                 $detailColumns.hide();
+                detailReadOnlyColumns.attr('data-formreadonly', 'false');
             } else {
                 $detailColumns.show();
+                detailReadOnlyColumns.attr('data-formreadonly', 'true');
             }
             const $quikActivityGridControl = $quikActivityGrid.find('[data-type="Grid"]');
             const onDataBind = $quikActivityGridControl.data('ondatabind');
@@ -159,14 +157,17 @@ class QuikActivityCalendar {
         });
 
         $popup.find('[data-datafield="MyActivity"], [data-datafield="CompleteActivity"]').on('change', e => {
+            const myActivity = FwFormField.getValueByDataField($popup, 'MyActivity');
+            const completeActivity = FwFormField.getValueByDataField($popup, 'CompleteActivity');
             const onDataBind = $quikActivityGridControl.data('ondatabind');
             if (typeof onDataBind == 'function') {
                 $quikActivityGridControl.data('ondatabind', request => {
                     onDataBind(request);
-                    request.MyActivity = FwFormField.getValueByDataField($popup, 'MyActivity');
-                    request.CompleteActivity = FwFormField.getValueByDataField($popup, 'CompleteActivity');
+                    request.uniqueids.AssignedToUserId = myActivity == 'T' ? JSON.parse(sessionStorage.getItem('userid')).webusersid : '';
+                    request.uniqueids.IncludeCompleted = completeActivity == 'T' ? true : false;
                 });
             }
+            FwBrowse.search($quikActivityGridControl);
         });
 
         $calendar
