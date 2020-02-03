@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.Inventory;
 using WebApi.Modules.Inventory.Asset;
+using WebApi.Modules.Inventory.Inventory;
 using WebApi.Modules.Inventory.Purchase;
 
 namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
@@ -313,7 +314,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                                 qtyRequest.UpdateCost = true;
                                 qtyRequest.CostPerItem = purchase.UnitCost;
                                 qtyRequest.UniqueId1 = purchase.PurchaseId;
-                                UpdateInventoryQuantityResponse qtyResponse = await AppFunc.UpdateInventoryQuantity(appConfig, userSession, qtyRequest, conn);
+                                UpdateInventoryQuantityResponse qtyResponse = await InventoryFunc.UpdateInventoryQuantity(appConfig, userSession, qtyRequest, conn);
 
                                 response.PurchaseId.Add(purchase.PurchaseId);
                                 response.ItemId.Add(item.ItemId);
@@ -359,7 +360,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                             qtyRequest.UpdateCost = true;
                             qtyRequest.CostPerItem = purchase.UnitCost;
                             qtyRequest.UniqueId1 = purchase.PurchaseId;
-                            UpdateInventoryQuantityResponse qtyResponse = await AppFunc.UpdateInventoryQuantity(appConfig, userSession, qtyRequest, conn);
+                            UpdateInventoryQuantityResponse qtyResponse = await InventoryFunc.UpdateInventoryQuantity(appConfig, userSession, qtyRequest, conn);
 
                             response.PurchaseId.Add(purchase.PurchaseId);
                             response.QuantityAdded += request.Quantity;

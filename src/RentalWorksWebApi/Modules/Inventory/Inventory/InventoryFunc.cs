@@ -3,6 +3,7 @@ using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi.Modules.Inventory.Inventory
 {
@@ -41,6 +42,45 @@ namespace WebApi.Modules.Inventory.Inventory
     public static class InventoryFunc
     {
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<UpdateInventoryQuantityResponse> UpdateInventoryQuantity(FwApplicationConfig appConfig, FwUserSession userSession, UpdateInventoryQuantityRequest request, FwSqlConnection conn = null)
+        {
+            UpdateInventoryQuantityResponse response = new UpdateInventoryQuantityResponse();
+
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+
+            FwSqlCommand qry = new FwSqlCommand(conn, "updatemasterwhqty", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+            qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+            qry.AddParameter("@consignorid", SqlDbType.NVarChar, ParameterDirection.Input, request.ConsignorId);
+            qry.AddParameter("@consignoragreementid", SqlDbType.NVarChar, ParameterDirection.Input, request.ConsignorAgreementId);
+            qry.AddParameter("@trantype", SqlDbType.NVarChar, ParameterDirection.Input, request.TransactionType);
+            qry.AddParameter("@ordertype", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderType);
+            qry.AddParameter("@qtychange", SqlDbType.Decimal, ParameterDirection.Input, request.QuantityChange);
+            qry.AddParameter("@updatecost", SqlDbType.NVarChar, ParameterDirection.Input, request.UpdateCost);
+            qry.AddParameter("@costperitem", SqlDbType.Decimal, ParameterDirection.Input, request.CostPerItem);
+            qry.AddParameter("@forcecost", SqlDbType.NVarChar, ParameterDirection.Input, request.ForceCost);
+            qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, request.UniqueId1);
+            qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, request.UniqueId2);
+            qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, request.UniqueId3);
+            qry.AddParameter("@uniqueid4", SqlDbType.Int, ParameterDirection.Input, request.UniqueId4);
+            qry.AddParameter("@logonly", SqlDbType.NVarChar, ParameterDirection.Input, request.LogOnly);
+            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+            //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            //response.success = (qry.GetParameter("@status").ToInt32() == 0);
+            //response.msg = qry.GetParameter("@msg").ToString();
+            response.success = true;
+
+            string classification = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "master", "masterid", request.InventoryId, "class").Result;
+            InventoryAvailabilityFunc.RequestRecalc(request.InventoryId, request.WarehouseId, classification);
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
         public static async Task<ChangeInventoryTrackedByResponse> ChangeInventoryTrackedBy(FwApplicationConfig appConfig, FwUserSession userSession, ChangeInventoryTrackedByRequest request, FwSqlConnection conn = null)
         {
             ChangeInventoryTrackedByResponse response = new ChangeInventoryTrackedByResponse();
