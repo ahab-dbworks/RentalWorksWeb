@@ -377,6 +377,8 @@ class RwMaster extends WebMaster {
                 $confirmation.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
                     FwFormField.setValue($confirmation, 'div[data-datafield="WarehouseId"]', '', '');
                 });
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
                 // select button within location confirmation prompt
                 $select.on('click', async () => {
                     try {
@@ -390,12 +392,12 @@ class RwMaster extends WebMaster {
                             const promiseGetOfficeLocationInfo = await FwAjax.callWebApi<any, any>({
                                 httpMethod: 'GET',
                                 url: `${applicationConfig.apiurl}api/v1/account/officelocation?locationid=${locationid}&warehouseid=${warehouseid}&departmentid=${departmentid}`,
-                                $elementToBlock: $confirmation
+                                $elementToBlock: $realConfirm
                             });
                             const promiseGetDepartment = FwAjax.callWebApi<any, any>({
                                 httpMethod: 'GET',
                                 url: `${applicationConfig.apiurl}api/v1/department/${departmentid}`,
-                                $elementToBlock: $confirmation
+                                $elementToBlock: $realConfirm
                             });
 
                             await Promise.all([
