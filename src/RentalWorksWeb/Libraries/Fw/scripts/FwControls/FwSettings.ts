@@ -407,7 +407,7 @@ class FwSettingsClass {
                                 html.push(`<div class="checkboxwrapper"><input class="value" data-datafield="${browseData[j]['datafield']}" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>`);
                             }
                         } else {
-                            if (browseData[j]['color'] && response[i][browseData[j]['color']] != null ) {
+                            if (browseData[j]['color'] && response[i][browseData[j]['color']] != null) {
                                 html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:${response[i][browseData[j]['color']]};width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">`);
                             } else {
                                 html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">`);

@@ -7,6 +7,8 @@ namespace FwStandard.Models
     {
          public string SecretKey { get; set; }
 
+        public string OktaKey { get; set; }
+
         public string Authority { get; set; }
         /// <summary>
         /// "iss" (Issuer) Claim

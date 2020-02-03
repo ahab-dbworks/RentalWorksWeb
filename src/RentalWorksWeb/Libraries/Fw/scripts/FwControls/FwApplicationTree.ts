@@ -5,7 +5,7 @@ class FwApplicationTreeClass {
     currentApplicationId: string = '';
     //---------------------------------------------------------------------------------
     getMyTree() {
-        var hasApplicationTreeInSessionStorage, applicationtree=null;
+        var hasApplicationTreeInSessionStorage, applicationtree = null;
         if (FwApplicationTree.tree !== null) {
             applicationtree = FwApplicationTree.tree;
         }
@@ -52,32 +52,32 @@ class FwApplicationTreeClass {
     //};
     //---------------------------------------------------------------------------------
     getNodeByFuncRecursive(node, args, func: (node: any, args: any) => any): IGroupSecurityNode {
-        var resultnode: IGroupSecurityNode = null;
+        let resultNode: IGroupSecurityNode = null;
         if (node !== null) {
-            var ismatch = func(node, args);
+            const ismatch: any = func(node, args);
             if (ismatch) {
-                resultnode = node;
+                resultNode = node;
             } else if (typeof node.children !== 'undefined') {
-                for (var childno = 0; childno < node.children.length; childno++) {
-                    resultnode = FwApplicationTree.getNodeByFuncRecursive(node.children[childno], args, func);
-                    if (resultnode !== null) {
+                for (let childno = 0; childno < node.children.length; childno++) {
+                    resultNode = FwApplicationTree.getNodeByFuncRecursive(node.children[childno], args, func);
+                    if (resultNode !== null) {
                         break;
                     }
                 }
             }
         }
-        return resultnode;
+        return resultNode;
     };
     //---------------------------------------------------------------------------------
     getNodeById(node, id): IGroupSecurityNode {
-        var resultNode: IGroupSecurityNode = null;
+        let resultNode: IGroupSecurityNode = null;
         if (node !== null) {
             var data_nodetype = node.id;
             if (node.id === id) {
                 resultNode = node;
             }
             if ((resultNode === null) && (typeof node.children !== 'undefined')) {
-                for (var childno = 0; childno < node.children.length; childno++) {
+                for (let childno = 0; childno < node.children.length; childno++) {
                     resultNode = FwApplicationTree.getNodeById(node.children[childno], id);
                     if (resultNode !== null) break;
                 }
@@ -87,7 +87,7 @@ class FwApplicationTreeClass {
     };
     //---------------------------------------------------------------------------------
     getChildByType(node, nodetype): IGroupSecurityNode {
-        var resultNode: IGroupSecurityNode = null, foundNodeType, childno, currentNode;
+        let resultNode: IGroupSecurityNode = null, foundNodeType, childno, currentNode;
         if (node !== null) {
             for (childno = 0; childno < node.children.length; childno++) {
                 currentNode = node.children[childno];
@@ -121,7 +121,7 @@ class FwApplicationTreeClass {
     };
     //---------------------------------------------------------------------------------
     getNodeType(node) {
-        var nodetype=null;
+        var nodetype = null;
         if (node !== null) {
             nodetype = node.nodetype;
         }
@@ -131,7 +131,7 @@ class FwApplicationTreeClass {
     getSecurityNodes(node, hidenewmenuoptionsbydefault) {
         var securitynodes;
 
-        securitynodes        = [];
+        securitynodes = [];
         FwApplicationTree.getSecurityNodesRecursive(securitynodes, node, hidenewmenuoptionsbydefault);
 
         return securitynodes;
@@ -140,10 +140,10 @@ class FwApplicationTreeClass {
     getSecurityNodesRecursive(securitynodes: IDbSecurityNode[], node: IGroupSecurityNode, hidenewmenuoptionsbydefault: boolean) {
         var includenode, newNode: IDbSecurityNode, childno, visible, editable;
 
-        visible  = ((typeof node.properties.visible  === 'string') && 
-                    ((hidenewmenuoptionsbydefault !== true) && (node.properties.visible === 'F')) || ((hidenewmenuoptionsbydefault === true) && (node.properties.visible === 'T'))) ? node.properties.visible : null;
+        visible = ((typeof node.properties.visible === 'string') &&
+            ((hidenewmenuoptionsbydefault !== true) && (node.properties.visible === 'F')) || ((hidenewmenuoptionsbydefault === true) && (node.properties.visible === 'T'))) ? node.properties.visible : null;
         editable = ((typeof node.properties.editable === 'string') && (node.properties.editable === 'F')) ? node.properties.editable : null;
-        includenode  = (visible !== null) || (editable !== null);
+        includenode = (visible !== null) || (editable !== null);
         if (includenode) {
             newNode = {
                 id: node.id,
@@ -215,7 +215,7 @@ class FwApplicationTreeClass {
             }
         }
     }
-        //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     getAllModules(addModulePrefix: boolean, addCategoryNamesToCaption: boolean, onAddArrayItem: (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => void): any[] {
         const modules: any[] = [];
         for (const key in (<any>window).Constants.Modules) {
@@ -233,19 +233,19 @@ class FwApplicationTreeClass {
         if (currentNode.nodetype === 'Module') {
             const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
             const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleActions'; 
+                return node.nodetype === 'ModuleActions';
             });
             const nodeView = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
-                    typeof node.properties.action === 'string' && node.properties.action === 'View'; 
+                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' &&
+                    typeof node.properties.action === 'string' && node.properties.action === 'View';
             });
             const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
-                    typeof node.properties.action === 'string' && node.properties.action === 'New'; 
+                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' &&
+                    typeof node.properties.action === 'string' && node.properties.action === 'New';
             });
             const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
-                    typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
+                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' &&
+                    typeof node.properties.action === 'string' && node.properties.action === 'Edit';
             });
             const hasView: boolean = nodeView !== null && nodeView.properties.visible === 'T';
             const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
@@ -256,7 +256,7 @@ class FwApplicationTreeClass {
                 let moduleCaption = `${addCategoryNamesToCaption ? category : ''}${currentNode.caption}`;
                 onAddArrayItem(modules, moduleCaption, nodeKey, category, currentNode, nodeModule, hasView, hasNew, hasEdit, moduleController);
             }
-        } 
+        }
         else if (currentNode.nodetype === 'Category' && nodeKey !== 'Reports') {
             for (let childNodeKey in currentNode.children) {
                 const childNode = currentNode.children[childNodeKey];
@@ -285,15 +285,15 @@ class FwApplicationTreeClass {
     getAllGridsRecursive(modules: any[], category: string, nodeKey: string, currentNode: any, addGridPrefix: boolean, onAddArrayItem: (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => void): void {
         const nodeGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
         const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeGrid, {}, (node: any, args: any) => {
-            return node.nodetype === 'ModuleActions' || node.nodetype === 'ControlActions'; 
+            return node.nodetype === 'ModuleActions' || node.nodetype === 'ControlActions';
         });
         const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' && 
-                typeof node.properties.action === 'string' && node.properties.action === 'New'; 
+            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' &&
+                typeof node.properties.action === 'string' && node.properties.action === 'New';
         });
         const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' && 
-                typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
+            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' &&
+                typeof node.properties.action === 'string' && node.properties.action === 'Edit';
         });
         const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
         const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
@@ -305,7 +305,7 @@ class FwApplicationTreeClass {
                 let moduleCaption = `${addGridPrefix ? category : ''}${currentNode.caption}`;
                 onAddArrayItem(modules, moduleCaption, moduleNav, category, currentNode, nodeGrid, hasNew, hasEdit, moduleController);
             }
-        } 
+        }
     }
     //---------------------------------------------------------------------------------
     sortModules(modules: any[]): void {

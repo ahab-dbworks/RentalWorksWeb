@@ -67,7 +67,8 @@ html.theme-material .fw-grid .grid-content table tr.state-selected {background-c
 html.theme-material .fw-grid .grid-content table tr td {overflow: hidden;padding:6px;vertical-align: middle;text-overflow: ellipsis;border-style:solid;border-width:0 0 1px 1px;border-color: rgba(0,0,0,0.16);border-left-color: transparent;}
 html.theme-material .fw-grid .grid-content table tr td:first-child {border-left-width:0;}
 html.theme-material .fw-grid .grid-content table tr:last-of-type td {border-bottom: 0;}
-html.theme-material .fw-grid .grid-content table tr td .tag {display:inline-block;border-radius:4px;padding:4px;text-transform:lowercase;border: 1px solid rgba(0,40,100,0.12);}
+html.theme-material .fw-grid .grid-content table tr td .tag {display:inline-block;border-radius:4px;padding:4px;margin-right:5px;border: 1px solid rgba(0,40,100,0.12);font-size: 0.8em;}
+html.theme-material .fw-grid .grid-content table tr td .tag:last-of-type {margin-right:0;}
 
 html.theme-material .fw-grid .grid-pager {display:flex;align-items:center;background-color:#fafafa;color:#464646;padding:.25em;border-top: 1px solid #BDBDBD;flex:0 0;}
 html.theme-material .fw-grid .grid-pager .pager-refresh {height:24px;padding:3px;cursor:pointer;}
