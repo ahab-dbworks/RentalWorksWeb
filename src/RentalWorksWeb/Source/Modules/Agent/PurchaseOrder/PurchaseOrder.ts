@@ -2363,6 +2363,13 @@ class PurchaseOrder implements IModule {
         $form.on('change', '.activity-filters', e => {
             ActivityGridController.filterActivities($form);
         });
+        // Prevent items tab view on 'NEW' records
+        $form.find('[data-type="tab"][data-notOnNew="true"]').on('click', e => {
+            if ($form.attr('data-mode') === 'NEW') {
+                e.stopImmediatePropagation();
+                FwNotification.renderNotification('WARNING', 'Save Record first.');
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
