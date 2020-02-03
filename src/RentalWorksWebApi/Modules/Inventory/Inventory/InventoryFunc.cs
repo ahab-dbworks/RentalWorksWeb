@@ -8,6 +8,26 @@ using WebApi.Modules.HomeControls.InventoryAvailability;
 namespace WebApi.Modules.Inventory.Inventory
 {
 
+    public class UpdateInventoryQuantityRequest
+    {
+        public string InventoryId { get; set; }
+        public string WarehouseId { get; set; }
+        public string ConsignorId { get; set; }
+        public string ConsignorAgreementId { get; set; }
+        public string TransactionType { get; set; }
+        public string OrderType { get; set; }
+        public decimal QuantityChange { get; set; }
+        public bool UpdateCost { get; set; }
+        public decimal? CostPerItem { get; set; }
+        public decimal? ForceCost { get; set; }
+        public string UniqueId1 { get; set; }
+        public string UniqueId2 { get; set; }
+        public string UniqueId3 { get; set; }
+        public int? UniqueId4 { get; set; }
+        public bool LogOnly { get; set; }
+    }
+    public class UpdateInventoryQuantityResponse : TSpStatusResponse { }
+
     public class ChangeInventoryTrackedByRequest
     {
         public string InventoryId { get; set; }
