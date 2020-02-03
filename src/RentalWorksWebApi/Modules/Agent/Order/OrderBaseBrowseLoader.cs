@@ -242,7 +242,7 @@ namespace WebApi.Modules.Agent.Order
                 string checkInWarehouseId = GetMiscFieldAsString("CheckInWarehouseId", request);
                 if (!string.IsNullOrEmpty(checkInWarehouseId))
                 {
-                    select.AddWhere(" ((warehouseid = @checkinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @checkinwhid))");
+                    select.AddWhere(" ((warehouseid = @checkinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @checkinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.returntowarehouseid = @checkinwhid))");
                     select.AddParameter("@checkinwhid", checkInWarehouseId);
                 }
             }
