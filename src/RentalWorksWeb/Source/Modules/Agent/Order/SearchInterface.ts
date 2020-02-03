@@ -253,24 +253,13 @@ class SearchInterface {
         this.getViewSettings($popup);
 
         //Render preview grid
-        //const $previewGrid        = $popup.find('[data-grid="SearchPreviewGrid"]');
-        //const $previewGridControl = FwBrowse.loadGridFromTemplate('SearchPreviewGrid');
-        //$previewGrid.empty().append($previewGridControl);
-        //$previewGridControl.data('ondatabind', request => {
-        //    request.SessionId        = id;
-        //    request.ShowAvailability = true;
-        //    request.FromDate         = FwFormField.getValueByDataField($popup, 'FromDate');
-        //    request.ToDate           = FwFormField.getValueByDataField($popup, 'ToDate');
-        //    request.ShowImages       = true;
-        //});
-
         FwBrowse.renderGrid({
             nameGrid: 'SearchPreviewGrid',
             gridSecurityId: 'JLDAuUcvHEx1',
             moduleSecurityId: this.id,
             $form: $popup,
             addGridMenu: (options: IAddGridMenuOptions) => {
-
+                options.hasNew = false;
             },
             onDataBind: (request: any) => {
                 request.SessionId = id;
@@ -283,9 +272,6 @@ class SearchInterface {
                 this.updatePreviewTabQuantity($popup, id, false);
             }
         });
-        //FwBrowse.addEventHandler($previewGridControl, 'afterdatabindcallback', () => {
-        //    this.updatePreviewTabQuantity($popup, id, false);
-        //});
 
         this.updatePreviewTabQuantity($popup, id, true);
         this.events($popup, $form, id);
