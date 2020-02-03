@@ -7,6 +7,7 @@ using WebApi.Modules.Agent.Order;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.MasterItem;
 using WebApi.Modules.Home.MasterItemDetail;
+using FwStandard.Models;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -31,7 +32,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             orderItem.AfterSave += OnAfterSaveMasterItem;
 
-
+            AfterDelete += OnAfterDelete;
+            UseTransactionToDelete = true;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "j5BoEx9ak5Ry", IsPrimaryKey: true)]
@@ -1365,5 +1367,32 @@ namespace WebApi.Modules.HomeControls.OrderItem
             e.SavePerformed = (rowsSaved > 0);
         }
         //------------------------------------------------------------------------------------
+        public void OnAfterDelete(object sender, AfterDeleteEventArgs e)
+        {
+            
+            string itemClass = ItemClass ?? "";
+            if (itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+            {
+
+                //find and delete all of the accessories
+                BrowseRequest accessoryBrowseRequest = new BrowseRequest();
+                accessoryBrowseRequest.uniqueids = new Dictionary<string, object>();
+                accessoryBrowseRequest.uniqueids.Add("OrderId", OrderId);
+                accessoryBrowseRequest.uniqueids.Add("ParentId", OrderItemId);
+
+                OrderItemLogic acc = new OrderItemLogic();
+                acc.SetDependencies(AppConfig, UserSession);
+                List<OrderItemLogic> accessories = acc.SelectAsync<OrderItemLogic>(accessoryBrowseRequest).Result;
+
+                foreach (OrderItemLogic a in accessories)
+                {
+                    a.SetDependencies(AppConfig, UserSession);
+                    bool b = a.DeleteAsync(e.SqlConnection).Result;
+                }
+
+
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

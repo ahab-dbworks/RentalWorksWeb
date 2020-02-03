@@ -928,6 +928,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             select.AddWhere("poorderid " + (subs ? ">" : "=") + "''");
 
             addFilterToSelect("RecType", "rectype", select, request);
+            addFilterToSelect("ParentId", "parentid", select, request);
 
             select.AddWhere("orderid = @orderid");
             select.AddParameter("@orderid", orderId);
