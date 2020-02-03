@@ -1756,7 +1756,7 @@ class Quote extends OrderBase {
 
         if ((status === 'ACTIVE') || (status === 'RESERVED')) {
             const quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
-            const $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Quote ${quoteNumber}?</div>`);
+            const $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order from Quote ${quoteNumber}?</div>`);
             const $yes = FwConfirmation.addButton($confirmation, 'Create Order', false);
             const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
