@@ -113,7 +113,7 @@ class SearchInterface {
                           </div>`;
         $popup.find('#itemsearchtabpage').append(jQuery(searchhtml));
 
-        let previewhtml = `<div id="previewHtml">
+        let previewhtml = `<div id="previewHtml" style="overflow:auto;">
                              <div class="fwmenu default"></div>
                              <div style="padding: 5px;text-align: right;">
                                <div data-type="button" class="fwformcontrol addToOrder">Add to ${buttonCaption}</div>
