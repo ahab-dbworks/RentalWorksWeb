@@ -11,10 +11,12 @@
         html.push('<div class="fwreportsheader">');
         html.push('  <div class="reports-header-title">Reports</div>');
         html.push('  <div class="input-group pull-right">');
+        html.push('    <div style="display:flex;width:255px;">');
         html.push('    <input type="text" id="reportsSearch" class="form-control" placeholder="Search..." autofocus>');
-        html.push('    <span class="input-group-clear">');
+        html.push('    <span class="input-group-clear" style="display:none;">');
         html.push('      <i class="material-icons">clear</i>');
         html.push('    </span>');
+        html.push('    </div>');
         html.push('    <span class="input-group-search">');
         html.push('      <i class="material-icons">search</i>');
         html.push('    </span>');
@@ -201,20 +203,35 @@
                     activeMenu.removeClass('active-menu').hide();
                 }
             })
-
-        $control.on('click', '.input-group-clear', function (e) {
-            let event = jQuery.Event('keypress');
-            event.which = 13;
-            jQuery(this).parent().find('#reportsSearch').val('').trigger(event);
-            jQuery(this).css('display', 'none');
+        // Clear 'X' button
+        $control.on('click', '.input-group-clear', e => {
+            const $this = jQuery(e.currentTarget);
+            const event = jQuery.Event("keyup", { which: 13 });
+            $this.parent().find('#reportsSearch').val('').trigger(event);
         });
-
-        $control.on('keypress', '#reportsSearch', function (e) {
+        // Search Input and icon
+        $control.on('click', '.input-group-search', e => {
+            const $search = jQuery(e.currentTarget).parent().find('#reportsSearch');
+            const event = jQuery.Event("keyup", { which: 13 });
+            $search.trigger(event);
+        });
+        $control.on('change', '#reportsSearch', e => {
+            const $search = jQuery(e.currentTarget).parent().find('#reportsSearch');
+            const event = jQuery.Event("keyup", { which: 13 });
+            $search.trigger(event);
+        });
+        $control.on('keyup', '#reportsSearch', function (e) {
+            const val = jQuery.trim(this.value).toUpperCase();
+            const $searchClear = jQuery(this).parent().find('.input-group-clear');
+            if ($searchClear.is(":hidden") && val !== '') {
+                $searchClear.show();
+            } else if (val === '') {
+                $searchClear.hide();
+            }
             if (e.which === 13) {
                 e.stopImmediatePropagation();
                 jQuery(this).closest('.fwreports').find('.data-panel:parent').parent().find('.row-heading').click();
                 jQuery(this).closest('.fwreports').find('.data-panel:parent').empty();
-                jQuery(this).parent().find('.input-group-clear').css('display', 'table-cell');
 
                 if (Object.keys(screen.moduleCaptions).length === 0 && screen.moduleCaptions.constructor === Object) {
                     me.getCaptions(screen);
@@ -223,10 +240,8 @@
                 filter = [];
                 const $reportDescriptions = jQuery('small#description');
                 const $reportTitles = jQuery('a#title');
-                const val = jQuery.trim(this.value).toUpperCase();
                 const $reports = jQuery('.panel-group');
                 if (val === "") {
-                    jQuery(this).parent().find('.input-group-clear').css('display', 'none');
                     $control.find('.highlighted').removeClass('highlighted');
                     $reportDescriptions.closest('div.panel-group').show();
                 } else {
