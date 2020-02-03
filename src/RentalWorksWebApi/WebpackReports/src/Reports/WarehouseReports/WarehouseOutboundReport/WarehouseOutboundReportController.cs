@@ -15,6 +15,7 @@ using WebApi.Data;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Settings.ActivityType;
+using WebApi.Modules.Administrator.User;
 
 namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
 {
@@ -119,5 +120,13 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
             return await DoBrowseAsync<ActivityTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/warehouseoutboundreport/validateagent/browse
+        [HttpPost("validateagent/browse")]
+        [FwControllerMethod(Id: "sEvolqmMZNCFr", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAgentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
     }
 }
