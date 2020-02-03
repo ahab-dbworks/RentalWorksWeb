@@ -2,20 +2,41 @@
     Module: string = 'ActivityGrid';
     apiurl: string = 'api/v1/activity';
 
-    //onRowNewMode($control: JQuery, $tr: JQuery) {
-    //    let $form = $control.closest('.fwform');
-    //    let $grid = $tr.parents('[data-grid="ActivityGrid"]');
-
-    //}
-
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
         switch (datafield) {
             case 'ActivityStatusId':
-                const activityType = FwBrowse.getValueByDataField($gridbrowse, $tr, 'ActivityTypeId');
-                request.uniqueids = {
-                    ActivityTypeId: activityType
-                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateactivitystatus`);
+                request.uniqueids.ActivityTypeId = FwBrowse.getValueByDataField($gridbrowse, $tr, 'ActivityTypeId');
                 break;
+            case 'AssignedToUserId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateuser`);
+                break;
+            case 'ActivityTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateactivitytype`);
+                break;
+        }
+    }
+
+    filterActivities($form: JQuery) {
+        const $activityGrid = $form.find('[data-name="ActivityGrid"]');
+        const onDataBind = $activityGrid.data('ondatabind');
+        if (typeof onDataBind == 'function') {
+            const activityFromDate = FwFormField.getValueByDataField($form, 'ActivityFromDate');
+            const activityToDate = FwFormField.getValueByDataField($form, 'ActivityToDate');
+            const activityTypes = FwFormField.getValueByDataField($form, 'ActivityTypeId');
+            const showShipping = FwFormField.getValueByDataField($form, 'ShowShipping');
+            const showSubPo = FwFormField.getValueByDataField($form, 'ShowSubPo');
+            const showComplete = FwFormField.getValueByDataField($form, 'ShowComplete');
+            $activityGrid.data('ondatabind', request => {
+                onDataBind(request);
+                request.uniqueids.ActivityFromDate = activityFromDate;
+                request.uniqueids.ActivityToDate = activityToDate;
+                request.uniqueids.ActivityTypeId = activityTypes;
+                request.uniqueids.ShowShipping = showShipping;
+                request.uniqueids.ShowSubPo = showSubPo;
+                request.uniqueids.ShowComplete = showComplete;
+            });
+            FwBrowse.search($activityGrid);
         }
     }
 }

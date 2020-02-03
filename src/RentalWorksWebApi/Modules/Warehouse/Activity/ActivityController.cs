@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.Settings.ActivityStatus;
+using WebApi.Modules.Administrator.User;
+using WebApi.Modules.Settings.ActivityType;
+
 namespace WebApi.Modules.Warehouse.Activity
 {
     [Route("api/v1/[controller]")]
@@ -69,6 +73,30 @@ namespace WebApi.Modules.Warehouse.Activity
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ActivityLogic>(id);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/activity/validateactivitystatus/browse 
+        [HttpPost("validateactivitystatus/browse")]
+        [FwControllerMethod(Id: "Rhcp0WRMpW24", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateActivityStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ActivityStatusLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/activity/validateuser/browse 
+        [HttpPost("validateuser/browse")]
+        [FwControllerMethod(Id: "2ZC5cQRsi0fw", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUserBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/activity/validateactivitytype/browse 
+        [HttpPost("validateactivitytype/browse")]
+        [FwControllerMethod(Id: "dFPeo2R5tybj", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateActivityTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ActivityTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }
