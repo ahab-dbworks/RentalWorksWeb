@@ -2705,10 +2705,15 @@ class FwBrowseClass {
                     $control.find('.pager .count').hide();
                     $control.find('.pager .show-all').text(`Show All ${dt.TotalRows} rows`);
 
-                    if (dt.TotalPages <= 1) {
-                        $control.find('.pager .show-all').hide();
+                    const isMultiSelect = $control.attr('data-multiselectvalidation');
+                    if (isMultiSelect) {
+                        if (dt.TotalPages <= 1) {
+                            $control.find('.pager .show-all').hide();
+                        } else {
+                            $control.find('.pager .show-all').show();
+                        }
                     } else {
-                        $control.find('.pager .show-all').show();
+                        $control.find('.pager .show-all').hide();
                     }
                     break;
             }
