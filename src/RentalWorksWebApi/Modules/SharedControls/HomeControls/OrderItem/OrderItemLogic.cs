@@ -6,7 +6,6 @@ using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.MasterItem;
-using WebApi;
 using WebApi.Modules.Home.MasterItemDetail;
 
 namespace WebApi.Modules.HomeControls.OrderItem
@@ -1074,6 +1073,86 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public string DateStamp { get { return orderItem.DateStamp; } set { orderItem.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            OrderItemLogic orig = null;
+            if (original != null)
+            {
+                orig = (OrderItemLogic)original;
+            }
+
+            string itemClass = ItemClass;
+            string inventoryId = InventoryId;
+
+            if (orig != null)
+            {
+                if (itemClass == null)
+                {
+                    itemClass = orig.ItemClass;
+                }
+                if (inventoryId == null)
+                {
+                    inventoryId = orig.InventoryId;
+                }
+            }
+
+            if (isValid)
+            {
+                if (string.IsNullOrEmpty(inventoryId))
+                {
+                    if (!(itemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || itemClass.Equals(RwConstants.ITEMCLASS_TEXT) || itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL)))
+                    {
+                        isValid = false;
+                        validateMsg = "I-Code is required.";
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                //need to make sure the user doesn't change from package-type to non-package-type or vice-versa
+                if ((saveMode.Equals(TDataRecordSaveMode.smUpdate)) && (orig != null))
+                {
+                    string origItemClass = orig.ItemClass;
+                    string origInventoryId = orig.InventoryId;
+                    string origDescription = orig.Description;
+                    string newInventoryId = InventoryId ?? origInventoryId;
+
+                    if (!newInventoryId.Equals(origInventoryId))
+                    {
+
+                        string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { inventoryId }, new string[] { "class", "masterno", "master" }).Result;
+                        string newInventoryClass = inventoryData[0];
+                        string newInventoryICode = inventoryData[1];
+                        string newInventoryDescription = inventoryData[2];
+
+                        if (isValid)
+                        {
+                            if (origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot modify {origDescription} here.  Instead, delete this and add {newInventoryDescription} as a new item.";
+                            }
+                        }
+
+                        if (isValid)
+                        {
+                            if ((!(origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))) &&
+                               ((newInventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || newInventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || newInventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot change item to {newInventoryDescription} here.  Instead, delete {origDescription} and add the new item.";
+                            }
+                        }
+                    }
+                }
+            }
+
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             OrderItemLogic orig = null;
@@ -1126,8 +1205,6 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         Description = orig.Description;
                     }
                 }
-
-                //need to make sure the user doesn't change from package-type to non-package-type or vice-versa
 
                 if ((orig != null) && (orig.Locked.GetValueOrDefault(false)))
                 {
