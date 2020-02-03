@@ -221,7 +221,8 @@ namespace FwStandard.Data
                     using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                     {
                         int rowcount = await cmd.DeleteAsync(TableName, this);
-                        success = (rowcount > 0);
+                        //success = (rowcount > 0);  
+                        success = true; //justin hoffman 02/03/2020 check on rowcount is not correct here.  if no error occurs, then the delete was a success
                     }
                 }
                 //AfterDelete?.Invoke(this, afterDeleteArgs);

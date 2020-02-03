@@ -87,9 +87,13 @@ namespace FwStandard.BusinessLogic
     {
         public bool PerformDelete { get; set; } = true;
         public string ErrorMessage { get; set; } = "";
+        public FwSqlConnection SqlConnection { get; set; }
     }
 
-    public class AfterDeleteEventArgs : EventArgs { }
+    public class AfterDeleteEventArgs : EventArgs
+    {
+        public FwSqlConnection SqlConnection { get; set; }
+    }
 
     public class AfterMapEventArgs : EventArgs
     {
@@ -209,7 +213,10 @@ namespace FwStandard.BusinessLogic
         public bool HasAudit { get; set; } = true;
 
         [JsonIgnore]
-        protected bool UseTransactionToSave { get; set; } = false;
+        protected bool UseTransactionToSave { get; set; } = false;   //maybe set this value to "true" for any Logic that has more than one record within
+
+        [JsonIgnore]
+        protected bool UseTransactionToDelete { get; set; } = false;  //maybe set this value to "true" for any Logic that has more than one record within
 
         [JsonIgnore]
         public bool DeleteRecordsInReverseSequence { get; set; } = false;
@@ -565,14 +572,14 @@ namespace FwStandard.BusinessLogic
                         if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
                         {
                             FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
-                            if (includeOptional) 
+                            if (includeOptional)
                             {
                                 if ((businessLogicFieldAttribute.IsPrimaryKey) || (businessLogicFieldAttribute.IsPrimaryKeyOptional))
                                 {
                                     primaryKeyProperties.Add(property);
                                 }
                             }
-                            else 
+                            else
                             {
                                 if (businessLogicFieldAttribute.IsPrimaryKey)
                                 {
@@ -1356,44 +1363,89 @@ namespace FwStandard.BusinessLogic
                     });
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> DeleteAsync()
+        public virtual async Task<bool> DeleteAsync(FwSqlConnection conn = null)
         {
             bool success = true;
             BeforeDeleteEventArgs beforeDeleteArgs = new BeforeDeleteEventArgs();
             AfterDeleteEventArgs afterDeleteArgs = new AfterDeleteEventArgs();
-            await BeforeDeleteAsync(beforeDeleteArgs);
-            if (beforeDeleteArgs.PerformDelete)
+
+            bool transactionInitializedHere = false;
+            try
             {
-                if (DeleteRecordsInReverseSequence)
+                if (UseTransactionToDelete)
                 {
-                    foreach (FwDataReadWriteRecord rec in dataRecords.Reverse<FwDataReadWriteRecord>())
+                    if (conn == null)
                     {
-                        success &= await rec.DeleteAsync();
+                        conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
+                        await conn.GetConnection().OpenAsync();
+                    }
+
+                    if (conn.GetActiveTransaction() == null)
+                    {
+                        conn.BeginTransaction();
+                        transactionInitializedHere = true;
                     }
                 }
-                else
+                beforeDeleteArgs.SqlConnection = conn;
+                afterDeleteArgs.SqlConnection = conn;
+
+                await BeforeDeleteAsync(beforeDeleteArgs);
+                if (beforeDeleteArgs.PerformDelete)
                 {
-                    foreach (FwDataReadWriteRecord rec in dataRecords)
+
+
+                    if (DeleteRecordsInReverseSequence)
                     {
-                        success &= await rec.DeleteAsync();
+                        foreach (FwDataReadWriteRecord rec in dataRecords.Reverse<FwDataReadWriteRecord>())
+                        {
+                            success &= await rec.DeleteAsync(conn);
+                        }
                     }
+                    else
+                    {
+                        foreach (FwDataReadWriteRecord rec in dataRecords)
+                        {
+                            success &= await rec.DeleteAsync(conn);
+                        }
+                    }
+                    await AfterDeleteAsync(afterDeleteArgs);
+
+                    // process alerts on another thread without blocking
+                    _ = Task.Run(async () =>
+                    {
+                        await AlertFunc.ProcessAlertsAsync(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, this, null, null);
+                    });
                 }
-                await AfterDeleteAsync(afterDeleteArgs);
-
-                // process alerts on another thread without blocking
-                _ = Task.Run(async () =>
-                {
-                    await AlertFunc.ProcessAlertsAsync(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, this, null, null);
-                });
-
             }
-            else  // PerformDelete = false
+            finally
+            {
+                if (transactionInitializedHere)
+                {
+                    if (success)
+                    {
+                        // if a rollback occurs within a trigger, then this entire transaction will already be rolled back. 
+                        // system will give an error here (This SqlTransaction has completed; it is no longer usable.).  Still working on a fix for this
+                        conn.CommitTransaction();
+                    }
+                    else
+                    {
+                        // if a rollback occurs within a trigger, then this entire transaction will already be rolled back. 
+                        // don't know if this is a bug in the database connection or not.
+                        // but I am explicitly rolling back here incase a rollback does not occur within a trigger, for any reason.
+                        conn.RollbackTransaction();
+                    }
+                    conn.Close();
+                }
+            }
+
+            if (!beforeDeleteArgs.PerformDelete)
             {
                 if (!string.IsNullOrEmpty(beforeDeleteArgs.ErrorMessage))
                 {
                     throw new Exception(beforeDeleteArgs.ErrorMessage);
                 }
             }
+
             return success;
         }
         //------------------------------------------------------------------------------------
