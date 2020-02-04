@@ -11,6 +11,7 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Data;
+using WebApi.Modules.Agent.Order;
 using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.OrderStatusDetailReport
@@ -25,9 +26,9 @@ namespace WebApi.Modules.Reports.OrderStatusDetailReport
     public class OrderStatusDetailReportController : AppReportController
     {
         public OrderStatusDetailReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "OrderStatusReport"; }
+        protected override string GetReportFileName() { return "OrderStatusDetailReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Order Status"; }
+        protected override string GetReportFriendlyName() { return "Order Status Detail"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -40,10 +41,10 @@ namespace WebApi.Modules.Reports.OrderStatusDetailReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "OrderStatusReport";
+            return "OrderStatusDetailReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderstatusreport/render 
+        // POST api/v1/orderstatusdetailreport/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "OmsVMrVdBH02")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
@@ -53,7 +54,7 @@ namespace WebApi.Modules.Reports.OrderStatusDetailReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderstatusreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/orderstatusdetailreport/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id: "7Byk9maM4f9x")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]OrderStatusDetailReportRequest request)
@@ -63,7 +64,7 @@ namespace WebApi.Modules.Reports.OrderStatusDetailReport
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderstatusreport/runreport 
+        // POST api/v1/orderstatusdetailreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "HWv77z8LURHY")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]OrderStatusDetailReportRequest request)
@@ -86,5 +87,12 @@ namespace WebApi.Modules.Reports.OrderStatusDetailReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderstatusdetailreport/validateorder/browse 
+        [HttpPost("validateorder/browse")]
+        [FwControllerMethod(Id: "mXCvb9NSeGVL", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
     }
 }

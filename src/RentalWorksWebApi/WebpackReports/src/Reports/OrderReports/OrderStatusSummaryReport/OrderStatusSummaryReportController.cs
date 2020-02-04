@@ -87,8 +87,7 @@ namespace WebApi.Modules.Reports.OrderStatusSummaryReport
             }
         }
         //------------------------------------------------------------------------------------ 
-
-        // POST api/v1/orderreport/validateorder/browse 
+        // POST api/v1/orderstatussummaryreport/validateorder/browse 
         [HttpPost("validateorder/browse")]
         [FwControllerMethod(Id: "YyAtJqo69gwa", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)

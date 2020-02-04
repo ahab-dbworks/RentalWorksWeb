@@ -86,7 +86,6 @@ abstract class FwWebApiReport {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Html';
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
-                        console.log(request.parameters, 'request parameters');
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Preview';
                         //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.

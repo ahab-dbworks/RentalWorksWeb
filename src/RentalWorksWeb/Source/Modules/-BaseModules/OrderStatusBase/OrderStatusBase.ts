@@ -167,15 +167,18 @@
         });
     }
     //---------------------------------------------------------------------------------------------
-    printOrderStatusSummary($form: any) {
+    printOrderStatus($form: any, whichStatusReport: string) {
         try {
             var orderIdText = 'div.fwformfield[data-datafield="OrderId"] .fwformfield-text';
             var module = this.Module;
             var orderNumber = $form.find(orderIdText).val();
             var orderId = FwFormField.getValue($form, `div[data-datafield="OrderId"]`);
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-
-            var $report = OrderStatusSummaryReportController.openForm();
+            if (whichStatusReport === 'summary') {
+                var $report = OrderStatusSummaryReportController.openForm();
+            } else {
+                var $report = OrderStatusDetailReportController.openForm();
+            }
             FwModule.openSubModuleTab($form, $report);
 
             //set order id value on the field
