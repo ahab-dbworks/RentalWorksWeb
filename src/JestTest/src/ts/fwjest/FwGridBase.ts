@@ -677,8 +677,8 @@ export class FwGridBase {
                         //cellValue = await page.$eval(cellSelector, (e: any) => e.value);
                         break;
                     case 'displayfield':
-                        cellSelector = rowSelector + ` td.column .field[data-browsedatafield="${fieldToFind}"] input`;
-                        cellValue = await page.$eval(cellSelector, (e: any) => e.value);
+                        cellSelector = rowSelector + ` td.column .field[data-browsedatafield="${fieldToFind}"]`;
+                        cellValue = await page.$eval(cellSelector, el => el.getAttribute('data-originaltext'));
                         break;
                     default:
                         cellSelector = rowSelector + ` td.column .field[data-browsedatafield="${fieldToFind}"]`;
