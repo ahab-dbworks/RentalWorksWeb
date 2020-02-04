@@ -1,4 +1,4 @@
-﻿<!--Order / Quote Report-->
+﻿<!--Order Report-->
 <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexcolumn" style="flex:0 0 30%;padding-bottom:5px;">
     {{#if Logosrc}}
@@ -211,7 +211,6 @@
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
-    {{#ifNotEquals QuantityOrdered "0"}}
     <tbody data-rowtype="{{RowType}}">
       <tr data-isbold="{{Bold}}">
         <!-- I-Code -->
@@ -344,7 +343,6 @@
         {{/ifNotEquals}}
       </tr>
     </tbody>
-    {{/ifNotEquals}}
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
     <tr>

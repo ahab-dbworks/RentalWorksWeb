@@ -211,7 +211,6 @@
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
-    {{#ifNotEquals QuantityOrdered "0"}}
     <tbody data-rowtype="{{RowType}}">
       <tr data-isbold="{{Bold}}">
         <!-- I-Code -->
@@ -344,7 +343,6 @@
         {{/ifNotEquals}}
       </tr>
     </tbody>
-    {{/ifNotEquals}}
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
     <tr>
