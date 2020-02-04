@@ -244,8 +244,9 @@ class OrderItemGrid {
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 const warehouseText = FwFormField.getTextByDataField($form, 'WarehouseId');
                 FwFormField.setValue2($popup.find('.warehousefilter'), warehouseId, warehouseText);
-                const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
-                FwFormField.setValue2($popup.find('div[data-datafield="ICode"]'), inventoryId);
+                // fields on popup
+                const iCode = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext');
+                FwFormField.setValue2($popup.find('div[data-datafield="ICode"]'), iCode);
                 const description = FwBrowse.getValueByDataField($control, $generatedtr, 'Description');
                 FwFormField.setValue2($popup.find('div[data-datafield="Description"]'), description);
 
@@ -253,6 +254,7 @@ class OrderItemGrid {
                 const $calendar = $popup.find('.calendar');
                 FwScheduler.renderRuntimeHtml($calendar);
                 FwScheduler.init($calendar);
+                const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
                 RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
                 FwScheduler.loadControl($calendar);
                 const schddate = FwScheduler.getTodaysDate();

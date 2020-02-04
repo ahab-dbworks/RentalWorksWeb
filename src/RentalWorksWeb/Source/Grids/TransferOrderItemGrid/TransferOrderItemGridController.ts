@@ -88,17 +88,19 @@
 
             const $calendar = $popup.find('.calendar');
             const $scheduler = $popup.find('.realscheduler');
-            const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
-            const warehouseId = FwBrowse.getValueByDataField($control, $generatedtr, 'WarehouseId');
-            const warehouseText = $generatedtr.find('[data-browsedatafield="WarehouseId"]').attr('data-originaltext');
-            FwFormField.setValue2($popup.find('div[data-datafield="ICode"]'), inventoryId);
+
+            const iCode = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext');
+            FwFormField.setValue2($popup.find('div[data-datafield="ICode"]'), iCode);
             const description = FwBrowse.getValueByDataField($control, $generatedtr, 'Description');
             FwFormField.setValue2($popup.find('div[data-datafield="Description"]'), description);
+            const warehouseId = FwBrowse.getValueByDataField($control, $generatedtr, 'WarehouseId');
+            const warehouseText = $generatedtr.find('[data-browsedatafield="WarehouseId"]').attr('data-originaltext');
             FwFormField.setValue2($popup.find('.warehousefilter'), warehouseId, warehouseText);
 
             FwScheduler.renderRuntimeHtml($calendar);
             FwScheduler.init($calendar);
             FwScheduler.loadControl($calendar);
+            const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
             RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
             const schddate = FwScheduler.getTodaysDate();
             FwScheduler.navigate($calendar, schddate);
