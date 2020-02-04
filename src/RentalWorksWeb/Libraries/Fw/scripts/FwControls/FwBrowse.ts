@@ -2598,7 +2598,7 @@ class FwBrowseClass {
                                 $control.data('onselectedrowchanged')($control, $tr);
                             }
                         }
-                        if ($control.attr('data-type') === 'Grid' && $control.attr('data-enabled') !== 'false' && !$tr.hasClass('editmode')) {
+                        if ($control.attr('data-type') === 'Grid' && $control.attr('data-enabled') !== 'false' && !$tr.hasClass('editmode') && !$tr.find('.manual-sort').is(':visible')) {
                             me.setRowEditMode($control, $tr);
                             $field.find('.value').focus();
                         }
