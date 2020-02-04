@@ -64,7 +64,7 @@ class QuikActivityCalendar {
                 const colorIndex = response.ColumnIndex.Color;
                 for (let i = 0; i < response.Rows.length; i++) {
                     const self = response.Rows[i];
-                    const item = `<div class="flexrow" style="max-height:2em;">
+                    const item = `<div class="flexrow" style="max-height:2em; margin-top:.5em;">
                                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="${self[descriptionIndex]}" data-datafield="${self[activityTypeIdIndex]}"></div>
                                     <div style="background-color:${self[colorIndex]}; max-width:30px; margin:16px 0px; border:1px solid black;"></div>
                                   </div>`;
@@ -72,6 +72,7 @@ class QuikActivityCalendar {
                 }
                 const $fwcontrols = $activities.find('.fwcontrol');
                 FwControl.renderRuntimeControls($fwcontrols);
+                $fwcontrols.find('.checkbox-caption').css('white-space', 'normal');
                 $form.find('.activities [data-type="checkbox"] input').prop('checked', true);
             } catch (ex) {
                 FwFunc.showError(ex);
