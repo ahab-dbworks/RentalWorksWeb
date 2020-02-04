@@ -28,7 +28,52 @@ namespace WebApi.Modules.HomeControls.OrderItem
             r2.StartAtIndex = request.StartAtIndex;
             r2.RowNumberDigits = 6;
 
+            List<string> itemsToSort = new List<string>();
+            List<string> accOrderItemIds = new List<string>();
+
+            // for each itemId in request.OrderItemIds
+            //    if complete/kit/container
+            //       get the list of accessory orderitemids of this complete, in sequence
+            //             inject those ids here
+
             foreach (string itemId in request.OrderItemIds)
+            {
+                string[] itemData = AppFunc.GetStringDataAsync(appConfig, "masteritem", new string[] { "masteritemid" }, new string[] { itemId }, new string[] { "itemclass", "orderid", "parentid" }).Result;
+                string itemClass = itemData[0];
+                string orderId = itemData[1];
+                //string itemParent = itemData[2];
+
+                if (!accOrderItemIds.Contains(itemId))
+                {
+                    itemsToSort.Add(itemId);
+                }
+
+                if (itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER)) 
+                {
+                    BrowseRequest accessoryBrowseRequest = new BrowseRequest();
+                    accessoryBrowseRequest.uniqueids = new Dictionary<string, object>();
+                    accessoryBrowseRequest.uniqueids.Add("OrderId", orderId);
+                    accessoryBrowseRequest.uniqueids.Add("ParentId", itemId);
+
+                    OrderItemLogic acc = new OrderItemLogic();
+                    acc.SetDependencies(appConfig, userSession);
+                    List<OrderItemLogic> accessories = acc.SelectAsync<OrderItemLogic>(accessoryBrowseRequest).Result;
+
+                    foreach (OrderItemLogic a in accessories)
+                    {
+                        accOrderItemIds.Add(a.OrderItemId);
+
+                        if (itemsToSort.Contains(a.OrderItemId))
+                        {
+                            itemsToSort.Remove(a.OrderItemId);
+                        }
+
+                        itemsToSort.Add(a.OrderItemId);
+                    }
+                }
+            }
+
+            foreach (string itemId in itemsToSort)
             {
                 List<string> idCombo = new List<string>();
                 idCombo.Add(itemId);
@@ -274,7 +319,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     }
                 }
 
-                if (RecType.Equals(RwConstants.RECTYPE_RENTAL)) 
+                if (RecType.Equals(RwConstants.RECTYPE_RENTAL))
                 {
                     if (RateType.Equals(RwConstants.RATE_TYPE_DAILY))
                     {
