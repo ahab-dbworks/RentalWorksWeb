@@ -123,6 +123,9 @@ namespace WebApi.Modules.HomeControls.MasterItem
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         public string ParentId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string NestedOrderItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 

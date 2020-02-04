@@ -330,6 +330,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwLogicProperty(Id: "wEauLrU45GML")]
         public string ParentId { get { return orderItem.ParentId; } set { orderItem.ParentId = value; } }
 
+        [FwLogicProperty(Id: "KumU8jNjH7gBz")]
+        public string NestedOrderItemId { get { return orderItem.NestedOrderItemId; } set { orderItem.NestedOrderItemId = value; } }
+
         [FwLogicProperty(Id: "VcghZbMujni2")]
         public string ItemClass { get { return orderItem.ItemClass; } set { orderItem.ItemClass = value; } }
 
