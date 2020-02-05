@@ -139,7 +139,21 @@ namespace WebApi.Modules.Agent.OrderManifest
             get { return getStandAloneItemColor(ManifestStandAloneItem); }
             set { }
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
+        public string TotalItemWeight
+        {
+            get { return getTotalItemWeight(WeightLbs, WeightOz); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
+        public string TotalExtendedItemWeight
+        {
+            get { return getTotalExtendedItemWeight(ExtendedWeightLbs, ExtendedWeightOz); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock           = false;
@@ -158,7 +172,7 @@ namespace WebApi.Modules.Agent.OrderManifest
             select.AddParameter("@filterby", filterBy);
             select.AddParameter("@mode", mode);
         }
-        //------------------------------------------------------------------------------------    
+        //------------------------------------------------------------------------------------
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
         {
             if (e.DataTable != null)
@@ -168,13 +182,15 @@ namespace WebApi.Modules.Agent.OrderManifest
                 {
                     foreach (List<object> row in dt.Rows)
                     {
-                        row[dt.GetColumnNo("ShippingContainerColor")] = getShippingContainerColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ManifestShippingContainer")].ToString()));
-                        row[dt.GetColumnNo("StandAloneItemColor")] = getStandAloneItemColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ManifestStandAloneItem")].ToString()));
+                        row[dt.GetColumnNo("ShippingContainerColor")]  = getShippingContainerColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ManifestShippingContainer")].ToString()));
+                        row[dt.GetColumnNo("StandAloneItemColor")]     = getStandAloneItemColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ManifestStandAloneItem")].ToString()));
+                        row[dt.GetColumnNo("TotalItemWeight")]         = getTotalItemWeight(FwConvert.ToInt32(row[dt.GetColumnNo("WeightLbs")]), FwConvert.ToInt32(row[dt.GetColumnNo("WeightOz")]));
+                        row[dt.GetColumnNo("TotalExtendedItemWeight")] = getTotalExtendedItemWeight(FwConvert.ToInt32(row[dt.GetColumnNo("ExtendedWeightLbs")]), FwConvert.ToInt32(row[dt.GetColumnNo("ExtendedWeightOz")]));
                     }
                 }
             }
         }
-        //------------------------------------------------------------------------------------    
+        //------------------------------------------------------------------------------------
         protected string getShippingContainerColor(bool? ManifestShippingContainer)
         {
             string color = null;
@@ -184,7 +200,7 @@ namespace WebApi.Modules.Agent.OrderManifest
             }
             return color;
         }
-        //------------------------------------------------------------------------------------    
+        //------------------------------------------------------------------------------------
         protected string getStandAloneItemColor(bool? ManifestStandAloneItem)
         {
             string color = null;
@@ -194,6 +210,34 @@ namespace WebApi.Modules.Agent.OrderManifest
             }
             return color;
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        protected string getTotalItemWeight(int? WeightLbs, int? WeightOz)
+        {
+            string totalweight = null;
+            if (WeightLbs != 0)
+            {
+                totalweight = WeightLbs.ToString() + " Lbs";
+            }
+            if (WeightOz != 0)
+            {
+                totalweight += " " + WeightOz.ToString() + " Oz";
+            }
+            return totalweight;
+        }
+        //------------------------------------------------------------------------------------
+        protected string getTotalExtendedItemWeight(int? ExtendedWeightLbs, int? ExtendedWeightOz)
+        {
+            string totalweight = null;
+            if (ExtendedWeightLbs != 0)
+            {
+                totalweight = ExtendedWeightLbs.ToString() + " Lbs";
+            }
+            if (ExtendedWeightOz != 0)
+            {
+                totalweight += " " + ExtendedWeightOz.ToString() + " Oz";
+            }
+            return totalweight;
+        }
+        //------------------------------------------------------------------------------------
     }
 }
