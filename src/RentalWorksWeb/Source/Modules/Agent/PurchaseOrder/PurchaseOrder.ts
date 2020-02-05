@@ -54,6 +54,13 @@ class PurchaseOrder implements IModule {
                 FwFunc.showError(ex);
             }
         });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Purchase Order Status', 'Buwl6WTPrOMk', (e: JQuery.ClickEvent) => {
+            try {
+                this.purchaseOrderStatus(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         FwMenu.addSubMenuItem(options.$groupOptions, 'Receive From Vendor', 'MtgBxCKWVl7m', (e: JQuery.ClickEvent) => {
             try {
                 this.receiveFromVendor(options.$form);
@@ -2504,6 +2511,16 @@ class PurchaseOrder implements IModule {
         let $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $receiveFromVendorForm);
         jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor');
+    }
+    //---------------------------------------------------------------------------------
+    purchaseOrderStatus($form: JQuery) {
+        let mode = 'EDIT';
+        let orderInfo: any = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+        let $orderStatusForm = PurchaseOrderStatusController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $orderStatusForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Purchase Order Status');
     }
     //----------------------------------------------------------------------------------------------	
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {

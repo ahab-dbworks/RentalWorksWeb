@@ -68,6 +68,8 @@
                     case 'ContainerItem':
                         apiUrl = `api/v1/containeritem/${orderId}`;
                         break;
+                    case 'PurchaseOrder':
+                        apiUrl = `api/v1/purchaseorder/${orderId}`;
                 }
                 FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, response => {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
@@ -489,6 +491,11 @@
             })
             FwBrowse.search($orderStatusSalesDetailGridControl);
         });
+
+        if (this.Type === 'PurchaseOrder') {
+            $orderStatusSummaryGridControl.find('thead [data-browsedatafield="OutQuantity"], thead [data-browsedatafield="InQuantity"]').parent('td').hide();
+            $orderStatusSummaryGridControl.find('thead [data-browsedatafield="QuantityReturned"], thead [data-browsedatafield="QuantityReceived"]').parent('td').show();
+        }
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -569,6 +576,10 @@
             case 'ContainerItem':
                 caption = 'Container Status';
                 typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="flex:0 1 175px;"></div>`;
+                break;
+            case 'PurchaseOrder':
+                caption = 'Purchase Order Status';
+                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase Order No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:0 1 175px;"></div>`;
                 break;
         }
         return `

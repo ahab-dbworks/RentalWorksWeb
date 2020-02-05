@@ -585,6 +585,7 @@
     <TypeScriptCompile Include="Source\Modules\Billing\Invoice\Invoice.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SubWorksheet\SubWorksheet.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Order\Worksheet.ts" />
+    <TypeScriptCompile Include="Source\Modules\Warehouse\PurchaseOrderStatus\PurchaseOrderStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\ReturnToVendor\ReturnToVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\ReceiveFromVendor\ReceiveFromVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\PurchaseOrder\PurchaseOrder.ts" />

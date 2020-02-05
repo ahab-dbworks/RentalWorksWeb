@@ -799,15 +799,16 @@ var Constants = {
             caption: 'Warehouse',
             nodetype: 'Category',
             children: {
-                AssignBarCodes:    { id: '7UU96BApz2Va', caption: 'Assign Bar Codes',    nav: 'module/assignbarcodes', nodetype: 'Module' },
-                CheckIn:           { id: 'krnJWTUs4n5U', caption: 'Check-In',            nav: 'module/checkin', nodetype: 'Module' },
-                Contract:          { id: 'Z8MlDQp7xOqu', caption: 'Contract',            nav: 'module/contract', nodetype: 'Module' },
-                Exchange:          { id: 'IQS4rxzIVFl',  caption: 'Exchange',            nav: 'module/exchange', nodetype: 'Module' },
-                OrderStatus:       { id: 'C8Ycf0jvM2U9', caption: 'Order Status',        nav: 'module/orderstatus', nodetype: 'Module' },
-                PickList:          { id: 'bggVQOivrIgi', caption: 'Pick List',           nav: 'module/picklist', nodetype: 'Module' },
-                ReceiveFromVendor: { id: 'MtgBxCKWVl7m', caption: 'Receive From Vendor', nav: 'module/receivefromvendor', nodetype: 'Module' },
-                ReturnToVendor:    { id: 'cCxoTvTCDTcm', caption: 'Return To Vendor',    nav: 'module/returntovendor', nodetype: 'Module' },
-                StagingCheckout:   { id: 'H0sf3MFhL0VK', caption: 'Staging / Check-Out', nav: 'module/checkout', nodetype: 'Module' }
+                AssignBarCodes:         { id: '7UU96BApz2Va', caption: 'Assign Bar Codes',      nav: 'module/assignbarcodes', nodetype: 'Module' },
+                CheckIn:                { id: 'krnJWTUs4n5U', caption: 'Check-In',              nav: 'module/checkin', nodetype: 'Module' },
+                Contract:               { id: 'Z8MlDQp7xOqu', caption: 'Contract',              nav: 'module/contract', nodetype: 'Module' },
+                Exchange:               { id: 'IQS4rxzIVFl',  caption: 'Exchange',              nav: 'module/exchange', nodetype: 'Module' },
+                OrderStatus:            { id: 'C8Ycf0jvM2U9', caption: 'Order Status',          nav: 'module/orderstatus', nodetype: 'Module' },
+                PickList:               { id: 'bggVQOivrIgi', caption: 'Pick List',             nav: 'module/picklist', nodetype: 'Module' },
+                PurchaseOrderStatus:    { id: 'Buwl6WTPrOMk', caption: 'Purchase Order Status', nav: 'module/purchaseorderstatus', nodetype: 'Module' },
+                ReceiveFromVendor:      { id: 'MtgBxCKWVl7m', caption: 'Receive From Vendor',   nav: 'module/receivefromvendor', nodetype: 'Module' },
+                ReturnToVendor:         { id: 'cCxoTvTCDTcm', caption: 'Return To Vendor',      nav: 'module/returntovendor', nodetype: 'Module' },
+                StagingCheckout:        { id: 'H0sf3MFhL0VK', caption: 'Staging / Check-Out',   nav: 'module/checkout', nodetype: 'Module' }
             }
         }
     },
