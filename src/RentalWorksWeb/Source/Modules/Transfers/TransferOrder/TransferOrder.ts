@@ -499,8 +499,6 @@ class TransferOrder {
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, `TransferId`)
-                request.WarehouseId = FwFormField.getValueByDataField($form, `FromWarehouseId`);
-                request.OfficeLocationId = FwFormField.getValueByDataField($form, `OfficeLocationId`);
             },
         });
     };

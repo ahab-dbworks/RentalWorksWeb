@@ -47,6 +47,8 @@ namespace WebApi.Modules.Warehouse.Activity
         public string OfficeLocationId { get { return activity.OfficeLocationId; } set { activity.OfficeLocationId = value; } }
         [FwLogicProperty(Id: "hgq0fyxlws8ha")]
         public string WarehouseId { get { return activity.WarehouseId; } set { activity.WarehouseId = value; } }
+        [FwLogicProperty(Id: "kIpHQFeb0cKDo")]
+        public string Warehouse { get; set; }
         [FwLogicProperty(Id: "hGwM9MDLaNDXA")]
         public string OrderId { get { return activity.OrderId; } set { activity.OrderId = value; } }
         [FwLogicProperty(Id: "HGzTl0ReaOKNL", IsReadOnly: true)]
@@ -101,14 +103,31 @@ namespace WebApi.Modules.Warehouse.Activity
             //DateTime? origActivityDateTime = DateTime.MinValue;
             DateTime? origActivityDateTime = null;
 
-            if (e.Original != null)
+            if (e.Original == null)
+            {
+                if (ActivityDateTime == null)
+                {
+                    if ((!string.IsNullOrEmpty(ActivityDate)) || (!string.IsNullOrEmpty(ActivityTime)))
+                    {
+                        if (!string.IsNullOrEmpty(ActivityDate))
+                        {
+                            ActivityDateTime = FwConvert.ToDateTime(ActivityDate);
+                        }
+                        if (!string.IsNullOrEmpty(ActivityTime))
+                        {
+                            ActivityDateTime = FwConvert.ToDateTime(FwConvert.ToUSShortDate(ActivityDateTime.GetValueOrDefault(DateTime.MinValue).Date), ActivityTime, "");
+                        }
+                    }
+                }
+            }
+            else
             {
                 orig = (ActivityLogic)e.Original;
                 origActivityDate = orig.ActivityDate;
                 origActivityTime = orig.ActivityTime;
                 origActivityDateTime = orig.ActivityDateTime;
 
-                if (ActivityDateTime == null) 
+                if (ActivityDateTime == null)
                 {
                     if ((!string.IsNullOrEmpty(ActivityDate)) || (!string.IsNullOrEmpty(ActivityTime)))
                     {

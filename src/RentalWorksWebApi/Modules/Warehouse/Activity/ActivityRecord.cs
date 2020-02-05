@@ -11,7 +11,7 @@ namespace WebApi.Modules.Warehouse.Activity
         [FwSqlDataField(column: "activityid", modeltype: FwDataTypes.Integer, sqltype: "int", identity: true, isPrimaryKey: true)]
         public int? ActivityId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer, sqltype: "int", required: true)]
         public int? ActivityTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -23,7 +23,7 @@ namespace WebApi.Modules.Warehouse.Activity
         [FwSqlDataField(column: "activitydatetime", modeltype: FwDataTypes.DateTime, sqltype: "datetime")]
         public DateTime? ActivityDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitystatusid", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        [FwSqlDataField(column: "activitystatusid", modeltype: FwDataTypes.Integer, sqltype: "int", required: true)]
         public int? ActivityStatusId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "totalqty", modeltype: FwDataTypes.Integer, sqltype: "int")]
@@ -38,7 +38,7 @@ namespace WebApi.Modules.Warehouse.Activity
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]

@@ -1001,8 +1001,6 @@ class OrderBase {
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-                request.WarehouseId = FwFormField.getValueByDataField($form, `WarehouseId`);
-                request.OfficeLocationId = FwFormField.getValueByDataField($form, `OfficeLocationId`);
             },
         });
         // ----------
