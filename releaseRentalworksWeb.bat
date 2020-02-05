@@ -126,7 +126,10 @@ IF "%commitandftp%"=="y" (
 
     rem copy the document header image to the build directory 
     cd %DwRentalWorksWebPath%
+    if not exist build\ mkdir build
     copy releasedocumentlogo.png build /y
+
+
 
     rem command-line gren make Build Release Document for all issues between the previous version's tag and this current tag
     cd %DwRentalWorksWebPath%\build
