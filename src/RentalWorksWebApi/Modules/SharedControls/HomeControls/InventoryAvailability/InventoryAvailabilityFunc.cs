@@ -1510,7 +1510,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         if (!hourlyAvailability)
                         {
                             res.FromDateTime = res.FromDateTime.Date;
-                            res.ToDateTime = (res.ToDateTime.Equals(res.ToDateTime.Date) ? res.ToDateTime.Date : res.ToDateTime.Date.AddDays(1));
+                            //res.ToDateTime = (res.ToDateTime.Equals(res.ToDateTime.Date) ? res.ToDateTime.Date : res.ToDateTime.Date.AddDays(1));
+                            res.ToDateTime = res.ToDateTime.Date;
                         }
 
                         if ((res.ToDateTime < DateTime.Now) && ((res.QuantityStaged.Total + res.QuantityOut.Total + +res.QuantityInRepair.Total) > 0))
