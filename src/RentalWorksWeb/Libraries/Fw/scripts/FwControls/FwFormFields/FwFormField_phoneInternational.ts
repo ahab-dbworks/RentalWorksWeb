@@ -35,9 +35,10 @@
                 nationalMode: true,
                 separateDialCode: true,
                 utilsScript: "https://localhost/rentalworksweb/libraries/fw/scripts/jquery/internationalphone/build/js/utils.js",
+                autoPlaceholder: "off",
             }
         );
-
+        // https://github.com/jackocnr/intl-tel-input intlTelInput Documentation
         $input.on("countrychange", e => {
             const $this = jQuery(e.currentTarget);
             const countryCode = $this.intlTelInput('getSelectedCountryData').dialCode;
@@ -66,10 +67,13 @@
             $input.inputmask('remove');
             $input.attr('maxlength', '10');
         }
-
-        $fwformfield
-            .attr('data-originalvalue', value)
-            .find('input').intlTelInput('setNumber', value);
+        if (value) {
+            $fwformfield
+                .attr('data-originalvalue', value)
+                .find('input').intlTelInput('setNumber', value);
+        } else {
+            console.error(`Value is undefined.`);
+        }
     }
     //---------------------------------------------------------------------------------
     disable($control: JQuery<HTMLElement>): void {
@@ -93,8 +97,12 @@
     }
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
-        const $inputvalue = $fwformfield.find('input').intlTelInput('setNumber', value);
-        if (firechangeevent) $inputvalue.change();
+        if (value) {
+            const $inputvalue = $fwformfield.find('input').intlTelInput('setNumber', value);
+            if (firechangeevent) $inputvalue.change();
+        } else {
+            console.error(`Value is undefined.`);
+        }
     }
     //---------------------------------------------------------------------------------
 }
