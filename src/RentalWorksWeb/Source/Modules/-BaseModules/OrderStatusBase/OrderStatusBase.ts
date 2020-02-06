@@ -48,6 +48,11 @@
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield=""]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
         });
+
+        if (this.Type === 'PurchaseOrder') {
+            $form.find('.hide-on-po').hide();
+        }
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -86,6 +91,9 @@
                         FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
                     }
 
+                    if (this.Type === 'PurchaseOrder') {
+                        FwFormField.setValueByDataField($form, 'Warehouse', response.Warehouse);
+                    }
                     if (this.Type === 'ContainerItem') {
                         FwFormField.setValueByDataField($form, 'ContainerStatus', response.ContainerStatus);
                     }
@@ -493,7 +501,11 @@
         });
 
         if (this.Type === 'PurchaseOrder') {
-            $orderStatusSummaryGridControl.find('thead [data-browsedatafield="OutQuantity"], thead [data-browsedatafield="InQuantity"]').parent('td').hide();
+            $orderStatusSummaryGridControl.find(`thead [data-browsedatafield="OutQuantity"], 
+                                                 thead [data-browsedatafield="InQuantity"],
+                                                 thead [data-browsedatafield="InWarehouseCode"],
+                                                 thead [data-browsedatafield="StillOutQuantity"],
+                                                 thead [data-browsedatafield="StagedQuantity"]`).parent('td').hide();
             $orderStatusSummaryGridControl.find('thead [data-browsedatafield="QuantityReturned"], thead [data-browsedatafield="QuantityReceived"]').parent('td').show();
         }
     }
@@ -608,7 +620,7 @@
                 </div>
                 <div class="flexrow hide-on-container">
                     <div class="flexcolumn" style="flex:1 1 850px;">
-                    <div class="flexrow">
+                    <div class="flexrow hide-on-po">
                         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="PickDate" style="flex:1 1 150px;" data-enabled="false"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Time" data-datafield="PickTime" style="flex:1 1 100px;" data-enabled="false"></div>
                         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Estimated Start Date" data-datafield="EstimatedStartDate" style="flex:1 1 150px;" data-enabled="false"></div>
@@ -632,10 +644,9 @@
                     <div class="flexcolumn">
                         <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield filter" data-caption="" data-datafield="" style="flex:1 1 150px;">
                         <div data-value="All" data-caption="All"></div>
-                        <div data-value="StagedOnly" data-caption="Staged Only"></div>
-                        <div data-value="NotYetStaged" data-caption="Not Yet Staged"></div>
-                        <div data-value="StillOut" data-caption="Still Out"></div>
-                        <div data-value="InOnly" data-caption="In Only"></div>
+                   ${this.Type === 'PurchaseOrder' ? 
+            '<div data-value="NotYetReceived" data-caption="Not Yet Received"></div><div data-value="Received" data-caption="Received"></div><div data-value="Returned" data-caption="Returned"></div>' :
+            '<div data-value="StagedOnly" data-caption="Staged Only"></div><div data-value="NotYetStaged" data-caption="Not Yet Staged"></div><div data-value="StillOut" data-caption="Still Out"></div><div data-value="InOnly" data-caption="In Only"></div>' }                  
                         </div>
                     </div>
                     <div class="flexcolumn">
