@@ -1,7 +1,10 @@
-﻿using FwStandard.AppManager;
+﻿using FwCore.Controllers;
+using FwCore.Grids.AppDocument;
+using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 
@@ -22,8 +25,16 @@ namespace WebApi.Modules.Agent.Customer
         [FwControllerMethod(Id: "8cdopH5BYqPz", FwControllerActionTypes.ControlBrowse, ParentId: "keTrJRIKRGwN")]
         public async Task<ActionResult<FwJsonDataTable>> DocumentBrowseAsync([FromRoute]string CustomerId, [FromBody]BrowseRequest BrowseRequest)
         {
-            BrowseRequest.filterfields["CustomerId"] = CustomerId;
-            return await DoBrowseAsync<CustomerDocumentLogic>(BrowseRequest);
+            //BrowseRequest.filterfields["CustomerId"] = CustomerId;
+            //return await DoBrowseAsync<CustomerDocumentLogic>(BrowseRequest);
+            try
+            {
+                return await FwAppDocumentController.BrowseAsync(this.AppConfig, this.UserSession, this.ModelState, typeof(CustomerDocumentLogic), "CustomerId", CustomerId, string.Empty, string.Empty, BrowseRequest);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
@@ -37,8 +48,16 @@ namespace WebApi.Modules.Agent.Customer
         [FwControllerMethod(Id: "gpGNDR8XPjfL", FwControllerActionTypes.ControlBrowse, ParentId: "keTrJRIKRGwN")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DocumentExportExcelXlsxFileAsync([FromRoute]string CustomerId, [FromBody]BrowseRequest BrowseRequest)
         {
-            BrowseRequest.filterfields["CustomerId"] = CustomerId;
-            return await DoExportExcelXlsxFileAsync<CustomerDocumentLogic>(BrowseRequest);
+            //BrowseRequest.filterfields["CustomerId"] = CustomerId;
+            //return await DoExportExcelXlsxFileAsync<CustomerDocumentLogic>(BrowseRequest);
+            try
+            {
+                return await FwAppDocumentController.ExportExcelXlsxFileAsync(this.AppConfig, this.UserSession, this.ModelState, typeof(CustomerDocumentLogic), "CustomerId", CustomerId, string.Empty, string.Empty, BrowseRequest);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
         //// GET api/v1/customer/{CustomerId}/aka?pageno={pageno}&pagesize={pagesize}&sort={sort} 
@@ -53,14 +72,22 @@ namespace WebApi.Modules.Agent.Customer
         /// Get a Document
         /// </summary>
         /// <param name="CustomerId">Unique identifier</param>
-        /// <param name="AppDocumentId">Unique identifier</param>
+        /// <param name="DocumentId">Unique identifier</param>
         /// <returns></returns>
-        // GET api/v1/customer/{CustomerId}/document/{AppDocumentId}
-        [HttpGet("{CustomerId}/document/{AppDocumentId}")]
+        // GET api/v1/customer/{CustomerId}/document/{DocumentId}
+        [HttpGet("{CustomerId}/document/{DocumentId}")]
         [FwControllerMethod(Id: "Gl3OH5VIaWpU", FwControllerActionTypes.ControlBrowse, ParentId: "keTrJRIKRGwN")]
-        public async Task<ActionResult<CustomerDocumentLogic>> DocumentGetOneAsync([FromRoute]string CustomerId, [FromRoute]string AppDocumentId)
+        public async Task<ActionResult<CustomerDocumentLogic>> DocumentGetOneAsync([FromRoute]string CustomerId, [FromRoute]string DocumentId)
         {
-            return await DoGetAsync<CustomerDocumentLogic>(AppDocumentId);
+            //return await DoGetAsync<CustomerDocumentLogic>(DocumentId);
+            try
+            {
+                return await FwAppDocumentController.GetOneAsync<CustomerDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, typeof(CustomerDocumentLogic), "CustomerId", CustomerId, string.Empty, string.Empty, DocumentId);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
@@ -72,68 +99,80 @@ namespace WebApi.Modules.Agent.Customer
         // POST api/v1/customer/{CustomerId}/document 
         [HttpPost("{CustomerId}/document")]
         [FwControllerMethod(Id: "QTH4eyIyd5Bx", FwControllerActionTypes.ControlNew, ParentId: "keTrJRIKRGwN")]
-        public async Task<ActionResult<CustomerDocumentLogic>> DocumentNewAsync([FromRoute]string CustomerId, [FromBody]CustomerDocumentLogic Model)
+        public async Task<ActionResult<CustomerDocumentLogic>> DocumentNewAsync([FromRoute]string CustomerId, [FromBody]CustomerDocumemntPostRequest Model)
         {
-            if (Model.UniqueId1 != CustomerId)
+            //if (Model.CustomerId != CustomerId)
+            //{
+            //    ModelState.AddModelError("CustomerId", "CustomerId in the url does not match the CustomerId in the model.");
+            //    return new BadRequestObjectResult(ModelState);
+            //}
+            //return await DoNewAsync<CustomerDocumentLogic>(Model);
+            try
             {
-                ModelState.AddModelError("UniqueId1", "CustomerId in the url does not match the Uniqueid1 in the model.");
-                return new BadRequestObjectResult(ModelState);
+                var logic = AutoMapper.Mapper.Map<CustomerDocumentLogic>(Model);
+                return await FwAppDocumentController.NewAsync<CustomerDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "CustomerId", CustomerId, string.Empty, string.Empty, logic);
             }
-            return await DoNewAsync<CustomerDocumentLogic>(Model);
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
         /// Edit a Document
         /// </summary>
         /// <param name="CustomerId">Unique identifier</param>
+        /// <param name="DocumentId"></param>
         /// <param name="Model"></param>
         /// <returns></returns>
-        // POST api/v1/customer/{CustomerId}/document/{AppDocumentId} 
-        [HttpPut("{CustomerId}/document/{AppDocumentId}")]
+        // POST api/v1/customer/{CustomerId}/document/{DocumentId} 
+        [HttpPut("{CustomerId}/document/{DocumentId}")]
         [FwControllerMethod(Id: "t3NG50C07BRf", FwControllerActionTypes.ControlEdit, ParentId: "keTrJRIKRGwN")]
-        public async Task<ActionResult<CustomerDocumentLogic>> DocumentEditAsync([FromRoute]string CustomerId, [FromRoute]string AppDocumentId, [FromBody]CustomerDocumentLogic Model)
+        public async Task<ActionResult<CustomerDocumentLogic>> DocumentEditAsync([FromRoute]string CustomerId, [FromRoute]string DocumentId, [FromBody]CustomerDocumentPutRequest Model)
         {
-            if (Model.UniqueId1 != CustomerId)
+            //if (Model.CustomerId != CustomerId)
+            //{
+            //    ModelState.AddModelError("CustomerId", "CustomerId in the url does not match the CustomerId in the model.");
+            //    return new BadRequestObjectResult(ModelState);
+            //}
+            //if (Model.DocumentId != DocumentId)
+            //{
+            //    ModelState.AddModelError("DocumentId", "DocumentId in the url does not match the DocumentId in the model.");
+            //    return new BadRequestObjectResult(ModelState);
+            //}
+            //return await DoEditAsync<CustomerDocumentLogic>(Model);
+            try
             {
-                ModelState.AddModelError("UniqueId1", "CustomerId in the url does not match the Uniqueid1 in the model.");
-                return new BadRequestObjectResult(ModelState);
+                var logic = AutoMapper.Mapper.Map<CustomerDocumentLogic>(Model);
+                return await FwAppDocumentController.EditAsync<CustomerDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "CustomerId", CustomerId, string.Empty, string.Empty, DocumentId, logic);
             }
-            if (Model.AppDocumentId != AppDocumentId)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("AppDocumentId", "AppDocumentId in the url does not match the AppDocumentId in the model.");
-                return new BadRequestObjectResult(ModelState);
+                return FwGridController.GetApiExceptionResult(ex);
             }
-            return await DoEditAsync<CustomerDocumentLogic>(Model);
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
         /// Delete a Document
         /// </summary>
         /// <param name="CustomerId">Unique identifier</param>
-        /// <param name="AppDocumentId">Unique identifier</param>
+        /// <param name="DocumentId">Unique identifier</param>
         /// <returns></returns>
         // DELETE api/v1/restrictedperson/aka/A0000001 
-        [HttpDelete("{CustomerId}/document/{AppDocumentId}")]
+        [HttpDelete("{CustomerId}/document/{DocumentId}")]
         [FwControllerMethod(Id: "Or34Egyu9U6T", FwControllerActionTypes.ControlDelete, ParentId: "keTrJRIKRGwN")]
-        public async Task<ActionResult<bool>> DocumentDeleteAsync([FromRoute]string CustomerId, [FromRoute]string AppDocumentId)
+        public async Task<ActionResult<bool>> DocumentDeleteAsync([FromRoute]string CustomerId, [FromRoute]string DocumentId)
         {
-            return await DoDeleteAsync<CustomerDocumentLogic>(AppDocumentId);
+            //return await DoDeleteAsync<CustomerDocumentLogic>(DocumentId);
+            try
+            {
+                return await FwAppDocumentController.DeleteAsync<CustomerDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "CustomerId", CustomerId, string.Empty, string.Empty, DocumentId);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
         }
-        //------------------------------------------------------------------------------------ 
-        ///// <summary>
-        ///// Test Option for AKA Grid
-        ///// </summary>
-        ///// <param name="PersonId">A unique identifier for RestrictedPerson</param>
-        ///// <param name="AkaId">A unique identifier for Aka</param>
-        ///// <returns></returns>
-        //// POST api/v1/restrictedperson/aka/A0000001/testoption 
-        //[HttpPost("{PersonId}/aka/{AkaId}/testoption")]
-        //[FwControllerMethod(Id: "jvEXx7LuCRDM", ActionType: FwControllerActionTypes.ControlOption, ParentId: "keTrJRIKRGwN", Caption: "Test Option")]
-        //public async Task<ActionResult> TestOptionAsync([FromRoute]string PersonId, [FromRoute]string AkaId)
-        //{
-        //    await Task.CompletedTask;
-        //    throw new NotImplementedException();
-        //}
         //------------------------------------------------------------------------------------ 
     }
 }

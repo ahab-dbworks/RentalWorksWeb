@@ -1,25 +1,12 @@
-﻿class FwAppDocumentGridClass {
+﻿type FwAppDocumentGrid_RenderGridOptions = {
+    
+}
+
+class FwAppDocumentGridClass {
     constructor() {
 
     }
-    //---------------------------------------------------------------------------------
-    init($control) {
-    
-    }
-    //---------------------------------------------------------------------------------
-    renderRuntimeHtml($control: JQuery) {
-        $control.attr('data-rendermode', 'runtime');
-        
-        //let html = [];
-        //html.push('<div[data-grid="FwAppDocumentGrid"]>');
-        //const htmlStr = html.join('\n');
-        //$control.html(htmlStr);
-
-        //const $fwcontrols = $control.find('.fwcontrol');
-        //FwControl.init($fwcontrols);
-        //FwControl.renderRuntimeHtml($fwcontrols);
-    }
-    //---------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     renderGrid(options: {
         //$control: JQuery, 
         caption: string, 
@@ -29,11 +16,13 @@
         moduleSecurityId: string, 
         gridSecurityId: string, 
         $form: JQuery, 
-        uniqueid1: string, 
-        uniqueid2: string}) {
+        uniqueid1Name: string, 
+        getUniqueid1Value: () => string,
+        uniqueid2Name: string,
+        getUniqueid2Value: () => string}) {
         // if a controller does not exist for the grid, then auto-generate one.
         const controller =  (window[options.nameGrid + 'Controller'] !== undefined) ? window[options.nameGrid + 'Controller'] : {
-            Module: 'CustomerDocumentGrid',
+            Module: options.nameGrid,
             apiurl: ''
         };
         window[options.nameGrid + 'Controller'] = controller;
@@ -46,52 +35,48 @@
             pageSize: 15,
             getBaseApiUrl: () => options.getBaseApiUrl(),
             onDataBind: (request: any) => {
-                request.uniqueids = {
-                    uniqueid1: FwFormField.getValueByDataField(options.$form, 'CustomerId')
-                };
+                request.uniqueids = {};
+                if (typeof options.uniqueid1Name === 'string' && options.uniqueid1Name.length > 0) {
+                    request.uniqueids[options.uniqueid1Name] = options.getUniqueid1Value();
+                }
+                if (typeof options.uniqueid2Name === 'string' && options.uniqueid2Name.length > 0) {
+                    request.uniqueids[options.uniqueid2Name] = options.getUniqueid2Value();
+                }
             },
             beforeSave: (request: any) => {
-                request.uniqueid1 = FwFormField.getValueByDataField(options.$form, 'CustomerId');
+                //if (typeof options.uniqueid1Name === 'string' && options.uniqueid1Name.length > 0) {
+                //    request[options.uniqueid1Name] = options.uniqueid1Value;
+                //}
+                //if (typeof options.uniqueid2Name === 'string' && options.uniqueid2Name.length > 0) {
+                //    request[options.uniqueid2Name] = options.uniqueid2Value;
+                //}
             },
             addGridMenu: (options) => {
                 
             },
             getTemplate: () => {
-                return this.getTemplate(options.caption, options.nameGrid, options.parentFormDataFields);
-            }
-         });
-    }
-    getTemplate(caption: string, nameGrid: string, parentFormDataFields: string) {
-  //      data-version="1" 
-  //data-pageno="1" 
-  //data-pagesize="10" 
-  //data-showsearch="false"
-  //data-hasadd="true"
-  //data-hasedit="true"
-  //data-hasdelete="true"
-        
-        return `<div data-name="${nameGrid}" data-control="FwBrowse"
-  data-parentformdatafields="${parentFormDataFields}"
+                return `<div data-name="${options.nameGrid}" data-control="FwBrowse"
+  data-parentformdatafields="${options.parentFormDataFields}"
   data-type="Grid" 
   class="fwcontrol fwbrowse" 
-  data-caption="${caption}"  
-  data-controller="${nameGrid}Controller">
+  data-caption="${options.caption}"  
+  data-controller="${options.nameGrid}Controller">
   <div class="column" data-width="0" data-visible="false">
     <div class="field"  
       data-cssclass="appdocumentid" 
       data-caption=""
       data-isuniqueid="true"
-      data-browsedatafield="AppDocumentId"
+      data-browsedatafield="DocumentId"
       data-browsedatatype="key" 
       data-formsaveorder="1"
-      data-formdatafield="AppDocumentId"
+      data-formdatafield="DocumentId"
       data-formdatatype="key"
       data-formreadonly="true"
       data-sort="off">
     </div>
     <div class="field"  
       data-isuniqueid="false"
-      data-browsedatafield="UniqueId1"
+      data-browsedatafield="${options.uniqueid1Name}"
       data-browsedatatype="key"
       data-formdatafield=""
       data-formsaveorder="1"
@@ -101,7 +86,7 @@
     </div>
     <!--<div class="field"  
       data-isuniqueid="false"
-      data-browsedatafield="uniqueid2"
+      data-browsedatafield="${options.uniqueid2Name}"
       data-browsedatatype="key" 
       data-formdatafield=""
       data-formdatatype="key"
@@ -165,30 +150,15 @@
   </div>
   <div class="column" data-width="80px" data-visible="true">
     <div class="field" 
-      data-cssclass="attachdate" 
-      data-caption="Date"
+      data-cssclass="datestamp" 
+      data-caption="Last Modified"
       data-isuniqueid="false"
-      data-browsedatafield="AttachDate"
-      data-browsedatatype="date"
-      data-formsaveorder="1"
+      data-browsedatafield="DateStamp"
+      data-browsedatatype="utcdatetime"
       data-formdatafield=""
-      data-formdatatype="date"
+      data-formdatatype="utcdatetime"
       data-formreadonly="true"
       data-sort="desc">
-    </div>
-  </div>
-  <div class="column" data-width="80px" data-visible="true">
-    <div class="field" 
-      data-cssclass="attachtime" 
-      data-caption="Time"
-      data-isuniqueid="false"
-      data-browsedatafield="AttachTime"
-      data-browsedatatype="time12"
-      data-formsaveorder="1"
-      data-formdatafield=""
-      data-formdatatype="text"
-      data-formreadonly="true"
-      data-sort="off">
     </div>
   </div>
   <div class="column" data-width="200px" data-visible="true">
@@ -198,14 +168,13 @@
       data-isuniqueid="false"
       data-browsedatafield="FileAppImageId"
       data-browsedatatype="appdocumentimage"
-      data-browseappdocumentidfield="AppDocumentId"
+      data-browseappdocumentidfield="DocumentId"
       data-documenttypeidfield="DocumentTypeId"
-      data-uniqueid1field="UniqueId1"
-      data-uniqueid2field="UniqueId2"
+      data-uniqueid1field="${options.uniqueid1Name}"
+      data-uniqueid2field="${options.uniqueid2Name}"
       data-browsefilenamefield="DocumentType"
       data-browsefileextensionfield="FileExtension"
-      data-formsaveorder="1"
-      data-formdatafield=""
+      data-formdatafield="*"
       data-formdatatype="appdocumentimage"
       data-formreadonly="false"
       data-miscfield="Image"
@@ -215,8 +184,22 @@
   </div>
   <div class="column" data-width="auto" data-visible="true"></div>
 </div>`;
+            }
+         });
     }
-    //---------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+    getTemplate(options: any) {
+  //      data-version="1" 
+  //data-pageno="1" 
+  //data-pagesize="10" 
+  //data-showsearch="false"
+  //data-hasadd="true"
+  //data-hasedit="true"
+  //data-hasdelete="true"
+        
+ 
+    }
+    //----------------------------------------------------------------------------------------------
 }
 
 var FwAppDocumentGrid = new FwAppDocumentGridClass();

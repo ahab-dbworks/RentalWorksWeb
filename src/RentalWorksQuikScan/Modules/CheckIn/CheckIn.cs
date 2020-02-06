@@ -830,7 +830,7 @@ namespace RentalWorksQuikScan.Modules
                                         rentalitemid: request.rentalitemid,
                                         activitytype: "I",
                                         usersid:      session.security.webUser.usersid,
-                                        meter:        request.meter,
+                                        meter:        FwConvert.ToDecimal(request.meter),
                                         toggledelete: request.toggledelete);
 
             response.serial = CheckIn.FuncSerialFrm(conn:         FwSqlConnection.RentalWorks,
@@ -875,7 +875,7 @@ namespace RentalWorksQuikScan.Modules
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void InsertSerialSession(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string rentalitemid, string activitytype, string usersid, string meter, string toggledelete)
+        public static void InsertSerialSession(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string rentalitemid, string activitytype, string usersid, decimal meter, string toggledelete)
         {
             FwSqlCommand qry;
 

@@ -3387,8 +3387,7 @@ class FwBrowseClass {
             let formdatafield = (typeof $field.attr('data-formdatafield') === 'string') ? $field.attr('data-formdatafield') : '';
             let formdatatype = (typeof $field.attr('data-formdatatype') === 'string') ? $field.attr('data-formdatatype') : '';
             let originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-            let validationDisplayField = (typeof $field.attr('data-browsedisplayfield') === 'string') ? $field.attr('data-browsedisplayfield') : '';
-            let validationDisplayValue = $tr.find(`.field[data-browsedatafield="${formdatafield}"] input.text`).val();
+            
 
             let field: any = {};
             if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
@@ -3396,10 +3395,14 @@ class FwBrowseClass {
                     fields._Custom = [];
                 }
             } else {
-                field = {
-                    datafield: formdatafield,
-                    value: originalvalue
-                };
+                if (formdatatype === 'appdocumentimage') {
+                    field = {};
+                } else {
+                    field = {
+                        datafield: formdatafield,
+                        value: originalvalue
+                    };
+                }
             }
 
             if (typeof window['FwBrowseColumn_' + formdatatype] !== 'undefined') {
@@ -3432,16 +3435,37 @@ class FwBrowseClass {
                     FieldValue: field.value
                 }
                 fields._Custom.push(field);
-            } else {
+            } 
+            else if (formdatatype === 'appdocumentimage') {
+                const uniqueId1Field = (typeof $field.attr('data-uniqueid1field') === 'string') ? $field.attr('data-uniqueid1field') : '';
+                const uniqueId2Field = (typeof $field.attr('data-uniqueid2field') === 'string') ? $field.attr('data-uniqueid2field') : '';
+                if (uniqueId1Field.length > 0) {
+                    fields[uniqueId1Field] = field[uniqueId1Field];
+                }
+                if (uniqueId2Field.length > 0) {
+                    fields[uniqueId2Field] = field[uniqueId2Field];
+                }
+                fields.FileIsModified = field.FileIsModified;
+                fields.FileDataUrl = field.FileDataUrl;
+                fields.FilePath = field.FilePath;
+            }
+            else {
                 fields[formdatafield] = field.value;
             }
 
             if (formdatatype === 'validation') {
+                const validationDisplayField = (typeof $field.attr('data-browsedisplayfield') === 'string') ? $field.attr('data-browsedisplayfield') : '';
+                const validationDisplayValue = $tr.find(`.field[data-browsedatafield="${formdatafield}"] input.text`).val();
                 if (validationDisplayField != formdatafield) {
                     fields[validationDisplayField] = validationDisplayValue; // 11/09/2018 CAS-24077-PDIB adding display field here for audit history
                 }
             }
         });
+        for (const key in fields) {
+            if (fields[key] === undefined) {
+                delete fields[key];
+            }
+        }
         return fields;
     }
     //----------------------------------------------------------------------------------------------

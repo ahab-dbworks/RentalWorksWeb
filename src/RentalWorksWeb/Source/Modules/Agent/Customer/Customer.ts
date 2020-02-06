@@ -390,8 +390,10 @@ class Customer {
             gridSecurityId: 'keTrJRIKRGwN',
             moduleSecurityId: this.id,
             parentFormDataFields: 'CustomerId',
-            uniqueid1: FwFormField.getValueByDataField($form, 'CustomerId'),
-            uniqueid2: ''
+            uniqueid1Name: 'CustomerId',
+            getUniqueid1Value: () => FwFormField.getValueByDataField($form, 'CustomerId'),
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
         });
     }
 
