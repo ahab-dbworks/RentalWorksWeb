@@ -63,6 +63,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string UnitExtended { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        //WEEKLY
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklygrossextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyGrossExtended { get; set; }
@@ -83,6 +84,28 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string WeeklyExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        //MONTHLY
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlygrossextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyGrossExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlygrossextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyGrossExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlydiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlydiscountamtsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyDiscountAmountSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        //PERIOD
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodgrossextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PeriodGrossExtended { get; set; }
@@ -100,7 +123,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string PeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
-        public string PeriodExtendedSubTotal{ get; set; }
+        public string PeriodExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
 
 
@@ -126,7 +149,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 //--------------------------------------------------------------------------------- 
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-            string[] totalFields = new string[] { "PeriodExtended" };
+            string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal",
+                                                 "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal",
+                                                 "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
@@ -152,7 +177,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                             property.SetValue(item, d.ToString("N", numberFormat));
                         }
                         else if (propType.Equals(FwDataTypes.Boolean))
-                        { 
+                        {
                             property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
                         }
                         else
