@@ -10,6 +10,7 @@ using System;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Inventory.PartsInventory;
 using WebApi.Modules.Settings.InventorySettings.Unit;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Inventory.SalesInventory;
@@ -272,6 +273,14 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeLaborBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<LaborRateLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validateicodeparts/browse
+        [HttpPost("validateicodeparts/browse")]
+        [FwControllerMethod(Id: "owR5LvugsfCMN", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIcodePartsBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PartsInventoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/orderitem/validateunit/browse

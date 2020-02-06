@@ -110,6 +110,12 @@ class OrderItemGrid {
                             };
                             $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodelabor`);
                             break;
+                        case 'P':
+                            request.uniqueids = {
+                                AvailFor: 'P'
+                            };
+                            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodeparts`);
+                            break;
                     }
                 }
                 break;
@@ -174,7 +180,7 @@ class OrderItemGrid {
                             peekForm = 'PartsInventory';
                             break;
                     }
-                    const $td = $tr.find('[data-browsedatafield="InventoryId"]');
+                    const $td = $tr.find('[data-validationname="GeneralItemValidation"]');
                     $td.attr('data-peekForm', peekForm);
                 }
             });
