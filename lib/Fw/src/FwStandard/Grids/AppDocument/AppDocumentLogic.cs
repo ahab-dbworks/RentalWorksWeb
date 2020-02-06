@@ -95,8 +95,9 @@ namespace FwStandard.Grids.AppDocument
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 this.InputByUsersId = this.UserSession.UsersId;
-                this.AttachDate = DateTime.Today.ToString("yyyy-MM-dd");
-                this.AttachTime = DateTime.Now.ToString("hh:mm:ss");
+                var date = DateTime.Now;
+                this.AttachDate = date.ToString("yyyy-MM-dd");
+                this.AttachTime = date.ToString("hh:mm:ss");
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -146,34 +147,40 @@ namespace FwStandard.Grids.AppDocument
             string appimageid = string.Empty;
             string imageDescription = string.Empty;
             string imageRectype = string.Empty;
-
             bool hasFileOrImage = (this.FileDataUrl != null) && this.FileDataUrl.Length > 0;
-            var dataUrlParts = this.FileDataUrl.Split(new char[] { ',' });
+            string[] dataUrlParts = null;
+            string dataUrlPrefix = null;
+            string base64Data = null;
+            string imageExtension = null;
+            bool hasImage = false;
+            bool hasFile = false;
+            if (hasFileOrImage)
+            {
+                dataUrlParts = this.FileDataUrl.Split(new char[] { ',' });
+                dataUrlPrefix = dataUrlParts[0];
+                base64Data = dataUrlParts[1];
+                imageExtension = Path.GetExtension(this.FilePath).ToLower().Replace(".", string.Empty);
+                switch (imageExtension)
+                {
+                    case "jpg":
+                    case "jpeg":
+                    case "gif":
+                    case "tif":
+                    case "tiff":
+                    case "bmp":
+                    case "png":
+                        hasImage = true;
+                        imageDescription = "APPDOCUMENT_IMAGE";
+                        break;
+                    default:
+                        hasFile = true;
+                        imageRectype = "F";
+                        break;
+                }
+            }
             if (hasFileOrImage && dataUrlParts.Length != 2)
             {
                 throw new ArgumentException("Invalid file.  File must be submitted as a dataurl.", "Model.FileDataUrl");
-            }
-            string dataUrlPrefix = dataUrlParts[0];
-            string base64Data = dataUrlParts[1];
-            string imageExtension = Path.GetExtension(this.FilePath).ToLower().Replace(".", string.Empty);
-            bool hasImage = false;
-            bool hasFile = false;
-            switch (imageExtension)
-            {
-                case "jpg":
-                case "jpeg":
-                case "gif":
-                case "tif":
-                case "tiff":
-                case "bmp":
-                case "png":
-                    hasImage = true;
-                    imageDescription = "APPDOCUMENT_IMAGE";
-                    break;
-                default:
-                    hasFile = true;
-                    imageRectype = "F";
-                    break;
             }
             datestamp = DateTime.UtcNow;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))

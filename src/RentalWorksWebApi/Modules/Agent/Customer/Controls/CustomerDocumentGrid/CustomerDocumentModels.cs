@@ -37,17 +37,17 @@ namespace WebApi.Modules.Agent.Customer
         public string CustomerId { get { return this.appDocument.UniqueId1; } set { this.appDocument.UniqueId1 = value; } }
     }
     //*******************************************************************************************
-    public class CustomerDocumentPutRequest
+    public class CustomerDocumentPutRequest : AppDocumentPutRequest
     {
-
+        public string CustomerId { get; set; }
     }
     //*******************************************************************************************
-    public class CustomerDocumemntPostRequest
+    public class CustomerDocumentPostRequest : AppDocumentPostRequest
     {
-
+        public string CustomerId { get; set; }
     }
     //*******************************************************************************************
-    //public class CustomerDocumemntGetRequest
+    //public class CustomerDocumentGetRequest
     //{
 
     //}

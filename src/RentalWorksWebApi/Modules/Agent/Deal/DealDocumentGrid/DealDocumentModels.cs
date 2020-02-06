@@ -40,18 +40,12 @@ namespace WebApi.Modules.Agent.Deal
     public class DealDocumentPutRequest : AppDocumentPutRequest
     {
         public string DealId { get; set; }
-        //public string DocumentId { get; set; }
         
     }
     //*******************************************************************************************
     public class DealDocumentPostRequest: AppDocumentPostRequest
     {
         public string DealId { get; set; }
-        //public string DocumentTypeId { get; set; }
-        //public string Description { get; set; }
-        //public string FileDataUrl { get; set; }
-        //public bool FileIsModified { get; set; }
-        //public string FilePath { get; set; }
     }
     ////*******************************************************************************************
     //public class DealDocumemntGetRequest
