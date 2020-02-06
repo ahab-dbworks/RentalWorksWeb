@@ -448,24 +448,27 @@
         multiselectfield = $control.find('.multiselectitems');
         const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
         $inputField = multiselectfield.find('span.addItem');
-        if (typeof $browse.data('selectedrows') === 'undefined') {
-            $browse.data('selectedrows', {});
-        }
-        if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
-            $browse.data('selectedrowsuniqueids', []);
-        }
         const $textField = $valuefield.siblings('.fwformfield-text');
-        let selectedRowText: any = $textField.val();
-        if (selectedRowText.length > 0) {
-            selectedRowText = selectedRowText.split($control.hasClass('email') ? ';' : multiSeparator);
-        } else {
-            selectedRowText = [];
-        }
-        selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
-        $selectedRows = $browse.data('selectedrows');
-        $trs = $browse.find('tbody > tr');
-
+        //if (typeof $browse.data('selectedrows') === 'undefined') {
+        //    $browse.data('selectedrows', {});
+        //}
+     
+        //if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
+        //    $browse.data('selectedrowsuniqueids', []);
+        //}
+        $selectedRows = {};
+        selectedRowUniqueIds = [];
+        const selectedRowText = [];
         multiselectfield.find('.multiitem').remove();
+        //let selectedRowText: any = $textField.val();
+        //if (selectedRowText.length > 0) {
+        //    selectedRowText = selectedRowText.split($control.hasClass('email') ? ';' : multiSeparator);
+        //} else {
+        //    selectedRowText = [];
+        //}
+        //selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
+        //$selectedRows = $browse.data('selectedrows');
+        $trs = $browse.find('tbody > tr');
 
         for (let i = 0; i < $trs.length; i++) {
             $tr = jQuery($trs[i]);
@@ -490,6 +493,9 @@
         } else {
             $textField.val(selectedRowText.join(multiSeparator));
         }
+
+        $browse.data('selectedrows', $selectedRows);
+        $browse.data('selectedrowsuniqueids', selectedRowUniqueIds);
 
         $valuefield.val(selectedRowUniqueIds.join(',')).change();
         $searchfield.val('');
