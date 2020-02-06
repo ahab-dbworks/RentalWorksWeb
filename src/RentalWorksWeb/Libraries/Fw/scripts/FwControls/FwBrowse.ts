@@ -459,7 +459,14 @@ class FwBrowseClass {
             .on('click', '.runtime .pager div.btn-manualsort', function (e: JQuery.Event) {
                 try {
                     if ($control.attr('data-enabled') != 'false') {
-                        $control.find('td.manual-sort').toggle();
+                        const $sort = $control.find('td.manual-sort');
+                        const $newBtn = $control.find('.buttonbar');
+                        $sort.toggle();
+                        if ($sort.is(':visible')) {
+                            $newBtn.hide();
+                        } else {
+                            $newBtn.show();
+                        }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
