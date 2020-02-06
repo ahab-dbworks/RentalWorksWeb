@@ -14,7 +14,7 @@ const receiveContractReportTemplate = `
       <div id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
           <div class="formcolumn" style="width:260px">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contract">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Receive Contract">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield contractid" data-caption="Contract Number" data-datafield="ContractId" data-formbeforevalidate="beforeValidate" data-validationname="ContractValidation" data-savesetting="false" style="float:left;max-width:300px;"></div>
               </div>
