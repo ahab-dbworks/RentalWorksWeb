@@ -466,7 +466,7 @@
         $trs = $browse.find('tbody > tr');
 
         multiselectfield.find('.multiitem').remove();
-        
+
         for (let i = 0; i < $trs.length; i++) {
             $tr = jQuery($trs[i]);
             uniqueIdValue = FwMultiSelectValidation.getUniqueIds($tr);
