@@ -328,6 +328,9 @@ namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
         [FwSqlDataField(column: "availqcdelayindefinite", modeltype: FwDataTypes.Boolean)]
         public bool? AvailabilityQcDelayIndefinite { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "addtoordermute", modeltype: FwDataTypes.Boolean)]
+        public bool? DefaultMuteItemsAddedToOrderAtStaging { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

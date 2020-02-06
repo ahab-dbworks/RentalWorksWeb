@@ -14,6 +14,10 @@ namespace WebApi.Modules.Utilities.QuikActivity
         {
             dataRecords.Add(activity);
             dataLoader = quikActivityLoader;
+
+            ReloadOnSave = false;
+            LoadOriginalBeforeSaving = false;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "DSAzjLm9RRZvI", IsPrimaryKey: true)]
@@ -99,6 +103,12 @@ namespace WebApi.Modules.Utilities.QuikActivity
 
         [FwLogicProperty(Id: "Qj7mH7Ia1XL79", IsReadOnly: true)]
         public decimal? CompletePercent { get; set; }
+
+        [FwLogicProperty(Id: "dYzXIeMoxLAtA")]
+        public string AssignedToUserId { get { return activity.AssignedToUserId; } set { activity.AssignedToUserId = value; } }
+
+        [FwLogicProperty(Id: "NvFFmWN1o96WS", IsReadOnly: true)]
+        public string AssignedToUserName { get; set; }
 
         //------------------------------------------------------------------------------------ 
     }

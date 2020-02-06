@@ -1,4 +1,4 @@
-﻿class UserProfile{
+﻿class UserProfile {
     Module: string = 'UserProfile';
     apiurl: string = 'api/v1/userprofile';
     id: string = 'DrTcbvvUw92V';
@@ -50,7 +50,7 @@
         // Load Default Home Page Options, Exclude Settings Modules.
         const defaultHomePages = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             const settingsString = 'settings';
-            if (moduleController.hasOwnProperty('nav') && moduleController.nav.indexOf(settingsString) === -1 ) {
+            if (moduleController.hasOwnProperty('nav') && moduleController.nav.indexOf(settingsString) === -1) {
                 modules.push({ value: moduleController.id, text: moduleCaption, nav: moduleController.nav });
             }
         });
@@ -155,7 +155,7 @@
         try {
             //parameters.closetab = true;
             //parameters.afterCloseForm = () => {
-                
+
             //};
             FwModule.saveForm(this.Module, $form, parameters);
         } catch (ex) {

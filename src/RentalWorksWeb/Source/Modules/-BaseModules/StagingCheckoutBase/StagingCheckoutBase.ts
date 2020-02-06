@@ -737,7 +737,7 @@ abstract class StagingCheckoutBase {
         let request: any = {};
 
         setTimeout(() => {
-            if (this.Module === 'StagingCheckout' && warehouse.promptforcheckoutexceptions == true) {
+            if (warehouse.promptforcheckoutexceptions == true) {
                 const $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
                 FwBrowse.search($grid).then(() => {
                     if ($grid.find('tbody tr').length > 0) {

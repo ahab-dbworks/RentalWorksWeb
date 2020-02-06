@@ -31,21 +31,25 @@
 
   <ItemGroup>
     <Compile Remove="Modules\Administrator\Designer\**" />
+    <Compile Remove="Modules\Reports\**" />
     <Compile Remove="Modules\Warehouse\ScanBarCodes\**" />
     <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Compile Remove="wwwroot\lib\**" />
     <Content Remove="Modules\Administrator\Designer\**" />
+    <Content Remove="Modules\Reports\**" />
     <Content Remove="Modules\Warehouse\ScanBarCodes\**" />
     <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Content Remove="wwwroot\lib\**" />
     <EmbeddedResource Remove="Modules\Administrator\Designer\**" />
+    <EmbeddedResource Remove="Modules\Reports\**" />
     <EmbeddedResource Remove="Modules\Warehouse\ScanBarCodes\**" />
     <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <EmbeddedResource Remove="wwwroot\lib\**" />
     <None Remove="Modules\Administrator\Designer\**" />
+    <None Remove="Modules\Reports\**" />
     <None Remove="Modules\Warehouse\ScanBarCodes\**" />
     <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
@@ -89,7 +93,6 @@
     <Folder Include="Modules\Containers\EmptyContainer\" />
     <Folder Include="Modules\Containers\FillContainer\" />
     <Folder Include="Modules\Containers\RemoveFromContainer\" />
-    <Folder Include="Modules\Reports\" />
     <Folder Include="wwwroot\temp\downloads\" />
     <Folder Include="wwwroot\Reports\" />
   </ItemGroup>

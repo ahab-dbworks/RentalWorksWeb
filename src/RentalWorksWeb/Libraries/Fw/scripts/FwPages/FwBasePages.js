@@ -42,32 +42,40 @@ FwBasePages.getLoginScreen = function(viewModel) {
     screen = {};
     html = [];
 
-    html.push('<div class="login-page">');
-    html.push('  <div class="login-container">');
-    html.push('    <div class="programlogo">');
-    html.push('      <img id="programlogo" src="" alt="program logo" />')
-    html.push('    </div>');
-    html.push('    <div class="login-fields">');
-    html.push('      <div class="login-field" data-id="AQ0NDgwPBwg">');
-    html.push('        <input id="email" class="login-field-value" type="text" autocapitalize="none" />');
-    html.push('        <label class="login-field-caption" for="email">Username / Email</label>');
-    html.push('      </div>');
-    html.push('      <div class="login-field" data-id="BwcODw4HBw8">');
-    html.push('        <input id="password" class="login-field-value" type="password" />');
-    html.push('        <label class="login-field-caption" for="password">Password</label>');
-    html.push('      </div>');
-    html.push('    </div>');
-    html.push('    <div class="errormessage"></div>');
-    html.push('    <div class="login-buttons">');
-    html.push('      <div class="login-button btnLogin" data-id="BA4JDgMACgA">{{captionBtnLogin}}</div>');
-    html.push('      <div class="login-button btnCancel">{{captionBtnCancel}}</div>');
-    html.push('    </div>');
-    html.push('  </div>');
-    html.push('  <div id="master-footer">');
-    html.push('    <div id="copyright">© {{valueYear}} <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div>');
-    html.push('    <div id="version">v{{valueVersion}}</div>');
-    html.push('  </div>');
-    html.push('</div>');
+    if (!viewModel.isOktaLogin) {
+
+        html.push('<div class="login-page">');
+        html.push('  <div class="login-container">');
+        html.push('    <div class="programlogo">');
+        html.push('      <img id="programlogo" src="" alt="program logo" />')
+        html.push('    </div>');
+        html.push('    <div class="login-fields">');
+        html.push('      <div class="login-field" data-id="AQ0NDgwPBwg">');
+        html.push('        <input id="email" class="login-field-value" type="text" autocapitalize="none" />');
+        html.push('        <label class="login-field-caption" for="email">Username / Email</label>');
+        html.push('      </div>');
+        html.push('      <div class="login-field" data-id="BwcODw4HBw8">');
+        html.push('        <input id="password" class="login-field-value" type="password" />');
+        html.push('        <label class="login-field-caption" for="password">Password</label>');
+        html.push('      </div>');
+        html.push('    </div>');
+        html.push('    <div class="errormessage"></div>');
+        html.push('    <div class="login-buttons">');
+        html.push('      <div class="login-button btnLogin" data-id="BA4JDgMACgA">{{captionBtnLogin}}</div>');
+        html.push('      <div class="login-button btnCancel">{{captionBtnCancel}}</div>');
+        html.push('    </div>');
+        html.push('  </div>');
+        html.push('  <div id="master-footer">');
+        html.push('    <div id="copyright">© {{valueYear}} <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div>');
+        html.push('    <div id="version">v{{valueVersion}}</div>');
+        html.push('  </div>');
+        html.push('</div>');
+
+    } else {
+
+        html.push('  <div id="okta-login-container"></div>');
+
+    }
 
     html = html.join('');
     html = Mustache.render(html, viewModel);

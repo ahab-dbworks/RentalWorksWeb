@@ -15,60 +15,39 @@
   <table>
     <thead>
       <tr>
-        <th>Invoice No.</th>
-        <th>Invoice Date</th>
+        <th>Date/Time</th>
+        <th>Order No.</th>
         <th>Deal</th>
-        <th>PO Description</th>
-        <th>Billing Start</th>
-        <th>Billing End</th>
-        <th>Status</th>
-        <th class="number">Invoice Total</th>
+        <th>Order Type</th>
+        <th>Activity</th>
+        <th>In Type</th>
+        <th>Assigned To</th>
+        <th class="number">Item Qty</th>
+        <th class="number">In Qty</th>
+        <th class="number">Remaining</th>
+        <th class="number">%</th>
+        <th>Load Date</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Vendorheader"}}
-        <td colspan="5" class="lower header-row">Vendor: {{Vendor}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "PurchaseOrderNumberheader"}}
-        <td colspan="5" class="lower header-row">PO No: {{PurchaseOrderNumber}}</td>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td data-value="{{InvoiceNumber}}"></td>
-        <td data-value="{{InvoiceDate}}"></td>
+        <td data-value="{{ActivityDateTime}}"></td>
+        <td data-value="{{OrderNumber}}"></td>
         <td data-value="{{Deal}}"></td>
-        <td data-value="{{PurchaseOrderDescription}}"></td>
-        <td data-value="{{BillingStartDate}}"></td>
-        <td data-value="{{BillingEndDate}}"></td>
-        <td data-value="{{Status}}"></td>
-        <td class="number" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Vendorfooter"}}
-        <td colspan="7" class="total-name">{{Vendor}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "PurchaseOrderNumberfooter"}}
-        <td colspan="7" class="total-name">{{PurchaseOrderNumber}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="7" class="total-name">{{Department}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="7" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
+        <td data-value="{{OrderTypeDescription}}"></td>
+        <td data-value="{{ActivityType}}"></td>
+        <td data-value="{{ActivityTypeDescription}}"></td>
+        <td data-value="{{AssignedToUserName}}"></td>
+        <td class="number" data-value="{{TotalQuantity}}"></td>
+        <td class="number" data-value="{{CompleteQuantity}}"></td>
+        <td class="number" data-value="{{RemainingQuantity}}"></td>
+        <td class="number" data-value="{{CompletePercent}}"></td>
+        <td data-value="{{LoadOutDateTime}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

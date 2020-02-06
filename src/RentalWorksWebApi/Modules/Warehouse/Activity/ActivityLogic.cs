@@ -1,5 +1,9 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+using System;
+using FwStandard.SqlServer;
+
 namespace WebApi.Modules.Warehouse.Activity
 {
     [FwLogic(Id: "HdQVAPTOInRWe")]
@@ -12,6 +16,9 @@ namespace WebApi.Modules.Warehouse.Activity
         {
             dataRecords.Add(activity);
             dataLoader = activityLoader;
+
+            BeforeSave += OnBeforeSave;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "hdVJ56DIgIMkZ", IsPrimaryKey: true)]
@@ -40,6 +47,8 @@ namespace WebApi.Modules.Warehouse.Activity
         public string OfficeLocationId { get { return activity.OfficeLocationId; } set { activity.OfficeLocationId = value; } }
         [FwLogicProperty(Id: "hgq0fyxlws8ha")]
         public string WarehouseId { get { return activity.WarehouseId; } set { activity.WarehouseId = value; } }
+        [FwLogicProperty(Id: "kIpHQFeb0cKDo")]
+        public string Warehouse { get; set; }
         [FwLogicProperty(Id: "hGwM9MDLaNDXA")]
         public string OrderId { get { return activity.OrderId; } set { activity.OrderId = value; } }
         [FwLogicProperty(Id: "HGzTl0ReaOKNL", IsReadOnly: true)]
@@ -65,7 +74,7 @@ namespace WebApi.Modules.Warehouse.Activity
         [FwLogicProperty(Id: "hm4GewcwSYxTo", IsReadOnly: true)]
         public string AssignedToUserName { get; set; }
         [FwLogicProperty(Id: "hMhAqalSeyyEo")]
-        public string ActivityDateTime { get { return activity.ActivityDateTime; } set { activity.ActivityDateTime = value; } }
+        public DateTime? ActivityDateTime { get { return activity.ActivityDateTime; } set { activity.ActivityDateTime = value; } }
         [FwLogicProperty(Id: "HMobX0fa6oIoi", IsReadOnly: true)]
         public string ActivityDate { get; set; }
         [FwLogicProperty(Id: "hmqpeY8dEP6jC", IsReadOnly: true)]
@@ -85,6 +94,57 @@ namespace WebApi.Modules.Warehouse.Activity
         //    bool isValid = true; 
         //    return isValid; 
         //} 
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            ActivityLogic orig = null;
+            string origActivityDate = "";
+            string origActivityTime = "";
+            //DateTime? origActivityDateTime = DateTime.MinValue;
+            DateTime? origActivityDateTime = null;
+
+            if (e.Original == null)
+            {
+                if (ActivityDateTime == null)
+                {
+                    if ((!string.IsNullOrEmpty(ActivityDate)) || (!string.IsNullOrEmpty(ActivityTime)))
+                    {
+                        if (!string.IsNullOrEmpty(ActivityDate))
+                        {
+                            ActivityDateTime = FwConvert.ToDateTime(ActivityDate);
+                        }
+                        if (!string.IsNullOrEmpty(ActivityTime))
+                        {
+                            ActivityDateTime = FwConvert.ToDateTime(FwConvert.ToUSShortDate(ActivityDateTime.GetValueOrDefault(DateTime.MinValue).Date), ActivityTime, "");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                orig = (ActivityLogic)e.Original;
+                origActivityDate = orig.ActivityDate;
+                origActivityTime = orig.ActivityTime;
+                origActivityDateTime = orig.ActivityDateTime;
+
+                if (ActivityDateTime == null)
+                {
+                    if ((!string.IsNullOrEmpty(ActivityDate)) || (!string.IsNullOrEmpty(ActivityTime)))
+                    {
+                        ActivityDateTime = origActivityDateTime;
+
+                        if (!string.IsNullOrEmpty(ActivityDate))
+                        {
+                            ActivityDateTime = FwConvert.ToDateTime(ActivityDate, origActivityTime, "");
+                        }
+                        if (!string.IsNullOrEmpty(ActivityTime))
+                        {
+                            ActivityDateTime = FwConvert.ToDateTime(FwConvert.ToUSShortDate(ActivityDateTime.GetValueOrDefault(DateTime.MinValue).Date), ActivityTime, "");
+                        }
+                    }
+                }
+            }
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

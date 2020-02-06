@@ -60,6 +60,9 @@ const lateReturnsTemplate = `
                       <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -164,7 +167,9 @@ class LateReturnsReport extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-    };
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        };
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
         const convertedParams: any = {};
@@ -189,6 +194,7 @@ class LateReturnsReport extends FwWebApiReport {
         }
         convertedParams.OrderedByContactId = parameters.ContactId;
         convertedParams.OfficeLocationId = parameters.OfficeLocationId;
+        convertedParams.WarehouseId = parameters.WarehouseId;
         convertedParams.DepartmentId = parameters.DepartmentId;
         convertedParams.CustomerId = parameters.CustomerId;
         convertedParams.DealId = parameters.DealId;
@@ -222,6 +228,9 @@ class LateReturnsReport extends FwWebApiReport {
         switch (datafield) {
             case 'OfficeLocationId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                 break;
             case 'DepartmentId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);

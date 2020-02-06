@@ -437,6 +437,36 @@ class FwApplication {
             }
             this.navigate('home');
         } else {
+            if (applicationConfig.oktaSignIn) {
+                if (applicationConfig.oktaSignIn.hasTokensInUrl()) {
+                    applicationConfig.oktaSignIn.authClient.token.parseFromUrl().then(
+                        function success(tokens) {
+                            // Save the tokens for later use, e.g. if the page gets refreshed:
+                            // Add the token to tokenManager to automatically renew the token when needed
+                            tokens.forEach(token => {
+                                if (token.idToken) {
+
+                                    applicationConfig.oktaSignIn.authClient.tokenManager.add('idToken', token);
+                                }
+                                if (token.accessToken) {
+                                    applicationConfig.oktaSignIn.authClient.tokenManager.add('accessToken', token);
+                                }
+                            });
+
+                            // Say hello to the person who just signed in:
+                            var idToken = applicationConfig.oktaSignIn.signIn.tokenManager.get('idToken');
+                            console.log('Hello, ' + idToken.claims.email);
+
+                            // Remove the tokens from the window location hash
+                            window.location.hash = '';
+                        },
+                        function error(err) {
+                            // handle errors as needed
+                            console.error(err);
+                        }
+                    );
+                }
+            }
             this.navigate('default');
         }
     }

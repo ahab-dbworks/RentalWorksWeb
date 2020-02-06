@@ -446,12 +446,20 @@
     selectAll($control, $valuefield: JQuery, $searchfield: JQuery, $popup: JQuery, $browse: JQuery): void {
         let $selectedRows, $trs, $tr, uniqueIdValue, multiselectfield, selectedRowUniqueIds, $inputField;
         multiselectfield = $control.find('.multiselectitems');
+        const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
         $inputField = multiselectfield.find('span.addItem');
         if (typeof $browse.data('selectedrows') === 'undefined') {
             $browse.data('selectedrows', {});
         }
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
             $browse.data('selectedrowsuniqueids', []);
+        }
+        const $textField = $valuefield.siblings('.fwformfield-text');
+        let selectedRowText: any = $textField.val();
+        if (selectedRowText.length > 0) {
+            selectedRowText = selectedRowText.split($control.hasClass('email') ? ';' : multiSeparator);
+        } else {
+            selectedRowText = [];
         }
         selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
         $selectedRows = $browse.data('selectedrows');
@@ -467,14 +475,23 @@
                     <span>${textValue}</span>
                     <i class="material-icons">clear</i>
                 </div>`);
+                selectedRowText.push(textValue);
                 selectedRowUniqueIds.push(uniqueIdValue);
                 $selectedRows[uniqueIdValue] = $tr;
             }
         }
+        if ($control.hasClass('email')) {
+            $textField.val(selectedRowText.join(';'));
+        } else {
+            $textField.val(selectedRowText.join(multiSeparator));
+        }
+
         $valuefield.val(selectedRowUniqueIds.join(',')).change();
         $searchfield.val('');
         multiselectfield.append($inputField);
         $inputField.text('');
+
+
         FwPopup.detachPopup($popup);
         FwMultiSelectValidation.clearSearchCriteria($browse);
         FwMultiSelectValidation.setCaret($control);

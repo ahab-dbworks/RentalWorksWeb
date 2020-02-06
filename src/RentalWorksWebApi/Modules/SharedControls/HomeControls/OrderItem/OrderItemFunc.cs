@@ -16,6 +16,13 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public List<string> OrderItemIds { get; set; } = new List<string>();
     }
 
+    public class OrderLineItem
+    {
+        public OrderItemLogic Item { get; set; }
+        public List<OrderLineItem> Accessories { get; set; } = new List<OrderLineItem>();
+        public bool ManuallySortedAccesssory { get; set; }
+    }
+
     public static class OrderItemFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -28,7 +35,153 @@ namespace WebApi.Modules.HomeControls.OrderItem
             r2.StartAtIndex = request.StartAtIndex;
             r2.RowNumberDigits = 6;
 
-            foreach (string itemId in request.OrderItemIds)
+            List<string> itemsToSort = new List<string>();
+            List<string> handledOrderItemIds = new List<string>();
+
+            if (request.OrderItemIds.Count > 0)
+            {
+                string orderId = AppFunc.GetStringDataAsync(appConfig, "masteritem", "masteritemid", request.OrderItemIds[0], "orderid").Result;
+
+                //gather sorted detail data for this Order in a single query
+                BrowseRequest itemBrowseRequest = new BrowseRequest();
+                itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                itemBrowseRequest.uniqueids.Add("OrderId", orderId);
+                OrderItemLogic l = new OrderItemLogic();
+                l.SetDependencies(appConfig, userSession);
+                List<OrderItemLogic> items = l.SelectAsync<OrderItemLogic>(itemBrowseRequest).Result;
+
+                List<OrderLineItem> lines = new List<OrderLineItem>();
+                //build logical representation of items and pacakges on this Order
+                foreach (OrderItemLogic item in items)
+                {
+                    OrderLineItem thisLine = new OrderLineItem();
+                    thisLine.Item = item;
+                    lines.Add(thisLine);
+
+                    if (!string.IsNullOrEmpty(item.NestedOrderItemId))
+                    {
+                        if (item.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || item.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE))
+                        {
+                            // this line is the main-line of a nested package. find parent
+                            foreach (OrderLineItem line in lines)
+                            {
+                                if (line.Item.OrderItemId.Equals(item.NestedOrderItemId))
+                                {
+                                    line.Accessories.Add(thisLine);
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // this line is a nested accessory, find parent 
+                            foreach (OrderLineItem line in lines)
+                            {
+                                if (line.Item.OrderItemId.Equals(item.ParentId))
+                                {
+                                    line.Accessories.Add(thisLine);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else if (!string.IsNullOrEmpty(item.ParentId))
+                    {
+                        // this line is a regular accessory, find parent 
+                        foreach (OrderLineItem line in lines)
+                        {
+                            if (line.Item.OrderItemId.Equals(item.ParentId))
+                            {
+                                line.Accessories.Add(thisLine);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // now that we have a logical representation of all of the packages on the Order, let's adjust the sorting for correctness to keep completes and kits together
+                //foreach (string itemId in request.OrderItemIds)
+                for (int i = 0; i <= request.OrderItemIds.Count - 1; i++)
+                {
+                    string itemId = request.OrderItemIds[i];
+                    if (!handledOrderItemIds.Contains(itemId))  // if this item's sorting has not already been handled
+                    {
+                        itemsToSort.Add(itemId);  // add the id to the sorted list
+
+                        foreach (OrderLineItem line in lines)  // find this item in the "lines" collection
+                        {
+                            if (line.Item.OrderItemId.Equals(itemId))  // found our line
+                            {
+                                if (line.Item.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || line.Item.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || line.Item.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+                                {
+                                    // check to see if user has inentionally re-positioned accessories of this Complete/Kit immediately after our current line.  If so, we want to honor those sortings
+
+                                    //initailize these values to prepare for the loop
+                                    foreach (OrderLineItem accLine in line.Accessories)
+                                    {
+                                        accLine.ManuallySortedAccesssory = false;
+                                    }
+
+                                    for (int t = i + 1; t <= request.OrderItemIds.Count - 1; t++)  // peek at the next few lines to see if they are accessories to our complete/kit
+                                    {
+                                        string testItemId = request.OrderItemIds[t];
+                                        bool isValidAcc = false;
+                                        foreach (OrderLineItem accLine in line.Accessories)
+                                        {
+                                            if (testItemId.Equals(accLine.Item.OrderItemId))
+                                            {
+                                                isValidAcc = true;
+                                                accLine.ManuallySortedAccesssory = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!isValidAcc)  // we reached an item that is not an accessory to this complete/kit
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    bool accessoriesSortedManually = true;
+                                    foreach (OrderLineItem accLine in line.Accessories)
+                                    {
+                                        if (!accLine.ManuallySortedAccesssory)
+                                        {
+                                            accessoriesSortedManually = false;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!accessoriesSortedManually)  // user has abandoned accessories of this Complete/Kit.  We want to rescue those items and fix their sorting to here
+                                    {
+                                        // if the line is a Complete, Kit, or Container, then find all of its accessories and put them where they should go
+                                        foreach (OrderLineItem accLine in line.Accessories)
+                                        {
+                                            handledOrderItemIds.Add(accLine.Item.OrderItemId);
+                                            if (itemsToSort.Contains(accLine.Item.OrderItemId))
+                                            {
+                                                itemsToSort.Remove(accLine.Item.OrderItemId);
+                                            }
+                                            itemsToSort.Add(accLine.Item.OrderItemId);
+
+                                            // if this accessory is really a nested Completes or Kit header line, then find all of its accessories and put them where they should go
+                                            foreach (OrderLineItem nestedLine in accLine.Accessories)
+                                            {
+                                                handledOrderItemIds.Add(nestedLine.Item.OrderItemId);
+                                                if (itemsToSort.Contains(nestedLine.Item.OrderItemId))
+                                                {
+                                                    itemsToSort.Remove(nestedLine.Item.OrderItemId);
+                                                }
+                                                itemsToSort.Add(nestedLine.Item.OrderItemId);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach (string itemId in itemsToSort)
             {
                 List<string> idCombo = new List<string>();
                 idCombo.Add(itemId);
@@ -274,7 +427,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     }
                 }
 
-                if (RecType.Equals(RwConstants.RECTYPE_RENTAL)) 
+                if (RecType.Equals(RwConstants.RECTYPE_RENTAL))
                 {
                     if (RateType.Equals(RwConstants.RATE_TYPE_DAILY))
                     {

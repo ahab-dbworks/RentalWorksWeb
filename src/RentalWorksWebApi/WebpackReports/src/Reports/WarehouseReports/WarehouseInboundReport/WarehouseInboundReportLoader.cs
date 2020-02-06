@@ -6,6 +6,8 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using System.Text;
+
 namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
 {
     [FwSqlTable("inboundrptview")]
@@ -17,6 +19,9 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitydate", modeltype: FwDataTypes.Date)]
         public string ActivityDate { get; set; }
@@ -38,6 +43,9 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
         public string OrderType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertypedesc", modeltype: FwDataTypes.Text)]
+        public string OrderTypeDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer)]
         public int? ActivityTypeId { get; set; }
@@ -82,6 +90,7 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
         {
             useWithNoLock = false;
             FwJsonDataTable dt = null;
+            CheckBoxListItems sortBy = new CheckBoxListItems();
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
@@ -91,26 +100,46 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    //select.AddWhere("(xxxxid ^> ')"); 
-                    //select.AddWhereIn("locationid", request.OfficeLocationId); 
-                    //select.AddWhereIn("departmentid", request.DepartmentId); 
-                    //addDateFilterToSelect("datefieldname1", request.DateValue1, select, "^>=", "dateparametername(optional)"); 
-                    //addDateFilterToSelect("datefieldname2", request.DateValue2, select, "^<=", "dateparametername(optional)"); 
-                    //if (!request.BooleanField.GetValueOrDefault(false)) 
-                    //{ 
-                    //    select.AddWhere("somefield ^<^> 'T'"); 
-                    //} 
-                    select.AddOrderBy("field1,field2");
+                    addDateFilterToSelect("activitydate", request.FromDate, select, ">=", "fromdate");
+                    addDateFilterToSelect("activitydate", request.ToDate, select, "<=", "todate");
+                    select.AddWhereIn("warehouseid", request.WarehouseId);
+                    select.AddWhereIn("departmentid", request.DepartmentId);
+                    select.AddWhereIn("activitytypeid", request.ActivityTypeId);
+                    select.AddWhereIn("assignedtousersid", request.AgentId);
+                    select.AddWhereIn("ordertype", request.OrderTypes);
+                    if (request.SortBy != null)
+                    {
+                        CheckBoxListItems requestedSortBy = request.SortBy.GetSelectedItems();
+                        if (requestedSortBy.Count > 0)
+                        {
+                            sortBy = requestedSortBy;
+                        }
+                    }
+
+                    StringBuilder orderBy = new StringBuilder();
+                    orderBy.Append("warehouse");
+                    foreach (CheckBoxListItem item in sortBy)
+                    {
+                        if (orderBy.Length > 0)
+                        {
+                            orderBy.Append(",");
+                        }
+                        orderBy.Append(item.value.Equals("ActivityDate") ? "activitydate" : "");  // can use reflection for this
+                        orderBy.Append(item.value.Equals("ActivityType") ? "activitytypedesc" : "");
+                        orderBy.Append(item.value.Equals("Deal") ? "deal" : "");
+                        orderBy.Append(item.value.Equals("OrderType") ? "ordertype" : "");
+                        orderBy.Append(item.value.Equals("OrderNumber") ? "orderno" : "");
+                    }
+                    select.AddOrderBy(orderBy.ToString());
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            //if (request.IncludeSubHeadingsAndSubTotals)
-            //{
-            //    string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-            //    dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-            //    dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
-            //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            //}
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+                string[] totalFields = new string[] { "CompleteQuantity" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 

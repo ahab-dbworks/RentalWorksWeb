@@ -485,6 +485,22 @@ class TransferOrder {
                 $fwgrid.addClass('S');
             },
         });
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'ActivityGrid',
+            gridSecurityId: 'hb52dbhX1mNLZ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `TransferId`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `TransferId`)
+            },
+        });
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
@@ -540,6 +556,11 @@ class TransferOrder {
             const $this = jQuery(e.currentTarget);
             const salesTab = $form.find('.salesTab');
             $this.prop('checked') === true ? salesTab.show() : salesTab.hide();
+        });
+
+        //Activity Filters
+        $form.on('change', '.activity-filters', e => {
+            ActivityGridController.filterActivities($form);
         });
     };
     //----------------------------------------------------------------------------------------------

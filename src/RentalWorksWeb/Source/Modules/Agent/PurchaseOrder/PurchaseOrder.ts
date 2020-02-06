@@ -54,6 +54,13 @@ class PurchaseOrder implements IModule {
                 FwFunc.showError(ex);
             }
         });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Purchase Order Status', 'Buwl6WTPrOMk', (e: JQuery.ClickEvent) => {
+            try {
+                this.purchaseOrderStatus(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         FwMenu.addSubMenuItem(options.$groupOptions, 'Receive From Vendor', 'MtgBxCKWVl7m', (e: JQuery.ClickEvent) => {
             try {
                 this.receiveFromVendor(options.$form);
@@ -1362,6 +1369,23 @@ class PurchaseOrder implements IModule {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             }
         });
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'ActivityGrid',
+            gridSecurityId: 'hb52dbhX1mNLZ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+            },
+        });
+
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
@@ -2340,6 +2364,17 @@ class PurchaseOrder implements IModule {
             this.applyRateType($form);
         });
 
+        //Activity Filters
+        $form.on('change', '.activity-filters', e => {
+            ActivityGridController.filterActivities($form);
+        });
+        // Prevent items tab view on 'NEW' records
+        $form.find('[data-type="tab"][data-notOnNew="true"]').on('click', e => {
+            if ($form.attr('data-mode') === 'NEW') {
+                e.stopImmediatePropagation();
+                FwNotification.renderNotification('WARNING', 'Save Record first.');
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
@@ -2476,6 +2511,16 @@ class PurchaseOrder implements IModule {
         let $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $receiveFromVendorForm);
         jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor');
+    }
+    //---------------------------------------------------------------------------------
+    purchaseOrderStatus($form: JQuery) {
+        let mode = 'EDIT';
+        let orderInfo: any = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+        let $orderStatusForm = PurchaseOrderStatusController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $orderStatusForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Purchase Order Status');
     }
     //----------------------------------------------------------------------------------------------	
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {

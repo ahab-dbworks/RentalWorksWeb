@@ -1,41 +1,34 @@
+
+
+using FwStandard.AppManager;
 using FwStandard.Models;
+using FwStandard.Reporting;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
-using System.Threading.Tasks;
-using System;
-using FwStandard.Reporting;
 using PuppeteerSharp;
-using PuppeteerSharp.Media;
-using FwStandard.SqlServer;
-using Microsoft.AspNetCore.Http;
-using FwStandard.AppManager;
-using static FwCore.Controllers.FwDataController;
+using System;
+using System.Threading.Tasks;
+using WebApi.Controllers;
 using WebApi.Data;
+using WebApi.Modules.Agent.Order;
+using static FwCore.Controllers.FwDataController;
 
-namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
+namespace WebApi.Modules.Reports.OrderStatusSummaryReport
 {
-    public class WarehouseDispachReportRequest : AppReportRequest
+    public class OrderStatusSummaryReportRequest : AppReportRequest
     {
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
-        //public string OfficeLocationId { get; set; }
-        public string WarehouseId { get; set; }
-        public string DepartmentId { get; set; }
-        public string AgentId { get; set; }
-        public string ActivityTypeId { get; set; }
-        //public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
-        //public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        public string OrderId { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "gs5q3h0v0HzXF")]
-    public class WarehouseDispachReportController : AppReportController
+    [FwController(Id: "44jjIwel6TP0d")]
+    public class OrderStatusSummaryReportController : AppReportController
     {
-        public WarehouseDispachReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "WarehouseDispachReport"; }
+        public OrderStatusSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "OrderStatusSummaryReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Warehouse Dispach Report"; }
+        protected override string GetReportFriendlyName() { return "Order Status"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -48,32 +41,33 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "WarehouseDispachReport";
+            return "OrderStatusSummaryReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/warehousedispachreport/render 
+        // POST api/v1/orderstatussummaryreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id: "gSMc6J6Fnj2dC")]
+        [FwControllerMethod(Id: "4cMLxL68N5OVv")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
-            return actionResult;
+            if (!this.ModelState.IsValid) return BadRequest();
+            ActionResult<FwReportRenderResponse> response = await DoRender(request);
+            return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/warehousedispachreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/orderstatussummaryreport/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "GsyhDTp5QV53I")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]WarehouseDispachReportRequest request)
+        [FwControllerMethod(Id: "4mzI4jEF8FD2C")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]OrderStatusSummaryReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/warehousedispachreport/runreport 
+        // POST api/v1/orderstatussummaryreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id: "gtOf2poWCYeve")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]WarehouseDispachReportRequest request)
+        [FwControllerMethod(Id: "4VsjqrccU1KZ2")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]OrderStatusSummaryReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -81,8 +75,8 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
             }
             try
             {
-                WarehouseDispachReportLoader l = new WarehouseDispachReportLoader();
-                l.SetDependencies(this.AppConfig, this.UserSession);
+                OrderStatusSummaryReportLoader l = new OrderStatusSummaryReportLoader();
+                l.SetDependencies(this.AppConfig, UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 //l.HideSummaryColumnsInDataTable(request, dt);
                 return new OkObjectResult(dt);
@@ -93,5 +87,12 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispachReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderstatussummaryreport/validateorder/browse 
+        [HttpPost("validateorder/browse")]
+        [FwControllerMethod(Id: "YyAtJqo69gwa", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
     }
 }

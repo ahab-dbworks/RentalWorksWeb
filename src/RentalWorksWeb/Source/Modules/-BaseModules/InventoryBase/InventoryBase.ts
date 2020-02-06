@@ -212,11 +212,16 @@ abstract class InventoryBase {
                     if (inventoryId === null || inventoryId === '') {
                         inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');     // err here if line in grid has no icode selected
                     }
+                    let includeHours: boolean = false;
+                    if ((request.mode === 'Day') || (request.mode === 'Week')) {
+                        includeHours = true;
+                    }
                     const availRequest: any = {
                         InventoryId: inventoryId,
                         WarehouseId: warehouseId.split(','),
                         FromDate: startOfMonth,
                         ToDate: endOfMonth,
+                        IncludeHours: includeHours,
                     };
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
                         FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
@@ -368,172 +373,6 @@ abstract class InventoryBase {
                 });
         }
     }
-    //----------------------------------------------------------------------------------------------
-    //addCalendarEvents($form, $control, inventoryId) {
-    //    $control
-    //        .data('ongetevents', request => {
-    //            const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
-    //            const endOfMonth = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY');
-    //            let warehouseId;
-    //            if ($form.is('tr')) {
-    //                if (typeof $form.data('warehousefilter') === 'string') {
-    //                    warehouseId = $form.data('warehousefilter');
-    //                } else {
-    //                    warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
-    //                }
-    //            } else {
-    //                warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
-    //            }
-    //            if (inventoryId === null || inventoryId === '') {
-    //                inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-    //            }
-    //            const availRequest: any = {
-    //                InventoryId: inventoryId,
-    //                WarehouseId: warehouseId.split(','),
-    //                FromDate: startOfMonth,
-    //                ToDate: endOfMonth,
-    //            };
-    //            FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
-    //                FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
-    //                const calendarevents = response.InventoryAvailabilityCalendarEvents;
-    //                $control.data('reserveDates', response.Dates);                  // loading reservation data onto control for use in renderDatePopup()
-    //                for (let i = 0; i < calendarevents.length; i++) {
-    //                    if (calendarevents[i].textColor !== 'rgb(0,0,0)') {
-    //                        calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
-    //                    }
-    //                }
-    //                // Rates
-    //                FwFormField.setValue($form, 'div[data-totalfield="InventoryDailyRate"]', response.InventoryData.InventoryWarehouse.DailyRate);
-    //                FwFormField.setValue($form, 'div[data-totalfield="InventoryWeeklyRate"]', response.InventoryData.InventoryWarehouse.WeeklyRate);
-    //                FwFormField.setValue($form, 'div[data-totalfield="InventoryMonthlyRate"]', response.InventoryData.InventoryWarehouse.MonthlyRate);
-
-    //                FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarevents);
-
-    //                if ($form.is('tr')) {
-    //                    $form = jQuery('#availabilityCalendarPopup');
-    //                }
-    //                this.loadInventoryDataTotals($form, response.InventoryData);
-    //            }, function onError(response) {
-    //                FwFunc.showError(response);
-    //            }, $control)
-    //        })
-    //        .data('ontimerangedoubleclicked', event => {
-    //            try {
-    //                const date = event.start.toString('MM/dd/yyyy');
-    //                FwScheduler.setSelectedDay($control, date);
-    //                //DriverController.openTicket($form);
-    //                $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
-    //                $form.find('div.tab.schedule').click();
-    //                this.renderReservationsPopup($control, event);
-    //            } catch (ex) {
-    //                FwFunc.showError(ex);
-    //            }
-    //        })
-    //}
-    ////----------------------------------------------------------------------------------------------
-    //addSchedulerEvents($form, $control, inventoryId) {
-    //    $control
-    //        .data('ongetevents', function (request) {
-    //            const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
-    //            const endOfMonth = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY');
-
-    //            let warehouseId;
-    //            if ($form.is('tr')) {
-    //                if (typeof $form.data('warehousefilter') === 'string') {
-    //                    warehouseId = $form.data('warehousefilter');
-    //                } else {
-    //                    warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
-    //                }
-    //            } else {
-    //                warehouseId = FwFormField.getValue($form, '.warehousefilter');
-    //            }
-    //            if (inventoryId === null || inventoryId === '') {
-    //                inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-    //            }
-    //            const availRequest: any = {
-    //                InventoryId: inventoryId,
-    //                WarehouseId: warehouseId.split(','),
-    //                FromDate: startOfMonth,
-    //                ToDate: endOfMonth,
-    //            };
-    //            FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, function onSuccess(response) {
-    //                const schedulerEvents = response.InventoryAvailabilityScheduleEvents;
-    //                for (let i = 0; i < schedulerEvents.length; i++) {
-    //                    if (schedulerEvents[i].isWarehouseTotal === true) {
-    //                        schedulerEvents[i].html = `<div class="warehouse" style="color:${schedulerEvents[i].textColor};text-align:center;">${schedulerEvents[i].text}</div>`
-    //                    } else {
-    //                        //schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`
-    //                        let html: string = "";
-    //                        html += `<div class="order" style="`;
-    //                        if (schedulerEvents[i].backColor) {
-    //                            html += `background-color:${schedulerEvents[i].backColor};`;
-    //                        }
-    //                        html += `color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`;
-    //                        schedulerEvents[i].html = html;
-    //                    }
-    //                }
-    //                FwSchedulerDetailed.loadEventsCallback($control, response.InventoryAvailabilityScheduleResources, response.InventoryAvailabilityScheduleEvents);
-    //            }, function onError(response) {
-    //                FwFunc.showError(response);
-    //            }, $control)
-    //        })
-    //        .data('oneventdoubleclicked', request => {
-    //            const data = request.e.data;
-    //            let module;
-    //            let datafield;
-    //            let id;
-    //            let title;
-    //            switch (data.orderType) {
-    //                case 'O': //ORDER
-    //                    module = 'Order';
-    //                    datafield = 'OrderId';
-    //                    id = data.orderId;
-    //                    title = data.orderDescription;
-    //                    break;
-    //                case 'Q': //QUOTE
-    //                    module = 'Quote';
-    //                    datafield = 'QuoteId';
-    //                    id = data.orderId;
-    //                    title = data.orderDescription;
-    //                    break;
-    //                case 'C': //PURCHASE ORDER
-    //                    module = 'PurchaseOrder';
-    //                    datafield = 'PurchaseOrderId';
-    //                    id = data.orderId;
-    //                    title = data.orderDescription;
-    //                    break;
-    //                case 'T': //TRANSFER
-    //                    module = 'TransferOrder';
-    //                    datafield = 'TransferId';
-    //                    id = data.orderId;
-    //                    title = data.orderDescription;
-    //                    break;
-    //                case 'R': //REPAIR
-    //                    module = 'Repair';
-    //                    datafield = 'RepairId';
-    //                    id = data.orderId;
-    //                    title = data.orderDescription;
-    //                    break;
-    //                case 'N': //CONTAINER
-    //                    module = 'Container';
-    //                    datafield = 'ContainerItemId';
-    //                    id = data.orderId;
-    //                    title = data.orderDescription;
-    //                    break;
-    //                case 'PENDING': //PENDING EXCHANGE
-    //                    module = 'Contract';
-    //                    datafield = 'ContractId';
-    //                    id = data.contractId;
-    //                    title = data.orderDescription;
-    //                    break;
-    //                default:
-    //                    FwFunc.showError('Invalid Order Type');
-    //                    break;
-    //            }
-
-    //            FwValidation.validationPeek($control, module, id, datafield, $form, title);
-    //        });
-    //}
     //----------------------------------------------------------------------------------------------
     loadScheduler($form, events, resources) {
         const dp = new DayPilot.Scheduler($form.find('.realscheduler')[0]);

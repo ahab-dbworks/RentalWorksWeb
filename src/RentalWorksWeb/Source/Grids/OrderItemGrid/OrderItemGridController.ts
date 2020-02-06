@@ -14,13 +14,16 @@ class OrderItemGrid {
             var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
             var toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
         };
+        const $td = $tr.find('[data-browsedatafield="InventoryId"]');
 
         if ($grid.hasClass('R')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'R' });
             inventoryType = 'Rental';
+            $td.attr('data-peekForm', 'RentalInventory');
         } else if ($grid.hasClass('S')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'S' });
             inventoryType = 'Sales';
+            $td.attr('data-peekForm', 'SalesInventory');
         } else if ($grid.hasClass('M')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'M' });
             inventoryType = 'Misc';
@@ -35,6 +38,7 @@ class OrderItemGrid {
             inventoryType = 'Combined';
         } else if ($grid.hasClass('P')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'P' });
+            $td.attr('data-peekForm', 'PartsInventory');
             inventoryType = 'Parts';
         } else if ($grid.hasClass('F')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'F' });
@@ -156,8 +160,24 @@ class OrderItemGrid {
                 const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
                 $availQty.attr('data-state', availabilityState);
                 $availQty.css('cursor', 'pointer');
+                if ($form.attr('data-controller') === 'PurchaseOrderController') {
+                    const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
+                    let peekForm;
+                    switch (recType) {
+                        case 'R':
+                            peekForm = 'RentalInventory';
+                            break;
+                        case 'S':
+                            peekForm = 'SalesInventory';
+                            break;
+                        case 'P':
+                            peekForm = 'PartsInventory';
+                            break;
+                    }
+                    const $td = $tr.find('[data-browsedatafield="InventoryId"]');
+                    $td.attr('data-peekForm', peekForm);
+                }
             });
-
 
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
                 // Lock Fields
@@ -176,6 +196,20 @@ class OrderItemGrid {
                     }
                 }
 
+                // Mute Fields
+                if ($tr.find('.order-item-mute').text() === 'true') {
+                    $tr.find('.field-to-mute').css({ 'background-color': '#ffccff' });
+                    $tr.find('.field-to-mute').parent('td').css({
+                        'border-top': '2px solid black',
+                        'border-bottom': '2px solid black'
+                    });
+                    $tr.find('.field-to-mute').attr('data-formreadonly', 'true');
+                    // disabled grids were rendering with different shade background color
+                    if ($control.attr('data-enabled') === 'false') {
+                        $tr.find('.field-to-mute').css('background-color', 'transparent');
+                    }
+                }
+
                 //enable editing price on misc items
                 const isMiscClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
                 if (isMiscClass === 'M') {
@@ -189,19 +223,23 @@ class OrderItemGrid {
                 <div>
                     <div class="close-modal" style="background-color:white;top:.8em;right:.1em; padding-right:.5em; border-radius:.2em;justify-content:flex-end;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
                     <div id="availabilityCalendarPopup" class="fwform fwcontrol fwcontainer" data-control="FwContainer" data-type="form" style="overflow:auto;max-height:90vh;max-width:90vw;background-color:white; margin-top:2em; border:2px solid gray;">
-                        <div class="flexrow" style="overflow:auto;">
-                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
-                                 <div class="flexrow inv-data-totals">
-                                     <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="InContainer" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="Staged" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="Out" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="InRepair" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="InTransit" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
-                                 </div>
+                      <div class="flexrow" style="overflow:auto;">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
+                          <div class="flexrow">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-enabled="false" style="flex:0 1 100px;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:0 1 500px;"></div>
+                          </div>
+                                <div class="flexrow inv-data-totals">
+                                    <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="InContainer" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="Staged" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="Out" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="InRepair" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="InTransit" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
+                                </div>
                               <div class="flexrow" style="overflow:auto;">
                                 <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
                               </div>
@@ -225,7 +263,12 @@ class OrderItemGrid {
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 const warehouseText = FwFormField.getTextByDataField($form, 'WarehouseId');
                 FwFormField.setValue2($popup.find('.warehousefilter'), warehouseId, warehouseText);
-                const schddate = FwScheduler.getTodaysDate();
+                // fields on popup
+                const iCode = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext');
+                FwFormField.setValue2($popup.find('div[data-datafield="ICode"]'), iCode);
+                const description = FwBrowse.getValueByDataField($control, $generatedtr, 'Description');
+                FwFormField.setValue2($popup.find('div[data-datafield="Description"]'), description);
+
 
                 const $calendar = $popup.find('.calendar');
                 FwScheduler.renderRuntimeHtml($calendar);
@@ -233,6 +276,7 @@ class OrderItemGrid {
                 const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
                 RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
                 FwScheduler.loadControl($calendar);
+                const schddate = FwScheduler.getTodaysDate();
                 FwScheduler.navigate($calendar, schddate);
                 FwScheduler.refresh($calendar);
                 // sequence of these invocations is important so that events are properly stored on the control ^ v
@@ -970,6 +1014,52 @@ class OrderItemGrid {
         });
 
         FwBrowse.search($templateBrowse);
+    }
+    //----------------------------------------------------------------------------------------------
+    async muteUnmute(event: any) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const mutedItems = [];
+        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+                let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+                let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+                let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
+
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                orderItem.Description = description;
+                orderItem.QuantityOrdered = quantityOrdered;
+                orderItem.RecType = recType;
+                orderItem.RowsRolledUp = rowsRolledUp;
+
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Mute"]').attr('data-originalvalue') === 'true') {
+                    orderItem.Mute = false;
+                } else {
+                    orderItem.Mute = true;
+                }
+                mutedItems.push(orderItem);
+            }
+            await muteUnmuteItems(mutedItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+
+        function muteUnmuteItems(orders): void {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
     }
     //----------------------------------------------------------------------------------------------
     async lockUnlock(event: any) {

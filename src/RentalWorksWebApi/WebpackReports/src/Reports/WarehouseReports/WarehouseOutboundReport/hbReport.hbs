@@ -17,9 +17,13 @@
       <tr>
         <th>Pick Date</th>
         <th>Start Date</th>
+        <th>Order Type</th>
+        <th>Activity</th>
+        <th>Out Type</th>
         <th>Order No.</th>
+        <th>Order Status</th>
         <th>Deal</th>
-        <th>Status</th>
+        <th>Activity Status</th>
         <th>Assigned To</th>
         <th class="number">Staged</th>
         <th class="number">Items</th>
@@ -35,22 +39,14 @@
         {{#ifEquals RowType "Warehouseheader"}}
         <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Vendorheader"}}
-        <td colspan="5" class="lower header-row">Order Type: {{OrderType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Activityheader"}}
-        <td colspan="5" class="lower header-row">Activity: {{Activity}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OutboundTypeheader"}}
-        <td colspan="5" class="lower header-row">Outbound Type: {{OutboundType}}</td>
-        {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{PickDate}}"></td>
         <td data-value="{{ActivityDateTime}}"></td>
+        <td data-value="{{OrderTypeDescription}}"></td>
+        <td data-value="{{ActivityType}}"></td>
+        <td data-value="{{ActivityTypeDescription}}"></td>
         <td data-value="{{OrderNumber}}"></td>
+        <td data-value="{{OrderStatus}}"></td>
         <td data-value="{{Deal}}"></td>
         <td data-value="{{ActivityStatus}}"></td>
         <td data-value="{{AssignedToUserName}}"></td>
@@ -60,26 +56,6 @@
         <td class="number" data-value="{{CompletePercent}}"></td>
         <td data-value="{{LoadInDateTime}}"></td>
         <td data-value="{{OutgoingLocation}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Vendorfooter"}}
-        <td colspan="7" class="total-name">{{Vendor}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "PurchaseOrderNumberfooter"}}
-        <td colspan="7" class="total-name">{{PurchaseOrderNumber}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="7" class="total-name">{{Department}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="7" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

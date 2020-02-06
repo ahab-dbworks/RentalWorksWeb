@@ -18,6 +18,9 @@ namespace WebApi.Modules.Settings.ActivityStatus
         [FwSqlDataField(column: "rename", modeltype: FwDataTypes.Text)]
         public string Rename { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "descriptiondisplay", modeltype: FwDataTypes.Text)]
+        public string ActivityStatusDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "systemstatus", modeltype: FwDataTypes.Boolean)]
         public bool? IsSystemStatus { get; set; }
         //------------------------------------------------------------------------------------ 

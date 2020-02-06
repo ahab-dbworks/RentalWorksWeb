@@ -60,6 +60,9 @@ namespace WebApi.Modules.Reports.OrderReports.LateReturnsReport
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -182,18 +185,19 @@ namespace WebApi.Modules.Reports.OrderReports.LateReturnsReport
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getlatereturnsrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    qry.AddParameter("@reporttype", SqlDbType.Text, ParameterDirection.Input, request.ReportType);
+                    qry.AddParameter("@reporttype", SqlDbType.VarChar, ParameterDirection.Input, request.ReportType);
                     qry.AddParameter("@days", SqlDbType.Int, ParameterDirection.Input, request.Days);
                     if (request.DueBackDate != DateTime.MinValue)
                     {
                         qry.AddParameter("@dueback", SqlDbType.Date, ParameterDirection.Input, request.DueBackDate);
                     }
-                    qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
-                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
-                    qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, request.CustomerId);
-                    qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
-                    qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
-                    qry.AddParameter("@orderdbycontactid", SqlDbType.Text, ParameterDirection.Input, request.OrderedByContactId);
+                    qry.AddParameter("@locationid", SqlDbType.VarChar, ParameterDirection.Input, request.OfficeLocationId);
+                    qry.AddParameter("@warehouseid", SqlDbType.VarChar, ParameterDirection.Input, request.WarehouseId);
+                    qry.AddParameter("@departmentid", SqlDbType.VarChar, ParameterDirection.Input, request.DepartmentId);
+                    qry.AddParameter("@customerid", SqlDbType.VarChar, ParameterDirection.Input, request.CustomerId);
+                    qry.AddParameter("@dealid", SqlDbType.VarChar, ParameterDirection.Input, request.DealId);
+                    qry.AddParameter("@inventorydepartmentid", SqlDbType.VarChar, ParameterDirection.Input, request.InventoryTypeId);
+                    qry.AddParameter("@orderdbycontactid", SqlDbType.VarChar, ParameterDirection.Input, request.OrderedByContactId);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }

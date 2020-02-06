@@ -3,21 +3,22 @@
   <div id="purchaseorderform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="Purchase Order"></div>
-      <div data-type="tab" id="rentaltab" class="rentalinventorytab tab" data-tabpageid="rentaltabpage" data-caption="Rental Inventory"></div>
-      <div data-type="tab" id="salestab" class="salesinventorytab tab" data-tabpageid="salestabpage" data-caption="Sales Inventory"></div>
-      <div data-type="tab" id="partstab" class="partstab tab" data-tabpageid="partstabpage" data-caption="Parts Inventory"></div>
-      <div data-type="tab" id="misctab" class="misctab notcombinedtab tab" data-tabpageid="misctabpage" data-caption="Misc"></div>
-      <div data-type="tab" id="labortab" class="labortab notcombinedtab tab" data-tabpageid="labortabpage" data-caption="Labor"></div>
-      <div data-type="tab" id="subrentaltab" class="subrentaltab tab" data-tabpageid="subrentaltabpage" data-caption="Sub-Rental"></div>
-      <div data-type="tab" id="subsalestab" class="subsalestab tab" data-tabpageid="subsalestabpage" data-caption="Sub-Sales"></div>
+      <div data-type="tab" id="rentaltab" class="rentalinventorytab tab" data-tabpageid="rentaltabpage" data-notOnNew="true" data-caption="Rental Inventory"></div>
+      <div data-type="tab" id="salestab" class="salesinventorytab tab" data-tabpageid="salestabpage" data-notOnNew="true" data-caption="Sales Inventory"></div>
+      <div data-type="tab" id="partstab" class="partstab tab" data-tabpageid="partstabpage" data-notOnNew="true" data-caption="Parts Inventory"></div>
+      <div data-type="tab" id="misctab" class="misctab notcombinedtab tab" data-tabpageid="misctabpage" data-notOnNew="true" data-caption="Misc"></div>
+      <div data-type="tab" id="labortab" class="labortab notcombinedtab tab" data-tabpageid="labortabpage" data-notOnNew="true" data-caption="Labor"></div>
+      <div data-type="tab" id="subrentaltab" class="subrentaltab tab" data-tabpageid="subrentaltabpage" data-notOnNew="true" data-caption="Sub-Rental"></div>
+      <div data-type="tab" id="subsalestab" class="subsalestab tab" data-tabpageid="subsalestabpage" data-notOnNew="true" data-caption="Sub-Sales"></div>
       <!--<div data-type="tab" id="repairtab" class="repairtab tab" data-tabpageid="repairtabpage" data-caption="Repair"></div>-->
-      <div data-type="tab" id="submisctab" class="submisctab notcombinedtab tab" data-tabpageid="submisctabpage" data-caption="Sub-Misc"></div>
-      <div data-type="tab" id="sublabortab" class="sublabortab notcombinedtab tab" data-tabpageid="sublabortabpage" data-caption="Sub-Labor"></div>
-      <!--<div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>-->
+      <div data-type="tab" id="submisctab" class="submisctab notcombinedtab tab" data-tabpageid="submisctabpage" data-notOnNew="true" data-caption="Sub-Misc"></div>
+      <div data-type="tab" id="sublabortab" class="sublabortab notcombinedtab tab" data-tabpageid="sublabortabpage" data-notOnNew="true" data-caption="Sub-Labor"></div>
+      <!--<div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>-->
       <!--<div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>-->
       <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
       <div data-type="tab" id="vendorinvoicetab" class="tab" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
       <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
+      <div data-type="tab" id="activitytab" class="tab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
       <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
       <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>
       <div data-type="tab" id="notetab" class="tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
@@ -813,9 +814,9 @@
       <div data-type="tabpage" id="delivershiptabpage" class="tabpage" data-tabid="delivershiptab">
         <div class="flexpage">
           <div class="flexrow">
-            <!-- Outgoing section -->
+            <!-- Receive section -->
             <div class="flexcolumn" style="flex:1 1 425px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Receive (Deliver)">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Receive">
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield delivery-delivery" data-caption="Type" data-datafield="ReceiveDeliveryDeliveryType" style="flex:1 1 150px;"></div>
                 </div>
@@ -878,9 +879,9 @@
                 </div>
               </div>
             </div>
-            <!-- Incoming section -->
+            <!-- Return section -->
             <div class="flexcolumn" style="flex:1 1 425px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Return (Deliver)">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Return">
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield delivery-delivery" data-caption="Type" data-datafield="ReturnDeliveryDeliveryType" style="flex:1 1 150px;"></div>
                 </div>
@@ -954,6 +955,27 @@
       <div data-type="tabpage" id="contactstabpage" class="tabpage rwSubModule" data-tabid="contactstab">
         <div class="flexrow">
           <div data-control="FwGrid" data-grid="OrderContactGrid" data-securitycaption="Contacts"></div>
+        </div>
+      </div>
+
+      <!-- ACTIVITY TAB -->
+      <div data-type="tabpage" id="activitytabpage" class="tabpage" data-tabid="activitytab">
+        <div class="wideflexrow">
+          <div class="flexcolumn">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase Order Activities">
+              <div class="rwGrid" data-control="FwGrid" data-grid="ActivityGrid" data-securitycaption="Activity"></div>
+            </div>
+          </div>
+          <div class="flexcolumn" style="flex:0 0 0;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filter Activities">
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield activity-filters" data-caption="From" data-datafield="ActivityFromDate"></div>
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield activity-filters" data-caption="To" data-datafield="ActivityToDate"></div>
+              <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield activity-filters" data-caption="Activity" data-datafield="ActivityTypeId" data-validationname="ActivityTypeValidation"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity-filters" data-caption="Show Shipping Activities" data-datafield="ShowShipping"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity-filters" data-caption="Show Sub-PO Activities" data-datafield="ShowSubPo"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity-filters" data-caption="Show Complete Activities" data-datafield="ShowComplete"></div>
+            </div>
+          </div>
         </div>
       </div>
 

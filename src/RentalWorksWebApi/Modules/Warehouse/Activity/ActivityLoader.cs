@@ -2,6 +2,7 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System;
 using WebApi.Data;
 namespace WebApi.Modules.Warehouse.Activity
 {
@@ -9,7 +10,7 @@ namespace WebApi.Modules.Warehouse.Activity
     public class ActivityLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activityid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
+        [FwSqlDataField(column: "activityid", modeltype: FwDataTypes.Integer, identity: true, isPrimaryKey: true)]
         public int? ActivityId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer)]
@@ -48,6 +49,9 @@ namespace WebApi.Modules.Warehouse.Activity
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -84,8 +88,8 @@ namespace WebApi.Modules.Warehouse.Activity
         [FwSqlDataField(column: "assignedtousername", modeltype: FwDataTypes.Text)]
         public string AssignedToUserName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitydatetime", modeltype: FwDataTypes.Date)]
-        public string ActivityDateTime { get; set; }
+        [FwSqlDataField(column: "activitydatetime", modeltype: FwDataTypes.DateTime)]
+        public DateTime? ActivityDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitydate", modeltype: FwDataTypes.Date)]
         public string ActivityDate { get; set; }
@@ -112,6 +116,7 @@ namespace WebApi.Modules.Warehouse.Activity
             addFilterToSelect("OrderId", "orderid", select, request);
             addFilterToSelect("ActivityTypeId", "activitytypeid", select, request);
             addFilterToSelect("AssignedToUserId", "assignedtousersid", select, request);
+            select.AddWhere("activitydatetime is not null");
         }
         //------------------------------------------------------------------------------------ 
     }

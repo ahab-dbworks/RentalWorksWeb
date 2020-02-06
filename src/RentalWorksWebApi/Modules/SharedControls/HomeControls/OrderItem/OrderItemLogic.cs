@@ -6,7 +6,8 @@ using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.MasterItem;
-using WebApi;
+using WebApi.Modules.Home.MasterItemDetail;
+using FwStandard.Models;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -15,22 +16,31 @@ namespace WebApi.Modules.HomeControls.OrderItem
     {
         //------------------------------------------------------------------------------------ 
         MasterItemRecord orderItem = new MasterItemRecord();
+        MasterItemDetailRecord orderItemDetail = new MasterItemDetailRecord();
+
         OrderItemLoader orderItemLoader = new OrderItemLoader();
 
         public OrderItemLogic()
         {
             dataRecords.Add(orderItem);
+            dataRecords.Add(orderItemDetail);
+
             dataLoader = orderItemLoader;
 
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
+
+            orderItem.AfterSave += OnAfterSaveMasterItem;
+
+            AfterDelete += OnAfterDelete;
+            UseTransactionToDelete = true;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "j5BoEx9ak5Ry", IsPrimaryKey: true)]
-        public string OrderItemId { get { return orderItem.MasterItemId; } set { orderItem.MasterItemId = value; } }
+        public string OrderItemId { get { return orderItem.MasterItemId; } set { orderItem.MasterItemId = value; orderItemDetail.MasterItemId = value; } }
 
         [FwLogicProperty(Id: "OAKJ6N3eUpao")]
-        public string OrderId { get { return orderItem.OrderId; } set { orderItem.OrderId = value; } }
+        public string OrderId { get { return orderItem.OrderId; } set { orderItem.OrderId = value; orderItemDetail.OrderId = value; } }
 
         [FwLogicProperty(Id: "AsMKdufgM74qt")]
         public bool? RowsRolledUp { get; set; }
@@ -320,6 +330,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwLogicProperty(Id: "wEauLrU45GML")]
         public string ParentId { get { return orderItem.ParentId; } set { orderItem.ParentId = value; } }
 
+        [FwLogicProperty(Id: "KumU8jNjH7gBz")]
+        public string NestedOrderItemId { get { return orderItem.NestedOrderItemId; } set { orderItem.NestedOrderItemId = value; } }
+
         [FwLogicProperty(Id: "VcghZbMujni2")]
         public string ItemClass { get { return orderItem.ItemClass; } set { orderItem.ItemClass = value; } }
 
@@ -374,6 +387,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "FLcnFK2Oltf6Q", IsReadOnly: true)]
         public bool? ModifiedAtStaging { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "9eVO0B4Y0YfAm")]
+        public bool? Mute { get { return orderItemDetail.Mute; } set { orderItemDetail.Mute = value; } }
         //------------------------------------------------------------------------------------ 
 
 
@@ -1060,6 +1078,86 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public string DateStamp { get { return orderItem.DateStamp; } set { orderItem.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            OrderItemLogic orig = null;
+            if (original != null)
+            {
+                orig = (OrderItemLogic)original;
+            }
+
+            string itemClass = ItemClass;
+            string inventoryId = InventoryId;
+
+            if (orig != null)
+            {
+                if (itemClass == null)
+                {
+                    itemClass = orig.ItemClass;
+                }
+                if (inventoryId == null)
+                {
+                    inventoryId = orig.InventoryId;
+                }
+            }
+
+            if (isValid)
+            {
+                if (string.IsNullOrEmpty(inventoryId))
+                {
+                    if (!(itemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || itemClass.Equals(RwConstants.ITEMCLASS_TEXT) || itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL)))
+                    {
+                        isValid = false;
+                        validateMsg = "I-Code is required.";
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                //need to make sure the user doesn't change from package-type to non-package-type or vice-versa
+                if ((saveMode.Equals(TDataRecordSaveMode.smUpdate)) && (orig != null))
+                {
+                    string origItemClass = orig.ItemClass;
+                    string origInventoryId = orig.InventoryId;
+                    string origDescription = orig.Description;
+                    string newInventoryId = InventoryId ?? origInventoryId;
+
+                    if (!newInventoryId.Equals(origInventoryId))
+                    {
+
+                        string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { inventoryId }, new string[] { "class", "masterno", "master" }).Result;
+                        string newInventoryClass = inventoryData[0];
+                        string newInventoryICode = inventoryData[1];
+                        string newInventoryDescription = inventoryData[2];
+
+                        if (isValid)
+                        {
+                            if (origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot modify {origDescription} here.  Instead, delete this and add {newInventoryDescription} as a new item.";
+                            }
+                        }
+
+                        if (isValid)
+                        {
+                            if ((!(origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || origItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))) &&
+                               ((newInventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || newInventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || newInventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot change item to {newInventoryDescription} here.  Instead, delete {origDescription} and add the new item.";
+                            }
+                        }
+                    }
+                }
+            }
+
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             OrderItemLogic orig = null;
@@ -1081,7 +1179,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             string inventoryDescription = "";
             if (!string.IsNullOrEmpty(inventoryId))
             {
-                string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { InventoryId }, new string[] { "class", "master" }).Result;
+                string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { inventoryId }, new string[] { "class", "master" }).Result;
                 inventoryClass = inventoryData[0];
                 inventoryDescription = inventoryData[1];
             }
@@ -1113,8 +1211,6 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     }
                 }
 
-                //need to make sure the user doesn't change from package-type to non-package-type or vice-versa
-
                 if ((orig != null) && (orig.Locked.GetValueOrDefault(false)))
                 {
                     Price = orig.Price;
@@ -1124,6 +1220,15 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     Price5 = orig.Price5;
                     DiscountPercent = orig.DiscountPercent;
                     DaysPerWeek = orig.DaysPerWeek;
+                }
+
+                if ((orig != null) && (Mute.GetValueOrDefault(false) || (orig.Mute.GetValueOrDefault(false))))
+                {
+                    Price = 0;
+                    Price2 = 0;
+                    Price3 = 0;
+                    Price4 = 0;
+                    Price5 = 0;
                 }
 
                 if ((orig != null) && ((orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))))
@@ -1168,6 +1273,23 @@ namespace WebApi.Modules.HomeControls.OrderItem
             {
                 InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, ItemClass);
             }
+        }
+        //------------------------------------------------------------------------------------
+        public virtual void OnAfterSaveMasterItem(object sender, AfterSaveDataRecordEventArgs e)
+        {
+            // justin hoffman 01/20/2020
+            // this is really stupid
+            // I am deleting the record that dbwIU_masteritem is giving us, so I can add my own and avoid a unique index error
+
+
+            //if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            //{
+            //    MasterItemDetailRecord detailRec = new MasterItemDetailRecord();
+            //    detailRec.SetDependencies(AppConfig, UserSession);
+            //    detailRec.MasterItemId = GetPrimaryKeys()[0].ToString();
+            //    bool b = detailRec.DeleteAsync(e.SqlConnection).Result;
+            //}
+
         }
         //------------------------------------------------------------------------------------
         public void SaveRolledUpRow(object sender, InsteadOfSaveEventArgs e)
@@ -1248,5 +1370,32 @@ namespace WebApi.Modules.HomeControls.OrderItem
             e.SavePerformed = (rowsSaved > 0);
         }
         //------------------------------------------------------------------------------------
+        public void OnAfterDelete(object sender, AfterDeleteEventArgs e)
+        {
+            
+            string itemClass = ItemClass ?? "";
+            if (itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+            {
+
+                //find and delete all of the accessories
+                BrowseRequest accessoryBrowseRequest = new BrowseRequest();
+                accessoryBrowseRequest.uniqueids = new Dictionary<string, object>();
+                accessoryBrowseRequest.uniqueids.Add("OrderId", OrderId);
+                accessoryBrowseRequest.uniqueids.Add("ParentId", OrderItemId);
+
+                OrderItemLogic acc = new OrderItemLogic();
+                acc.SetDependencies(AppConfig, UserSession);
+                List<OrderItemLogic> accessories = acc.SelectAsync<OrderItemLogic>(accessoryBrowseRequest).Result;
+
+                foreach (OrderItemLogic a in accessories)
+                {
+                    a.SetDependencies(AppConfig, UserSession);
+                    bool b = a.DeleteAsync(e.SqlConnection).Result;
+                }
+
+
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

@@ -155,6 +155,7 @@
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
+    <Content Include="Source\Grids\ActivityGrid\ActivityGridBrowse.htm" />
     <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
@@ -166,6 +167,7 @@
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js" />
     <Content Include="Source\Grids\InventoryWarehouseKitPricingGrid\InventoryWarehouseKitPricingGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderManifestGrid\OrderManifestGridBrowse.htm" />
     <Content Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridBrowse.htm" />
     <Content Include="Source\Grids\OrderActivitySummaryGrid\OrderActivitySummaryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypePresentationLayerGrid\OrderTypePresentationLayerGridBrowse.htm" />
@@ -319,6 +321,7 @@
     <Content Include="Source\Grids\InventoryLocationTaxGrid\InventoryLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="Source\Grids\ActivityGrid\ActivityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
@@ -329,6 +332,7 @@
     <TypeScriptCompile Include="Source\Grids\InventoryWarehouseKitPricingGrid\InventoryWarehouseKitPricingGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderActivitySummaryGrid\OrderActivitySummaryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderManifestGrid\OrderManifestGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypePresentationLayerGrid\OrderTypePresentationLayerGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryWarehouseCompletePricingGrid\InventoryWarehouseCompletePricingGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SystemNumberGrid\SystemNumberGridController.ts" />
@@ -518,8 +522,11 @@
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusDetailReport\OrderStatusDetailReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusSummaryReport\OrderStatusSummaryReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutReport\WarehouseOutReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseDispachReport\WarehouseDispachReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseDispatchReport\WarehouseDispatchReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseInboundReport\WarehouseInboundReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutboundReport\WarehouseOutboundReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnContractReport\ReturnContractReportController.ts" />
@@ -562,6 +569,7 @@
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferIn\TransferIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\InventoryRetireUtility\InventoryRetireUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\CompleteQc\CompleteQc.ts" />
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferOut\TransferOut.ts" />
@@ -577,6 +585,7 @@
     <TypeScriptCompile Include="Source\Modules\Billing\Invoice\Invoice.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SubWorksheet\SubWorksheet.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Order\Worksheet.ts" />
+    <TypeScriptCompile Include="Source\Modules\Warehouse\PurchaseOrderStatus\PurchaseOrderStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\ReturnToVendor\ReturnToVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\ReceiveFromVendor\ReceiveFromVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\PurchaseOrder\PurchaseOrder.ts" />

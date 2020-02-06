@@ -1,10 +1,10 @@
 class User {
-    Module:             string = 'User';
-    apiurl:             string = 'api/v1/user';
-    caption:            string = Constants.Modules.Administrator.children.User.caption;
-    nav:                string = Constants.Modules.Administrator.children.User.nav;
-    id:                 string = Constants.Modules.Administrator.children.User.id;
-    ActiveViewFields:   any    = {};
+    Module: string = 'User';
+    apiurl: string = 'api/v1/user';
+    caption: string = Constants.Modules.Administrator.children.User.caption;
+    nav: string = Constants.Modules.Administrator.children.User.nav;
+    id: string = Constants.Modules.Administrator.children.User.id;
+    ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
@@ -120,33 +120,16 @@ class User {
             { value: 'theme-material', text: 'Material' }
         ], true);
 
-        //load App Modules for Home Page
-        const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        const modules = mainModules.concat(settingsModules);
-        const allModules = [];
-        for (let i = 0; i < modules.length; i++) {
-            const moduleGUID = modules[i].id;
-            const moduleCaption = modules[i].properties.caption;
-            const moduleController = modules[i].properties.controller;
-            if (typeof window[moduleController] !== 'undefined') {
-                const moduleNav = (<any>window)[moduleController].nav;
-                allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
+        // Load Default Home Page Options, Exclude Settings Modules.
+        const defaultHomePages = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            const settingsString = 'settings';
+            if (moduleController.hasOwnProperty('nav') && moduleController.nav.indexOf(settingsString) === -1) {
+                modules.push({ value: moduleController.id, text: moduleCaption, nav: moduleController.nav });
             }
-        };
-        //Sort modules
-        function compare(a, b) {
-            if (a.text < b.text)
-                return -1;
-            if (a.text > b.text)
-                return 1;
-            return 0;
-        }
-
-        allModules.sort(compare);
+        });
+        FwApplicationTree.sortModules(defaultHomePages);
         const $defaultHomePage = $form.find('.default-home-page');
-        FwFormField.loadItems($defaultHomePage, allModules, true);
+        FwFormField.loadItems($defaultHomePage, defaultHomePages, true);
 
 
         if (mode === 'NEW') {
@@ -448,7 +431,7 @@ class User {
                     <div class="flexcolumn" style="flex:0 1 500px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Login">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Username" data-datafield="LoginName" style="flex:1 1 125px;" data-allcaps="false"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Username" data-required="true" data-datafield="LoginName" style="flex:1 1 125px;" data-allcaps="false"></div>
                           <div data-control="FwFormField" data-type="password" class="fwcontrol fwformfield" data-caption="Password" data-datafield="Password" data-required="true" style="flex:1 1 125px;" data-allcaps="false"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Barcode No" data-datafield="BarCode" style="flex:1 1 125px;"></div>
                         </div>
@@ -612,8 +595,14 @@ class User {
                         <div class="flexcolumn" style="flex:1 1 350px;">
                           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Limit D/W">
                             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Limit D/W" data-datafield="LimitDaysPerWeek" style="flex:1 1 125px;"></div>
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allow Credit Limit Override" data-datafield="AllowCreditLimitOverride" style="flex:1 1 125px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Allow User to enter D/W from:" data-datafield="MinimumDaysPerWeek" style="flex:1 1 125px;"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flexrow">
+                        <div class="flexcolumn" style="flex:1 1 350px;">
+                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Customer/Deal Credit Limit">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allow Credit Limit Override" data-datafield="AllowCreditLimitOverride" style="flex:1 1 125px;"></div>
                           </div>
                         </div>
                       </div>

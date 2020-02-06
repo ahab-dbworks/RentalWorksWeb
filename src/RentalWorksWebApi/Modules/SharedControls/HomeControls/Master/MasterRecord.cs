@@ -309,6 +309,15 @@ namespace WebApi.Modules.HomeControls.Master
         public bool? IsFixedAsset { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "manifestshippingcontainer", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? ManifestShippingContainer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifeststandaloneitem", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? ManifestStandAloneItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
                 public decimal? Replacementcost { get; set; }

@@ -1236,7 +1236,7 @@ export class EventType extends SettingsModule {
                     seekObject: {
                         Description: "GlobalScope.TestToken~1.TestToken",
                     },
-                    attemptDuplicate: true,
+                    attemptDuplicate: false, //true,
                 },
             },
             {
@@ -3614,7 +3614,7 @@ export class OrderType extends SettingsModule {
                     seekObject: {
                         Description: "GlobalScope.TestToken~1.TestToken",
                     },
-                    attemptDuplicate: true,
+                    attemptDuplicate: false, //true,
                 },
             },
             {
@@ -4264,7 +4264,7 @@ export class POType extends SettingsModule {
                     seekObject: {
                         Description: "GlobalScope.TestToken~1.TestToken",
                     },
-                    attemptDuplicate: true,
+                    attemptDuplicate: false, //true,
                 },
             },
         ];

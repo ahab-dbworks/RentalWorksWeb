@@ -45,26 +45,66 @@ namespace Fw.Json.HttpHandlers
             
                 webRequest            = WebRequest.Create(headerurl);
                 webResponse           = webRequest.GetResponse();
-                using (Stream dataStream = webResponse.GetResponseStream ())
-                using (StreamReader reader = new StreamReader (dataStream))
+
+                Stream dataStream1 = null;
+                try
                 {
-                    headerhtml = reader.ReadToEnd();
+                    dataStream1 = webResponse.GetResponseStream();
+                    using (StreamReader reader = new StreamReader(dataStream1))
+                    {
+                        dataStream1 = null;
+                        headerhtml = reader.ReadToEnd();
+                    }
+                }
+                finally
+                {
+                    if (dataStream1 != null)
+                    {
+                        dataStream1.Dispose();
+                    }
                 }
 
                 webRequest            = WebRequest.Create(bodyurl);
                 webResponse           = webRequest.GetResponse();
-                using (Stream dataStream = webResponse.GetResponseStream ())
-                using (StreamReader reader = new StreamReader (dataStream))
+                
+                Stream dataStream2 = null;
+                try
                 {
-                    bodyhtml = reader.ReadToEnd();
+                    dataStream2 = webResponse.GetResponseStream();
+                    using (StreamReader reader = new StreamReader(dataStream2))
+                    {
+                        dataStream2 = null;
+                        bodyhtml = reader.ReadToEnd();
+                    }
                 }
+                finally
+                {
+                    if (dataStream2 != null)
+                    {
+                        dataStream2.Dispose();
+                    }
+                }
+                
 
                 webRequest            = WebRequest.Create(footerurl);
                 webResponse           = webRequest.GetResponse();
-                using (Stream dataStream = webResponse.GetResponseStream ())
-                using (StreamReader reader = new StreamReader (dataStream))
+
+                Stream dataStream3 = null;
+                try
                 {
-                    footerhtml = reader.ReadToEnd();
+                    dataStream3 = webResponse.GetResponseStream();
+                    using (StreamReader reader = new StreamReader(dataStream3))
+                    {
+                        dataStream3 = null;
+                        footerhtml = reader.ReadToEnd();
+                    }
+                }
+                finally
+                {
+                    if (dataStream3 != null)
+                    {
+                        dataStream3.Dispose();
+                    }
                 }
             
                 context.Response.Clear();

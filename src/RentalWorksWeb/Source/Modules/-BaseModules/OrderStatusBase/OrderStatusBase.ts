@@ -68,6 +68,8 @@
                     case 'ContainerItem':
                         apiUrl = `api/v1/containeritem/${orderId}`;
                         break;
+                    case 'PurchaseOrder':
+                        apiUrl = `api/v1/purchaseorder/${orderId}`;
                 }
                 FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, response => {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
@@ -165,6 +167,35 @@
                 FwFunc.showError(ex);
             }
         });
+    }
+    //---------------------------------------------------------------------------------------------
+    printOrderStatus($form: any, whichStatusReport: string) {
+        try {
+            var orderIdText = 'div.fwformfield[data-datafield="OrderId"] .fwformfield-text';
+            var module = this.Module;
+            var orderNumber = $form.find(orderIdText).val();
+            var orderId = FwFormField.getValue($form, `div[data-datafield="OrderId"]`);
+            var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+            if (whichStatusReport === 'Summary') {
+                var $report = OrderStatusSummaryReportController.openForm();
+            } else {
+                var $report = OrderStatusDetailReportController.openForm();
+            }
+            FwModule.openSubModuleTab($form, $report);
+
+            //set order id value on the field
+            FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print Order Status Summary`);
+
+            //set orderno input text
+            $report.find(`${orderIdText}:text`).val(orderNumber);
+            //
+            var printTab = jQuery('.tab.submodule.active');
+            printTab.find('.caption').html(`Print Order Status ` + `${whichStatusReport}`);
+            printTab.attr('data-caption', `${module} ${recordTitle}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -460,6 +491,11 @@
             })
             FwBrowse.search($orderStatusSalesDetailGridControl);
         });
+
+        if (this.Type === 'PurchaseOrder') {
+            $orderStatusSummaryGridControl.find('thead [data-browsedatafield="OutQuantity"], thead [data-browsedatafield="InQuantity"]').parent('td').hide();
+            $orderStatusSummaryGridControl.find('thead [data-browsedatafield="QuantityReturned"], thead [data-browsedatafield="QuantityReceived"]').parent('td').show();
+        }
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -540,6 +576,10 @@
             case 'ContainerItem':
                 caption = 'Container Status';
                 typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="flex:0 1 175px;"></div>`;
+                break;
+            case 'PurchaseOrder':
+                caption = 'Purchase Order Status';
+                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase Order No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:0 1 175px;"></div>`;
                 break;
         }
         return `

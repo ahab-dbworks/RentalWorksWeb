@@ -89,6 +89,10 @@ class CustomForm {
         //for retaining position in code editor after saving
         $form.find('[data-datafield="Html"]').addClass('reload');
 
+        //Removes fields from the Designer tab so they are ignored in isValid check.
+        $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]').not('#designerContent .fwformfield'));
+        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])').not('#designerContent .fwformfield'));
+
         if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------

@@ -226,7 +226,9 @@ var Constants = {
                         QuikActivityReport: {               id: '4hamhMOWKXD9', caption: 'QuikActivity', nav: 'reports/quikactivityreport', nodetype: 'Module', description: 'List all Quote, Order, Transfer, Purchase, and Repair activities over a specific date range.' },
                         QuoteReport: {                      id: 'SZ80uvR5NjI7', caption: 'Print Quote', nodetype: 'Module', nav: 'reports/quotereport', description: 'Quote document.' },
                         QuoteOrderMasterReport: {           id: 'yx1quQL9wJ9mg', caption: 'Quote / Order Master Report', nav: 'reports/quoteordermasterreport', nodetype: 'Module', description: 'List all Quotes and Orders, filtered by date range, and grouped by Deal.' },
-                        SubSalesStagedItemsReport: {        id: '2GIJvJlbIFQN', caption: 'Sub-Sales Staged Items', nav: 'reports/subsalesstageditemsreport', nodetype: 'Module', description: 'List all Sub Sale Inventory currently Staged on Orders.' }
+                        SubSalesStagedItemsReport: {        id: '2GIJvJlbIFQN', caption: 'Sub-Sales Staged Items', nav: 'reports/subsalesstageditemsreport', nodetype: 'Module', description: 'List all Sub Sale Inventory currently Staged on Orders.' },
+                        OrderStatusSummaryReport: {         id: '44jjIwel6TP0d', caption: 'Order Status Summary', nav: 'reports/orderstatussummaryreport', nodetype: 'Module', description: 'Gets status summary for specified order.' },
+                        OrderStatusDetailReport: {          id: 'EY9uBXnssjv1', caption: 'Order Status Detail', nav: 'reports/orderstatusdetailreport', nodetype: 'Module', description: 'Gets status detail for specified order.' }
                     }
                 },
                 PartsInventoryReports: {
@@ -309,9 +311,9 @@ var Constants = {
                     caption: 'Warehouse Reports',
                     nodetype: 'Category',
                     children: {
-                        WarehouseDispatchReport: { id: 'gs5q3h0v0HzXF', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all...' },
-                        WarehouseInboundReport: { id: 'gQLKq8L9zC32b', caption: 'Warehouse Inbound', nav: 'reports/warehouseinboundreport', nodetype: 'Module', description: 'List all...' },
-                        WarehouseOutboundReport: { id: 'gPuvfa4B1tHuE', caption: 'Warehouse Outbound', nav: 'reports/warehouseoutboundreport', nodetype: 'Module', description: 'List all...' },
+                        WarehouseDispatchReport: { id: 'gs5q3h0v0HzXF', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all Warehouse Dispatch Activities for a specific date range.' },
+                        WarehouseInboundReport: { id: 'gQLKq8L9zC32b', caption: 'Warehouse Inbound', nav: 'reports/warehouseinboundreport', nodetype: 'Module', description: 'List all Warehouse Inbound Activities for a specific date range.' },
+                        WarehouseOutboundReport: { id: 'gPuvfa4B1tHuE', caption: 'Warehouse Outbound', nav: 'reports/warehouseoutboundreport', nodetype: 'Module', description: 'List all Warehouse Outbound Activities for a specific date range.' },
                     }
                 }
             }
@@ -780,8 +782,9 @@ var Constants = {
             nodetype: 'Category',
             children: {
                 Dashboard:                 { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'home', nodetype: 'Module' },
-                DashboardSettings:         { id: 'lXpomto7a29v', caption: 'Dashboard Settings', nav: 'module/dashboardsettings', nodetype: 'Module' },
-                InventoryPurchaseUtility:  { id: 'sOxbXBmCPc9y', caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility', nodetype: 'Module' },
+                DashboardSettings:         { id: 'lXpomto7a29v',  caption: 'Dashboard Settings', nav: 'module/dashboardsettings', nodetype: 'Module' },
+                InventoryPurchaseUtility:  { id: 'sOxbXBmCPc9y',  caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility', nodetype: 'Module' },
+                InventoryRetireUtility:    { id: 'KIfiUkxPPwRBr', caption: 'Inventory Retire Utility', nav: 'module/inventoryretireutility', nodetype: 'Module' },
                 InvoiceProcessBatch:       { id: 'I8d2wTNNRmRJa', caption: 'Process Invoices',        nav: 'module/invoiceprocessbatch', nodetype: 'Module' },
                 MigrateOrders:             { id: '8NYSNibMVoO',   caption: 'Migrate Orders',          nav: 'module/migrateorders', nodetype: 'Module' },
                 QuikActivityCalendar:      { id: 'yhYOLhLE92IT',  caption: 'QuikActivity Calendar',   nav: 'module/quikactivitycalendar', nodetype: 'Module' },
@@ -796,19 +799,21 @@ var Constants = {
             caption: 'Warehouse',
             nodetype: 'Category',
             children: {
-                AssignBarCodes:    { id: '7UU96BApz2Va', caption: 'Assign Bar Codes',    nav: 'module/assignbarcodes', nodetype: 'Module' },
-                CheckIn:           { id: 'krnJWTUs4n5U', caption: 'Check-In',            nav: 'module/checkin', nodetype: 'Module' },
-                Contract:          { id: 'Z8MlDQp7xOqu', caption: 'Contract',            nav: 'module/contract', nodetype: 'Module' },
-                Exchange:          { id: 'IQS4rxzIVFl',  caption: 'Exchange',            nav: 'module/exchange', nodetype: 'Module' },
-                OrderStatus:       { id: 'C8Ycf0jvM2U9', caption: 'Order Status',        nav: 'module/orderstatus', nodetype: 'Module' },
-                PickList:          { id: 'bggVQOivrIgi', caption: 'Pick List',           nav: 'module/picklist', nodetype: 'Module' },
-                ReceiveFromVendor: { id: 'MtgBxCKWVl7m', caption: 'Receive From Vendor', nav: 'module/receivefromvendor', nodetype: 'Module' },
-                ReturnToVendor:    { id: 'cCxoTvTCDTcm', caption: 'Return To Vendor',    nav: 'module/returntovendor', nodetype: 'Module' },
-                StagingCheckout:   { id: 'H0sf3MFhL0VK', caption: 'Staging / Check-Out', nav: 'module/checkout', nodetype: 'Module' }
+                AssignBarCodes:         { id: '7UU96BApz2Va', caption: 'Assign Bar Codes',      nav: 'module/assignbarcodes', nodetype: 'Module' },
+                CheckIn:                { id: 'krnJWTUs4n5U', caption: 'Check-In',              nav: 'module/checkin', nodetype: 'Module' },
+                Contract:               { id: 'Z8MlDQp7xOqu', caption: 'Contract',              nav: 'module/contract', nodetype: 'Module' },
+                Exchange:               { id: 'IQS4rxzIVFl',  caption: 'Exchange',              nav: 'module/exchange', nodetype: 'Module' },
+                OrderStatus:            { id: 'C8Ycf0jvM2U9', caption: 'Order Status',          nav: 'module/orderstatus', nodetype: 'Module' },
+                PickList:               { id: 'bggVQOivrIgi', caption: 'Pick List',             nav: 'module/picklist', nodetype: 'Module' },
+                PurchaseOrderStatus:    { id: 'Buwl6WTPrOMk', caption: 'Purchase Order Status', nav: 'module/purchaseorderstatus', nodetype: 'Module' },
+                ReceiveFromVendor:      { id: 'MtgBxCKWVl7m', caption: 'Receive From Vendor',   nav: 'module/receivefromvendor', nodetype: 'Module' },
+                ReturnToVendor:         { id: 'cCxoTvTCDTcm', caption: 'Return To Vendor',      nav: 'module/returntovendor', nodetype: 'Module' },
+                StagingCheckout:        { id: 'H0sf3MFhL0VK', caption: 'Staging / Check-Out',   nav: 'module/checkout', nodetype: 'Module' }
             }
         }
     },
     Grids: {
+        ActivityGrid: { id: 'hb52dbhX1mNLZ', caption: 'Activity' },
         ActivityStatusGrid: { id: 'E7cf8EVeQXuUY', caption: 'Activity Status' },
         AdditionalItemsGrid: { id: 'mEYOByOhi5yT0', caption: 'Additional Items' },
         AlertWebUsersGrid: { id: 'REgcmntq4LWE', caption: 'Alert Web Users' },

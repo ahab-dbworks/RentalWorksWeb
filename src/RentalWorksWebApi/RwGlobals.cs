@@ -27,6 +27,8 @@ namespace WebApi
 
 
         //AVAILABILITY
+        public static string AVAILABILITY_COLOR_NEEDRECALC { get; set; }
+        public static string AVAILABILITY_TEXT_COLOR_NEEDRECALC { get; set; }
         public static string AVAILABILITY_COLOR_RESERVED { get; set; }
         public static string AVAILABILITY_TEXT_COLOR_RESERVED { get; set; }
         public static string AVAILABILITY_COLOR_LATE { get; set; }
@@ -259,6 +261,8 @@ namespace WebApi
             PENDING_EXCHANGE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PENDING_EXCHANGE_COLOR);
 
 
+            AVAILABILITY_COLOR_NEEDRECALC = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
+            AVAILABILITY_TEXT_COLOR_NEEDRECALC = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEEDRECALC);
             AVAILABILITY_COLOR_RESERVED = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
             AVAILABILITY_TEXT_COLOR_RESERVED = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
             AVAILABILITY_TEXT_COLOR_LATE = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_LATE);

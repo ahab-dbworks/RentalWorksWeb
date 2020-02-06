@@ -28,7 +28,7 @@
     //---------------------------------------------------------------------------------
     init($grid: JQuery, options: GridOptions) {
         var me = this;
-        options = {...me.options, ...options};
+        options = {...this.options, ...options};
 
         if (options.title) {
             this._renderTitle($grid, options);
@@ -43,12 +43,12 @@
         this._renderBody($grid, options);
 
         if (options.pager) {
-            if (options.pager === true) options.pager = me.options.pager;
+            if (options.pager === true) options.pager = this.options.pager;
             this._renderPager($grid, options);
         }
 
         $grid.data('options', options)
-            .addClass(me.GRID);
+            .addClass(this.GRID);
     }
     //---------------------------------------------------------------------------------
     private _renderTitle($grid: JQuery, options: GridOptions) {
@@ -62,17 +62,19 @@
     }
     //---------------------------------------------------------------------------------
     private _renderMenu($grid: JQuery, options: GridOptions) {
-        var me                    = this;
-        var definedmenu: GridMenu = options.menu as GridMenu;
+        var me             = this;
+        var menu: GridMenu = options.menu as GridMenu;
 
         var $menu = jQuery('<div>')
             .addClass('grid-menu')
             .appendTo($grid);
 
-        if (definedmenu.objects) {
-            for (var i = 0; i < definedmenu.objects.length; i++) {
-                var object = definedmenu.objects[i];
-                
+        if (menu.options) {
+            this._addOptions($grid, $menu, menu.options);
+        }
+
+        if (menu.objects) {
+            for (let object of menu.objects) {
                 if (object === 'seperator') {
                     jQuery('<div>')
                         .addClass('grid-menu-seperator')
@@ -88,8 +90,69 @@
         }
     }
     //---------------------------------------------------------------------------------
+    private _addOptions($grid: JQuery, $menu: JQuery, options: (GridMenuOption | GridMenuExcel)[]) {
+        var me = this;
+        var $dropdownbutton = jQuery('<div>')
+            .addClass('grid-menu-dropdownbutton');
+
+        var $button = jQuery('<div>')
+            .addClass('grid-menu-button')
+            .html('<i class="material-icons">more_vert</i>')
+            .appendTo($dropdownbutton)
+            .on('click', function(e) {
+                e.stopPropagation();
+                if ($dropdown.is(':visible')) {
+                    $dropdown.removeClass('active');
+                } else {
+                    $dropdown.addClass('active');
+
+                    jQuery(document).one('click', function closeMenu(e: JQuery.ClickEvent) {
+                        if (!$dropdownbutton.has(e.target).length) {
+                            $dropdown.removeClass('active');
+                        } else {
+                            jQuery(document).one('click', closeMenu);
+                        }
+                    });
+                }
+            });
+
+        var $dropdown = jQuery('<div>')
+            .addClass('grid-menu-dropdown')
+            .appendTo($dropdownbutton);
+        let hasChildItems = false;
+        for (let option of options) {
+            if (FwApplicationTree.isVisibleInSecurityTree(option.securityid)) {
+                hasChildItems = true;
+                if (option.type === 'option') {
+                    let $item = jQuery('<div>')
+                        .addClass('dropdown-item')
+                        .appendTo($dropdown)
+                        .on('click', jQuery.proxy(option.action, me, $grid))
+
+                    let $caption = jQuery('<div>')
+                        .addClass('dropdown-item-caption')
+                        .html(option.caption)
+                        .appendTo($item);
+                } else if (option.type === 'excel') {
+                    let $item = jQuery('<div>')
+                        .addClass('dropdown-item')
+                        .appendTo($dropdown)
+                        .on('click', jQuery.proxy(this._downloadExcelWorkbook, me, $grid))
+
+                    let $caption = jQuery('<div>')
+                        .addClass('dropdown-item-caption')
+                        .html('Export to Excel')
+                        .appendTo($item);
+                }
+            }
+        }
+        if (hasChildItems) {
+            $dropdownbutton.appendTo($menu)
+        }
+    }
+    //---------------------------------------------------------------------------------
     private _addButton($grid: JQuery, $menu: JQuery, button: GridMenuButton) {
-        if (FwApplicationTree.isVisibleInSecurityTree(button.secid)) {
+        if (FwApplicationTree.isVisibleInSecurityTree(button.securityid)) {
             const $button = jQuery('<div>')
                 .addClass('grid-menu-button')
                 .html(button.caption)
@@ -129,19 +192,22 @@
                 }
             });
 
+        if (button.icon) {
+            jQuery(`<i class="material-icons left">${button.icon}</i>`).prependTo($button);
+        }
+
         var $dropdown = jQuery('<div>')
             .addClass('grid-menu-dropdown')
             .appendTo($dropdownbutton);
         let hasChildItems = false;
-        for (var i = 0; i < button.items.length; i++) {
-            const item = button.items[i];
+        for (let item of button.items) {
             if (item === 'seperator') {
                 jQuery('<div>')
                     .addClass('dropdown-seperator')
                     .appendTo($dropdown);
             } else {
                 const dropDownButtonItem = <GridMenuDropDownButtonItem>item;
-                if (FwApplicationTree.isVisibleInSecurityTree(dropDownButtonItem.secid)) {
+                if (FwApplicationTree.isVisibleInSecurityTree(dropDownButtonItem.securityid)) {
                     hasChildItems = true;
                     let $item = jQuery('<div>')
                         .addClass('dropdown-item')
@@ -194,9 +260,7 @@
             .addClass('grid-menu-dropdown')
             .appendTo($filter);
 
-        for (var i = 0; i < filter.items.length; i++) {
-            let item = filter.items[i];
-
+        for (let item of filter.items) {
             if (item === 'seperator') {
                 jQuery('<div>')
                     .addClass('dropdown-seperator')
@@ -338,9 +402,7 @@
             }
         }
 
-        for (var i = 0; i < options.columns.length; i++) {
-            let column = options.columns[i];
-
+        for (let column of options.columns) {
             if (!column.hidden) {
                 let $col = jQuery('<col>')
                     .appendTo($colgroup);
@@ -556,9 +618,7 @@
             .attr('role', 'rowgroup')
             .appendTo($table);
 
-        for (var i = 0; i < options.columns.length; i++) {
-            let column = options.columns[i];
-
+        for (let column of options.columns) {
             if (!column.hidden) {
                 let $col = jQuery('<col>')
                     .appendTo($colgroup);
@@ -722,6 +782,14 @@
         }
     }
     //---------------------------------------------------------------------------------
+    private _totalRows($grid: JQuery, totalrows?: number) {
+        if (totalrows) {
+            $grid.data('totalrows', totalrows);
+        } else {
+            return $grid.data('totalrows');
+        }
+    }
+    //---------------------------------------------------------------------------------
     async databind($grid: JQuery): Promise<any> {
         var me                   = this;
         var options: GridOptions = $grid.data('options');
@@ -753,28 +821,16 @@
         var totalpages           = response.TotalPages;
         var $tbody               = $grid.find('.grid-content tbody');
 
-        //setting grid data for excelsheetdownload call in GateInterface - JG
-        $grid.data('ondatabind', (request: any) => {
-            request.filterfields = this._getFilters($grid);
-            request.orderby = this._getOrderBy($grid);
-        });
-        $grid.data('totalRowCount', totalrows);
-        $grid.attr('data-pageno', page);
-        $grid.attr('data-pagesize', pagesize);
-        
+        me._totalRows($grid, response.TotalRows);
 
         $tbody.empty();
-        for (var i = 0; i < response.Rows.length; i++) {
-            var row  = response.Rows[i];
+        for (let row of response.Rows) {
             var $row = jQuery('<tr>')
                 .attr('role', 'row')
                 .attr('data-rowid', row[response.ColumnIndex[options.rowid]])
                 .appendTo($tbody);
 
-            for (var j = 0; j < options.columns.length; j++) {
-                let column      = options.columns[j];
-                var columnIndex = response.ColumnIndex[column.field];
-
+            for (let column of options.columns) {
                 if (!column.hidden) {
                     let $column = jQuery('<td>')
                         .attr('role', 'gridcell')
@@ -782,12 +838,12 @@
                         .appendTo($row);
 
                     if (column.datatype == 'tag') {
-                        var $tag = jQuery('<div>')
-                            .addClass('tag')
-                            .attr('data-tagtype', row[columnIndex])
-                            .html(row[columnIndex])
-                            .appendTo($column);
+                        for (let tag of column.tags) {
+                            var columnIndex = response.ColumnIndex[tag.field];
+                            tag.taglogic($grid, $column, row[columnIndex]);
+                        }
                     } else {
+                        var columnIndex = response.ColumnIndex[column.field];
                         $column.html(row[columnIndex]);
                     }
                 }
@@ -844,6 +900,14 @@
         }
     }
     //---------------------------------------------------------------------------------
+    addTag($grid: JQuery, $column: JQuery, htmlvalue: string, backgroundcolor: string, color: string) {
+        var $tag = jQuery('<div>')
+            .addClass('tag')
+            .css({'background-color': backgroundcolor, 'color': color})
+            .html(htmlvalue)
+            .appendTo($column);
+    }
+    //---------------------------------------------------------------------------------
     private _getRequest($grid: JQuery): BrowseRequest {
         var me                   = this;
         var options: GridOptions = $grid.data('options');
@@ -854,7 +918,6 @@
         request.pagesize     = this._pageSize($grid);
         request.orderby      = this._getOrderBy($grid);
         request.filterfields = this._getFilters($grid); 
-            
 
         if (options.filter) {
             request.filterfields = {...request.filterfields, ...options.filter($grid)};
@@ -886,10 +949,84 @@
         return request;
     }
     //---------------------------------------------------------------------------------
+    private _downloadExcelWorkbook($grid: JQuery): void {
+        var me                   = this;
+        var options: GridOptions = $grid.data('options');
+        var totalrows            = me._totalRows($grid);
+
+        if (totalrows >= 1) {
+            const $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
+            const $yes          = FwConfirmation.addButton($confirmation, 'Download', false);
+            const $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+
+            let html = `<div class="fwform" data-controller="none">
+                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Download all ${totalrows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} Records" data-datafield="allrecords"></div>
+                          </div>
+                          <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">
+                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="userdefinedrecords" style="float:left;width:30px;"></div>
+                            </div>
+                            <span style="margin:18px 0px 0px 0px;">First</span>
+                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">
+                              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-datafield="userdefinedrecordscount" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>
+                            </div>
+                            <span style="margin:18px 0px 0px 0px;">Records</span>
+                          </div>
+                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include ID Columns" data-datafield="showidcolumns"></div>
+                          </div>
+                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Color Columns" data-datafield="showcolorcolumns"></div>
+                          </div>
+                        </div>`;
+            FwConfirmation.addControls($confirmation, html);
+
+            FwFormField.setValue($confirmation, 'div[data-datafield="userdefinedrecordscount"]', (me._pageSize($grid) > totalrows) ? totalrows : me._pageSize($grid));
+            FwFormField.setValue($confirmation, 'div[data-datafield="allrecords"]', true);
+
+            $confirmation
+                .on('change', 'div[data-datafield="allrecords"] input.fwformfield-value', function() {
+                    FwFormField.setValue($confirmation, 'div[data-datafield="userdefinedrecords"]', !(FwFormField.getValue($confirmation, 'div[data-datafield="allrecords"]') === 'T'));
+                })
+                .on('change', 'div[data-datafield="userdefinedrecords"] input.fwformfield-value', function() {
+                    FwFormField.setValue($confirmation, 'div[data-datafield="allrecords"]', !(FwFormField.getValue($confirmation, 'div[data-datafield="userdefinedrecords"]') === 'T'));
+                })
+                .on('change', 'div[data-datafield="userdefinedrecordscount"] input.fwformfield-value', function() {
+                    FwFormField.setValue($confirmation, 'div[data-datafield="userdefinedrecords"]', true);
+                    FwFormField.setValue($confirmation, 'div[data-datafield="allrecords"]', false);
+                })
+            ;
+
+            $yes.on('click', () => {
+                const request: any = me._getRequest($grid);
+
+                request.pagesize            = (FwFormField.getValue($confirmation, 'div[data-datafield="userdefinedrecords"]') === 'T') ? Number(FwFormField.getValue($confirmation, 'div[data-datafield="userdefinedrecordscount"]')) : totalrows;
+                request.IncludeIdColumns    = (FwFormField.getValue($confirmation, 'div[data-datafield="showidcolumns"]')      === 'T') ? true : false;
+                request.IncludeColorColumns = (FwFormField.getValue($confirmation, 'div[data-datafield="showcolorcolumns"]')   === 'T') ? true : false;
+
+                FwServices.module.method(request, request.module, 'exportexcelxlsx', $grid, function (response) {
+                    try {
+                        const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
+                        jQuery('#application').append($iframe);
+                        setTimeout(function () {
+                            $iframe.remove();
+                        }, 500);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
+            });
+        } else {
+            FwNotification.renderNotification('WARNING', 'There are no records to export.');
+        }
+    }
+    //---------------------------------------------------------------------------------
 }
 
 var FwGrid = new FwGridClass();
-
 
 interface GridOptions {
     module?: string;
@@ -902,8 +1039,7 @@ interface GridOptions {
     selectable?: boolean|string;
     menu?: boolean|GridMenu;
     filterable?: boolean|GridFilterable;
-
-    filter?: ($grid: JQuery) => Object;
+    filter?:($grid: JQuery) => Object;
     singleclick?($grid: JQuery, e: JQuery.ClickEvent): void;
     doubleclick?($grid: JQuery, e: JQuery.DoubleClickEvent): void;
     beforedatabind?($grid: JQuery): void;
@@ -922,10 +1058,16 @@ interface GridColumn {
     title: string;
     width?: string|number;
     filterable?: boolean|GridColumnFilterable;
+    tags?: GridTag[];
 }
 
 interface GridColumnFilterable {
     datatype?: string;
+}
+
+interface GridTag {
+    field: string;
+    taglogic($grid: JQuery, $column: JQuery, datavalue): void;
 }
 
 interface GridEditable {
@@ -933,35 +1075,47 @@ interface GridEditable {
 }
 
 interface GridMenu {
-    //objects?: (GridMenuButton | GridMenuFilter | GridMenuDropDownButton | 'seperator')[];
-    objects?: GridMenuObject[];
+    options?: (GridMenuOption | GridMenuExcel)[];
+    objects?: (GridMenuButton | GridMenuFilter | GridMenuDropDownButton | 'seperator')[];
 }
 
-type GridMenuObject = GridMenuButton | GridMenuFilter | GridMenuDropDownButton | 'seperator';
+interface GridMenuOption {
+    type: 'option';
+    caption: string;
+    securityid?: string;
+    action?($grid: JQuery, e: JQuery.ClickEvent): void;
+    validateSecurity?($grid: JQuery): boolean;
+}
+
+interface GridMenuExcel {
+    type: 'excel';
+    securityid: string;
+}
 
 interface GridMenuButton {
     type: 'button';
     caption?: string;
-    secid?: string;
-    validateSecurity?($grid: JQuery): boolean;
+    securityid?: string;
     icon?: string;
     id?: string;
     action?($grid: JQuery, e: JQuery.ClickEvent): void;
+    validateSecurity?($grid: JQuery): boolean;
 }
 
 interface GridMenuDropDownButton {
     type: 'dropdownbutton';
     caption?: string;
+    icon?: string;
     items?: (GridMenuDropDownButtonItem | 'seperator')[];
 }
 
 interface GridMenuDropDownButtonItem {
     caption?: string;
-    secid?: string;
-    validateSecurity?($grid: JQuery): boolean;
+    securityid?: string;
     icon?: string;
     id?: string;
     action?($grid: JQuery, e: JQuery.ClickEvent): void;
+    validateSecurity?($grid: JQuery): boolean;
 }
 
 interface GridMenuFilter {

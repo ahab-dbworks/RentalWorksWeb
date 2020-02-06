@@ -39,6 +39,7 @@ export class FwTestUtils {
 
         selector = `#email`;
         let loginFieldHandle = await page.$(selector);
+        await FwTestUtils.sleepAsync(2000); // wait here for the login and password fields to get their events
         await loginFieldHandle.click();
         await loginFieldHandle.focus();
         // click three times to select all

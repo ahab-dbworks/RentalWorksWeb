@@ -11,12 +11,13 @@ using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WebApi.Modules.AccountServices.Jwt;
 
 namespace FwCore.Controllers
 {
     public class FwJwtController : Controller
     {
-        private readonly FwApplicationConfig _appConfig;
+        protected readonly FwApplicationConfig _appConfig;
         private readonly ILogger _logger;
         //private readonly JsonSerializerSettings _serializerSettings;
         //---------------------------------------------------------------------------------------------
@@ -122,6 +123,40 @@ namespace FwCore.Controllers
             return new OkObjectResult(response);
         }
         //---------------------------------------------------------------------------------------------
+        protected virtual async Task<ActionResult<JwtResponseModel>> DoOktaPost([FromBody] OktaRequest request)
+        {
+            dynamic response = new ExpandoObject();
+            var identity = await FwJwtLogic.GetOktaClaimsIdentity(this._appConfig.DatabaseSettings, request);
+            if (identity == null)
+            {
+                response.statuscode = 401; //Unauthorized
+                response.statusmessage = "Invalid user and/or password.";
+            }
+            else
+            {
+                var jwtClaims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, request.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, await _appConfig.JwtIssuerOptions.JtiGenerator()),
+                    new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_appConfig.JwtIssuerOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
+                };
+                List<Claim> claims = new List<Claim>();
+                claims.AddRange(jwtClaims);
+                claims.AddRange(identity.Claims);
+
+                // Create the JWT security token and encode it.
+                var encodedJwt = FwJwtLogic.GenerateEncodedJwtToken(_appConfig, claims);
+
+                // Serialize and return the response
+                response.statuscode = 0;
+                response.access_token = encodedJwt;
+                response.expires_in = (int)_appConfig.JwtIssuerOptions.ValidFor.TotalSeconds;
+            }
+
+            //var json = JsonConvert.SerializeObject(response, _serializerSettings);
+            return new OkObjectResult(response);
+        }
+        //----------------------------------------------------------------------------------------------
         private static void ThrowIfInvalidOptions(FwJwtIssuerOptions options)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
@@ -143,7 +178,7 @@ namespace FwCore.Controllers
         }
         //---------------------------------------------------------------------------------------------
         /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
-        private static long ToUnixEpochDate(DateTime date)
+        protected static long ToUnixEpochDate(DateTime date)
           => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
         //---------------------------------------------------------------------------------------------
     }

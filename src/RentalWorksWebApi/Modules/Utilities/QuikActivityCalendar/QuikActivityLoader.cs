@@ -111,6 +111,12 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwSqlDataField(column: "completepct", modeltype: FwDataTypes.Decimal)]
         public decimal? CompletePercent { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "assignedtousersid", modeltype: FwDataTypes.Text)]
+        public string AssignedToUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "assignedtousername", modeltype: FwDataTypes.Text)]
+        public string AssignedToUserName { get; set; }
+        //------------------------------------------------------------------------------------ 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             DateTime fromDate = GetUniqueIdAsDate("FromDate", request).GetValueOrDefault(DateTime.Today);
@@ -119,6 +125,8 @@ namespace WebApi.Modules.Utilities.QuikActivity
             string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
             string departmentId = GetUniqueIdAsString("DepartmentId", request) ?? "";
             string activityTypeId = GetUniqueIdAsString("ActivityTypeId", request) ?? "";
+            string assignedToUserId = GetUniqueIdAsString("AssignedToUserId", request) ?? "";
+            bool includeCompleted = GetUniqueIdAsBoolean("IncludeCompleted", request).GetValueOrDefault(false);
             bool summary = GetUniqueIdAsBoolean("Summary", request).GetValueOrDefault(false);
 
             FwJsonDataTable dt = null;
@@ -133,6 +141,8 @@ namespace WebApi.Modules.Utilities.QuikActivity
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
                     qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, departmentId);
                     qry.AddParameter("@activitytypeid", SqlDbType.NVarChar, ParameterDirection.Input, activityTypeId);
+                    qry.AddParameter("@assignedtousersid", SqlDbType.NVarChar, ParameterDirection.Input, assignedToUserId);
+                    qry.AddParameter("@includecompleted", SqlDbType.NVarChar, ParameterDirection.Input, includeCompleted);
                     qry.AddParameter("@summarizeorders", SqlDbType.NVarChar, ParameterDirection.Input, summary);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);

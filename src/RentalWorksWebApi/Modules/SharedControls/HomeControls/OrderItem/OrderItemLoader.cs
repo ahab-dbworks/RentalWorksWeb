@@ -362,6 +362,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
         public string ParentId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text)]
+        public string NestedOrderItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -409,6 +412,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hascheckoutaudit", modeltype: FwDataTypes.Boolean)]
         public bool? ModifiedAtStaging { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mute", modeltype: FwDataTypes.Boolean)]
+        public bool? Mute { get; set; }
         //------------------------------------------------------------------------------------ 
 
 
@@ -925,6 +931,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             select.AddWhere("poorderid " + (subs ? ">" : "=") + "''");
 
             addFilterToSelect("RecType", "rectype", select, request);
+            addFilterToSelect("ParentId", "parentid", select, request);
 
             select.AddWhere("orderid = @orderid");
             select.AddParameter("@orderid", orderId);

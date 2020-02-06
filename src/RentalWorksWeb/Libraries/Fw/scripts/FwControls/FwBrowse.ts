@@ -459,7 +459,14 @@ class FwBrowseClass {
             .on('click', '.runtime .pager div.btn-manualsort', function (e: JQuery.Event) {
                 try {
                     if ($control.attr('data-enabled') != 'false') {
-                        $control.find('td.manual-sort').toggle();
+                        const $sort = $control.find('td.manual-sort');
+                        const $newBtn = $control.find('.buttonbar');
+                        $sort.toggle();
+                        if ($sort.is(':visible')) {
+                            $newBtn.hide();
+                        } else {
+                            $newBtn.show();
+                        }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -2598,7 +2605,7 @@ class FwBrowseClass {
                                 $control.data('onselectedrowchanged')($control, $tr);
                             }
                         }
-                        if ($control.attr('data-type') === 'Grid' && $control.attr('data-enabled') !== 'false' && !$tr.hasClass('editmode')) {
+                        if ($control.attr('data-type') === 'Grid' && $control.attr('data-enabled') !== 'false' && !$tr.hasClass('editmode') && !$tr.find('.manual-sort').is(':visible')) {
                             me.setRowEditMode($control, $tr);
                             $field.find('.value').focus();
                         }
@@ -2705,10 +2712,15 @@ class FwBrowseClass {
                     $control.find('.pager .count').hide();
                     $control.find('.pager .show-all').text(`Show All ${dt.TotalRows} rows`);
 
-                    if (dt.TotalPages <= 1) {
-                        $control.find('.pager .show-all').hide();
+                    const isMultiSelect = $control.attr('data-multiselectvalidation');
+                    if (isMultiSelect) {
+                        if (dt.TotalPages <= 1) {
+                            $control.find('.pager .show-all').hide();
+                        } else {
+                            $control.find('.pager .show-all').show();
+                        }
                     } else {
-                        $control.find('.pager .show-all').show();
+                        $control.find('.pager .show-all').hide();
                     }
                     break;
             }

@@ -12,6 +12,10 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.ActivityType;
+using WebApi.Modules.Administrator.User;
 
 namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
 {
@@ -19,14 +23,12 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        //public string OfficeLocationId { get; set; }
         public string WarehouseId { get; set; }
         public string DepartmentId { get; set; }
         public string AgentId { get; set; }
-        public string InventoryTypeId { get; set; }
         public string ActivityTypeId { get; set; }
-        //public SelectedCheckBoxListItems SortBy { get; set; } = new SelectedCheckBoxListItems();
-        //public SelectedCheckBoxListItems OrderTypes { get; set; } = new SelectedCheckBoxListItems();
+        public CheckBoxListItems SortBy { get; set; } = new CheckBoxListItems();
+        public SelectedCheckBoxListItems OrderTypes { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
@@ -94,5 +96,37 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/warehouseoutboundreport/validatewarehouse/browse 
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "XyrlqQZBSePK7", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/warehouseoutboundreport/validatedepartment/browse 
+        [HttpPost("validatedepartment/browse")]
+        [FwControllerMethod(Id: "vQ7aPelkPTCuF", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/warehouseoutboundreport/validateactivitytype/browse 
+        [HttpPost("validateactivitytype/browse")]
+        [FwControllerMethod(Id: "5SphF5VS4tWva", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateActivityTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ActivityTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/warehouseoutboundreport/validateagent/browse
+        [HttpPost("validateagent/browse")]
+        [FwControllerMethod(Id: "sEvolqmMZNCFr", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAgentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
     }
 }

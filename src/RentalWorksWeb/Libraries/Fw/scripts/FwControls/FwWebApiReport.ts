@@ -88,6 +88,10 @@ abstract class FwWebApiReport {
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Preview';
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
 
                         const reportPageMessage = new ReportPageMessage();
                         reportPageMessage.action = 'Preview';
@@ -130,6 +134,10 @@ abstract class FwWebApiReport {
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF';
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
 
                         const $iframe = jQuery(`<iframe src="${urlHtmlReport}" style="display:none;"></iframe>`);
                         jQuery('.application').append($iframe);
@@ -177,6 +185,10 @@ abstract class FwWebApiReport {
                         $confirmation.find('.sub-headings input').prop('checked', false);
                         const request: any = this.getRenderRequest($form);
                         request.downloadPdfAsAttachment = true;
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
                         const convertedparameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         for (let key in convertedparameters) {
                             request[key] = convertedparameters[key];
@@ -226,7 +238,10 @@ abstract class FwWebApiReport {
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF'
-
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo){
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
                         const win = window.open('', '_blank');
                         const head = win.document.head || win.document.getElementsByTagName('head')[0];
                         const loader = jQuery(win.document.body.innerHTML = '<div class="loader-container"><div class="loader"></div></div>');
@@ -333,6 +348,10 @@ abstract class FwWebApiReport {
                         request.email.subject = '[reportname]';
                         request.email.body = '';
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
 
                         const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                         request.parameters.companyName = companyName;
@@ -391,6 +410,10 @@ abstract class FwWebApiReport {
                                 requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
                                 requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
                                 requestEmailPdf.parameters = await this.convertParameters(this.getParameters($form));
+                                //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                                if (requestEmailPdf.parameters.hasOrderNo) {
+                                    requestEmailPdf.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                                }
 
                                 if (requestEmailPdf.parameters != null) {
                                     requestEmailPdf.parameters.companyName = companyName;
@@ -475,32 +498,54 @@ abstract class FwWebApiReport {
         const reportName = $form.attr('data-reportname');
 
         //render grid
-        const $reportSettingsGrid = $form.find('div[data-grid="ReportSettingsGrid"]');
-        const $reportSettingsGridControl = FwBrowse.loadGridFromTemplate('ReportSettingsGrid');
-        $reportSettingsGrid.empty().append($reportSettingsGridControl);
-        $reportSettingsGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
-                , ReportName: reportName
+        //const $reportSettingsGrid = $form.find('div[data-grid="ReportSettingsGrid"]');
+        //const $reportSettingsGridControl = FwBrowse.loadGridFromTemplate('ReportSettingsGrid');
+        //$reportSettingsGrid.empty().append($reportSettingsGridControl);
+        //$reportSettingsGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
+        //        , ReportName: reportName
+        //    }
+        //})
+        //FwBrowse.init($reportSettingsGridControl);
+        //FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
+        let loadDefaults: boolean = true;
+        FwBrowse.renderGrid({
+            nameGrid: 'ReportSettingsGrid',
+            gridSecurityId: 'arqFEggnNSrA6',
+            moduleSecurityId: 'arqFEggnNSrA6',                
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid,
+                    ReportName: reportName
+                }
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                if (loadDefaults) {
+                    $form.find('.load-settings').click();
+                    loadDefaults = false;
+                };
+            },
+            beforeSave: (request: any) => {
+                request.uniqueids = {
+                    WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid,
+                    ReportName: reportName,
+
+                }
             }
-        })
-        FwBrowse.init($reportSettingsGridControl);
-        FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
+        });
+        const $reportSettingsGridControl = $form.find('[data-name="ReportSettingsGrid"]');
+        FwBrowse.search($reportSettingsGridControl);
 
         const $reportLayoutValidation = $form.find('[data-datafield="CustomReportLayoutId"]');
         $reportLayoutValidation.data('beforevalidate', ($form, $reportLayoutValidation, request) => {
             request.uniqueids = {
                 'BaseReport': reportName
-            }
-        });
-
-        //load default settings
-        let loadDefaults: boolean = true;
-        FwBrowse.search($reportSettingsGridControl);
-        $reportSettingsGridControl.data('afterdatabindcallback', function () {
-            if (loadDefaults) {
-                $form.find('.load-settings').click();
-                loadDefaults = false;
             }
         });
 
@@ -520,7 +565,7 @@ abstract class FwWebApiReport {
                             DataField: datafield
                             , DataType: type
                             , Value: FwFormField.getValue2($this)
-                            , Text: FwFormField.getTextByDataField($form, datafield)
+                            , Text: FwFormField.getText2($this)
                         });
                     }
                     $settingsObj = JSON.stringify($settingsObj);
@@ -558,7 +603,7 @@ abstract class FwWebApiReport {
                 if ($tr.length === 0) { //if none are selected, choose default
                     $tr = $reportSettingsGridControl.find(`tr [data-originalvalue="(default)"]`).parents('tr');
                 }
-                if ($tr.length !== 0) {
+                if ($tr.length) {
                     $settings = $tr.find('[data-browsedatafield="Settings"]').attr('data-originalvalue');
                     $settings = JSON.parse($settings);
                     for (let i = 0; i < $settings.length; i++) {
@@ -643,7 +688,7 @@ abstract class FwWebApiReport {
                         <span style="float:right; padding-left:10px;">Save</span>
                     </div>
                 </div>
-                <div class="flexrow settings-grid">
+                <div class="flexrow settings-grid" style="margin-left:5px;">
                     <div data-control="FwGrid" data-grid="ReportSettingsGrid"></div>
                     <div class="fwformcontrol load-settings" data-type="button" style="max-width:60px; margin-top:15px; margin-left:10px;">
                         <i class="material-icons" style="padding-top:5px; margin:0px -10px;">open_in_browser</i>
