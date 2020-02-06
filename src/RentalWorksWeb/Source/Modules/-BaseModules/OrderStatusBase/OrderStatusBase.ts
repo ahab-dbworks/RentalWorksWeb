@@ -176,7 +176,7 @@
             var orderNumber = $form.find(orderIdText).val();
             var orderId = FwFormField.getValue($form, `div[data-datafield="OrderId"]`);
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-            if (whichStatusReport === 'summary') {
+            if (whichStatusReport === 'Summary') {
                 var $report = OrderStatusSummaryReportController.openForm();
             } else {
                 var $report = OrderStatusDetailReportController.openForm();
@@ -191,7 +191,7 @@
             $report.find(`${orderIdText}:text`).val(orderNumber);
             //
             var printTab = jQuery('.tab.submodule.active');
-            printTab.find('.caption').html(`Print ${module}`);
+            printTab.find('.caption').html(`Print Order Status ` + `${whichStatusReport}`);
             printTab.attr('data-caption', `${module} ${recordTitle}`);
         } catch (ex) {
             FwFunc.showError(ex);
