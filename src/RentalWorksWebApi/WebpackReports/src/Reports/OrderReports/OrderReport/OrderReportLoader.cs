@@ -48,6 +48,18 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string Rate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price2", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Rate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price3", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Rate3 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price4", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Rate4 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price5", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Rate5 { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -82,6 +94,15 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        //AVERAGE WEEKLY
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklyextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string AverageWeeklyExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string AverageWeeklyExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
 
         //MONTHLY
@@ -149,7 +170,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 //--------------------------------------------------------------------------------- 
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-            string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal",
+            string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal", "AverageWeeklyExtended", "AverageWeeklyExtendedSubTotal",
                                                  "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal",
                                                  "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
