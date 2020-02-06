@@ -14,13 +14,16 @@ class OrderItemGrid {
             var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
             var toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
         };
+        const $td = $tr.find('[data-browsedatafield="InventoryId"]');
 
         if ($grid.hasClass('R')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'R' });
             inventoryType = 'Rental';
+            $td.attr('data-peekForm', 'RentalInventory');
         } else if ($grid.hasClass('S')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'S' });
             inventoryType = 'Sales';
+            $td.attr('data-peekForm', 'SalesInventory');
         } else if ($grid.hasClass('M')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'M' });
             inventoryType = 'Misc';
@@ -35,6 +38,7 @@ class OrderItemGrid {
             inventoryType = 'Combined';
         } else if ($grid.hasClass('P')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'P' });
+            $td.attr('data-peekForm', 'PartsInventory');
             inventoryType = 'Parts';
         } else if ($grid.hasClass('F')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'F' });
@@ -156,8 +160,24 @@ class OrderItemGrid {
                 const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
                 $availQty.attr('data-state', availabilityState);
                 $availQty.css('cursor', 'pointer');
+                if ($form.attr('data-controller') === 'PurchaseOrderController') {
+                    const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
+                    let peekForm;
+                    switch (recType) {
+                        case 'R':
+                            peekForm = 'RentalInventory';
+                            break;
+                        case 'S':
+                            peekForm = 'SalesInventory';
+                            break;
+                        case 'P':
+                            peekForm = 'PartsInventory';
+                            break;
+                    }
+                    const $td = $tr.find('[data-browsedatafield="InventoryId"]');
+                    $td.attr('data-peekForm', peekForm);
+                }
             });
-
 
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
                 // Lock Fields
@@ -189,7 +209,6 @@ class OrderItemGrid {
                         $tr.find('.field-to-mute').css('background-color', 'transparent');
                     }
                 }
-
 
                 //enable editing price on misc items
                 const isMiscClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
