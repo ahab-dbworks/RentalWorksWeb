@@ -464,6 +464,9 @@
         selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
         $selectedRows = $browse.data('selectedrows');
         $trs = $browse.find('tbody > tr');
+
+        multiselectfield.find('.multiitem').remove();
+        
         for (let i = 0; i < $trs.length; i++) {
             $tr = jQuery($trs[i]);
             uniqueIdValue = FwMultiSelectValidation.getUniqueIds($tr);
@@ -475,7 +478,9 @@
                     <span>${textValue}</span>
                     <i class="material-icons">clear</i>
                 </div>`);
-                selectedRowText.push(textValue);
+                if (selectedRowText.indexOf(textValue) == -1) {
+                    selectedRowText.push(textValue);
+                }
                 selectedRowUniqueIds.push(uniqueIdValue);
                 $selectedRows[uniqueIdValue] = $tr;
             }
