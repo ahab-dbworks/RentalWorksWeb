@@ -830,7 +830,7 @@ namespace RentalWorksQuikScan.Modules
                                         rentalitemid: request.rentalitemid,
                                         activitytype: "I",
                                         usersid:      session.security.webUser.usersid,
-                                        meter:        request.meter,
+                                        meter:        FwConvert.ToDecimal(request.meter),
                                         toggledelete: request.toggledelete);
 
             response.serial = CheckIn.FuncSerialFrm(conn:         FwSqlConnection.RentalWorks,
@@ -875,12 +875,11 @@ namespace RentalWorksQuikScan.Modules
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void InsertSerialSession(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string rentalitemid, string activitytype, string usersid, string meter, string toggledelete)
+        public static void InsertSerialSession(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string rentalitemid, string activitytype, string usersid, decimal meter, string toggledelete)
         {
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
-            qry.Add("exec dbo.insertserialsession @contractid, @orderid, @masteritemid, @rentalitemid, @activitytype, @internalchar, @usersid, @meter, @toggledelete, @containeritemid, @containeroutcontractid");
+            qry = new FwSqlCommand(conn, "dbo.insertserialsession");
             qry.AddParameter("@contractid",             contractid);
             qry.AddParameter("@orderid",                orderid);
             qry.AddParameter("@masteritemid",           masteritemid);
@@ -892,6 +891,8 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@toggledelete",           toggledelete);
             qry.AddParameter("@containeritemid",        "");
             qry.AddParameter("@containeroutcontractid", "");
+            qry.AddParameter("@status", SqlDbType.Decimal, ParameterDirection.Output);
+            qry.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output);
             qry.Execute();
         }
         //---------------------------------------------------------------------------------------------
