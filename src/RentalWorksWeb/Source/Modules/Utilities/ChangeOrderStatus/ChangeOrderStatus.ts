@@ -36,7 +36,6 @@ class ChangeOrderStatus {
 
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
-        FwFormField.setValueByDataField($form, 'Quantity', 1);
 
         this.events($form);
         return $form;
@@ -44,20 +43,20 @@ class ChangeOrderStatus {
     //----------------------------------------------------------------------------------------------
     events($form) {
         $form.find('.change-btn').on('click', $tr => {
-            if (FwModule.validateForm($form)) {
-                const request: any = {};
-                request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-                request.NewStatus = FwFormField.getValueByDataField($form, 'NewStatus');
+            //  if (FwModule.validateForm($form)) {
+            const request: any = {};
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.NewStatus = FwFormField.getTextByDataField($form, 'OrderStatus');
 
-                FwAppData.apiMethod(true, 'POST', 'api/v1/changeorderstatus/changestatus', request, FwServices.defaultTimeout, response => {
-                    if (response.success) {
-                        FwNotification.renderNotification('SUCCESS', 'Status Updated');
-                        $form.find('.fwformfield input').val('');
-                        FwModule.refreshForm($form);
-                    } else {
-                    }
-                }, ex => FwFunc.showError(ex), $form);
-            }
+            FwAppData.apiMethod(true, 'POST', 'api/v1/changeorderstatus/changestatus', request, FwServices.defaultTimeout, response => {
+                if (response.success) {
+                    FwNotification.renderNotification('SUCCESS', 'Status Updated');
+                    $form.find('.fwformfield input').val('');
+                    FwModule.refreshForm($form);
+                } else {
+                }
+            }, ex => FwFunc.showError(ex), $form);
+            // }
         });
 
         // Set Description from I-Code validation
@@ -100,7 +99,7 @@ class ChangeOrderStatus {
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-enabled="false" style="flex:0 1 400px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Status" data-datafield="RetiredReasonId" data-displayfield="RetiredReason" data-validationname="RetiredReasonValidation" data-required="true" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order Status" data-datafield="OrderStatus" data-displayfield="OrderStatus" data-validationname="OrderStatusValidation" data-required="true" style="flex:0 1 200px;"></div>
                       </div>
                       <div class="flexrow">
                         <div class="fwformcontrol change-btn" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Update Status</div>

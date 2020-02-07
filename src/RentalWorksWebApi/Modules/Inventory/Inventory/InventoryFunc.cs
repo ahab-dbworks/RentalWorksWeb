@@ -52,21 +52,11 @@ namespace WebApi.Modules.Inventory.Inventory
         //public string ConsignorId { get; set; }
         //public string ConsignorAgreementId { get; set; }
     }
-    public class ChangeOrderStatusRequest
-    {
-        public string OrderId { get; set; }
-        public string NewStatus { get; set; }
-    }
 
     public class RetireInventoryResponse : TSpStatusResponse
     {
         public string RetiredId { get; set; }
     }
-    public class ChangeOrderStatusResponse : TSpStatusResponse
-    {
-        public string StatusId { get; set; }
-    }
-
 
     public static class InventoryFunc
     {
@@ -163,24 +153,6 @@ namespace WebApi.Modules.Inventory.Inventory
             await qry.ExecuteNonQueryAsync();
             response.RetiredId = qry.GetParameter("@retiredid").ToString();
             response.success = !string.IsNullOrEmpty(response.RetiredId);
-            return response;
-        }
-        //-------------------------------------------------------------------------------------------------------
-        public static async Task<ChangeOrderStatusResponse> ChangeStatus(FwApplicationConfig appConfig, FwUserSession userSession, ChangeOrderStatusRequest request, FwSqlConnection conn = null)
-        {
-            ChangeOrderStatusResponse response = new ChangeOrderStatusResponse();
-
-            if (conn == null)
-            {
-                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
-            }
-            FwSqlCommand qry = new FwSqlCommand(conn, "changeorderstatus", appConfig.DatabaseSettings.QueryTimeout);
-            qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
-            qry.AddParameter("@newstatus", SqlDbType.NVarChar, ParameterDirection.Input, request.NewStatus);
-            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-            await qry.ExecuteNonQueryAsync();
-            //response.RetiredId = qry.GetParameter("@retiredid").ToString();
-            //response.success = !string.IsNullOrEmpty(response.RetiredId);
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
