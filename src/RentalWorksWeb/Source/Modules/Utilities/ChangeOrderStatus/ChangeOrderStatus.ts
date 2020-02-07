@@ -46,19 +46,13 @@ class ChangeOrderStatus {
         $form.find('.change-btn').on('click', $tr => {
             if (FwModule.validateForm($form)) {
                 const request: any = {};
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-                request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
-                request.Notes = FwFormField.getValueByDataField($form, 'Notes');
-                request.RetiredReasonId = FwFormField.getValueByDataField($form, 'RetiredReasonId');
-                request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
+                request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+                request.NewStatus = FwFormField.getValueByDataField($form, 'NewStatus');
 
                 FwAppData.apiMethod(true, 'POST', 'api/v1/changeorderstatus/changestatus', request, FwServices.defaultTimeout, response => {
                     if (response.success) {
                         FwNotification.renderNotification('SUCCESS', 'Status Updated');
                         $form.find('.fwformfield input').val('');
-                        $form.find('.fwformfield textarea').val('');
-                        FwFormField.setValueByDataField($form, 'Quantity', 1);
                         FwModule.refreshForm($form);
                     } else {
                     }
@@ -67,15 +61,8 @@ class ChangeOrderStatus {
         });
 
         // Set Description from I-Code validation
-        $form.find('[data-datafield="InventoryId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
-        });
-        $form.find('.itemid').data('onchange', $tr => {
-            const itemId = jQuery($tr.find('.field[data-formdatafield="ItemId"]')).attr('data-originalvalue');
-            FwFormField.setValue($form, '.itemid[data-displayfield="BarCode"]', itemId, $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, '.itemid[data-displayfield="SerialNumber"]', itemId, $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'))
-            FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-displayfield="ICode"]', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
+        $form.find('[data-datafield="OrderId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="OrderDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -83,23 +70,23 @@ class ChangeOrderStatus {
         $form.find('.itemid[data-displayfield="BarCode"] input').focus();
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        switch (datafield) {
-            case 'ItemId':
-                request.uniqueids = {
-                    WarehouseId: warehouse.warehouseid
-                };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateitem`);
-                break;
-            case 'InventoryId':
-                request.uniqueids = {
-                    WarehouseId: warehouse.warehouseid,
-                    TrackedBy: 'QUANTITY',
-                };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
-        }
-    }
+    //beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+    //    const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+    //    switch (datafield) {
+    //        case 'ItemId':
+    //            request.uniqueids = {
+    //                WarehouseId: warehouse.warehouseid
+    //            };
+    //            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateitem`);
+    //            break;
+    //        case 'InventoryId':
+    //            request.uniqueids = {
+    //                WarehouseId: warehouse.warehouseid,
+    //                TrackedBy: 'QUANTITY',
+    //            };
+    //            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+    //    }
+    //}
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
@@ -109,21 +96,11 @@ class ChangeOrderStatus {
                 <div class="tabpages">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Change Status" style="max-width:700px">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code No." data-datafield="ItemId" data-displayfield="BarCode" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial No." data-datafield="ItemId" data-displayfield="SerialNumber" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order" data-datafield="OrderId" data-displayfield="Order" data-validationname="OrderValidation" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-enabled="false" style="flex:0 1 400px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:0 1 200px;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Change Reason" data-datafield="RetiredReasonId" data-displayfield="RetiredReason" data-validationname="RetiredReasonValidation" data-required="true" style="flex:0 1 200px;"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty" data-datafield="Quantity" data-required="true" style="flex:0 1 125px;"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Notes" style="max-width:960px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Status" data-datafield="RetiredReasonId" data-displayfield="RetiredReason" data-validationname="RetiredReasonValidation" data-required="true" style="flex:0 1 200px;"></div>
                       </div>
                       <div class="flexrow">
                         <div class="fwformcontrol change-btn" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Update Status</div>
