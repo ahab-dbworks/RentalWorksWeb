@@ -1,5 +1,6 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -36,6 +37,13 @@ namespace WebApi.Modules.Utilities.ChangeOrderStatus
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderreport/validateorder/browse 
+        [HttpPost("validateorder/browse")]
+        [FwControllerMethod(Id: "0tU4gS7pQkgZY", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
     }
 }

@@ -156,7 +156,6 @@ namespace WebApi.Modules.Agent.Order
     }
     public class ChangeOrderStatusResponse : TSpStatusResponse
     {
-        public string StatusId { get; set; }
     }
 
     public static class OrderFunc
@@ -565,8 +564,7 @@ namespace WebApi.Modules.Agent.Order
             qry.AddParameter("@newstatus", SqlDbType.NVarChar, ParameterDirection.Input, request.NewStatus);
             qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
             await qry.ExecuteNonQueryAsync();
-            //response.RetiredId = qry.GetParameter("@retiredid").ToString();
-            //response.success = !string.IsNullOrEmpty(response.RetiredId);
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------

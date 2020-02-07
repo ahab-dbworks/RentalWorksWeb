@@ -54,6 +54,7 @@ class ChangeOrderStatus {
                     $form.find('.fwformfield input').val('');
                     FwModule.refreshForm($form);
                 } else {
+                    // display message?
                 }
             }, ex => FwFunc.showError(ex), $form);
             // }
@@ -69,23 +70,18 @@ class ChangeOrderStatus {
         $form.find('.itemid[data-displayfield="BarCode"] input').focus();
     }
     //----------------------------------------------------------------------------------------------
-    //beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-    //    const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-    //    switch (datafield) {
-    //        case 'ItemId':
-    //            request.uniqueids = {
-    //                WarehouseId: warehouse.warehouseid
-    //            };
-    //            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateitem`);
-    //            break;
-    //        case 'InventoryId':
-    //            request.uniqueids = {
-    //                WarehouseId: warehouse.warehouseid,
-    //                TrackedBy: 'QUANTITY',
-    //            };
-    //            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
-    //    }
-    //}
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const userLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
+
+        switch (datafield) {
+            case 'OrderId':
+                request.uniqueids = {
+                    LocationId: userLocationId
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
+        }
+    }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
