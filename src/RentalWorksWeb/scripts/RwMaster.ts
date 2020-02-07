@@ -121,6 +121,7 @@ class RwMaster extends WebMaster {
                 caption: 'Utilities',
                 id: 'Utilities',
                 children: [
+                    Constants.Modules.Utilities.children.ChangeOrderStatus,
                     Constants.Modules.Utilities.children.Dashboard,
                     Constants.Modules.Utilities.children.DashboardSettings,
                     Constants.Modules.Utilities.children.InventoryPurchaseUtility,
@@ -131,7 +132,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Utilities.children.VendorInvoiceProcessBatch,
                     Constants.Modules.Utilities.children.RefreshGLHistory,
                     Constants.Modules.Utilities.children.QuikActivityCalendar,
-                    Constants.Modules.Utilities.children.QuikSearch
+                    Constants.Modules.Utilities.children.QuikSearch,
                 ]
             };
             this.navigation.push(menuUtilities);
