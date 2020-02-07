@@ -1,5 +1,8 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+using WebApi.Modules.Inventory.PhysicalInventory;
+
 namespace WebApi.Modules.HomeControls.PhysicalInventoryCycleInventory
 {
     [FwLogic(Id: "GGqhgCNt7r8c4")]
@@ -12,6 +15,7 @@ namespace WebApi.Modules.HomeControls.PhysicalInventoryCycleInventory
         {
             dataRecords.Add(physicalInventoryCycleInventory);
             dataLoader = physicalInventoryCycleInventoryLoader;
+            BeforeDelete += OnBeforeDelete;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "GsAavIGGksgk5", IsPrimaryKey: true)]
@@ -39,12 +43,43 @@ namespace WebApi.Modules.HomeControls.PhysicalInventoryCycleInventory
         [FwLogicProperty(Id: "j9eg3hwCmbn0t")]
         public string DateStamp { get { return physicalInventoryCycleInventory.DateStamp; } set { physicalInventoryCycleInventory.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            string physicalInventoryId = PhysicalInventoryId;
+            if (string.IsNullOrEmpty(physicalInventoryId))
+            {
+                if (original != null)
+                {
+                    physicalInventoryId = ((PhysicalInventoryCycleInventoryLogic)original).PhysicalInventoryId;
+                }
+            }
+
+            PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+            l.SetDependencies(this.AppConfig, this.UserSession);
+            l.PhysicalInventoryId = PhysicalInventoryId;
+            bool b = l.LoadAsync<PhysicalInventoryLogic>().Result;
+            if (!l.Status.Equals(RwConstants.PHYSICAL_INVENTORY_STATUS_NEW))
+            {
+                isValid = false;
+                validateMsg = $"Cannot save this {this.BusinessLogicModuleName} record because the Physical Inventory status is {l.Status}.";
+            }
+
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
+        public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+            l.SetDependencies(this.AppConfig, this.UserSession);
+            l.PhysicalInventoryId = PhysicalInventoryId;
+            bool b = l.LoadAsync<PhysicalInventoryLogic>().Result;
+            if (!l.Status.Equals(RwConstants.PHYSICAL_INVENTORY_STATUS_NEW))
+            {
+                e.PerformDelete = false;
+                e.ErrorMessage = $"Cannot delete this {this.BusinessLogicModuleName} record because the Physical Inventory status is {l.Status}.";
+            }
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
