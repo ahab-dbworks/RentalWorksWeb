@@ -1000,7 +1000,10 @@ namespace FwStandard.AppManager
                                 else
                                 {
                                     var controlSaveNode = controlActionsNode.Children.FirstOrDefault(x => x.NodeType == "ControlAction" && x.Properties["action"] == "ControlSave");
-                                    controlSaveNode.Properties["visible"] = "F";
+                                    if (controlSaveNode != null)
+                                    {
+                                        controlSaveNode.Properties["visible"] = "F";
+                                    }
                                 }
                             }
                         }
