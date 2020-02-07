@@ -84,14 +84,8 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         [FwLogicProperty(Id: "vxNJdF9imoMc", IsReadOnly: true)]
         public bool? IsNestedComplete { get; set; }
 
-        //[FwLogicProperty(Id: "C0GIIpQG95Yti")]
-        //public bool? Inactive { get { return inventoryPackageInventory.Inactive; } set { inventoryPackageInventory.Inactive = value; } }
-
         [FwLogicProperty(Id: "C0GIIpQG95Yti", IsReadOnly: true)]
         public bool? Inactive { get; set; }
-
-        [FwLogicProperty(Id: "Ax1iKPLAqQpX", IsReadOnly: true)]
-        public string ItemInactive { get; set; }
 
         [FwLogicProperty(Id: "g7k0UsAoBDz2")]
         public string WarehouseId { get { return inventoryPackageInventory.WarehouseId; } set { inventoryPackageInventory.WarehouseId = value; } }
