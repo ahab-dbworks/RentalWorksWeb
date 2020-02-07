@@ -83,7 +83,7 @@ class RwHome {
                             request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
                             request.ToDate = FwFormField.getValue($confirmation, '.todate');
                             request.OfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
-                            FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
+                            FwAppData.apiMethod(true, 'PUT', `api/v1/userwidget/${userWidgetId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                                 FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 FwAppData.apiMethod(true, 'GET', 'api/v1/dashboardsettings/' + response.UserId, null, FwServices.defaultTimeout, function onSuccess(widgetResponse) {

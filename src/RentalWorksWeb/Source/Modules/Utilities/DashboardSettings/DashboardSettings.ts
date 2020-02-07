@@ -57,7 +57,7 @@ class DashboardSettings {
         $form.data('beforesave', request => {
             for (var i = 0; i < request.UserWidgets.length; i++) {
                 if (request.UserWidgets[i].UserWidgetId !== undefined) {
-                    FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request.UserWidgets[i], FwServices.defaultTimeout, null, function onError(response) {
+                    FwAppData.apiMethod(true, 'PUT', `api/v1/userwidget/${request.UserWidgets[i].UserWidgetId}`, request.UserWidgets[i], FwServices.defaultTimeout, null, function onError(response) {
                         FwFunc.showError(response);
                     }, null);
                 }
