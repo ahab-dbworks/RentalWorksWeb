@@ -29,9 +29,19 @@
             const showComplete = FwFormField.getValueByDataField($form, 'ShowComplete');
             $activityGrid.data('ondatabind', request => {
                 onDataBind(request);
-                request.uniqueids.ActivityFromDate = activityFromDate;
-                request.uniqueids.ActivityToDate = activityToDate;
-                request.uniqueids.ActivityTypeId = activityTypes;
+
+                delete request.uniqueids.ActivityFromDate;
+                delete request.uniqueids.ActivityToDate;
+                delete request.uniqueids.ActivityTypeId;
+                if (activityFromDate) {
+                    request.uniqueids.ActivityFromDate = activityFromDate;
+                }
+                if (activityToDate) {
+                    request.uniqueids.ActivityToDate = activityToDate;
+                }
+                if (activityTypes) {
+                    request.uniqueids.ActivityTypeId = activityTypes;
+                }
                 request.uniqueids.ShowShipping = showShipping;
                 request.uniqueids.ShowSubPo = showSubPo;
                 request.uniqueids.ShowComplete = showComplete;

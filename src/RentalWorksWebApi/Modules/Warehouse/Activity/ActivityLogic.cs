@@ -83,6 +83,8 @@ namespace WebApi.Modules.Warehouse.Activity
         public int? TotalQuantity { get { return activity.TotalQuantity; } set { activity.TotalQuantity = value; } }
         [FwLogicProperty(Id: "HnI8OvVLfkQXp")]
         public int? CompleteQuantity { get { return activity.CompleteQuantity; } set { activity.CompleteQuantity = value; } }
+        [FwLogicProperty(Id: "mswWR9zOdhKZ8", IsReadOnly: true)]
+        public int? RemainingQuantity { get; set; }
         [FwLogicProperty(Id: "hNja8jObTR0Li")]
         public decimal? CompletePercent { get { return activity.CompletePercent; } set { activity.CompletePercent = value; } }
         [FwLogicProperty(Id: "Hnu4TGTfRxQm4")]

@@ -100,6 +100,9 @@ namespace WebApi.Modules.Warehouse.Activity
         [FwSqlDataField(column: "totalqty", modeltype: FwDataTypes.Integer)]
         public int? TotalQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remainingqty", modeltype: FwDataTypes.Integer)]
+        public int? RemainingQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "completeqty", modeltype: FwDataTypes.Integer)]
         public int? CompleteQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -116,6 +119,25 @@ namespace WebApi.Modules.Warehouse.Activity
             addFilterToSelect("OrderId", "orderid", select, request);
             addFilterToSelect("ActivityTypeId", "activitytypeid", select, request);
             addFilterToSelect("AssignedToUserId", "assignedtousersid", select, request);
+
+            bool showComplete = GetUniqueIdAsBoolean("ShowComplete", request).GetValueOrDefault(false);
+            if (!showComplete)
+            {
+                select.AddWhere("activitystatuscomplete <> 'T'");
+            }
+
+            DateTime? fromDate = GetUniqueIdAsDate("ActivityFromDate", request);
+            DateTime? toDate = GetUniqueIdAsDate("ActivityToDate", request);
+            if (fromDate != null)
+            {
+                select.AddWhere("activitydate >= @fromdate");
+                select.AddParameter("@fromdate", fromDate);
+            }
+            if (toDate != null)
+            {
+                select.AddWhere("activitydate <= @todate");
+                select.AddParameter("@todate", toDate);
+            }
             select.AddWhere("activitydatetime is not null");
         }
         //------------------------------------------------------------------------------------ 

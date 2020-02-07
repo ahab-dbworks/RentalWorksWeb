@@ -152,6 +152,29 @@ namespace WebApi.Modules.Agent.PurchaseOrder
     public static class PurchaseOrderFunc
     {
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusResponse> AfterSavePurchaseOrder(FwApplicationConfig appConfig, FwUserSession userSession, string id, FwSqlConnection conn = null)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "aftersavepoweb", appConfig.DatabaseSettings.QueryTimeout))
+            {
+                qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, id);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<ReceiveContractResponse> CreateReceiveContract(FwApplicationConfig appConfig, FwUserSession userSession, ReceiveContractRequest request)
         {
             ReceiveContractResponse response = new ReceiveContractResponse();
