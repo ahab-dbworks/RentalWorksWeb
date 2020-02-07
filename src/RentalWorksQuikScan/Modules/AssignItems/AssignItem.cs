@@ -349,7 +349,7 @@ namespace RentalWorksQuikScan.Modules
                                                      usersId: session.security.webUser.usersid);
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
-            qry.Add("WITH Assignment_CTE(masterid, masterno, master, trackedby, qty, orderid, orderno, orderdesc, statustype, allowmassrfidassignment, orderby)");
+            qry.Add(";WITH Assignment_CTE(masterid, masterno, master, trackedby, qty, orderid, orderno, orderdesc, statustype, allowmassrfidassignment, orderby)");
             qry.Add("AS");
             qry.Add("(select *, orderby = 1");
             qry.Add("from funcassignassetdetail(@warehouseid, @masterid)");
