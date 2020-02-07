@@ -88,6 +88,9 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         [FwSqlDataField(column: "iteminactive", modeltype: FwDataTypes.Text)]
         public string ItemInactive { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool? Inactive { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
