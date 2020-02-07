@@ -213,7 +213,7 @@
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)   //jh - need this.Type here because this Form has descendants
                 };
-            }, 
+            }
         });
         //----------------------------------------------------------------------------------------------
         //Order Status Detail Grid
@@ -227,6 +227,12 @@
                     OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
                 };
             }, 
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                if (this.Type === 'PurchaseOrder') {
+                    $browse.find('div[data-datafield="OutDateTime"]').attr('data-caption', 'Receive Date/Time');
+                    $browse.find('div[data-datafield="OutContractId"]').attr('data-caption', 'Receive Contract');
+                }
+            }
         });
         //----------------------------------------------------------------------------------------------
         const $filter = $form.find('.filter[data-type="radio"]');

@@ -14,6 +14,22 @@
             if (isSuspendOut === 'true') {
                 $tr.find('[data-browsedatafield="OutContractId"] div.btnpeek').hide();
             }
+
+            const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
+            const $td = $tr.find('[data-browsedatafield="InventoryId"]');
+            let peekForm;
+            switch (recType) {
+                case 'R':
+                    peekForm = 'RentalInventory';
+                    break;
+                case 'S':
+                    peekForm = 'SalesInventory';
+                    break;
+                case 'P':
+                    peekForm = 'PartsInventory';
+                    break;
+            }
+            $td.attr('data-peekForm', peekForm);
         });
     }
 }
