@@ -53,8 +53,8 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Inactive { get; set; }
+        //[FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        //public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }
