@@ -288,8 +288,11 @@ class MigrateOrders {
         const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
         switch (datafield) {
             case 'DealId':
-                request.uniqueids = {
-                    LocationId: officeLocationId
+                const shareDeals = JSON.parse(sessionStorage.getItem('controldefaults')).sharedealsacrossofficelocations;
+                if (!shareDeals) {
+                    request.uniqueids = {
+                        LocationId: officeLocationId
+                    }
                 }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
