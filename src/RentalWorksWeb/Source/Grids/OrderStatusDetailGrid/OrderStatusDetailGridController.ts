@@ -1,5 +1,5 @@
-﻿class OrderStatusSalesDetailGrid {
-    Module: string = 'OrderStatusSalesDetailGrid';
+﻿class OrderStatusDetailGrid {
+    Module: string = 'OrderStatusDetailGrid';
     apiurl: string = 'api/v1/orderstatusdetail';
 
     generateRow($control, $generatedtr) {
@@ -18,5 +18,5 @@
     }
 }
 
-var OrderStatusSalesDetailGridController = new OrderStatusSalesDetailGrid();
+var OrderStatusDetailGridController = new OrderStatusDetailGrid();
 //----------------------------------------------------------------------------------------------

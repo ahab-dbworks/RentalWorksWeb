@@ -935,8 +935,7 @@ var Constants = {
             }
         },
         OrderStatusHistoryGrid: { id: 'lATsdnAx7B4s', caption: 'Order Status History' },
-        OrderStatusRentalDetailGrid: { id: '75OyLDxMPa8z', caption: 'Order Status Rental Detail' },
-        OrderStatusSalesDetailGrid: { id: '75OyLDxMPa8z', caption: 'Order Status Sales Detail' },
+        OrderStatusDetailGrid: { id: '75OyLDxMPa8z', caption: 'Order Status Detail' },
         OrderStatusSummaryGrid: { id: '3NAO1rd02hBF', caption: 'Order Status Summary' },
         OrderTypeActivityDatesGrid: { id: 'oMijD9WAL6Bl', caption: 'Order Type Activity Dates' },
         OrderTypeContactTitleGrid: { id: 'HzNQkWcZ8vEC', caption: 'Order Type Contact Title' },
