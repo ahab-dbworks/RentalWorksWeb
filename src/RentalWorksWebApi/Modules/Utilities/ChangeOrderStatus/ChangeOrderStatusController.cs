@@ -38,7 +38,7 @@ namespace WebApi.Modules.Utilities.ChangeOrderStatus
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderreport/validateorder/browse 
+        // POST api/v1/changeorderstatus/validateorder/browse 
         [HttpPost("validateorder/browse")]
         [FwControllerMethod(Id: "0tU4gS7pQkgZY", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)

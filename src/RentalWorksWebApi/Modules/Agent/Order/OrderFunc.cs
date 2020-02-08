@@ -564,6 +564,7 @@ namespace WebApi.Modules.Agent.Order
             qry.AddParameter("@newstatus", SqlDbType.NVarChar, ParameterDirection.Input, request.NewStatus);
             qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
             await qry.ExecuteNonQueryAsync();
+            response.success = true;
 
             return response;
         }

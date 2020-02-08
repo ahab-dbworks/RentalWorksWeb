@@ -76,7 +76,7 @@ class ChangeOrderStatus {
         switch (datafield) {
             case 'OrderId':
                 request.uniqueids = {
-                    LocationId: userLocationId
+                    OfficeLocationId: userLocationId
                 }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
                 break;
@@ -89,7 +89,7 @@ class ChangeOrderStatus {
               <div id="changeorderstatusform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div class="tabs"></div>
                 <div class="tabpages">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Change Status" style="max-width:700px">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Change Order Status" style="max-width:700px">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order" data-datafield="OrderId" data-displayfield="Order" data-validationname="OrderValidation" style="flex:0 1 200px;"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-enabled="false" style="flex:0 1 400px;"></div>
