@@ -58,7 +58,6 @@ namespace WebApi.Modules.Inventory.Inventory
         public string RetiredId { get; set; }
     }
 
-
     public static class InventoryFunc
     {
         //-------------------------------------------------------------------------------------------------------
