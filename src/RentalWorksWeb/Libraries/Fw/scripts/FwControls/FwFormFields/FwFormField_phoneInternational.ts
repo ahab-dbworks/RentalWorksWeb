@@ -98,7 +98,16 @@
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
         if (value) {
-            const $inputvalue = $fwformfield.find('input').intlTelInput('setNumber', value);
+            const $input = $fwformfield.find('input');
+            const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
+            if (countryCode === '1') {
+                $input.inputmask('(999) 999-9999');
+                $input.attr('maxlength', '14');
+            } else {
+                $input.inputmask('remove');
+                $input.attr('maxlength', '10');
+            }
+            const $inputvalue = $input.intlTelInput('setNumber', value);
             if (firechangeevent) $inputvalue.change();
         } else {
             console.error(`Value is undefined.`);
