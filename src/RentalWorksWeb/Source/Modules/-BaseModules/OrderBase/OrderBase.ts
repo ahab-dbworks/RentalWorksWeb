@@ -1370,13 +1370,19 @@ class OrderBase {
         });
     }
     //----------------------------------------------------------------------------------------------
-    renderFrames($form: any, cachedId?, period?) {
+    //renderFrames($form: any, cachedId?, period?) {
+    loadProfitAndLoss($form: any) {
+
+        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+        //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+
+
         FwFormField.disable($form.find('.frame'));
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         $form.find('.frame input').css('width', '100%');
-        if (typeof cachedId !== 'undefined' && cachedId !== null) {
-            id = cachedId;
-        }
+        //if (typeof cachedId !== 'undefined' && cachedId !== null) {
+        //    id = cachedId;
+        //}
         if (id !== '') {
             if (typeof period !== 'undefined') {
                 id = `${id}~${period}`
@@ -2225,8 +2231,9 @@ class OrderBase {
 
         //profit & loss toggle buttons
         $form.find('.profit-loss-total input').off('change').on('change', e => {
-            const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
-            this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+            //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+            //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+            this.loadProfitAndLoss($form);
         });
 
         //SpecifyBillingDatesByType and LockBillingDates checkbox events
@@ -2247,7 +2254,7 @@ class OrderBase {
             if ($form.attr('data-mode') === 'NEW') {
                 e.stopImmediatePropagation();
                 FwNotification.renderNotification('WARNING', 'Save Record first.');
-            } 
+            }
         });
     };
     //----------------------------------------------------------------------------------------------
@@ -3238,7 +3245,7 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     afterLoad($form, response) {
         const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
-        this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+        //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         this.applyOrderTypeAndRateTypeToForm($form);
 
         // disable/enable PO Number and Amount based on PO Pending
@@ -3367,7 +3374,11 @@ class OrderBase {
         $form.on('click', '[data-type="tab"]', e => {
             const $tab = jQuery(e.currentTarget);
             const tabPageId = $tab.attr('data-tabpageid');
-            if ($tab.hasClass('audittab') == false) {
+
+            if ($tab.hasClass('profitlosstab') == true) {
+                this.loadProfitAndLoss($form);
+            }
+            else if ($tab.hasClass('audittab') == false) {
                 const $gridControls = $form.find(`#${tabPageId} [data-type="Grid"]`);
                 if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
                     for (let i = 0; i < $gridControls.length; i++) {
@@ -3387,8 +3398,8 @@ class OrderBase {
                         FwBrowse.search($browseControl);
                     }
                 }
+                $tab.addClass('tabGridsLoaded');
             }
-            $tab.addClass('tabGridsLoaded');
         });
 
         // disable the Activity checkboxes if Items exist
@@ -3511,9 +3522,8 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     renderScheduleDateAndTimeSection($form, response) {
-        //this is being called from FwModule > afterLoadForm in order to get the ActivityDatesAndTimes fields
-        const dates = `<span class="modify" style="cursor:pointer; color:blue; margin-left:20px; text-decoration:underline;">Show All Dates and Times</span>`;
-        $form.find('.activity-dates-toggle').empty().append(dates);
+        //const dates = `<span class="modify" style="cursor:pointer; color:blue; margin-left:20px; text-decoration:underline;">Show All Dates and Times</span>`;
+        //$form.find('.activity-dates-toggle').empty().append(dates);
         $form.find('.activity-dates').empty();
         const activityDatesAndTimes = response.ActivityDatesAndTimes;
         for (let i = 0; i < activityDatesAndTimes.length; i++) {
@@ -3550,18 +3560,23 @@ class OrderBase {
             }
         });
 
-        //activity dates
-        $form.find('.modify').off().on('click', e => {
-            const scheduleFields = $form.find('.schedule-date-fields');
-            const activityDateFields = $form.find('.activity-dates');
-            if (scheduleFields.css('display') === 'none') {
-                scheduleFields.show();
-                activityDateFields.hide();
-            } else {
-                scheduleFields.hide();
-                activityDateFields.show();
-            }
-        });
+        ////activity dates
+        //$form.find('.modify').off().on('click', e => {
+        //    const scheduleFields = $form.find('.schedule-date-fields');
+        //    const activityDateFields = $form.find('.activity-dates');
+        //    if (scheduleFields.css('display') === 'none') {
+        //        scheduleFields.show();
+        //        activityDateFields.hide();
+        //    } else {
+        //        scheduleFields.hide();
+        //        activityDateFields.show();
+        //    }
+        //});
+
+        const scheduleFields = $form.find('.schedule-date-fields');
+        const activityDateFields = $form.find('.activity-dates');
+        scheduleFields.hide();
+        activityDateFields.show();
 
         $form.data('beforesave', request => {
             if ($form.find('.activity-dates:visible').length > 0) {
@@ -3602,7 +3617,7 @@ class OrderBase {
         }
         this.renderGrids($form);
         const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
-        this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+        //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         //this.dynamicColumns($form);
         this.applyOrderTypeAndRateTypeToForm($form);
         $activeTab.click();
