@@ -1144,7 +1144,7 @@ class PurchaseOrder implements IModule {
 
         //FwBrowse.init($orderItemGridSubLaborControl);
         //FwBrowse.renderRuntimeHtml($orderItemGridSubLaborControl);
-
+        // ----------
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.sublaborgrid div[data-grid="OrderItemGrid"]',
@@ -1248,7 +1248,7 @@ class PurchaseOrder implements IModule {
 
         //FwBrowse.init($orderItemGridSubMiscControl);
         //FwBrowse.renderRuntimeHtml($orderItemGridSubMiscControl);
-
+        // ----------
         FwBrowse.renderGrid({
             nameGrid: 'OrderContactGrid',
             gridSecurityId: 'B9CzDEmYe1Zf',
@@ -1268,6 +1268,7 @@ class PurchaseOrder implements IModule {
                 request.CompanyId = companyId;
             }
         });
+        // ----------
 
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
@@ -1341,20 +1342,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
-        //const $orderNoteGridControl = FwBrowse.loadGridFromTemplate('OrderNoteGrid');
-        //$orderNoteGrid.empty().append($orderNoteGridControl);
-        //$orderNoteGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-        //    };
-        //});
-        //$orderNoteGridControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-        //});
-        //FwBrowse.init($orderNoteGridControl);
-        //FwBrowse.renderRuntimeHtml($orderNoteGridControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderNoteGrid',
             gridSecurityId: '8aq0E3nK2upt',
@@ -1369,7 +1356,6 @@ class PurchaseOrder implements IModule {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             }
         });
-
         // ----------
         FwBrowse.renderGrid({
             nameGrid: 'ActivityGrid',
@@ -1385,21 +1371,20 @@ class PurchaseOrder implements IModule {
                 request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             },
         });
-
+        // ----------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+        jQuery($form.find('.partsgrid .valtype')).attr('data-validationname', 'PartsInventoryValidation');
         jQuery($form.find('.rentalsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
     };
-
     //----------------------------------------------------------------------------------------------
     loadAudit($form: JQuery): void {
         const uniqueid = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         FwModule.loadAudit($form, uniqueid);
     };
     //----------------------------------------------------------------------------------------------
-
     applyPurchaseOrderTypeToForm($form) {
         let self = this;
 

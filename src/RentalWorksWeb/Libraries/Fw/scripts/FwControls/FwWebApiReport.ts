@@ -239,7 +239,7 @@ abstract class FwWebApiReport {
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF'
                         //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
-                        if (request.parameters.hasOrderNo){
+                        if (request.parameters.hasOrderNo) {
                             request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
                         }
                         const win = window.open('', '_blank');
@@ -513,7 +513,7 @@ abstract class FwWebApiReport {
         FwBrowse.renderGrid({
             nameGrid: 'ReportSettingsGrid',
             gridSecurityId: 'arqFEggnNSrA6',
-            moduleSecurityId: 'arqFEggnNSrA6',                
+            moduleSecurityId: 'arqFEggnNSrA6',
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;

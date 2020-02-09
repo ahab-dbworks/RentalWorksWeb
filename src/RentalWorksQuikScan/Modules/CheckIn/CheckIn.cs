@@ -879,8 +879,7 @@ namespace RentalWorksQuikScan.Modules
         {
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
-            qry.Add("exec dbo.insertserialsession @contractid, @orderid, @masteritemid, @rentalitemid, @activitytype, @internalchar, @usersid, @meter, @toggledelete, @containeritemid, @containeroutcontractid");
+            qry = new FwSqlCommand(conn, "dbo.insertserialsession");
             qry.AddParameter("@contractid",             contractid);
             qry.AddParameter("@orderid",                orderid);
             qry.AddParameter("@masteritemid",           masteritemid);
@@ -892,6 +891,8 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@toggledelete",           toggledelete);
             qry.AddParameter("@containeritemid",        "");
             qry.AddParameter("@containeroutcontractid", "");
+            qry.AddParameter("@status", SqlDbType.Decimal, ParameterDirection.Output);
+            qry.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output);
             qry.Execute();
         }
         //---------------------------------------------------------------------------------------------

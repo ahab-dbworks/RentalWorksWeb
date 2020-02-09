@@ -580,6 +580,7 @@ namespace RentalWorksQuikScan.Source
                                                                orderid:      request.orderid,
                                                                masteritemid: request.masteritemid,
                                                                rentalitemid: request.rentalitemid,
+                                                               qtyremoved:   request.qtyremoved,
                                                                webusersid:   session.security.webUser.webusersid);
         }
         //---------------------------------------------------------------------------------------------

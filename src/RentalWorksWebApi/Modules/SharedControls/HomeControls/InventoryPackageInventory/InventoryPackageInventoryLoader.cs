@@ -85,8 +85,8 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         [FwSqlDataField(column: "isnestedcomplete", modeltype: FwDataTypes.Boolean)]
         public bool? IsNestedComplete { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "iteminactive", modeltype: FwDataTypes.Text)]
-        public string ItemInactive { get; set; }
+        [FwSqlDataField(column: "iteminactive", modeltype: FwDataTypes.Boolean)]
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }

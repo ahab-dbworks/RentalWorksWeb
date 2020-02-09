@@ -83,7 +83,7 @@ class RwHome {
                             request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
                             request.ToDate = FwFormField.getValue($confirmation, '.todate');
                             request.OfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
-                            FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
+                            FwAppData.apiMethod(true, 'PUT', `api/v1/userwidget/${userWidgetId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                                 FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 FwAppData.apiMethod(true, 'GET', 'api/v1/dashboardsettings/' + response.UserId, null, FwServices.defaultTimeout, function onSuccess(widgetResponse) {
@@ -544,7 +544,7 @@ class RwHome {
         html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation apply-fullscreen" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior apply-fullscreen" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
+        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior apply-fullscreen" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" data-validationpeek="false" style="float:left;width:200px;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
         html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield apply-fullscreen" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
@@ -559,10 +559,10 @@ class RwHome {
         html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints apply-fullscreen" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat apply-fullscreen" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat apply-fullscreen" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" data-validationpeek="false" style="float:left;width:200px;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat apply-fullscreen" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat apply-fullscreen" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" data-validationpeek="false" style="float:left;width:200px;"></div>');
         html.push('</div>');
         html.push('</div>');
 

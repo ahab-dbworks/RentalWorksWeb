@@ -22,8 +22,8 @@ export class OrderStatusSummaryReport extends WebpackReport {
                     const logoObject: any = response;
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/orderstatussummaryreport/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
-                            const data: any = DataTable.toObjectList(response);
-                            data.Items = data;
+                            const data: any = response;
+                            data.Items = DataTable.toObjectList(response);
                             data.Company = parameters.companyName;
                             data.Order = parameters.orderno;
                             data.Report = "Order Status Summary";                     

@@ -1876,7 +1876,7 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic QSDeleteMasterItem(FwSqlConnection conn, string orderid, string masteritemid, string rentalitemid, string webusersid)
+        public static dynamic QSDeleteMasterItem(FwSqlConnection conn, string orderid, string masteritemid, string rentalitemid, int qtyremoved, string webusersid)
         {
             dynamic result;
             FwSqlCommand sp;
@@ -1886,6 +1886,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@masteritemid", masteritemid);
             sp.AddParameter("@rentalitemid", rentalitemid);
             sp.AddParameter("@webusersid",   webusersid);
+            sp.AddParameter("@qty",          qtyremoved);
             sp.AddParameter("@errno",        SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@errmsg",       SqlDbType.VarChar,  ParameterDirection.Output);
             sp.Execute();

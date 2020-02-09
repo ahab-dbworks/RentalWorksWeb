@@ -247,10 +247,9 @@
     <Content Include="Source\Grids\PickListUtilityGrid\PickListUtilityGridBrowse.htm" />
     <Content Include="Source\Grids\OrderNoteGrid\OrderNoteGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridBrowse.htm" />
-    <Content Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderStatusDetailGrid\OrderStatusDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderPickListGrid\OrderPickListGridBrowse.htm" />
     <Content Include="Source\Grids\PickListItemGrid\PickListItemGridBrowse.htm" />
-    <Content Include="Source\Grids\OrderStatusSalesDetailGrid\OrderStatusSalesDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusSummaryGrid\OrderStatusSummaryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeCoverLetterGrid\OrderTypeCoverLetterGridBrowse.htm" />
@@ -412,10 +411,9 @@
     <TypeScriptCompile Include="Source\Grids\PickListUtilityGrid\PickListUtilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderNoteGrid\OrderNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderStatusDetailGrid\OrderStatusDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderPickListGrid\OrderPickListGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PickListItemGrid\PickListItemGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\OrderStatusSalesDetailGrid\OrderStatusSalesDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusSummaryGrid\OrderStatusSummaryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeCoverLetterGrid\OrderTypeCoverLetterGridController.ts" />
@@ -569,6 +567,7 @@
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferIn\TransferIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\ChangeOrderStatus\ChangeOrderStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryRetireUtility\InventoryRetireUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\CompleteQc\CompleteQc.ts" />
@@ -1054,6 +1053,7 @@
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
     <Content Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\OrderStatusValidation\OrderStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\PresentationLayerValidation\PresentationLayerValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomerCreditValidation\CustomerCreditValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomFormValidation\CustomFormValidationBrowse.htm" />

@@ -1061,7 +1061,7 @@ namespace WebApi.Logic
 
                     if (limitDiscount)
                     {
-                        userCanModify = (discount < userDiscountMax);
+                        userCanModify = (discount <= userDiscountMax);
                         if (userCanModify != true)
                         {
                             throw new Exception("User permission max discount is " + userDiscountMax.ToString());

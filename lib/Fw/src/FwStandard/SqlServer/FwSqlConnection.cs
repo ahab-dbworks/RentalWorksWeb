@@ -75,6 +75,22 @@ namespace FwStandard.SqlServer
         {
             if (this.sqlConnection.State != System.Data.ConnectionState.Open)
             {
+                if (this.sqlConnection.ConnectionString.ToLower().Contains("user id=dbworks;"))
+                {
+                    string errorMsg = "\nCannot use the 'dbworks' SQL Server login.  Change the login in the connection string.\n";
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine("#######################################   ERROR   ######################################");
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(errorMsg);
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine("########################################################################################");
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    throw new Exception(errorMsg);
+                }
                 await this.sqlConnection.OpenAsync();
             }
         }

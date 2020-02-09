@@ -1,4 +1,4 @@
-﻿<div data-name="OrderStatusRentalDetailGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Rental Detail" data-rendermode="template" data-showsearch="false" data-controller="OrderStatusRentalDetailGridController">
+﻿<div data-name="OrderStatusDetailGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Detail" data-rendermode="template" data-showsearch="false" data-controller="OrderStatusDetailGridController" data-paging="true">
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-isuniqueid="true" data-datafield="OrderId" data-browsedatatype="key" data-formdatatype="key" data-formreadonly="true" data-sort="off"></div>
   </div>
@@ -58,5 +58,9 @@
 
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Return Warehouse" data-datafield="InWarehouseCode" data-browsedatatype="text" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+  </div>
+
+  <div class="column" data-width="auto" data-visible="false">
+    <div class="field" data-caption="Rec Type" data-datafield="RecType" data-browsedatatype="text" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
 </div>

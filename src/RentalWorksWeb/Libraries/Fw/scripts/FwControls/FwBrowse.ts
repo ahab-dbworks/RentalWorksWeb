@@ -460,11 +460,13 @@ class FwBrowseClass {
                 try {
                     if ($control.attr('data-enabled') != 'false') {
                         const $sort = $control.find('td.manual-sort');
-                        const $newBtn = $control.find('.buttonbar');
+                        const $newBtn = $control.find('.buttonbar [data-type="NewButton"]');
                         $sort.toggle();
                         if ($sort.is(':visible')) {
+                            $control.addClass('sort-mode');
                             $newBtn.hide();
                         } else {
+                            $control.removeClass('sort-mode');
                             $newBtn.show();
                         }
                     }
@@ -1819,10 +1821,14 @@ class FwBrowseClass {
                     let mode = $form.attr('data-mode');
                     if (options.$browse.attr('data-enabled') !== 'false') {
                         if ((mode === 'EDIT') || ($new.closest('.fwconfirmation').length > 0)) {
-                            if (typeof $new.data('onclick') === 'function') {
-                                $new.data('onclick')(options.$browse);
+                            if (options.$browse.hasClass('sort-mode')) {
+                                FwNotification.renderNotification('WARNING', 'Please exit sort mode before adding new records.');
                             } else {
-                                this.addRowNewMode(options.$browse);
+                                if (typeof $new.data('onclick') === 'function') {
+                                    $new.data('onclick')(options.$browse);
+                                } else {
+                                    this.addRowNewMode(options.$browse);
+                                }
                             }
                         } else {
                             FwNotification.renderNotification('WARNING', 'Please save the record before performing this function.');
@@ -3282,6 +3288,7 @@ class FwBrowseClass {
                     response => {
                         if (response.success) {
                             FwBrowse.search($control);
+                            $control.removeClass('sort-mode');
                             $control.find('td.manual-sort').hide();
                             $gridMenu.find('.sorting').hide();
                             $gridMenu.find('.buttonbar').show();
@@ -3304,6 +3311,7 @@ class FwBrowseClass {
             $gridMenu.find('.sorting').hide();
             $gridMenu.find('.buttonbar').show();
             $control.find('.btn-manualsort').show();
+            $control.removeClass('sort-mode');
         });
 
         //initialize Sortable

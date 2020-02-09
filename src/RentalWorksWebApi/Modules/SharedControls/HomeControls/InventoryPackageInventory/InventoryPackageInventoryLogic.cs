@@ -84,8 +84,8 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         [FwLogicProperty(Id: "vxNJdF9imoMc", IsReadOnly: true)]
         public bool? IsNestedComplete { get; set; }
 
-        [FwLogicProperty(Id: "Ax1iKPLAqQpX", IsReadOnly: true)]
-        public string ItemInactive { get; set; }
+        [FwLogicProperty(Id: "C0GIIpQG95Yti", IsReadOnly: true)]
+        public bool? Inactive { get; set; }
 
         [FwLogicProperty(Id: "g7k0UsAoBDz2")]
         public string WarehouseId { get { return inventoryPackageInventory.WarehouseId; } set { inventoryPackageInventory.WarehouseId = value; } }
@@ -144,7 +144,7 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
                     conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
                 }
                 string invClassification = FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "master", "masterid", PackageId, "class").Result;
-                
+
                 if (invClassification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE))
                 {
                     BrowseRequest req = new BrowseRequest();

@@ -427,9 +427,6 @@
     };
     //---------------------------------------------------------------------------------
     validationPeek($control: JQuery, validationName: string, validationId: string, validationDatafield: string, $parentFormOrBrowse, title) {
-        let $popupForm;
-
-
         validationName = $control.attr('data-peekForm') || validationName;
         const $validationbrowse = jQuery(jQuery(`#tmpl-validations-${validationName}ValidationBrowse`).html());
         const peekForm = $validationbrowse.attr('data-peekForm');      // for validations without a form, this attr can be added to point to an alternate form to open in peek - J. Pace
@@ -437,65 +434,61 @@
 
         try {
             if (validationId !== '' && validationId !== undefined) {
-                //if (jQuery(`#tmpl-modules-${validationName}Form`).html() === undefined) {
-                //    if (peekForm) {
-                //        $popupForm = window[`${peekForm}Controller`].openForm('EDIT');
-                //    } else {
-                //        $popupForm = jQuery(window[`${validationName}Controller`].getFormTemplate());      // commented out unnecessary code - J. Pace 10/14/19
-                //    }
-                //} else {
-                //    $popupForm = jQuery(jQuery(`#tmpl-modules-${validationName}Form`).html());
-                //}
-                //$popupForm = window[validationName + 'Controller'].openForm('EDIT');
-
                 const ids: any = {};
                 ids[validationDatafield] = validationId;
+                let $popupForm;
                 if (peekForm) {
                     $popupForm = window[`${peekForm}Controller`].loadForm(ids);
                 } else {
-                    $popupForm = window[`${validationName}Controller`].loadForm(ids);
-                }
-                //$popupForm.find(`div.fwformfield[data-datafield="${validationDatafield}"] input`).val(validationId);
-                const $popupControl = FwPopup.renderPopup($popupForm, undefined, title, validationId);
-                FwPopup.showPopup($popupControl);
-                const $fwcontrols = $popupForm.find('.fwcontrol');
-                FwControl.loadControls($fwcontrols);
-                $popupForm.find('.btnpeek').remove();
-                $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll', 'position': 'relative' });
-                //FwModule.setFormReadOnly($popupForm);
-
-
-                //jQuery(document).find('.fwpopup').on('click', function (e) {   // - Removed this event that closes validationpeeks on click outside of the popup.  -Jason Hoang 9/10/18  
-                //    e = e || window.event;
-                //    if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
-
-                //    } else {
-                //        FwPopup.destroyPopup(this);
-                //        jQuery(document).off('keydown');
-                //        jQuery(document).find('.fwpopup').off('click');
-                //    }
-                //});
-
-                jQuery(document).on('keydown', function (e) {
-                    var code = e.keyCode || e.which;
-                    if (code === 27) { //ESC Key  
-                        try {
-                            FwPopup.destroyPopup($popupControl);
-                            jQuery(document).find('.fwpopup').off('click');
-                            jQuery(document).off('keydown');
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    }
-                });
-
-                jQuery('.fwpopupbox').on('click', function (e: JQuery.ClickEvent) {
-                    if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
-
+                    if (typeof (<any>window)[`${validationName}Controller`]['loadForm'] === 'function') {
+                        $popupForm = window[`${validationName}Controller`].loadForm(ids);
                     } else {
-                        e.stopImmediatePropagation();
+                        throw new Error(`${validationName}Controller has no loadForm method.`);
                     }
-                });
+                }
+                if ($popupForm !== undefined) {
+                    const $popupControl = FwPopup.renderPopup($popupForm, undefined, title, validationId);
+                    FwPopup.showPopup($popupControl);
+                    const $fwcontrols = $popupForm.find('.fwcontrol');
+                    FwControl.loadControls($fwcontrols);
+                    $popupForm.find('.btnpeek').remove();
+                    $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll', 'position': 'relative' });
+                    //FwModule.setFormReadOnly($popupForm);
+
+                    //jQuery(document).find('.fwpopup').on('click', function (e) {   // - Removed this event that closes validationpeeks on click outside of the popup.  -Jason Hoang 9/10/18  
+                    //    e = e || window.event;
+                    //    if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
+
+                    //    } else {
+                    //        FwPopup.destroyPopup(this);
+                    //        jQuery(document).off('keydown');
+                    //        jQuery(document).find('.fwpopup').off('click');
+                    //    }
+                    //});
+
+                    jQuery(document).on('keydown', function (e) {
+                        var code = e.keyCode || e.which;
+                        if (code === 27) { //ESC Key  
+                            try {
+                                FwPopup.destroyPopup($popupControl);
+                                jQuery(document).find('.fwpopup').off('click');
+                                jQuery(document).off('keydown');
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        }
+                    });
+
+                    jQuery('.fwpopupbox').on('click', function (e: JQuery.ClickEvent) {
+                        if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
+
+                        } else {
+                            e.stopImmediatePropagation();
+                        }
+                    });
+                } else {
+                    throw new Error(`No $popupForm has been designated for ${validationName}Controller.`);
+                }
             };
         }
         catch (ex) {

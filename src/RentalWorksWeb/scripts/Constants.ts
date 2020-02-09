@@ -781,6 +781,7 @@ var Constants = {
             caption: 'Utilities',
             nodetype: 'Category',
             children: {
+                ChangeOrderStatus:         { id: 'SjkAsallYxwNq', caption: 'Change Order Status', nav: 'module/changeorderstatus', nodetype: 'Module' },
                 Dashboard:                 { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'home', nodetype: 'Module' },
                 DashboardSettings:         { id: 'lXpomto7a29v',  caption: 'Dashboard Settings', nav: 'module/dashboardsettings', nodetype: 'Module' },
                 InventoryPurchaseUtility:  { id: 'sOxbXBmCPc9y',  caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility', nodetype: 'Module' },
@@ -935,8 +936,7 @@ var Constants = {
             }
         },
         OrderStatusHistoryGrid: { id: 'lATsdnAx7B4s', caption: 'Order Status History' },
-        OrderStatusRentalDetailGrid: { id: '75OyLDxMPa8z', caption: 'Order Status Rental Detail' },
-        OrderStatusSalesDetailGrid: { id: '75OyLDxMPa8z', caption: 'Order Status Sales Detail' },
+        OrderStatusDetailGrid: { id: '75OyLDxMPa8z', caption: 'Order Status Detail' },
         OrderStatusSummaryGrid: { id: '3NAO1rd02hBF', caption: 'Order Status Summary' },
         OrderTypeActivityDatesGrid: { id: 'oMijD9WAL6Bl', caption: 'Order Type Activity Dates' },
         OrderTypeContactTitleGrid: { id: 'HzNQkWcZ8vEC', caption: 'Order Type Contact Title' },

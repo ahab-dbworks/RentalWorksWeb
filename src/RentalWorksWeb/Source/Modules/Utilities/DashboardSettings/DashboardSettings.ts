@@ -57,7 +57,7 @@ class DashboardSettings {
         $form.data('beforesave', request => {
             for (var i = 0; i < request.UserWidgets.length; i++) {
                 if (request.UserWidgets[i].UserWidgetId !== undefined) {
-                    FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request.UserWidgets[i], FwServices.defaultTimeout, null, function onError(response) {
+                    FwAppData.apiMethod(true, 'PUT', `api/v1/userwidget/${request.UserWidgets[i].UserWidgetId}`, request.UserWidgets[i], FwServices.defaultTimeout, null, function onError(response) {
                         FwFunc.showError(response);
                     }, null);
                 }
@@ -96,7 +96,7 @@ class DashboardSettings {
                     html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
+                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" data-validationpeek="false" style="float:left;width:200px;"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
                     html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
@@ -111,10 +111,10 @@ class DashboardSettings {
                     html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" data-validationpeek="false" style="float:left;width:200px;"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" data-validationpeek="false" style="float:left;width:200px;"></div>');
                     html.push('</div>');
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
