@@ -5,209 +5,243 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using FwStandard.Data;
+using System.Collections.Generic;
+
 namespace WebApi.Modules.Reports.ManifestReport
 {
     [FwSqlTable("dbo.getorderstatussummary(@orderid)")]
     public class ManifestReportLoader : AppReportLoader
     {
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
-        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------
+        public ManifestReportLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
+        public string OrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternodisplay", modeltype: FwDataTypes.Text)]
-        public string ICodeNoDisplay { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternodisplayweb", modeltype: FwDataTypes.Text)]
-        public string ICodeDisplayWeb { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ICodeNoColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
-        public string InventoryTypeId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
-        public string CategoryId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
-        public string SubCategoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptiOnColor { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text)]
-        public string OrderItemId { get; set; }
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
+        public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text)]
-        public string NestedmasteritemId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
-        public string ParentId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outwarehouseid", modeltype: FwDataTypes.Text)]
-        public string OutwarehouseId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outwhcode", modeltype: FwDataTypes.Text)]
-        public string Outwhcode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outwarehouse", modeltype: FwDataTypes.Text)]
-        public string OutWarehouse { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inwarehouseid", modeltype: FwDataTypes.Text)]
-        public string InWarehouseId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inwhcode", modeltype: FwDataTypes.Text)]
-        public string WarehouseIcode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inwarehouse", modeltype: FwDataTypes.Text)]
-        public string InWarehouse { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityOrdered { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtyorderedcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string QuantityOrderedColor { get; set; }
+        [FwSqlDataField(column: "quantity", modeltype: FwDataTypes.Decimal)]
+        public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal)]
         public decimal? SubQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "stageqty", modeltype: FwDataTypes.Decimal)]
-        public decimal? StageQuantity { get; set; }
+        [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text)]
+        public string OrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "stageqtyfilter", modeltype: FwDataTypes.Decimal)]
-        public decimal? StageQuantityFilter { get; set; }
+        [FwSqlDataField(column: "countryoforigin", modeltype: FwDataTypes.Text)]
+        public string CountryOfOrigin { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "stagedqtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string StagedQuantityColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outqty", modeltype: FwDataTypes.Decimal)]
-        public decimal? OutQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outqtyfilter", modeltype: FwDataTypes.Decimal)]
-        public decimal? OutQuantityFilter { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outqtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string OutQuantityColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "issuspendout", modeltype: FwDataTypes.Boolean)]
-        public bool? IsSuspendOut { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inqty", modeltype: FwDataTypes.Decimal)]
-        public decimal? InQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inqtyfilter", modeltype: FwDataTypes.Decimal)]
-        public decimal? InQuantityFilter { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inqtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string InQuantitycolor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "issuspendin", modeltype: FwDataTypes.Boolean)]
-        public bool? IsSuspendIn { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "returnedqty", modeltype: FwDataTypes.Decimal)]
-        public decimal? ReturnedQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activityqty", modeltype: FwDataTypes.Decimal)]
-        public decimal? ActivityQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subactivityqty", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubActivityQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtyreceived", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityReceived { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtyreturned", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityReturned { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "notyetstagedqty", modeltype: FwDataTypes.Decimal)]
-        public decimal? NotYetStagedQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "toomanystagedout", modeltype: FwDataTypes.Boolean)]
-        public bool? TooManyStagedOut { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "notyetstagedqtyfilter", modeltype: FwDataTypes.Decimal)]
-        public decimal? NotYetStagedQuantityFilter { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "stilloutqty", modeltype: FwDataTypes.Decimal)]
-        public decimal? StillOutQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "stilloutqtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string StillOutQuantityColor { get; set; }
+        [FwSqlDataField(column: "valueperitem", modeltype: FwDataTypes.Decimal)]
+        public decimal? ValuePerItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
         public string ItemOrder { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
-        public string Itemclass { get; set; }
+        [FwSqlDataField(column: "dimensionslwh", modeltype: FwDataTypes.Text)]
+        public string DimensionsLWH { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
-        public string RecType { get; set; }
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string Barcode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "returnflg", modeltype: FwDataTypes.Text)]
-        public string ReturnFlag { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "poorderid", modeltype: FwDataTypes.Text)]
-        public string POOrderId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pomasteritemid", modeltype: FwDataTypes.Text)]
-        public string POOrderItemId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
-        public string RecTypeDisplay { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string RecTypeColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Boolean)]
-        public bool? OptionColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
-        public bool? Bold { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "haspoitem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasPOItem { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
-        public string VendorId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
-        public string Notes { get; set; }
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string MfgSerial { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
         public string MfgPartNo { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
-        public string OrderBy { get; set; }
+        [FwSqlDataField(column: "valueextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? ValueExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "iswardrobe", modeltype: FwDataTypes.Boolean)]
-        public bool? IsWardrobe { get; set; }
+        [FwSqlDataField(column: "weightlbs", modeltype: FwDataTypes.Integer)]
+        public int? WeightLbs { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "isprops", modeltype: FwDataTypes.Boolean)]
-        public bool? IsProps { get; set; }
+        [FwSqlDataField(column: "weightoz", modeltype: FwDataTypes.Integer)]
+        public int? WeightOz { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "unitcost", modeltype: FwDataTypes.Decimal)]
-        public decimal? UnitCost { get; set; }
+        [FwSqlDataField(column: "weightkg", modeltype: FwDataTypes.Integer)]
+        public int? WeightKg { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "stagedoutextendedcost", modeltype: FwDataTypes.Decimal)]
-        public decimal? StagedOutExtendedCost { get; set; }
+        [FwSqlDataField(column: "weightgr", modeltype: FwDataTypes.Integer)]
+        public int? WeightGr { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "unitprice", modeltype: FwDataTypes.Decimal)]
-        public decimal? UnitPrice { get; set; }
+        [FwSqlDataField(column: "extweightlbs", modeltype: FwDataTypes.Integer)]
+        public int? ExtendedWeightLbs { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "stagedoutextendedprice", modeltype: FwDataTypes.Decimal)]
-        public decimal? StagedOutExtendedPrice { get; set; }
+        [FwSqlDataField(column: "extweightoz", modeltype: FwDataTypes.Integer)]
+        public int? ExtendedWeightOz { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "extweightkg", modeltype: FwDataTypes.Integer)]
+        public int? ExtendedWeightKg { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "extweightgr", modeltype: FwDataTypes.Integer)]
+        public int? ExtendedWeightGr { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "manifestshippingcontainer", modeltype: FwDataTypes.Boolean)]
+        public bool? ManifestShippingContainer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifeststandaloneitem", modeltype: FwDataTypes.Boolean)]
+        public bool? ManifestStandAloneItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordervaluetotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? OrderValueTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderreplacementtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? OrderReplacementTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ownedvaluetotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? OwnedValueTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ownedreplacementtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? OwnedReplacementTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subvaluetotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubValueTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subreplacementtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubReplacementTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "shippingcontainertotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? ShippingContainerTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "shippingitemtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? ShippingItemTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "piececounttotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? PieceCountTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "standaloneitemtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? StandAloneItemTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ShippingContainerColor
+        {
+            get { return getShippingContainerColor(ManifestShippingContainer); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string StandAloneItemColor
+        {
+            get { return getStandAloneItemColor(ManifestStandAloneItem); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
+        public string TotalItemWeight
+        {
+            get { return getTotalItemWeight(WeightLbs, WeightOz); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
+        public string TotalExtendedItemWeight
+        {
+            get { return getTotalExtendedItemWeight(ExtendedWeightLbs, ExtendedWeightOz); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        //protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        //{
+        //    useWithNoLock = false;
+        //    string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
+        //    string rentalValue = GetUniqueIdAsString("RentalValue", request) ?? "";
+        //    string salesValue = GetUniqueIdAsString("SalesValue", request) ?? "";
+        //    string filterBy = GetUniqueIdAsString("FilterBy", request) ?? "";
+        //    string mode = GetUniqueIdAsString("Mode", request) ?? "";
+
+        //    base.SetBaseSelectQuery(select, qry, customFields, request);
+        //    select.Parse();
+
+        //    select.AddParameter("@orderid", orderId);
+        //    select.AddParameter("@rentalvalue", rentalValue);
+        //    select.AddParameter("@salesvalue", salesValue);
+        //    select.AddParameter("@filterby", filterBy);
+        //    select.AddParameter("@mode", mode);
+        //}
+        //------------------------------------------------------------------------------------
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("ShippingContainerColor")] = getShippingContainerColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ManifestShippingContainer")].ToString()));
+                        row[dt.GetColumnNo("StandAloneItemColor")] = getStandAloneItemColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ManifestStandAloneItem")].ToString()));
+                        row[dt.GetColumnNo("TotalItemWeight")] = getTotalItemWeight(FwConvert.ToInt32(row[dt.GetColumnNo("WeightLbs")]), FwConvert.ToInt32(row[dt.GetColumnNo("WeightOz")]));
+                        row[dt.GetColumnNo("TotalExtendedItemWeight")] = getTotalExtendedItemWeight(FwConvert.ToInt32(row[dt.GetColumnNo("ExtendedWeightLbs")]), FwConvert.ToInt32(row[dt.GetColumnNo("ExtendedWeightOz")]));
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected string getShippingContainerColor(bool? ManifestShippingContainer)
+        {
+            string color = null;
+            if (ManifestShippingContainer == true)
+            {
+                color = "#ffeb3b";
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------
+        protected string getStandAloneItemColor(bool? ManifestStandAloneItem)
+        {
+            string color = null;
+            if (ManifestStandAloneItem == true)
+            {
+                color = "#2196f3";
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------
+        protected string getTotalItemWeight(int? WeightLbs, int? WeightOz)
+        {
+            string totalweight = null;
+            if (WeightLbs != 0)
+            {
+                totalweight = WeightLbs.ToString() + " Lbs";
+            }
+            if (WeightOz != 0)
+            {
+                totalweight += " " + WeightOz.ToString() + " Oz";
+            }
+            return totalweight;
+        }
+        //------------------------------------------------------------------------------------
+        protected string getTotalExtendedItemWeight(int? ExtendedWeightLbs, int? ExtendedWeightOz)
+        {
+            string totalweight = null;
+            if (ExtendedWeightLbs != 0)
+            {
+                totalweight = ExtendedWeightLbs.ToString() + " Lbs";
+            }
+            if (ExtendedWeightOz != 0)
+            {
+                totalweight += " " + ExtendedWeightOz.ToString() + " Oz";
+            }
+            return totalweight;
+        }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(ManifestReportRequest request)
         {
@@ -224,6 +258,10 @@ namespace WebApi.Modules.Reports.ManifestReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddParameter("@orderid", request.OrderId);
+                    select.AddParameter("@rentalvalue", request.rentalValueSelector);
+                    select.AddParameter("@salesvalue", request.salesValueSelector);
+                    select.AddParameter("@filterby", request.manifestFilter);
+                    select.AddParameter("@orderid", request.manifestItems);
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }

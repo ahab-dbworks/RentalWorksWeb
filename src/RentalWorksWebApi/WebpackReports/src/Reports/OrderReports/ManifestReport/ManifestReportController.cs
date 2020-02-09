@@ -19,6 +19,10 @@ namespace WebApi.Modules.Reports.ManifestReport
     public class ManifestReportRequest : AppReportRequest
     {
         public string OrderId { get; set; }
+        public string rentalValueSelector { get; set; }
+        public string salesValueSelector { get; set; }
+        public string manifestFilter { get; set; }
+        public string manifestItems { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
@@ -46,7 +50,7 @@ namespace WebApi.Modules.Reports.ManifestReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/manifestreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id: "4cMLxL68N5OVv")]
+        [FwControllerMethod(Id: "wj6jqn59eJEy")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -56,7 +60,7 @@ namespace WebApi.Modules.Reports.ManifestReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/manifestreport/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "4mzI4jEF8FD2C")]
+        [FwControllerMethod(Id: "fBLkHuI0p4EA")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ManifestReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
@@ -66,7 +70,7 @@ namespace WebApi.Modules.Reports.ManifestReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/manifestreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id: "4VsjqrccU1KZ2")]
+        [FwControllerMethod(Id: "gQbBa1zghqTv")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]ManifestReportRequest request)
         {
             if (!ModelState.IsValid)
@@ -89,7 +93,7 @@ namespace WebApi.Modules.Reports.ManifestReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/manifestreport/validateorder/browse 
         [HttpPost("validateorder/browse")]
-        [FwControllerMethod(Id: "YyAtJqo69gwa", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "Rldp65t3h8LM", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<OrderLogic>(browseRequest);
