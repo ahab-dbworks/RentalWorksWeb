@@ -279,13 +279,12 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
         }
     };
 
-    screen.removeItem = function(masteritemid, rentalitemid) {
-        var request, li;
-
-        request = {
-            orderid:      properties.orderid
-          , masteritemid: masteritemid
-          , rentalitemid: rentalitemid
+    screen.removeItem = function(masteritemid, rentalitemid, qtyRemoved) {
+        var request = {
+            orderid:      properties.orderid,
+            masteritemid: masteritemid,
+            rentalitemid: rentalitemid,
+            qtyremoved:   qtyRemoved
         };
         RwServices.quote.deleteItem(request, function(response) {
             try {
@@ -491,10 +490,11 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                     masterNo     = String(jQuery('#quote-popupQty').data('masterno'));
                     qtyOrdered   = Number(jQuery('#quote-popupQty').data('qtyordered'));
                     qtyValue     = Number(jQuery('#quote-txtQty').val());
-                    if ((qtyOrdered != qtyValue) && (qtyValue > 0)) {
-                        screen.updateItem(masterItemId, masterNo, qtyValue);
-                    } else if (qtyValue == 0) {
-                        screen.removeItem(masterItemId, rentalItemId);
+                    //if ((qtyOrdered != qtyValue) && (qtyValue > 0)) {
+                    if (qtyOrdered < qtyValue) {
+                        screen.updateItem(masterItemId, masterNo, (qtyValue - qtyOrdered));
+                    } else if (qtyOrdered > qtyValue) {
+                        screen.removeItem(masterItemId, rentalItemId, (qtyOrdered - qtyValue));
                     }
                     screen.hidePopupQty();
                 } catch(ex) {
@@ -564,7 +564,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                 try {
                     masteritemid = jQuery('#quote-popupRemoveItem').data('masteritemid');
                     rentalitemid = jQuery('#quote-popupRemoveItem').data('rentalitemid');
-                    screen.removeItem(masteritemid, rentalitemid);
+                    screen.removeItem(masteritemid, rentalitemid, 1);
                     screen.hideRemoveItem();
                 } catch (ex) {
                     FwFunc.showError(ex);

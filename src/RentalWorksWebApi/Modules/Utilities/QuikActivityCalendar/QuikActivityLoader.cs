@@ -96,8 +96,8 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemcount", modeltype: FwDataTypes.Decimal)]
-        public decimal? Quantity { get; set; }
+        //[FwSqlDataField(column: "itemcount", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "totalqty", modeltype: FwDataTypes.Integer)]
         public int? TotalQuantity { get; set; }

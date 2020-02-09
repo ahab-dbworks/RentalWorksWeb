@@ -1,5 +1,5 @@
-﻿class OrderStatusSalesDetailGrid {
-    Module: string = 'OrderStatusSalesDetailGrid';
+﻿class OrderStatusDetailGrid {
+    Module: string = 'OrderStatusDetailGrid';
     apiurl: string = 'api/v1/orderstatusdetail';
 
     generateRow($control, $generatedtr) {
@@ -14,9 +14,25 @@
             if (isSuspendOut === 'true') {
                 $tr.find('[data-browsedatafield="OutContractId"] div.btnpeek').hide();
             }
+
+            const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
+            const $td = $tr.find('[data-browsedatafield="InventoryId"]');
+            let peekForm;
+            switch (recType) {
+                case 'R':
+                    peekForm = 'RentalInventory';
+                    break;
+                case 'S':
+                    peekForm = 'SalesInventory';
+                    break;
+                case 'P':
+                    peekForm = 'PartsInventory';
+                    break;
+            }
+            $td.attr('data-peekForm', peekForm);
         });
     }
 }
 
-var OrderStatusSalesDetailGridController = new OrderStatusSalesDetailGrid();
+var OrderStatusDetailGridController = new OrderStatusDetailGrid();
 //----------------------------------------------------------------------------------------------

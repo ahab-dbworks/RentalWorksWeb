@@ -31,6 +31,19 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
             public string IncomeAccountDescription { get; set; }
         }
 
+        public class GLTransaction
+        {
+            public string AccountId { get; set; }
+            public string GroupHeading { get; set; }
+            public string AccountNumber { get; set; }
+            public string AccountDescription { get; set; }
+            public decimal? Debit { get; set; }
+            public decimal? Credit { get; set; }
+            public decimal? Amount { get; set; }
+            public int? OrderBy { get; set; }
+        }
+
+
         public class InvoiceTax
         {
             public string TaxOption { get; set; }
@@ -84,6 +97,8 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
 
             public List<InvoiceItem> Items = new List<InvoiceItem>(new InvoiceItem[] { new InvoiceItem() });
             public List<InvoiceTax> Taxes = new List<InvoiceTax>(new InvoiceTax[] { new InvoiceTax() });
+            public List<GLTransaction> GLTransactions = new List<GLTransaction>(new GLTransaction[] { new GLTransaction() });
+
         }
 
         public List<BatchInvoice> Invoices = new List<BatchInvoice>(new BatchInvoice[] { new BatchInvoice() });
@@ -195,6 +210,42 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                         }
                     }
 
+                    i.GLTransactions.Clear();
+                    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                    {
+                        FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                        qry.Add("select *                                       ");
+                        qry.Add(" from  dbo.funcinvoiceglweb(@invoiceid) gl     ");
+                        qry.Add("order by gl.orderby                            ");
+
+                        /*
+                        select gldate, glno, glacctdesc,
+                               debit = sum(debit), credit = sum(credit),
+                               glaccountid, groupheading, orderby,
+                               groupheadingorder
+ from dbo.funcglforinvoice(@invoiceid, null, null)
+ where manual <> 'T'
+ group by gldate, glno, glacctdesc, glaccountid, groupheading, groupheadingorder, orderby
+ */
+
+
+                        qry.AddParameter("@invoiceid", i.InvoiceId);
+                        FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            GLTransaction t = new GLTransaction();
+                            t.AccountId = row[dt.GetColumnNo("glaccountid")].ToString();
+                            t.GroupHeading = row[dt.GetColumnNo("groupheading")].ToString();
+                            t.AccountNumber = row[dt.GetColumnNo("glno")].ToString();
+                            t.AccountDescription = row[dt.GetColumnNo("glacctdesc")].ToString();
+                            t.Debit = FwConvert.ToDecimal(row[dt.GetColumnNo("debit")].ToString());
+                            t.Credit = FwConvert.ToDecimal(row[dt.GetColumnNo("credit")].ToString());
+                            t.Amount = (t.Debit - t.Credit);
+                            t.OrderBy = FwConvert.ToInt32(row[dt.GetColumnNo("orderby")].ToString());
+                            i.GLTransactions.Add(t);
+                        }
+                    }
 
                     i.Taxes.Clear();
                     using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))

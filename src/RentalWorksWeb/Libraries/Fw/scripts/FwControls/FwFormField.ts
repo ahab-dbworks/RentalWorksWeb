@@ -407,7 +407,8 @@ class FwFormFieldClass {
         try {
             value = this.getText($parent, selector);
         } catch (ex) {
-            throw 'FwFormField.getTextByDataField: Unable to get value for datafield: ' + datafield;
+            //throw 'FwFormField.getTextByDataField: Unable to get value for datafield: ' + datafield;
+            throw `FwFormField.getTextByDataField: Unable to get value for datafield: ${datafield}. ${ex}`;  // justin hoffman 02/07/2020 #1852 - bubbling up the exception for visibility
         }
         return value;
     }

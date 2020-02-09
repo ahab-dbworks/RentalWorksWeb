@@ -3,11 +3,35 @@ using FwStandard.SqlServer;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Transfers.TransferOrder
 {
     public static class TransferOrderFunc
     {
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusResponse> AfterSaveTransfer(FwApplicationConfig appConfig, FwUserSession userSession, string id, FwSqlConnection conn = null)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "aftersavetransferweb", appConfig.DatabaseSettings.QueryTimeout))
+            {
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, id);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<bool> ConfirmTransfer(FwApplicationConfig appConfig, FwUserSession userSession, string id)
         {

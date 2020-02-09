@@ -378,7 +378,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="To Time" data-datafield="EstimatedStopTime" style="flex:1 1 84px;"></div>
                         </div>
                         <div class="activity-dates" style="display:none;"></div>
-                        <div class="activity-dates-toggle"></div>
+                        <!--<div class="activity-dates-toggle"></div>-->
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Personnel">
                         <div class="flexrow">
@@ -1408,7 +1408,7 @@ class Quote extends OrderBase {
                   <div class="flexcolumn" style="flex:0 0 200px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manifest Total">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="CurrencyId" data-displayfield="CurrencyCode" style="flex:1 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="" data-displayfield="CurrencyCode" style="flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Total" data-datafield="" data-framedatafield="ReplacementCostTotal" data-formreadonly="true" style="flex:1 1 125px;"></div>

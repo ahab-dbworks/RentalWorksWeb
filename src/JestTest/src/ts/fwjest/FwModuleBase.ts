@@ -759,6 +759,7 @@ export class FwModuleBase {
                         await this.populateRadioGroupField(fieldToPopulate, valueToPopulate);
                         break;
                     case 'validation':
+                    case 'multiselectvalidation':
                         currentValue = await this.getDataFieldText(fieldToPopulate);
                         if (currentValue != "") {
                             await this.populateValidationTextField(fieldToPopulate, "");
@@ -842,6 +843,7 @@ export class FwModuleBase {
                         record[dataField] = value;
                         break;
                     case 'validation':
+                    case 'multiselectvalidation':
                         value = await this.getDataFieldText(dataField);
                         const displayFieldName = await page.$eval(`.fwformfield[data-datafield="${dataField}"]`, el => el.getAttribute('data-displayfield'));
                         const displayValue = await this.getDataFieldValue(dataField);
@@ -965,7 +967,8 @@ export class FwModuleBase {
         if (recordToSelect === undefined) {
             recordToSelect = 1;
         }
-        await page.click(`.fwformfield[data-datafield="${dataField}"] i.btnvalidate`);
+        //await page.click(`.fwformfield[data-datafield="${dataField}"] i.btnvalidate`);
+        await page.click(`.fwformfield[data-datafield="${dataField}"] .btnvalidate`);
         //await ModuleBase.wait(500);  // wait for validation to open
         // wait for the validation to open, then check for errors
         var popUp;
