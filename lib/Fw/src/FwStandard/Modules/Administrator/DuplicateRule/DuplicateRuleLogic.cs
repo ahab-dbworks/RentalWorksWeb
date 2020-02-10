@@ -52,20 +52,32 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
-            if (saveMode == TDataRecordSaveMode.smInsert)
+            if (isValid)
             {
-                SystemRule = false;
-            }
-            else
-            {
-                if (original != null)
+                if (saveMode == TDataRecordSaveMode.smInsert)
                 {
-                    DuplicateRuleLogic orig = (DuplicateRuleLogic)original;
-                    if (orig.SystemRule.GetValueOrDefault(false))
+                    SystemRule = false;
+                }
+                else
+                {
+                    if (original != null)
                     {
-                        isValid = false;
-                        validateMsg = "System Duplicate Rules Cannot be modified.";
+                        DuplicateRuleLogic orig = (DuplicateRuleLogic)original;
+                        if (orig.SystemRule.GetValueOrDefault(false))
+                        {
+                            isValid = false;
+                            validateMsg = "System Duplicate Rules Cannot be modified.";
+                        }
                     }
+                }
+            }
+            if (isValid)
+            {
+                if (((saveMode == TDataRecordSaveMode.smInsert) && (string.IsNullOrEmpty(Fields))) ||
+                    ((saveMode == TDataRecordSaveMode.smUpdate) && (Fields != null) && (Fields.Equals(string.Empty))))
+                {
+                    isValid = false;
+                    validateMsg = "Specify at least one field for this Duplicate Rule.";
                 }
             }
             return isValid;
