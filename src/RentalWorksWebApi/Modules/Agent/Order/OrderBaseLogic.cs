@@ -1179,8 +1179,12 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------
 
 
+        [FwLogicProperty(Id: "JLEETIIuUH1li")]
+        public bool? IsManualSort { get; set; }
+        
 
-        [FwLogicProperty(Id: "HmfP8Yd1BuDm", IsRecordTitle: true, IsReadOnly: true)]
+
+    [FwLogicProperty(Id: "HmfP8Yd1BuDm", IsRecordTitle: true, IsReadOnly: true)]
         public string QuoteOrderTitle { get; set; }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "Mj4GCUlVtnzB")]

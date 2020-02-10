@@ -7,6 +7,7 @@ using WebApi;
 using FwStandard.SqlServer;
 using System.Text;
 using System.Data;
+using WebApi.Modules.HomeControls.DealOrderDetail;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -37,10 +38,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             List<string> itemsToSort = new List<string>();
             List<string> handledOrderItemIds = new List<string>();
+            string orderId = "";
 
             if (request.OrderItemIds.Count > 0)
             {
-                string orderId = AppFunc.GetStringDataAsync(appConfig, "masteritem", "masteritemid", request.OrderItemIds[0], "orderid").Result;
+                orderId = AppFunc.GetStringDataAsync(appConfig, "masteritem", "masteritemid", request.OrderItemIds[0], "orderid").Result;
 
                 //gather sorted detail data for this Order in a single query
                 BrowseRequest itemBrowseRequest = new BrowseRequest();
@@ -187,6 +189,16 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 idCombo.Add(itemId);
                 r2.Ids.Add(idCombo);
             }
+
+            if (!string.IsNullOrEmpty(orderId))
+            {
+                DealOrderDetailRecord o = new DealOrderDetailRecord();
+                o.SetDependencies(appConfig, userSession);
+                o.OrderId = orderId;
+                o.IsManualSort = true;
+                await o.SaveAsync(null);
+            }
+
             SortItemsResponse response = await AppFunc.SortItems(appConfig, userSession, r2);
             return response;
         }
