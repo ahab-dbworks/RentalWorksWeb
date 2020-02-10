@@ -786,13 +786,14 @@ var Constants = {
                 DashboardSettings:         { id: 'lXpomto7a29v',  caption: 'Dashboard Settings', nav: 'module/dashboardsettings', nodetype: 'Module' },
                 InventoryPurchaseUtility:  { id: 'sOxbXBmCPc9y',  caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility', nodetype: 'Module' },
                 InventoryRetireUtility:    { id: 'KIfiUkxPPwRBr', caption: 'Inventory Retire Utility', nav: 'module/inventoryretireutility', nodetype: 'Module' },
+                InventoryUnretireUtility:  { id: 'K1yCLThxh8VX8', caption: 'Inventory Unretire Utility', nav: 'module/inventoryunretireutility', nodetype: 'Module' },
                 InvoiceProcessBatch:       { id: 'I8d2wTNNRmRJa', caption: 'Process Invoices',        nav: 'module/invoiceprocessbatch', nodetype: 'Module' },
                 MigrateOrders:             { id: '8NYSNibMVoO',   caption: 'Migrate Orders',          nav: 'module/migrateorders', nodetype: 'Module' },
                 QuikActivityCalendar:      { id: 'yhYOLhLE92IT',  caption: 'QuikActivity Calendar',   nav: 'module/quikactivitycalendar', nodetype: 'Module' },
                 QuikSearch:                { id: '0q9EEmHe5xXO',  caption: 'QuikSearch',              nav: 'module/quiksearch', nodetype: 'Module' },
                 ReceiptProcessBatch:       { id: 'ThKpggGlj1hqd', caption: 'Process Receipts',        nav: 'module/receiptprocessbatch', nodetype: 'Module' },
                 RefreshGLHistory:          { id: 'UuKB0PPalR9p',  caption: 'Refresh G/L History',     nav: 'module/refreshglhistory', nodetype: 'Module' },
-                VendorInvoiceProcessBatch: { id: 'gRjYvLD2qZ6NR', caption: 'Process Vendor Invoices', nav: 'module/vendorinvoiceprocessbatch', nodetype: 'Module' }
+                VendorInvoiceProcessBatch: { id: 'gRjYvLD2qZ6NR', caption: 'Process Vendor Invoices', nav: 'module/vendorinvoiceprocessbatch', nodetype: 'Module' },
             }
         },
         Warehouse: {
