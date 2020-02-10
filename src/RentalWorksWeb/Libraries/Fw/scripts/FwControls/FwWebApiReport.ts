@@ -509,7 +509,12 @@ abstract class FwWebApiReport {
         //})
         //FwBrowse.init($reportSettingsGridControl);
         //FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
+
         let loadDefaults: boolean = true;
+        //if form data specifies report-defaultsettings false, set loadDefaults to false
+        if (!$form.data('report-defaultsettings')) {
+            loadDefaults = false;
+        }
         FwBrowse.renderGrid({
             nameGrid: 'ReportSettingsGrid',
             gridSecurityId: 'arqFEggnNSrA6',
