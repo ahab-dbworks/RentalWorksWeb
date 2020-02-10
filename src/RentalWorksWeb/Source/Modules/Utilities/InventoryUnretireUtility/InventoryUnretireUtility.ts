@@ -50,7 +50,7 @@ class InventoryUnretireUtility {
                 request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
                 request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
                 request.Notes = FwFormField.getValueByDataField($form, 'Notes');
-                request.RetiredReasonId = FwFormField.getValueByDataField($form, 'RetiredReasonId');
+                request.UnretiredReasonId = FwFormField.getValueByDataField($form, 'UnretiredReasonId');
                 request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
 
                 FwAppData.apiMethod(true, 'POST', 'api/v1/inventoryunretireutility/unretireinventory', request, FwServices.defaultTimeout, response => {
