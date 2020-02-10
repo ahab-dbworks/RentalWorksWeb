@@ -561,7 +561,7 @@ class SearchInterface {
         inventoryTypeRequest.searchfieldoperators = ["<>"];
         inventoryTypeRequest.searchfields = ["Inactive"];
         inventoryTypeRequest.searchfieldvalues = ["T"];
-        inventoryTypeRequest.orderby = "OrderBy";
+        inventoryTypeRequest.orderby = "InventoryTypeOrderBy,OrderBy";
 
         FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, inventoryTypeRequest, FwServices.defaultTimeout, function onSuccess(response) {
             let inventoryTypeIndex,
