@@ -175,8 +175,8 @@
     printOrderStatus($form: any, whichStatusReport: string) {
         try {
             var orderIdText = 'div.fwformfield[data-datafield="OrderId"] .fwformfield-text';
-            var module = this.Module;
             var orderNumber = $form.find(orderIdText).val();
+            var module = this.Module;
             var orderId = FwFormField.getValue($form, `div[data-datafield="OrderId"]`);
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
             if (whichStatusReport === 'Summary') {
@@ -187,11 +187,8 @@
             FwModule.openSubModuleTab($form, $report);
 
             //set order id value on the field
-            FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId);
+            FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderNumber);
             jQuery('.tab.submodule.active').find('.caption').html(`Print Order Status Summary`);
-
-            //set orderno input text
-            $report.find(`${orderIdText}:text`).val(orderNumber);
             //
             var printTab = jQuery('.tab.submodule.active');
             printTab.find('.caption').html(`Print Order Status ` + `${whichStatusReport}`);
