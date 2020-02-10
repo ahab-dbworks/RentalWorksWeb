@@ -36,9 +36,31 @@
                 separateDialCode: true,
                 utilsScript: "https://localhost/rentalworksweb/libraries/fw/scripts/jquery/internationalphone/build/js/utils.js",
                 autoPlaceholder: "off",
+                formatOnDisplay: false,
             }
         );
         // https://github.com/jackocnr/intl-tel-input intlTelInput Documentation
+    }
+    //---------------------------------------------------------------------------------
+    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
+
+    }
+    //---------------------------------------------------------------------------------
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+        const $input = $fwformfield.find('input');
+        if (value) {
+            $fwformfield
+                .attr('data-originalvalue', value)
+                .find('input').intlTelInput('setNumber', value);
+            const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
+            if (countryCode === '1') {
+                $input.inputmask('(999) 999-9999');
+                $input.attr('maxlength', '14');
+            } else {
+                $input.inputmask('remove');
+                $input.attr('maxlength', '10');
+            }
+        }
         $input.on("countrychange", e => {
             const $this = jQuery(e.currentTarget);
             const countryCode = $this.intlTelInput('getSelectedCountryData').dialCode;
@@ -51,29 +73,6 @@
             }
             $this.change();
         });
-    }
-    //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
-
-    }
-    //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
-        const $input = $fwformfield.find('input');
-        const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
-        if (countryCode === '1') {
-            $input.inputmask('(999) 999-9999');
-            $input.attr('maxlength', '14');
-        } else {
-            $input.inputmask('remove');
-            $input.attr('maxlength', '10');
-        }
-        if (value) {
-            $fwformfield
-                .attr('data-originalvalue', value)
-                .find('input').intlTelInput('setNumber', value);
-        } else {
-            console.error(`Value is undefined.`);
-        }
     }
     //---------------------------------------------------------------------------------
     disable($control: JQuery<HTMLElement>): void {
@@ -109,8 +108,6 @@
             }
             const $inputvalue = $input.intlTelInput('setNumber', value);
             if (firechangeevent) $inputvalue.change();
-        } else {
-            console.error(`Value is undefined.`);
         }
     }
     //---------------------------------------------------------------------------------
