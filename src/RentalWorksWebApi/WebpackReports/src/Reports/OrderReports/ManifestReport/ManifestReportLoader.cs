@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace WebApi.Modules.Reports.ManifestReport
 {
-    [FwSqlTable("dbo.getorderstatussummary(@orderid)")]
+    [FwSqlTable("dbo.funcvaluesheetweb(@orderid, @rentalvalue, @salesvalue, @filterby, @mode)")]
     public class ManifestReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------
