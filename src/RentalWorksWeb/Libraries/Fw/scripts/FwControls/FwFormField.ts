@@ -369,11 +369,11 @@ class FwFormFieldClass {
     //---------------------------------------------------------------------------------
     getValueByDataField($parent: JQuery, datafield: string) {
         var selector, value;
-        selector = 'div[data-datafield="' + datafield + '"]';
+        selector = `div[data-datafield="${datafield}"]`;
         try {
             value = this.getValue($parent, selector);
         } catch (ex) {
-            throw 'this.getValueByDataField: Unable to get value for datafield: ' + datafield;
+            throw new Error(`this.getValueByDataField: Unable to get value for datafield: ${datafield}`);
         }
         return value;
     }
