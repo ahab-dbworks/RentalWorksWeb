@@ -351,11 +351,11 @@ var Constants = {
                     }
                 },
                 CompanyDepartmentSettings: {
-                    caption: 'Company Department',
+                    caption: 'Department',
                     id: 'Settings.CompanyDepartmentSettings',
                     nodetype: 'Category',
                     children: {
-                        Department: { id: 'kuYqT9d6TDEg', caption: 'Company Department', nav: 'settings/companydepartmentsettings/companydepartment', nodetype: 'Module', description: '' }
+                        Department: { id: 'kuYqT9d6TDEg', caption: 'Department', nav: 'settings/companydepartmentsettings/companydepartment', nodetype: 'Module', description: '' }
                     }
                 },
                 ContactSettings: {
