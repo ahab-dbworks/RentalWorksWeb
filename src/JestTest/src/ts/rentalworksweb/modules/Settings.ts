@@ -6272,7 +6272,7 @@ export class ActivityType extends SettingsModule {
             {
                 record: {
                     Description: "GlobalScope.TestToken~1.TestToken",
-                    Rename: "GlobalScope.TestToken~1.MediumTestToken",
+                    //Rename: "GlobalScope.TestToken~1.MediumTestToken",
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
