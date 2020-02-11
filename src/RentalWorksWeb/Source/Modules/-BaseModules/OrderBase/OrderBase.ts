@@ -1996,7 +1996,7 @@ class OrderBase {
         });
         // ----------
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
-            let $this = jQuery(this);
+            const $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
             } else {
@@ -2021,10 +2021,12 @@ class OrderBase {
                 defaultActivities['Sales'] = $tr.find('.field[data-browsedatafield="DefaultActivitySales"]').attr('data-originalvalue');
                 defaultActivities['Labor'] = $tr.find('.field[data-browsedatafield="DefaultActivityLabor"]').attr('data-originalvalue');
                 defaultActivities['Miscellaneous'] = $tr.find('.field[data-browsedatafield="DefaultActivityMiscellaneous"]').attr('data-originalvalue');
+                defaultActivities['RentalSale'] = $tr.find('.field[data-browsedatafield="DefaultActivityUsedSale"]').attr('data-originalvalue');
 
                 for (let key in defaultActivities) {
                     FwFormField.setValueByDataField($form, `${key}`, defaultActivities[key] === 'true');
                 }
+                $form.find(`.fwformfield.activity input`).change();
             }
         });
         // ----------
