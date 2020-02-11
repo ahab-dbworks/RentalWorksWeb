@@ -438,6 +438,7 @@ class QuikActivityCalendar {
                 FwAppData.apiMethod(true, 'POST', `api/v1/quikactivitysettings/`, request, FwServices.defaultTimeout, response => {
                     loadSettings(response.Id);
                     $form.find('.add-new-settings').hide();
+                    FwFormField.setValueByDataField($form, 'Description', '');
                 }, ex => {
                     FwFunc.showError(ex);
                 }, $form);
@@ -515,7 +516,7 @@ class QuikActivityCalendar {
                                 <i class="material-icons delete-settings" style="cursor:pointer; max-width:25px; margin:25px 0px;">delete</i>
                             </div>
                             <div class="flexrow add-new-settings" style="display:none;">                            
-                                <div data-control="FwFormField" data-type="text" data-savesetting="false" class="fwcontrol fwformfield" data-caption="Load QuikActivity Settings" data-datafield="Description" style="max-width:250px;"></div>            
+                                <div data-control="FwFormField" data-type="text" data-savesetting="false" class="fwcontrol fwformfield" data-caption="Save QuikActivity Settings As" data-datafield="Description" style="max-width:250px;"></div>            
                                 <i class="material-icons save-settings new" style="cursor:pointer; max-width:25px; margin:25px 0px;">save</i>
                                 <i class="material-icons cancel-settings" style="cursor:pointer; max-width:25px; margin:25px 0px;">highlight_off</i>   
                             </div>
