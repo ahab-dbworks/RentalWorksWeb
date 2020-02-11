@@ -8,13 +8,13 @@ using System.Reflection;
 using FwStandard.Data;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Reports.ManifestReport
+namespace WebApi.Modules.Reports.ManifestSummaryReport
 {
     [FwSqlTable("dbo.funcvaluesheetweb(@orderid, @rentalvalue, @salesvalue, @filterby, @mode)")]
-    public class ManifestReportLoader : AppReportLoader
+    public class ManifestSummaryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------
-        public ManifestReportLoader()
+        public ManifestSummaryReportLoader()
         {
             AfterBrowse += OnAfterBrowse;
         }
@@ -243,7 +243,7 @@ namespace WebApi.Modules.Reports.ManifestReport
             return totalweight;
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(ManifestReportRequest request)
+        public async Task<FwJsonDataTable> RunReportAsync(ManifestSummaryReportRequest request)
         {
             useWithNoLock = false;
             FwJsonDataTable dt = null;
@@ -257,11 +257,11 @@ namespace WebApi.Modules.Reports.ManifestReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddParameter("@orderid", request.OrderId);
-                    select.AddParameter("@rentalvalue", request.rentalValueSelector);
-                    select.AddParameter("@salesvalue", request.salesValueSelector);
-                    select.AddParameter("@filterby", request.manifestFilter);
-                    select.AddParameter("@orderid", request.manifestItems);
+                    select.AddParameter("@orderid", /*request.OrderId*/ "E001572J"); 
+                    select.AddParameter("@rentalvalue", /*request.rentalValueSelector*/ "UNIT VALUE");
+                    select.AddParameter("@salesvalue", /*request.salesValueSelector*/ "SELL PRICE");
+                    select.AddParameter("@filterby", /*request.manifestFilter*/ "ALL");
+                    select.AddParameter("@mode", /*request.manifestItems*/ "SUMMARY");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }

@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/manifestreport/, action: function (match: RegExpExecArray) {
-        return ManifestReportController.getModuleScreen();
+    pattern: /^reports\/manifestsummaryreport/, action: function (match: RegExpExecArray) {
+        return ManifestSummaryReportController.getModuleScreen();
     }
 });
 
-const manifestTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ManifestReportController">
+const manifestSummaryTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ManifestSummaryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -29,10 +29,10 @@ const manifestTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class ManifestReport extends FwWebApiReport {
+class ManifestSummaryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('ManifestReport', 'api/v1/manifestreport', manifestTemplate);
+        super('ManifestSummaryReport', 'api/v1/manifestsummaryreport', manifestSummaryTemplate);
         this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------
@@ -73,5 +73,5 @@ class ManifestReport extends FwWebApiReport {
     }
 };
 
-var ManifestReportController: any = new ManifestReport();
+var ManifestSummaryReportController: any = new ManifestSummaryReport();
 //----------------------------------------------------------------------------------------------

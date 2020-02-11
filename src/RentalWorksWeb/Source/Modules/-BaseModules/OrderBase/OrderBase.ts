@@ -2446,29 +2446,28 @@ class OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
-    printManifest($form: any, whichStatusReport: string) {
+    printManifest($form: any, whichManifestReport: string) {
         try {
             var orderIdText = 'div.fwformfield[data-datafield="OrderId"] .fwformfield-text';
             var module = this.Module;
             var orderNumber = $form.find(orderIdText).val();
             var orderId = FwFormField.getValue($form, `div[data-datafield="OrderId"]`);
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-            if (whichStatusReport === 'Summary') {
-                var $report = OrderStatusSummaryReportController.openForm();
+            if (whichManifestReport === 'Summary') {
+                var $report = ManifestReportController.openForm();
             } else {
-                var $report = OrderStatusDetailReportController.openForm();
+                //var $report = 
             }
             FwModule.openSubModuleTab($form, $report);
 
             //set order id value on the field
-            FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId);
+            FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderNumber);
             jQuery('.tab.submodule.active').find('.caption').html(`Print Order Status Summary`);
 
             //set orderno input text
-            $report.find(`${orderIdText}:text`).val(orderNumber);
             //
             var printTab = jQuery('.tab.submodule.active');
-            printTab.find('.caption').html(`Print Order Status ` + `${whichStatusReport}`);
+            printTab.find('.caption').html(`Print Order Status ` + `${whichManifestReport}`);
             printTab.attr('data-caption', `${module} ${recordTitle}`);
         } catch (ex) {
             FwFunc.showError(ex);
