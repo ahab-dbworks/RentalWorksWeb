@@ -95,7 +95,7 @@ class InventoryUnretireUtility {
             case 'InventoryId':
                 request.uniqueids = {
                     WarehouseId: warehouse.warehouseid,
-                    TrackedBy: 'QUANTITY',
+                    Inactive: 'true',
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
         }
