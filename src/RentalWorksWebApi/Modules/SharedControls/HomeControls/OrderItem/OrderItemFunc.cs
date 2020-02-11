@@ -234,6 +234,17 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             if (inputsValid)
             {
+
+                if (!string.IsNullOrEmpty(orderId))
+                {
+                    DealOrderDetailRecord o = new DealOrderDetailRecord();
+                    o.SetDependencies(appConfig, userSession);
+                    o.OrderId = orderId;
+                    o.IsManualSort = true;
+                    await o.SaveAsync(null);
+                }
+
+
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "insertorderheadingsweb", appConfig.DatabaseSettings.QueryTimeout);
@@ -283,6 +294,16 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             if (inputsValid)
             {
+
+                if (!string.IsNullOrEmpty(orderId))
+                {
+                    DealOrderDetailRecord o = new DealOrderDetailRecord();
+                    o.SetDependencies(appConfig, userSession);
+                    o.OrderId = orderId;
+                    o.IsManualSort = true;
+                    await o.SaveAsync(null);
+                }
+
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "insertordersubtotalsweb", appConfig.DatabaseSettings.QueryTimeout);
@@ -332,6 +353,16 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             if (inputsValid)
             {
+
+                if (!string.IsNullOrEmpty(orderId))
+                {
+                    DealOrderDetailRecord o = new DealOrderDetailRecord();
+                    o.SetDependencies(appConfig, userSession);
+                    o.OrderId = orderId;
+                    o.IsManualSort = true;
+                    await o.SaveAsync(null);
+                }
+
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "insertordertextsweb", appConfig.DatabaseSettings.QueryTimeout);
