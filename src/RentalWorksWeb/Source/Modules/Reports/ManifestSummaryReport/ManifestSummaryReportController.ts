@@ -19,6 +19,9 @@ const manifestSummaryTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order" data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" data-savesetting="false" style="float:left;max-width:300px;"></div>
                 </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="View Items" data-datafield="manifestItems"></div>
+                </div>
               </div>
             </div>
           </div>

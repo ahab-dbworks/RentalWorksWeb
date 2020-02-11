@@ -20,7 +20,7 @@ export class ManifestReport extends WebpackReport {
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<DataTable>(`${apiUrl}/api/v1/manifestreport/runreport`, authorizationHeader, parameters)
+                    Ajax.post<DataTable>(`${apiUrl}/api/v1/manifestsummaryreport/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response);

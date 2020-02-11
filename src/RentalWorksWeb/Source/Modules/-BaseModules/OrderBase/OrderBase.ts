@@ -2448,10 +2448,9 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     printManifest($form: any, whichManifestReport: string) {
         try {
-            var orderIdText = 'div.fwformfield[data-datafield="OrderId"] .fwformfield-text';
             var module = this.Module;
-            var orderNumber = $form.find(orderIdText).val();
-            var orderId = FwFormField.getValue($form, `div[data-datafield="OrderId"]`);
+            var orderIdText = FwFormField.getValueByDataField($form, "OrderNumber");
+            var orderId = FwFormField.getValueByDataField($form, "OrderId");
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
             if (whichManifestReport === 'Summary') {
                 var $report = ManifestSummaryReportController.openForm();
@@ -2459,15 +2458,19 @@ class OrderBase {
                 //var $report = 
             }
             FwModule.openSubModuleTab($form, $report);
+            FwFormField.loadItems($report.find('div[data-datafield="manifestItems"]'), [
+                { value: 'SUMMARY', caption: 'Summary', checked: 'checked' },
+                { value: 'DETAIL', caption: 'Detail' }
+            ]);
             
             //set order id value on the field
-            FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderNumber);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print Order Status Summary`);
+            FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderIdText);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print Manifest`);
 
             //set orderno input text
             //
             var printTab = jQuery('.tab.submodule.active');
-            printTab.find('.caption').html(`Print Order Status ` + `${whichManifestReport}`);
+            printTab.find('.caption').html(`Print Manifest`);
             printTab.attr('data-caption', `${module} ${recordTitle}`);
         } catch (ex) {
             FwFunc.showError(ex);

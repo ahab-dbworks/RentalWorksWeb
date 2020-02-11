@@ -247,7 +247,14 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
         {
             useWithNoLock = false;
             FwJsonDataTable dt = null;
-
+            if (request.manifestItems == "SUMMARY")
+            {
+                request.rentalValueSelector = "REPLACEMENT COST";
+            }
+            else
+            {
+                request.rentalValueSelector = "UNIT VALUE";
+            }
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
@@ -257,11 +264,11 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddParameter("@orderid", /*request.OrderId*/ "E001572J"); 
-                    select.AddParameter("@rentalvalue", /*request.rentalValueSelector*/ "UNIT VALUE");
+                    select.AddParameter("@orderid", request.OrderId); 
+                    select.AddParameter("@rentalvalue", request.rentalValueSelector);
                     select.AddParameter("@salesvalue", /*request.salesValueSelector*/ "SELL PRICE");
                     select.AddParameter("@filterby", /*request.manifestFilter*/ "ALL");
-                    select.AddParameter("@mode", /*request.manifestItems*/ "SUMMARY");
+                    select.AddParameter("@mode", request.manifestItems);
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
