@@ -181,6 +181,14 @@ class OrderBase {
                         }
                     });
                 }
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.insertHeaderLines(e);
@@ -332,6 +340,14 @@ class OrderBase {
                         }
                     });
                 }
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.insertHeaderLines(e);
@@ -477,7 +493,15 @@ class OrderBase {
                             FwFunc.showError(ex);
                         }
                     });
-                }
+                };
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.insertHeaderLines(e);
@@ -621,7 +645,15 @@ class OrderBase {
                             FwFunc.showError(ex);
                         }
                     });
-                }
+                };
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.insertHeaderLines(e);
@@ -752,6 +784,14 @@ class OrderBase {
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -906,7 +946,15 @@ class OrderBase {
                             FwFunc.showError(ex);
                         }
                     });
-                }
+                };
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.insertHeaderLines(e);
@@ -3490,6 +3538,11 @@ class OrderBase {
 
         this.billingPeriodEvents($form);
         this.renderScheduleDateAndTimeSection($form, response);
+
+        //hide "Restore System Sorting" menu option from grids
+        if (!FwFormField.getValueByDataField($form, 'IsManualSort')) {
+            $form.find('.gridmenu .submenu-btn .caption:contains(Restore System Sorting)').parent('.submenu-btn').hide();
+        }
     }
     //----------------------------------------------------------------------------------------------
     billingPeriodEvents($form) {

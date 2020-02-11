@@ -1154,6 +1154,21 @@ class OrderItemGrid {
         await jQuery(document).trigger('click');
     }
     //----------------------------------------------------------------------------------------------
+    async restoreSystemSorting(event: any) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const $form = jQuery(event.currentTarget).closest('.fwform');
+
+        await restoreSorting(FwFormField.getValue2($form.find('[data-type="key"]')));
+        await jQuery(document).trigger('click');
+
+        function restoreSorting(orderId): void {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/cancelmanualsort/${orderId}`, null, FwServices.defaultTimeout,
+                response => {
+                    FwBrowse.search($browse);
+                }, ex => FwFunc.showError(ex), $browse);
+        };
+    }
+    //----------------------------------------------------------------------------------------------
     quikSearch(event) {
         const grid = jQuery(event.currentTarget).parents('[data-control="FwGrid"]');
         let gridInventoryType;

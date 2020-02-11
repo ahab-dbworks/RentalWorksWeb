@@ -203,6 +203,27 @@ namespace WebApi.Modules.HomeControls.OrderItem
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> CancelManualSort(FwApplicationConfig appConfig, FwUserSession userSession, string id)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "cancelmanualsort", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, id);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+
         public static async Task<TSpStatusResponse> InsertHeaderOrderItems(FwApplicationConfig appConfig, FwUserSession userSession, List<OrderItemLogic> items)
         {
             TSpStatusResponse response = new TSpStatusResponse();

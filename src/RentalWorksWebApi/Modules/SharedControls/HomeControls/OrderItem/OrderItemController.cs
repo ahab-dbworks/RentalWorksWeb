@@ -234,6 +234,25 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/cancelmanualsort/id
+        [HttpPost("cancelmanualsort/{id}")]
+        [FwControllerMethod(Id: "HEg0EHlwFNVr", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<TSpStatusResponse>> CancelManualSortAsync([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.CancelManualSort(AppConfig, UserSession, id);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/orderitem/validatebarcode/browse
         //[HttpPost("validatebarcode/browse")]
         //[FwControllerMethod(Id: "xh9fNFxwpvGU", ActionType: FwControllerActionTypes.Browse)]
