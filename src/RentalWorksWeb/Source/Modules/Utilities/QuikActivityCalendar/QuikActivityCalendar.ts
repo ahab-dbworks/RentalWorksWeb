@@ -506,7 +506,7 @@ class QuikActivityCalendar {
                 <div id="quikactivitycalendarform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="QuikActivity Calendar" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="QuikActivityCalendarController">
                   <div class="flexrow" style="max-width:none;">
                     <div class="flexcolumn activitieslist" style="max-width:250px">
-                      <div class="flexrow" style="height:6em;">
+                      <div class="flexrow">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QuikActivity Saved Settings">
                             <div class="flexrow">                            
                                 <div data-control="FwFormField" data-type="select" data-savesetting="false" class="fwcontrol fwformfield" data-caption="QuikActivity Setting" data-datafield="Load" style="max-width:200px;"></div>
