@@ -178,7 +178,7 @@ namespace WebApi.Modules.Inventory.Inventory
                 conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
             }
             FwSqlCommand qry = new FwSqlCommand(conn, "unretireitems", appConfig.DatabaseSettings.QueryTimeout);
-            qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+            qry.AddParameter("@retiredid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
             qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
             qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Input, request.ItemId);
             //qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
@@ -197,9 +197,9 @@ namespace WebApi.Modules.Inventory.Inventory
             //qry.AddParameter("@lostorderid", SqlDbType.NVarChar, ParameterDirection.Input, request.xxxx);
             //qry.AddParameter("@physicalid", SqlDbType.NVarChar, ParameterDirection.Input, request.xxxx);
             //qry.AddParameter("@physicalitemid", SqlDbType.Int, ParameterDirection.Input, request.xxxx);
-            qry.AddParameter("@retiredid", SqlDbType.NVarChar, ParameterDirection.Output);
+            qry.AddParameter("@unretiredid", SqlDbType.NVarChar, ParameterDirection.Output);
             await qry.ExecuteNonQueryAsync();
-            response.UnretiredId = qry.GetParameter("@retiredid").ToString();
+            response.UnretiredId = qry.GetParameter("@unretiredid").ToString();
             response.success = !string.IsNullOrEmpty(response.UnretiredId);
             return response;
         }
