@@ -2454,12 +2454,12 @@ class OrderBase {
             var orderId = FwFormField.getValue($form, `div[data-datafield="OrderId"]`);
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
             if (whichManifestReport === 'Summary') {
-                var $report = ManifestReportController.openForm();
+                var $report = ManifestSummaryReportController.openForm();
             } else {
                 //var $report = 
             }
             FwModule.openSubModuleTab($form, $report);
-
+            
             //set order id value on the field
             FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderNumber);
             jQuery('.tab.submodule.active').find('.caption').html(`Print Order Status Summary`);
