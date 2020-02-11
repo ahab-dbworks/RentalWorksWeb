@@ -15,6 +15,7 @@ export class FwTestUtils {
     static globalScopeRef = FwGlobalScope;
     //-----------------------------------------------------------------------------------------------------------------
     static async authenticate(): Promise<FwLoginResponse> {
+        FwLogging.logInfo(`begin authenticate() method`);
         let loginReponse: FwLoginResponse = new FwLoginResponse();
         loginReponse.success = false;
         loginReponse.errorMessage = "could not login";
@@ -24,31 +25,53 @@ export class FwTestUtils {
         let password = process.env.RW_PASSWORD;
 
         if (myAccount != undefined) {  // if myAccount was established, then use it
+            FwLogging.logInfo(`User~ME established in globalScope.  using: ${myAccount}`);
             login = myAccount.LoginName;
             password = myAccount.Password;
         }
         else {
+            FwLogging.logInfo(`using env variables: ${login}`);
+            FwLogging.logInfo(`About to go to ${baseUrl}/#/login`);
             await page.goto(`${baseUrl}/#/login`);
-            await page.waitForNavigation({timeout: 120000});
+            //FwLogging.logInfo(`About to wait for navigation`);
+            //await page.waitForNavigation({timeout: 120000});
+            //FwLogging.logInfo(`navigation complete`);
         }
 
-        let selector = `.btnLogin`;
-        await page.waitForSelector(selector, { visible: true });
-        await FwTestUtils.sleepAsync(5000); // wait here for the "sign into systemname" button gets its events
-        await page.click(selector);
+        let logoSelector = `.programlogo`;
+        FwLogging.logInfo(`About to wait for selector ${logoSelector}`);
+        await page.waitForSelector(logoSelector, { visible: true });
+        FwLogging.logInfo(`found selector ${logoSelector}`);
 
-        selector = `#email`;
-        let loginFieldHandle = await page.$(selector);
+        let signInSelector = `.default-buttons>.btnLogin`;
+        FwLogging.logInfo(`About to wait for selector ${signInSelector}`);
+        await page.waitForSelector(signInSelector, { visible: true });
+        FwLogging.logInfo(`found selector ${signInSelector}`);
+        await FwTestUtils.sleepAsync(3000); // wait here for the "sign into systemname" button gets its events
+
+        FwLogging.logInfo(`About to click selector ${logoSelector}`);
+        await page.click(logoSelector);
+        await FwTestUtils.sleepAsync(300); 
+        FwLogging.logInfo(`About to click selector ${signInSelector}`);
+        await page.click(signInSelector);
+
+        let userNameSelector = `#email`;
+        FwLogging.logInfo(`About to wait for selector ${userNameSelector}`);
+        let userNameFieldHandle = await page.$(userNameSelector);
+        FwLogging.logInfo(`found selector ${userNameSelector}`);
         await FwTestUtils.sleepAsync(2000); // wait here for the login and password fields to get their events
-        await loginFieldHandle.click();
-        await loginFieldHandle.focus();
+
+        await userNameFieldHandle.click();
+        await userNameFieldHandle.focus();
         // click three times to select all
-        await loginFieldHandle.click({ clickCount: 3 });
-        await loginFieldHandle.press('Backspace');
+        await userNameFieldHandle.click({ clickCount: 3 });
+        await userNameFieldHandle.press('Backspace');
         await page.keyboard.sendCharacter(<string>login);
 
-        selector = `#password`;
-        let passwordFieldHandle = await page.$(selector);
+        let passwordSelector = `#password`;
+        FwLogging.logInfo(`About to wait for selector ${passwordSelector}`);
+        let passwordFieldHandle = await page.$(passwordSelector);
+        FwLogging.logInfo(`found selector ${passwordFieldHandle}`);
         await passwordFieldHandle.click();
         await passwordFieldHandle.focus();
         // click three times to select all
@@ -56,12 +79,17 @@ export class FwTestUtils {
         await passwordFieldHandle.press('Backspace');
         await page.keyboard.sendCharacter(<string>password);
 
-        selector = `.btnLogin`;
-        await page.waitForSelector(selector, { visible: true });
-        await page.click(selector);
+        let loginSelector = `.login-buttons>.btnLogin`;
+        FwLogging.logInfo(`About to wait for selector ${loginSelector}`);
+        await page.waitForSelector(loginSelector, { visible: true });
+        FwLogging.logInfo(`found selector ${loginSelector}`);
+        FwLogging.logInfo(`About to click selector ${loginSelector}`);
+        await page.click(loginSelector);
 
-        selector = `div.fwoverlay`;
-        await page.waitForSelector(selector, { visible: true, timeout: 120000 });
+        let pleaseWaitSelector = `div.fwoverlay`;
+        FwLogging.logInfo(`About to wait for selector ${pleaseWaitSelector}`);
+        await page.waitForSelector(pleaseWaitSelector, { visible: true, timeout: 120000 });
+        FwLogging.logInfo(`found selector ${pleaseWaitSelector}`);
 
         await page.waitForFunction(() => !document.querySelector(`div.fwoverlay`), { polling: 'mutation', timeout: 120000 })
             .then(async done => {
