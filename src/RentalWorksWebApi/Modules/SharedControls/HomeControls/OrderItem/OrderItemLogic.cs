@@ -8,6 +8,7 @@ using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.MasterItem;
 using WebApi.Modules.Home.MasterItemDetail;
 using FwStandard.Models;
+using System;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -31,6 +32,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             AfterSave += OnAfterSave;
 
             orderItem.AfterSave += OnAfterSaveMasterItem;
+            orderItemDetail.AssignPrimaryKeys += OrderItemDetailAssignPrimaryKeys;
 
             AfterDelete += OnAfterDelete;
             UseTransactionToDelete = true;
@@ -1277,21 +1279,24 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
         }
         //------------------------------------------------------------------------------------
+        public void OrderItemDetailAssignPrimaryKeys(object sender, EventArgs e)
+        {
+            ((MasterItemDetailRecord)sender).MasterItemId = GetPrimaryKeys()[0].ToString();
+        }
+        //------------------------------------------------------------------------------------ 
         public virtual void OnAfterSaveMasterItem(object sender, AfterSaveDataRecordEventArgs e)
         {
-            // justin hoffman 01/20/2020
-            // this is really stupid
+            // justin hoffman 02/11/2020
+            // this should probably somehow be a configurable option in the FwBusinessLogic class
             // I am deleting the record that dbwIU_masteritem is giving us, so I can add my own and avoid a unique index error
 
-
-            //if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
-            //{
-            //    MasterItemDetailRecord detailRec = new MasterItemDetailRecord();
-            //    detailRec.SetDependencies(AppConfig, UserSession);
-            //    detailRec.MasterItemId = GetPrimaryKeys()[0].ToString();
-            //    bool b = detailRec.DeleteAsync(e.SqlConnection).Result;
-            //}
-
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                MasterItemDetailRecord detailRec = new MasterItemDetailRecord();
+                detailRec.SetDependencies(AppConfig, UserSession);
+                detailRec.MasterItemId = GetPrimaryKeys()[0].ToString();
+                bool b = detailRec.DeleteAsync(e.SqlConnection).Result;
+            }
         }
         //------------------------------------------------------------------------------------
         public void SaveRolledUpRow(object sender, InsteadOfSaveEventArgs e)
