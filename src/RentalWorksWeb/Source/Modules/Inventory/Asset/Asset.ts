@@ -446,6 +446,7 @@ class RwAsset {
               <div data-type="tab" id="contracttab" class="tab" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
               <div data-type="tab" id="transfertab" class="tab submodule" data-tabpageid="transfertabpage" data-caption="Transfers"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
+              <div data-type="tab" id="retirehistorytab" class="tab submodule" data-submodulename="RetireHistory" data-tabpageid="retirehistorytabpage" data-caption="Retire History"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -703,6 +704,8 @@ class RwAsset {
               <!-- Invoice tab -->
               <div data-type="tabpage" id="invoicetabpage" class="tabpage invoiceSubModule rwSubModule" data-tabid="invoicestab">
               </div>
+              <!-- RETIRE HISTORY SUBMODULE-->
+              <div data-type="tabpage" id="retirehistorytabpage" class="tabpage submodule rwSubModule" data-tabid="retirehistorytab"></div>
               <!-- Notes tab -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
                 <div class="flexpage">
