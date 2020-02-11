@@ -181,7 +181,7 @@ class OrderBase {
                         }
                     });
                 }
-                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.restoreSystemSorting(e);
                     }
@@ -340,7 +340,7 @@ class OrderBase {
                         }
                     });
                 }
-                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.restoreSystemSorting(e);
                     }
@@ -494,7 +494,7 @@ class OrderBase {
                         }
                     });
                 };
-                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.restoreSystemSorting(e);
                     }
@@ -646,7 +646,7 @@ class OrderBase {
                         }
                     });
                 };
-                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.restoreSystemSorting(e);
                     }
@@ -789,7 +789,7 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.restoreSystemSorting(e);
                     }
@@ -947,7 +947,7 @@ class OrderBase {
                         }
                     });
                 };
-                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.restoreSystemSorting(e);
                     }
@@ -3539,10 +3539,11 @@ class OrderBase {
         this.billingPeriodEvents($form);
         this.renderScheduleDateAndTimeSection($form, response);
 
-        //hide "Restore System Sorting" menu option from grids
-        if (!FwFormField.getValueByDataField($form, 'IsManualSort')) {
-            $form.find('.gridmenu .submenu-btn .caption:contains(Restore System Sorting)').parent('.submenu-btn').hide();
-        }
+        //justin hoffman 02/11/2020 - after all, I want this option available even if manual sort is not set. There are other conditions where the user may need to do this.
+        ////hide "Restore System Sorting" menu option from grids
+        //if (!FwFormField.getValueByDataField($form, 'IsManualSort')) {
+        //    $form.find('.gridmenu .submenu-btn .caption:contains(Restore System Sorting)').parent('.submenu-btn').hide();
+        //}
     }
     //----------------------------------------------------------------------------------------------
     billingPeriodEvents($form) {
