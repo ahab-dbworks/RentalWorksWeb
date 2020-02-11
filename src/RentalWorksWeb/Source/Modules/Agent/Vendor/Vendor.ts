@@ -183,7 +183,7 @@ class Vendor {
                 $tab.find('#person_panel').show();
                 break;
             default:
-                throw Error(type + ' is not a known type.');
+                throw new Error(`${type} is not a known type.`);
         }
     }
     //---------------------------------------------------------------------------------
