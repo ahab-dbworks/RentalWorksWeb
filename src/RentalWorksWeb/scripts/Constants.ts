@@ -109,8 +109,9 @@ var Constants = {
                 PurchaseHistory:          { id: '8XKYiQYXj9BKK', caption: 'Purchase History',       nav: 'module/purchasehistory', nodetype: 'Module' },
                 PhysicalInventory:        { id: 'JIuxFUWTLDC6',  caption: 'Physical Inventory',     nav: 'module/physicalinventory', nodetype: 'Module' },
                 RentalInventory:          { id: '3ICuf6pSeBh6G', caption: 'Rental Inventory',       nav: 'module/rentalinventory', nodetype: 'Module' },
-                Repair:                   { id: 't4gfyzLkSZhyc', caption: 'Repair Order',           nav: 'module/repair', nodetype: 'Module' },
-                SalesInventory:           { id: 'ShjGAzM2Pq3kk', caption: 'Sales Inventory',        nav: 'module/salesinventory', nodetype: 'Module' }
+                Repair:                   { id: 't4gfyzLkSZhyc', caption: 'Repair Order', nav: 'module/repair', nodetype: 'Module' },
+                RetiredHistory:           { id: 'I9OA43GGHPNFf', caption: 'Retired History', nav: 'module/retired', nodetype: 'Module' },
+                SalesInventory:           { id: 'ShjGAzM2Pq3kk', caption: 'Sales Inventory',        nav: 'module/salesinventory', nodetype: 'Module' },
             }
         },
         Reports: {

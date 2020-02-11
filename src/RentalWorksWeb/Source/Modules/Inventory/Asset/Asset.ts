@@ -93,7 +93,7 @@ class RwAsset {
         // var $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
-        
+
         return $form;
     };
     //---------------------------------------------------------------------------------------------
@@ -106,6 +106,7 @@ class RwAsset {
         $form.find('.orderSubModule').append(this.openOrderBrowse($form));
         $form.find('.transferSubModule').append(this.openTransferBrowse($form));
         $form.find('.invoiceSubModule').append(this.openInvoiceBrowse($form));
+        $form.find('.retiredSubModule').append(this.openRetiredBrowse($form));
         return $form;
     };
     //---------------------------------------------------------------------------------------------
@@ -117,6 +118,19 @@ class RwAsset {
             request.activeviewfields = TransferOrderController.ActiveViewFields;
             request.uniqueids = {
                 ItemId: itemId
+            };
+        });
+        return $browse;
+    }
+    //---------------------------------------------------------------------------------------------
+    openRetiredBrowse($form) {
+        let itemId = FwFormField.getValueByDataField($form, 'ItemId');
+        let $browse;
+        $browse = RetiredHistoryController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = RetiredHistoryController.ActiveViewFields;
+            request.uniqueids = {
+                RetiredId: itemId
             };
         });
         return $browse;
@@ -145,7 +159,7 @@ class RwAsset {
                 ItemId: itemId
             };
         });
-       
+
         return $browse;
     }
     //---------------------------------------------------------------------------------------------
@@ -163,7 +177,7 @@ class RwAsset {
         jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
         return $browse;
     }
-   //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
@@ -198,7 +212,7 @@ class RwAsset {
                 request.uniqueids = {
                     ItemId: FwFormField.getValueByDataField($form, 'ItemId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
             }
@@ -227,7 +241,7 @@ class RwAsset {
                     ItemId: FwFormField.getValueByDataField($form, 'ItemId')
                 };
             },
-            addGridMenu: (options:IAddGridMenuOptions) => {
+            addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
                 options.hasEdit = false;
@@ -264,7 +278,7 @@ class RwAsset {
                 request.uniqueids = {
                     PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId')
                 };
-            }, 
+            },
             //jh - user cannot sava data here
             //beforeSave: (request: any) => {
             //    request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
@@ -282,7 +296,7 @@ class RwAsset {
                 };
             }
         });
- };
+    };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         const availFor = FwFormField.getValueByDataField($form, 'AvailFor');
@@ -446,7 +460,7 @@ class RwAsset {
               <div data-type="tab" id="contracttab" class="tab" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
               <div data-type="tab" id="transfertab" class="tab submodule" data-tabpageid="transfertabpage" data-caption="Transfers"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
-              <div data-type="tab" id="retirehistorytab" class="tab submodule" data-submodulename="RetireHistory" data-tabpageid="retirehistorytabpage" data-caption="Retire History"></div>
+              <div data-type="tab" id="retiredhistorytab" class="tab submodule" data-submodulename="RetiredHistory" data-tabpageid="retiredhistorytabpage" data-caption="Retired History"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -704,8 +718,8 @@ class RwAsset {
               <!-- Invoice tab -->
               <div data-type="tabpage" id="invoicetabpage" class="tabpage invoiceSubModule rwSubModule" data-tabid="invoicestab">
               </div>
-              <!-- RETIRE HISTORY SUBMODULE-->
-              <div data-type="tabpage" id="retirehistorytabpage" class="tabpage submodule rwSubModule" data-tabid="retirehistorytab"></div>
+              <!-- RETIRED HISTORY SUBMODULE-->
+              <div data-type="tabpage" id="retiredhistorytabpage" class="tabpage submodule rwSubModule retiredSubModule" data-tabid="retiredhistorytab"></div>
               <!-- Notes tab -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
                 <div class="flexpage">
