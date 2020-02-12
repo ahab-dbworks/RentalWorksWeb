@@ -2572,6 +2572,14 @@ class FwBrowseClass {
                                 menuItemCount++;
                             }
                         }
+
+                        const ADD_CONTEXT_MENU_OPTIONS = 'contextmenuoptions';
+                        if (typeof $browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS) === 'function') {
+                            let funcAddContextMenuOptions: ($tr: JQuery) => void = ($browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS));
+                            const $tr = jQuery(this).closest('tr');
+                            funcAddContextMenuOptions($tr);
+                        }
+
                         if (menuItemCount === 0) {
                             FwContextMenu.destroy($contextmenu);
                         }
