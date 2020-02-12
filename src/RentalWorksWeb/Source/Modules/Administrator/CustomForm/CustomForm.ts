@@ -14,7 +14,6 @@ class CustomForm {
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
-
         const $browse = this.openBrowse();
 
         screen.load = () => {
