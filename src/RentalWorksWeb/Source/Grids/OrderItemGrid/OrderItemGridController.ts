@@ -183,6 +183,21 @@ class OrderItemGrid {
                     const $td = $tr.find('[data-validationname="GeneralItemValidation"]');
                     $td.attr('data-peekForm', peekForm);
                 }
+
+                //Option to open up Complete/Kit grid to add items
+                const itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+                if (itemClass === 'C' || itemClass === 'K') {
+                    const $browsecontextmenu = $tr.find('.browsecontextmenu');
+                    $browsecontextmenu.data('contextmenuoptions', $tr => {
+                        FwContextMenu.addMenuItem($browsecontextmenu, `Add to ${itemClass === 'C' ? 'Complete' : 'Kit'}`, () => {
+                            try {
+                                this.renderCompleteKitGridPopup($tr, itemClass);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        });
+                    });
+                }
             });
 
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
@@ -1241,6 +1256,44 @@ class OrderItemGrid {
                 }
                 break;
         }
+    }
+       //----------------------------------------------------------------------------------------------
+    renderCompleteKitGridPopup($tr: JQuery, itemClass: string): void {
+        let HTML: Array<string> = [], $popupHtml, $popup;
+        const type = itemClass === 'C' ? 'Complete' : 'Kit';
+
+        HTML.push(
+            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Add items to ${type} grid.">
+              <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+                <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                <div class="tabpages">
+                  <div class="flexpage">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${type} Grid">
+                     <div class="wideflexrow" style="margin-top:3em;">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="InventoryId" data-datafield="InventoryId"></div>  
+                        <div data-control="FwGrid" data-grid="Inventory${type}Grid" data-securitycaption=""></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`);
+        $popupHtml = HTML.join('');
+        $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
+        FwPopup.showPopup($popup);
+
+        // Close modal
+        $popup.find('.close-modal').one('click', e => {
+            FwPopup.destroyPopup($popup);
+            jQuery(document).find('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        });
+        // Close modal if click outside
+        jQuery(document).on('click', e => {
+            if (!jQuery(e.target).closest('.popup').length) {
+                FwPopup.destroyPopup($popup);
+            }
+        });
     }
 }
 
