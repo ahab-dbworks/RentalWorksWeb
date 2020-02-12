@@ -227,6 +227,8 @@ namespace WebApi.Modules.Reports.OrderStatusSummaryReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
+            string[] totalfields = new string[] { "OutQuantity" };
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalfields);
 
             return dt;
         }

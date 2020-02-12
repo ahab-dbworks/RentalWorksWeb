@@ -25,24 +25,6 @@
 </div>
 <div class="rpt-flexrow" style="margin-top:25px;">
     <table>
-        <thead>
-            <tr>
-                <td colspan="8" class="section-header">Items&nbsp;</td>
-            </tr>
-            <tr>
-                <td></td>
-                <th>I-Code</th>
-                <th>Description</th>
-                <th>Type</th>
-                <th class="number">Ordered</th>
-                <th class="number">Staged</th>
-                <th class="number">Out</th>
-                <th class="number">In</th>
-                <th class="number">Still Out</th>
-                <th>Warehouse
-                <th>
-            </tr>
-        </thead>
         {{#each Items}}
         {{#ifEquals RowType "RecTypeDisplayheader"}}
         <thead data-rowtype="{{RowType}}">
@@ -53,7 +35,6 @@
                 <td></td>
                 <th>I-Code</th>
                 <th>Description</th>
-                <th>Type</th>
                 <th class="number">Ordered</th>
                 <th class="number">Staged</th>
                 <th class="number">Out</th>
@@ -70,7 +51,6 @@
                 <td></td>
                 <td data-itemclass="{{ItemClass}}">{{ICode}}</td>
                 <td data-itemclass="{{ItemClass}}">{{OrderDescription}}</td>
-                <td>{{RecTypeDisplay}}</td>
                 <td class="number">{{QuantityOrdered}}</td>
                 <td class="number">{{StageQuantity}}</td>
                 <td class="number">{{OutQuantity}}</td>
@@ -80,13 +60,13 @@
             </tr>
         </tbody>
         {{/ifEquals}}
-        {{#ifEquals RowType "RecTypeDisplayfooter"}}
+        <!--{{#ifEquals RowType "RecTypeDisplayfooter"}}
         <tr>
             <td colspan="4"></td>
             <td class="display-footer">{{RecTypeDisplay}}&nbsp;</td>
             <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
         </tr>
-        {{/ifEquals}}
+        {{/ifEquals}}-->
         {{#ifEquals RowType "grandtotal"}}
         <tr>
             <td colspan="4"></td>
