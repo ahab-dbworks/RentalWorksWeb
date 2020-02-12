@@ -688,6 +688,7 @@
     <TypeScriptCompile Include="Source\Modules\Agent\Order\SearchInterface.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\Repair\Repair.ts" />
+    <Content Include="Source\Modules\Agent\Order\Order.css" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.js" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetBrowse.htm" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetForm.htm" />

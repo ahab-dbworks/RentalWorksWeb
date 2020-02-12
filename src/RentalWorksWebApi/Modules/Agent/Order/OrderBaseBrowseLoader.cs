@@ -156,6 +156,9 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "billperiodtype", modeltype: FwDataTypes.Text)]
         public string BillingCycleType { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "unassignedsubs", modeltype: FwDataTypes.Boolean)]
+        public bool? UnassignedSubs { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string NumberColor
         {
@@ -195,6 +198,13 @@ namespace WebApi.Modules.Agent.Order
         public string CurrencyColor
         {
             get { return getCurrencyColor(CurrencyId, OfficeLocationDefaultCurrencyId); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string UnassignedSubsColor
+        {
+            get { return getUnassignedSubsColor(UnassignedSubs); }
             set { }
         }
         //------------------------------------------------------------------------------------
@@ -346,6 +356,7 @@ namespace WebApi.Modules.Agent.Order
                         row[dt.GetColumnNo("PoNumberColor")] = getPoNumberColor(FwConvert.ToBoolean(row[dt.GetColumnNo("NoCharge")].ToString()));
                         row[dt.GetColumnNo("StatusColor")] = getStatusColor(row[dt.GetColumnNo("Type")].ToString(), row[dt.GetColumnNo("Status")].ToString(), row[dt.GetColumnNo("DealStatusType")].ToString(), row[dt.GetColumnNo("CustomerStatusType")].ToString());
                         row[dt.GetColumnNo("CurrencyColor")] = getCurrencyColor(row[dt.GetColumnNo("CurrencyId")].ToString(), row[dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString());
+                        row[dt.GetColumnNo("UnassignedSubsColor")] = getUnassignedSubsColor(FwConvert.ToBoolean(row[dt.GetColumnNo("UnassignedSubs")].ToString()));
                     }
                 }
             }
@@ -423,6 +434,16 @@ namespace WebApi.Modules.Agent.Order
             if ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationCurrencyId)))
             {
                 color = RwGlobals.FOREIGN_CURRENCY_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getUnassignedSubsColor(bool? unassignedsubs)
+        {
+            string color = null;
+            if (unassignedsubs.GetValueOrDefault(false))
+            {
+                color = RwGlobals.SUB_COLOR;
             }
             return color;
         }
