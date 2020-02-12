@@ -100,7 +100,7 @@ export class CustomForm extends AdminModule {
     constructor() {
         super();
         this.moduleName = 'CustomForm';
-        this.moduleId = '11txpzVKVGi2';
+        this.moduleId = 'xfpeg2SVZW';
         this.moduleCaption = 'Custom Form';
 
         this.defaultNewRecordToExpect = {
