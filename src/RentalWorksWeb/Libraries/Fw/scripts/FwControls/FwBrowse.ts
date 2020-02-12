@@ -3840,9 +3840,10 @@ class FwBrowseClass {
                 $confirmation.find('.all-records input').prop('checked', false);
             });
 
-            let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
             $yes.on('click', () => {
+                let userDefinedNumberofRows;
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
+
                 request.pagesize = userDefinedNumberofRows;
                 let includeIdColumns: boolean;
                 $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
