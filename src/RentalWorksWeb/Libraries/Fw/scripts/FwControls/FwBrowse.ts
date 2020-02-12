@@ -460,14 +460,12 @@ class FwBrowseClass {
                 try {
                     if ($control.attr('data-enabled') != 'false') {
                         const $sort = $control.find('td.manual-sort');
-                        const $newBtn = $control.find('.buttonbar [data-type="NewButton"]');
                         $sort.toggle();
                         if ($sort.is(':visible')) {
                             $control.addClass('sort-mode');
-                            $newBtn.hide();
                         } else {
                             $control.removeClass('sort-mode');
-                            $newBtn.show();
+
                         }
                     }
                 } catch (ex) {
