@@ -134,6 +134,25 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderitem/insertintocomplete
+        [HttpPost("insertintocomplete")]
+        [FwControllerMethod(Id: "BwBwNt1RtgwE")]
+        public async Task<ActionResult<TSpStatusResponse>> InsertIntoCompleteAsync([FromBody]InsertIntoCompleteRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.InsertIntoComplete(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/orderitem/A0000001
         [HttpDelete("{id}")]
         [FwControllerMethod(Id: "042zT8NJ4EW8", ActionType: FwControllerActionTypes.Delete)]

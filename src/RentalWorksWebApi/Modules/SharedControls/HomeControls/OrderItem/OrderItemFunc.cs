@@ -24,6 +24,13 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public bool ManuallySortedAccesssory { get; set; }
     }
 
+    public class InsertIntoCompleteRequest
+    {
+        public string OrderId { get; set; }
+        public string BelowInventoryId { get; set; }
+        public string OrderItemId { get; set; }
+    }
+
     public static class OrderItemFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -223,7 +230,24 @@ namespace WebApi.Modules.HomeControls.OrderItem
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> InsertIntoComplete(FwApplicationConfig appConfig, FwUserSession userSession, InsertIntoCompleteRequest request)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
 
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "insertintocomplete", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@belowmasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.BelowInventoryId);
+                qry.AddParameter("@completeid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderItemId);
+                qry.AddParameter("@newmasteritemid", SqlDbType.Int, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.msg = qry.GetParameter("@newmasteritemid").ToString();
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
         public static async Task<TSpStatusResponse> InsertHeaderOrderItems(FwApplicationConfig appConfig, FwUserSession userSession, List<OrderItemLogic> items)
         {
             TSpStatusResponse response = new TSpStatusResponse();
