@@ -46,10 +46,10 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "row_number() over(partition by rectype order by primaryitemorder)", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(calculatedColumnSql: "row_number() over(partition by rectype order by primaryitemorder, itemorder)", modeltype: FwDataTypes.Integer)]
         public int? RowNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "row_number() over(order by primaryitemorder)", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(calculatedColumnSql: "row_number() over(order by primaryitemorder, itemorder)", modeltype: FwDataTypes.Integer)]
         public int? RowNumberCombined { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
@@ -885,11 +885,13 @@ namespace WebApi.Modules.HomeControls.OrderItem
             OverrideFromClause = " from " + tableName + " [t] with (nolock) ";
             if (_hasSubTotal)
             {
+                string recType = GetUniqueIdAsString("RecType", request) ?? "";
                 tableName = "masteritem";
                 OverrideFromClause +=
                        " outer apply (select nextgroupheaderitemorder = (case when (t.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') then '' else min(v2.itemorder) end)" +
                        "               from  " + tableName + " v2 with (nolock)" +
                        "               where v2.orderid   = t.orderid" +
+                       (string.IsNullOrEmpty(recType) ? "" : "    and   v2.rectype   = t.rectype") +
                        "               and   v2.itemorder > t.itemorder" +
                        "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') groupheader" +
                        " outer apply (select nextsubtotalitemorder = (case " +
@@ -898,6 +900,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                        "                                                 else                                                                 min(v2.itemorder) end)" +
                        "               from  " + tableName + " v2" +
                        "               where v2.orderid   = t.orderid" +
+                       (string.IsNullOrEmpty(recType) ? "" : "    and   v2.rectype   = t.rectype") +
                        "               and   v2.itemorder > t.itemorder" +
                        "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') subtotal";
             }
@@ -907,9 +910,6 @@ namespace WebApi.Modules.HomeControls.OrderItem
                        "outer apply(select nextgroupheaderitemorder = null) groupheader " +
                        "outer apply(select nextsubtotalitemorder = null) subtotal";
             }
-
-
-
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();

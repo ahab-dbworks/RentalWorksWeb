@@ -939,6 +939,9 @@ namespace WebApi.Modules.Agent.Order
         public decimal? TotalReplacementCost { get; set; }
         //------------------------------------------------------------------------------------
 
+        [FwSqlDataField(column: "manualsort", modeltype: FwDataTypes.Boolean)]
+        public bool? IsManualSort { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 

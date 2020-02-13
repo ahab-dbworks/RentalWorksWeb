@@ -89,8 +89,8 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwLogicProperty(Id: "UlZIuzD8wTj30", IsReadOnly: true)]
         public string Description { get; set; }
 
-        [FwLogicProperty(Id: "GUScPBh7s8htg", IsReadOnly: true)]
-        public decimal? Quantity { get; set; }
+        //[FwLogicProperty(Id: "GUScPBh7s8htg", IsReadOnly: true)]
+        //public decimal? Quantity { get; set; }
 
         [FwLogicProperty(Id: "ufJVOCOok1nOK", IsReadOnly: true)]
         public int? TotalQuantity { get; set; }

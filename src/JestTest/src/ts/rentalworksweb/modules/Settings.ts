@@ -250,7 +250,7 @@ export class Department extends SettingsModule {
         super();
         this.moduleName = 'Department';
         this.moduleId = 'A6CC5F50-F9DE-4158-B627-6FDC1044C22A';
-        this.moduleCaption = 'Company Department';
+        this.moduleCaption = 'Department';
 
 
         this.defaultNewRecordToExpect = {
@@ -6272,7 +6272,7 @@ export class ActivityType extends SettingsModule {
             {
                 record: {
                     Description: "GlobalScope.TestToken~1.TestToken",
-                    Rename: "GlobalScope.TestToken~1.MediumTestToken",
+                    //Rename: "GlobalScope.TestToken~1.MediumTestToken",
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",

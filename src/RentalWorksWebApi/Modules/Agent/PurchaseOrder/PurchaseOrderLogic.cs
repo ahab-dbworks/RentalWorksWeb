@@ -971,7 +971,13 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 purchaseOrder.TaxId = tax.TaxId;
                 int i = purchaseOrder.SaveAsync(null, e.SqlConnection).Result;
             }
-            bool b2 = purchaseOrder.UpdatePoStatus(e.SqlConnection).Result;
+            //bool b2 = purchaseOrder.UpdatePoStatus(e.SqlConnection).Result;
+
+            //after save - do work in the database
+            {
+                TSpStatusResponse r = PurchaseOrderFunc.AfterSavePurchaseOrder(AppConfig, UserSession, this.GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
+            }
+
         }
         //------------------------------------------------------------------------------------
         public void OnBeforeSavePurchaseOrder(object sender, BeforeSaveDataRecordEventArgs e)

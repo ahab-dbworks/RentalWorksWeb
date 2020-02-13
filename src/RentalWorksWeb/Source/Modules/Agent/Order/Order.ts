@@ -451,6 +451,12 @@ class Order extends OrderBase {
         } else {
             worksheetTab.hide();
         }
+
+        if (response.UnassignedSubs) {
+          $form.find('.unassignedsubs').show();
+        } else {
+          $form.find('.unassignedsubs').hide();
+        }
     }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -479,7 +485,7 @@ class Order extends OrderBase {
             <div class="field" data-caption="Description" data-datafield="Description" data-cellcolor="DescriptionColor" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="250px" data-visible="true">
-            <div class="field" data-caption="Deal" data-datafield="Deal" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Deal" data-datafield="Deal" data-cellcolor="UnassignedSubsColor" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
             <div class="field" data-caption="Deal No." data-datafield="DealNumber" data-browsedatatype="text" data-sort="off"></div>
@@ -508,7 +514,7 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-        <div id="orderform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderController">
+        <div id="orderform" class="fwcontrol fwcontainer fwform orderform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderController">
           <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield OrderId" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="OrderId"></div>
           <div id="orderform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
@@ -579,6 +585,7 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Labor" data-datafield="DisableEditingLaborRate" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Used Sale" data-datafield="DisableEditingUsedSaleRate" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Loss and Damage" data-datafield="DisableEditingLossAndDamageRate" style="float:left;width:150px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Is Manual Sort" data-datafield="IsManualSort"></div>
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity">
@@ -632,7 +639,7 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="To Time" data-datafield="EstimatedStopTime" style="flex:1 1 84px;"></div>
                         </div>
                         <div class="activity-dates" style="display:none;"></div>
-                        <div class="activity-dates-toggle"></div>
+                        <!--<div class="activity-dates-toggle"></div>-->
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Personnel">
                         <div class="flexrow">
@@ -678,6 +685,7 @@ class Order extends OrderBase {
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As of" data-datafield="StatusDate" data-enabled="false" style="flex:1 1 100px;"></div>
                         </div>
+                        <div class="unassignedsubs">Unassigned Subs</div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PO">
                         <div class="flexrow">

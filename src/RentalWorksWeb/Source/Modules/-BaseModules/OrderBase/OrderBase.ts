@@ -181,6 +181,14 @@ class OrderBase {
                         }
                     });
                 }
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.insertHeaderLines(e);
@@ -332,6 +340,14 @@ class OrderBase {
                         }
                     });
                 }
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.insertHeaderLines(e);
@@ -477,7 +493,15 @@ class OrderBase {
                             FwFunc.showError(ex);
                         }
                     });
-                }
+                };
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.insertHeaderLines(e);
@@ -621,7 +645,15 @@ class OrderBase {
                             FwFunc.showError(ex);
                         }
                     });
-                }
+                };
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.insertHeaderLines(e);
@@ -752,6 +784,14 @@ class OrderBase {
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -906,7 +946,15 @@ class OrderBase {
                             FwFunc.showError(ex);
                         }
                     });
-                }
+                };
+                FwMenu.addSubMenuItem($optionsgroup, 'Restore System Sorting', 'HEg0EHlwFNVr', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.restoreSystemSorting(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.insertHeaderLines(e);
@@ -1370,13 +1418,19 @@ class OrderBase {
         });
     }
     //----------------------------------------------------------------------------------------------
-    renderFrames($form: any, cachedId?, period?) {
+    //renderFrames($form: any, cachedId?, period?) {
+    loadProfitAndLoss($form: any) {
+
+        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+        //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+
+
         FwFormField.disable($form.find('.frame'));
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         $form.find('.frame input').css('width', '100%');
-        if (typeof cachedId !== 'undefined' && cachedId !== null) {
-            id = cachedId;
-        }
+        //if (typeof cachedId !== 'undefined' && cachedId !== null) {
+        //    id = cachedId;
+        //}
         if (id !== '') {
             if (typeof period !== 'undefined') {
                 id = `${id}~${period}`
@@ -1990,7 +2044,7 @@ class OrderBase {
         });
         // ----------
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
-            let $this = jQuery(this);
+            const $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
             } else {
@@ -2015,10 +2069,12 @@ class OrderBase {
                 defaultActivities['Sales'] = $tr.find('.field[data-browsedatafield="DefaultActivitySales"]').attr('data-originalvalue');
                 defaultActivities['Labor'] = $tr.find('.field[data-browsedatafield="DefaultActivityLabor"]').attr('data-originalvalue');
                 defaultActivities['Miscellaneous'] = $tr.find('.field[data-browsedatafield="DefaultActivityMiscellaneous"]').attr('data-originalvalue');
+                defaultActivities['RentalSale'] = $tr.find('.field[data-browsedatafield="DefaultActivityUsedSale"]').attr('data-originalvalue');
 
                 for (let key in defaultActivities) {
                     FwFormField.setValueByDataField($form, `${key}`, defaultActivities[key] === 'true');
                 }
+                $form.find(`.fwformfield.activity input`).change();
             }
         });
         // ----------
@@ -2225,8 +2281,9 @@ class OrderBase {
 
         //profit & loss toggle buttons
         $form.find('.profit-loss-total input').off('change').on('change', e => {
-            const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
-            this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+            //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+            //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+            this.loadProfitAndLoss($form);
         });
 
         //SpecifyBillingDatesByType and LockBillingDates checkbox events
@@ -2247,7 +2304,7 @@ class OrderBase {
             if ($form.attr('data-mode') === 'NEW') {
                 e.stopImmediatePropagation();
                 FwNotification.renderNotification('WARNING', 'Save Record first.');
-            } 
+            }
         });
     };
     //----------------------------------------------------------------------------------------------
@@ -3238,7 +3295,7 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     afterLoad($form, response) {
         const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
-        this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+        //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         this.applyOrderTypeAndRateTypeToForm($form);
 
         // disable/enable PO Number and Amount based on PO Pending
@@ -3367,7 +3424,11 @@ class OrderBase {
         $form.on('click', '[data-type="tab"]', e => {
             const $tab = jQuery(e.currentTarget);
             const tabPageId = $tab.attr('data-tabpageid');
-            if ($tab.hasClass('audittab') == false) {
+
+            if ($tab.hasClass('profitlosstab') == true) {
+                this.loadProfitAndLoss($form);
+            }
+            else if ($tab.hasClass('audittab') == false) {
                 const $gridControls = $form.find(`#${tabPageId} [data-type="Grid"]`);
                 if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
                     for (let i = 0; i < $gridControls.length; i++) {
@@ -3387,8 +3448,8 @@ class OrderBase {
                         FwBrowse.search($browseControl);
                     }
                 }
+                $tab.addClass('tabGridsLoaded');
             }
-            $tab.addClass('tabGridsLoaded');
         });
 
         // disable the Activity checkboxes if Items exist
@@ -3477,6 +3538,12 @@ class OrderBase {
 
         this.billingPeriodEvents($form);
         this.renderScheduleDateAndTimeSection($form, response);
+
+        //justin hoffman 02/11/2020 - after all, I want this option available even if manual sort is not set. There are other conditions where the user may need to do this.
+        ////hide "Restore System Sorting" menu option from grids
+        //if (!FwFormField.getValueByDataField($form, 'IsManualSort')) {
+        //    $form.find('.gridmenu .submenu-btn .caption:contains(Restore System Sorting)').parent('.submenu-btn').hide();
+        //}
     }
     //----------------------------------------------------------------------------------------------
     billingPeriodEvents($form) {
@@ -3511,9 +3578,8 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     renderScheduleDateAndTimeSection($form, response) {
-        //this is being called from FwModule > afterLoadForm in order to get the ActivityDatesAndTimes fields
-        const dates = `<span class="modify" style="cursor:pointer; color:blue; margin-left:20px; text-decoration:underline;">Show All Dates and Times</span>`;
-        $form.find('.activity-dates-toggle').empty().append(dates);
+        //const dates = `<span class="modify" style="cursor:pointer; color:blue; margin-left:20px; text-decoration:underline;">Show All Dates and Times</span>`;
+        //$form.find('.activity-dates-toggle').empty().append(dates);
         $form.find('.activity-dates').empty();
         const activityDatesAndTimes = response.ActivityDatesAndTimes;
         for (let i = 0; i < activityDatesAndTimes.length; i++) {
@@ -3550,18 +3616,23 @@ class OrderBase {
             }
         });
 
-        //activity dates
-        $form.find('.modify').off().on('click', e => {
-            const scheduleFields = $form.find('.schedule-date-fields');
-            const activityDateFields = $form.find('.activity-dates');
-            if (scheduleFields.css('display') === 'none') {
-                scheduleFields.show();
-                activityDateFields.hide();
-            } else {
-                scheduleFields.hide();
-                activityDateFields.show();
-            }
-        });
+        ////activity dates
+        //$form.find('.modify').off().on('click', e => {
+        //    const scheduleFields = $form.find('.schedule-date-fields');
+        //    const activityDateFields = $form.find('.activity-dates');
+        //    if (scheduleFields.css('display') === 'none') {
+        //        scheduleFields.show();
+        //        activityDateFields.hide();
+        //    } else {
+        //        scheduleFields.hide();
+        //        activityDateFields.show();
+        //    }
+        //});
+
+        const scheduleFields = $form.find('.schedule-date-fields');
+        const activityDateFields = $form.find('.activity-dates');
+        scheduleFields.hide();
+        activityDateFields.show();
 
         $form.data('beforesave', request => {
             if ($form.find('.activity-dates:visible').length > 0) {
@@ -3602,7 +3673,7 @@ class OrderBase {
         }
         this.renderGrids($form);
         const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
-        this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+        //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         //this.dynamicColumns($form);
         this.applyOrderTypeAndRateTypeToForm($form);
         $activeTab.click();

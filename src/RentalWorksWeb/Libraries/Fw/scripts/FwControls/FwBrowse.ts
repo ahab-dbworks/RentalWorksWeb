@@ -3868,6 +3868,7 @@ class FwBrowseClass {
 
             let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
             $yes.on('click', () => {
+                const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Downloading Excel Workbook...');
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
                 request.pagesize = userDefinedNumberofRows;
                 let includeIdColumns: boolean;
@@ -3888,13 +3889,13 @@ class FwBrowseClass {
                         jQuery('#application').append($iframe);
                         setTimeout(function () {
                             $iframe.remove();
+                            FwNotification.closeNotification($notification);
                         }, 500);
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 }, null, null);
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
             });
         } else {
             FwNotification.renderNotification('WARNING', 'There are no records to export.');

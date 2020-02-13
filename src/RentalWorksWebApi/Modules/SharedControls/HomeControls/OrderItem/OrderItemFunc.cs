@@ -7,6 +7,7 @@ using WebApi;
 using FwStandard.SqlServer;
 using System.Text;
 using System.Data;
+using WebApi.Modules.HomeControls.DealOrderDetail;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -37,10 +38,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             List<string> itemsToSort = new List<string>();
             List<string> handledOrderItemIds = new List<string>();
+            string orderId = "";
 
             if (request.OrderItemIds.Count > 0)
             {
-                string orderId = AppFunc.GetStringDataAsync(appConfig, "masteritem", "masteritemid", request.OrderItemIds[0], "orderid").Result;
+                orderId = AppFunc.GetStringDataAsync(appConfig, "masteritem", "masteritemid", request.OrderItemIds[0], "orderid").Result;
 
                 //gather sorted detail data for this Order in a single query
                 BrowseRequest itemBrowseRequest = new BrowseRequest();
@@ -187,10 +189,41 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 idCombo.Add(itemId);
                 r2.Ids.Add(idCombo);
             }
+
+            if (!string.IsNullOrEmpty(orderId))
+            {
+                DealOrderDetailRecord o = new DealOrderDetailRecord();
+                o.SetDependencies(appConfig, userSession);
+                o.OrderId = orderId;
+                o.IsManualSort = true;
+                await o.SaveAsync(null);
+            }
+
             SortItemsResponse response = await AppFunc.SortItems(appConfig, userSession, r2);
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> CancelManualSort(FwApplicationConfig appConfig, FwUserSession userSession, string id)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "cancelmanualsort", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, id);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+
         public static async Task<TSpStatusResponse> InsertHeaderOrderItems(FwApplicationConfig appConfig, FwUserSession userSession, List<OrderItemLogic> items)
         {
             TSpStatusResponse response = new TSpStatusResponse();
@@ -222,6 +255,17 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             if (inputsValid)
             {
+
+                if (!string.IsNullOrEmpty(orderId))
+                {
+                    DealOrderDetailRecord o = new DealOrderDetailRecord();
+                    o.SetDependencies(appConfig, userSession);
+                    o.OrderId = orderId;
+                    o.IsManualSort = true;
+                    await o.SaveAsync(null);
+                }
+
+
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "insertorderheadingsweb", appConfig.DatabaseSettings.QueryTimeout);
@@ -271,6 +315,16 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             if (inputsValid)
             {
+
+                if (!string.IsNullOrEmpty(orderId))
+                {
+                    DealOrderDetailRecord o = new DealOrderDetailRecord();
+                    o.SetDependencies(appConfig, userSession);
+                    o.OrderId = orderId;
+                    o.IsManualSort = true;
+                    await o.SaveAsync(null);
+                }
+
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "insertordersubtotalsweb", appConfig.DatabaseSettings.QueryTimeout);
@@ -320,6 +374,16 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             if (inputsValid)
             {
+
+                if (!string.IsNullOrEmpty(orderId))
+                {
+                    DealOrderDetailRecord o = new DealOrderDetailRecord();
+                    o.SetDependencies(appConfig, userSession);
+                    o.OrderId = orderId;
+                    o.IsManualSort = true;
+                    await o.SaveAsync(null);
+                }
+
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "insertordertextsweb", appConfig.DatabaseSettings.QueryTimeout);

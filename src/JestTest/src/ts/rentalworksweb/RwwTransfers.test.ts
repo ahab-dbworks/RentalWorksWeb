@@ -69,6 +69,8 @@ export class TransfersTest extends BaseTest {
         await module.populateFormWithRecord(record.record);
         await module.saveRecord(true);
 
+        await ModuleBase.wait(3000);  // wait for the tabs to get their click events
+
         if (record.gridRecords) {
             if (module.grids) {
                 for (let grid of module.grids) {

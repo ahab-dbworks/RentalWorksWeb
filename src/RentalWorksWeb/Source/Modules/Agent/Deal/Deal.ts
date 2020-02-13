@@ -86,6 +86,19 @@ class Deal {
             { value: 'SHIP', caption: 'Customer Ship' },
             { value: 'PICK UP', caption: 'Pick Up from Customer' }
         ]);
+        if (typeof parentmoduleinfo !== 'undefined') {
+            FwFormField.setValueByDataField($form, 'CustomerId', parentmoduleinfo.CustomerId, parentmoduleinfo.Customer);
+            FwFormField.setValueByDataField($form, 'Address1', parentmoduleinfo.Address1);
+            FwFormField.setValueByDataField($form, 'Address2', parentmoduleinfo.Address2);
+            FwFormField.setValueByDataField($form, 'City', parentmoduleinfo.City);
+            FwFormField.setValueByDataField($form, 'State', parentmoduleinfo.State);
+            FwFormField.setValueByDataField($form, 'ZipCode', parentmoduleinfo.ZipCode);
+            FwFormField.setValueByDataField($form, 'CountryId', parentmoduleinfo.CountryId, parentmoduleinfo.Country);
+            FwFormField.setValueByDataField($form, 'Phone', parentmoduleinfo.Phone);
+            FwFormField.setValueByDataField($form, 'Fax', parentmoduleinfo.Fax);
+            FwFormField.setValueByDataField($form, 'PhoneTollFree', parentmoduleinfo.PhoneTollFree);
+            FwFormField.setValueByDataField($form, 'PhoneOther', parentmoduleinfo.OtherPhone);
+        }
 
         if (mode === 'NEW') {
             FwFormField.setValueByDataField($form, 'UseCustomerDiscount', 'true');
@@ -825,40 +838,44 @@ class Deal {
     //----------------------------------------------------------------------------------------------
     customerChange($form: any): void {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, response => {
-            // Deal tab
-            FwFormField.setValueByDataField($form, 'Address1', response.Address1);
-            FwFormField.setValueByDataField($form, 'Address2', response.Address2);
-            FwFormField.setValueByDataField($form, 'City', response.City);
-            FwFormField.setValueByDataField($form, 'State', response.State);
-            FwFormField.setValueByDataField($form, 'ZipCode', response.ZipCode);
-            FwFormField.setValueByDataField($form, 'Phone', response.Phone);
-            FwFormField.setValueByDataField($form, 'PhoneTollFree', response.PhoneTollFree);
-            FwFormField.setValueByDataField($form, 'Fax', response.Fax);
-            FwFormField.setValueByDataField($form, 'PhoneOther', response.OtherPhone);
-            FwFormField.setValue($form, 'div[data-datafield="CountryId"]', response.CountryId, response.Country);
-            FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', response.PaymentTermsId, response.PaymentTerms);
-            // Insurance tab
-            if (FwFormField.getValueByDataField($form, 'UseCustomerInsurance') === true) {
-                FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', response.InsuranceCompanyAddress1);
-                FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', response.InsuranceCompanyAddress2);
-                FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', response.InsuranceCompanyCity);
-                FwFormField.setValueByDataField($form, 'InsuranceCompanyState', response.InsuranceCompanyState);
-                FwFormField.setValueByDataField($form, 'InsuranceCompanyZipCode', response.InsuranceCompanyZipCode);
-                FwFormField.setValueByDataField($form, 'InsuranceCompanyFax', response.InsuranceCompanyFax);
-                FwFormField.setValueByDataField($form, 'InsuranceCompanyPhone', response.InsuranceCompanyPhone);
-                FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', response.InsuranceCompanyCountryId, response.InsuranceCompanyCountry);
-                FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyId"]', response.InsuranceCompanyId, response.InsuranceCompany);
-                FwFormField.setValueByDataField($form, 'InsuranceCompanyAgent', response.InsuranceAgent);
-            }
-            // Shipping Address tab defaults
-            if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'CUSTOMER') {
-                this.loadCustomerShippingValues($form, response);
-            }
-            if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'CUSTOMER') {
-                this.loadCustomerBillingValues($form, response);
-            }
-        }, null, null);
+        if (customerId) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, response => {
+                // Deal tab
+                FwFormField.setValueByDataField($form, 'Address1', response.Address1);
+                FwFormField.setValueByDataField($form, 'Address2', response.Address2);
+                FwFormField.setValueByDataField($form, 'City', response.City);
+                FwFormField.setValueByDataField($form, 'State', response.State);
+                FwFormField.setValueByDataField($form, 'ZipCode', response.ZipCode);
+                FwFormField.setValueByDataField($form, 'Phone', response.Phone);
+                FwFormField.setValueByDataField($form, 'PhoneTollFree', response.PhoneTollFree);
+                FwFormField.setValueByDataField($form, 'Fax', response.Fax);
+                FwFormField.setValueByDataField($form, 'PhoneOther', response.OtherPhone);
+                FwFormField.setValue($form, 'div[data-datafield="CountryId"]', response.CountryId, response.Country);
+                FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', response.PaymentTermsId, response.PaymentTerms);
+                // Insurance tab
+                if (FwFormField.getValueByDataField($form, 'UseCustomerInsurance') === true) {
+                    FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', response.InsuranceCompanyAddress1);
+                    FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', response.InsuranceCompanyAddress2);
+                    FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', response.InsuranceCompanyCity);
+                    FwFormField.setValueByDataField($form, 'InsuranceCompanyState', response.InsuranceCompanyState);
+                    FwFormField.setValueByDataField($form, 'InsuranceCompanyZipCode', response.InsuranceCompanyZipCode);
+                    FwFormField.setValueByDataField($form, 'InsuranceCompanyFax', response.InsuranceCompanyFax);
+                    FwFormField.setValueByDataField($form, 'InsuranceCompanyPhone', response.InsuranceCompanyPhone);
+                    FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', response.InsuranceCompanyCountryId, response.InsuranceCompanyCountry);
+                    FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyId"]', response.InsuranceCompanyId, response.InsuranceCompany);
+                    FwFormField.setValueByDataField($form, 'InsuranceCompanyAgent', response.InsuranceAgent);
+                }
+                // Shipping Address tab defaults
+                if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'CUSTOMER') {
+                    this.loadCustomerShippingValues($form, response);
+                }
+                if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'CUSTOMER') {
+                    this.loadCustomerBillingValues($form, response);
+                }
+            }, null, null);
+        } else {
+            console.error(`CustomerId is undefined.`)
+        }
     }
     //----------------------------------------------------------------------------------------------
     loadCustomerShippingValues($form: any, response: any): void {
@@ -901,18 +918,22 @@ class Deal {
     //----------------------------------------------------------------------------------------------
     getCustomerInsuranceValues($form: any): void {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, response => {
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', response.InsuranceCompanyAddress1);
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', response.InsuranceCompanyAddress2);
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', response.InsuranceCompanyCity);
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyState', response.InsuranceCompanyState);
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyZipCode', response.InsuranceCompanyZipCode);
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyFax', response.InsuranceCompanyFax);
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyPhone', response.InsuranceCompanyPhone);
-            FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', response.InsuranceCompanyCountryId, response.InsuranceCompanyCountry);
-            FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyId"]', response.InsuranceCompanyId, response.InsuranceCompany);
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyAgent', response.InsuranceAgent);
-        }, null, null);
+        if (customerId) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, response => {
+                FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', response.InsuranceCompanyAddress1);
+                FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', response.InsuranceCompanyAddress2);
+                FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', response.InsuranceCompanyCity);
+                FwFormField.setValueByDataField($form, 'InsuranceCompanyState', response.InsuranceCompanyState);
+                FwFormField.setValueByDataField($form, 'InsuranceCompanyZipCode', response.InsuranceCompanyZipCode);
+                FwFormField.setValueByDataField($form, 'InsuranceCompanyFax', response.InsuranceCompanyFax);
+                FwFormField.setValueByDataField($form, 'InsuranceCompanyPhone', response.InsuranceCompanyPhone);
+                FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', response.InsuranceCompanyCountryId, response.InsuranceCompanyCountry);
+                FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyId"]', response.InsuranceCompanyId, response.InsuranceCompany);
+                FwFormField.setValueByDataField($form, 'InsuranceCompanyAgent', response.InsuranceAgent);
+            }, null, null);
+        } else {
+            console.error(`CustomerId is undefined.`);
+        }
     }
     //----------------------------------------------------------------------------------------------
     openQuoteBrowse($form) {
@@ -1033,6 +1054,9 @@ class Deal {
           <div class="column" data-width="300px" data-visible="true">
             <div class="field" data-caption="Customer" data-datafield="Customer" data-browsedatatype="text" data-sort="off"></div>
           </div>
+          <div class="column" data-width="300px" data-visible="true">
+            <div class="field" data-caption="Phone" data-datafield="Phone" data-browsedatatype="phone" data-sort="off"></div>
+          </div>
           <div class="column spacer" data-width="auto" data-visible="true"></div>
         </div>`;
     }
@@ -1125,12 +1149,12 @@ class Deal {
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contact">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Main" data-datafield="Phone" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Main" data-datafield="Phone" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Phone Toll-Free" data-datafield="PhoneTollFree" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Other" data-datafield="PhoneOther" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Phone Toll-Free" data-datafield="PhoneTollFree" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Other" data-datafield="PhoneOther" style="flex:1 1 125px;"></div>
                         </div>
                       </div>
                     </div>
@@ -1412,8 +1436,8 @@ class Deal {
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="InsuranceCompanyCountryId" data-displayfield="InsuranceCompanyCountry" data-validationname="Country" data-enabled="false" style="flex:1 1 175px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Phone" data-datafield="InsuranceCompanyPhone" data-enabled="false" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="InsuranceCompanyFax" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Phone" data-datafield="InsuranceCompanyPhone" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="InsuranceCompanyFax" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                       </div>
                     </div>

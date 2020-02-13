@@ -152,6 +152,9 @@ namespace WebApi.Modules.Settings.Category
         [FwSqlDataField(column: "cogrexpenseglacctdesc", modeltype: FwDataTypes.Text)]
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "idorderby", modeltype: FwDataTypes.Decimal, precision: 5, scale: 1)]
+        public decimal? InventoryTypeOrderBy { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, precision: 5, scale: 1)]
         public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------

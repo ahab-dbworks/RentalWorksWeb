@@ -88,6 +88,11 @@ class Alert {
             gridSecurityId: 'REgcmntq4LWE',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     AlertId: FwFormField.getValueByDataField($form, 'AlertId'),

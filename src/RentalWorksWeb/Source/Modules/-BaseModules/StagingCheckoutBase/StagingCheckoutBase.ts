@@ -63,6 +63,7 @@ abstract class StagingCheckoutBase {
         $form.find(`div[data-datafield="${this.Type}Id"] input`).focus();
         this.getSuspendedSessions($form);
         this.events($form);
+        // this.showPendingAlert($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -1291,6 +1292,16 @@ abstract class StagingCheckoutBase {
         this.contractId = '';
         $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'false');
         $form.find('.suspendedsession').show();
+    }
+    //----------------------------------------------------------------------------------------------
+    showPendingAlert($form) {
+        const message = 'THIS IS AN ALERT -- FORM IS DISABLED. PLEASE RESOLVE ISSUES BEFORE PROCEEDING.'
+        const alert = jQuery(`<div class="form-alert" style="background:#ffff33;text-align:center;"><span>${message}</span></div>`);
+        const $formbody = $form.find('.fwform-body');
+        $formbody.before(alert);
+        $form.css({
+            'pointer-events': 'none',
+            });
     }
     //----------------------------------------------------------------------------------------------
     addLegend($form: any, $grid): void {

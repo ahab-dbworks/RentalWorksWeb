@@ -579,6 +579,12 @@ namespace WebApi.Modules.Transfers.TransferOrder
                     }
                 }
             }
+
+            //after save - do work in the database
+            {
+                TSpStatusResponse r = TransferOrderFunc.AfterSaveTransfer(AppConfig, UserSession, this.GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
+            }
+
         }
         //------------------------------------------------------------------------------------
     }
