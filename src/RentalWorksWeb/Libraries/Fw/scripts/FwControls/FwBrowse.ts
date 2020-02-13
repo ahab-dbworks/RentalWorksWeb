@@ -2801,16 +2801,18 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     generateRow($control) {
-        var $table, $theadtds, $tr;
-        $table = $control.find('table');
+        const $table = $control.find('table');
+        const hasMultiRowSelect = $control.attr('data-hasmultirowselect') === 'true';
+        let $tr;
+
         if ($control.data('trtemplate') != undefined) {
-            $tr = $control.data('trtemplate').clone();
+            $tr = $control.data('trtemplate').clone();    
         } else {
             $tr = jQuery('<tr>');
-            $theadtds = $table.find('> thead > tr.fieldnames > td.column');
+            const $theadtds = $table.find('> thead > tr.fieldnames > td.column');
             for (let i = 0; i < $theadtds.length; i++) {
-            let $theadtd = $theadtds.eq(i);
-            let $td = $theadtd.clone().empty();
+                let $theadtd = $theadtds.eq(i);
+                let $td = $theadtd.clone().empty();
             //$td.css({ 'min-width': width });
             $tr.append($td);
             var $theadfields = $theadtd.children('.field');
@@ -2819,27 +2821,24 @@ class FwBrowseClass {
                 $theadfield = jQuery(element);
                 $field = $theadfield.clone().empty();
                 $td.append($field);
-            });
-        }
-
-        if (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true')) {
-            let cbuniqueId = FwApplication.prototype.uniqueId(10);
-            $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
-        }
-
-        if ($control.attr('data-type') === 'Grid') {
-            if ($control.attr('data-manualsorting') === 'true') {
-                $tr.find('.manual-sort').append(`<i style="vertical-align:-webkit-baseline-middle; cursor:grab;" class="material-icons drag-handle">drag_handle</i>`);
+                });
             }
-            let cbuniqueId = FwApplication.prototype.uniqueId(10);
-            if ($control.attr('data-hasmultirowselect') !== 'false') {
-                $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
-            }
+
+            if ($control.attr('data-type') === 'Grid') {
+                if ($control.attr('data-manualsorting') === 'true') {
+                    $tr.find('.manual-sort').append(`<i style="vertical-align:-webkit-baseline-middle; cursor:grab;" class="material-icons drag-handle">drag_handle</i>`);
+                }
                 $tr.find('.browsecontextmenucell').append('<div class="browsecontextmenu"><i class="material-icons">more_vert</i><div>');
             }
 
             $control.data('trtemplate', $tr.clone());
         }
+
+        if ((($control.attr('data-type') === 'Browse') && hasMultiRowSelect) || (($control.attr('data-type') === 'Grid') && !hasMultiRowSelect)) {
+            const cbuniqueId = FwApplication.prototype.uniqueId(10);
+            $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
+        }
+
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             let controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
