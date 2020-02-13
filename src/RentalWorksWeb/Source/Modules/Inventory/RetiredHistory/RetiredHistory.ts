@@ -168,6 +168,9 @@ class RetiredHistory {
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Retired Qty" data-datafield="RetiredQuantity" data-enabled="false" style="flex:0 1 250px;"></div>
                             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Unretired Qty" data-datafield="UnretiredQuantity" data-enabled="false" style="flex:0 1 75px;"></div>
                           </div>
+                          <div class="flexrow">
+                            <div class="fwformcontrol retire-inv-btn" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Unretire Utility</div>
+                          </div>
                         </div>
                       </div>
                     </div>
