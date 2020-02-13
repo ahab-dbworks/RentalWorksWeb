@@ -3933,10 +3933,7 @@ class FwBrowseClass {
             html.push('  <span style="margin:18px 0px 0px 0px;">Records</span>');
             html.push(' </div>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield ID-col" data-caption="Include ID columns" data-datafield="" style="float:left;width:100px;"></div>`);
-            html.push('  </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield color-col" data-caption="Include Color columns" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-col" data-caption="Include All fields" data-datafield="" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
             html.push('</div>');
 
@@ -3972,6 +3969,18 @@ class FwBrowseClass {
                     $confirmation.find('.all-records input').prop('checked', true);
                 }
             });
+            $confirmation.find('.all-col input').on('change', function () {
+                const $this = jQuery(this);
+                if ($this.prop('checked') === true) {
+                    // hide popup
+                }
+                else {
+                    // API CALL - if first call, store fields on popup
+                    // invoke render popup, pass in field
+
+                }
+            });
+            //function renderColumnPopup()
 
             $confirmation.find('.user-defined-records-input input').keypress(function () {
                 $confirmation.find('.user-defined-records input').prop('checked', true);
@@ -3983,12 +3992,9 @@ class FwBrowseClass {
                 const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Downloading Excel Workbook...');
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
                 request.pagesize = userDefinedNumberofRows;
-                let includeIdColumns: boolean;
-                $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
-                request.IncludeIdColumns = includeIdColumns;
-                let includeColorColumns: boolean;
-                $confirmation.find('.color-col input').prop('checked') === true ? includeColorColumns = true : includeColorColumns = false;
-                request.IncludeColorColumns = includeColorColumns;
+                let includeAllColumns: boolean;
+                $confirmation.find('.all-col input').prop('checked') === true ? includeAllColumns = true : includeAllColumns = false;
+                request.IncludeAllColumns = includeAllColumns;
 
                 const module = (<any>window)[controller].Module;
                 const apiurl = (<any>window)[controller].apiurl;
