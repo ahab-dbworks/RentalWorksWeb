@@ -19,6 +19,9 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
             AfterBrowse += OnAfterBrowse;
         }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -272,6 +275,8 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
+            string[] totalfields = new string[] { "Quantity" };
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalfields);
 
             return dt;
         }

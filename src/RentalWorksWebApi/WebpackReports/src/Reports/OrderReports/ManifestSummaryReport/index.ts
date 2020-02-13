@@ -26,7 +26,7 @@ export class ManifestReport extends WebpackReport {
                             data.Items = DataTable.toObjectList(response);
                             data.Company = parameters.companyName;
                             data.Order = parameters.orderno;
-                            data.Report = "Order Status Summary";                     
+                            data.Report = "Manifest Report";                     
                             data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
                             data.TermsAndConditions == '';
