@@ -34,6 +34,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
     {
         public string OrderId { get; set; }
         public string InventoryId { get; set; }
+        public string ParentId { get; set; }
         public int Quantity { get; set; }
     }
 
@@ -262,6 +263,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "insertoption", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentId);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
                 qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
                 qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
