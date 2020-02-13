@@ -77,6 +77,7 @@ class RetiredHistory {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
+        this.events($form);
         return $form;
     };
     //---------------------------------------------------------------------------------------------
@@ -95,6 +96,19 @@ class RetiredHistory {
     //    var uniqueid = FwFormField.getValueByDataField($form, 'ItemId');
     //    FwModule.loadAudit($form, uniqueid);
     //};
+    //---------------------------------------------------------------------------------------------
+    events($form) {
+        $form.find('.retire-inv-btn').on('click', $tr => {
+            const parentModuleInfo: any = {};
+            parentModuleInfo.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+            parentModuleInfo.ICode = FwFormField.getTextByDataField($form, 'InventoryId');
+            parentModuleInfo.Description = FwFormField.getValueByDataField($form, 'Description');
+            const $unretireForm = InventoryUnretireUtilityController.openForm('NEW', parentModuleInfo);
+            FwModule.openSubModuleTab($form, $unretireForm);
+            jQuery('.tab.submodule.active').find('.caption').html('Unretire Utility');
+        });
+
+    }
     //---------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
 

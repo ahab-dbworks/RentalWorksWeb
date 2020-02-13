@@ -39,6 +39,10 @@ class InventoryUnretireUtility {
         FwFormField.setValueByDataField($form, 'Quantity', 1);
 
         this.events($form);
+        if (typeof parentmoduleinfo !== 'undefined') {
+            FwFormField.setValueByDataField($form, 'InventoryId', parentmoduleinfo.InventoryId, parentmoduleinfo.ICode);
+            FwFormField.setValueByDataField($form, 'ItemDescription', parentmoduleinfo.Description);
+        }
         return $form;
     };
     //----------------------------------------------------------------------------------------------
