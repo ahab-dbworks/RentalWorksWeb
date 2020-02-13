@@ -163,6 +163,7 @@ namespace FwCore.Api
             {
                 c.DescribeAllEnumsAsStrings();
                 this.AddSwaggerDocs(c);
+                c.OperationFilter<FwFormFileSwaggerFilter>();
                 var filePath = Path.Combine(ApplicationEnvironment.ApplicationBasePath, "FwStandard.xml");
                 c.IncludeXmlComments(filePath);
                 filePath = Path.Combine(ApplicationEnvironment.ApplicationBasePath, "FwCore.xml");

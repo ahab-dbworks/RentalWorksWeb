@@ -31,7 +31,8 @@ namespace FwCore.Controllers
             return bl;
         }
         //------------------------------------------------------------------------------------
-        public static async Task<ActionResult<FwJsonDataTable>> BrowseAsync(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState, Type logicType, string uniqueId1FieldName, string uniqueId1FieldValue, string uniqueId2FieldName, string uniqueId2FieldValue, BrowseRequest browseRequest)
+        public static async Task<ActionResult<FwJsonDataTable>> BrowseAsync(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState, Type logicType, 
+            string uniqueId1FieldName, string uniqueId1FieldValue, string uniqueId2FieldName, string uniqueId2FieldValue, BrowseRequest browseRequest)
         {
             try
             {
@@ -63,7 +64,9 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        public static async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState, Type logicType, string uniqueId1FieldName, string uniqueId1FieldValue, string uniqueId2FieldName, string uniqueId2FieldValue, BrowseRequest browseRequest, string worksheetName = "")
+        public static async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync(FwApplicationConfig appConfig, FwUserSession userSession, 
+            ModelStateDictionary modelState, Type logicType, string uniqueId1FieldName, string uniqueId1FieldValue, string uniqueId2FieldName, string uniqueId2FieldValue, 
+            BrowseRequest browseRequest, string worksheetName = "")
         {
             try
             {
@@ -122,33 +125,55 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        //public static async Task<ActionResult<IEnumerable<T>>> GetAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState, string uniqueId1FieldName, string uniqueId1FieldValue, string uniqueId2FieldName, string uniqueId2FieldValue, int pageno, int pagesize, string sort, Type logicType)
-        //{
-        //    try
-        //    {
-        //        if (!modelState.IsValid)
-        //        {
-        //            return new BadRequestObjectResult(modelState);
-        //        }
-        //        BrowseRequest request = new BrowseRequest();
-        //        request.pageno = 0;
-        //        request.pagesize = 0;
-        //        request.orderby = string.Empty;
-        //        //request.pageno = pageno;
-        //        //request.pagesize = pagesize;
-        //        //request.orderby = sort;
-        //        FwBusinessLogic l = CreateBusinessLogic(logicType, appConfig, userSession);
-        //        IEnumerable<T> records = await l.SelectAsync<T>(request);
-        //        return new OkObjectResult(records);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        GetApiExceptionResult(ex);
-        //    }
-        //}
+        public static async Task<ActionResult<GetResponse<T>>> DoGetManyAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState, Type logicType,
+            string uniqueId1FieldName, string uniqueId1FieldValue, string uniqueId2FieldName, string uniqueId2FieldValue, GetRequest request)
+        {
+            if (!modelState.IsValid)
+            {
+                return new BadRequestObjectResult(modelState);
+            }
+            try
+            {
+                if (string.IsNullOrEmpty(uniqueId1FieldName))
+                {
+                    modelState.AddModelError(uniqueId1FieldName, $"BrowseRequest.filterfields must define a field: {uniqueId1FieldName}.");
+                }
+                if (string.IsNullOrEmpty(uniqueId1FieldValue))
+                {
+                    modelState.AddModelError(uniqueId1FieldName, $"BrowseRequest.filterfields must have a value for field: {uniqueId1FieldName}.");
+                }
+                if (!string.IsNullOrEmpty(uniqueId2FieldName) && string.IsNullOrEmpty(uniqueId2FieldValue))
+                {
+                    modelState.AddModelError(uniqueId2FieldName, $"BrowseRequest.filterfields must have a value for field: {uniqueId2FieldName}.");
+                }
+                if (!modelState.IsValid)
+                {
+                    return new BadRequestObjectResult(modelState);
+                }
+                var requestType = request.GetType();
+                var propInfoUniqueId1Field = requestType.GetProperty(uniqueId1FieldName);
+                var propInfoUniqueId2Field = requestType.GetProperty(uniqueId2FieldName);
+                propInfoUniqueId1Field.SetValue(request, uniqueId1FieldValue);
+                propInfoUniqueId2Field.SetValue(request, uniqueId2FieldValue);
+                if (!string.IsNullOrEmpty(uniqueId1FieldName) && propInfoUniqueId1Field == null) propInfoUniqueId1Field.SetValue(request, uniqueId1FieldValue);
+                if (!string.IsNullOrEmpty(uniqueId2FieldName) && propInfoUniqueId2Field == null) propInfoUniqueId2Field.SetValue(request, uniqueId2FieldValue);
+                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(logicType, appConfig, userSession);
+                GetResponse<T> response = await l.GetManyAsync<T>(request);
+                return new OkObjectResult(response);
+            }
+            catch (ArgumentException ex)
+            {
+                modelState.AddModelError(ex.ParamName, ex.Message);
+                return new BadRequestObjectResult(modelState);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
         //------------------------------------------------------------------------------------
 
-        public static async Task<ActionResult<T>> GetAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState, Type logicType, string uniqueId1FieldName, string uniqueId1FieldValue, string uniqueId2FieldName, string uniqueId2FieldValue, string id)
+        public static async Task<ActionResult<T>> GetOneAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState, Type logicType, string uniqueId1FieldName, string uniqueId1FieldValue, string uniqueId2FieldName, string uniqueId2FieldValue, string id)
         {
             try
             {

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -243,7 +244,7 @@ namespace FwStandard.Grids.AppDocument
                     {
                         using (MemoryStream stream = new MemoryStream(image))
                         {
-                            Image sizingImage = Bitmap.FromStream(stream);
+                            System.Drawing.Image sizingImage = Bitmap.FromStream(stream);
                             width = sizingImage.Width;
                             height = sizingImage.Height;
                         }
@@ -269,6 +270,393 @@ namespace FwStandard.Grids.AppDocument
                     transaction.Commit();
                 }
             }
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<GetDocumentThumbnailsResponse> GetThumbnailsAsync(string validateAginstTable, string validateAgainstField, int pageNo, int pageSize)
+        {
+            int rowNoStart = 1;
+            if (pageNo > 1)
+            {
+                rowNoStart = (pageNo * pageSize) + 1;
+            }
+            int rowNoEnd = rowNoStart + pageSize;
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                await conn.OpenAsync();
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddColumn("DataUrl", false, FwDataTypes.JpgDataUrl);
+                    qry.Add(";with");
+                    qry.Add("  main_cte as (");
+                    qry.Add("    select RowNumber = row_number() over(order by i.datestamp),");
+                    qry.Add("       ImageId = i.appimageid,");
+                    qry.Add("       Description = i.imagedesc,");
+                    qry.Add("       ImageNumber = i.imageno,");
+                    qry.Add("       DataUrl = i.thumbnail,");
+                    qry.Add("       DateStamp = i.datestamp");
+                    qry.Add("    from appimage i with(nolock) join appdocument d with (nolock) on (i.uniqueid1 = d.appdocumentid)");
+                    qry.Add("    where i.uniqueid1 = @appdocumentid ");
+                    qry.Add("      and d.uniqueid1 in (select dealid from deal with (nolock))");
+                    qry.Add("      and i.description = 'APPDOCUMENT_IMAGE'");
+                    qry.Add("  ),");
+                    qry.Add("  count_cte as (");
+                    qry.Add("    select TotalRows = count(*)");
+                    qry.Add("    from main_cte with(nolock)");
+                    qry.Add("  ),");
+                    qry.Add("  paging_cte as (");
+                    qry.Add("    select top(@rownoend) row_number() over(order by DateStamp desc) as PagingCteRowNumber, *");
+                    qry.Add("    from main_cte with(nolock), count_cte with(nolock)");
+                    qry.Add("  )");
+                    qry.Add("select *");
+                    qry.Add("from paging_cte with(nolock)");
+                    qry.Add("where RowNumber between @rownostart and @rownoend");
+                    qry.AddParameter("@appdocumentid", this.DocumentId);
+                    qry.AddParameter("@rownostart", rowNoStart);
+                    qry.AddParameter("@rownoend", rowNoEnd);
+                    var response = new GetDocumentThumbnailsResponse();
+                    response.Thumbnails = await qry.QueryToTypedListAsync<DocumentImage>();
+                    return response;
+
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<GetDocumentImageResponse> GetImageAsync(string validateAginstTable, string validateAgainstField, string appImageId)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                await conn.OpenAsync();
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1");
+                    qry.Add("  i.appimageid,");
+                    qry.Add("  i.imagedesc,");
+                    qry.Add("  i.imageno,");
+                    qry.Add("  i.image");
+                    qry.Add("from appimage i with (nolock) join appdocument d with (nolock) on (i.uniqueid1 = d.appdocumentid)");
+                    qry.Add("where i.appimageid = @appimageid");
+                    qry.Add("  and i.uniqueid1 = @appdocumentid");
+                    qry.Add("  and d.uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                    qry.Add("  and i.description = 'APPDOCUMENT_IMAGE'");
+                    qry.Add("order by i.datestamp");
+                    qry.AddParameter("@appimageid", appImageId);
+                    qry.AddParameter("@appdocumentid", this.DocumentId);
+                    GetDocumentImageResponse response = null;
+                    using (SqlDataReader reader = await qry.ExecuteReaderAsync())
+                    {
+                        int colIndexAppImageId = reader.GetOrdinal("appimageid");
+                        int colIndexImageDesc = reader.GetOrdinal("imagedesc");
+                        int colIndexImageNo = reader.GetOrdinal("imageno");
+                        int colIndexImage = reader.GetOrdinal("image");
+                        if (await reader.ReadAsync())
+                        {
+                            response = new GetDocumentImageResponse();
+                            response.Image = new DocumentImage();
+                            if (!reader.IsDBNull(colIndexAppImageId))
+                            {
+                                response.Image.ImageId = reader.GetString(colIndexAppImageId);
+                            }
+                            if (!reader.IsDBNull(colIndexImageDesc))
+                            {
+                                response.Image.Description = reader.GetString(colIndexImageDesc);
+                            }
+                            if (!reader.IsDBNull(colIndexImageNo))
+                            {
+                                response.Image.ImageNumber = reader.GetString(colIndexImageNo);
+                            }
+                            if (!reader.IsDBNull(colIndexImage))
+                            {
+                                byte[] buffer = reader.GetSqlBytes(colIndexImage).Value;
+                                using (Stream stream = reader.GetSqlBytes(colIndexImage).Stream)
+                                {
+                                    bool isnull = (buffer.Length == 0) || ((buffer.Length == 1) && (buffer[0] == 255));
+                                    if (!isnull)
+                                    {
+                                        // currently the appimage table doesn't provide this needed info for efficiently serving images on the web
+                                        var bitmap = new System.Drawing.Bitmap(stream);
+                                        string dataUrl = string.Empty;
+                                        string base64data = Convert.ToBase64String(buffer);
+                                        if (bitmap.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
+                                        {
+                                            dataUrl = "data:image/bmp;base64," + base64data;
+                                        }
+                                        else if (bitmap.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                                        {
+                                            dataUrl = "data:image/jpeg;base64," + base64data;
+                                        }
+                                        else if (bitmap.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
+                                        {
+                                            dataUrl = "data:image/png;base64," + base64data;
+                                        }
+                                        else if (bitmap.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Tiff.Guid)
+                                        {
+                                            dataUrl = "data:image/tiff;base64," + base64data;
+                                        }
+                                        else if (bitmap.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Exif.Guid)
+                                        {
+                                            dataUrl = "data:image/jpeg;base64," + base64data;
+                                        }
+                                        else if (bitmap.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
+                                        {
+                                            dataUrl = "data:image/gif;base64," + base64data;
+                                        }
+                                        else if (bitmap.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Emf.Guid)
+                                        {
+                                            dataUrl = "data:image/emf;base64," + base64data;
+                                        }
+                                        response.Image.DataUrl = dataUrl;
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return response;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<bool> AttachImageAsync(string validateAginstTable, string validateAgainstField, string dataUrl)
+        {
+            bool result = false;
+            string[] dataUrlParts = dataUrl.Split(new char[] { ',' });
+            string dataUrlPrefix = dataUrlParts[0];
+            string base64Data = dataUrlParts[1];
+            byte[] image = Convert.FromBase64String(base64Data);
+            result = await this.AttachImageAsync(validateAginstTable, validateAgainstField, image);
+            return result;
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<bool> AttachImageAsync(string validateAginstTable, string validateAgainstField, byte[] image)
+        {
+            bool result = false;
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                await conn.OpenAsync();
+                using (SqlTransaction transaction = conn.BeginTransaction())
+                {
+                    var date = DateTime.Now;
+                    this.AttachDate = date.ToString("yyyy-MM-dd");
+                    this.AttachTime = date.ToString("hh:mm:ss");
+                    this.DateStamp = date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+                    await this.SaveAsync(saveMode: TDataRecordSaveMode.smUpdate);
+
+                    string appImageId = await FwSqlData.GetNextIdAsync(conn, this.AppConfig.DatabaseSettings);
+
+                    // insert appimage
+                    int height = 0;
+                    int width = 0;
+                    byte[] thumbnail = new byte[0];
+                    thumbnail = FwGraphics.GetJpgThumbnail(image);
+                    image = FwGraphics.ResizeAndConvertToJpg(image);
+                    using (FwSqlCommand cmd = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        cmd.Transaction = transaction;
+                        cmd.AddParameter("@appimageid", appImageId);
+                        cmd.AddParameter("@uniqueid1", this.DocumentId);
+                        cmd.AddParameter("@uniqueid2", string.Empty);
+                        cmd.AddParameter("@uniqueid3", string.Empty);
+                        cmd.AddParameter("@description", "APPDOCUMENT_IMAGE");
+                        cmd.AddParameter("@extension", "");
+                        cmd.AddParameter("@rectype", "");
+                        cmd.AddParameter("@height", height);
+                        cmd.AddParameter("@width", width);
+                        cmd.AddParameter("@thumbnail", thumbnail);
+                        cmd.AddParameter("@image", image);
+                        cmd.AddParameter("@datestamp", date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"));
+                        await cmd.ExecuteInsertQueryAsync("appimage");
+                        result = cmd.RowCount > 0;
+                    }
+                    transaction.Commit();
+                }
+            }
+            return result;
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<bool> DeleteImageAsync(string validateAginstTable, string validateAgainstField, string appImageId)
+        {
+            bool result = false;
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                await conn.OpenAsync();
+                using (SqlTransaction transaction = conn.BeginTransaction())
+                {
+                    // delete any existing files or images
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        qry.Add("delete i");
+                        qry.Add("from appimage i join appdocument d on (i.uniqueid1 = d.appdocumentid)");
+                        qry.Add("where i.appimageid = @appimageid");
+                        qry.Add("  and i.uniqueid1 = @appdocumentid");
+                        qry.Add("  and d.uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                        qry.AddParameter("@appimageid", appImageId);
+                        qry.AddParameter("@appdocumentid", this.DocumentId);
+                        await qry.ExecuteNonQueryAsync();
+                        result = qry.RowCount > 0;
+                    }
+
+                    var date = DateTime.Now;
+                    this.AttachDate = date.ToString("yyyy-MM-dd");
+                    this.AttachTime = date.ToString("hh:mm:ss");
+                    this.DateStamp = date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+                    await this.SaveAsync(saveMode: TDataRecordSaveMode.smUpdate);
+
+                    transaction.Commit();
+                }
+            }
+            return result;
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<GetDocumentFileResponse> GetFileAsync(string validateAginstTable, string validateAgainstField)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                await conn.OpenAsync();
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1");
+                    qry.Add("  i.appimageid,");
+                    qry.Add("  i.extension,");
+                    qry.Add("  i.image");
+                    qry.Add("from appimage i with (nolock) join appdocument d with (nolock) on (i.uniqueid1 = d.appdocumentid)");
+                    qry.Add("where i.uniqueid1 = @appdocumentid");
+                    qry.Add("  and i.rectype = 'F'");
+                    qry.Add("  and d.uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                    qry.Add("order by i.datestamp");
+                    qry.AddParameter("@appdocumentid", this.DocumentId);
+                    GetDocumentFileResponse response = null;
+                    using (SqlDataReader reader = await qry.ExecuteReaderAsync())
+                    {
+                        int colIndexAppImageId = reader.GetOrdinal("appimageid");
+                        int colIndexExtension = reader.GetOrdinal("extension");
+                        int colIndexImage = reader.GetOrdinal("image");
+                        if (await reader.ReadAsync())
+                        {
+                            response = new GetDocumentFileResponse();
+                            response.File = new DocumentFile();
+                            if (!reader.IsDBNull(colIndexAppImageId))
+                            {
+                                response.File.ImageId = reader.GetString(colIndexAppImageId);
+                            }
+                            if (!reader.IsDBNull(colIndexExtension))
+                            {
+                                var extension = reader.GetString(colIndexExtension);
+                                response.File.Extension = extension.ToUpper();
+                                response.File.ContentType = FwMimeTypeTranslator.GetMimeTypeFromExtension(extension);
+                            }
+                            if (!reader.IsDBNull(colIndexImage))
+                            {
+                                byte[] buffer = reader.GetSqlBytes(colIndexImage).Value;
+                                using (Stream stream = reader.GetSqlBytes(colIndexImage).Stream)
+                                {
+                                    bool isnull = (buffer.Length == 0) || ((buffer.Length == 1) && (buffer[0] == 255));
+                                    if (!isnull)
+                                    {
+                                        response.File.Data = buffer;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return response;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<bool> AttachFileAsync(string validateAginstTable, string validateAgainstField, string dataUrl, string fileExtension)
+        {
+            bool result = false;
+            string[] dataUrlParts = dataUrl.Split(new char[] { ',' });
+            string dataUrlPrefix = dataUrlParts[0];
+            string base64Data = dataUrlParts[1];
+            byte[] image = Convert.FromBase64String(base64Data);
+            result = await this.AttachFileAsync(validateAginstTable, validateAgainstField, image, fileExtension);
+            return result;
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<bool> AttachFileAsync (string validateAginstTable, string validateAgainstField, byte[] fileData, string fileExtension)
+        {
+            bool result = false;
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                await conn.OpenAsync();
+                using (SqlTransaction transaction = conn.BeginTransaction())
+                {
+                    var date = DateTime.Now;
+                    this.AttachDate = date.ToString("yyyy-MM-dd");
+                    this.AttachTime = date.ToString("hh:mm:ss");
+                    this.DateStamp = date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+                    await this.SaveAsync(saveMode: TDataRecordSaveMode.smUpdate);
+
+                    // delete any existing file
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        qry.Add("delete i");
+                        qry.Add("from appimage i join appdocument d on (i.uniqueid1 = d.appdocumentid)");
+                        qry.Add("where i.uniqueid1 = @appdocumentid");
+                        qry.Add("  and i.rectype = 'F'");
+                        qry.Add("  and d.uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                        qry.AddParameter("@appdocumentid", this.DocumentId);
+                        await qry.ExecuteNonQueryAsync();
+                    }
+
+                    string appImageId = await FwSqlData.GetNextIdAsync(conn, this.AppConfig.DatabaseSettings);
+
+                    // insert file into appimage
+                    using (FwSqlCommand cmd = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        cmd.Transaction = transaction;
+                        cmd.AddParameter("@appimageid", appImageId);
+                        cmd.AddParameter("@uniqueid1", this.DocumentId);
+                        cmd.AddParameter("@uniqueid2", string.Empty);
+                        cmd.AddParameter("@uniqueid3", string.Empty);
+                        cmd.AddParameter("@description", string.Empty);
+                        cmd.AddParameter("@extension", fileExtension.ToUpper());
+                        cmd.AddParameter("@rectype", "F");
+                        cmd.AddParameter("@height", 0);
+                        cmd.AddParameter("@width", 0);
+                        cmd.AddParameter("@thumbnail", new byte[0]);
+                        cmd.AddParameter("@image", fileData);
+                        cmd.AddParameter("@datestamp", date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"));
+                        await cmd.ExecuteInsertQueryAsync("appimage");
+                        result = cmd.RowCount > 0;
+                    }
+                    transaction.Commit();
+                }
+            }
+            return result;
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<bool> DeleteFileAsync(string validateAginstTable, string validateAgainstField)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                await conn.OpenAsync();
+                using (SqlTransaction transaction = conn.BeginTransaction())
+                {
+                    // delete any existing files or images
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        qry.Add("delete i");
+                        qry.Add("from appimage i join appdocument d on (i.uniqueid1 = d.appdocumentid)");
+                        qry.Add("where i.uniqueid1 = @appdocumentid");
+                        qry.Add("  and i.rectype = 'F'");
+                        qry.Add("  and d.uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                        qry.AddParameter("@appdocumentid", this.DocumentId);
+                        await qry.ExecuteNonQueryAsync();
+                    }
+
+                    // update the Document
+                    var date = DateTime.Now;
+                    this.AttachDate = date.ToString("yyyy-MM-dd");
+                    this.AttachTime = date.ToString("hh:mm:ss");
+                    this.DateStamp = date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+                    await this.SaveAsync(saveMode: TDataRecordSaveMode.smUpdate);
+
+                    transaction.Commit();
+                }
+            }
+            return true;
         }
         //------------------------------------------------------------------------------------ 
     }

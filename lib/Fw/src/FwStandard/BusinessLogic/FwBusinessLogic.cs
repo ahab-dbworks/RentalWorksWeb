@@ -1192,7 +1192,7 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<int> SaveAsync(FwBusinessLogic original, FwSqlConnection conn = null, TDataRecordSaveMode saveMode = TDataRecordSaveMode.Auto)
+        public virtual async Task<int> SaveAsync(FwBusinessLogic original = null, FwSqlConnection conn = null, TDataRecordSaveMode saveMode = TDataRecordSaveMode.Auto)
         {
             bool success = false;
             int rowsAffected = 0;

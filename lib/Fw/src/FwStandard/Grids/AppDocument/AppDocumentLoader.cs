@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 
 namespace FwStandard.Grids.AppDocument
 {
-    [FwSqlTable("appdocumentviewweb")]
+    [FwSqlTable("appdocumentview")]
     public class AppDocumentLoader : FwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -21,8 +21,8 @@ namespace FwStandard.Grids.AppDocument
         //[FwSqlDataField(column: "uniqueid2", modeltype: FwDataTypes.Text)]
         //public string UniqueId2 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "uniqueid1int", modeltype: FwDataTypes.Integer)]
-        public int? UniqueId1Int { get; set; }
+        //[FwSqlDataField(column: "uniqueid1int", modeltype: FwDataTypes.Integer)]
+        //public int? UniqueId1Int { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
@@ -30,14 +30,14 @@ namespace FwStandard.Grids.AppDocument
         [FwSqlDataField(column: "inputbyusersid", modeltype: FwDataTypes.Text)]
         public string InputByUsersId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fileextension", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "extension", modeltype: FwDataTypes.Text)]
         public string FileExtension { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "attachdate", modeltype: FwDataTypes.Date)]
-        public string AttachDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "attachtime", modeltype: FwDataTypes.Time)]
-        public string AttachTime { get; set; }
+        //[FwSqlDataField(column: "attachdate", modeltype: FwDataTypes.Date)]
+        //public string AttachDate { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "attachtime", modeltype: FwDataTypes.Time)]
+        //public string AttachTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "documenttype", modeltype: FwDataTypes.Text)]
         public string DocumentType { get; set; }
@@ -46,7 +46,7 @@ namespace FwStandard.Grids.AppDocument
         public string InputBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasimage", modeltype: FwDataTypes.Boolean)]
-        public bool? HasImage { get; set; }
+        public bool? HasImages { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasfile", modeltype: FwDataTypes.Boolean)]
         public bool? HasFile { get; set; }
@@ -57,8 +57,8 @@ namespace FwStandard.Grids.AppDocument
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fileappimageid", modeltype: FwDataTypes.Text)]
-        public string FileAppImageId { get; set; }
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

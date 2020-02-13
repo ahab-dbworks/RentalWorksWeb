@@ -4,6 +4,7 @@ using FwStandard.AppManager;
 using FwStandard.Grids.AppDocument;
 using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,19 +18,18 @@ namespace WebApi.Modules.Agent.Deal
     {
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Get Documents
+        /// Get documents.
         /// </summary>
-        /// <param name="DealId">Unique identifier</param>
-        /// <param name="BrowseRequest"></param>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        // POST api/v1/deal/{DealId}/document/browse 
-        [HttpPost("{DealId}/document/browse")]
+        [HttpPost("{dealid}/document/browse")]
         [FwControllerMethod(Id: "Ar2pslw5CwkB", FwControllerActionTypes.ControlBrowse, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<FwJsonDataTable>> DocumentBrowseAsync([FromRoute]string DealId, [FromBody]BrowseRequest BrowseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> DocumentBrowseAsync([FromRoute]string dealid, [FromBody]BrowseRequest request)
         {
             try
             {
-                return await FwAppDocumentController.BrowseAsync(this.AppConfig, this.UserSession, this.ModelState, typeof(DealDocumentLogic), "DealId", DealId, string.Empty, string.Empty, BrowseRequest);
+                return await FwAppDocumentController.BrowseAsync(this.AppConfig, this.UserSession, this.ModelState, typeof(DealDocumentLogic), "DealId", dealid, string.Empty, string.Empty, request);
             }
             catch (Exception ex)
             {
@@ -38,19 +38,18 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Export Documents to Excel
+        /// Export documents to Excel.
         /// </summary>
-        /// <param name="DealId">Unique identifier</param>
-        /// <param name="BrowseRequest"></param>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="browserequest"></param>
         /// <returns></returns>
-        // POST api/v1/deal/{DealId}/document/exportexcelxlsx 
-        [HttpPost("{DealId}/document/exportexcelxlsx")]
+        [HttpPost("{dealid}/document/exportexcelxlsx")]
         [FwControllerMethod(Id: "v2tnr6Wq95UA", FwControllerActionTypes.ControlBrowse, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DocumentExportExcelXlsxFileAsync([FromRoute]string DealId, [FromBody]BrowseRequest BrowseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DocumentExportExcelXlsxFileAsync([FromRoute]string dealid, [FromBody]BrowseRequest browserequest)
         {
             try
             {
-                return await FwAppDocumentController.ExportExcelXlsxFileAsync(this.AppConfig, this.UserSession, this.ModelState, typeof(DealDocumentLogic), "DealId", DealId, string.Empty, string.Empty, BrowseRequest);
+                return await FwAppDocumentController.ExportExcelXlsxFileAsync(this.AppConfig, this.UserSession, this.ModelState, typeof(DealDocumentLogic), "DealId", dealid, string.Empty, string.Empty, browserequest);
             }
             catch (Exception ex)
             {
@@ -58,28 +57,39 @@ namespace WebApi.Modules.Agent.Deal
             }
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/deal/{DealId}/aka?pageno={pageno}&pagesize={pagesize}&sort={sort} 
-        //[HttpGet("{DealId}/document")]
-        //[FwControllerMethod(Id: "v56X9mvRvO62")]
-        //public async Task<ActionResult<IEnumerable<AppDocumentLogic>>> DocumentGetManyAsync([FromRoute]string DealId, [FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        //{
-        //    return await FwAppDocumentController.DoGetAsync<AppDocumentLogic>(pageno, pagesize, sort);
-        //}
+        /// <summary>
+        /// Get documents.
+        /// </summary>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet("{dealid}/documents")]
+        [FwControllerMethod(Id: "KcMEftbqa474", FwControllerActionTypes.ControlBrowse, ParentId: "5pVhTJtGXLVx")]
+        public async Task<ActionResult<GetResponse<AppDocumentGetManyResponse>>> DocumentGetManyAsync([FromRoute]string dealid, [FromQuery]DealDocumentGetRequest request)
+        {
+            try
+            {
+                return await FwAppDocumentController.GetManyAsync<AppDocumentGetManyResponse>(this.AppConfig, this.UserSession, this.ModelState, typeof(DealDocumentLogic), "DealId", dealid, string.Empty, string.Empty, request);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
+        }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Get a Document
+        /// Get a document.
         /// </summary>
-        /// <param name="DealId">Unique identifier</param>
-        /// <param name="DocumentId">Unique identifier</param>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
         /// <returns></returns>
-        // GET api/v1/deal/{DealId}/document/{AppDocumentId}
-        [HttpGet("{DealId}/document/{AppDocumentId}")]
+        [HttpGet("{dealid}/document/{documentid}")]
         [FwControllerMethod(Id: "bgHn8Q47Fyzs", FwControllerActionTypes.ControlBrowse, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<DealDocumentLogic>> DocumentGetOneAsync([FromRoute]string DealId, [FromRoute]string DocumentId)
+        public async Task<ActionResult<DealDocumentLogic>> DocumentGetOneAsync([FromRoute]string dealid, [FromRoute]string documentid)
         {
             try
             {
-                return await FwAppDocumentController.GetOneAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, typeof(DealDocumentLogic), "DealId", DealId, string.Empty, string.Empty, DocumentId);
+                return await FwAppDocumentController.GetOneAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, typeof(DealDocumentLogic), "DealId", dealid, string.Empty, string.Empty, documentid);
             }
             catch (Exception ex)
             {
@@ -88,20 +98,19 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Create a New Document
+        /// Create a new document.
         /// </summary>
-        /// <param name="DealId">Unique identifier</param>
-        /// <param name="Model"></param>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        // POST api/v1/deal/{DealId}/document 
-        [HttpPost("{DealId}/document")]
+        [HttpPost("{dealid}/document")]
         [FwControllerMethod(Id: "WJL1tk6IeuV2", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<DealDocumentLogic>> DocumentNewAsync([FromRoute]string DealId, [FromBody]DealDocumentPostRequest Model)
+        public async Task<ActionResult<DealDocumentLogic>> DocumentNewAsync([FromRoute]string dealid, [FromBody]DealDocumentPostRequest model)
         {
             try
             {
-                var logic = AutoMapper.Mapper.Map<DealDocumentLogic>(Model);
-                return await FwAppDocumentController.NewAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "DealId", DealId, string.Empty, string.Empty, logic);
+                var logic = AutoMapper.Mapper.Map<DealDocumentLogic>(model);
+                return await FwAppDocumentController.NewAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "DealId", dealid, string.Empty, string.Empty, logic);
             }
             catch (Exception ex)
             {
@@ -110,21 +119,20 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Edit a Document
+        /// Edit a document.
         /// </summary>
-        /// <param name="DealId">Unique identifier</param>
-        /// <param name="DocumentId">Unique identifier</param>
-        /// <param name="Model"></param>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        // POST api/v1/deal/{DealId}/document/{AppDocumentId} 
-        [HttpPut("{DealId}/document/{AppDocumentId}")]
+        [HttpPut("{dealid}/document/{documentid}")]
         [FwControllerMethod(Id: "rgq1YFxEGCnk", FwControllerActionTypes.ControlEdit, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<DealDocumentLogic>> DocumentEditAsync([FromRoute]string DealId, [FromRoute]string DocumentId, [FromBody]DealDocumentPutRequest Model)
+        public async Task<ActionResult<DealDocumentLogic>> DocumentEditAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromBody]DealDocumentPutRequest model)
         {
             try
             {
-                var logic = AutoMapper.Mapper.Map<DealDocumentLogic>(Model);
-                return await FwAppDocumentController.EditAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "DealId", DealId, string.Empty, string.Empty, DocumentId, logic);
+                var logic = AutoMapper.Mapper.Map<DealDocumentLogic>(model);
+                return await FwAppDocumentController.EditAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "DealId", dealid, string.Empty, string.Empty, documentid, logic);
             }
             catch (Exception ex)
             {
@@ -133,19 +141,206 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Delete a Document
+        /// Delete a document.
         /// </summary>
-        /// <param name="DealId">Unique identifier</param>
-        /// <param name="DocumentId">Unique identifier</param>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
         /// <returns></returns>
-        // DELETE api/v1/deal/aka/A0000001 
-        [HttpDelete("{DealId}/document/{AppDocumentId}")]
+        [HttpDelete("{dealid}/document/{documentid}")]
         [FwControllerMethod(Id: "Mj6UCo67CaAQ", FwControllerActionTypes.ControlDelete, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<bool>> DocumentDeleteAsync([FromRoute]string DealId, [FromRoute]string DocumentId)
+        public async Task<ActionResult<bool>> DocumentDeleteAsync([FromRoute]string dealid, [FromRoute]string documentid)
         {
             try
             {
-                return await FwAppDocumentController.DeleteAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "DealId", DealId, string.Empty, string.Empty, DocumentId);
+                return await FwAppDocumentController.DeleteAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "DealId", dealid, string.Empty, string.Empty, documentid);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        /// <summary>
+        /// Get document thumbnails for any images attached to the document.
+        /// </summary>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
+        /// <param name="pageno">The page number of the result set, starting from page 1.</param>
+        /// <param name="pagesize">The number of records per page of the result set.</param>
+        /// <returns></returns>
+        [HttpGet("{dealid}/document/{documentid}/thumbnails")]
+        [FwControllerMethod(Id: "dslOM5N0cfGE", FwControllerActionTypes.ControlBrowse, ParentId: "5pVhTJtGXLVx")]
+        public async Task<ActionResult<GetDocumentThumbnailsResponse>> DocumentGetThumbnailsAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromQuery]int pageno, [FromQuery]int pagesize)
+        {
+            try
+            {
+                return await FwAppDocumentController.GetThumbnailsAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, pageno, pagesize);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        /// <summary>
+        /// Get a fullsize document image.
+        /// </summary>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
+        /// <param name="imageid">Unique identifier</param>
+        /// <returns></returns>
+        [HttpGet("{dealid}/document/{documentid}/image/{imageid}")]
+        [FwControllerMethod(Id: "bHBWHDzXPYDs", FwControllerActionTypes.ControlBrowse, ParentId: "5pVhTJtGXLVx")]
+        public async Task<ActionResult<GetDocumentImageResponse>> DocumentGetImageAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromRoute]string imageid)
+        {
+            try
+            {
+                return await FwAppDocumentController.GetImageAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, imageid);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        /// <summary>
+        /// Attach an image to a document (supports multiple images, but must be uploaded in separate requests).
+        /// </summary>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("{dealid}/document/{documentid}/image")]
+        [FwControllerMethod(Id: "AX4NPsS7nIuQ", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
+        public async Task<ActionResult<DealDocumentLogic>> DocumentAttachImageFromDataUrlAsync([FromRoute]string dealid, [FromRoute]string documentid, PutDocumentImageRequest request)
+        {
+            try
+            {
+                return await FwAppDocumentController.AttachImageFromDataUrlAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, request);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        /// <summary>
+        /// Attach an image to a document (supports multiple images, but must be uploaded in separate requests).
+        /// </summary>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
+        /// <param name="file">The file to POST.</param>
+        /// <returns></returns>
+        [HttpPost("{dealid}/document/{documentid}/uploadimage")]
+        [FwControllerMethod(Id: "TUsk5CeVVEdr", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
+        public async Task<ActionResult<DealDocumentLogic>> DocumentAttachImageFromUploadAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromForm]IFormFile file)
+        {
+            try
+            {
+                return await FwAppDocumentController.AttachImageFromUploadAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, file);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        /// <summary>
+        /// Delete document image.
+        /// </summary>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
+        /// <param name="imageid">Unique identifier</param>
+        /// <returns></returns>
+        [HttpDelete("{dealid}/document/{documentid}/image/{imageid}")]
+        [FwControllerMethod(Id: "oCvKnIanCUGH", FwControllerActionTypes.ControlDelete, ParentId: "5pVhTJtGXLVx")]
+        public async Task<ActionResult<bool>> DeleteImageAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromRoute]string imageid)
+        {
+            try
+            {
+                return await FwAppDocumentController.DeleteImageAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, imageid);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        /// <summary>
+        /// Get document file.
+        /// </summary>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
+        /// <returns></returns>
+        [HttpGet("{dealid}/document/{documentid}/file")]
+        [FwControllerMethod(Id: "0MS5Tv3YvqwF", FwControllerActionTypes.ControlBrowse, ParentId: "5pVhTJtGXLVx")]
+        public async Task<ActionResult<FileContentResult>> GetFileAsync([FromRoute]string dealid, [FromRoute]string documentid)
+        {
+            try
+            {
+                return await FwAppDocumentController.GetFileAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        /// <summary>
+        /// Attach a file to a document.
+        /// </summary>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPut("{dealid}/document/{documentid}/file")]
+        [FwControllerMethod(Id: "TEeu5N68gYrj", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
+        public async Task<ActionResult<DealDocumentLogic>> DocumentAttachFileFromDataUrlAsync([FromRoute]string dealid, [FromRoute]string documentid, PutDocumentFileRequest request)
+        {
+            try
+            {
+                return await FwAppDocumentController.AttachFileFromDataUrlAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, request);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        /// <summary>
+        /// Attach a file to a document.  This will overwrite any existing file attached to this document without warning.
+        /// </summary>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
+        /// <param name="file">The file to PUT.</param>
+        /// <returns></returns>
+        [HttpPut("{dealid}/document/{documentid}/uploadfile")]
+        [FwControllerMethod(Id: "RzSbofEAfnCY", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
+        public async Task<ActionResult<DealDocumentLogic>> DocumentAttachFileFromUploadAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromForm]IFormFile file)
+        {
+            try
+            {
+                return await FwAppDocumentController.AttachFileFromUploadAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, file);
+            }
+            catch (Exception ex)
+            {
+                return FwGridController.GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        /// <summary>
+        /// Delete document file.
+        /// </summary>
+        /// <param name="dealid">Unique identifier</param>
+        /// <param name="documentid">Unique identifier</param>
+        /// <returns></returns>
+        [HttpDelete("{dealid}/document/{documentid}/file")]
+        [FwControllerMethod(Id: "udhmtXfoY2Ak", FwControllerActionTypes.ControlDelete, ParentId: "5pVhTJtGXLVx")]
+        public async Task<ActionResult<bool>> DeleteImageAsync([FromRoute]string dealid, [FromRoute]string documentid)
+        {
+            try
+            {
+                return await FwAppDocumentController.DeleteFileAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid);
             }
             catch (Exception ex)
             {
