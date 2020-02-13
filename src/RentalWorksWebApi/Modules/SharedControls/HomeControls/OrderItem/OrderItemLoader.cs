@@ -46,10 +46,10 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "row_number() over(partition by rectype order by primaryitemorder)", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(calculatedColumnSql: "row_number() over(partition by rectype order by primaryitemorder, itemorder)", modeltype: FwDataTypes.Integer)]
         public int? RowNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "row_number() over(order by primaryitemorder)", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(calculatedColumnSql: "row_number() over(order by primaryitemorder, itemorder)", modeltype: FwDataTypes.Integer)]
         public int? RowNumberCombined { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
