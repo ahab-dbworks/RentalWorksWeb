@@ -63,7 +63,7 @@ abstract class StagingCheckoutBase {
         $form.find(`div[data-datafield="${this.Type}Id"] input`).focus();
         this.getSuspendedSessions($form);
         this.events($form);
-        this.showPendingAlert($form);
+        // this.showPendingAlert($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
