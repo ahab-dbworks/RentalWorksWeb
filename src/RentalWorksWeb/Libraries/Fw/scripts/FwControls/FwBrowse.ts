@@ -460,12 +460,14 @@ class FwBrowseClass {
                 try {
                     if ($control.attr('data-enabled') != 'false') {
                         const $sort = $control.find('td.manual-sort');
+                        const $newBtn = $control.find('.buttonbar [data-type="NewButton"]');
                         $sort.toggle();
                         if ($sort.is(':visible')) {
                             $control.addClass('sort-mode');
+                            $newBtn.hide();
                         } else {
                             $control.removeClass('sort-mode');
-
+                            $newBtn.show();
                         }
                     }
                 } catch (ex) {
@@ -3840,10 +3842,10 @@ class FwBrowseClass {
                 $confirmation.find('.all-records input').prop('checked', false);
             });
 
+            let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
             $yes.on('click', () => {
-                let userDefinedNumberofRows;
+                const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Downloading Excel Workbook...');
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
-
                 request.pagesize = userDefinedNumberofRows;
                 let includeIdColumns: boolean;
                 $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
@@ -3863,13 +3865,13 @@ class FwBrowseClass {
                         jQuery('#application').append($iframe);
                         setTimeout(function () {
                             $iframe.remove();
+                            FwNotification.closeNotification($notification);
                         }, 500);
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 }, null, null);
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
             });
         } else {
             FwNotification.renderNotification('WARNING', 'There are no records to export.');
