@@ -16,6 +16,10 @@ export class OrderStatusDetailReport extends WebpackReport {
         console.log(parameters, 'orderstatus params');
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
+            // Order information
+            Ajax.get<any>(`${apiUrl}/api/v1/order/${parameters.OrderId}`, authorizationHeader).then((response: any) => {
+                const orderWarehouse = response.Warehouse;
+                const orderDepartment = response.Department;
             // Report rendering and Logo
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
@@ -25,6 +29,8 @@ export class OrderStatusDetailReport extends WebpackReport {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response);
                             data.Company = parameters.companyName;
+                            data.Department = orderDepartment;
+                            data.Warehouse = orderWarehouse;
                             data.Order = parameters.orderno;
                             data.Report = "Order Status Detail";
                             data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
@@ -64,10 +70,12 @@ export class OrderStatusDetailReport extends WebpackReport {
                             this.onRenderReportFailed(ex);
                         });
 
-                })
-                .catch((ex) => {
+                }).catch((ex) => {
                     console.log('exception: ', ex)
                 });
+            }).catch((ex) => {
+                console.log('exception: ', ex);
+            });
 
         } catch (ex) {
             this.onRenderReportFailed(ex);

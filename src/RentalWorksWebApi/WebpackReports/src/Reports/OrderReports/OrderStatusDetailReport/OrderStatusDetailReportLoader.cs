@@ -25,6 +25,12 @@ namespace WebApi.Modules.Reports.OrderStatusDetailReport
         //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
         public string ParentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderwarehouse", modeltype: FwDataTypes.Text)]
+        public string OrderWarehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdepartment", modeltype: FwDataTypes.Text)]
+        public string OrderDepartment { get; set; }
         //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }

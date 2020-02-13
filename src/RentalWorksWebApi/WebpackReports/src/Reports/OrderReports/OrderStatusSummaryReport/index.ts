@@ -16,6 +16,10 @@ export class OrderStatusSummaryReport extends WebpackReport {
         console.log(parameters, 'orderstatus params');
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
+            // Order information
+            Ajax.get<any>(`${apiUrl}/api/v1/order/${parameters.OrderId}`, authorizationHeader).then((response: any) => {
+                const orderWarehouse = response.Warehouse;
+                const orderDepartment = response.Department;
             // Report rendering and Logo
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
@@ -23,8 +27,11 @@ export class OrderStatusSummaryReport extends WebpackReport {
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/orderstatussummaryreport/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
                             const data: any = response;
+
                             data.Items = DataTable.toObjectList(response);
                             data.Company = parameters.companyName;
+                            data.Department = orderDepartment;
+                            data.Warehouse = orderWarehouse;
                             data.Order = parameters.orderno;
                             data.Report = "Order Status Summary";                     
                             data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
@@ -64,10 +71,13 @@ export class OrderStatusSummaryReport extends WebpackReport {
                             this.onRenderReportFailed(ex);
                         });
       
-                })
-                .catch((ex) => {
+                }).catch((ex) => {
                     console.log('exception: ', ex)
                 });
+
+            }).catch((ex) => {
+                console.log('exception: ', ex);
+            });
 
         } catch (ex) {
             this.onRenderReportFailed(ex);
