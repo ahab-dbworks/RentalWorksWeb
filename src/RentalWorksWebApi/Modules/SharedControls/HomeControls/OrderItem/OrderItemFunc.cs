@@ -30,6 +30,12 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public string BelowInventoryId { get; set; }
         public string OrderItemId { get; set; }
     }
+    public class InsertOptionRequest
+    {
+        public string OrderId { get; set; }
+        public string InventoryId { get; set; }
+        public int Quantity { get; set; }
+    }
 
     public static class OrderItemFunc
     {
@@ -240,11 +246,28 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                 qry.AddParameter("@belowmasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.BelowInventoryId);
                 qry.AddParameter("@completeid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderItemId);
-                qry.AddParameter("@newmasteritemid", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@newmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
                 response.msg = qry.GetParameter("@newmasteritemid").ToString();
             }
+            // missing item to insert?
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> InsertOption(FwApplicationConfig appConfig, FwUserSession userSession, InsertOptionRequest request)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
 
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "insertoption", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+                qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.msg = qry.GetParameter("@masteritemid").ToString();
+            }
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
