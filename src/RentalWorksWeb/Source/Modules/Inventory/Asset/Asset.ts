@@ -130,7 +130,7 @@ class RwAsset {
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = RetiredHistoryController.ActiveViewFields;
             request.uniqueids = {
-                RetiredId: itemId
+                ItemId: itemId
             };
         });
         return $browse;

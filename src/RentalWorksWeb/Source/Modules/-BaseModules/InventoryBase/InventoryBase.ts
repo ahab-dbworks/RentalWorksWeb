@@ -163,14 +163,8 @@ abstract class InventoryBase {
                 $browse = (<any>window)[`${module}Controller`].openBrowse();
                 $browse.data('ondatabind', request => {
                     request.activeviewfields = (<any>window)[`${module}Controller`].ActiveViewFields;
-                    if (module === 'RetiredHistory') {
-                        request.uniqueids = {
-                            RetiredId: FwFormField.getValueByDataField($form, 'InventoryId')
-                        }
-                    } else {
-                        request.uniqueids = {
-                            InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                        }
+                    request.uniqueids = {
+                        InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                     }
                 });
             }
