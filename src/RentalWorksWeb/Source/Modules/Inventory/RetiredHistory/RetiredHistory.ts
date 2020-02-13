@@ -103,6 +103,9 @@ class RetiredHistory {
             parentModuleInfo.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             parentModuleInfo.ICode = FwFormField.getTextByDataField($form, 'InventoryId');
             parentModuleInfo.Description = FwFormField.getValueByDataField($form, 'Description');
+            parentModuleInfo.BarCode = FwFormField.getValueByDataField($form, 'BarCode');
+            parentModuleInfo.SerialNumber = FwFormField.getValueByDataField($form, 'SerialNumber');
+            parentModuleInfo.RetiredId = FwFormField.getValueByDataField($form, 'RetiredId');
             const $unretireForm = InventoryUnretireUtilityController.openForm('NEW', parentModuleInfo);
             FwModule.openSubModuleTab($form, $unretireForm);
             jQuery('.tab.submodule.active').find('.caption').html('Unretire Utility');
@@ -129,6 +132,12 @@ class RetiredHistory {
           </div>
           <div class="column flexcolumn" max-width="450px" data-visible="true">
             <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" max-width="250px" data-visible="true">
+            <div class="field" data-caption="Bar Code" data-datafield="BarCode" data-browsedatatype="text" data-sort="desc"></div>
+          </div>
+          <div class="column flexcolumn" max-width="250px" data-visible="true">
+            <div class="field" data-caption="Serial No." data-datafield="SerialNumber" data-browsedatatype="text" data-sort="desc"></div>
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
             <div class="field" data-caption="Retired Date" data-datafield="RetiredDate" data-browsedatatype="date" data-sort="desc"></div>
@@ -159,45 +168,36 @@ class RetiredHistory {
           <div id="retiredhistoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="retiredtab" class="tab" data-tabpageid="retiredtabpage" data-caption="General"></div>
-              <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
               <!-- General tab -->
-                <div data-type="tabpage" id="retiredtabpage" class="tabpage" data-tabid="retiredtab">
-                  <div class="formpage">
-                    <div class="formrow">
-                      <div class="formcolumn" style="width:700px;">
-                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Retire History">
-                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-enabled="false" style="flex:1 1 250px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Consignor" data-datafield="Consignor" data-enabled="false" style="flex:1 1 250px;"></div>
-                          </div>
-                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-validationname="RentalInventoryValidation" data-displayfield="ICode" data-enabled="false" style="flex:1 1 250px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 500px;"></div>
-                          </div>
-                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Retired Date" data-datafield="RetiredDate" data-enabled="false" style="flex:1 1 250px;"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Retired By" data-datafield="RetiredByUserId" data-validationname="UserValidation" data-displayfield="RetiredBy" data-enabled="false" style="flex:1 1 250px;"></div>
-                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Retired Qty" data-datafield="RetiredQuantity" data-enabled="false" style="flex:0 1 250px;"></div>
-                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Unretired Qty" data-datafield="UnretiredQuantity" data-enabled="false" style="flex:0 1 75px;"></div>
-                          </div>
-                          <div class="flexrow">
-                            <div class="fwformcontrol retire-inv-btn" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Unretire Utility</div>
-                          </div>
+              <div data-type="tabpage" id="retiredtabpage" class="tabpage" data-tabid="retiredtab">
+                <div class="formpage">
+                  <div class="flexrow" style="max-width:650px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Retire History">
+                      <div class="flexcolumn" style="max-width:650px;">
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-enabled="false" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-validationname="RentalInventoryValidation" data-displayfield="ICode" data-enabled="false" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 400px;"></div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              <!-- Notes tab -->
-              <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
-                <div class="flexpage">
-                  <div class="flexrow">
-                    <div class="flexcolumn">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Notes">
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="" data-datafield="RetiredNotes"></div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Bar Code" data-datafield="BarCode" data-enabled="false" style="flex:1 1 200px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Serial No." data-datafield="SerialNumber" data-enabled="false" style="flex:1 1 200px;"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Retired Date" data-datafield="RetiredDate" data-enabled="false" style="flex:1 1 200px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Retired By" data-datafield="RetiredByUserId" data-validationname="UserValidation" data-displayfield="RetiredBy" data-enabled="false" style="flex:1 1 200px;"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Retired Qty" data-datafield="RetiredQuantity" data-enabled="false" style="flex:0 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Unretired Qty" data-datafield="UnretiredQuantity" data-enabled="false" style="flex:0 1 75px;"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="RetiredNotes"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div class="fwformcontrol retire-inv-btn" data-type="button" style="flex:0 1 160px;margin:15px 0 0 10px;text-align:center;">UNRETIRE INVENTORY</div>
                         </div>
                       </div>
                     </div>
