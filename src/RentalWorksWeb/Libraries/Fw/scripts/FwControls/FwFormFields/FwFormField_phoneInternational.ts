@@ -29,7 +29,8 @@
         html.push('</div>');
         $control.html(html.join(''));
         const $input = $control.find('input');
-
+        $input.inputmask('(999) 999-9999');
+        $input.attr('maxlength', '14');
         $input.intlTelInput(
             {
                 nationalMode: true,
@@ -39,28 +40,7 @@
                 formatOnDisplay: false,
             }
         );
-        // https://github.com/jackocnr/intl-tel-input intlTelInput Documentation
-    }
-    //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
-
-    }
-    //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
-        const $input = $fwformfield.find('input');
-        if (value) {
-            $fwformfield
-                .attr('data-originalvalue', value)
-                .find('input').intlTelInput('setNumber', value);
-            const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
-            if (countryCode === '1') {
-                $input.inputmask('(999) 999-9999');
-                $input.attr('maxlength', '14');
-            } else {
-                $input.inputmask('remove');
-                $input.attr('maxlength', '10');
-            }
-        }
+                                                                       // https://github.com/jackocnr/intl-tel-input intlTelInput Documentation
         $input.on("countrychange", e => {
             const $this = jQuery(e.currentTarget);
             const countryCode = $this.intlTelInput('getSelectedCountryData').dialCode;
@@ -73,6 +53,27 @@
             }
             $this.change();
         });
+    }
+    //---------------------------------------------------------------------------------
+    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
+
+    }
+    //---------------------------------------------------------------------------------
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+        if (value) {
+            $fwformfield
+                .attr('data-originalvalue', value)
+                .find('input').intlTelInput('setNumber', value);
+        }
+        const $input = $fwformfield.find('input');
+        const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
+        if (countryCode === '1') {
+            $input.inputmask('(999) 999-9999');
+            $input.attr('maxlength', '14');
+        } else {
+            $input.inputmask('remove');
+            $input.attr('maxlength', '10');
+        }
     }
     //---------------------------------------------------------------------------------
     disable($control: JQuery<HTMLElement>): void {
@@ -96,18 +97,18 @@
     }
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+        const $input = $fwformfield.find('input');
         if (value) {
-            const $input = $fwformfield.find('input');
-            const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
-            if (countryCode === '1') {
-                $input.inputmask('(999) 999-9999');
-                $input.attr('maxlength', '14');
-            } else {
-                $input.inputmask('remove');
-                $input.attr('maxlength', '10');
-            }
             const $inputvalue = $input.intlTelInput('setNumber', value);
             if (firechangeevent) $inputvalue.change();
+        }
+        const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
+        if (countryCode === '1') {
+            $input.inputmask('(999) 999-9999');
+            $input.attr('maxlength', '14');
+        } else {
+            $input.inputmask('remove');
+            $input.attr('maxlength', '10');
         }
     }
     //---------------------------------------------------------------------------------

@@ -313,7 +313,7 @@ html.theme-material .fwformfield[data-type="phone"].focused .fwformfield-control
 html.theme-material .fwformfield[data-type="phoneinternational"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff;}
 html.theme-material .fwformfield[data-type="phoneinternational"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}
 html.theme-material .fwformfield[data-type="phoneinternational"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
-html.theme-material .fwformfield[data-type="phoneinternational"] .fwformfield-value {border:0 !important;width:175px;padding:9px 0 0 0;}
+html.theme-material .fwformfield[data-type="phoneinternational"] .fwformfield-value {border:0 !important;width:173px;padding:9px 0 5px 0;}
 html.theme-material .fwformfield[data-type="phoneinternational"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
 /*#endregion*/
 
