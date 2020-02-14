@@ -275,8 +275,6 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            string[] totalfields = new string[] { "Quantity" };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalfields);
 
             return dt;
         }
