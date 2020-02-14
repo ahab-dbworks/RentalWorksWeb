@@ -2323,7 +2323,7 @@ class FwBrowseClass {
                 let dtCol = dt.Columns[i];
                 dt.ColumnIndex[dtCol.DataField] = i;
             }
-            let $tbody = $control.find('.runtime tbody');
+            let $tbody = $control.find('.runtime tbody').remove();
             $tbody.empty();
             for (let rowIndex = 0; rowIndex < dt.Rows.length; rowIndex++) {
                 var $tr;
@@ -2463,6 +2463,8 @@ class FwBrowseClass {
                     funcAfterRenderRow($tr, dt, rowIndex);
                 }
             }
+
+            $control.find('.runtime table').append($tbody);
 
             if ($control.attr('data-type') === 'Grid') {
                 if ($control.attr('data-manualsorting') === 'true') {
@@ -2795,9 +2797,12 @@ class FwBrowseClass {
     generateRow($control) {
         var $table, $theadtds, $tr;
         $table = $control.find('table');
-        $tr = jQuery('<tr>');
-        $theadtds = $table.find('> thead > tr.fieldnames > td.column');
-        for (let i = 0; i < $theadtds.length; i++) {
+        if ($control.data('trtemplate') != undefined) {
+            $tr = $control.data('trtemplate').clone();
+        } else {
+            $tr = jQuery('<tr>');
+            $theadtds = $table.find('> thead > tr.fieldnames > td.column');
+            for (let i = 0; i < $theadtds.length; i++) {
             let $theadtd = $theadtds.eq(i);
             let $td = $theadtd.clone().empty();
             //$td.css({ 'min-width': width });
@@ -2824,9 +2829,11 @@ class FwBrowseClass {
             if ($control.attr('data-hasmultirowselect') !== 'false') {
                 $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
             }
-            $tr.find('.browsecontextmenucell').append('<div class="browsecontextmenu"><i class="material-icons">more_vert</i><div>');
-        }
+                $tr.find('.browsecontextmenucell').append('<div class="browsecontextmenu"><i class="material-icons">more_vert</i><div>');
+            }
 
+            $control.data('trtemplate', $tr.clone());
+        }
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             let controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
