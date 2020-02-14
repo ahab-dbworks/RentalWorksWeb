@@ -1274,7 +1274,20 @@ class OrderItemGrid {
        //----------------------------------------------------------------------------------------------
     renderCompleteKitGridPopup($control: JQuery, $tr: JQuery, itemClass: string): void {
         let HTML: Array<string> = [], $popupHtml, $popup;
-        const type = itemClass === 'C' ? 'Complete' : 'Kit';
+        let type;
+
+        switch (itemClass) {
+            case 'C':
+            case 'CI':
+            case 'CO': //valid value?
+                type = 'Complete';
+                break;
+            case 'K':
+            case 'KI':
+            case 'KO':
+                type = 'Kit';
+                break;
+        }
 
         HTML.push(
             `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form">
@@ -1296,14 +1309,17 @@ class OrderItemGrid {
         FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
         FwPopup.showPopup($popup);
 
-        const inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
-        const orderId = FwBrowse.getValueByDataField($control, $tr, 'OrderId');
+        let inventoryId;
         let parentId;
-        if (itemClass === 'KI' || itemClass === 'CI') {
+        const orderId = FwBrowse.getValueByDataField($control, $tr, 'OrderId');
+        const optionTypes: any = ['KI', 'KO', 'CI', 'CO'];
+        if (optionTypes.includes(itemClass)) {
             const optionParentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
-            const $mainTr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${optionParentId}"]`).parents('tr');
-            parentId = FwBrowse.getValueByDataField($control, $mainTr, 'OrderItemId');
+            $tr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${optionParentId}"]`).parents('tr');
+            parentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+            inventoryId = parentId;
         } else {
+            inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
             parentId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
         }
 
@@ -1321,12 +1337,9 @@ class OrderItemGrid {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    PackageId: inventoryId,
+                    PackageId:  (itemClass === 'K' || itemClass === 'C') ? inventoryId: parentId,
                     WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
                 };
-            },
-            beforeSave: (request: any) => {
-                request.PackageId = inventoryId;
             }
         });
 
