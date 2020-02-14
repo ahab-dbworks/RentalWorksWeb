@@ -197,6 +197,14 @@ class OrderItemGrid {
                                     FwFunc.showError(ex);
                                 }
                             });
+                            //Add line-item option
+                            FwContextMenu.addMenuItem($browsecontextmenu, `Add Line Item`, () => {
+                                try {
+                                    this.addLineItem($control, $tr);
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            });
                         });
                     //}
                     //else if (itemClass === 'KI' || itemClass === 'CI') {
@@ -1271,7 +1279,29 @@ class OrderItemGrid {
                 break;
         }
     }
-       //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+    addLineItem($control: JQuery, $tr: JQuery) {
+        const itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+        const types: any = ['C', 'K', 'I'];
+        let primaryItemId;
+        if (types.includes(itemClass)) {
+            primaryItemId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
+        } else {
+            primaryItemId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+        }
+
+        const request = {
+            OrderId: FwBrowse.getValueByDataField($control, $tr, 'OrderId'),
+            PrimaryItemId: primaryItemId,
+            BelowInventoryId: FwBrowse.getValueByDataField($control, $tr, 'OrderItemId')
+        };
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertlineitem`, request, FwServices.defaultTimeout,
+            response => {
+                FwBrowse.search($control);
+            }, ex => FwFunc.showError(ex), $control);
+    }
+    //----------------------------------------------------------------------------------------------
     renderCompleteKitGridPopup($control: JQuery, $tr: JQuery, itemClass: string): void {
         let HTML: Array<string> = [], $popupHtml, $popup;
         let type;
