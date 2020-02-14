@@ -1263,49 +1263,26 @@ class OrderItemGrid {
         const type = itemClass === 'C' ? 'Complete' : 'Kit';
 
         HTML.push(
-            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Add items to ${type} grid.">
-              <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form">
                 <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
-                <div class="tabpages">
                   <div class="flexpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${type} Grid">
-                     <div class="wideflexrow" style="margin-top:3em;">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="InventoryId" data-datafield="InventoryId" style="display:none;"></div>  
-                        <div data-control="FwGrid" data-grid="Inventory${type}Grid" data-securitycaption=""></div>
-                      </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Update ${type} Options">
+                        <div class="wideflexrow">
+                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="ParentId" style="display:none;"></div>  
+                           <div data-control="FwGrid" data-grid="Inventory${type}Grid" data-securitycaption=""></div>
+                         </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>`);
         $popupHtml = HTML.join('');
         $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
-        FwControl.renderRuntimeControls($popup.find('.fwformfield'));
+        FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
         FwPopup.showPopup($popup);
 
         const inventoryId = FwBrowse.getValueByDataField(null, $tr, 'InventoryId');
-        FwFormField.setValueByDataField($popup.find('.fwform'), 'InventoryId', inventoryId);
-        const recType = FwBrowse.getValueByDataField(null, $tr, 'RecType');
-
-        let controller;
-        switch (recType) {
-            case 'R':
-                controller = 'RentalInventoryController';
-                break;
-            case 'S':
-                controller = 'SalesInventoryController';
-                break;
-            case 'L':
-                controller = 'LaborRateController';
-                break;
-            case 'M':
-                controller = 'MiscRateController';
-                break;
-            case 'P':
-                controller = 'PartsInventoryController';
-                break;
-        }
-        $popup.find('.fwform').attr('data-controller', controller);
+        const orderId = FwBrowse.getValueByDataField(null, $tr, 'OrderId');
+        const parentId = FwBrowse.getValueByDataField(null, $tr, 'OrderItemId');
+        FwFormField.setValueByDataField($popup.find('.fwform'), 'ParentId', parentId);
 
         const $completeKitGrid = FwBrowse.renderGrid({
             nameGrid: `Inventory${type}Grid`,
@@ -1313,19 +1290,9 @@ class OrderItemGrid {
             moduleSecurityId: 'RFgCJpybXoEb',
             $form: $popup,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = true;
-                options.hasEdit = true;
-                options.hasDelete = true;
-                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
-                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        (<any>window)[controller].quikSearch(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
