@@ -188,27 +188,28 @@ class OrderItemGrid {
                 let itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
                 const $browsecontextmenu = $tr.find('.browsecontextmenu');
                 $browsecontextmenu.data('contextmenuoptions', $tr => {
-                    if (itemClass === 'C' || itemClass === 'K') {
+                    //if (itemClass === 'C' || itemClass === 'K') {
                         $browsecontextmenu.data('contextmenuoptions', $tr => {
                             FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
                                 try {
-                                    this.renderCompleteKitGridPopup($tr, itemClass);
+                                    this.renderCompleteKitGridPopup($control, $tr, itemClass);
                                 } catch (ex) {
                                     FwFunc.showError(ex);
                                 }
                             });
                         });
-                    } else if (itemClass === 'KI' || itemClass === 'CI') {
-                        FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
-                            try {
-                                const parentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
-                                const $mainTr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${parentId}"]`).parents('tr');
-                                    this.renderCompleteKitGridPopup($mainTr, itemClass);
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        });
-                    };
+                    //}
+                    //else if (itemClass === 'KI' || itemClass === 'CI') {
+                    //    FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
+                    //        try {
+                    //            const parentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+                    //            const $mainTr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${parentId}"]`).parents('tr');
+                    //                this.renderCompleteKitGridPopup($control, $tr, itemClass);
+                    //        } catch (ex) {
+                    //            FwFunc.showError(ex);
+                    //        }
+                    //    });
+                    //};
 
                 });
             });
@@ -1271,7 +1272,7 @@ class OrderItemGrid {
         }
     }
        //----------------------------------------------------------------------------------------------
-    renderCompleteKitGridPopup($tr: JQuery, itemClass: string): void {
+    renderCompleteKitGridPopup($control: JQuery, $tr: JQuery, itemClass: string): void {
         let HTML: Array<string> = [], $popupHtml, $popup;
         const type = itemClass === 'C' ? 'Complete' : 'Kit';
 
@@ -1284,6 +1285,9 @@ class OrderItemGrid {
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="ParentId" style="display:none;"></div>  
                            <div data-control="FwGrid" data-grid="Inventory${type}Grid" data-securitycaption=""></div>
                          </div>
+                        <div class="wideflexrow" style="flex-direction:row-reverse;">  
+                            <div class="fwformcontrol apply-options" data-type="button" data-enabled="true" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center; max-width:200px;">Apply</div> 
+                        </div>
                     </div>
                 </div>
             </div>`);
@@ -1292,9 +1296,17 @@ class OrderItemGrid {
         FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
         FwPopup.showPopup($popup);
 
-        const inventoryId = FwBrowse.getValueByDataField(null, $tr, 'InventoryId');
-        const orderId = FwBrowse.getValueByDataField(null, $tr, 'OrderId');
-        const parentId = FwBrowse.getValueByDataField(null, $tr, 'OrderItemId');
+        const inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
+        const orderId = FwBrowse.getValueByDataField($control, $tr, 'OrderId');
+        let parentId;
+        if (itemClass === 'KI' || itemClass === 'CI') {
+            const optionParentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+            const $mainTr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${optionParentId}"]`).parents('tr');
+            parentId = FwBrowse.getValueByDataField($control, $mainTr, 'OrderItemId');
+        } else {
+            parentId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
+        }
+
         FwFormField.setValueByDataField($popup.find('.fwform'), 'ParentId', parentId);
 
         const $completeKitGrid = FwBrowse.renderGrid({
@@ -1341,22 +1353,6 @@ class OrderItemGrid {
             $field.on('change', '.value', e => {
                 const quantity = jQuery(e.currentTarget).val();
                 $field.attr('data-originalvalue', Number(quantity));
-                //if (quantity != 0) {
-                //    FwAppData.apiMethod(true, 'POST', "api/v1/checkin/checkinitem", request, FwServices.defaultTimeout,
-                //        function onSuccess(response) {
-                //            if (response.success) {
-                //                $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
-                //                FwBrowse.setFieldValue($grid, $tr, 'QuantityOut', { value: response.InventoryStatus.QuantityOut });
-                //            } else {
-                //                $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
-                //            }
-                //        },
-                //        function onError(response) {
-                //            $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
-                //        }
-                //        , $form);
-                //}
-                //$tr.find('[data-browsedatafield="DefaultQuantity"]')
             });
         });
 
@@ -1374,6 +1370,31 @@ class OrderItemGrid {
             if (!jQuery(e.target).closest('.popup').length) {
                 FwPopup.destroyPopup($popup);
             }
+        });
+
+        $popup.on('click', '.apply-options', e => {
+            const $trs = $completeKitGrid.find(`tbody tr [data-browsedatafield="ParentId"][data-originalvalue="${parentId}"]`);
+            const request: any = {};
+            const $items: any = {};
+            for (let i = 0; i < $trs.length; i++) {
+                const qty = FwBrowse.getValueByDataField($completeKitGrid, jQuery($tr[i]), 'DefaultQuantity')
+                if (qty != 0) {
+                    const item = {
+                        InventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($tr[i]), 'InventoryId'),
+                        Quantity: qty
+                    }
+                    $items.push(item);
+                }
+            }
+
+            request.OrderId = orderId;
+            request.ParentId = parentId;
+            request.Items = $items;
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem/insertoption", request, FwServices.defaultTimeout,
+                response => {
+                    FwBrowse.search($control);
+                },
+                ex => FwFunc.showError(ex), $control);
         });
     }
 }

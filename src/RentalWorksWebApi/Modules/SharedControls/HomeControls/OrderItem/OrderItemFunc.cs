@@ -33,8 +33,13 @@ namespace WebApi.Modules.HomeControls.OrderItem
     public class InsertOptionRequest
     {
         public string OrderId { get; set; }
-        public string InventoryId { get; set; }
         public string ParentId { get; set; }
+        public List<CompleteKitOption> Items { get; set; }
+    }
+
+    public class CompleteKitOption
+    {
+        public string InventoryId { get; set; }
         public int Quantity { get; set; }
     }
 
@@ -251,7 +256,6 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 await qry.ExecuteNonQueryAsync();
                 response.msg = qry.GetParameter("@newmasteritemid").ToString();
             }
-            // missing item to insert?
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
@@ -261,14 +265,16 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
+                foreach (CompleteKitOption item in request.Items) { 
                 FwSqlCommand qry = new FwSqlCommand(conn, "insertoption", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                 qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentId);
-                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
-                qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
+                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, item.InventoryId);
+                qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, item.Quantity);
                 qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
                 response.msg = qry.GetParameter("@masteritemid").ToString();
+                }
             }
             return response;
         }
