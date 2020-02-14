@@ -134,10 +134,10 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderitem/insertintocomplete
-        [HttpPost("insertintocomplete")]
+        // POST api/v1/orderitem/insertlineitem
+        [HttpPost("insertlineitem")]
         [FwControllerMethod(Id: "BwBwNt1RtgwE")]
-        public async Task<ActionResult<TSpStatusResponse>> InsertIntoCompleteAsync([FromBody]InsertIntoCompleteRequest request)
+        public async Task<ActionResult<TSpStatusResponse>> InsertIntoCompleteAsync([FromBody]InsertLineItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -145,7 +145,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
             try
             {
-                return await OrderItemFunc.InsertIntoComplete(AppConfig, UserSession, request);
+                return await OrderItemFunc.InsertLineItem(AppConfig, UserSession, request);
             }
             catch (Exception ex)
             {
