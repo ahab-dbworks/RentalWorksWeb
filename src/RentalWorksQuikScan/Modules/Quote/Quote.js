@@ -1,4 +1,4 @@
-var RwQuote = {};
+﻿var RwQuote = {};
 //----------------------------------------------------------------------------------------------
 RwQuote.getQuoteScreen = function(viewModel, properties) {
     var combinedViewModel = jQuery.extend({
@@ -107,8 +107,14 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                             }
                         }
                     },
-        .on('click', '#quote-pnlButtons-btnCancel', function() {
-            try {
+                    {
+                        id:      'searchdescription',
+                        caption: 'Search By Description',
+                        buttonclick: function() {
+                            $quotemain.hide();
+                            $itemsearch.showscreen();
+                        }
+                    }
                 ]
             },
             {
@@ -263,7 +269,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                         if (response.insert.errno != 0) {
                             FwFunc.showError(response.update.errmsg);
                         } else {
-                            $txtBarcodeData.val('');
+                            $quotemain.find('#scanBarcodeView-txtBarcodeData').val('');
                             $quotemain.find('#item-list').fwmobilesearch('search');
                         }
                     } catch (ex) {
@@ -355,6 +361,89 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
             }
         });
     };
+
+    var $itemsearch = screen.$view.find('#item-search-by-description');
+    $itemsearch.find('#item-search-control').fwmobilemodulecontrol({
+        buttons: [
+            {
+                caption:     'Back',
+                orientation: 'left',
+                icon:        '&#xE5CB;', //chevron_left
+                state:       0,
+                buttonclick: function () {
+                    $itemsearch.hide();
+                    $quotemain.show();
+                }
+            },
+            {
+                caption:     'Select',
+                orientation: 'right',
+                icon:        '&#xE5CC;', //chevron_right
+                state:       0,
+                buttonclick: function () {
+                    var itemdata = $itemsearch.find('.item.selected').data('recorddata');
+                    if (itemdata != null) {
+                        $itemsearch.hide();
+                        $quotemain.show();
+                        screen.promptAddItem({description: itemdata.master, masterNo: itemdata.masterno});
+                    }
+                }
+            }
+        ]
+    });
+    $itemsearch
+        .on('change', '.fwmobilecontrol-value', function () {
+            var value = jQuery(this).val();
+            if (value != '') {
+                var request = {
+                    searchvalue: value,
+                    warehouseid: properties.warehouseid
+                };
+                RwServices.callMethod("Quote", "SearchItems", request, function(response) {
+                    $itemsearch.find('.item-search-items').empty();
+                    if (response.items.length > 0) {
+                        for (var item of response.items) {
+                            var html = [];
+                            html.push('<div class="item">');
+                            html.push('  <div class="row1"><div class="title">' + item.master + '</div></div>');
+                            html.push('  <div class="row2">');
+                            html.push('    <div class="col1">');
+                            html.push('      <div class="datafield masterno">');
+                            html.push('        <div class="caption">' + RwLanguages.translate('I-Code') + ':</div>');
+                            html.push('        <div class="value">' + item.masterno + '</div>');
+                            html.push('      </div>');
+                            html.push('    </div>');
+                            html.push('    <div class="col2">');
+                            html.push('      <div class="datafield rate">');
+                            html.push('        <div class="caption">' + RwLanguages.translate('Rate') + ':</div>');
+                            html.push('        <div class="value">' + numberWithCommas(parseFloat(item.price).toFixed(2)) + '</div>');
+                            html.push('      </div>');
+                            html.push('    </div>');
+                            html.push('  </div>');
+                            html.push('</div>');
+                            var $item = jQuery(html.join(''));
+                            $item.data('recorddata', item);
+
+                            $itemsearch.find('.item-search-items').append($item);
+                        }
+                    } else {
+                        var $zeroitems = jQuery('<div class="zeroitems">0 Items Found</div>');
+                        $itemsearch.find('.item-search-items').append($zeroitems);
+                    }
+                });
+            }
+        })
+        .on('click', '.item', function () {
+            var $this = jQuery(this);
+            $this.siblings().removeClass('selected');
+            $this.addClass('selected');
+        })
+    ;
+    $itemsearch.showscreen = function () {
+        $itemsearch.find('.fwmobilecontrol-value').val('');
+        $itemsearch.find('.item-search-items').empty();
+        $itemsearch.show();
+    }
 
     screen.load = function() {
         program.setScanTarget('#scanBarcodeView-txtBarcodeData');

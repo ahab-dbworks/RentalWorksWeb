@@ -66,7 +66,7 @@ QuikPick.getQuikPickScreen = function() {
         },
         recordClick: function(recorddata) {
             try {
-                screen.loadquote(recorddata.orderid, recorddata.orderno, recorddata.orderdesc, recorddata.ordertype);
+                screen.loadquote(recorddata.orderid, recorddata.orderno, recorddata.orderdesc, recorddata.ordertype, recorddata.warehouseid);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -207,7 +207,7 @@ QuikPick.getQuikPickScreen = function() {
             RwServices.callMethod("QuikPick", "NewQuote", request, function(response) {
                 try {
                     $neworder.hidescreen();
-                    screen.loadquote(response.order.orderid, response.order.orderno, response.order.orderdesc, '');
+                    screen.loadquote(response.order.orderid, response.order.orderno, response.order.orderdesc, response.order.ordertype, response.order.warehouseid);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -235,12 +235,13 @@ QuikPick.getQuikPickScreen = function() {
         return isvalid;
     };
 
-    screen.loadquote = function(orderid, orderno, description, ordertype) {
+    screen.loadquote = function(orderid, orderno, description, ordertype, warehouseid) {
         var quoteScreen_properties = {
             orderid:     orderid,
             orderno:     orderno,
             description: description,
-            ordertype:   ordertype
+            ordertype:   ordertype,
+            warehouseid: warehouseid
         };
         program.pushScreen(RwQuote.getQuoteScreen({}, quoteScreen_properties));
     };

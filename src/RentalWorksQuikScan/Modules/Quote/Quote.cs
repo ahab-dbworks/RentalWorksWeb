@@ -95,6 +95,12 @@ namespace RentalWorksQuikScan.Modules
                                             webusersid: session.security.webUser.webusersid);
         }
         //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public static void SearchItems(dynamic request, dynamic response, dynamic session)
+        {
+            response.items = SearchQuantityItems(request.searchvalue, request.warehouseid);
+        }
+        //---------------------------------------------------------------------------------------------
         public static List<dynamic> QSMasterItem(string orderid, string masteritemid)
         {
             List<dynamic> result;
@@ -177,6 +183,29 @@ namespace RentalWorksQuikScan.Modules
             dynamic result = new ExpandoObject();
             result.errno   = sp.GetParameter("@errno").ToString();
             result.errmsg  = sp.GetParameter("@errmsg").ToString();
+
+            return result;
+        }
+        //---------------------------------------------------------------------------------------------
+        public static List<dynamic> SearchQuantityItems(string searchvalue, string warehouseid)
+        {
+            List<dynamic> result;
+
+            FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("select *");
+            qry.Add("  from masterview with (nolock)");
+            qry.Add(" where warehouseid = @warehouseid");
+            qry.Add("   and availfor in ('R')");
+            qry.Add("   and availfrom in ('W')");
+            qry.Add("   and inactive <> 'T'");
+            qry.Add("   and hasqty = 'T'");
+            qry.Add("   and trackedby = 'QUANTITY'");
+            qry.Add("   and class = 'I'");
+            qry.Add("   and master like '%' + @searchvalue + '%'");
+            qry.Add("order by master");
+            qry.AddParameter("@searchvalue", searchvalue);
+            qry.AddParameter("@warehouseid", warehouseid);
+            result = qry.QueryToDynamicList2();
 
             return result;
         }

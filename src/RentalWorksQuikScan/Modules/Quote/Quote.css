@@ -3,17 +3,24 @@
 #moduleLock img {width: 30px;height: 30px;/*padding: 10px;*/}
 
 #quote .searchresults {padding:5px;}
-#quote .fwmobilesearch .item.link:active {background-color: #455A64;}
-#quote .fwmobilesearch .row1 {font-size:12px;font-weight: bold;padding: 2px 5px;background-color: #424242;}
-#quote .fwmobilesearch .item.link .row1 {text-decoration:underline;}
-#quote .fwmobilesearch .item.link:active .row1 {background-color: #607D8B;}
-#quote .fwmobilesearch .item.inrepair .row1 {background-color: #F44336;}
-#quote .fwmobilesearch .row2 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
-#quote .fwmobilesearch .col1 {flex: 1 1 0;}
-#quote .fwmobilesearch .col2 {flex: 1 1 0;}
-#quote .fwmobilesearch .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
-#quote .fwmobilesearch .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
-#quote .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;}
-#quote .fwmobilesearch .searchfooter {display:none;}
+#quote .item.link:active {background-color: #455A64;}
+#quote .row1 {font-size:12px;font-weight: bold;padding: 2px 5px;background-color: #424242;}
+#quote .item.link .row1 {text-decoration:underline;}
+#quote .item.link:active .row1 {background-color: #607D8B;}
+#quote .item.inrepair .row1 {background-color: #F44336;}
+#quote .row2 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
+#quote .col1 {flex: 1 1 0;}
+#quote .col2 {flex: 1 1 0;}
+#quote .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
+#quote .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
+#quote .value {flex: 1 1 0;font-size:.625em;}
+#quote .searchfooter {display:none;}
 
 #quote #quote-grandtotal {background-color: rgba(0,0,0,.3);border-top:1px solid rgba(80,80,80,1);padding:5px;text-align:right;font-size:12px;}
+
+#quote #item-search-by-description {display:none;}
+#quote #item-search-by-description .item-search-items {background-color: #212121;padding:5px;}
+#quote #item-search-by-description .item-search-items .item {padding: 0 0 20px 0;cursor:pointer;}
+#quote #item-search-by-description .item-search-items .item.selected {background-color: rgba(33, 150, 243, 0.5);}
+#quote #item-search-by-description .item-search-items .item.selected .row1 {background-color: rgba(33, 150, 243, 0.5);}
+#quote #item-search-by-description .item-search-items .zeroitems {text-align:center;padding:10px 0;}
