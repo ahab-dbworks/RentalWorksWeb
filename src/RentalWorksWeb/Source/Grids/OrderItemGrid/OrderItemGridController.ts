@@ -187,7 +187,7 @@ class OrderItemGrid {
                 //Option to open up Complete/Kit grid to add items
                 let itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
                 const $browsecontextmenu = $tr.find('.browsecontextmenu');
-                $browsecontextmenu.data('contextmenuoptions', $tr => {
+                //$browsecontextmenu.data('contextmenuoptions', $tr => {
                     //if (itemClass === 'C' || itemClass === 'K') {
                         $browsecontextmenu.data('contextmenuoptions', $tr => {
                             FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
@@ -211,7 +211,7 @@ class OrderItemGrid {
                     //    });
                     //};
 
-                });
+                //});
             });
 
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
@@ -1373,14 +1373,14 @@ class OrderItemGrid {
         });
 
         $popup.on('click', '.apply-options', e => {
-            const $trs = $completeKitGrid.find(`tbody tr [data-browsedatafield="ParentId"][data-originalvalue="${parentId}"]`);
+            const $trs = $completeKitGrid.find(`tbody tr [data-browsedatafield="IsPrimary"][data-originalvalue="false"]`).parents('tr');
             const request: any = {};
-            const $items: any = {};
+            const $items: any = [];
             for (let i = 0; i < $trs.length; i++) {
-                const qty = FwBrowse.getValueByDataField($completeKitGrid, jQuery($tr[i]), 'DefaultQuantity')
+                const qty = FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'DefaultQuantity')
                 if (qty != 0) {
                     const item = {
-                        InventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($tr[i]), 'InventoryId'),
+                        InventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'InventoryId'),
                         Quantity: qty
                     }
                     $items.push(item);
