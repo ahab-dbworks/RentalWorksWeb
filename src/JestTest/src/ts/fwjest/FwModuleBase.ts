@@ -729,6 +729,7 @@ export class FwModuleBase {
                 }
                 switch (datatype) {
                     case 'phone':
+                    case 'phoneinternational':
                     case 'email':
                     case 'zipcode':
                     case 'percent':
@@ -812,6 +813,7 @@ export class FwModuleBase {
                 const datatype = await this.getDataType(dataField);
                 switch (datatype) {
                     case 'phone':
+                    case 'phoneinternational':
                     case 'email':
                     case 'zipcode':
                     case 'text':
