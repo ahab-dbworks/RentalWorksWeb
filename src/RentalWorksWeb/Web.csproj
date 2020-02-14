@@ -153,28 +153,9 @@
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\intlTelInput.css" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\img\flags%402x.png" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\img\flags.png" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput-jquery.js" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput.js" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\utils.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\babel.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\bump.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\concat.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\cssmin.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\eslint.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\exec.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\imagemin.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\jasmine.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\replace.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\responsive_images.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\retinafy.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\sass.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\shell.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\sprite.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\template.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\uglify.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\watch.js" />
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
@@ -1319,6 +1300,8 @@
     <Content Include="theme\images\icons\administrator\placeholder.png" />
     <Content Include="theme\images\icons\integration\placeholder.png" />
     <Content Include="theme\images\icons\utilities\placeholder.png" />
+    <Content Include="theme\images\intlinputflags\flags%402x.png" />
+    <Content Include="theme\images\intlinputflags\flags.png" />
     <Content Include="theme\images\no-image.jpg" />
     <Content Include="theme\images\qrcodesample.jpg" />
     <Content Include="theme\images\rentalworkslogo.png" />
@@ -1363,7 +1346,6 @@
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.js.map" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js.map" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.js.map" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\tmpl\sprite.scss.mustache" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
