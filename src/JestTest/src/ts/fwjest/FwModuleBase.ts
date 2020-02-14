@@ -729,7 +729,6 @@ export class FwModuleBase {
                 }
                 switch (datatype) {
                     case 'phone':
-                    case 'phoneinternational':
                     case 'email':
                     case 'zipcode':
                     case 'percent':
@@ -745,6 +744,13 @@ export class FwModuleBase {
                             await this.clearInputField(fieldToPopulate);
                         }
                         await this.populateTextField(fieldToPopulate, valueToPopulate);
+                        break;
+                    case 'phoneinternational':
+                        currentValue = await this.getDataFieldValue(fieldToPopulate);
+                        if (currentValue != "") {
+                            await this.clearInputField(fieldToPopulate);
+                        }
+                        await this.populateInternationalPhoneField(fieldToPopulate, valueToPopulate);
                         break;
                     case 'textarea':
                         currentValue = await this.getDataFieldValue(fieldToPopulate);
@@ -907,6 +913,20 @@ export class FwModuleBase {
             //await page.type(`.fwformfield[data-datafield="${dataField}"] input`, value);
             const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
             await elementHandle.click();
+            await page.keyboard.sendCharacter(value);
+        }
+    }
+    //---------------------------------------------------------------------------------------
+    async populateInternationalPhoneField(dataField: string, value: string): Promise<void> {
+        if (value === '') {
+            await this.clearInputField(dataField);
+        }
+        else {
+            //await page.type(`.fwformfield[data-datafield="${dataField}"] input`, value);
+            const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
+            await elementHandle.click();
+            await elementHandle.focus();
+            await elementHandle.click({ clickCount: 3 });
             await page.keyboard.sendCharacter(value);
         }
     }
