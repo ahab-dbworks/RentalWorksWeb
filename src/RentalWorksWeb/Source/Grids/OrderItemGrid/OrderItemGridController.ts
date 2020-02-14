@@ -185,19 +185,32 @@ class OrderItemGrid {
                 }
 
                 //Option to open up Complete/Kit grid to add items
-                const itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
-                if (itemClass === 'C' || itemClass === 'K') {
-                    const $browsecontextmenu = $tr.find('.browsecontextmenu');
-                    $browsecontextmenu.data('contextmenuoptions', $tr => {
-                        FwContextMenu.addMenuItem($browsecontextmenu, `Add to ${itemClass === 'C' ? 'Complete' : 'Kit'}`, () => {
+                let itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+                const $browsecontextmenu = $tr.find('.browsecontextmenu');
+                $browsecontextmenu.data('contextmenuoptions', $tr => {
+                    if (itemClass === 'C' || itemClass === 'K') {
+                        $browsecontextmenu.data('contextmenuoptions', $tr => {
+                            FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
+                                try {
+                                    this.renderCompleteKitGridPopup($tr, itemClass);
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            });
+                        });
+                    } else if (itemClass === 'KI' || itemClass === 'CI') {
+                        FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
                             try {
-                                this.renderCompleteKitGridPopup($tr, itemClass);
+                                const parentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+                                const $mainTr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${parentId}"]`).parents('tr');
+                                    this.renderCompleteKitGridPopup($mainTr, itemClass);
                             } catch (ex) {
                                 FwFunc.showError(ex);
                             }
                         });
-                    });
-                }
+                    };
+
+                });
             });
 
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
@@ -1304,7 +1317,52 @@ class OrderItemGrid {
                 request.PackageId = inventoryId;
             }
         });
+
+        const fieldsToHide: any = ['ItemTrackedBy', 'IsOption', 'Charge'];
+        const $thead = $completeKitGrid.find('thead');
+        for (let i = 0; i < fieldsToHide.length; i++) {
+            $thead.find(`[data-browsedatafield="${fieldsToHide[i]}"]`).parent('td').hide();
+        }
+        FwBrowse.setAfterRenderRowCallback($completeKitGrid, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+            const defaultQuantity = 0;
+            const $field = $tr.find('[data-browsedatafield="DefaultQuantity"]');
+            $field.attr('data-browsedatatype', 'numericupdown');
+            $field.attr('data-originalvalue', defaultQuantity);
+            FwBrowse.setFieldViewMode($completeKitGrid, $tr, $field);
+
+            //Hides Quantity increment/decrement controls if allowQuantityVal is false
+            if (FwBrowse.getValueByDataField($completeKitGrid, $tr, 'InventoryId') === inventoryId) {
+                $field
+                    .hide()
+                    .parents('td')
+                    .css('background-color', 'rgb(245,245,245)');
+            }
+
+            $field.on('change', '.value', e => {
+                const quantity = jQuery(e.currentTarget).val();
+                $field.attr('data-originalvalue', Number(quantity));
+                //if (quantity != 0) {
+                //    FwAppData.apiMethod(true, 'POST', "api/v1/checkin/checkinitem", request, FwServices.defaultTimeout,
+                //        function onSuccess(response) {
+                //            if (response.success) {
+                //                $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
+                //                FwBrowse.setFieldValue($grid, $tr, 'QuantityOut', { value: response.InventoryStatus.QuantityOut });
+                //            } else {
+                //                $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
+                //            }
+                //        },
+                //        function onError(response) {
+                //            $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
+                //        }
+                //        , $form);
+                //}
+                //$tr.find('[data-browsedatafield="DefaultQuantity"]')
+            });
+        });
+
+        FwBrowse.disableGrid($completeKitGrid);
         FwBrowse.search($completeKitGrid);
+
         // Close modal
         $popup.find('.close-modal').one('click', e => {
             FwPopup.destroyPopup($popup);
