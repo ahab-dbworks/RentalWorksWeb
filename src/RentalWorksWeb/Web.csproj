@@ -153,7 +153,6 @@
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\.grenrc.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\demo.css" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\intlTelInput.css" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\intlTelInput.min.css" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\img\flags%402x.png" />
