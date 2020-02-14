@@ -8,7 +8,7 @@ using System.Dynamic;
 
 namespace RentalWorksQuikScan.Modules
 {
-    class QuoteMenu
+    class QuikPick
     {
         [FwJsonServiceMethod]
         public void QuoteSearch(dynamic request, dynamic response, dynamic session)

@@ -219,36 +219,6 @@ namespace RentalWorksQuikScan.Source
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.UnstageItem(request, response, session); }
                 ),
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser, RwUserRoles.RentalWorksDealContact},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/quote/loadquoteitems", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetQuoteItems(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser, RwUserRoles.RentalWorksDealContact},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/quote/additem", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.AddItem(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser, RwUserRoles.RentalWorksDealContact},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/quote/updateitemqty", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.UpdateItemQty(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser, RwUserRoles.RentalWorksDealContact},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/quote/deleteitem", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.DeleteItem(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser, RwUserRoles.RentalWorksDealContact},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/quote/submitquote", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.QSSubmitQuote(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser, RwUserRoles.RentalWorksDealContact},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/quote/cancelquote", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.QSCancelQuote(request, response, session); }
-                ),
-                new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/getrfidstatus", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetRFIDStatus(request, response, session); }

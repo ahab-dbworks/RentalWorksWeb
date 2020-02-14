@@ -12,7 +12,6 @@ declare var RwPartialController: any;
 declare var RwSelectOrder: any;
 declare var RwSelectPO: any;
 declare var RwQuote: any;
-declare var RwQuoteMenu: any;
 declare var RwRFID: any;
 declare var RwRoutes: any;
 declare var RwServices: any;
@@ -22,6 +21,7 @@ declare var RwAppData: any;
 declare var AssetSetLocation: any;
 declare var Exchange: any;
 declare var PhysicalInventory: any;
+declare var QuikPick: any;
 declare var ReceiveOnSet: any;
 declare var TimeLog: any;
 
