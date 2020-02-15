@@ -57,21 +57,21 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
             ActionResult<FwReportRenderResponse> response = await DoRender(request);
             return new OkObjectResult(response);
         }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/manifestreport/exportexcelxlsx/filedownloadname 
-        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "fBLkHuI0p4EA")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ManifestSummaryReportRequest request)
-        {
-            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
-            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
-            return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
-        }
+        ////------------------------------------------------------------------------------------ 
+        //// POST api/v1/manifestreport/exportexcelxlsx/filedownloadname 
+        //[HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        //[FwControllerMethod(Id: "fBLkHuI0p4EA")]
+        //public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ManifestSummaryReportRequest request)
+        //{
+        //    ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+        //    FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+        //    return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
+        //}
         //------------------------------------------------------------------------------------ 
         // POST api/v1/manifestreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "gQbBa1zghqTv")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]ManifestSummaryReportRequest request)
+        public async Task<ActionResult<ManifestHeaderLoader>> RunReportAsync([FromBody]ManifestSummaryReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -81,9 +81,9 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
             {
                 ManifestSummaryReportLoader l = new ManifestSummaryReportLoader();
                 l.SetDependencies(this.AppConfig, UserSession);
-                FwJsonDataTable dt = await l.RunReportAsync(request);
+                ManifestHeaderLoader Order = await l.RunReportAsync(request);
                 //l.HideSummaryColumnsInDataTable(request, dt);
-                return new OkObjectResult(dt);
+                return new OkObjectResult(Order);
             }
             catch (Exception ex)
             {

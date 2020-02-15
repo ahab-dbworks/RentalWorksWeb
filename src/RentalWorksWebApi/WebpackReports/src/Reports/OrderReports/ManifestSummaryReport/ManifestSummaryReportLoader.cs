@@ -246,10 +246,44 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
             return totalweight;
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(ManifestSummaryReportRequest request)
+        public async Task<FwJsonDataTable> GetItemsTable(ManifestSummaryReportRequest request)
         {
+                useWithNoLock = false;
+                FwJsonDataTable dt = null;
+                if (request.manifestItems == "SUMMARY")
+                {
+                    request.rentalValueSelector = "REPLACEMENT COST";
+                }
+                else
+                {
+                    request.rentalValueSelector = "UNIT VALUE";
+                }
+                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlSelect select = new FwSqlSelect();
+                    select.EnablePaging = false;
+                    select.UseOptionRecompile = true;
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        SetBaseSelectQuery(select, qry);
+                        select.Parse();
+                        select.AddParameter("@orderid", request.OrderId);
+                        select.AddParameter("@rentalvalue", request.rentalValueSelector);
+                        select.AddParameter("@salesvalue", /*request.salesValueSelector*/ "SELL PRICE");
+                        select.AddParameter("@filterby", /*request.manifestFilter*/ "ALL");
+                        select.AddParameter("@mode", request.manifestItems);
+                        dt = await qry.QueryToFwJsonTableAsync(select, false);
+                    }
+                }
+            string[] totalFields = new string[] { "ValueExtended", "Quantity" };
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            return dt;
+        }
+        //-------------------------------------------------------------------------------------
+        public async Task<ManifestHeaderLoader> RunReportAsync(ManifestSummaryReportRequest request)
+        {
+            ManifestHeaderLoader Order = null;
             useWithNoLock = false;
-            FwJsonDataTable dt = null;
             if (request.manifestItems == "SUMMARY")
             {
                 request.rentalValueSelector = "REPLACEMENT COST";
@@ -260,24 +294,117 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
             }
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlSelect select = new FwSqlSelect();
-                select.EnablePaging = false;
-                select.UseOptionRecompile = true;
-                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                await conn.OpenAsync();
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintheader", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    SetBaseSelectQuery(select, qry);
-                    select.Parse();
-                    select.AddParameter("@orderid", request.OrderId); 
-                    select.AddParameter("@rentalvalue", request.rentalValueSelector);
-                    select.AddParameter("@salesvalue", /*request.salesValueSelector*/ "SELL PRICE");
-                    select.AddParameter("@filterby", /*request.manifestFilter*/ "ALL");
-                    select.AddParameter("@mode", request.manifestItems);
-                    dt = await qry.QueryToFwJsonTableAsync(select, false);
+                    qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
+                    AddPropertiesAsQueryColumns(qry);
+                    Task<ManifestHeaderLoader> taskOrder = qry.QueryToTypedObjectAsync<ManifestHeaderLoader>();
+                    Order = taskOrder.Result;
                 }
-            }
 
-            return dt;
+            }
+            Order.ItemsTable = await GetItemsTable(request);
+            return Order;
         }
         //------------------------------------------------------------------------------------ 
+    }
+        public class ManifestHeaderLoader : AppReportLoader
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
+        public string Agent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agentemail", modeltype: FwDataTypes.Text)]
+        public string AgentEmail { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "officelocation", modeltype: FwDataTypes.Text)]
+        public string OfficeLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locphone", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locadd1", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locadd2", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loccitystatezipcountry", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationCityStateZipCodeCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "issuedtocompany", modeltype: FwDataTypes.Text)]
+        public string IssuedToCompany { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "issuedtoatt1", modeltype: FwDataTypes.Text)]
+        public string IssuedToAttention1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "issuedtoatt2", modeltype: FwDataTypes.Text)]
+        public string IssuedToAttention2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "issuedtoadd1", modeltype: FwDataTypes.Text)]
+        public string IssuedToAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "issuedtoadd2", modeltype: FwDataTypes.Text)]
+        public string IssuedToAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "issuedtocity", modeltype: FwDataTypes.Text)]
+        public string IssuedToCity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "issuedtostate", modeltype: FwDataTypes.Text)]
+        public string IssuedToState { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "issuedtozip", modeltype: FwDataTypes.Text)]
+        public string IssuedToZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "issuedtocountry", modeltype: FwDataTypes.Text)]
+        public string IssuedToCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "issuedtophone", modeltype: FwDataTypes.Text)]
+        public string IssuedToPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliverylocation", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliveryadd1", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliveryadd2", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliverycity", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryCity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliverystate", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryState { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliveryzip", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliverycountryid", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryCountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliverycountry", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliverycontactphone", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "usagedates", modeltype: FwDataTypes.Text)]
+        public string UsageDates { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
+        public string BillingDates { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
+        public string Description { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
+        public string Deal { get; set; }
+        //------------------------------------------------------------------------------------
+        public FwJsonDataTable ItemsTable { get; set; }
     }
 }

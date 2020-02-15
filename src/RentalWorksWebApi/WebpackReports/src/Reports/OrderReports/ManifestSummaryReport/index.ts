@@ -21,17 +21,33 @@ export class ManifestReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const logoObject: any = response;
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/manifestsummaryreport/runreport`, authorizationHeader, parameters)
-                        .then((response: DataTable) => {
+                        .then((response: any) => {
                             const data: any = response;
-                            data.Items = DataTable.toObjectList(response);
+                            data.Items = DataTable.toObjectList(response.ItemsTable);
                             data.Company = parameters.companyName;
-                            data.Order = parameters.orderno;
-                            data.Report = "Manifest Report";                     
+                            data.OrderNumber = parameters.orderno;
+                            data.Report = "Value Sheet";
+                            data.Date = moment().format('MM/DD/YYYY');
                             data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
                             data.TermsAndConditions == '';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
+                            }
+
+                            for (let i = 0; i < data.Items.length; i++) {
+                                if (data.Items[i].ValuePerItem !== null) {
+                                    data.Items[i].ValuePerItem = data.Items[i].ValuePerItem.toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                    });
+                                }
+                                if (data.Items[i].ValueExtended !== null) {
+                                    data.Items[i].ValueExtended = data.Items[i].ValueExtended.toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                    });
+                                }
                             }
 
 
