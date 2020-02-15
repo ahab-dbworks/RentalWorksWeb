@@ -24,6 +24,8 @@ namespace WebApi.Modules.Home.Retired
         public string Description { get; set; }
         [FwLogicProperty(Id: "UWhjgWuqv6zs9", IsReadOnly: true)]
         public string BarCode { get; set; }
+        [FwLogicProperty(Id: "uJlBw0bC5caj0", IsReadOnly: true)]
+        public string ItemId { get; set; }
         [FwLogicProperty(Id: "9SBp0KKDs0gz2", IsReadOnly: true)]
         public string SerialNumber { get; set; }
         [FwLogicProperty(Id: "IEtDiVnlumX7C")]
