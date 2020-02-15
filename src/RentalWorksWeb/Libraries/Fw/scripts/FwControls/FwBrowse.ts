@@ -3935,6 +3935,9 @@ class FwBrowseClass {
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
             html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-col" data-caption="Include All fields" data-datafield="" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" class="fwcontrol fwformfield" data-checkboxlist="persist" data-type="checkboxlist" data-sortable="true" data-orderby="false" data-caption="FIELDS" data-datafield="FieldList" style="float:left;width:440px;display:none;"></div>`);
+            html.push('  </div>');
             html.push('</div>');
 
             FwConfirmation.addControls($confirmation, html.join(''));
@@ -3949,6 +3952,7 @@ class FwBrowseClass {
             }
 
             $confirmation.find('.all-records input').prop('checked', true);
+            $confirmation.find('.all-col input').prop('checked', true);
 
             $confirmation.find('.all-records input').on('change', function () {
                 const $this = jQuery(this);
@@ -3969,18 +3973,18 @@ class FwBrowseClass {
                     $confirmation.find('.all-records input').prop('checked', true);
                 }
             });
-            $confirmation.find('.all-col input').on('change', function () {
-                const $this = jQuery(this);
+            $confirmation.find('.all-col input').on('change', e => {
+                const $this = jQuery(e.currentTarget);
                 if ($this.prop('checked') === true) {
-                    // hide popup
+                    $confirmation.find('div[data-datafield="FieldList"]').hide();
                 }
                 else {
-                    // API CALL - if first call, store fields on popup
-                    // invoke render popup, pass in field
-
+                    $confirmation.find('div[data-datafield="FieldList"]').show();
+                    if ($confirmation.find('div[data-datafield="FieldList"]').attr('api-req') !== 'true') {
+                        renderColumnPopup($confirmation, controller);
+                    }
                 }
             });
-            //function renderColumnPopup()
 
             $confirmation.find('.user-defined-records-input input').keypress(function () {
                 $confirmation.find('.user-defined-records input').prop('checked', true);
@@ -4015,6 +4019,28 @@ class FwBrowseClass {
                 }, null, null);
                 FwConfirmation.destroyConfirmation($confirmation);
             });
+            // ----------
+            function renderColumnPopup($confirmation, controller) {
+                FwAppData.apiMethod(true, 'GET', (<any>window[controller]).apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
+                    const fields = [];
+                    for (let key in response) {
+                        if (!key.startsWith('_')) {
+                            fields.push({
+                                'value': key,
+                                'text': key,
+                                'selected': "T",
+                            })
+                        }
+                    }
+                    fields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
+                    FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                    $confirmation.find('div[data-datafield="FieldList"]').attr('api-req', 'true');
+
+                    // store user choice for actual download
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, null);
+            }
         } else {
             FwNotification.renderNotification('WARNING', 'There are no records to export.');
         }
