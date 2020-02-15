@@ -4037,6 +4037,8 @@ class FwBrowseClass {
                     $confirmation.find('div[data-datafield="FieldList"]').attr('api-req', 'true');
 
                     // store user choice for actual download
+                    // send array of names chosen
+                    // rework request from color and id columns to new
                 }, function onError(response) {
                     FwFunc.showError(response);
                 }, null);
