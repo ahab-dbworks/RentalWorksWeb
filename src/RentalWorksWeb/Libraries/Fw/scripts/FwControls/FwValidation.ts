@@ -332,8 +332,12 @@
                 throw 'FwValidation: Validation is not setup correctly. Missing validation display field.';
             }
         }
+
         if ($control.attr('data-showinactivemenu') === 'true') {
             this.addInactiveMenu($validationbrowse);
+        }
+        if ($control.attr('data-showonlyinactive') === 'true') { // for validation cases where only inactive records are desired
+            $validationbrowse.attr('data-activeinactiveview', 'inactive');
         }
         FwBrowse.search($validationbrowse);
     };
