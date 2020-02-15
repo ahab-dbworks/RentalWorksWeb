@@ -49,7 +49,7 @@ class FwBrowseColumn_numberClass implements IFwBrowseColumn {
         //    autoGroup: (((typeof $field.attr('data-formatnumeric') !== 'undefined') && ($field.attr('data-formatnumeric') == 'true')) ? true : false)
         //});
 
-        $field.on('click', function() {
+        $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
             }
@@ -57,17 +57,17 @@ class FwBrowseColumn_numberClass implements IFwBrowseColumn {
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
-        var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
+        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         let html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
         if (typeof $browse.attr('data-minvalue') !== 'undefined') {
-            html.push(' min="'+ $browse.attr('data-minvalue') + '"');
+            html.push(' min="' + $browse.attr('data-minvalue') + '"');
         }
         if (typeof $browse.attr('data-maxvalue') !== 'undefined') {
-            html.push(' max="'+ $browse.attr('data-maxvalue') + '"');
+            html.push(' max="' + $browse.attr('data-maxvalue') + '"');
         }
         html.push(' />');
         let htmlString = html.join('');

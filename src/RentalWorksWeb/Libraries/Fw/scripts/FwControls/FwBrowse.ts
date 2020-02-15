@@ -2800,21 +2800,21 @@ class FwBrowseClass {
         let $tr;
 
         if ($control.data('trtemplate') != undefined) {
-            $tr = $control.data('trtemplate').clone();    
+            $tr = $control.data('trtemplate').clone();
         } else {
             $tr = jQuery('<tr>');
             const $theadtds = $table.find('> thead > tr.fieldnames > td.column');
             for (let i = 0; i < $theadtds.length; i++) {
                 let $theadtd = $theadtds.eq(i);
                 let $td = $theadtd.clone().empty();
-            //$td.css({ 'min-width': width });
-            $tr.append($td);
-            var $theadfields = $theadtd.children('.field');
-            $theadfields.each(function (index, element) {
-                var $theadfield, $field, $field_newmode, formdatatype;
-                $theadfield = jQuery(element);
-                $field = $theadfield.clone().empty();
-                $td.append($field);
+                //$td.css({ 'min-width': width });
+                $tr.append($td);
+                var $theadfields = $theadtd.children('.field');
+                $theadfields.each(function (index, element) {
+                    var $theadfield, $field, $field_newmode, formdatatype;
+                    $theadfield = jQuery(element);
+                    $field = $theadfield.clone().empty();
+                    $td.append($field);
                 });
             }
 
