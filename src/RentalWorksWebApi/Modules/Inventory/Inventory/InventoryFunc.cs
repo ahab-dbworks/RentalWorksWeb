@@ -58,8 +58,7 @@ namespace WebApi.Modules.Inventory.Inventory
 
     public class UnretireInventoryRequest
     {
-        public string InventoryId { get; set; }
-        public string WarehouseId { get; set; }
+        public string RetiredId { get; set; }
         public string ItemId { get; set; }
         public string UnretiredReasonId { get; set; }
         public string Notes { get; set; }
@@ -178,10 +177,8 @@ namespace WebApi.Modules.Inventory.Inventory
                 conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
             }
             FwSqlCommand qry = new FwSqlCommand(conn, "unretireitems", appConfig.DatabaseSettings.QueryTimeout);
-            qry.AddParameter("@retiredid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+            qry.AddParameter("@retiredid", SqlDbType.NVarChar, ParameterDirection.Input, request.RetiredId);
             qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Input, request.ItemId);
-            qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
-            //qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
             qry.AddParameter("@unretiredreasonid", SqlDbType.NVarChar, ParameterDirection.Input, request.UnretiredReasonId);
             qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
             qry.AddParameter("@notes", SqlDbType.NVarChar, ParameterDirection.Input, request.Notes);
@@ -189,12 +186,12 @@ namespace WebApi.Modules.Inventory.Inventory
             //qry.AddParameter("@outonly", SqlDbType.NVarChar, ParameterDirection.Input, request.OutOnly);
             //qry.AddParameter("@outorderid", SqlDbType.NVarChar, ParameterDirection.Input, request.xxxx);
             //qry.AddParameter("@outcontractid", SqlDbType.NVarChar, ParameterDirection.Input, request.xxxx);
-
             qry.AddParameter("@unretiredid", SqlDbType.NVarChar, ParameterDirection.Output);
             await qry.ExecuteNonQueryAsync();
             response.UnretiredId = qry.GetParameter("@unretiredid").ToString();
             response.success = !string.IsNullOrEmpty(response.UnretiredId);
             return response;
         }
+        //-------------------------------------------------------------------------------------------------------
     }
 }
