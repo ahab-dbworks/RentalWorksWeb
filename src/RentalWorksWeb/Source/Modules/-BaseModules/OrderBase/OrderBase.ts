@@ -3192,40 +3192,40 @@ class OrderBase {
             }
 
             for (let i = 0; i < orderTypeData.hiddenRentals.length; i++) {
-                jQuery($rentalGrid.find(`[data-mappedfield="${orderTypeData.hiddenRentals[i]}"]`)).parent().remove();
-                //jQuery($rentalGrid.find(`[data-mappedfield="${orderTypeData.hiddenRentals[i]}"]`)).parent().hide();
+                jQuery($rentalGrid.find(`[data-mappedfield="${orderTypeData.hiddenRentals[i]}"]`)).parent().hide();
+                //jQuery($rentalGrid.find(`[data-mappedfield="${orderTypeData.hiddenRentals[i]}"]`)).parent().remove();
             }
             const $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
             for (let i = 0; i < orderTypeData.hiddenSales.length; i++) {
-                //jQuery($salesGrid.find(`[data-mappedfield="${orderTypeData.hiddenSales[i]}"]`)).parent().hide();
-                jQuery($salesGrid.find(`[data-mappedfield="${orderTypeData.hiddenSales[i]}"]`)).parent().remove();
+                jQuery($salesGrid.find(`[data-mappedfield="${orderTypeData.hiddenSales[i]}"]`)).parent().hide();
+                //jQuery($salesGrid.find(`[data-mappedfield="${orderTypeData.hiddenSales[i]}"]`)).parent().remove();
             }
             const $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
             for (let i = 0; i < orderTypeData.hiddenLabor.length; i++) {
-                //jQuery($laborGrid.find(`[data-mappedfield="${orderTypeData.hiddenLabor[i]}"]`)).parent().hide();
-                jQuery($laborGrid.find(`[data-mappedfield="${orderTypeData.hiddenLabor[i]}"]`)).parent().remove();
+                jQuery($laborGrid.find(`[data-mappedfield="${orderTypeData.hiddenLabor[i]}"]`)).parent().hide();
+                //jQuery($laborGrid.find(`[data-mappedfield="${orderTypeData.hiddenLabor[i]}"]`)).parent().remove();
             }
             const $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
             for (let i = 0; i < orderTypeData.hiddenMisc.length; i++) {
-                //jQuery($miscGrid.find(`[data-mappedfield="${orderTypeData.hiddenMisc[i]}"]`)).parent().hide();
-                jQuery($miscGrid.find(`[data-mappedfield="${orderTypeData.hiddenMisc[i]}"]`)).parent().remove();
+                jQuery($miscGrid.find(`[data-mappedfield="${orderTypeData.hiddenMisc[i]}"]`)).parent().hide();
+                //jQuery($miscGrid.find(`[data-mappedfield="${orderTypeData.hiddenMisc[i]}"]`)).parent().remove();
             }
             const $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
             for (let i = 0; i < orderTypeData.hiddenUsedSale.length; i++) {
-                //jQuery($usedSaleGrid.find(`[data-mappedfield="${orderTypeData.hiddenUsedSale[i]}"]`)).parent().hide();
-                jQuery($usedSaleGrid.find(`[data-mappedfield="${orderTypeData.hiddenUsedSale[i]}"]`)).parent().remove();
+                jQuery($usedSaleGrid.find(`[data-mappedfield="${orderTypeData.hiddenUsedSale[i]}"]`)).parent().hide();
+                //jQuery($usedSaleGrid.find(`[data-mappedfield="${orderTypeData.hiddenUsedSale[i]}"]`)).parent().remove();
             }
             const $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
             if ($lossDamageTab !== undefined) {
                 for (let i = 0; i < orderTypeData.hiddenLossDamage.length; i++) {
-                    //jQuery($lossDamageGrid.find(`[data-mappedfield="${orderTypeData.hiddenLossDamage[i]}"]`)).parent().hide();
-                    jQuery($lossDamageGrid.find(`[data-mappedfield="${orderTypeData.hiddenLossDamage[i]}"]`)).parent().remove();
+                    jQuery($lossDamageGrid.find(`[data-mappedfield="${orderTypeData.hiddenLossDamage[i]}"]`)).parent().hide();
+                    //jQuery($lossDamageGrid.find(`[data-mappedfield="${orderTypeData.hiddenLossDamage[i]}"]`)).parent().remove();
                 }
             }
             const $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
             for (let i = 0; i < orderTypeData.hiddenCombined.length; i++) {
-                //jQuery($combinedGrid.find(`[data-mappedfield="${orderTypeData.hiddenCombined[i]}"]`)).parent().hide();
-                jQuery($combinedGrid.find(`[data-mappedfield="${orderTypeData.hiddenCombined[i]}"]`)).parent().remove();
+                jQuery($combinedGrid.find(`[data-mappedfield="${orderTypeData.hiddenCombined[i]}"]`)).parent().hide();
+                //jQuery($combinedGrid.find(`[data-mappedfield="${orderTypeData.hiddenCombined[i]}"]`)).parent().remove();
             }
             if (orderTypeData.hiddenRentals.indexOf('WeeklyExtended') === -1 && rateType === '3WEEK') {
                 $rentalGrid.find('.3weekextended').parent().show();
