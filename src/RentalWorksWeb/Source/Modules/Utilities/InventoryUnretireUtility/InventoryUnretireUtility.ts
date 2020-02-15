@@ -42,9 +42,9 @@ class InventoryUnretireUtility {
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValueByDataField($form, 'InventoryId', parentmoduleinfo.InventoryId, parentmoduleinfo.ICode);
             FwFormField.setValueByDataField($form, 'ItemDescription', parentmoduleinfo.Description);
-            FwFormField.setValueByDataField($form, 'BarCode', parentmoduleinfo.BarCode);
-            FwFormField.setValueByDataField($form, 'SerialNumber', parentmoduleinfo.SerialNumber);
             FwFormField.setValueByDataField($form, 'RetiredId', parentmoduleinfo.RetiredId);
+            FwFormField.setValue($form, '.itemid[data-displayfield="BarCode"]', parentmoduleinfo.ItemId, parentmoduleinfo.BarCode);
+            FwFormField.setValue($form, '.itemid[data-displayfield="SerialNumber"]', parentmoduleinfo.ItemId, parentmoduleinfo.SerialNumber)
         }
         return $form;
     };
@@ -54,7 +54,6 @@ class InventoryUnretireUtility {
             if (FwModule.validateForm($form)) {
                 const request: any = {};
                 request.RetiredId = FwFormField.getValueByDataField($form, 'RetiredId');
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
                 request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
                 request.Notes = FwFormField.getValueByDataField($form, 'Notes');
@@ -64,10 +63,8 @@ class InventoryUnretireUtility {
                 FwAppData.apiMethod(true, 'POST', 'api/v1/inventoryunretireutility/unretireinventory', request, FwServices.defaultTimeout, response => {
                     if (response.success) {
                         FwNotification.renderNotification('SUCCESS', 'Unretired Successfully');
-                        $form.find('.fwformfield input').val('');
-                        $form.find('.fwformfield textarea').val('');
-                        FwFormField.setValueByDataField($form, 'Quantity', 1);
-                        FwModule.refreshForm($form);
+                        const $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
+                        FwModule.closeFormTab($tab, $form);
                     } else {
                     }
                 }, ex => FwFunc.showError(ex), $form);
@@ -103,8 +100,6 @@ class InventoryUnretireUtility {
             case 'InventoryId':
                 request.uniqueids = {
                     WarehouseId: warehouse.warehouseid,
-                    //Inactive: 'true',
-                    //Inactive: true,
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
         }
@@ -119,7 +114,7 @@ class InventoryUnretireUtility {
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Unretire Inventory" style="max-width:700px">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="RetiredId" data-enabled="false" style="flex:0 1 400px;display:none;"></div>
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code No." data-datafield="ItemId" data-displayfield="BarCode" data-showonlyinactive="true" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code" data-datafield="ItemId" data-displayfield="BarCode" data-showonlyinactive="true" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial No." data-datafield="ItemId" data-displayfield="SerialNumber" data-showonlyinactive="true" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
                       </div>
                       <div class="flexrow">

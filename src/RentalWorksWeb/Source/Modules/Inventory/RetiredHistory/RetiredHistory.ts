@@ -101,6 +101,7 @@ class RetiredHistory {
         $form.find('.retire-inv-btn').on('click', $tr => {
             const parentModuleInfo: any = {};
             parentModuleInfo.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+            parentModuleInfo.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
             parentModuleInfo.ICode = FwFormField.getTextByDataField($form, 'InventoryId');
             parentModuleInfo.Description = FwFormField.getValueByDataField($form, 'Description');
             parentModuleInfo.BarCode = FwFormField.getValueByDataField($form, 'BarCode');
@@ -135,6 +136,9 @@ class RetiredHistory {
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
             <div class="field" data-caption="Bar Code" data-datafield="BarCode" data-browsedatatype="text" data-sort="desc"></div>
+          </div>
+          <div class="column flexcolumn" max-width="250px" data-visible="false">
+            <div class="field" data-caption="RentalItemId" data-datafield="ItemId" data-browsedatatype="text" data-sort="desc"></div>
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
             <div class="field" data-caption="Serial No." data-datafield="SerialNumber" data-browsedatatype="text" data-sort="desc"></div>
@@ -183,6 +187,7 @@ class RetiredHistory {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Bar Code" data-datafield="BarCode" data-enabled="false" style="flex:1 1 200px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ItemId" data-datafield="ItemId" data-enabled="false" style="flex:1 1 150px;display:none;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Serial No." data-datafield="SerialNumber" data-enabled="false" style="flex:1 1 200px;"></div>
                         </div>
                         <div class="flexrow">
