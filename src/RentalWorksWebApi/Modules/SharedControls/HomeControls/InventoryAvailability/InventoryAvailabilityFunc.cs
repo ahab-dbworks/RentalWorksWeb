@@ -176,9 +176,9 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public float Subbed;// { get; set; } = 0;
         public float Consigned;// { get; set; } = 0;
         public float OwnedAndConsigned { get { return Owned + Consigned; } }
-        public float OwnedAndConsignedX() { return Owned + Consigned; }
+        //public float OwnedAndConsignedX() { return Owned + Consigned; }
         public float Total { get { return Owned + Subbed + Consigned; } }
-        public float TotalX() { return Owned + Subbed + Consigned; }
+        //public float TotalX() { return Owned + Subbed + Consigned; }
 
 
         //public void CloneFrom(TInventoryWarehouseAvailabilityQuantity source)
@@ -1775,7 +1775,10 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 {
                                     if ((reservation.FromDateTime <= theDateTime) && ((theDateTime <= reservation.ToDateTime) || ((reservation.QcDelayToDateTime != null) && (theDateTime <= reservation.QcDelayToDateTime))))
                                     {
-                                        inventoryWarehouseAvailabilityDateTime.Reservations.Add(reservation);
+                                        if ((reservation.QuantityLate.Total > 0) || (reservation.QuantityReserved.Total > 0) || (reservation.QuantityStaged.Total > 0) || (reservation.QuantityOut.Total > 0))
+                                        {
+                                            inventoryWarehouseAvailabilityDateTime.Reservations.Add(reservation);
+                                        }
                                         inventoryWarehouseAvailabilityDateTime.Reserved += reservation.QuantityReserved;
                                         if (!reservation.countedReserved)
                                         {
