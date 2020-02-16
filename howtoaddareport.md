@@ -1,6 +1,6 @@
-#Creating new reports in RentalWorks Web
+# Creating new reports in RentalWorks Web
 
-##1. Copy an existing report file structure
+## 1. Copy an existing report file structure
 - In the API, open WebpackReports -> src -> Reports.
 - Find a report in the same section as the one where you intend to add will be and copy and paste the folder.
 - Change the names of the controller file names and update all class names and other specific naming conventions to that file.
@@ -13,7 +13,7 @@ const returnOnAssetTemplate = `
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
 ```
 
-##2. Add the report to the complete reports list module
+## 2. Add the report to the complete reports list module
 - Open the Constants.ts file, in the Web project navigate to scripts -> constants
 - Find the Object name containing the JSON that relates to your report and add your report in the children key eg -
 
@@ -38,7 +38,7 @@ AccountingReports: {
     public class ArAgingReportController : AppReportController
 ```
 
-##3. Configure the loader and controller for the report
+## 3. Configure the loader and controller for the report
 - The controller should have some kind of method to fetch data, like RunReportAsync
 - If the report lists information about items, or items and how they relate to an order, you will most likely return a FwJsonDataTable as the response,
 or add the FwJsonTable as a response property amidst other properties needed for report headers etc.
@@ -65,7 +65,7 @@ or add the FwJsonTable as a response property amidst other properties needed for
                 }
 ```
 
-##4. Manipulate the Data in the handlebars template
+## 4. Manipulate the Data in the handlebars template
 - Navigate to the index.ts file inside the report folder in the WebAPI project WebpackReports -> Reports -> 'SOMENAME'Reports -> 'SOMENAME'Report -> index.ts
 - The file should have an API request specified to the URL to run the report (created in the API Controller in the same folder)
 
@@ -98,7 +98,7 @@ Ajax.post<DataTable>(`${apiUrl}/api/v1/manifestsummaryreport/runreport`, authori
     </div>
 ```
 
-##Note 
+## Note 
 - While developing reports locally, we want to build the report we are using or all of the reports using the proper node command.
 - We can run the command that "watches" the report for any updates so we can live refresh without having to build the report each time a change is made.
 - Ex for a single report: npm run watch-reports-dev-byname ReturnListReport.
