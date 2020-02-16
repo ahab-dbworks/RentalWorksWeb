@@ -3991,9 +3991,9 @@ class FwBrowseClass {
                 $confirmation.find('.all-records input').prop('checked', false);
             });
 
-            let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
             $yes.on('click', e => {
                 const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Downloading Excel Workbook...');
+                let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
                 request.pagesize = userDefinedNumberofRows;
                 let includeallcolumns: boolean;
