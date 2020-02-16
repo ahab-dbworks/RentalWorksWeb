@@ -62,9 +62,12 @@ class InventoryUnretireUtility {
 
                 FwAppData.apiMethod(true, 'POST', 'api/v1/inventoryunretireutility/unretireinventory', request, FwServices.defaultTimeout, response => {
                     if (response.success) {
-                        FwNotification.renderNotification('SUCCESS', 'Unretired Successfully');
                         const $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
-                        FwModule.closeFormTab($tab, $form);
+                        const $prevTabPage = jQuery('#master-body').find(`div[data-tabid="${$tab.prev().attr('id')}"]`);
+                        const $prevForm = $prevTabPage.find('.fwform');
+                        FwModule.closeFormTab($tab, $form, true);
+                        FwNotification.renderNotification('SUCCESS', 'Unretired Successfully');
+                        FwModule.refreshForm($prevForm);
                     } else {
                     }
                 }, ex => FwFunc.showError(ex), $form);
@@ -114,11 +117,11 @@ class InventoryUnretireUtility {
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Unretire Inventory" style="max-width:700px">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="RetiredId" data-enabled="false" style="flex:0 1 400px;display:none;"></div>
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code" data-datafield="ItemId" data-displayfield="BarCode" data-showonlyinactive="true" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial No." data-datafield="ItemId" data-displayfield="SerialNumber" data-showonlyinactive="true" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code" data-datafield="ItemId" data-displayfield="BarCode" data-showonlyinactive="true" data-validationname="AssetValidation" data-enabled="false" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial No." data-datafield="ItemId" data-displayfield="SerialNumber" data-showonlyinactive="true" data-validationname="AssetValidation" data-enabled="false" style="flex:0 1 200px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" data-enabled="false" style="flex:0 1 200px;"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
                       </div>
                       <div class="flexrow">
