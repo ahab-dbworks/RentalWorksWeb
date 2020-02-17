@@ -152,8 +152,8 @@
     <TypeScriptCompile Include="scripts\Constants.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\fwimages\icons\flags%402x.png" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\fwimages\icons\flags.png" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\images\flags2x.png" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\images\flags.png" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\intlTelInput.css" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput-jquery.js" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput.js" />
@@ -1575,8 +1575,8 @@
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\ckeditor&quot; &quot;$(FwDeploymentDirectory)\Libraries\ckeditor&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\codemirror" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\codemirror')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\codemirror&quot; &quot;$(FwDeploymentDirectory)\Libraries\codemirror&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\jquery\internationalphone" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone')" ContinueOnError="false" />
-    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\Fw\scripts\jquery\internationalphone&quot; &quot;$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\jquery\internationalphone\build\css\images" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css\images')" ContinueOnError="false" />
+    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css\images&quot; &quot;$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\source" Condition="!Exists('$(FwDeploymentDirectory)\source')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data" Condition="!Exists('$(FwDeploymentDirectory)\App_Data')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp')" ContinueOnError="false" />
