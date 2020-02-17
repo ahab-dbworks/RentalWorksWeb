@@ -1006,6 +1006,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         private static TAvailabilityCache AvailabilityCache = new TAvailabilityCache();
         private static bool hourlyInitialized = false;
         private static bool dailyInitialized = false;
+        private static List<string> ActiveWarehouseIds = new List<string>();
+
         //-------------------------------------------------------------------------------------------------------
         public static async Task<bool> InitializeService(FwApplicationConfig appConfig)
         {
@@ -1032,6 +1034,22 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("select latedatetime = dbo.funcmaxavaildate() ");
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
                 LateDateTime = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("latedatetime")].ToString());
+            }
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                ActiveWarehouseIds = new List<string>();
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select w.warehouseid     ");
+                qry.Add(" from  warehouse w       ");
+                qry.Add(" where w.inactive <> 'T' ");
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                foreach (List<object> row in dt.Rows)
+                {
+                    ActiveWarehouseIds.Add(row[dt.GetColumnNo("warehouseid")].ToString());
+                }
+
             }
 
             return success;
@@ -2373,6 +2391,20 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
             TInventoryWarehouseAvailability availData = null;
             List<TInventoryWarehouseAvailability> eachWhAvailData = new List<TInventoryWarehouseAvailability>();
+
+            // remove blanks
+            for (int i = request.WarehouseId.Count - 1; i >= 0; i--)
+            {
+                if (request.WarehouseId[i].Equals(string.Empty))
+                {
+                    request.WarehouseId.RemoveAt(i);
+                }
+            }
+
+            if (request.WarehouseId.Count == 0)
+            {
+                request.WarehouseId = ActiveWarehouseIds;
+            }
 
             foreach (string whId in request.WarehouseId)
             {
