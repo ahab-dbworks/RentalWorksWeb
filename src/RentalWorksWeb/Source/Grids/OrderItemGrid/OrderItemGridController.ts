@@ -1345,11 +1345,12 @@ class OrderItemGrid {
         const optionTypes: any = ['KI', 'KO', 'CI', 'CO'];
         if (optionTypes.includes(itemClass)) {
             const optionParentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
-            $tr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${optionParentId}"]`).parents('tr');
-            parentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
-            inventoryId = parentId;
+            let $parenttr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${optionParentId}"]`).parents('tr');
+            inventoryId = FwBrowse.getValueByDataField($control, $parenttr, 'ParentId');
+            parentId = FwBrowse.getValueByDataField($control, $parenttr, 'OrderItemId');
         } else {
-            inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
+            //inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
+            inventoryId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
             parentId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
         }
 
