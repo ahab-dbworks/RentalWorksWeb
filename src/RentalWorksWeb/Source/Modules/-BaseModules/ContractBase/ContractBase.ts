@@ -352,6 +352,7 @@ abstract class ContractBase {
                 if (contractType === 'OUT') {
                     html.push('<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unstage items after voiding" data-datafield="ReturnToInventory"></div>');
                 }
+                //html.push('<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="width:600px;"></div>');
                 html.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Reason" data-datafield="Reason" style="width:600px;"></div>');
                 FwConfirmation.addControls($confirmation, html.join(''));
 
@@ -400,6 +401,8 @@ abstract class ContractBase {
                         },
                         ex => FwFunc.showError(ex), $confirmation.find('.fwconfirmationbox'));
                 });
+            } else {
+                FwNotification.renderNotification('WARNING', 'Select items in the grid to continue.');
             }
         }
         catch (ex) {
