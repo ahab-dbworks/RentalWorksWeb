@@ -241,6 +241,8 @@ class FwModule {
                             }
                         });
                     });
+                } else {
+                    throw new Error(`${baseForm} custom template not found.`)
                 }
             }
         }
