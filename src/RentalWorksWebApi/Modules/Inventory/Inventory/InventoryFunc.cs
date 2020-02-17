@@ -49,13 +49,25 @@ namespace WebApi.Modules.Inventory.Inventory
         public string RetiredReasonId { get; set; }
         public string Notes { get; set; }
         public decimal? Quantity { get; set; }
-        //public string ConsignorId { get; set; }
-        //public string ConsignorAgreementId { get; set; }
     }
 
     public class RetireInventoryResponse : TSpStatusResponse
     {
         public string RetiredId { get; set; }
+    }
+
+    public class UnretireInventoryRequest
+    {
+        public string RetiredId { get; set; }
+        public string ItemId { get; set; }
+        public string UnretiredReasonId { get; set; }
+        public string Notes { get; set; }
+        public decimal? Quantity { get; set; }
+    }
+
+    public class UnretireInventoryResponse : TSpStatusResponse
+    {
+        public string UnretiredId { get; set; }
     }
 
     public static class InventoryFunc
@@ -153,6 +165,31 @@ namespace WebApi.Modules.Inventory.Inventory
             await qry.ExecuteNonQueryAsync();
             response.RetiredId = qry.GetParameter("@retiredid").ToString();
             response.success = !string.IsNullOrEmpty(response.RetiredId);
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<UnretireInventoryResponse> UnretireInventory(FwApplicationConfig appConfig, FwUserSession userSession, UnretireInventoryRequest request, FwSqlConnection conn = null)
+        {
+            UnretireInventoryResponse response = new UnretireInventoryResponse();
+
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+            FwSqlCommand qry = new FwSqlCommand(conn, "unretireitems", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@retiredid", SqlDbType.NVarChar, ParameterDirection.Input, request.RetiredId);
+            qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Input, request.ItemId);
+            qry.AddParameter("@unretiredreasonid", SqlDbType.NVarChar, ParameterDirection.Input, request.UnretiredReasonId);
+            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            qry.AddParameter("@notes", SqlDbType.NVarChar, ParameterDirection.Input, request.Notes);
+            qry.AddParameter("@qty", SqlDbType.Decimal, ParameterDirection.Input, request.Quantity);
+            //qry.AddParameter("@outonly", SqlDbType.NVarChar, ParameterDirection.Input, request.OutOnly);
+            //qry.AddParameter("@outorderid", SqlDbType.NVarChar, ParameterDirection.Input, request.xxxx);
+            //qry.AddParameter("@outcontractid", SqlDbType.NVarChar, ParameterDirection.Input, request.xxxx);
+            qry.AddParameter("@unretiredid", SqlDbType.NVarChar, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            response.UnretiredId = qry.GetParameter("@unretiredid").ToString();
+            response.success = !string.IsNullOrEmpty(response.UnretiredId);
             return response;
         }
         //-------------------------------------------------------------------------------------------------------

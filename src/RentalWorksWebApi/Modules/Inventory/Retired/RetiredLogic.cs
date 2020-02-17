@@ -18,10 +18,16 @@ namespace WebApi.Modules.Home.Retired
         public string RetiredId { get { return retired.RetiredId; } set { retired.RetiredId = value; } }
         [FwLogicProperty(Id: "iDtnapb1HZbAy")]
         public string InventoryId { get { return retired.InventoryId; } set { retired.InventoryId = value; } }
-        [FwLogicProperty(Id: "IDW5ODLXiXjKh", IsReadOnly: true)]
+        [FwLogicProperty(Id: "IDW5ODLXiXjKh", IsReadOnly: true, IsRecordTitle: true)]
         public string ICode { get; set; }
         [FwLogicProperty(Id: "IEsjSxscGEaXM", IsReadOnly: true)]
         public string Description { get; set; }
+        [FwLogicProperty(Id: "UWhjgWuqv6zs9", IsReadOnly: true)]
+        public string BarCode { get; set; }
+        [FwLogicProperty(Id: "uJlBw0bC5caj0", IsReadOnly: true)]
+        public string ItemId { get; set; }
+        [FwLogicProperty(Id: "9SBp0KKDs0gz2", IsReadOnly: true)]
+        public string SerialNumber { get; set; }
         [FwLogicProperty(Id: "IEtDiVnlumX7C")]
         public string WarehouseId { get { return retired.WarehouseId; } set { retired.WarehouseId = value; } }
         [FwLogicProperty(Id: "IeY74xSOjjczG", IsReadOnly: true)]
@@ -36,7 +42,7 @@ namespace WebApi.Modules.Home.Retired
         public string ConsignorAgreementId { get { return retired.ConsignorAgreementId; } set { retired.ConsignorAgreementId = value; } }
         [FwLogicProperty(Id: "ii7fP8uUHmFIN", IsReadOnly: true)]
         public string AgreementNumber { get; set; }
-        [FwLogicProperty(Id: "ii8lVmyTF5RHA")]
+        [FwLogicProperty(Id: "ii8lVmyTF5RHA", IsRecordTitle: true)]
         public string RetiredDate { get { return retired.RetiredDate; } set { retired.RetiredDate = value; } }
         [FwLogicProperty(Id: "Iihke6Im8vOm0", IsReadOnly: true)]
         public string RetiredReason { get; set; }

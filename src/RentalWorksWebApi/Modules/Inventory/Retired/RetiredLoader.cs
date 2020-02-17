@@ -21,6 +21,12 @@ namespace WebApi.Modules.Home.Retired
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -84,6 +90,9 @@ namespace WebApi.Modules.Home.Retired
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
+        public string ItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
@@ -94,6 +103,7 @@ namespace WebApi.Modules.Home.Retired
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("InventoryId", "masterid", select, request); 
             addFilterToSelect("WarehouseId", "warehouseid", select, request); 
+            addFilterToSelect("ItemId", "rentalitemid", select, request); 
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
