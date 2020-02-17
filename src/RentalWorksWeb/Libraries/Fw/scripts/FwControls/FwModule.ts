@@ -223,15 +223,30 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static openBrowse($browse: JQuery) {
+        let isCustomTemplate = false;
+        let $customBrowse;
         if (sessionStorage.getItem('customForms') !== null) {
             const controller = $browse.attr('data-controller');
             const baseForm = controller.replace('Controller', 'Browse');
             const customForms = JSON.parse(sessionStorage.getItem('customForms')).filter(a => a.BaseForm == baseForm);
             if (customForms.length > 0) {
-                $browse = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+                $customBrowse = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+                if ($customBrowse.length > 0) {
+                    isCustomTemplate = true;
+                    const attributes = $browse.each(function () { // replacing attributes/classes previously assigned to $browse when using a $customBrowse template
+                        jQuery.each(this.attributes, function () {
+                            // this.attributes is not a plain object, but an array of attribute nodes, which contain both the name and value
+                            if (this.specified) {
+                                $customBrowse.attr(this.name, this.value)
+                            }
+                        });
+                    });
+                }
             }
         }
-
+        if (isCustomTemplate) {
+            $browse = $customBrowse
+        }
         FwControl.renderRuntimeControls($browse.find('.fwcontrol').addBack());
         const options: IAddBrowseMenuOptions = this.getDefaultBrowseMenuOptions($browse);
         FwModule.addBrowseMenu(options);
@@ -338,8 +353,8 @@ class FwModule {
     //----------------------------------------------------------------------------------------------
     static openForm($form: JQuery, mode: string) {
         var $fwcontrols, formid, $formTabControl, auditTabIds, controller,
-            nodeModule=null, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeControl, $grids, $tabcontrol, args;
-        
+            nodeModule = null, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeControl, $grids, $tabcontrol, args;
+
         controller = $form.attr('data-controller');
 
         if (sessionStorage.getItem('customForms') !== null) {
@@ -397,11 +412,11 @@ class FwModule {
             let $keys = $form.find('.fwformfield[data-type="key"]');
             if ($keys.length !== 0) {
                 auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-                const moduleControllerName = $form.data('controller'); 
+                const moduleControllerName = $form.data('controller');
                 if (moduleControllerName !== undefined) {
-                    const moduleController = (<any>window)[moduleControllerName]; 
+                    const moduleController = (<any>window)[moduleControllerName];
                     if (moduleController !== undefined) {
-                        const moduleSecurityId = moduleController.id; 
+                        const moduleSecurityId = moduleController.id;
                         if (moduleSecurityId !== undefined) {
                             const $auditControl = FwBrowse.renderGrid({
                                 moduleSecurityId: moduleSecurityId,
@@ -580,7 +595,7 @@ class FwModule {
 
         // hide grids based on security tree
         const nodeControls = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args2: any) => {
-           return node.nodetype === 'Controls';
+            return node.nodetype === 'Controls';
         });
         const $securitycontrols = $form.find('[data-secid]');
         $securitycontrols.each(function (index, element) {
@@ -730,7 +745,7 @@ class FwModule {
                 window[controller]['afterLoad']($form, response);
             }
         }
-        
+
         // work around for when devs add fields in the afterLoad
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
         $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
@@ -918,9 +933,9 @@ class FwModule {
 
         const options: IAddFormMenuOptions = {
             $form: $form,
-            $menu: $menu, 
-            $subMenu: $subMenu, 
-            $colOptions: $colOptions, 
+            $menu: $menu,
+            $subMenu: $subMenu,
+            $colOptions: $colOptions,
             $groupOptions: $groupOptions,
             hasSave: true,
             hasNext: false,
@@ -935,7 +950,7 @@ class FwModule {
         else {
             FwMenu.addFormMenuButtons(options);
         }
-        
+
 
         // Refresh form button
         if (typeof (<any>window[controller])['loadForm'] === 'function') {
@@ -1534,4 +1549,3 @@ interface IModuleScreen {
     [key: string]: any
 }
 
- 
