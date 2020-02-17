@@ -66,6 +66,15 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "invoicesnumberedforhiatus", modeltype: FwDataTypes.Boolean)]
         public bool? UseHInHiatusInvoiceNumbers { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultcurrencyid", modeltype: FwDataTypes.Text)]
+        public string DefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultcurrencycode", modeltype: FwDataTypes.Text)]
+        public string DefaultCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultcurrency", modeltype: FwDataTypes.Text)]
+        public string DefaultCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
