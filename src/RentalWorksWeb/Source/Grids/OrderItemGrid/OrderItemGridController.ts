@@ -197,10 +197,10 @@ class OrderItemGrid {
                                     FwFunc.showError(ex);
                                 }
                             });
-                            //Add line-item option
-                            FwContextMenu.addMenuItem($browsecontextmenu, `Add Line Item`, () => {
+                            //Insert line-item option
+                            FwContextMenu.addMenuItem($browsecontextmenu, `Insert Line Item`, () => {
                                 try {
-                                    this.addLineItem($control, $tr);
+                                    this.insertLineItem($control, $tr);
                                 } catch (ex) {
                                     FwFunc.showError(ex);
                                 }
@@ -1280,7 +1280,7 @@ class OrderItemGrid {
         }
     }
     //----------------------------------------------------------------------------------------------
-    addLineItem($control: JQuery, $tr: JQuery) {
+    insertLineItem($control: JQuery, $tr: JQuery) {
         const itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
         const types: any = ['C', 'K', 'I'];
         let primaryItemId;
@@ -1290,7 +1290,7 @@ class OrderItemGrid {
             primaryItemId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
         }
 
-        const request = {
+        const request: any = {
             OrderId: FwBrowse.getValueByDataField($control, $tr, 'OrderId'),
             PrimaryItemId: primaryItemId,
             BelowInventoryId: FwBrowse.getValueByDataField($control, $tr, 'OrderItemId')
@@ -1298,6 +1298,14 @@ class OrderItemGrid {
 
         FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertlineitem`, request, FwServices.defaultTimeout,
             response => {
+                const pageNo = parseInt($control.attr('data-pageno'));
+                const onDataBind = $control.data('ondatabind');
+                if (typeof onDataBind == 'function') {
+                    $control.data('ondatabind', request => {
+                        onDataBind(request);
+                        request.pageno = pageNo;
+                    });
+                }
                 FwBrowse.search($control);
             }, ex => FwFunc.showError(ex), $control);
     }
@@ -1371,6 +1379,9 @@ class OrderItemGrid {
                     PackageId:  (itemClass === 'K' || itemClass === 'C') ? inventoryId: parentId,
                     WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
                 };
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.attr('data-hasaudithistory', 'false');
             }
         });
 
@@ -1383,11 +1394,12 @@ class OrderItemGrid {
             const defaultQuantity = 0;
             const $field = $tr.find('[data-browsedatafield="DefaultQuantity"]');
             $field.attr('data-browsedatatype', 'numericupdown');
+            $field.attr('data-allownegative', 'false');
             $field.attr('data-originalvalue', defaultQuantity);
             FwBrowse.setFieldViewMode($completeKitGrid, $tr, $field);
 
-            //Hides Quantity increment/decrement controls if allowQuantityVal is false
-            if (FwBrowse.getValueByDataField($completeKitGrid, $tr, 'InventoryId') === inventoryId) {
+            const isPrimary = FwBrowse.getValueByDataField($completeKitGrid, $tr, 'IsPrimary');
+            if (isPrimary == 'true') {
                 $field
                     .hide()
                     .parents('td')
@@ -1409,12 +1421,12 @@ class OrderItemGrid {
             jQuery(document).find('.fwpopup').off('click');
             jQuery(document).off('keydown');
         });
-        // Close modal if click outside
-        jQuery(document).on('click', e => {
-            if (!jQuery(e.target).closest('.popup').length) {
-                FwPopup.destroyPopup($popup);
-            }
-        });
+        //// Close modal if click outside
+        //jQuery(document).on('click', e => {
+        //    if (!jQuery(e.target).closest('.popup').length) {
+        //        FwPopup.destroyPopup($popup);
+        //    }
+        //});
 
         $popup.on('click', '.apply-options', e => {
             const $trs = $completeKitGrid.find(`tbody tr [data-browsedatafield="IsPrimary"][data-originalvalue="false"]`).parents('tr');
@@ -1436,6 +1448,7 @@ class OrderItemGrid {
             request.Items = $items;
             FwAppData.apiMethod(true, 'POST', "api/v1/orderitem/insertoption", request, FwServices.defaultTimeout,
                 response => {
+                    $popup.find('.close-modal').click();
                     FwBrowse.search($control);
                 },
                 ex => FwFunc.showError(ex), $control);
