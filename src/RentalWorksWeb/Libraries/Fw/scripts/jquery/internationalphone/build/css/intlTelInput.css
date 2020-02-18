@@ -1518,11 +1518,7 @@
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .iti__flag {
-<<<<<<< HEAD
-        background-image: url("images/flags2x.png");
-=======
-        background-image: url("fwimages/icons/flags@2x.png");
->>>>>>> parent of 40d03d7... reorganizes directory structure for internationalphone input
+        background-image: url("fwimages/icons/flags2x.png");
     }
 }
 
