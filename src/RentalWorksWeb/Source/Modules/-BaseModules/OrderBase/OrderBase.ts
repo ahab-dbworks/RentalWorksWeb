@@ -2012,7 +2012,7 @@ class OrderBase {
             }
         });
         // PickDate Validations
-        $form.find('.pick_date_validation').on('changeDate', event => {
+        $form.find('.pick-date-validation').on('changeDate', event => {
             this.checkDateRangeForPick($form, event);
         });
         // BillingDate Change
@@ -2591,37 +2591,35 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     checkDateRangeForPick($form, event) {
-        let $element, parsedPickDate, parsedFromDate, parsedToDate;
-        $element = jQuery(event.currentTarget);
+        const parsedPickDate = Date.parse(FwFormField.getValue($form, 'data-dateactivitytype="PICK"'));
+        const parsedFromDate = Date.parse(FwFormField.getValue($form, 'data-dateactivitytype="START"'));
+        const parsedToDate = Date.parse(FwFormField.getValue($form, 'data-dateactivitytype="STOP"'));
 
-        parsedPickDate = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
-        parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
-        parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
-
-        if ($element.attr('data-datafield') === 'EstimatedStartDate' && parsedFromDate < parsedPickDate) {
-            $form.find('div[data-datafield="EstimatedStartDate"]').addClass('error');
-            FwNotification.renderNotification('WARNING', "Your chosen 'From Date' is before 'Pick Date'.");
+        const $element = jQuery(event.currentTarget);
+        if ($element.attr('data-dateactivitytype') === 'START' && parsedFromDate < parsedPickDate) {
+            $form.find('div[data-dateactivitytype="START"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'Start Date' is before 'Pick Date'.");
         }
-        else if ($element.attr('data-datafield') === 'PickDate' && parsedFromDate < parsedPickDate) {
-            $form.find('div[data-datafield="PickDate"]').addClass('error');
-            FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'From Date'.");
+        else if ($element.attr('data-dateactivitytype') === 'PICK' && parsedFromDate < parsedPickDate) {
+            $form.find('div[data-dateactivitytype="PICK"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'Start Date'.");
         }
-        else if ($element.attr('data-datafield') === 'PickDate' && parsedToDate < parsedPickDate) {
-            $form.find('div[data-datafield="PickDate"]').addClass('error');
-            FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'To Date'.");
+        else if ($element.attr('data-dateactivitytype') === 'PICK' && parsedToDate < parsedPickDate) {
+            $form.find('div[data-dateactivitytype="PICK"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'Stop Date'.");
         }
         else if (parsedToDate < parsedFromDate) {
-            $form.find('div[data-datafield="EstimatedStopDate"]').addClass('error');
-            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+            $form.find('div[data-dateactivitytype="STOP"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'Stop Date' is before 'Start Date'.");
         }
         else if (parsedToDate < parsedPickDate) {
-            $form.find('div[data-datafield="EstimatedStopDate"]').addClass('error');
-            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'Pick Date'.");
+            $form.find('div[data-dateactivitytype="STOP"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'Stop Date' is before 'Pick Date'.");
         }
         else {
-            $form.find('div[data-datafield="PickDate"]').removeClass('error');
-            $form.find('div[data-datafield="EstimatedStartDate"]').removeClass('error');
-            $form.find('div[data-datafield="EstimatedStopDate"]').removeClass('error');
+            $form.find('div[data-dateactivitytype="PICK"]').removeClass('error');
+            $form.find('div[data-dateactivitytype="START"]').removeClass('error');
+            $form.find('div[data-dateactivitytype="STOP"]').removeClass('error');
         }
     };
     //----------------------------------------------------------------------------------------------
@@ -3592,9 +3590,13 @@ class OrderBase {
         const activityDatesAndTimes = response.ActivityDatesAndTimes;
         for (let i = 0; i < activityDatesAndTimes.length; i++) {
             const row = activityDatesAndTimes[i];
+            let validationClass = '';
+            if (row.ActivityType === 'PICK' || row.ActivityType === 'START' || row.ActivityType === 'STOP') {
+                validationClass = 'pick-date-validation';
+            }
             const $row = jQuery(`<div class="flexrow date-row">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderTypeDateTypeId" style="display:none;"></div>
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="${row.DescriptionDisplayTitleCase} Date" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield ${validationClass}" data-caption="${row.DescriptionDisplayTitleCase} Date" data-dateactivitytype="${row.ActivityType}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
                               <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Time" data-datafield="Time" data-enabled="true" style="flex:0 1 120px;"></div>
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Day" data-datafield="DayOfWeek" data-enabled="false" style="flex:0 1 120px;"></div>                          
                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="display:none; flex:0 1 180px;"></div>                          
