@@ -225,97 +225,102 @@ class OrderItemGrid {
 
             //availability calendar popup
             $generatedtr.find('div[data-browsedatafield="AvailableQuantity"]').on('click', e => {
-                let $popup = jQuery(`
-                <div>
-                    <div class="close-modal" style="background-color:white;top:.8em;right:.1em; padding-right:.5em; border-radius:.2em;justify-content:flex-end;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
-                    <div id="availabilityCalendarPopup" class="fwform fwcontrol fwcontainer" data-control="FwContainer" data-type="form" style="overflow:auto;max-height:90vh;max-width:90vw;background-color:white; margin-top:2em; border:2px solid gray;">
-                      <div class="flexrow" style="overflow:auto;">
-                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
-                          <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-enabled="false" style="flex:0 1 100px;"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:0 1 500px;"></div>
-                          </div>
-                                <div class="flexrow inv-data-totals">
-                                    <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="InContainer" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="Staged" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="Out" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="InRepair" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="InTransit" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
-                                </div>
-                              <div class="flexrow" style="overflow:auto;">
-                                <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
-                              </div>
-                              <div class="flexrow schedulerrow" style="display:block;">
-                                <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
-                                <div class="fwbrowse"><div class="legend"></div></div>
-                             </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`);
-                FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
-                $popup = FwPopup.renderPopup($popup, { ismodal: true });
-                FwPopup.showPopup($popup);
-                $form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
-
-                $popup.find('.close-modal').on('click', function (e) {
-                    FwPopup.detachPopup($popup);
-                });
-
-                const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                const warehouseText = FwFormField.getTextByDataField($form, 'WarehouseId');
-                FwFormField.setValue2($popup.find('.warehousefilter'), warehouseId, warehouseText);
-                // fields on popup
-                const iCode = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext');
-                FwFormField.setValue2($popup.find('div[data-datafield="ICode"]'), iCode);
-                const description = FwBrowse.getValueByDataField($control, $generatedtr, 'Description');
-                FwFormField.setValue2($popup.find('div[data-datafield="Description"]'), description);
-
-
-                const $calendar = $popup.find('.calendar');
-                FwScheduler.renderRuntimeHtml($calendar);
-                FwScheduler.init($calendar);
                 const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
-                RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
-                FwScheduler.loadControl($calendar);
-                const schddate = FwScheduler.getTodaysDate();
-                FwScheduler.navigate($calendar, schddate);
-                FwScheduler.refresh($calendar);
-                // sequence of these invocations is important so that events are properly stored on the control ^ v
-                const $scheduler = $popup.find('.realscheduler');
-                FwSchedulerDetailed.renderRuntimeHtml($scheduler);
-                FwSchedulerDetailed.init($scheduler);
-                RentalInventoryController.addCalSchedEvents($generatedtr, $scheduler, inventoryId);
-                FwSchedulerDetailed.loadControl($scheduler);
-                FwSchedulerDetailed.navigate($scheduler, schddate, 35);
-                FwSchedulerDetailed.refresh($scheduler);
+                if (inventoryId) {
+                    let $popup = jQuery(`
+                        <div>
+                            <div class="close-modal" style="background-color:white;top:.8em;right:.1em; padding-right:.5em; border-radius:.2em;justify-content:flex-end;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                            <div id="availabilityCalendarPopup" class="fwform fwcontrol fwcontainer" data-control="FwContainer" data-type="form" style="overflow:auto;max-height:90vh;max-width:90vw;background-color:white; margin-top:2em; border:2px solid gray;">
+                              <div class="flexrow" style="overflow:auto;">
+                                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
+                                  <div class="flexrow">
+                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-enabled="false" style="flex:0 1 100px;"></div>
+                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:0 1 500px;"></div>
+                                  </div>
+                                        <div class="flexrow inv-data-totals">
+                                            <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="InContainer" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="Staged" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="Out" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="InRepair" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="InTransit" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
+                                        </div>
+                                      <div class="flexrow" style="overflow:auto;">
+                                        <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
+                                      </div>
+                                      <div class="flexrow schedulerrow" style="display:block;">
+                                        <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
+                                        <div class="fwbrowse"><div class="legend"></div></div>
+                                     </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>`);
+                    FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
+                    $popup = FwPopup.renderPopup($popup, { ismodal: true });
+                    FwPopup.showPopup($popup);
+                    $form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
 
-                try {
-                    if ($scheduler.hasClass('legend-loaded') === false) {
-                        FwAppData.apiMethod(true, 'GET', 'api/v1/rentalinventory/availabilitylegend', null, FwServices.defaultTimeout,
-                            response => {
-                                for (let key in response) {
-                                    FwBrowse.addLegend($popup.find('.schedulerrow .fwbrowse'), key, response[key]);
-                                }
-                                $scheduler.addClass('legend-loaded');
-                            }, ex => {
-                                FwFunc.showError(ex);
-                            }, $scheduler);
-                    }
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
+                    $popup.find('.close-modal').on('click', function (e) {
+                        FwPopup.detachPopup($popup);
+                    });
 
-                $popup.on('change', '.warehousefilter', e => {
-                    const whFilter = FwFormField.getValue2($popup.find('.warehousefilter'));
-                    $generatedtr.data('warehousefilter', whFilter);
+                    const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                    const warehouseText = FwFormField.getTextByDataField($form, 'WarehouseId');
+                    FwFormField.setValue2($popup.find('.warehousefilter'), warehouseId, warehouseText);
+                    // fields on popup
+                    const iCode = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext');
+                    FwFormField.setValue2($popup.find('div[data-datafield="ICode"]'), iCode);
+                    const description = FwBrowse.getValueByDataField($control, $generatedtr, 'Description');
+                    FwFormField.setValue2($popup.find('div[data-datafield="Description"]'), description);
+
+
+                    const $calendar = $popup.find('.calendar');
+                    FwScheduler.renderRuntimeHtml($calendar);
+                    FwScheduler.init($calendar);
+                    RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
+                    FwScheduler.loadControl($calendar);
+                    const schddate = FwScheduler.getTodaysDate();
+                    FwScheduler.navigate($calendar, schddate);
                     FwScheduler.refresh($calendar);
+                    // sequence of these invocations is important so that events are properly stored on the control ^ v
+                    const $scheduler = $popup.find('.realscheduler');
+                    FwSchedulerDetailed.renderRuntimeHtml($scheduler);
+                    FwSchedulerDetailed.init($scheduler);
+                    RentalInventoryController.addCalSchedEvents($generatedtr, $scheduler, inventoryId);
+                    FwSchedulerDetailed.loadControl($scheduler);
+                    FwSchedulerDetailed.navigate($scheduler, schddate, 35);
                     FwSchedulerDetailed.refresh($scheduler);
-                });
+
+                    try {
+                        if ($scheduler.hasClass('legend-loaded') === false) {
+                            FwAppData.apiMethod(true, 'GET', 'api/v1/rentalinventory/availabilitylegend', null, FwServices.defaultTimeout,
+                                response => {
+                                    for (let key in response) {
+                                        FwBrowse.addLegend($popup.find('.schedulerrow .fwbrowse'), key, response[key]);
+                                    }
+                                    $scheduler.addClass('legend-loaded');
+                                }, ex => {
+                                    FwFunc.showError(ex);
+                                }, $scheduler);
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+
+                    $popup.on('change', '.warehousefilter', e => {
+                        const whFilter = FwFormField.getValue2($popup.find('.warehousefilter'));
+                        $generatedtr.data('warehousefilter', whFilter);
+                        FwScheduler.refresh($calendar);
+                        FwSchedulerDetailed.refresh($scheduler);
+                    });
+                } else {
+                    e.stopPropagation();
+                    FwNotification.renderNotification('WARNING', 'Save the row first.');
+                }
             });
 
             $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
