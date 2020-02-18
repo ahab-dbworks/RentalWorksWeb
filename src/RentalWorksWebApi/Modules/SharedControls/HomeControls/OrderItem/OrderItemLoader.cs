@@ -17,6 +17,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
     {
         private bool _shortagesOnly = false;
         private bool _hasSubTotal = false;
+        private string _orderType = string.Empty;
 
         //------------------------------------------------------------------------------------ 
         public OrderItemLoader()
@@ -876,6 +877,15 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 _hasSubTotal = FwConvert.ToBoolean(dt.Rows[0][0].ToString());
             }
 
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qryOrderType = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                qryOrderType.Add("select ordertype from dealorder where orderid = @orderid");
+                qryOrderType.AddParameter("@orderid", orderId);
+                FwJsonDataTable dt = qryOrderType.QueryToFwJsonTableAsync().Result;
+                _orderType = dt.Rows[0][0].ToString();
+            }
+
             string tableName = "orderitemdetailwebview";
             if ((rollup) && (!DetailOnly.GetValueOrDefault(false)))
             {
@@ -964,17 +974,33 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 FwJsonDataTable dt = e.DataTable;
                 if (dt.Rows.Count > 0)
                 {
-                    TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
-                    foreach (List<object> row in dt.Rows)
+                    bool loadAvail = true;
+
+                    string recType = GetUniqueIdAsString("RecType", e.Request) ?? "";
+                    if ((recType != RwConstants.RECTYPE_RENTAL) && (recType != RwConstants.RECTYPE_SALE) && (recType != RwConstants.RECTYPE_PARTS))
                     {
-                        string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
-                        string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                        DateTime fromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());   // not accurate
-                        DateTime toDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());       // not accurate
-                        availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                        loadAvail = false;
+                    }
+                    if (_orderType.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER))
+                    {
+                        loadAvail = false;
                     }
 
-                    TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false).Result;
+                    TAvailabilityCache availCache = null;
+                    if (loadAvail)
+                    {
+                        TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                            string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                            DateTime fromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());   // not accurate
+                            DateTime toDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());       // not accurate
+                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                        }
+
+                        availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false).Result;
+                    }
 
                     foreach (List<object> row in dt.Rows)
                     {
@@ -991,15 +1017,18 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
                         string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
 
-                        if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
+                        if (loadAvail)
                         {
-                            TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
+                            if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
+                            {
+                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
 
-                            qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
-                            conflictDate = minAvail.FirstConfict;
-                            isStale = minAvail.IsStale;
-                            availColor = minAvail.Color;
-                            availabilityState = minAvail.AvailabilityState;
+                                qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
+                                conflictDate = minAvail.FirstConfict;
+                                isStale = minAvail.IsStale;
+                                availColor = minAvail.Color;
+                                availabilityState = minAvail.AvailabilityState;
+                            }
                         }
 
                         row[dt.GetColumnNo("AvailableQuantity")] = qtyAvailable;
@@ -1013,38 +1042,38 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         row[dt.GetColumnNo("QuantityColor")] = getQuantityColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ModifiedAtStaging")].ToString()));
                         row[dt.GetColumnNo("SubQuantityColor")] = getSubQuantityColor(row[dt.GetColumnNo("SubPurchaseOrderItemId")].ToString());
                     }
-                }
 
-                if (_shortagesOnly)
-                {
-                    if (dt.Rows.Count > 0)
+                    if (_shortagesOnly)
                     {
-                        for (int r = dt.Rows.Count - 1; r >= 0; r--)
+                        if (dt.Rows.Count > 0)
                         {
-                            if (FwConvert.ToInt32(dt.Rows[r][dt.GetColumnNo("AvailableQuantity")]) >= 0)
+                            for (int r = dt.Rows.Count - 1; r >= 0; r--)
                             {
-                                dt.Rows.RemoveAt(r);
+                                if (FwConvert.ToInt32(dt.Rows[r][dt.GetColumnNo("AvailableQuantity")]) >= 0)
+                                {
+                                    dt.Rows.RemoveAt(r);
+                                }
                             }
                         }
                     }
-                }
 
-                if (_hasSubTotal)
-                {
-                    if (dt.Rows.Count > 0)
+                    if (_hasSubTotal)
                     {
-                        foreach (List<object> row in dt.Rows)
+                        if (dt.Rows.Count > 0)
                         {
-                            string itemClass = row[dt.GetColumnNo("ItemClass")].ToString();
-                            if (itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
+                            foreach (List<object> row in dt.Rows)
                             {
-                                for (int c = 0; c < dt.Columns.Count; c++)
+                                string itemClass = row[dt.GetColumnNo("ItemClass")].ToString();
+                                if (itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
                                 {
-                                    if (dt.ColumnNameByIndex[c].EndsWith("SubTotal"))
+                                    for (int c = 0; c < dt.Columns.Count; c++)
                                     {
-                                        string subTotalColumnName = dt.ColumnNameByIndex[c];
-                                        string nonSubTotalColumnName = subTotalColumnName.Replace("SubTotal", "");
-                                        row[dt.GetColumnNo(nonSubTotalColumnName)] = row[c];
+                                        if (dt.ColumnNameByIndex[c].EndsWith("SubTotal"))
+                                        {
+                                            string subTotalColumnName = dt.ColumnNameByIndex[c];
+                                            string nonSubTotalColumnName = subTotalColumnName.Replace("SubTotal", "");
+                                            row[dt.GetColumnNo(nonSubTotalColumnName)] = row[c];
+                                        }
                                     }
                                 }
                             }
