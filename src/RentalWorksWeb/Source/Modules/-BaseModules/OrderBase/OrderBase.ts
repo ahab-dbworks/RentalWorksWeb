@@ -1173,7 +1173,6 @@ class OrderBase {
 
             const usersid = sessionStorage.getItem('usersid');  // J. Pace 5/25/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
-            const today = FwFunc.getDate();
             const department = JSON.parse(sessionStorage.getItem('department'));
             const office = JSON.parse(sessionStorage.getItem('location'));
             const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -1181,9 +1180,15 @@ class OrderBase {
 
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
-            FwFormField.setValueByDataField($form, 'PickDate', today);
-            FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
-            FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
+            // Dates and Times
+            const today = FwFunc.getDate();
+            FwFormField.setValue($form, 'div[data-dateactivitytype="PICK"]', today);
+            FwFormField.setValue($form, 'div[data-timeactivitytype="PICK"]', this.DefaultPickTime);
+            FwFormField.setValue($form, 'div[data-dateactivitytype="START"]', today);
+            FwFormField.setValue($form, 'div[data-timeactivitytype="START"]', this.DefaultFromTime);
+            FwFormField.setValue($form, 'div[data-dateactivitytype="STOP"]', today);
+            FwFormField.setValue($form, 'div[data-timeactivitytype="STOP"]', this.DefaultToTime);
+
             FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
             FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
@@ -1195,10 +1200,6 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="TermsConditionsId"]', this.DefaultTermsConditionsId, this.DefaultTermsConditions);
             FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', this.DefaultCoverLetterId, this.DefaultCoverLetter);
             FwFormField.setValue($form, 'div[data-datafield="PresentationLayerId"]', this.DefaultPresentationLayerId, this.DefaultPresentationLayer);
-            FwFormField.setValueByDataField($form, 'PickTime', this.DefaultPickTime);
-            FwFormField.setValueByDataField($form, 'EstimatedStartTime', this.DefaultFromTime);
-            FwFormField.setValueByDataField($form, 'EstimatedStopTime', this.DefaultToTime);
-
             FwFormField.setValue($form, 'div[data-datafield="PendingPo"]', true);
             // Dynamic set value for user's department default activities
             const defaultActivities = department.activities;
@@ -3598,7 +3599,7 @@ class OrderBase {
             const $row = jQuery(`<div class="flexrow date-row">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderTypeDateTypeId" style="display:none;"></div>
                               <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield ${validationClass}" data-caption="${row.DescriptionDisplayTitleCase} Date" data-dateactivitytype="${row.ActivityType}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
-                              <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Time" data-datafield="Time" data-enabled="true" style="flex:0 1 120px;"></div>
+                              <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Time" data-timeactivitytype="${row.ActivityType}" data-datafield="Time" data-enabled="true" style="flex:0 1 120px;"></div>
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Day" data-datafield="DayOfWeek" data-enabled="false" style="flex:0 1 120px;"></div>                          
                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="display:none; flex:0 1 180px;"></div>                          
                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Milestone" data-datafield="IsMilestone" style="display:none; flex:0 1 110px;"></div>                          

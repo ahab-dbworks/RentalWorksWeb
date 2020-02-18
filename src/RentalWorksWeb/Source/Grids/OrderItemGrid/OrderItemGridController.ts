@@ -7,12 +7,12 @@ class OrderItemGrid {
         let $grid = $tr.parents('[data-grid="OrderItemGrid"]');
         let inventoryType;
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
-            var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
-            var pickTime = FwFormField.getValueByDataField($form, 'PickTime');
-            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-            var fromTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
-            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-            var toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
+            var pickDate = FwFormField.getValue($form, 'div[data-dateactivitytype="PICK"]');
+            var pickTime = FwFormField.getValue($form, 'div[data-timeactivitytype="PICK"]');
+            var fromDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
+            var fromTime = FwFormField.getValue($form, 'div[data-timeactivitytype="START"]');
+            var toDate = FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]');
+            var toTime = FwFormField.getValue($form, 'div[data-timeactivitytype="STOP"]');
         };
         const $td = $tr.find('[data-browsedatafield="InventoryId"]');
 
