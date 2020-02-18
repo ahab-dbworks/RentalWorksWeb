@@ -111,7 +111,7 @@ class Quote extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Reserve', '1oBE7m2rBjxhm', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Reserve / Unreserve', '1oBE7m2rBjxhm', (e: JQuery.ClickEvent) => {
             try {
                 this.reserveQuote(options.$form);
             } catch (ex) {
