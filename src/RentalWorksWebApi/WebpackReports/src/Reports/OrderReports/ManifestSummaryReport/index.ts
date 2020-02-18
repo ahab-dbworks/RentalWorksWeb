@@ -27,6 +27,7 @@ export class ManifestReport extends WebpackReport {
                             data.Company = parameters.companyName;
                             data.OrderNumber = parameters.orderno;
                             data.Report = "Value Sheet";
+                            data.WhichReport = parameters.manifestItems;
                             data.Date = moment().format('MM/DD/YYYY');
                             data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
@@ -36,6 +37,7 @@ export class ManifestReport extends WebpackReport {
                             }
 
                             for (let i = 0; i < data.Items.length; i++) {
+                                data.Items[i].WhichReport = data.WhichReport;
                                 if (data.Items[i].ValuePerItem !== null) {
                                     data.Items[i].ValuePerItem = data.Items[i].ValuePerItem.toLocaleString('en-US', {
                                         style: 'currency',

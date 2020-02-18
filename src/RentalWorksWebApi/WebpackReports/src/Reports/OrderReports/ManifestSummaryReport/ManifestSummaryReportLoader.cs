@@ -275,7 +275,7 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
                         dt = await qry.QueryToFwJsonTableAsync(select, false);
                     }
                 }
-            string[] totalFields = new string[] { "ValueExtended", "Quantity" };
+            string[] totalFields = new string[] { "ValueExtended", "Quantity", "ExtendedWeightLbs", "ExtendedWeightOz" };
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             return dt;
         }
@@ -392,6 +392,9 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliverycontactphone", modeltype: FwDataTypes.Text)]
         public string OutDeliveryContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliverycitystatezipcountry", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryCityStateZipCodeCountry { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "usagedates", modeltype: FwDataTypes.Text)]
         public string UsageDates { get; set; }
