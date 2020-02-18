@@ -14,9 +14,9 @@ using WebApi.Data;
 using WebApi.Modules.Agent.Order;
 using static FwCore.Controllers.FwDataController;
 
-namespace WebApi.Modules.Reports.ManifestSummaryReport
+namespace WebApi.Modules.Reports.ManifestReport
 {
-    public class ManifestSummaryReportRequest : AppReportRequest
+    public class ManifestReportRequest : AppReportRequest
     {
         public string OrderId { get; set; }
         public string rentalValueSelector { get; set; }
@@ -27,9 +27,9 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "8lSfSBPXlYh5")]
-    public class ManifestSummaryReportController : AppReportController
+    public class ManifestReportController : AppReportController
     {
-        public ManifestSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ManifestReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         protected override string GetReportFileName() { return "ManifestReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Manifest"; }
@@ -45,7 +45,7 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "ManifestSummaryReport";
+            return "ManifestReport";
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/manifestreport/render 
@@ -61,7 +61,7 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
         //// POST api/v1/manifestreport/exportexcelxlsx/filedownloadname 
         //[HttpPost("exportexcelxlsx/{fileDownloadName}")]
         //[FwControllerMethod(Id: "fBLkHuI0p4EA")]
-        //public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ManifestSummaryReportRequest request)
+        //public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ManifestReportRequest request)
         //{
         //    ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
         //    FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
@@ -71,7 +71,7 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
         // POST api/v1/manifestreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "gQbBa1zghqTv")]
-        public async Task<ActionResult<ManifestHeaderLoader>> RunReportAsync([FromBody]ManifestSummaryReportRequest request)
+        public async Task<ActionResult<ManifestHeaderLoader>> RunReportAsync([FromBody]ManifestReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace WebApi.Modules.Reports.ManifestSummaryReport
             }
             try
             {
-                ManifestSummaryReportLoader l = new ManifestSummaryReportLoader();
+                ManifestReportLoader l = new ManifestReportLoader();
                 l.SetDependencies(this.AppConfig, UserSession);
                 ManifestHeaderLoader Order = await l.RunReportAsync(request);
                 //l.HideSummaryColumnsInDataTable(request, dt);

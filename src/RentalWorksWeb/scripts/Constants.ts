@@ -229,7 +229,8 @@ var Constants = {
                         QuoteOrderMasterReport: {           id: 'yx1quQL9wJ9mg', caption: 'Quote / Order Master Report', nav: 'reports/quoteordermasterreport', nodetype: 'Module', description: 'List all Quotes and Orders, filtered by date range, and grouped by Deal.' },
                         SubSalesStagedItemsReport: {        id: '2GIJvJlbIFQN', caption: 'Sub-Sales Staged Items', nav: 'reports/subsalesstageditemsreport', nodetype: 'Module', description: 'List all Sub Sale Inventory currently Staged on Orders.' },
                         OrderStatusSummaryReport: {         id: '44jjIwel6TP0d', caption: 'Order Status Summary', nav: 'reports/orderstatussummaryreport', nodetype: 'Module', description: 'Gets status summary for specified order.' },
-                        OrderStatusDetailReport: {          id: 'EY9uBXnssjv1', caption: 'Order Status Detail', nav: 'reports/orderstatusdetailreport', nodetype: 'Module', description: 'Gets status detail for specified order.' }
+                        OrderStatusDetailReport: {          id: 'EY9uBXnssjv1', caption: 'Order Status Detail', nav: 'reports/orderstatusdetailreport', nodetype: 'Module', description: 'Gets status detail for specified order.' },
+                        ManifestReport: {                   id: '8lSfSBPXlYh5', caption: 'Order Item Value Sheet', nav: 'reports/manifestreport', nodetype: 'Module', description: 'Gets item manifest information' }
                     }
                 },
                 PartsInventoryReports: {

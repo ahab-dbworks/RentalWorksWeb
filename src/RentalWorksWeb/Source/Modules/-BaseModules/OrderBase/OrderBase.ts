@@ -2503,7 +2503,7 @@ class OrderBase {
             var orderId = FwFormField.getValueByDataField($form, "OrderId");
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
             if (whichManifestReport === 'Summary') {
-                var $report = ManifestSummaryReportController.openForm();
+                var $report = ManifestReportController.openForm();
             } else {
                 //var $report = 
             }

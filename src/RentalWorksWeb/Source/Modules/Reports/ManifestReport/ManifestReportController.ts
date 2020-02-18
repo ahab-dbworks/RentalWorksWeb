@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/manifestsummaryreport/, action: function (match: RegExpExecArray) {
-        return ManifestSummaryReportController.getModuleScreen();
+    pattern: /^reports\/manifestreport/, action: function (match: RegExpExecArray) {
+        return ManifestReportController.getModuleScreen();
     }
 });
 
-const manifestSummaryTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ManifestSummaryReportController">
+const manifestTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ManifestReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -32,10 +32,10 @@ const manifestSummaryTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class ManifestSummaryReport extends FwWebApiReport {
+class ManifestReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('ManifestSummaryReport', 'api/v1/manifestsummaryreport', manifestSummaryTemplate);
+        super('ManifestReport', 'api/v1/manifestreport', manifestTemplate);
         this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------
@@ -76,5 +76,5 @@ class ManifestSummaryReport extends FwWebApiReport {
     }
 };
 
-var ManifestSummaryReportController: any = new ManifestSummaryReport();
+var ManifestReportController: any = new ManifestReport();
 //----------------------------------------------------------------------------------------------

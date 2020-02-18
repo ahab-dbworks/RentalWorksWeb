@@ -13,14 +13,13 @@ const hbFooter = require("./hbFooter.hbs");
 export class ManifestReport extends WebpackReport {
     order: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
-        console.log(parameters, 'orderstatus params');
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             // Report rendering and Logo
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<DataTable>(`${apiUrl}/api/v1/manifestsummaryreport/runreport`, authorizationHeader, parameters)
+                    Ajax.post<DataTable>(`${apiUrl}/api/v1/manifestreport/runreport`, authorizationHeader, parameters)
                         .then((response: any) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.ItemsTable);
