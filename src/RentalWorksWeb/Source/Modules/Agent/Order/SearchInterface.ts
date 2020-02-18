@@ -675,7 +675,7 @@ class SearchInterface {
                                   <div class="gridcaption">Qty</div>
                                   <div style="float:left; border:1px solid #bdbdbd;">
                                     <button class="decrementQuantity" tabindex="-1">-</button>
-                                    <input type="number" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value="${response.Rows[i][quantity]}">
+                                    <input class="incrementvalue" type="number" min="0" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value="${response.Rows[i][quantity]}">
                                     <button class="incrementQuantity" tabindex="-1">+</button>
                                   </div>
                                 </div>
@@ -1402,6 +1402,15 @@ class SearchInterface {
             $button.parent().find("input").val(newVal).change();
         });
 
+        //prevent negative numbers
+        $popup.on('keydown', '.incrementvalue', (e) => {
+            if (!((e.keyCode > 95 && e.keyCode < 106)
+                || (e.keyCode > 47 && e.keyCode < 58)
+                || e.keyCode == 8)) {
+                return false;
+            }
+        });
+
         $popup.on('click', '.opentab', e => {
             const type = FwFormField.getValueByDataField($popup, 'InventoryType');
             let module;
@@ -1676,7 +1685,7 @@ class SearchInterface {
                                        <div data-column="Quantity" class="columnorder">
                                          <div style="float:left; border:1px solid #bdbdbd;">
                                            <button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>
-                                           <input type="number" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value="${response.Rows[i][qtyIndex]}">
+                                           <input class="incrementvalue" type="number" min="0" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value="${response.Rows[i][qtyIndex]}">
                                            <button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>
                                          </div>
                                        </div>
