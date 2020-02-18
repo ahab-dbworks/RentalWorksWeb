@@ -2559,6 +2559,14 @@ class FwBrowseClass {
                                 }
                             }
                         }
+
+                        const ADD_CONTEXT_MENU_OPTIONS = 'contextmenuoptions';
+                        if (typeof $browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS) === 'function') {
+                            let funcAddContextMenuOptions: ($tr: JQuery) => void = ($browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS));
+                            const $tr = jQuery(this).closest('tr');
+                            funcAddContextMenuOptions($tr);
+                        }
+
                         // Audit history menu option
                         if ($browse.attr('data-hasaudithistory') !== 'false') {
                             var nodeAuditGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'xepjGBf0rdL');
@@ -2573,13 +2581,6 @@ class FwBrowseClass {
                                 });
                                 menuItemCount++;
                             }
-                        }
-
-                        const ADD_CONTEXT_MENU_OPTIONS = 'contextmenuoptions';
-                        if (typeof $browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS) === 'function') {
-                            let funcAddContextMenuOptions: ($tr: JQuery) => void = ($browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS));
-                            const $tr = jQuery(this).closest('tr');
-                            funcAddContextMenuOptions($tr);
                         }
 
                         if (menuItemCount === 0) {
