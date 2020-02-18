@@ -359,7 +359,8 @@ abstract class ContractBase {
                 html.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Reason" data-datafield="Reason" style="width:600px;"></div>');
                 FwConfirmation.addControls($confirmation, html.join(''));
                 if (isSingleRow) {
-                    FwFormField.setValueByDataField($confirmation, 'Quantity', 1)
+                    const confirmationQty = jQuery($selectedCheckBoxes[0]).closest('tr').find('div[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+                    FwFormField.setValueByDataField($confirmation, 'Quantity', confirmationQty)
                 }
                 $select.on('click', () => {
                     for (let i = 0; i < $selectedCheckBoxes.length; i++) {
