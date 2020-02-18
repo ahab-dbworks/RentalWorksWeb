@@ -26,7 +26,7 @@ export class ManifestReport extends WebpackReport {
                             data.Company = parameters.companyName;
                             data.OrderNumber = parameters.orderno;
                             data.Report = "Value Sheet";
-                            data.WhichReport = parameters.manifestItems;
+                            data.WhichReport = parameters.manifestReportItems;
                             data.Date = moment().format('MM/DD/YYYY');
                             data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';

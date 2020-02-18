@@ -20,7 +20,7 @@ const manifestTemplate = `
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order" data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" data-savesetting="false" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="View Items" data-datafield="manifestItems"></div>
+                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="View Items" data-datafield="manifestReportItems"></div>
                 </div>
               </div>
             </div>
@@ -60,6 +60,10 @@ class ManifestReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
+        FwFormField.loadItems($form.find('div[data-datafield="manifestReportItems"]'), [
+            { value: 'SUMMARY', caption: 'Summary', checked: 'checked' },
+            { value: 'DETAIL', caption: 'Detail' }
+        ]);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {

@@ -22,7 +22,7 @@ namespace WebApi.Modules.Reports.ManifestReport
         public string rentalValueSelector { get; set; }
         public string salesValueSelector { get; set; }
         public string manifestFilter { get; set; }
-        public string manifestItems { get; set; }
+        public string manifestReportItems { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

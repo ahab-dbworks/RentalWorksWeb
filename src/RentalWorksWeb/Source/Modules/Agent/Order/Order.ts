@@ -67,7 +67,7 @@ class Order extends OrderBase {
         });
         FwMenu.addSubMenuItem(options.$groupOptions, 'Print Manifest', '', (e: JQuery.ClickEvent) => {
             try {
-                this.printManifest(options.$form, 'Summary');
+                this.printManifest(options.$form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }

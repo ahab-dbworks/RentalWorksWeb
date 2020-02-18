@@ -2496,22 +2496,15 @@ class OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
-    printManifest($form: any, whichManifestReport: string) {
+    printManifest($form: any) {
         try {
             var module = this.Module;
             var orderIdText = FwFormField.getValueByDataField($form, "OrderNumber");
             var orderId = FwFormField.getValueByDataField($form, "OrderId");
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-            if (whichManifestReport === 'Summary') {
-                var $report = ManifestReportController.openForm();
-            } else {
-                //var $report = 
-            }
+            var $report = ManifestReportController.openForm();
+
             FwModule.openSubModuleTab($form, $report);
-            FwFormField.loadItems($report.find('div[data-datafield="manifestItems"]'), [
-                { value: 'SUMMARY', caption: 'Summary', checked: 'checked' },
-                { value: 'DETAIL', caption: 'Detail' }
-            ]);
             
             //set order id value on the field
             FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderIdText);
