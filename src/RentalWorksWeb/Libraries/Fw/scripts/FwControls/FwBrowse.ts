@@ -2561,6 +2561,14 @@ class FwBrowseClass {
                                 }
                             }
                         }
+
+                        const ADD_CONTEXT_MENU_OPTIONS = 'contextmenuoptions';
+                        if (typeof $browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS) === 'function') {
+                            let funcAddContextMenuOptions: ($tr: JQuery) => void = ($browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS));
+                            const $tr = jQuery(this).closest('tr');
+                            funcAddContextMenuOptions($tr);
+                        }
+
                         // Audit history menu option
                         if ($browse.attr('data-hasaudithistory') !== 'false') {
                             var nodeAuditGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'xepjGBf0rdL');
@@ -2576,6 +2584,7 @@ class FwBrowseClass {
                                 menuItemCount++;
                             }
                         }
+
                         if (menuItemCount === 0) {
                             FwContextMenu.destroy($contextmenu);
                         }
@@ -2800,21 +2809,21 @@ class FwBrowseClass {
         let $tr;
 
         if ($control.data('trtemplate') != undefined) {
-            $tr = $control.data('trtemplate').clone();
+            $tr = $control.data('trtemplate').clone();    
         } else {
             $tr = jQuery('<tr>');
             const $theadtds = $table.find('> thead > tr.fieldnames > td.column');
             for (let i = 0; i < $theadtds.length; i++) {
                 let $theadtd = $theadtds.eq(i);
                 let $td = $theadtd.clone().empty();
-                //$td.css({ 'min-width': width });
-                $tr.append($td);
-                var $theadfields = $theadtd.children('.field');
-                $theadfields.each(function (index, element) {
-                    var $theadfield, $field, $field_newmode, formdatatype;
-                    $theadfield = jQuery(element);
-                    $field = $theadfield.clone().empty();
-                    $td.append($field);
+            //$td.css({ 'min-width': width });
+            $tr.append($td);
+            var $theadfields = $theadtd.children('.field');
+            $theadfields.each(function (index, element) {
+                var $theadfield, $field, $field_newmode, formdatatype;
+                $theadfield = jQuery(element);
+                $field = $theadfield.clone().empty();
+                $td.append($field);
                 });
             }
 

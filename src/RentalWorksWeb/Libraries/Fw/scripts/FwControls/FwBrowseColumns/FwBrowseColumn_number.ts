@@ -49,7 +49,7 @@ class FwBrowseColumn_numberClass implements IFwBrowseColumn {
         //    autoGroup: (((typeof $field.attr('data-formatnumeric') !== 'undefined') && ($field.attr('data-formatnumeric') == 'true')) ? true : false)
         //});
 
-        $field.on('click', function () {
+        $field.on('click', function() {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
             }

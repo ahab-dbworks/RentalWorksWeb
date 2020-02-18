@@ -3192,6 +3192,7 @@ class OrderBase {
             }
 
             for (let i = 0; i < orderTypeData.hiddenRentals.length; i++) {
+                //jQuery($rentalGrid.find(`[data-mappedfield="${orderTypeData.hiddenRentals[i]}"]`)).parent().remove();
                 jQuery($rentalGrid.find(`[data-mappedfield="${orderTypeData.hiddenRentals[i]}"]`)).parent().hide();
                 //jQuery($rentalGrid.find(`[data-mappedfield="${orderTypeData.hiddenRentals[i]}"]`)).parent().remove();
             }

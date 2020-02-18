@@ -73,9 +73,20 @@ class FwBrowseColumn_numericupdownClass implements IFwBrowseColumn {
                 });
         };
 
-        $field.find('.value').on('keydown', e => {
-            e.stopPropagation();
-        });
+        //$field.find('.value').on('keydown', e => {
+        //    e.stopPropagation();
+        //});
+
+        const allowNegative = $field.attr('data-allownegative');
+        if (allowNegative == 'false') {
+            $field.find('.value').on('keydown', (e) => {
+                if (!((e.keyCode > 95 && e.keyCode < 106)
+                    || (e.keyCode > 47 && e.keyCode < 58)
+                    || e.keyCode == 8)) {
+                    return false;
+                }
+            });
+        }
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
@@ -94,6 +105,17 @@ class FwBrowseColumn_numericupdownClass implements IFwBrowseColumn {
         if ($field.data('autoselect') === true) {
             $field.data('autoselect', false);
             $field.find('.value').select();
+        }
+
+        const allowNegative = $field.attr('data-allownegative');
+        if (allowNegative == 'false') {
+            $field.find('.value').on('keydown', (e) => {
+                if (!((e.keyCode > 95 && e.keyCode < 106)
+                    || (e.keyCode > 47 && e.keyCode < 58)
+                    || e.keyCode == 8)) {
+                    return false;
+                }
+            });
         }
     }
     //---------------------------------------------------------------------------------

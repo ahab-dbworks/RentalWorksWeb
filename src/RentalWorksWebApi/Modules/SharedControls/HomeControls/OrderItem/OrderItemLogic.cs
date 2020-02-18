@@ -1211,7 +1211,14 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 {
                     if (!(orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL) || orig.RecType.Equals(RwConstants.RECTYPE_LABOR) || orig.RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)))
                     {
-                        Description = orig.Description;
+                        if (!InventoryId.Equals(orig.InventoryId))
+                        {
+                            Description = inventoryDescription; 
+                        }
+                        else
+                        {
+                            Description = orig.Description;
+                        }
                     }
                 }
 
