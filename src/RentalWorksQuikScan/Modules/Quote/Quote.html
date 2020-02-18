@@ -1,18 +1,27 @@
 ﻿<div id="quote" class="view">
-  
-  <div id="quote-scan">
-    {{{htmlScanBarcode}}}
-  </div>
 
-  <div id="quote-items" class="panel">
-    <ul id="quote-items-ul"></ul>
-    <div id="quote-grandtotal"><span id="quote-grandtotal-caption">{{captionGrandTotal}}:</span>  <span id="quote-grandtotal-value"></span></div>
-  </div>
-
-  <div id="quote-pnlButtons" class="panel">
-    <div id="quote-pnlButtons-field" class="field center">
-      <span id="quote-pnlButtons-btnCancel" class="button default">{{captionCancelQuote}}</span>
+  <div id="quote-main">
+    <div id="quotecontrol"></div>
+    <div id="quote-scan">
+      {{{htmlScanBarcode}}}
     </div>
+
+    <div id="quote-items">
+      <div id="item-list"></div>
+    </div>
+
+    <div id="quote-grandtotal">
+      <span id="quote-grandtotal-caption">{{captionGrandTotal}}:</span>
+      <span id="quote-grandtotal-value"></span>
+    </div>
+  </div>
+
+  <div id="item-search-by-description">
+    <div id="item-search-control"></div>
+    <div class="fwmobilecontrol-control">
+      <input class="fwmobilecontrol-value" type="text" placeholder="Item Description" />
+    </div>
+    <div class="item-search-items"></div>
   </div>
 
 </div>

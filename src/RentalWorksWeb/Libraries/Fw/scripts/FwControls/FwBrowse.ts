@@ -2323,7 +2323,7 @@ class FwBrowseClass {
                 let dtCol = dt.Columns[i];
                 dt.ColumnIndex[dtCol.DataField] = i;
             }
-            let $tbody = $control.find('.runtime tbody');
+            let $tbody = $control.find('.runtime tbody').remove();
             $tbody.empty();
             for (let rowIndex = 0; rowIndex < dt.Rows.length; rowIndex++) {
                 var $tr;
@@ -2464,6 +2464,8 @@ class FwBrowseClass {
                 }
             }
 
+            $control.find('.runtime table').append($tbody);
+
             if ($control.attr('data-type') === 'Grid') {
                 if ($control.attr('data-manualsorting') === 'true') {
                     this.addManualSorting($control);
@@ -2559,6 +2561,14 @@ class FwBrowseClass {
                                 }
                             }
                         }
+
+                        const ADD_CONTEXT_MENU_OPTIONS = 'contextmenuoptions';
+                        if (typeof $browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS) === 'function') {
+                            let funcAddContextMenuOptions: ($tr: JQuery) => void = ($browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS));
+                            const $tr = jQuery(this).closest('tr');
+                            funcAddContextMenuOptions($tr);
+                        }
+
                         // Audit history menu option
                         if ($browse.attr('data-hasaudithistory') !== 'false') {
                             var nodeAuditGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'xepjGBf0rdL');
@@ -2574,6 +2584,7 @@ class FwBrowseClass {
                                 menuItemCount++;
                             }
                         }
+
                         if (menuItemCount === 0) {
                             FwContextMenu.destroy($contextmenu);
                         }
@@ -2793,13 +2804,18 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     generateRow($control) {
-        var $table, $theadtds, $tr;
-        $table = $control.find('table');
-        $tr = jQuery('<tr>');
-        $theadtds = $table.find('> thead > tr.fieldnames > td.column');
-        for (let i = 0; i < $theadtds.length; i++) {
-            let $theadtd = $theadtds.eq(i);
-            let $td = $theadtd.clone().empty();
+        const $table = $control.find('table');
+        const hasMultiRowSelect = $control.attr('data-hasmultirowselect') === 'true';
+        let $tr;
+
+        if ($control.data('trtemplate') != undefined) {
+            $tr = $control.data('trtemplate').clone();    
+        } else {
+            $tr = jQuery('<tr>');
+            const $theadtds = $table.find('> thead > tr.fieldnames > td.column');
+            for (let i = 0; i < $theadtds.length; i++) {
+                let $theadtd = $theadtds.eq(i);
+                let $td = $theadtd.clone().empty();
             //$td.css({ 'min-width': width });
             $tr.append($td);
             var $theadfields = $theadtd.children('.field');
@@ -2808,25 +2824,23 @@ class FwBrowseClass {
                 $theadfield = jQuery(element);
                 $field = $theadfield.clone().empty();
                 $td.append($field);
-            });
-        }
-
-        if (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true')) {
-            let cbuniqueId = FwApplication.prototype.uniqueId(10);
-            $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
-        }
-
-        if ($control.attr('data-type') === 'Grid') {
-            if ($control.attr('data-manualsorting') === 'true') {
-                $tr.find('.manual-sort').append(`<i style="vertical-align:-webkit-baseline-middle; cursor:grab;" class="material-icons drag-handle">drag_handle</i>`);
+                });
             }
-            let cbuniqueId = FwApplication.prototype.uniqueId(10);
-            if ($control.attr('data-hasmultirowselect') !== 'false') {
-                $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
+
+            if ($control.attr('data-type') === 'Grid') {
+                if ($control.attr('data-manualsorting') === 'true') {
+                    $tr.find('.manual-sort').append(`<i style="vertical-align:-webkit-baseline-middle; cursor:grab;" class="material-icons drag-handle">drag_handle</i>`);
+                }
+                $tr.find('.browsecontextmenucell').append('<div class="browsecontextmenu"><i class="material-icons">more_vert</i><div>');
             }
-            $tr.find('.browsecontextmenucell').append('<div class="browsecontextmenu"><i class="material-icons">more_vert</i><div>');
+
+            $control.data('trtemplate', $tr.clone());
         }
 
+        if ((($control.attr('data-type') === 'Browse') && hasMultiRowSelect) || (($control.attr('data-type') === 'Grid') && !hasMultiRowSelect)) {
+            const cbuniqueId = FwApplication.prototype.uniqueId(10);
+            $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
+        }
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             let controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
@@ -3844,6 +3858,7 @@ class FwBrowseClass {
 
             let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
             $yes.on('click', () => {
+                const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Downloading Excel Workbook...');
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
                 request.pagesize = userDefinedNumberofRows;
                 let includeIdColumns: boolean;
@@ -3864,13 +3879,13 @@ class FwBrowseClass {
                         jQuery('#application').append($iframe);
                         setTimeout(function () {
                             $iframe.remove();
+                            FwNotification.closeNotification($notification);
                         }, 500);
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 }, null, null);
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
             });
         } else {
             FwNotification.renderNotification('WARNING', 'There are no records to export.');

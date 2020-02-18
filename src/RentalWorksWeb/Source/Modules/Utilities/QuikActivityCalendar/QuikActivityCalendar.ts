@@ -56,7 +56,7 @@ class QuikActivityCalendar {
         request.OrderBy = 'DescriptionDisplay';
         FwAppData.apiMethod(true, 'POST', `api/v1/activitytype/browse`, request, FwServices.defaultTimeout, response => {
             try {
-                const $activities = $form.find('.activities');
+                const $activities = $form.find('.activities .fwform-section-body');
                 const descriptionIndex = response.ColumnIndex.DescriptionDisplay;
                 const activityTypeIdIndex = response.ColumnIndex.ActivityTypeId;
                 const activityTypeIndex = response.ColumnIndex.ActivityType;
@@ -176,10 +176,10 @@ class QuikActivityCalendar {
                 const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                 const endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
                 const summary = FwFormField.getValueByDataField($popup, 'Summary');
-                let officeLocationId: string = '';  //placeholder
-                let departmentId: string = '';  //placeholder
+                let officeLocationId: string = '';//FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                let departmentId: string = FwFormField.getValueByDataField($form, 'DepartmentId');
                 let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
+                if (FwFormField.getValueByDataField($form, 'AllWarehouses')) {
                     warehouseId = '';
                 }
                 let includeTimes: boolean = (request.mode === 'Day' || request.mode === 'Week');
@@ -191,6 +191,8 @@ class QuikActivityCalendar {
                     DepartmentId: departmentId,
                     ActivityTypeId: activityTypes,
                     IncludeTimes: includeTimes,
+                    AssignedToUserId: FwFormField.getValueByDataField($form, 'MyActivitiesOnly') ? JSON.parse(sessionStorage.getItem('userid')).usersid : '',
+                    IncludeCompleted: FwFormField.getValueByDataField($form, 'IncludeCompleted')
                 }
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/quikactivity/calendardata`, calendarRequest, FwServices.defaultTimeout, response => {
@@ -212,8 +214,12 @@ class QuikActivityCalendar {
                             DepartmentId: departmentId,
                             ActivityTypeId: activityTypes,
                             Summary: summary,
+                            AssignedToUserId: FwFormField.getValueByDataField($form, 'MyActivitiesOnly') ? JSON.parse(sessionStorage.getItem('userid')).usersid : '',
+                            IncludeCompleted: FwFormField.getValueByDataField($form, 'IncludeCompleted')
                         };
                     });
+
+
                     FwBrowse.search($quikActivityGridControl);
 
                 }, ex => {
@@ -239,11 +245,11 @@ class QuikActivityCalendar {
                     const date = event.header.name;
                     const summary = FwFormField.getValueByDataField($popup, 'Summary');
                     let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                    if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
+                    if (FwFormField.getValueByDataField($form, 'AllWarehouses')) {
                         warehouseId = '';
                     }
-                    let officeLocationId: string = '';  //placeholder
-                    let departmentId: string = '';  //placeholder
+                    let officeLocationId: string = '';//FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                    let departmentId: string = FwFormField.getValueByDataField($form, 'DepartmentId');
                     $popup.find('.activities-header .fwform-section-title').text(`Activities for ${date}`);
                     FwPopup.showPopup($popup);
                     $quikActivityGridControl.data('ondatabind', request => {
@@ -255,6 +261,8 @@ class QuikActivityCalendar {
                             DepartmentId: departmentId,
                             ActivityTypeId: activityTypes,
                             Summary: summary,
+                            AssignedToUserId: FwFormField.getValueByDataField($form, 'MyActivitiesOnly') ? JSON.parse(sessionStorage.getItem('userid')).usersid : '',
+                            IncludeCompleted: FwFormField.getValueByDataField($form, 'IncludeCompleted')
                         };
                     });
                     FwBrowse.search($quikActivityGridControl);
@@ -270,11 +278,11 @@ class QuikActivityCalendar {
                     const toDate = moment(event.start.value).format('MM/DD/YYYY');
                     const summary = FwFormField.getValueByDataField($popup, 'Summary');
                     let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                    if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
+                    if (FwFormField.getValueByDataField($form, 'AllWarehouses')) {
                         warehouseId = '';
                     }
-                    let officeLocationId: string = '';  //placeholder
-                    let departmentId: string = '';  //placeholder
+                    let officeLocationId: string = '';//FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                    let departmentId: string = FwFormField.getValueByDataField($form, 'DepartmentId');
                     $popup.find('.activities-header .fwform-section-title').text(`Activities for ${fromDate}`);
                     FwPopup.showPopup($popup);
                     $quikActivityGridControl.data('ondatabind', request => {
@@ -286,6 +294,8 @@ class QuikActivityCalendar {
                             DepartmentId: departmentId,
                             ActivityTypeId: activityTypes,
                             Summary: summary,
+                            AssignedToUserId: FwFormField.getValueByDataField($form, 'MyActivitiesOnly') ? JSON.parse(sessionStorage.getItem('userid')).usersid : '',
+                            IncludeCompleted: FwFormField.getValueByDataField($form, 'IncludeCompleted')
                         };
                     });
                     FwBrowse.search($quikActivityGridControl);
@@ -303,11 +313,11 @@ class QuikActivityCalendar {
                     const activityType = data.activityType;
                     const summary = FwFormField.getValueByDataField($popup, 'Summary');
                     let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                    if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
+                    if (FwFormField.getValueByDataField($form, 'AllWarehouses')) {
                         warehouseId = '';
                     }
-                    let officeLocationId: string = '';  //placeholder
-                    let departmentId: string = '';  //placeholder
+                    let officeLocationId: string = '';//FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                    let departmentId: string = FwFormField.getValueByDataField($form, 'DepartmentId');
                     $popup.find('.activities-header .fwform-section-title').text(`${activityType} Activities for ${fromDate}`);
                     FwPopup.showPopup($popup);
                     $quikActivityGridControl.data('ondatabind', request => {
@@ -319,6 +329,8 @@ class QuikActivityCalendar {
                             DepartmentId: departmentId,
                             ActivityTypeId: activityTypes,
                             Summary: summary,
+                            AssignedToUserId: FwFormField.getValueByDataField($form, 'MyActivitiesOnly') ? JSON.parse(sessionStorage.getItem('userid')).usersid : '',
+                            IncludeCompleted: FwFormField.getValueByDataField($form, 'IncludeCompleted')
                         };
                     });
                     FwBrowse.search($quikActivityGridControl);
@@ -362,16 +374,6 @@ class QuikActivityCalendar {
 
         const $calendar = $form.find('.calendar');
         $form.on('change', '[data-datafield="WarehouseId"]', e => {
-            FwScheduler.refresh($calendar);
-        });
-
-        $form.find('[data-datafield="AllWarehouses"] .fwformfield-value').on('change', function () {
-            let $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.disable($form.find('[data-datafield="WarehouseId"]'));
-            } else {
-                FwFormField.enable($form.find('[data-datafield="WarehouseId"]'));
-            }
             FwScheduler.refresh($calendar);
         });
 
@@ -436,6 +438,7 @@ class QuikActivityCalendar {
                 FwAppData.apiMethod(true, 'POST', `api/v1/quikactivitysettings/`, request, FwServices.defaultTimeout, response => {
                     loadSettings(response.Id);
                     $form.find('.add-new-settings').hide();
+                    FwFormField.setValueByDataField($form, 'Description', '');
                 }, ex => {
                     FwFunc.showError(ex);
                 }, $form);
@@ -482,6 +485,21 @@ class QuikActivityCalendar {
         $form.find('.cancel-settings').on('click', e => {
             $form.find('.add-new-settings').hide();
         });
+
+        //filter events
+        $form.on('change', '.filters', e => {
+            FwScheduler.refresh($calendar);
+        });
+
+        $form.find('[data-datafield="AllWarehouses"]').on('change', e => {
+            let $this = jQuery(e.target);
+            if ($this.prop('checked')) {
+                FwFormField.disable($form.find('[data-datafield="WarehouseId"]'));
+            } else {
+                FwFormField.enable($form.find('[data-datafield="WarehouseId"]'));
+            }
+            FwScheduler.refresh($calendar);
+        });
     };
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
@@ -489,15 +507,6 @@ class QuikActivityCalendar {
                 <div id="quikactivitycalendarform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="QuikActivity Calendar" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="QuikActivityCalendarController">
                   <div class="flexrow" style="max-width:none;">
                     <div class="flexcolumn activitieslist" style="max-width:250px">
-                      <div class="flexrow">
-                        <div class="fwcontrol fwcontainer fwform-section activities" data-control="FwContainer" data-type="section" data-caption="Activities"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Filter Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px;"></div>
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="min-width:150px;max-width:150px;"></div>
-                        </div>
-                      </div>
                       <div class="flexrow">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QuikActivity Saved Settings">
                             <div class="flexrow">                            
@@ -507,15 +516,29 @@ class QuikActivityCalendar {
                                 <i class="material-icons delete-settings" style="cursor:pointer; max-width:25px; margin:25px 0px;">delete</i>
                             </div>
                             <div class="flexrow add-new-settings" style="display:none;">                            
-                                <div data-control="FwFormField" data-type="text" data-savesetting="false" class="fwcontrol fwformfield" data-caption="Load QuikActivity Settings" data-datafield="Description" style="max-width:250px;"></div>            
+                                <div data-control="FwFormField" data-type="text" data-savesetting="false" class="fwcontrol fwformfield" data-caption="Save QuikActivity Settings As" data-datafield="Description" style="max-width:250px;"></div>            
                                 <i class="material-icons save-settings new" style="cursor:pointer; max-width:25px; margin:25px 0px;">save</i>
                                 <i class="material-icons cancel-settings" style="cursor:pointer; max-width:25px; margin:25px 0px;">highlight_off</i>   
                             </div>
                          </div>
                       </div>
+                      <div class="flexrow">
+                        <div class="fwcontrol fwcontainer fwform-section activities" data-control="FwContainer" data-type="section" data-caption="Activities"></div>
+                      </div>
                     </div>
                     <div class="flexcolumn" style="margin:30px 0px 0px 50px; min-width:1210px;max-width:1210px;">
                       <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar" data-shownav="false"></div>
+                    </div>
+                    <div class="flexcolumn" style="z-index:0;">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Calendar View Filters">
+                            <div data-control="FwFormField" data-type="validation" class="filters fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="filters fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="min-width:150px;max-width:150px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="filters fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-validationname="DepartmentValidation" data-displayfield="Department" style="max-width:250px;"></div>
+                            <!--<div data-control="FwFormField" data-type="validation" class="filters fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-validationname="OfficeLocationValidation" data-displayfield="OfficeLocation" style="max-width:250px;"></div>-->
+                            <div data-control="FwFormField" data-type="checkbox" class="filters fwcontrol fwformfield" data-caption="My Activities Only" data-datafield="MyActivitiesOnly" style="min-width:150px;max-width:150px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="filters fwcontrol fwformfield" data-caption="Show Complete Activities" data-datafield="IncludeCompleted" style="min-width:150px;max-width:150px;"></div>
+                            <!--<div data-control="FwFormField" data-type="checkbox" class="filters fwcontrol fwformfield" data-caption="Auto Refresh every" data-datafield="" style="min-width:150px;max-width:150px;"></div>-->
+                        </div>
                     </div>
                   </div>
 `;

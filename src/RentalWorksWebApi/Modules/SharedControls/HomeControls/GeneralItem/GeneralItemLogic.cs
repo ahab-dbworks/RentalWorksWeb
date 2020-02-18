@@ -16,6 +16,8 @@ namespace WebApi.Modules.HomeControls.GeneralItem
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"OllTRNIFsTDM", IsPrimaryKey:true)]
         public string ItemId { get; set; }
+        [FwLogicProperty(Id: "rRIkcmKW4qB9G")]
+        public string InventoryId { get; set; }
 
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"hYeEdnycZDZd")]

@@ -49,12 +49,20 @@ namespace WebApi.Modules.Settings.DocumentBarCodeSettings
             return await DoGetAsync<DocumentBarCodeSettingsLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/documentbarcodesettings 
-        [HttpPost]
-        [FwControllerMethod(Id: "y01S406DRvr6U")]
-        public async Task<ActionResult<DocumentBarCodeSettingsLogic>> PostAsync([FromBody]DocumentBarCodeSettingsLogic l)
+        //// POST api/v1/documentbarcodesettings 
+        //[HttpPost]
+        //[FwControllerMethod(Id: "y01S406DRvr6U")]
+        //public async Task<ActionResult<DocumentBarCodeSettingsLogic>> PostAsync([FromBody]DocumentBarCodeSettingsLogic l)
+        //{
+        //    return await DoPostAsync<DocumentBarCodeSettingsLogic>(l);
+        //}
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/deal/documentbarcodesettings
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "kTHub48MIL06z", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<DocumentBarCodeSettingsLogic>> EditAsync([FromRoute] string id, [FromBody]DocumentBarCodeSettingsLogic l)
         {
-            return await DoPostAsync<DocumentBarCodeSettingsLogic>(l);
+            return await DoEditAsync<DocumentBarCodeSettingsLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
     }

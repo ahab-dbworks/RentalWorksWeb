@@ -105,6 +105,10 @@ namespace WebApi.Modules.HomeControls.DealOrderDetail
         public string PresentationLayerId { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "manualsort", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? IsManualSort { get; set; }
+        //------------------------------------------------------------------------------------
+
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

@@ -509,6 +509,7 @@ abstract class FwWebApiReport {
         //})
         //FwBrowse.init($reportSettingsGridControl);
         //FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
+
         let loadDefaults: boolean = true;
         FwBrowse.renderGrid({
             nameGrid: 'ReportSettingsGrid',

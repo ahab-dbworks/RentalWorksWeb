@@ -8,6 +8,7 @@ using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.MasterItem;
 using WebApi.Modules.Home.MasterItemDetail;
 using FwStandard.Models;
+using System;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -31,6 +32,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             AfterSave += OnAfterSave;
 
             orderItem.AfterSave += OnAfterSaveMasterItem;
+            orderItemDetail.AssignPrimaryKeys += OrderItemDetailAssignPrimaryKeys;
 
             AfterDelete += OnAfterDelete;
             UseTransactionToDelete = true;
@@ -1176,12 +1178,14 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
 
             string inventoryClass = "";
+            string inventoryAvailFor = "";
             string inventoryDescription = "";
             if (!string.IsNullOrEmpty(inventoryId))
             {
-                string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { inventoryId }, new string[] { "class", "master" }).Result;
+                string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { inventoryId }, new string[] { "class", "master", "availfor" }).Result;
                 inventoryClass = inventoryData[0];
                 inventoryDescription = inventoryData[1];
+                inventoryAvailFor = inventoryData[2];
             }
 
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
@@ -1192,9 +1196,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     OrderItemId = OrderFunc.InsertPackage(AppConfig, UserSession, this).Result;
                     e.PerformSave = false;  // all framework save functions will be skipped
                 }
-                if (!inventoryClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS))
+                if ((!inventoryClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS)) && (!(inventoryAvailFor.Equals(RwConstants.RATE_AVAILABLE_FOR_LABOR) || inventoryAvailFor.Equals(RwConstants.RATE_AVAILABLE_FOR_MISC))))
                 {
-                    Description = inventoryDescription; // don't let user change the description on a new row, unless MISC
+                    Description = inventoryDescription; // don't let user change the description on a new row, unless MISC, or unless Misc/Labor
                 }
                 ItemClass = inventoryClass;
                 ItemOrder = "";
@@ -1202,12 +1206,19 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
             else  // updating
             {
-                // don't let user change the description on existing row, unless MISC, GROUPHEADING, TEXT, or SUBTOTAL
+                // don't let user change the description on existing row, unless MISC, GROUPHEADING, TEXT, or SUBTOTAL, or unless Misc/Labor
                 if (orig != null)
                 {
-                    if (!(orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL)))
+                    if (!(orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL) || orig.RecType.Equals(RwConstants.RECTYPE_LABOR) || orig.RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)))
                     {
-                        Description = orig.Description;
+                        if (!InventoryId.Equals(orig.InventoryId))
+                        {
+                            Description = inventoryDescription; 
+                        }
+                        else
+                        {
+                            Description = orig.Description;
+                        }
                     }
                 }
 
@@ -1275,21 +1286,24 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
         }
         //------------------------------------------------------------------------------------
+        public void OrderItemDetailAssignPrimaryKeys(object sender, EventArgs e)
+        {
+            ((MasterItemDetailRecord)sender).MasterItemId = GetPrimaryKeys()[0].ToString();
+        }
+        //------------------------------------------------------------------------------------ 
         public virtual void OnAfterSaveMasterItem(object sender, AfterSaveDataRecordEventArgs e)
         {
-            // justin hoffman 01/20/2020
-            // this is really stupid
+            // justin hoffman 02/11/2020
+            // this should probably somehow be a configurable option in the FwBusinessLogic class
             // I am deleting the record that dbwIU_masteritem is giving us, so I can add my own and avoid a unique index error
 
-
-            //if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
-            //{
-            //    MasterItemDetailRecord detailRec = new MasterItemDetailRecord();
-            //    detailRec.SetDependencies(AppConfig, UserSession);
-            //    detailRec.MasterItemId = GetPrimaryKeys()[0].ToString();
-            //    bool b = detailRec.DeleteAsync(e.SqlConnection).Result;
-            //}
-
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                MasterItemDetailRecord detailRec = new MasterItemDetailRecord();
+                detailRec.SetDependencies(AppConfig, UserSession);
+                detailRec.MasterItemId = GetPrimaryKeys()[0].ToString();
+                bool b = detailRec.DeleteAsync(e.SqlConnection).Result;
+            }
         }
         //------------------------------------------------------------------------------------
         public void SaveRolledUpRow(object sender, InsteadOfSaveEventArgs e)
@@ -1372,7 +1386,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------
         public void OnAfterDelete(object sender, AfterDeleteEventArgs e)
         {
-            
+
             string itemClass = ItemClass ?? "";
             if (itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
             {

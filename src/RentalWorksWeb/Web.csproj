@@ -152,6 +152,12 @@
     <TypeScriptCompile Include="scripts\Constants.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\images\flags2x.png" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\images\flags.png" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\intlTelInput.css" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput-jquery.js" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput.js" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\utils.js" />
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
@@ -519,6 +525,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Inventory\RetiredHistory\RetiredHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ManifestSummaryReport\ManifestSummaryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusDetailReport\OrderStatusDetailReportController.ts" />
@@ -569,6 +576,7 @@
     <TypeScriptCompile Include="Source\Modules\Containers\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\ChangeOrderStatus\ChangeOrderStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\InventoryUnretireUtility\InventoryUnretireUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryRetireUtility\InventoryRetireUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\CompleteQc\CompleteQc.ts" />
@@ -689,6 +697,7 @@
     <TypeScriptCompile Include="Source\Modules\Agent\Order\SearchInterface.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\Repair\Repair.ts" />
+    <Content Include="Source\Modules\Agent\Order\Order.css" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.js" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetBrowse.htm" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetForm.htm" />
@@ -1296,6 +1305,8 @@
     <Content Include="theme\images\icons\administrator\placeholder.png" />
     <Content Include="theme\images\icons\integration\placeholder.png" />
     <Content Include="theme\images\icons\utilities\placeholder.png" />
+    <Content Include="theme\images\intlinputflags\flags%402x.png" />
+    <Content Include="theme\images\intlinputflags\flags.png" />
     <Content Include="theme\images\no-image.jpg" />
     <Content Include="theme\images\qrcodesample.jpg" />
     <Content Include="theme\images\rentalworkslogo.png" />
@@ -1349,7 +1360,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
-    <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />
@@ -1566,6 +1576,8 @@
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\ckeditor&quot; &quot;$(FwDeploymentDirectory)\Libraries\ckeditor&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\codemirror" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\codemirror')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\codemirror&quot; &quot;$(FwDeploymentDirectory)\Libraries\codemirror&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\jquery\internationalphone\build\css\images" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css\images')" ContinueOnError="false" />
+    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css\images&quot; &quot;$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\source" Condition="!Exists('$(FwDeploymentDirectory)\source')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data" Condition="!Exists('$(FwDeploymentDirectory)\App_Data')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp')" ContinueOnError="false" />

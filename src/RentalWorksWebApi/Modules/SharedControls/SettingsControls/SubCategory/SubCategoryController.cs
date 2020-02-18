@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Logic;
+using System;
 
 namespace WebApi.Modules.Settings.SubCategory
 {
@@ -72,5 +74,24 @@ namespace WebApi.Modules.Settings.SubCategory
             return await DoDeleteAsync<SubCategoryLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/subcategory/sort
+        [HttpPost("sort")]
+        [FwControllerMethod(Id: "D1sjcQIs9ZrTE", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<SortItemsResponse>> SortSubcategoriesAsync([FromBody]SortSubCategoriesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await SubCategoryFunc.SortSubCategories(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

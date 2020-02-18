@@ -63,6 +63,7 @@ abstract class StagingCheckoutBase {
         $form.find(`div[data-datafield="${this.Type}Id"] input`).focus();
         this.getSuspendedSessions($form);
         this.events($form);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -309,6 +310,11 @@ abstract class StagingCheckoutBase {
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
                     if (module == 'StagingCheckout') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                     if (module == 'FillContainer') FwFormField.setValueByDataField($form, 'BarCode', response.BarCode);
+
+                    //if (response.showAlert === true) {
+                    //    // pass in possible message
+                    //    this.showOrderAlert($form);
+                    //}
                     // Determine tabs to render
                     FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
                         res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
@@ -728,6 +734,8 @@ abstract class StagingCheckoutBase {
     };
     //----------------------------------------------------------------------------------------------
     createContract($form: JQuery, event): void {
+
+        // API REQUEST to see if alert issues exist else toaster message and continue to block create contract
         const type = this.Type;
         const errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
@@ -1291,6 +1299,18 @@ abstract class StagingCheckoutBase {
         this.contractId = '';
         $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'false');
         $form.find('.suspendedsession').show();
+    }
+    //----------------------------------------------------------------------------------------------
+    showOrderAlert($form, message?: string) {
+        if (message === null) {
+            message = 'ORDER ALERT -- CREATING CONTRACT IS DISABLED. PLEASE RESOLVE ISSUES BEFORE PROCEEDING.'
+        }
+        const alert = jQuery(`<div class="form-alert" style="background:#ffff33;text-align:center;font-size:1.3em"><span>${message}</span></div>`);
+        const $formbody = $form.find('.fwform-body');
+        $formbody.before(alert);
+        $form.find('.complete-checkout-contract').css({
+            'pointer-events': 'none',
+        });
     }
     //----------------------------------------------------------------------------------------------
     addLegend($form: any, $grid): void {

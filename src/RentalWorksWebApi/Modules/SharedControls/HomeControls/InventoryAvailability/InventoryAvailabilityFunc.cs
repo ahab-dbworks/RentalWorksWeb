@@ -170,19 +170,31 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
     //-------------------------------------------------------------------------------------------------------
     public class TInventoryWarehouseAvailabilityKeys : List<TInventoryWarehouseAvailabilityKey> { }
     //-------------------------------------------------------------------------------------------------------
-    public class TInventoryWarehouseAvailabilityQuantity
+    public struct TInventoryWarehouseAvailabilityQuantity
     {
-        public float Owned { get; set; } = 0;
-        public float Subbed { get; set; } = 0;
-        public float Consigned { get; set; } = 0;
+        public float Owned;//{ get; set; } = 0;
+        public float Subbed;// { get; set; } = 0;
+        public float Consigned;// { get; set; } = 0;
         public float OwnedAndConsigned { get { return Owned + Consigned; } }
+        //public float OwnedAndConsignedX() { return Owned + Consigned; }
         public float Total { get { return Owned + Subbed + Consigned; } }
+        //public float TotalX() { return Owned + Subbed + Consigned; }
 
-        public void CloneFrom(TInventoryWarehouseAvailabilityQuantity source)
+
+        //public void CloneFrom(TInventoryWarehouseAvailabilityQuantity source)
+        //{
+        //    this.Owned = source.Owned;
+        //    this.Subbed = source.Subbed;
+        //    this.Consigned = source.Consigned;
+        //}
+
+        public static TInventoryWarehouseAvailabilityQuantity MakeCopy(TInventoryWarehouseAvailabilityQuantity source)
         {
-            this.Owned = source.Owned;
-            this.Subbed = source.Subbed;
-            this.Consigned = source.Consigned;
+            TInventoryWarehouseAvailabilityQuantity newQ = new TInventoryWarehouseAvailabilityQuantity();
+            newQ.Owned = source.Owned;
+            newQ.Subbed = source.Subbed;
+            newQ.Consigned = source.Consigned;
+            return newQ;
         }
 
         public static TInventoryWarehouseAvailabilityQuantity operator +(TInventoryWarehouseAvailabilityQuantity q1, TInventoryWarehouseAvailabilityQuantity q2)
@@ -261,12 +273,12 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public float QuantityOrdered { get; set; } = 0;
         public float QuantitySub { get; set; } = 0;
         public float QuantityConsigned { get; set; } = 0;
-        public TInventoryWarehouseAvailabilityQuantity QuantityReserved { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity QuantityStaged { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity QuantityOut { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity QuantityIn { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity QuantityInRepair { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity QuantityLate { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QuantityReserved;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QuantityStaged;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QuantityOut;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QuantityIn;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QuantityInRepair;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QuantityLate;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public bool IsPositiveConflict { get; set; } = false;
         public bool IsNegativeConflict { get; set; } = false;
         public string SubPurchaseOrderId { get; set; }
@@ -413,13 +425,22 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             this.QuantityOrdered = source.QuantityOrdered;
             this.QuantitySub = source.QuantitySub;
             this.QuantityConsigned = source.QuantityConsigned;
-            this.QuantityReserved.CloneFrom(source.QuantityReserved);
-            this.QuantityStaged.CloneFrom(source.QuantityStaged);
-            this.QuantityOut.CloneFrom(source.QuantityOut);
-            this.QuantityIn.CloneFrom(source.QuantityIn);
-            this.QuantityInRepair.CloneFrom(source.QuantityInRepair);
-            this.QuantityLate.CloneFrom(source.QuantityLate);
-            this.QuantityReserved.CloneFrom(source.QuantityReserved);
+            //this.QuantityReserved.CloneFrom(source.QuantityReserved);
+            //this.QuantityStaged.CloneFrom(source.QuantityStaged);
+            //this.QuantityOut.CloneFrom(source.QuantityOut);
+            //this.QuantityIn.CloneFrom(source.QuantityIn);
+            //this.QuantityInRepair.CloneFrom(source.QuantityInRepair);
+            //this.QuantityLate.CloneFrom(source.QuantityLate);
+            //this.QuantityReserved.CloneFrom(source.QuantityReserved);
+
+            this.QuantityReserved = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.QuantityReserved);
+            this.QuantityStaged = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.QuantityStaged);
+            this.QuantityOut = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.QuantityOut);
+            this.QuantityIn = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.QuantityIn);
+            this.QuantityInRepair = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.QuantityInRepair);
+            this.QuantityLate = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.QuantityLate);
+            this.QuantityReserved = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.QuantityReserved);
+
             this.IsPositiveConflict = source.IsPositiveConflict;
             this.IsNegativeConflict = source.IsNegativeConflict;
             this.SubPurchaseOrderId = source.SubPurchaseOrderId;
@@ -446,10 +467,14 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public void CloneFrom(TInventoryWarehouseAvailabilityDateTime source)
         {
             this.AvailabilityDateTime = source.AvailabilityDateTime;
-            this.Available.CloneFrom(source.Available);
-            this.BecomingAvailable.CloneFrom(source.BecomingAvailable);
-            this.Reserved.CloneFrom(source.Reserved);
-            this.Returning.CloneFrom(source.Returning);
+            //this.Available.CloneFrom(source.Available);
+            //this.BecomingAvailable.CloneFrom(source.BecomingAvailable);
+            //this.Reserved.CloneFrom(source.Reserved);
+            //this.Returning.CloneFrom(source.Returning);
+            this.Available = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.Available);
+            this.BecomingAvailable = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.BecomingAvailable);
+            this.Reserved = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.Reserved);
+            this.Returning = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.Returning);
             this.Reservations = new List<TInventoryWarehouseAvailabilityReservation>();
 
             foreach (TInventoryWarehouseAvailabilityReservation res in source.Reservations)
@@ -589,16 +614,16 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         }
         public TInventoryWarehouse InventoryWarehouse { get; set; }
         public DateTime CalculatedDateTime { get; set; }
-        public TInventoryWarehouseAvailabilityQuantity Total { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity In { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity Staged { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity Out { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity InRepair { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity InTransit { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity InContainer { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity OnTruck { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity QcRequired { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        public TInventoryWarehouseAvailabilityQuantity Late { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity Total;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity In;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity Staged;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity Out;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity InRepair;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity InTransit;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity InContainer;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity OnTruck;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QcRequired;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity Late;// { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public DateTime AvailDataFromDateTime { get; set; }
         public DateTime AvailDataToDateTime { get; set; }
         public bool EnableQcDelay { get; set; }
@@ -615,16 +640,28 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             this.InventoryWarehouse.CloneFrom(source.InventoryWarehouse);
             this.AvailDataFromDateTime = source.AvailDataFromDateTime;
             this.AvailDataToDateTime = source.AvailDataToDateTime;
-            this.Total.CloneFrom(source.Total);
-            this.In.CloneFrom(source.In);
-            this.Staged.CloneFrom(source.Staged);
-            this.Out.CloneFrom(source.Out);
-            this.InRepair.CloneFrom(source.InRepair);
-            this.InTransit.CloneFrom(source.InTransit);
-            this.InContainer.CloneFrom(source.InContainer);
-            this.OnTruck.CloneFrom(source.OnTruck);
-            this.QcRequired.CloneFrom(source.QcRequired);
-            this.Late.CloneFrom(source.Late);
+            //this.Total.CloneFrom(source.Total);
+            //this.In.CloneFrom(source.In);
+            //this.Staged.CloneFrom(source.Staged);
+            //this.Out.CloneFrom(source.Out);
+            //this.InRepair.CloneFrom(source.InRepair);
+            //this.InTransit.CloneFrom(source.InTransit);
+            //this.InContainer.CloneFrom(source.InContainer);
+            //this.OnTruck.CloneFrom(source.OnTruck);
+            //this.QcRequired.CloneFrom(source.QcRequired);
+            //this.Late.CloneFrom(source.Late);
+
+            this.Total = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.Total);
+            this.In = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.In);
+            this.Staged = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.Staged);
+            this.Out = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.Out);
+            this.InRepair = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.InRepair);
+            this.InTransit = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.InTransit);
+            this.InContainer = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.InContainer);
+            this.OnTruck = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.OnTruck);
+            this.QcRequired = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.QcRequired);
+            this.Late = TInventoryWarehouseAvailabilityQuantity.MakeCopy(source.Late);
+
             this.EnableQcDelay = source.EnableQcDelay;
             this.QcDelayDays = source.QcDelayDays;
             this.QcToDateTime = source.QcToDateTime;
@@ -658,20 +695,32 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
             minAvail.NoAvailabilityCheck = InventoryWarehouse.NoAvailabilityCheck;
 
-            if (fromDateTime < DateTime.Today)
+            DateTime currentAvailabilityDateTime = (InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
+
+            //if (fromDateTime < DateTime.Today)
+            //{
+            //    fromDateTime = DateTime.Today;
+            //}
+            if (fromDateTime < currentAvailabilityDateTime)
             {
-                fromDateTime = DateTime.Today;
+                fromDateTime = currentAvailabilityDateTime;
             }
 
             if (toDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
             {
                 toDateTime = AvailDataToDateTime;
             }
-            else if (toDateTime < DateTime.Today)
+            //else if (toDateTime < DateTime.Today)
+            //{
+            //    toDateTime = DateTime.Today;
+            //    isHistory = true;
+            //}
+            else if (toDateTime < currentAvailabilityDateTime)
             {
-                toDateTime = DateTime.Today;
+                toDateTime = currentAvailabilityDateTime;
                 isHistory = true;
             }
+
 
             if (minAvail.NoAvailabilityCheck)
             {
@@ -697,7 +746,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     if (AvailabilityDatesAndTimes.TryGetValue(theDateTime, out inventoryWarehouseAvailabilityDateTime))
                     {
                         TInventoryWarehouseAvailabilityQuantity avail = new TInventoryWarehouseAvailabilityQuantity();
-                        avail.CloneFrom(inventoryWarehouseAvailabilityDateTime.Available);
+                        //avail.CloneFrom(inventoryWarehouseAvailabilityDateTime.Available);
+                        avail = TInventoryWarehouseAvailabilityQuantity.MakeCopy(inventoryWarehouseAvailabilityDateTime.Available);
 
                         avail.Owned = avail.Owned - additionalQuantity;
                         if (theDateTime.Equals(fromDateTime))
@@ -717,7 +767,17 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             lastDateFound = true;
                         }
                     }
-                    theDateTime = theDateTime.AddDays(1);        //currently hard-coded for "daily" availability.  will need mods to work for "hourly"  //#jhtodo
+                    //theDateTime = theDateTime.AddDays(1);        //currently hard-coded for "daily" availability.  will need mods to work for "hourly"  //#jhtodo
+
+                    if (InventoryWarehouse.HourlyAvailability)
+                    {
+                        theDateTime = theDateTime.AddHours(1);
+                    }
+                    else
+                    {
+                        theDateTime = theDateTime.AddDays(1);
+                    }
+
                 }
 
 
@@ -944,6 +1004,10 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public static int availabilityDaysToCache = 0;
         public static DateTime LateDateTime = DateTime.MaxValue;  // This is a temporary value.  Actual value gets set in InitializeService
         private static TAvailabilityCache AvailabilityCache = new TAvailabilityCache();
+        private static bool hourlyInitialized = false;
+        private static bool dailyInitialized = false;
+        private static List<string> ActiveWarehouseIds = new List<string>();
+
         //-------------------------------------------------------------------------------------------------------
         public static async Task<bool> InitializeService(FwApplicationConfig appConfig)
         {
@@ -972,6 +1036,22 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 LateDateTime = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("latedatetime")].ToString());
             }
 
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                ActiveWarehouseIds = new List<string>();
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select w.warehouseid     ");
+                qry.Add(" from  warehouse w       ");
+                qry.Add(" where w.inactive <> 'T' ");
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                foreach (List<object> row in dt.Rows)
+                {
+                    ActiveWarehouseIds.Add(row[dt.GetColumnNo("warehouseid")].ToString());
+                }
+
+            }
+
             return success;
         }
         //-------------------------------------------------------------------------------------------------------   
@@ -990,9 +1070,13 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
             return str;
         }
-
         //-------------------------------------------------------------------------------------------------------   
-
+        public static DateTime GetCurrentAvailabilityHour()
+        {
+            DateTime currHour = DateTime.Today.AddHours(DateTime.Now.Hour);
+            return currHour;
+        }
+        //-------------------------------------------------------------------------------------------------------   
         public static bool InventoryWarehouseNeedsRecalc(TInventoryWarehouseAvailabilityKey availKey)
         {
             return AvailabilityNeedRecalc.ContainsKey(availKey);
@@ -1028,6 +1112,11 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("select masterid, warehouseid, class, rank, qty, ispackageowned, isinownedpackage, noavail   ");
                 qry.Add(" from  masterwhforavailview                                                                 ");
                 qry.Add(" where availbyhour = 'T'                                                                    ");
+                if (hourlyInitialized)
+                {
+                    //after the hourly dataset has been intialized once, then we only need to maintain the I-Codes that have Staged/Out items to update the "late" quantity
+                    qry.Add(" and (qtystaged > 0 or qtyout > 0) ");
+                }
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
                 foreach (List<object> row in dt.Rows)
@@ -1043,6 +1132,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     RequestRecalc(inventoryId, warehouseId, classification, preCache);
                 }
             }
+            hourlyInitialized = true;
             return success;
         }
         //-------------------------------------------------------------------------------------------------------        
@@ -1057,6 +1147,11 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("select masterid, warehouseid, class, rank, qty, ispackageowned, isinownedpackage, noavail   ");
                 qry.Add(" from  masterwhforavailview                                                                 ");
                 qry.Add(" where availbyhour <> 'T'                                                                   ");
+                if (dailyInitialized)
+                {
+                    //after the hourly dataset has been intialized once, then we only need to maintain the I-Codes that have Staged/Out items to update the "late" quantity
+                    qry.Add(" and (qtystaged > 0 or qtyout > 0) ");
+                }
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
                 foreach (List<object> row in dt.Rows)
@@ -1072,6 +1167,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     RequestRecalc(inventoryId, warehouseId, classification, preCache);
                 }
             }
+            dailyInitialized = true;
             return success;
         }
         //-------------------------------------------------------------------------------------------------------        
@@ -1593,7 +1689,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             {
                 TInventoryWarehouseAvailabilityKey availKey = availEntry.Key;
                 TInventoryWarehouseAvailability availData = availEntry.Value;
-                DateTime fromDateTime = DateTime.Today;
+                DateTime currentAvailabilityDateTime = (availData.InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
+                DateTime fromDateTime = currentAvailabilityDateTime;
                 DateTime toDateTime = availData.AvailDataToDateTime;
                 availData.AvailabilityDatesAndTimes.Clear();
                 if (!availData.InventoryWarehouse.NoAvailabilityCheck)
@@ -1677,7 +1774,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     else  // item/accesssory
                     {
                         TInventoryWarehouseAvailabilityQuantity available = new TInventoryWarehouseAvailabilityQuantity();
-                        available.CloneFrom(availData.In);   // snapshot the current IN quantity.  use this as a running total
+                        //available.CloneFrom(availData.In);   // snapshot the current IN quantity.  use this as a running total
+                        available = TInventoryWarehouseAvailabilityQuantity.MakeCopy(availData.In);   // snapshot the current IN quantity.  use this as a running total
                         if ((availData.EnableQcDelay) && (availData.QcToDateTime != null))
                         {
                             available -= availData.QcRequired;
@@ -1695,7 +1793,10 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 {
                                     if ((reservation.FromDateTime <= theDateTime) && ((theDateTime <= reservation.ToDateTime) || ((reservation.QcDelayToDateTime != null) && (theDateTime <= reservation.QcDelayToDateTime))))
                                     {
-                                        inventoryWarehouseAvailabilityDateTime.Reservations.Add(reservation);
+                                        if ((reservation.QuantityLate.Total > 0) || (reservation.QuantityReserved.Total > 0) || (reservation.QuantityStaged.Total > 0) || (reservation.QuantityOut.Total > 0))
+                                        {
+                                            inventoryWarehouseAvailabilityDateTime.Reservations.Add(reservation);
+                                        }
                                         inventoryWarehouseAvailabilityDateTime.Reserved += reservation.QuantityReserved;
                                         if (!reservation.countedReserved)
                                         {
@@ -1998,22 +2099,26 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             stale = true;
                         }
 
-                        if (fromDateTime < DateTime.Today)
-                        {
-                            fromDateTime = DateTime.Today;
-                        }
-
-                        if (toDateTime < DateTime.Today)
-                        {
-                            toDateTime = DateTime.Today;
-                        }
-
                         TInventoryWarehouseAvailability availData = null;
                         if (AvailabilityCache.TryGetValue(availKey, out availData))
                         {
                             TInventoryWarehouseAvailability tmpAvailData = new TInventoryWarehouseAvailability(availKey.InventoryId, availKey.WarehouseId);
                             tmpAvailData.CloneFrom(availData);
                             foundInCache = true;
+
+                            DateTime currentAvailabilityDateTime = (availData.InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
+
+                            if (fromDateTime < currentAvailabilityDateTime)
+                            {
+                                fromDateTime = currentAvailabilityDateTime;
+                            }
+
+                            if (toDateTime < currentAvailabilityDateTime)
+                            {
+                                toDateTime = currentAvailabilityDateTime;
+                            }
+
+
                             DateTime theDateTime = tmpAvailData.AvailDataFromDateTime;
                             while (theDateTime <= tmpAvailData.AvailDataToDateTime)
                             {
@@ -2273,18 +2378,33 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
             TInventoryAvailabilityCalendarAndScheduleResponse response = new TInventoryAvailabilityCalendarAndScheduleResponse();
 
-            if (request.FromDate < DateTime.Today)
+            DateTime currentAvailabilityDateTime = DateTime.Today;
+            if (request.FromDate < currentAvailabilityDateTime)
             {
-                request.FromDate = DateTime.Today;
+                request.FromDate = currentAvailabilityDateTime;
             }
 
-            if (request.ToDate < DateTime.Today)
+            if (request.ToDate < currentAvailabilityDateTime)
             {
-                request.ToDate = DateTime.Today;
+                request.ToDate = currentAvailabilityDateTime;
             }
 
             TInventoryWarehouseAvailability availData = null;
             List<TInventoryWarehouseAvailability> eachWhAvailData = new List<TInventoryWarehouseAvailability>();
+
+            // remove blanks
+            for (int i = request.WarehouseId.Count - 1; i >= 0; i--)
+            {
+                if (request.WarehouseId[i].Equals(string.Empty))
+                {
+                    request.WarehouseId.RemoveAt(i);
+                }
+            }
+
+            if (request.WarehouseId.Count == 0)
+            {
+                request.WarehouseId = ActiveWarehouseIds;
+            }
 
             foreach (string whId in request.WarehouseId)
             {
@@ -2325,6 +2445,21 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             if (!canShowHours)
             {
                 includeHours = false;
+            }
+
+            if (includeHours)
+            {
+                currentAvailabilityDateTime = InventoryAvailabilityFunc.GetCurrentAvailabilityHour();
+                if (request.FromDate < currentAvailabilityDateTime)
+                {
+                    request.FromDate = currentAvailabilityDateTime;
+                }
+
+                if (request.ToDate < currentAvailabilityDateTime)
+                {
+                    request.ToDate = currentAvailabilityDateTime;
+                }
+
             }
 
             if (availData != null)
@@ -2382,7 +2517,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 if (availData.AvailabilityDatesAndTimes.TryGetValue(availDateTime, out inventoryWarehouseAvailabilityDateTime))
                                 {
                                     //late
-                                    if ((availDateTime.Equals(DateTime.Today)) && (availData.Late.OwnedAndConsigned != 0))
+                                    if ((availDateTime.Equals(currentAvailabilityDateTime)) && (availData.Late.OwnedAndConsigned != 0))
                                     {
                                         late.exists = true;
                                         late.caption = "Late";
@@ -2445,13 +2580,13 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 hour++;
                             }
                         }
-                        else  
+                        else
                         {
                             TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = null;
                             if (availData.AvailabilityDatesAndTimes.TryGetValue(theDateTime, out inventoryWarehouseAvailabilityDateTime))
                             {
                                 //late
-                                if ((theDateTime.Equals(DateTime.Today)) && (availData.Late.OwnedAndConsigned != 0))
+                                if ((theDateTime.Equals(currentAvailabilityDateTime)) && (availData.Late.OwnedAndConsigned != 0))
                                 {
                                     late.exists = true;
                                     late.caption = "Late";
@@ -2926,14 +3061,14 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             DateTime fromDateTime = DateTime.Today;
             DateTime toDateTime = request.ToDate ?? fromDateTime.AddDays(availabilityDaysToCache);
             TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
-            foreach (List<object> row in dt.Rows)
-            {
-                string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
-                string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
-                availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
-            }
-            bool refreshIfNeeded = true; // user may want to make this true/false in some cases
-            TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(appConfig, userSession, availRequestItems, refreshIfNeeded, forceRefresh: false).Result;
+            //foreach (List<object> row in dt.Rows)
+            //{
+            //    string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+            //    string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+            //    availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+            //}
+            bool refreshIfNeeded = false;// true; // user may want to make this true/false in some cases
+            //TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(appConfig, userSession, availRequestItems, refreshIfNeeded, forceRefresh: false).Result;
 
 
             foreach (List<object> row in dt.Rows)
@@ -2941,10 +3076,12 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
                 string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
 
-                TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+                //TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
 
-                TInventoryWarehouseAvailability availData = null;
-                if (availCache.TryGetValue(availKey, out availData))
+                //TInventoryWarehouseAvailability availData = null;
+                //if (availCache.TryGetValue(availKey, out availData))
+                TInventoryWarehouseAvailability availData = InventoryAvailabilityFunc.GetAvailability(appConfig, userSession, inventoryId, warehouseId, fromDateTime, toDateTime, refreshIfNeeded, forceRefresh: false).Result;
+                if (availData != null)
                 {
                     bool hasConflict = (((string.IsNullOrEmpty(request.ConflictType) || (request.ConflictType.Equals("ALL"))) && (availData.HasNegativeConflict || availData.HasPositiveConflict)) ||
                                        (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && availData.HasNegativeConflict) ||

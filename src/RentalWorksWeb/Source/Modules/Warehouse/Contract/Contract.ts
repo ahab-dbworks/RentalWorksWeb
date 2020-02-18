@@ -1,12 +1,12 @@
 class Contract extends ContractBase {
-    Module:             string = 'Contract';
-    apiurl:             string = 'api/v1/contract';
-    caption:            string = Constants.Modules.Warehouse.children.Contract.caption;
-    nav:                string = Constants.Modules.Warehouse.children.Contract.nav;
-    id:                 string = Constants.Modules.Warehouse.children.Contract.id;
-    ActiveViewFields:   any    = {};
+    Module: string = 'Contract';
+    apiurl: string = 'api/v1/contract';
+    caption: string = Constants.Modules.Warehouse.children.Contract.caption;
+    nav: string = Constants.Modules.Warehouse.children.Contract.nav;
+    id: string = Constants.Modules.Warehouse.children.Contract.id;
+    ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
-    BillingDate:        string;
+    BillingDate: string;
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasInactive = false;

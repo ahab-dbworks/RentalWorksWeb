@@ -1179,9 +1179,16 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------
 
 
+        [FwLogicProperty(Id: "JLEETIIuUH1li")]
+        public bool? IsManualSort { get; set; }
+        
 
-        [FwLogicProperty(Id: "HmfP8Yd1BuDm", IsRecordTitle: true, IsReadOnly: true)]
+
+    [FwLogicProperty(Id: "HmfP8Yd1BuDm", IsRecordTitle: true, IsReadOnly: true)]
         public string QuoteOrderTitle { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwLogicProperty(Id: "Ax3fGfGLJouY", IsReadOnly: true)]
+        public bool? UnassignedSubs { get; set; }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "Mj4GCUlVtnzB")]
         public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }

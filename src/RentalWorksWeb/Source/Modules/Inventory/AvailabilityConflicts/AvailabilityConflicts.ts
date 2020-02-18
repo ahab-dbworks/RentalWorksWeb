@@ -200,12 +200,14 @@ class AvailabilityConflicts {
         $form.find('#availabilityTable table tr td.quantity-available')
             .off('click')
             .on('click', e => {
+                let showingAvail: boolean = false;
                 const $row = jQuery(e.currentTarget).parent('tr.data-row');
                 const $availRow = $row.next('.avail-calendar');
                 if ($availRow.hasClass('show-quantity')) {
                     $availRow.removeClass('show-quantity').hide();
                 } else {
                     $availRow.addClass('show-quantity').show();
+                    showingAvail = true;
                 }
                 const html = `<div data-control="FwScheduler" style="overflow:auto;" class="fwcontrol fwscheduler calendar"></div>
             <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>`;
@@ -214,20 +216,22 @@ class AvailabilityConflicts {
                 const $scheduler = $availRow.find('.realscheduler');
                 const inventoryId = jQuery($row.find('.inventory-number')).attr('data-id');
 
-                FwScheduler.renderRuntimeHtml($calendar);
-                FwScheduler.init($calendar);
-                FwScheduler.loadControl($calendar);
-                RentalInventoryController.addCalSchedEvents($form, $calendar, inventoryId);
-                const schddate = FwScheduler.getTodaysDate();
-                FwScheduler.navigate($calendar, schddate);
-                FwScheduler.refresh($calendar);
+                if (showingAvail) {
+                    FwScheduler.renderRuntimeHtml($calendar);
+                    FwScheduler.init($calendar);
+                    FwScheduler.loadControl($calendar);
+                    RentalInventoryController.addCalSchedEvents($form, $calendar, inventoryId);
+                    const schddate = FwScheduler.getTodaysDate();
+                    FwScheduler.navigate($calendar, schddate);
+                    FwScheduler.refresh($calendar);
 
-                FwSchedulerDetailed.renderRuntimeHtml($scheduler);
-                FwSchedulerDetailed.init($scheduler);
-                FwSchedulerDetailed.loadControl($scheduler);
-                RentalInventoryController.addCalSchedEvents($form, $scheduler, inventoryId);
-                FwSchedulerDetailed.navigate($scheduler, schddate, 35);
-                FwSchedulerDetailed.refresh($scheduler);
+                    FwSchedulerDetailed.renderRuntimeHtml($scheduler);
+                    FwSchedulerDetailed.init($scheduler);
+                    FwSchedulerDetailed.loadControl($scheduler);
+                    RentalInventoryController.addCalSchedEvents($form, $scheduler, inventoryId);
+                    FwSchedulerDetailed.navigate($scheduler, schddate, 35);
+                    FwSchedulerDetailed.refresh($scheduler);
+                }
         });
     }
     //----------------------------------------------------------------------------------------------

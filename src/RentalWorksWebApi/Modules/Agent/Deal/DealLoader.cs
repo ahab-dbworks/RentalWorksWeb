@@ -28,9 +28,6 @@ namespace WebApi.Modules.Agent.Deal
         [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text)]
         public string Country { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
-        public string Phone { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "phone800", modeltype: FwDataTypes.Text)]
         public string PhoneTollFree { get; set; }
         //------------------------------------------------------------------------------------ 

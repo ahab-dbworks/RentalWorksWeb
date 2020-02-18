@@ -157,17 +157,21 @@ abstract class InventoryBase {
     }
     //----------------------------------------------------------------------------------------------
     openSubModuleBrowse($form, module: string) {
-        let $browse = null;
-        if (typeof window[`${module}Controller`] !== undefined && typeof window[`${module}Controller`].openBrowse === 'function') {
-            $browse = (<any>window)[`${module}Controller`].openBrowse();
-            $browse.data('ondatabind', request => {
-                request.activeviewfields = (<any>window)[`${module}Controller`].ActiveViewFields;
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                }
-            });
+        try {
+            let $browse = null;
+            if (typeof window[`${module}Controller`] !== undefined && typeof window[`${module}Controller`].openBrowse === 'function') {
+                $browse = (<any>window)[`${module}Controller`].openBrowse();
+                $browse.data('ondatabind', request => {
+                    request.activeviewfields = (<any>window)[`${module}Controller`].ActiveViewFields;
+                    request.uniqueids = {
+                        InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                    }
+                });
+            }
+            return $browse;
+        } catch (ex) {
+
         }
-        return $browse;
     }
     //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
@@ -1060,6 +1064,11 @@ abstract class InventoryBase {
                         case 'TransferOrder':
                         case 'PurchaseOrder':
                         case 'PurchaseHistory':
+                            $browseControl = this.openSubModuleBrowse($form, submoduleName);
+                            $tabpage.append($browseControl);
+                            FwBrowse.search($browseControl);
+                            break;
+                        case 'RetiredHistory':
                             $browseControl = this.openSubModuleBrowse($form, submoduleName);
                             $tabpage.append($browseControl);
                             FwBrowse.search($browseControl);

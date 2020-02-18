@@ -196,6 +196,18 @@ namespace WebApi.Modules.Billing.Billing
         [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text)]
+        public string ProjectManagerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
+        public string ProjectManager { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesrepresentativeid", modeltype: FwDataTypes.Text)]
+        public string OutsideSalesRepresentativeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
+        public string OutsideSalesRepresentative { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string OrderNumberColor
         {

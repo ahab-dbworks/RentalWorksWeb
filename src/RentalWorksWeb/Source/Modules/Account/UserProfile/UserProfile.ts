@@ -51,7 +51,13 @@
         const defaultHomePages = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             const settingsString = 'settings';
             if (moduleController.hasOwnProperty('nav') && moduleController.nav.indexOf(settingsString) === -1) {
-                modules.push({ value: moduleController.id, text: moduleCaption, nav: moduleController.nav });
+                if (nodeModule) {
+                    if (nodeModule.hasOwnProperty('properties')) {
+                        if (FwApplicationTree.isVisibleInSecurityTree(moduleController.id)) {
+                            modules.push({ value: moduleController.id, text: moduleCaption, nav: moduleController.nav });
+                        }
+                    }
+                }
             }
         });
         FwApplicationTree.sortModules(defaultHomePages);
@@ -61,10 +67,16 @@
         // Load Available Modules
         const toolbarModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('nav')) {
-                if (moduleController.nav.startsWith('settings')) {
-                    modules.push({ value: `module/${moduleController.Module}`, text: moduleCaption, selected: 'T' });
-                } else {
-                    modules.push({ value: moduleController.nav, text: moduleCaption, selected: 'T' });
+                if (nodeModule) {
+                    if (nodeModule.hasOwnProperty('properties')) {
+                        if (FwApplicationTree.isVisibleInSecurityTree(moduleController.id)) {
+                            if (moduleController.nav.startsWith('settings')) {
+                                modules.push({ value: `module/${moduleController.Module}`, text: moduleCaption, selected: 'T' });
+                            } else {
+                                modules.push({ value: moduleController.nav, text: moduleCaption, selected: 'T' });
+                            }
+                        }
+                    }
                 }
             }
         });

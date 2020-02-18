@@ -134,6 +134,44 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderitem/insertlineitem
+        [HttpPost("insertlineitem")]
+        [FwControllerMethod(Id: "BwBwNt1RtgwE")]
+        public async Task<ActionResult<TSpStatusResponse>> InsertIntoCompleteAsync([FromBody]InsertLineItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.InsertLineItem(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderitem/insertoption
+        [HttpPost("insertoption")]
+        [FwControllerMethod(Id: "vU1SzhPABeZ2")]
+        public async Task<ActionResult<TSpStatusResponse>> InsertOptionAsync([FromBody]InsertOptionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.InsertOption(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/orderitem/A0000001
         [HttpDelete("{id}")]
         [FwControllerMethod(Id: "042zT8NJ4EW8", ActionType: FwControllerActionTypes.Delete)]
@@ -227,6 +265,25 @@ namespace WebApi.Modules.HomeControls.OrderItem
             try
             {
                 return await OrderItemFunc.SortOrderItems(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/cancelmanualsort/id
+        [HttpPost("cancelmanualsort/{id}")]
+        [FwControllerMethod(Id: "HEg0EHlwFNVr", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<TSpStatusResponse>> CancelManualSortAsync([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.CancelManualSort(AppConfig, UserSession, id);
             }
             catch (Exception ex)
             {

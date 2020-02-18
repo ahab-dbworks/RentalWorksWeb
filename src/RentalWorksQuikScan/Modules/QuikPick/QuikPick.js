@@ -1,22 +1,19 @@
-﻿RwQuoteMenu = {};
+﻿QuikPick = {};
 //----------------------------------------------------------------------------------------------
-RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
-    var screen, combinedViewModel, $search, $addnew, $records, $neworder;
-    combinedViewModel = jQuery.extend({
-        captionPageTitle:        RwLanguages.translate('QuikPick'),
-        captionPageSubTitle:     RwLanguages.translate('')
-    }, viewModel);
-    combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-quoteMenu').html(), combinedViewModel);
-    screen = {};
-    screen.viewModel = viewModel;
-    screen.properties = properties;
-    screen.$view = FwMobileMasterController.getMasterView(combinedViewModel);
+QuikPick.getQuikPickScreen = function() {
+    var viewModel = {
+        captionPageTitle:        RwLanguages.translate('QuikPick')
+        //captionPageSubTitle:     RwLanguages.translate('')
+    };
+    viewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-QuikPick').html(), viewModel);
+    var screen = {};
+    screen.$view = FwMobileMasterController.getMasterView(viewModel);
 
     $fwcontrols = screen.$view.find('.fwcontrol');
     FwControl.renderRuntimeControls($fwcontrols);
 
-    $search   = screen.$view.find('.qm-search');
-    $neworder = screen.$view.find('.qm-newquote');
+    var $search   = screen.$view.find('.qp-search');
+    var $neworder = screen.$view.find('.qp-newquote');
 
     $search.find('#searchcontrol').fwmobilemodulecontrol({
         buttons: [
@@ -33,7 +30,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
         ]
     });
     $search.find('#quotesearch').fwmobilesearch({
-        service:   'QuoteMenu',
+        service:   'QuikPick',
         method:    'QuoteSearch',
         searchModes: [
             { value: 'QUOTE',       caption: 'Quote/Order No' },
@@ -69,7 +66,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
         },
         recordClick: function(recorddata) {
             try {
-                screen.loadquote(recorddata.orderid, recorddata.orderno, recorddata.orderdesc, recorddata.ordertype);
+                screen.loadquote(recorddata.orderid, recorddata.orderno, recorddata.orderdesc, recorddata.ordertype, recorddata.warehouseid);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -78,7 +75,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
     $search.showscreen = function() {
         $search.show();
         $search.find('#quotesearch').fwmobilesearch('search');
-        program.setScanTarget('.qm-search .fwmobilesearch .searchbox');
+        program.setScanTarget('.qp-search .fwmobilesearch .searchbox');
     };
 
     $neworder.find('#newquotecontrol').fwmobilemodulecontrol({
@@ -114,10 +111,8 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
     });
     $neworder
         .on('change', 'div[data-datafield="selecttype"] .fwformfield-value', function() {
-            var $this, $deal;
-
-            $this = jQuery(this);
-            $deal = $neworder.find('div[data-datafield="deal"]');
+            var $this = jQuery(this);
+            var $deal = $neworder.find('div[data-datafield="deal"]');
             if ($this.val() == 'Q') {
                 $deal.attr('data-required', false);
             } else {
@@ -125,31 +120,27 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             }
         })
         .on('change', 'div[data-datafield="startdate"] input', function() {
-            var $this, $enddate;
-
-            $this = jQuery(this);
-            $enddate = $neworder.find('div[data-datafield="enddate"] input');
+            var $this = jQuery(this);
+            var $enddate = $neworder.find('div[data-datafield="enddate"] input');
             if ($this.val() > $enddate.val()) {
                 $enddate.val($this.val()).change();
             }
         })
         .on('change', 'div[data-datafield="enddate"] input', function() {
-            var $this, $startdate;
-
-            $this = jQuery(this);
-            $startdate = $neworder.find('div[data-datafield="startdate"] input');
+            var $this = jQuery(this);
+            var $startdate = $neworder.find('div[data-datafield="startdate"] input');
             if ($startdate.val() > $this.val()) {
                 $this.val($startdate.val()).change();
             }
         })
     ;
     $neworder.showscreen = function() {
-        var html = [], $newbody, applicationOptions, ratevalues = [];
         $neworder.show();
-        applicationOptions = program.getApplicationOptions();
+        var applicationOptions = program.getApplicationOptions();
 
-        html.push('<div class="qm-newquote-title">New Quote/Order</div>');
-        html.push('<div class="qm-newquote-fields">');
+        var html = [];
+        html.push('<div class="qp-newquote-title">New Quote/Order</div>');
+        html.push('<div class="qp-newquote-fields">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Select QuikPick Type" data-type="select" data-datafield="selecttype" data-required="true" />');
         html.push('  </div>');
@@ -169,7 +160,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
         html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Rate" data-type="select" data-datafield="rate" />');
         html.push('  </div>');
         html.push('</div>');
-        $newbody = jQuery(html.join(''));
+        var $newbody = jQuery(html.join(''));
 
         FwControl.renderRuntimeControls($newbody.find('.fwcontrol'));
 
@@ -178,7 +169,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             {value:'O',     text:'Order'}
         ], true);
 
-        RwServices.callMethod("QuoteMenu", "GetDeals", {}, function(response) {
+        RwServices.callMethod("QuikPick", "GetDeals", {}, function(response) {
             var dealvalues = []
             for (var i = 0; i < response.deals.length; i++) {
                 dealvalues.push({value: response.deals[i].dealid, text: response.deals[i].deal});
@@ -186,6 +177,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             FwFormField.loadItems($newbody.find('div[data-datafield="deal"]'), dealvalues, false);
         });
 
+        var ratevalues = [];
         ratevalues.push({value:'DAILY',    text:'Daily Rate'});
         ratevalues.push({value:'WEEKLY',   text:'Weekly Rate'});
         ratevalues.push({value:'MONTHLY',  text:'Monthly Rate'});
@@ -201,9 +193,8 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
         $neworder.find('#newquoteform').empty();
     };
     $neworder.createquoteorder = function() {
-        var request;
         if ($neworder.validate()) {
-            request = {
+            var request = {
                 orderdesc:   FwFormField.getValue($neworder, 'div[data-datafield="description"]'),
                 estrentfrom: FwFormField.getValue($neworder, 'div[data-datafield="startdate"]'),
                 estfromtime: '',
@@ -213,10 +204,10 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
                 ratetype:    FwFormField.getValue($neworder, 'div[data-datafield="rate"]'),
                 ordertype:   FwFormField.getValue($neworder, 'div[data-datafield="selecttype"]')
             };
-            RwServices.callMethod("QuoteMenu", "NewQuote", request, function(response) {
+            RwServices.callMethod("QuikPick", "NewQuote", request, function(response) {
                 try {
                     $neworder.hidescreen();
-                    screen.loadquote(response.order.orderid, response.order.orderno, response.order.orderdesc, '');
+                    screen.loadquote(response.order.orderid, response.order.orderno, response.order.orderdesc, response.order.ordertype, response.order.warehouseid);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -244,13 +235,13 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
         return isvalid;
     };
 
-    screen.loadquote = function(orderid, orderno, description, ordertype) {
-        var quoteScreen_properties;
-        quoteScreen_properties = {
+    screen.loadquote = function(orderid, orderno, description, ordertype, warehouseid) {
+        var quoteScreen_properties = {
             orderid:     orderid,
             orderno:     orderno,
             description: description,
-            ordertype:   ordertype
+            ordertype:   ordertype,
+            warehouseid: warehouseid
         };
         program.pushScreen(RwQuote.getQuoteScreen({}, quoteScreen_properties));
     };
