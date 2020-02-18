@@ -183,6 +183,7 @@ class Invoice {
 
             const office = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', office.defaultcurrencyid, office.defaultcurrencycode);
 
             FwFormField.setValueByDataField($form, 'InvoiceType', 'BILLING');
             FwFormField.setValueByDataField($form, 'Status', 'NEW');
