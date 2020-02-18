@@ -342,8 +342,9 @@ abstract class ContractBase {
             const contractItems: any = [];
             const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
             const contractId = FwFormField.getValueByDataField($form, this.uniqueIdFieldName);
-
+            let isSingleRow = false;
             if ($selectedCheckBoxes.length > 0) {
+                if ($selectedCheckBoxes.length === 1) { isSingleRow = true }
                 const $confirmation = FwConfirmation.renderConfirmation('Void Items', '');
                 const $select = FwConfirmation.addButton($confirmation, 'OK', false);
                 FwConfirmation.addButton($confirmation, 'Cancel', true);
@@ -352,10 +353,14 @@ abstract class ContractBase {
                 if (contractType === 'OUT') {
                     html.push('<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unstage items after voiding" data-datafield="ReturnToInventory"></div>');
                 }
-                //html.push('<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="width:600px;"></div>');
+                if (isSingleRow) {
+                    html.push('<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="width:75px;"></div>');
+                }
                 html.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Reason" data-datafield="Reason" style="width:600px;"></div>');
                 FwConfirmation.addControls($confirmation, html.join(''));
-
+                if (isSingleRow) {
+                    FwFormField.setValueByDataField($confirmation, 'Quantity', 1)
+                }
                 $select.on('click', () => {
                     for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                         const $this = jQuery($selectedCheckBoxes[i]);
@@ -366,7 +371,12 @@ abstract class ContractBase {
                             const orderItemId = $tr.find('div[data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
                             const vendorId = $tr.find('div[data-browsedatafield="VendorId"]').attr('data-originalvalue');
                             const barCode = $tr.find('div[data-browsedatafield="Barcode"]').attr('data-originalvalue');
-                            const quantity = $tr.find('div[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+                            let quantity;
+                            if (isSingleRow) {
+                                quantity = FwFormField.getValueByDataField($confirmation, 'Quantity');
+                            } else {
+                                quantity = $tr.find('div[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+                            }
                             const item = {
                                 OrderId: orderId,
                                 OrderItemId: orderItemId,
