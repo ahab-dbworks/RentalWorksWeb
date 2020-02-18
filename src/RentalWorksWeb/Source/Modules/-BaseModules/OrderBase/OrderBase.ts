@@ -2012,7 +2012,7 @@ class OrderBase {
             }
         });
         // PickDate Validations
-        $form.find('.pick-date-validation').on('changeDate', event => {
+        $form.on('changeDate', '.pick-date-validation', event => {
             this.checkDateRangeForPick($form, event);
         });
         // BillingDate Change
@@ -2591,9 +2591,9 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     checkDateRangeForPick($form, event) {
-        const parsedPickDate = Date.parse(FwFormField.getValue($form, 'data-dateactivitytype="PICK"'));
-        const parsedFromDate = Date.parse(FwFormField.getValue($form, 'data-dateactivitytype="START"'));
-        const parsedToDate = Date.parse(FwFormField.getValue($form, 'data-dateactivitytype="STOP"'));
+        const parsedPickDate = Date.parse(FwFormField.getValue($form, 'div[data-dateactivitytype="PICK"]'));
+        const parsedFromDate = Date.parse(FwFormField.getValue($form, 'div[data-dateactivitytype="START"]'));
+        const parsedToDate = Date.parse(FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]'));
 
         const $element = jQuery(event.currentTarget);
         if ($element.attr('data-dateactivitytype') === 'START' && parsedFromDate < parsedPickDate) {
@@ -3641,7 +3641,7 @@ class OrderBase {
 
         const scheduleFields = $form.find('.schedule-date-fields');
         const activityDateFields = $form.find('.activity-dates');
-        scheduleFields.hide();
+        scheduleFields.remove();
         activityDateFields.show();
 
         $form.data('beforesave', request => {

@@ -453,9 +453,9 @@ class Order extends OrderBase {
         }
 
         if (response.UnassignedSubs) {
-          $form.find('.unassignedsubs').show();
+            $form.find('.unassignedsubs').show();
         } else {
-          $form.find('.unassignedsubs').hide();
+            $form.find('.unassignedsubs').hide();
         }
     }
     //----------------------------------------------------------------------------------------------
