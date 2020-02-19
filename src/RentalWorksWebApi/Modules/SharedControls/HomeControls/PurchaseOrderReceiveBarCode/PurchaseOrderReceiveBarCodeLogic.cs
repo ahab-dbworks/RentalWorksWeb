@@ -1,6 +1,8 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.BarCodeHolding;
+using WebApi.Modules.Utilities.InventoryPurchaseUtility;
 
 namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveBarCode
 {
@@ -108,5 +110,43 @@ namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveBarCode
         public string DateStamp { get { return purchaseOrderReceiveBarCode.DateStamp; } set { purchaseOrderReceiveBarCode.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                if (!string.IsNullOrEmpty(BarCode))
+                {
+                    CodeExistsRequest request = new CodeExistsRequest();
+                    request.Code = BarCode;
+                    request.IgnoreId = PurchaseOrderReceiveBarCodeId.ToString();
+                    CodeExistsResponse response = InventoryPurchaseUtilityFunc.CodeExists(AppConfig, UserSession, request).Result;
+                    isValid = !response.Exists;
+                    if (!isValid)
+                    {
+                        validateMsg = $"Bar Code {BarCode} already exists in {response.DefinedIn}";
+                    }
+                }
+            }
+
+
+            if (isValid)
+            {
+                if (!string.IsNullOrEmpty(SerialNumber))
+                {
+                    CodeExistsRequest request = new CodeExistsRequest();
+                    request.Code = SerialNumber;
+                    request.IgnoreId = PurchaseOrderReceiveBarCodeId.ToString();
+                    CodeExistsResponse response = InventoryPurchaseUtilityFunc.CodeExists(AppConfig, UserSession, request).Result;
+                    isValid = !response.Exists;
+                    if (!isValid)
+                    {
+                        validateMsg = $"Serial Number {SerialNumber} already exists in {response.DefinedIn}";
+                    }
+                }
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
     }
 }
