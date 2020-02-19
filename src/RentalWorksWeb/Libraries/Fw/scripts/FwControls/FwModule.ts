@@ -1285,8 +1285,8 @@ class FwModule {
         if ($form.parent().data('type') === 'settings-row') {
             $form.data('fields', $form.find('.fwformfield'))
         }
-
-        const $fields = $form.find('.fwformfield:not([data-isuniqueid="true"])');
+        // const $fields = $form.data('fields');
+        const $fields = $form.find('.fwformfield:not([data-isuniqueid="true"])').not('#designerContent .fwformfield'); // changed to include any fields added after openForm (the initial definition of $form.data('fields')) in case the developer adds fields to the form after runtime
 
         $fields.each(function (index) {
             var $field = jQuery(this);
