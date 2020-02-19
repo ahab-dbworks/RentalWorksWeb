@@ -1,19 +1,20 @@
 ﻿<!--Order Status Summary Report-->
 <div class="rpt-flexrow" style="margin:5px 0px 30px 4px;">
-  <div class="rpt-flexcolumn" style="padding-bottom:5px;">
-    {{#if Logosrc}}
-    <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
-    {{else}}
-    <div></div>
-    {{/if}}
-    <span class="header-left" style="font-weight:600">{{Company}}</span>
-    <span class="header-left">{{OfficeLocationAddress1}}</span>
-    <span class="header-left">{{OfficeLocationAddress2}}</span>
-    <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
-    <!--<span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>-->
-  </div>
+    <div class="rpt-flexcolumn" style="padding-bottom:5px;">
+        {{#if Logosrc}}
+        <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+        {{else}}
+        <div></div>
+        {{/if}}
+        <span class="header-left" style="font-weight:600">{{Company}}</span>
+        <span class="header-left">{{Department}}</span>
+        <span class="header-left">{{Warehouse}}</span>
+        <span class="header-left">{{OfficeLocationAddress1}}</span>
+        <span class="header-left">{{OfficeLocationAddress2}}</span>
+        <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
+        <!--<span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>-->
+    </div>
   <div class="rpt-flexcolumn">
-      <span class="sub-title blue">{{Department}}</span>
       <span class="title blue" style="font-size: 22px;">{{Report}}</span>
       <br />
       <span class="sub-title blue"><span style="font-weight:600;">Order: </span>{{Order}}</span>
@@ -25,24 +26,6 @@
 </div>
 <div class="rpt-flexrow" style="margin-top:25px;">
     <table>
-        <thead>
-            <tr>
-                <td colspan="8" class="section-header">Items&nbsp;</td>
-            </tr>
-            <tr>
-                <td></td>
-                <th>I-Code</th>
-                <th>Description</th>
-                <th>Type</th>
-                <th class="number">Ordered</th>
-                <th class="number">Staged</th>
-                <th class="number">Out</th>
-                <th class="number">In</th>
-                <th class="number">Still Out</th>
-                <th>Warehouse
-                <th>
-            </tr>
-        </thead>
         {{#each Items}}
         {{#ifEquals RowType "RecTypeDisplayheader"}}
         <thead data-rowtype="{{RowType}}">
@@ -53,13 +36,12 @@
                 <td></td>
                 <th>I-Code</th>
                 <th>Description</th>
-                <th>Type</th>
                 <th class="number">Ordered</th>
                 <th class="number">Staged</th>
                 <th class="number">Out</th>
                 <th class="number">In</th>
                 <th class="number">Still Out</th>
-                <th>Warehouse
+                <th class="number">Warehouse
                 <th>
             </tr>
         </thead>
@@ -70,7 +52,6 @@
                 <td></td>
                 <td data-itemclass="{{ItemClass}}">{{ICode}}</td>
                 <td data-itemclass="{{ItemClass}}">{{OrderDescription}}</td>
-                <td>{{RecTypeDisplay}}</td>
                 <td class="number">{{QuantityOrdered}}</td>
                 <td class="number">{{StageQuantity}}</td>
                 <td class="number">{{OutQuantity}}</td>
@@ -80,13 +61,13 @@
             </tr>
         </tbody>
         {{/ifEquals}}
-        {{#ifEquals RowType "RecTypeDisplayfooter"}}
+        <!--{{#ifEquals RowType "RecTypeDisplayfooter"}}
         <tr>
             <td colspan="4"></td>
             <td class="display-footer">{{RecTypeDisplay}}&nbsp;</td>
             <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
         </tr>
-        {{/ifEquals}}
+        {{/ifEquals}}-->
         {{#ifEquals RowType "grandtotal"}}
         <tr>
             <td colspan="4"></td>

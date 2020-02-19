@@ -2498,6 +2498,30 @@ class OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
+    printManifest($form: any) {
+        try {
+            var module = this.Module;
+            var orderIdText = FwFormField.getValueByDataField($form, "OrderNumber");
+            var orderId = FwFormField.getValueByDataField($form, "OrderId");
+            var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+            var $report = ManifestReportController.openForm();
+
+            FwModule.openSubModuleTab($form, $report);
+            
+            //set order id value on the field
+            FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderIdText);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print Manifest`);
+
+            //set orderno input text
+            //
+            var printTab = jQuery('.tab.submodule.active');
+            printTab.find('.caption').html(`Print Manifest`);
+            printTab.attr('data-caption', `${module} ${recordTitle}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string, totals?): void {
         let subTotal, discount, salesTax, grossTotal, total;
 
