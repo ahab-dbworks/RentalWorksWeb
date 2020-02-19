@@ -1517,7 +1517,7 @@ class Invoice {
                         request.Percent = partialInput.find('input').val();
                     }
                     if (request.CreditMethod === 'FLAT_AMOUNT') {
-                        request.Amount = flatAmountInput.find('input').val().replace(/[$ ,]+/g, "").trim();
+                        request.Amount = flatAmountInput.find('input').val().toString().replace(/[$ ,]+/g, "").trim();
                         request.Allocate = allocateAllItems.prop('checked');
                     }
                     if (request.CreditMethod === 'USAGE_DAYS') {

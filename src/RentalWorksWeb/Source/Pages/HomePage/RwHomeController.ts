@@ -243,7 +243,7 @@ class RwHome {
 
         jQuery($control).off('click', '#' + widgetData.userWidgetId + 'fullscreen').on('click', '#' + widgetData.userWidgetId + 'fullscreen', function () {
             try {
-                var $confirmation = FwConfirmation.renderConfirmation(widgetData.text, '');
+                var $confirmation: JQuery = FwConfirmation.renderConfirmation(widgetData.text, '');
                 var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
                 var html = [];
                 html.push('<div class="flexrow" style="max-width:unset"><div class="flexcolumn" style="flex:5 1 0;"><div data-chart="' + widgetData.apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + widgetData.apiname + 'fullscreen"></canvas><div class="fullscreenofficebar">' + widgetData.officeLocationCode + '</div></div></div><div class="flexcolumn fullscreen-fields">');
@@ -299,7 +299,7 @@ class RwHome {
                                 if (instance.chart.canvas.id === widgetData.apiname + 'fullscreen') { instance.chart.destroy() }
                             })
 
-                            var chart = new Chart(widgetfullscreen, response);
+                            var chart = new Chart(<any>widgetfullscreen, response);
                             jQuery(widgetfullscreen).on('click', function (evt) {
                                 var activePoint = chart.getElementAtEvent(evt)[0];
                                 if (activePoint) {
@@ -388,7 +388,7 @@ class RwHome {
                         response = self.formatAxis(response, widgetData.axisNumberFormatId);
                         response = self.formatData(response, widgetData.dataNumberFormatId);
 
-                        var chart = new Chart(widgetfullscreen, response);
+                        var chart = new Chart(<any>widgetfullscreen, response);
                         jQuery(widgetfullscreen).on('click', function (evt) {
                             var activePoint = chart.getElementAtEvent(evt)[0];
                             if (activePoint) {
