@@ -152,117 +152,12 @@
     <TypeScriptCompile Include="scripts\Constants.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\.grenrc.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\demo.css" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\images\flags2x.png" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\images\flags.png" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\intlTelInput.css" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\intlTelInput.min.css" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\img\flags%402x.png" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\img\flags.png" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput-jquery.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput-jquery.min.js" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput.min.js" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\utils.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\demo.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\css\countrySync.css" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\css\isValidNumber.css" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\css\prism.css" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\country-sync.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\default-country-ip.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\display-number.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\hidden-input.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\init-promise.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\is-valid-number.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\js\countrySync.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\js\defaultCountryIp.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\js\displayNumber.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\js\hiddenInput.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\js\initPromise.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\js\isValidNumber.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\js\modifyCountryData.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\js\multipleInstances.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\js\nationalMode.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\js\onlyCountriesEurope.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\modify-country-data.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\multiple-instances.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\national-mode.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\gen\only-countries-europe.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\prism.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\partials\countrySync.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\partials\defaultCountryIp.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\partials\displayNumber.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\partials\hiddenInput.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\partials\initPromise.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\partials\isValidNumber.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\partials\multipleInstances.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\partials\nationalMode.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\partials\simpleInput.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\Gruntfile.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\babel.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\bump.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\concat.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\cssmin.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\eslint.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\exec.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\imagemin.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\jasmine.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\replace.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\responsive_images.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\retinafy.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\sass.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\shell.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\sprite.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\template.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\uglify.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\watch.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\index.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\screenshots\separateDialCode.png" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\screenshots\vanilla.png" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\spec.html" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\js\data.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\js\intlTelInput.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\js\intro-jquery.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\js\intro.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\js\outro-jquery.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\js\outro.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\js\utils.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\helpers\helpers.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\core\closecountrydropdownEvent.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\core\countrychangeEvent.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\core\dropdownShortcuts.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\core\initialValues.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\core\multipleInstances.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\core\usingDropdown.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\core\usingInput.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\methods\destroy.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\methods\getExtension.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\methods\getNumber.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\methods\getNumberType.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\methods\getSelectedCountryData.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\methods\getValidationError.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\methods\isValidNumber.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\methods\setCountry.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\methods\setNumber.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\methods\setPlaceholderNumberType.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\allowDropdown.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\autoHideDialCode.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\autoPlaceholder.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\customContainer.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\customPlaceholder.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\dropdownContainer.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\excludeCountries.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\formatOnDisplay.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\geoIpLookup.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\initialCountry.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\nationalMode.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\onlyCountries.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\placeholderNumberType.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\preferredCountries.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\separateDialCode.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\options\utilsScript.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\static\defaults.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\static\getCountryData.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\spec\tests\static\loadUtils.js" />
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
@@ -630,6 +525,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Inventory\RetiredHistory\RetiredHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusDetailReport\OrderStatusDetailReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusSummaryReport\OrderStatusSummaryReportController.ts" />
@@ -679,6 +575,7 @@
     <TypeScriptCompile Include="Source\Modules\Containers\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\ChangeOrderStatus\ChangeOrderStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\InventoryUnretireUtility\InventoryUnretireUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryRetireUtility\InventoryRetireUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\CompleteQc\CompleteQc.ts" />
@@ -1407,6 +1304,8 @@
     <Content Include="theme\images\icons\administrator\placeholder.png" />
     <Content Include="theme\images\icons\integration\placeholder.png" />
     <Content Include="theme\images\icons\utilities\placeholder.png" />
+    <Content Include="theme\images\intlinputflags\flags%402x.png" />
+    <Content Include="theme\images\intlinputflags\flags.png" />
     <Content Include="theme\images\no-image.jpg" />
     <Content Include="theme\images\qrcodesample.jpg" />
     <Content Include="theme\images\rentalworkslogo.png" />
@@ -1451,34 +1350,6 @@
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.js.map" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js.map" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.js.map" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\.github\CONTRIBUTING.md" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\.github\ISSUE_TEMPLATE.md" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\.eslintignore" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\.eslintrc" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\.gitignore" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\.travis.yml" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\bower.json" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\CHANGELOG.md" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\composer.json" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\countrySync.js.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\defaultCountryIp.js.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\displayNumber.js.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\hiddenInput.js.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\initPromise.js.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\isValidNumber.js.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\modifyCountryData.js.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\multipleInstances.js.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\nationalMode.js.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\js\onlyCountriesEurope.js.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\examples\template.html.ejs" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\grunt\tmpl\sprite.scss.mustache" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\LICENSE" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\package-lock.json" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\package.json" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\README.md" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\css\demo.scss" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\css\intlTelInput.scss" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\src\css\sprite.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1700,10 +1571,21 @@
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwDeploymentDirectory)\web.config&quot; -pattern &quot;debug=&quot;&quot;true&quot;&quot;&quot; -replacement &quot;debug=&quot;&quot;false&quot;&quot;&quot;" ContinueOnError="false" IgnoreExitCode="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\bin" Condition="!Exists('$(FwDeploymentDirectory)\bin')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentDirectory)\bin&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries" Condition="!Exists('$(FwDeploymentDirectory)\Libraries')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css')" ContinueOnError="false" />
+    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css&quot; &quot;$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\ckeditor" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\ckeditor')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\ckeditor&quot; &quot;$(FwDeploymentDirectory)\Libraries\ckeditor&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\codemirror" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\codemirror')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\codemirror&quot; &quot;$(FwDeploymentDirectory)\Libraries\codemirror&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    
     <MakeDir Directories="$(FwDeploymentDirectory)\source" Condition="!Exists('$(FwDeploymentDirectory)\source')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data" Condition="!Exists('$(FwDeploymentDirectory)\App_Data')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp')" ContinueOnError="false" />

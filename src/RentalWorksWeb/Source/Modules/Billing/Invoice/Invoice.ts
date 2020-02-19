@@ -183,6 +183,7 @@ class Invoice {
 
             const office = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', office.defaultcurrencyid, office.defaultcurrencycode);
 
             FwFormField.setValueByDataField($form, 'InvoiceType', 'BILLING');
             FwFormField.setValueByDataField($form, 'Status', 'NEW');
@@ -1516,7 +1517,7 @@ class Invoice {
                         request.Percent = partialInput.find('input').val();
                     }
                     if (request.CreditMethod === 'FLAT_AMOUNT') {
-                        request.Amount = flatAmountInput.find('input').val().replace(/[$ ,]+/g, "").trim();
+                        request.Amount = flatAmountInput.find('input').val().toString().replace(/[$ ,]+/g, "").trim();
                         request.Allocate = allocateAllItems.prop('checked');
                     }
                     if (request.CreditMethod === 'USAGE_DAYS') {

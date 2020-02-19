@@ -151,9 +151,6 @@
     <Content Include="Modules\QuikIn\QuikIn.css" />
     <Content Include="Modules\QuikIn\QuikIn.html" />
     <TypeScriptCompile Include="Modules\QuikIn\QuikIn.ts" />
-    <Content Include="Modules\Quote\PopupCancelQuote.html" />
-    <Content Include="Modules\Quote\PopupQty.html" />
-    <Content Include="Modules\Quote\PopupRemoveItem.html" />
     <Content Include="Modules\ReceiveOnSet\ReceiveOnSetNewSetTemplate.html" />
     <Content Include="Modules\RepairOrder\RepairOrderBrowseItem.html" />
     <Content Include="Modules\RFIDCheckIn\RFIDCheckIn.css" />
@@ -211,8 +208,8 @@
     <TypeScriptCompile Include="%40types\JQuery\index.d.ts" />
     <TypeScriptCompile Include="%40types\Window\index.d.ts" />
     <TypeScriptCompile Include="Modules\QC\QC.ts" />
-    <Content Include="Modules\QuoteMenu\QuoteMenu.css" />
-    <Content Include="Modules\QuoteMenu\QuoteMenu.js" />
+    <Content Include="Modules\QuikPick\QuikPick.css" />
+    <Content Include="Modules\QuikPick\QuikPick.js" />
     <Content Include="Modules\Quote\Quote.css" />
     <Content Include="Modules\Quote\Quote.js" />
     <Content Include="Modules\RepairItem\RepairItem.css" />
@@ -372,7 +369,7 @@
     <Content Include="Modules\RepairMenu\RepairMenu.html" />
     <Content Include="Modules\FillContainer\FillContainer.html" />
     <Content Include="Modules\Quote\Quote.html" />
-    <Content Include="Modules\QuoteMenu\QuoteMenu.html" />
+    <Content Include="Modules\QuikPick\QuikPick.html" />
     <Content Include="Modules\PackageTruckMenu\PackageTruckMenu.html" />
     <Content Include="Modules\TransferInMenu\TransferInMenu.html" />
     <Content Include="Modules\POSubReceiveReturn\POSubReceiveReturn.html" />
@@ -427,6 +424,7 @@
     <Compile Include="Modules\PhysicalInventory\PhysicalInventory.cs" />
     <Compile Include="Modules\QC\QC.cs" />
     <Compile Include="Modules\QuikIn\QuikIn.cs" />
+    <Compile Include="Modules\Quote\Quote.cs" />
     <Compile Include="Modules\TransferInMenu\TransferInMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modules\AssetDisposition\AssetDisposition.cs" />
@@ -438,7 +436,7 @@
     <Compile Include="Modules\ItemStatus\ItemStatus.cs" />
     <Compile Include="Modules\MoveBCLocation\MoveBCLocation.cs" />
     <Compile Include="Modules\POSubReceiveReturn\POSubReceiveReturn.cs" />
-    <Compile Include="Modules\QuoteMenu\QuoteMenu.cs" />
+    <Compile Include="Modules\QuikPick\QuikPick.cs" />
     <Compile Include="Modules\ReceiveOnSet\ReceiveOnSet.cs" />
     <Compile Include="Modules\RepairOrder\RepairOrder.cs" />
     <Compile Include="Modules\RFIDCheckIn\RfidCheckIn.cs" />

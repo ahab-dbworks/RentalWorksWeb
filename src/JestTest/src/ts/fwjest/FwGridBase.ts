@@ -323,6 +323,7 @@ export class FwGridBase {
             let gridFieldSelector: string = "";
             switch (datatype) {
                 case 'phone':
+                case 'phoneinternational':
                 case 'email':
                 case 'zipcode':
                 case 'percent':

@@ -28,6 +28,7 @@
         html.push(' />');
         html.push('</div>');
         $control.html(html.join(''));
+
         const $input = $control.find('input');
         $input.inputmask('(999) 999-9999');
         $input.attr('maxlength', '14');
@@ -40,7 +41,7 @@
                 formatOnDisplay: false,
             }
         );
-                                                                       // https://github.com/jackocnr/intl-tel-input intlTelInput Documentation
+                                                             // https://github.com/jackocnr/intl-tel-input intlTelInput Documentation
         $input.on("countrychange", e => {
             const $this = jQuery(e.currentTarget);
             const countryCode = $this.intlTelInput('getSelectedCountryData').dialCode;
@@ -61,9 +62,16 @@
     //---------------------------------------------------------------------------------
     loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
         if (value) {
-            $fwformfield
-                .attr('data-originalvalue', value)
-                .find('input').intlTelInput('setNumber', value);
+            $fwformfield.attr('data-originalvalue', value);
+            $fwformfield.find('input').intlTelInput('setNumber', value);
+        }
+        const $form = $fwformfield.closest('.fwform'); 
+        if ($form.attr('data-modified') === 'true') {        // required because if country is not US, when value is set above, it triggers countrychange event. Event registration cannot be moved because loadForm is not called when opening a new record
+            const $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
+            $tab.find('.modified').html('');
+            $form.attr('data-modified', 'false');
+            $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+            $form.find('.btn[data-type="RefreshMenuBarButton"]').removeClass('disabled');
         }
         const $input = $fwformfield.find('input');
         const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;

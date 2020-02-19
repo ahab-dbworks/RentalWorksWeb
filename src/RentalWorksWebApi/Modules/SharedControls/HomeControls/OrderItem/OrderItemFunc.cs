@@ -24,6 +24,25 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public bool ManuallySortedAccesssory { get; set; }
     }
 
+    public class InsertLineItemRequest
+    {
+        public string OrderId { get; set; }
+        public string BelowInventoryId { get; set; }
+        public string PrimaryItemId { get; set; }
+    }
+    public class InsertOptionRequest
+    {
+        public string OrderId { get; set; }
+        public string ParentId { get; set; }
+        public List<CompleteKitOption> Items { get; set; }
+    }
+
+    public class CompleteKitOption
+    {
+        public string InventoryId { get; set; }
+        public int Quantity { get; set; }
+    }
+
     public static class OrderItemFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -223,7 +242,43 @@ namespace WebApi.Modules.HomeControls.OrderItem
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> InsertLineItem(FwApplicationConfig appConfig, FwUserSession userSession, InsertLineItemRequest request)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
 
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "insertintocomplete", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@belowmasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.BelowInventoryId);
+                qry.AddParameter("@completeid", SqlDbType.NVarChar, ParameterDirection.Input, request.PrimaryItemId);
+                qry.AddParameter("@newmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.msg = qry.GetParameter("@newmasteritemid").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> InsertOption(FwApplicationConfig appConfig, FwUserSession userSession, InsertOptionRequest request)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                foreach (CompleteKitOption item in request.Items) { 
+                FwSqlCommand qry = new FwSqlCommand(conn, "insertoption", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentId);
+                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, item.InventoryId);
+                qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, item.Quantity);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.msg = qry.GetParameter("@masteritemid").ToString();
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
         public static async Task<TSpStatusResponse> InsertHeaderOrderItems(FwApplicationConfig appConfig, FwUserSession userSession, List<OrderItemLogic> items)
         {
             TSpStatusResponse response = new TSpStatusResponse();

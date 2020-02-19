@@ -460,11 +460,8 @@ class Program extends FwApplication {
                         me.screens = [];
                         me.navigate('login');
                         return;
-                    case 'quote/quotemenu':
-                        screen = RwQuoteMenu.getQuoteMenuScreen({}, {});
-                        break;
-                    case 'quote/quote':
-                        screen = RwQuote.getQuoteScreen({}, {});
+                    case 'quikpick':
+                        screen = QuikPick.getQuikPickScreen();
                         break;
                     case 'timelog':
                         screen = TimeLog.getModuleScreen();

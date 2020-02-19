@@ -262,6 +262,22 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
+    public class UsedSaleOrderItemReportLoader : OrderItemReportLoader
+    {
+        public UsedSaleOrderItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_USED_SALE;
+        }
+    }
+    //------------------------------------------------------------------------------------ 
+    public class LossAndDamageOrderItemReportLoader : OrderItemReportLoader
+    {
+        public LossAndDamageOrderItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_LOSS_AND_DAMAGE;
+        }
+    }
+    //------------------------------------------------------------------------------------ 
 
 
 
@@ -847,6 +863,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         public List<LaborOrderItemReportLoader> LaborItems { get; set; } = new List<LaborOrderItemReportLoader>(new LaborOrderItemReportLoader[] { new LaborOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
+        public List<UsedSaleOrderItemReportLoader> UsedSaleItems { get; set; } = new List<UsedSaleOrderItemReportLoader>(new UsedSaleOrderItemReportLoader[] { new UsedSaleOrderItemReportLoader() });
+        //------------------------------------------------------------------------------------ 
+        public List<LossAndDamageOrderItemReportLoader> LossAndDamageItems { get; set; } = new List<LossAndDamageOrderItemReportLoader>(new LossAndDamageOrderItemReportLoader[] { new LossAndDamageOrderItemReportLoader() });
+        //------------------------------------------------------------------------------------ 
         public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>(new OrderDatesLogic[] { new OrderDatesLogic() });
@@ -899,7 +919,19 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     LaborItems.SetDependencies(AppConfig, UserSession);
                     taskLaborOrderItems = LaborItems.LoadItems<LaborOrderItemReportLoader>(request);
 
-                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems });
+                    //used sale items
+                    Task<List<UsedSaleOrderItemReportLoader>> taskUsedSaleOrderItems;
+                    UsedSaleOrderItemReportLoader UsedSaleItems = new UsedSaleOrderItemReportLoader();
+                    UsedSaleItems.SetDependencies(AppConfig, UserSession);
+                    taskUsedSaleOrderItems = UsedSaleItems.LoadItems<UsedSaleOrderItemReportLoader>(request);
+
+                    //loss and damage items
+                    Task<List<LossAndDamageOrderItemReportLoader>> taskLossAndDamageOrderItems;
+                    LossAndDamageOrderItemReportLoader LossAndDamageItems = new LossAndDamageOrderItemReportLoader();
+                    LossAndDamageItems.SetDependencies(AppConfig, UserSession);
+                    taskLossAndDamageOrderItems = LossAndDamageItems.LoadItems<LossAndDamageOrderItemReportLoader>(request);
+
+                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskUsedSaleOrderItems, taskLossAndDamageOrderItems });
 
                     Order = taskOrder.Result;
 
@@ -910,6 +942,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         Order.SalesItems = taskSalesOrderItems.Result;
                         Order.MiscItems = taskMiscOrderItems.Result;
                         Order.LaborItems = taskLaborOrderItems.Result;
+                        Order.UsedSaleItems = taskUsedSaleOrderItems.Result;
+                        Order.LossAndDamageItems = taskLossAndDamageOrderItems.Result;
 
 
                         //activity dates and times

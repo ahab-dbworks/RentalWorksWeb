@@ -1,109 +1,44 @@
 ﻿var RwQuote = {};
 //----------------------------------------------------------------------------------------------
 RwQuote.getQuoteScreen = function(viewModel, properties) {
-    var combinedViewModel, screen, pageTitle, contractType, captionBarcodeICode, captionOK, captionReceiveBy;
-    
-    combinedViewModel = jQuery.extend({
-        captionPageTitle:         (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order')) + ' ' + 'No: ' + properties.orderno
-      , captionPageSubTitle:      '<div class="title">' + properties.description + '</div>'
-      , htmlScanBarcode:          RwPartialController.getScanBarcodeHtml({
-            captionInstructions:  RwLanguages.translate('Select Item...')
-          , captionBarcodeICode:  RwLanguages.translate('Bar Code / I-Code')
+    var combinedViewModel = jQuery.extend({
+        captionPageTitle:         (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order')) + ' ' + 'No: ' + properties.orderno,
+        captionPageSubTitle:      '<div class="title">' + properties.description + '</div>',
+        captionGrandTotal:        RwLanguages.translate('Grand Total'),
+        htmlScanBarcode:          RwPartialController.getScanBarcodeHtml({
+            captionInstructions:  RwLanguages.translate('Select Item...'),
+            captionBarcodeICode:  RwLanguages.translate('Bar Code / I-Code')
         })
-      , captionICode:               RwLanguages.translate('I-Code')
-      , CaptionHowManyHeader:       RwLanguages.translate('How many?')
-      , captionDesc:                RwLanguages.translate('Desc')
-      , captionQty:                 RwLanguages.translate('Quantity')
-      , captionGrandTotal:          RwLanguages.translate('Grand Total')
-      , captionBarcode:             RwLanguages.translate('Bar Code')
-      , captionBtnItems:            RwLanguages.translate('Items')
-      , captionBtnScan:             RwLanguages.translate('Scan')
-      , captionAll:                 RwLanguages.translate('All')
-      , captionAdminPassword:       RwLanguages.translate('Admin Password')
-      , captionBack:                '<'
-      , captionOK:                  RwLanguages.translate('OK')
-      , captionCancel:              RwLanguages.translate('Cancel')
-      , captionRate:                RwLanguages.translate('Rate')
-      , captionPeriodTotal:         RwLanguages.translate('Period Total')
-      , captionSubmit:              RwLanguages.translate('Submit')
-      , captionRemoveItem:          RwLanguages.translate('Remove Item')
-      , captionCancelQuote:         RwLanguages.translate('Cancel') + ' ' + (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order'))
-      , captionYes:                 RwLanguages.translate('Yes')
-      , captionNo:                  RwLanguages.translate('No')
     }, viewModel);
 
     combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-quote').html(), combinedViewModel, {});
-    screen = {};
+    var screen = {};
     screen.$view = FwMobileMasterController.getMasterView(combinedViewModel, properties);
-    //screen.$view.find('#quote-messages').toggle(applicationConfig.designMode || false);
-    //screen.$view.find('#quote-info').toggle(applicationConfig.designMode || false);
 
-    screen.$btnback = FwMobileMasterController.addFormControl(screen, RwLanguages.translate('Back'), 'left', '&#xE5CB;', true, function() { //back
-        try {
-            if (sessionStorage.getItem('sessionLock') === 'true') {
-                FwFunc.showMessage('Navigation is locked.');
-            } else {
-                program.popScreen();
-            }
-        } catch(ex) {
-            FwFunc.showError(ex);
-        }
-    });
-
-    screen.$btnsubmit = FwMobileMasterController.addFormControl(screen, RwLanguages.translate('Submit'), 'right', '&#xE161;', true, function() { //save
-        try {
-            var request = {
-                orderid: properties.orderid
-            };
-            if (sessionStorage.getItem('sessionLock') === 'true') {
-                FwFunc.showMessage('Navigation is locked.');
-            } else {
-                RwServices.quote.submitQuote(request, function (response) {
-                    try {
-                        if (response.submit.errno != 0) {
-                            FwFunc.showError(response.submit.errmsg);
-                        } else {
-                            var ordertypetext = (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order'));
-                            FwFunc.showMessage(ordertypetext + ' Submitted.', function() {
-                                program.navigate('home/home');
-                            });
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            }
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-    });
-    
     if (sessionStorage.getItem('userType') == 'USER') {
-        var $moduleLock = jQuery('<div id="moduleLock"><img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/images/icons/128/lock_off.001.png" alt=""></div>');
+        var $moduleLock = jQuery('<div id="moduleLock"><i class="material-icons">lock_open</i></div>');
         screen.$view.find('#module-controls').append($moduleLock);
         $moduleLock.on('click', function() {
-            if(sessionStorage.getItem('sessionLock') === 'true') {
-                var $confirmation, $ok, $cancel;
-                $confirmation = FwConfirmation.renderConfirmation('Unlock Screen Navigation', '');
-                $ok           = FwConfirmation.addButton($confirmation, 'Ok', false);
-                $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
+            if (sessionStorage.getItem('sessionLock') === 'true') {
+                var $confirmation = FwConfirmation.renderConfirmation('Unlock Screen Navigation', '');
+                var $ok           = FwConfirmation.addButton($confirmation, 'Ok', false);
+                var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
                 $confirmation.find('.body').css('color', '#000000');
 
-                FwConfirmation.addControls($confirmation, '<div data-control="FwFormField" class="fwcontrol fwformfield password" data-caption="Administrator Password" data-type="password" data-datafield="" />');
+                FwConfirmation.addControls($confirmation, '<div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Administrator Password" data-type="password" data-datafield="Password" />');
 
                 $ok.on('click', function() {
-                    var request;
                     try {
-                        request = {
+                        var request = {
                             email:    localStorage.getItem('email'),
-                            password: FwFormField.getValue($confirmation, '.password')
+                            password: FwFormField.getValue($confirmation, 'div[data-datafield="Password"]')
                         };
                         RwServices.account.authPassword(request, function(response) {
                             if (response.errNo != 0) {
                                 FwFunc.showError(response.errMsg);
                             } else {
                                 sessionStorage.setItem('sessionLock', 'false');
-                                $moduleLock.removeClass('on').find('img').attr('src', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/images/icons/128/lock_off.001.png');
+                                $moduleLock.html('<i class="material-icons">lock_open</i>');
                                 FwConfirmation.destroyConfirmation($confirmation);
                             }
                         });
@@ -113,170 +48,280 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                 });
             } else {
                 sessionStorage.setItem('sessionLock', 'true');
-                $moduleLock.addClass('on').find('img').attr('src', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/images/icons/128/lock_on.001.png');
+                $moduleLock.html('<i class="material-icons">lock</i>');
             }
         });
     }
 
-    screen.$view
-        .on('change', '#scanBarcodeView-txtBarcodeData', function() {
-            var $txtBarcodeData, request;
-            try {
-                $txtBarcodeData = jQuery(this);
-                request = {
-                    orderid:     properties.orderid
-                  , masterno:    RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase())
-                  , qty:         1
-                };
-                screen.scanItem(request);
-            } catch(ex) {
-                FwFunc.showError(ex);
-            }
-        })
-        .on('click', '#quote-items-ul > li.link', function() {
-            var $this, masteritemid, rentalitemid, masterno, description, qtyordered, price, periodextended, barcode, masterid, trackedby;
-            try {
-                $this = jQuery(this);
-                masteritemid   = $this.data('masteritemid');
-                rentalitemid   = $this.data('rentalitemid');
-                masterno       = $this.data('masterno');
-                description    = $this.data('description');
-                isquantity     = ($this.data('trackedby') === 'QUANTITY');
-                qtyordered     = $this.data('qtyordered');
-                price          = $this.data('price');
-                periodextended = $this.data('periodextended');
-                barcode        = $this.data('barcode');
-                masterid       = $this.data('masterid');
-                if (isquantity) {
-                    screen.renderPopupQty();
-                    screen.updatePopupQty(masteritemid, rentalitemid, masterno, description, qtyordered, price, periodextended, barcode, masterid, trackedby);
-                    screen.showPopupQty();
-                } else {
-                    screen.renderPopupRemoveItem();
-                    screen.updateRemoveItem(masteritemid, rentalitemid, masterno, description, qtyordered, price, periodextended, barcode, masterid, trackedby);
-                    screen.showRemoveItem();
+    var $quotemain = screen.$view.find('#quote-main');
+    $quotemain.find('#quotecontrol').fwmobilemodulecontrol({
+        buttons: [
+            {
+                caption:     'Back',
+                orientation: 'left',
+                icon:        '&#xE5CB;', //chevron_left
+                state:       0,
+                buttonclick: function () {
+                    if (sessionStorage.getItem('sessionLock') === 'true') {
+                        FwFunc.showMessage('Navigation is locked.');
+                    } else {
+                        program.popScreen();
+                    }
                 }
-            } catch(ex) {
-                FwFunc.showError(ex);
+            },
+            {
+                id:          'itemlist_menu',
+                type:        'menu',
+                orientation: 'right',
+                icon:        '&#xE5D4;', //more_vert
+                state:       0,
+                menuoptions: [
+                    {
+                        id:      'cancel',
+                        caption: 'Cancel' + ((properties.ordertype === 'Q') ? ' Quote' : ' Order'),
+                        buttonclick: function() {
+                            if (sessionStorage.getItem('sessionLock') === 'true') {
+                                FwFunc.showMessage('Navigation is locked.');
+                            } else {
+                                var $confirmation = FwConfirmation.renderConfirmation('Cancel' + ((properties.ordertype === 'Q') ? ' Quote' : ' Order'), '');
+                                var $yes          = FwConfirmation.addButton($confirmation, 'Yes', false);
+                                var $no           = FwConfirmation.addButton($confirmation, 'No', true);
+
+                                $yes.on('click', function () {
+                                    var request = {
+                                        orderid: properties.orderid
+                                    };
+                                    RwServices.callMethod("Quote", "CancelQuote", request, function(response) {
+                                        try {
+                                            if (response.cancel.errno != 0) {
+                                                FwFunc.showError(response.cancel.errmsg);
+                                            } else {
+                                                FwConfirmation.destroyConfirmation($confirmation);
+                                                program.navigate('home/home');
+                                            }
+                                        } catch (ex) {
+                                            FwFunc.showError(ex);
+                                        }
+                                    });
+                                });
+                            }
+                        }
+                    },
+                    {
+                        id:      'searchdescription',
+                        caption: 'Search By Description',
+                        buttonclick: function() {
+                            $quotemain.hide();
+                            $itemsearch.showscreen();
+                        }
+                    }
+                ]
+            },
+            {
+                caption:     'Submit',
+                orientation: 'right',
+                icon:        '&#xE161;', //save
+                state:       0,
+                buttonclick: function () {
+                    var request = {
+                        orderid: properties.orderid
+                    };
+                    if (sessionStorage.getItem('sessionLock') === 'true') {
+                        FwFunc.showMessage('Navigation is locked.');
+                    } else {
+                        RwServices.callMethod("Quote", "SubmitQuote", request, function(response) {
+                            try {
+                                if (response.submit.errno != 0) {
+                                    FwFunc.showError(response.submit.errmsg);
+                                } else {
+                                    var ordertypetext = (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order'));
+                                    FwFunc.showMessage(ordertypetext + ' Submitted.', function() {
+                                        program.navigate('home/home');
+                                    });
+                                }
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        });
+                    }
+                }
             }
-        })
-        
-        .on('click', '#quote-pnlButtons-btnCancel', function() {
+        ]
+    });
+    $quotemain.find('#item-list').fwmobilesearch({
+        service: 'Quote',
+        method:  'LoadItems',
+        getRequest: function() {
+            var request = {
+                orderid: properties.orderid
+            };
+            return request;
+        },
+        cacheItemTemplate: false,
+        itemTemplate: function(model) {
+            var html = [], masterclass;
+            masterclass = 'item link itemclass-' + model.itemclass;
+            html.push('<div class="' + masterclass + '">');
+            html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
+            html.push('  <div class="row2">');
+            html.push('    <div class="col1">');
+            html.push('      <div class="datafield masterno">');
+            html.push('        <div class="caption">' + RwLanguages.translate('I-Code') + ':</div>');
+            html.push('        <div class="value">{{masterno}}</div>');
+            html.push('      </div>');
+            if (model.trackedby === 'BARCODE' || model.trackedby === 'SERIALNO' || model.trackedby === 'RFID') {
+                html.push('      <div class="datafield barcode">');
+                html.push('        <div class="caption">' + RwLanguages.translate('Barcode') + ':</div>');
+                html.push('        <div class="value">{{barcode}}</div>');
+                html.push('      </div>');
+            }
+            html.push('    </div>');
+            html.push('    <div class="col2">');
+            html.push('      <div class="datafield qtyordered">');
+            html.push('        <div class="caption">Qty:</div>');
+            html.push('        <div class="value">{{qtyordered}}</div>');
+            html.push('      </div>');
+            html.push('      <div class="datafield rate">');
+            html.push('        <div class="caption">' + RwLanguages.translate('Rate') + ':</div>');
+            html.push('        <div class="value">' + numberWithCommas(parseFloat(model.price).toFixed(2)) + '</div>');
+            html.push('      </div>');
+            html.push('      <div class="datafield periodextended">');
+            html.push('        <div class="caption">' + RwLanguages.translate('Period Total') + ':</div>');
+            html.push('        <div class="value">' + numberWithCommas(parseFloat(model.periodextended).toFixed(2)) + '</div>');
+            html.push('      </div>');
+            html.push('    </div>');
+            html.push('  </div>');
+            html.push('</div>');
+            html = html.join('\n');
+            return html;
+        },
+        recordClick: function(recorddata, $record) {
             try {
-                if (sessionStorage.getItem('sessionLock') === 'true') {
-                    FwFunc.showMessage('Navigation is locked.');
+                if (recorddata.trackedby === 'QUANTITY') {
+                    screen.promptUpdateItem(recorddata);
                 } else {
-                    screen.renderPopupCancelQuote();
-                    screen.showCancelQuote();
+                    screen.promptRemoveItem(recorddata);
                 }
             } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        },
+        afterLoad: function(plugin, response) {
+            $quotemain.find('#quote-grandtotal-value').html(numberWithCommas(parseFloat(response.grandtotal).toFixed(2))).attr('data-grandtotal', response.grandtotal);
+        }
+    });
+    $quotemain
+        .on('change', '#scanBarcodeView-txtBarcodeData', function() {
+            try {
+                var $txtBarcodeData = jQuery(this);
+                var value           = RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase());
+                if (value !== '') {
+                    var request = {
+                        orderid:      properties.orderid,
+                        enteredvalue: value
+                    };
+                    RwServices.callMethod("Quote", "ScanItem", request, function(response) {
+                        try {
+                            if (response.iteminfo.trackedby === 'QUANTITY') {
+                                screen.promptAddItem(response.iteminfo);
+                            } else if (response.insert.errno != 0) {
+                                FwFunc.showMessage(response.insert.errmsg);
+                            } else {
+                                $txtBarcodeData.val('');
+                                $quotemain.find('#item-list').fwmobilesearch('search');
+                            }
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
+            } catch(ex) {
                 FwFunc.showError(ex);
             }
         })
     ;
 
-    screen.updatePopupQty = function(masteritemid, rentalitemid, masterno, description, qtyordered, price, periodextended, barcode, masterid, trackedby) {
-        jQuery('#quote-popupQty').data('masteritemid', masteritemid);
-        jQuery('#quote-popupQty').data('rentalitemid', rentalitemid);
-        jQuery('#quote-popupQty').data('masterno', masterno);
-        jQuery('#quote-popupQty').data('qtyordered', qtyordered);
-        jQuery('#quote-popupQty-details-description').find('.label').html(description);
-        jQuery('#quote-popupQty-divDetails-tdICode').html(barcode);
-        jQuery('#quote-popupQty-divDetails-tdRate').html(price);
-        jQuery('#quote-txtQty').val(qtyordered);
-    };
+    screen.promptAddItem = function (iteminfo) {
+        var $confirmation = FwConfirmation.renderConfirmation('How Many?', '');
+        var $ok           = FwConfirmation.addButton($confirmation, 'OK', true);
+        var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
 
-    screen.updateRemoveItem = function(masteritemid, rentalitemid, masterno, description, qtyordered, price, periodextended, barcode, masterid, trackedby) {
-        jQuery('#quote-popupRemoveItem').data('masteritemid', masteritemid);
-        jQuery('#quote-popupRemoveItem').data('rentalitemid', rentalitemid);
-        jQuery('#quote-popupRemoveItem-details-description').find('.label').html(description);
-        jQuery('#quote-popupRemoveItem-divDetails-tdICode').html(barcode);
-        jQuery('#quote-popupRemoveItem-divDetails-tdRate').html(price);
-    };
-    
-    screen.showPopupQty = function() {
-        FwPopup.showPopup(screen.$popupQty);
-    };
+        var html = [];
+        html.push('<div class="item-info" style="background-color: #212121;color: #BDBDBD;padding: 5px;font-size: .8em;border-radius: 4px;">');
+        html.push('  <div class="row" style="color: #2196F3;text-decoration: underline;">' + iteminfo.description + '</div>');
+        html.push('  <div class="row">I-Code: ' + iteminfo.masterNo + '</div>');
+        html.push('</div>');
+        html.push('<div data-caption="Quantity" data-datafield="Quantity" data-control="FwFormField" data-type="number" class="fwcontrol fwformfield"></div>')
+        FwConfirmation.addControls($confirmation, html.join(''));
 
-    screen.hidePopupQty = function() {
-        FwPopup.destroyPopup(screen.$popupQty);
-        jQuery('#scanBarcodeView-txtBarcodeData').val('');
-    };
+        FwFormField.setValue($confirmation, 'div[data-datafield="Quantity"]', '1');
 
-    screen.showRemoveItem = function() {
-        FwPopup.showPopup(screen.$popupRemoveItem);
-    };
-
-    screen.hideRemoveItem = function() {
-        FwPopup.destroyPopup(screen.$popupRemoveItem);
-    };
-
-    screen.showCancelQuote = function() {
-        FwPopup.showPopup(screen.$popupCancelQuote);
-    };
-
-    screen.hideCancelQuote = function() {
-        FwPopup.destroyPopup(screen.$popupCancelQuote);
-    };
-
-    screen.getItems = function() {
-        var request;
-        jQuery('#quote-btnScan').removeClass('selected').addClass('unselected');
-        jQuery('#quote-btnItems').removeClass('unselected').addClass('selected');
-        request = {
-            orderid: properties.orderid
-        };
-        RwServices.quote.loadQuoteItems(request, function(response) {
-            var ul, li, masteritemid, rentalitemid, masterno, description, qtyordered, price, periodextended, barcode, masterid, trackedby;
-            try {
-                ul = [];
-                for (var i = 0; i < response.getQuoteItems.length; i++) {
-                    masteritemid   = response.getQuoteItems[i].masteritemid;
-                    rentalitemid   = response.getQuoteItems[i].rentalitemid;
-                    masterno       = response.getQuoteItems[i].masterno;
-                    description    = response.getQuoteItems[i].description;
-                    qtyordered     = response.getQuoteItems[i].qtyordered;
-                    price          = parseFloat(response.getQuoteItems[i].price).toFixed(2);
-                    periodextended = parseFloat(response.getQuoteItems[i].periodextended).toFixed(2);
-                    barcode        = response.getQuoteItems[i].barcode;
-                    masterid       = response.getQuoteItems[i].masterid;
-                    trackedby      = response.getQuoteItems[i].trackedby;
-                    li = [];
-                    li = screen.buildLi(masteritemid, rentalitemid, masterno, description, qtyordered, price, periodextended, barcode, masterid, trackedby);
-                    ul.push(li.join(''));
-                }
-                if (response.getQuoteItems.length === 0) {
-                    li = [];
-                    li = screen.getEmptyListItem();
-                    ul.push(li.join(''));
-                }
-                jQuery('#quote-items-ul').html(ul.join(''));
-                screen.calculateGrandTotal();
-                jQuery('#quote-items').show();
-            } catch (ex) {
-                FwFunc.showError(ex);
+        $ok.on('click', function () {
+            var qtyValue = Number(FwFormField.getValue($confirmation, 'div[data-datafield="Quantity"]'));
+            if (qtyValue != 0) {
+                var request = {
+                    orderid:      properties.orderid,
+                    masterno:     iteminfo.masterNo,
+                    qty:          qtyValue
+                };
+                RwServices.callMethod("Quote", "AddItem", request, function(response) {
+                    try {
+                        if (response.insert.errno != 0) {
+                            FwFunc.showError(response.update.errmsg);
+                        } else {
+                            $quotemain.find('#scanBarcodeView-txtBarcodeData').val('');
+                            $quotemain.find('#item-list').fwmobilesearch('search');
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             }
         });
     };
 
-    screen.scanItem = function(request) {
-        try {
-            RwServices.quote.addItem(request, function(response) {
-                var li, masteritemid, rentalitemid, masterno, description, qtyordered, price, periodextended, barcode, masterid, trackedby, errno, errmsg;
-                try {
-                    errmsg         = response.insert.errmsg;
-                    errno          = response.insert.errno;
-                    if (errno != 0) {
-                        FwFunc.showMessage(errmsg);
-                    }
-                    screen.getItems();
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-        } catch(ex) {
-            FwFunc.showError(ex);
-        }
+    screen.promptRemoveItem = function (recorddata) {
+        var $confirmation = FwConfirmation.renderConfirmation('Remove Item?', '');
+        var $ok           = FwConfirmation.addButton($confirmation, 'OK', true);
+        var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
+
+        var html = [];
+        html.push('<div class="item-info" style="background-color: #212121;color: #BDBDBD;padding: 5px;font-size: .8em;border-radius: 4px;">');
+        html.push('  <div class="row" style="color: #2196F3;text-decoration: underline;">' + recorddata.description + '</div>');
+        html.push('  <div class="row">Barcode: ' + recorddata.barcode + '</div>');
+        html.push('  <div class="row">Price: ' + recorddata.price + '</div>');
+        html.push('</div>');
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        $ok.on('click', function () {
+            screen.removeItem(recorddata.masteritemid, recorddata.rentalitemid, 1);
+        });
+    };
+
+    screen.promptUpdateItem = function (recorddata) {
+        var $confirmation = FwConfirmation.renderConfirmation('Update Quantity?', '');
+        var $ok           = FwConfirmation.addButton($confirmation, 'OK', true);
+        var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
+
+        var html = [];
+        html.push('<div class="item-info" style="background-color: #212121;color: #BDBDBD;padding: 5px;font-size: .8em;border-radius: 4px;">');
+        html.push('  <div class="row" style="color: #2196F3;text-decoration: underline;">' + recorddata.description + '</div>');
+        html.push('  <div class="row">I-Code: ' + recorddata.masterno + '</div>');
+        html.push('  <div class="row">Price: ' + recorddata.price + '</div>');
+        html.push('</div>');
+        html.push('<div data-caption="Quantity" data-datafield="Quantity" data-control="FwFormField" data-type="number" class="fwcontrol fwformfield"></div>')
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        FwFormField.setValue($confirmation, 'div[data-datafield="Quantity"]', recorddata.qtyordered);
+
+        $ok.on('click', function () {
+            var qtyValue = FwFormField.getValue($confirmation, 'div[data-datafield="Quantity"]');
+            if (recorddata.qtyordered < qtyValue) {
+                screen.updateItem(recorddata.masteritemid, recorddata.masterno, (qtyValue - recorddata.qtyordered));
+            } else if (recorddata.qtyordered > qtyValue) {
+                screen.removeItem(recorddata.masteritemid, recorddata.rentalitemid, (recorddata.qtyordered - qtyValue));
+            }
+        });
     };
 
     screen.removeItem = function(masteritemid, rentalitemid, qtyRemoved) {
@@ -286,12 +331,12 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
             rentalitemid: rentalitemid,
             qtyremoved:   qtyRemoved
         };
-        RwServices.quote.deleteItem(request, function(response) {
+        RwServices.callMethod("Quote", "DeleteItem", request, function(response) {
             try {
                 if (response.deleteitem.errno != 0) {
                     FwFunc.showError(response.deleteitem.errmsg);
                 }
-                screen.getItems();
+                $quotemain.find('#item-list').fwmobilesearch('search');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -299,286 +344,106 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
     };
 
     screen.updateItem = function (masterItemId, masterNo, qtyValue) {
-        request = {
-            orderid:     properties.orderid
-          , masterno:    masterNo
-          , qty:         qtyValue
-          , masteritemid: masterItemId
+        var request = {
+            orderid:      properties.orderid,
+            masterno:     masterNo,
+            qty:          qtyValue,
+            masteritemid: masterItemId
         };
-        RwServices.quote.updateItemQty(request, function(response) {
-            var masteritemid, rentalitemid, masterno, description, qtyordered, price, periodextended, barcode, masterid, trackedby, errno, errmsg;
+        RwServices.callMethod("Quote", "UpdateItem", request, function(response) {
             try {
-                errmsg         = response.update.errmsg;
-                errno          = response.update.errno;
-                if (errno != 0) {
-                    FwFunc.showError(errmsg);
+                if (response.update.errno != 0) {
+                    FwFunc.showError(response.update.errmsg);
                 }
-                screen.getItems();
+                $quotemain.find('#item-list').fwmobilesearch('search');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
     };
 
-    screen.buildLi = function (masteritemid, rentalitemid, masterno, description, qtyordered, price, periodextended, barcode, masterid, trackedby) {
-        var li;
-
-        li = [];
-        li.push('<li class="link" ' +
-                      'data-masteritemid="'   + masteritemid +
-                    '" data-rentalitemid="'   + rentalitemid +
-                    '" data-masterno="'       + masterno +
-                    '" data-description="'    + description +
-                    '" data-qtyordered="'     + qtyordered +
-                    '" data-price="'          + price +
-                    '" data-periodextended="' + periodextended +
-                    '" data-barcode="'        + barcode +
-                    '" data-masterid="'       + masterid +
-                    '" data-trackedby="'      + trackedby + '">');
-            li.push('<div class="row1">');
-                li.push('<div class="description">' + description + '</div>');
-            li.push('</div>');
-            li.push('<div class="row2">');
-                li.push('<div class="icode-caption">'       + RwLanguages.translate('I-Code')       + ':</div>');
-                li.push('<div class="icode-value">'         + masterno                              + '</div>');
-                if (trackedby != 'QUANTITY') {
-                    li.push('<div class="barcode-caption">' + RwLanguages.translate('Bar Code')     + ':</div>');
-                    li.push('<div class="barcode-value">'   + barcode                               + '</div>');
+    var $itemsearch = screen.$view.find('#item-search-by-description');
+    $itemsearch.find('#item-search-control').fwmobilemodulecontrol({
+        buttons: [
+            {
+                caption:     'Back',
+                orientation: 'left',
+                icon:        '&#xE5CB;', //chevron_left
+                state:       0,
+                buttonclick: function () {
+                    $itemsearch.hide();
+                    $quotemain.show();
                 }
-            li.push('</div>');
-            li.push('<div class="row3">');
-                li.push('<div class="qty-caption">'      + RwLanguages.translate('Qty')          + ':</div>');
-                li.push('<div class="qty-value">'        + qtyordered                            + '</div>');
-                li.push('<div class="rate-caption">'     + RwLanguages.translate('Rate')         + ':</div>');
-                li.push('<div class="rate-value">'       + numberWithCommas(price)               + '</div>');
-                li.push('<div class="period-caption">'   + RwLanguages.translate('Period Total') + ':</div>');
-                li.push('<div class="period-value">'     + numberWithCommas(periodextended)      + '</div>');
-            li.push('</div>');
-        li.push('</li>');
-
-        return li
-    };
-
-    screen.getEmptyListItem = function() {
-        var li;
-        li = [];
-        li.push('<li class="normal">');
-            li.push('<div class="empty">' + RwLanguages.translate('0 items found') + '</div>');
-        li.push('</li>');
-        return li;
-    };
-
-    screen.calculateGrandTotal = function() {
-        var grandtotal, $items, itemperiodextended;
-        grandtotal     = 0;
-        $items         = [];
-        $items         = jQuery('#quote-items-ul').find('li');
-        for (var i = 0; i < $items.length; i++) {
-            itemperiodextended = Number(jQuery($items[i]).data('periodextended'));
-            if (!isNaN(itemperiodextended)) {
-                grandtotal = grandtotal + itemperiodextended;
+            },
+            {
+                caption:     'Select',
+                orientation: 'right',
+                icon:        '&#xE5CC;', //chevron_right
+                state:       0,
+                buttonclick: function () {
+                    var itemdata = $itemsearch.find('.item.selected').data('recorddata');
+                    if (itemdata != null) {
+                        $itemsearch.hide();
+                        $quotemain.show();
+                        screen.promptAddItem({description: itemdata.master, masterNo: itemdata.masterno});
+                    }
+                }
             }
-        }
-        grandtotal = parseFloat(grandtotal).toFixed(2);
-        jQuery('#quote-grandtotal-value').html(numberWithCommas(grandtotal)).attr('data-grandtotal', grandtotal);
-    };
+        ]
+    });
+    $itemsearch
+        .on('change', '.fwmobilecontrol-value', function () {
+            var value = jQuery(this).val();
+            if (value != '') {
+                var request = {
+                    searchvalue: value,
+                    warehouseid: properties.warehouseid
+                };
+                RwServices.callMethod("Quote", "SearchItems", request, function(response) {
+                    $itemsearch.find('.item-search-items').empty();
+                    if (response.items.length > 0) {
+                        for (var item of response.items) {
+                            var html = [];
+                            html.push('<div class="item">');
+                            html.push('  <div class="row1"><div class="title">' + item.master + '</div></div>');
+                            html.push('  <div class="row2">');
+                            html.push('    <div class="col1">');
+                            html.push('      <div class="datafield masterno">');
+                            html.push('        <div class="caption">' + RwLanguages.translate('I-Code') + ':</div>');
+                            html.push('        <div class="value">' + item.masterno + '</div>');
+                            html.push('      </div>');
+                            html.push('    </div>');
+                            html.push('    <div class="col2">');
+                            html.push('      <div class="datafield rate">');
+                            html.push('        <div class="caption">' + RwLanguages.translate('Rate') + ':</div>');
+                            html.push('        <div class="value">' + numberWithCommas(parseFloat(item.price).toFixed(2)) + '</div>');
+                            html.push('      </div>');
+                            html.push('    </div>');
+                            html.push('  </div>');
+                            html.push('</div>');
+                            var $item = jQuery(html.join(''));
+                            $item.data('recorddata', item);
 
-    screen.renderPopupCancelQuote = function() {
-        var template = Mustache.render(jQuery('#tmpl-Quote-PopupCancelQuote').html(), {
-              captionICode:               RwLanguages.translate('I-Code')
-            , CaptionHowManyHeader:       RwLanguages.translate('How many?')
-            , captionDesc:                RwLanguages.translate('Desc')
-            , captionQty:                 RwLanguages.translate('Quantity')
-            , captionGrandTotal:          RwLanguages.translate('Grand Total')
-            , captionBarcode:             RwLanguages.translate('Bar Code')
-            , captionBtnItems:            RwLanguages.translate('Items')
-            , captionBtnScan:             RwLanguages.translate('Scan')
-            , captionAll:                 RwLanguages.translate('All')
-            , captionAdminPassword:       RwLanguages.translate('Admin Password')
-            , captionBack:                '<'
-            , captionOK:                  RwLanguages.translate('OK')
-            , captionCancel:              RwLanguages.translate('Cancel')
-            , captionRate:                RwLanguages.translate('Rate')
-            , captionPeriodTotal:         RwLanguages.translate('Period Total')
-            , captionSubmit:              RwLanguages.translate('Submit')
-            , captionRemoveItem:          RwLanguages.translate('Remove Item')
-            , captionCancelQuote:         RwLanguages.translate('Cancel') + ' ' + (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order'))
-            , captionYes:                 RwLanguages.translate('Yes')
-            , captionNo:                  RwLanguages.translate('No')
-        });
-        var $popupcontent = jQuery(template);
-        $popupcontent.find('#quote-popupCancelQuote-messages').hide();
-        screen.$popupCancelQuote = FwPopup.renderPopup($popupcontent, {ismodal:false});
-        FwPopup.showPopup(screen.$popupCancelQuote);
-        screen.$popupCancelQuote
-            .on('click', '#quote-popupCancelQuote-btnYes', function() {
-                var request;
-                try {
-                    request = {
-                        orderid: properties.orderid
-                    };
-                    RwServices.quote.cancelQuote(request, function (response) {
-                        try {
-                            if (response.cancel.errno != 0) {
-                                FwFunc.showError(response.cancel.errmsg);
-                            } else {
-                                program.navigate('home/home');
-                            }
-                        } catch (ex) {
-                            FwFunc.showError(ex);
+                            $itemsearch.find('.item-search-items').append($item);
                         }
-                    });
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#quote-popupCancelQuote-btnNo', function() {
-                try {
-                    screen.hideCancelQuote();
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-        ;
-    };
-
-    screen.renderPopupQty = function() {
-        var template = Mustache.render(jQuery('#tmpl-Quote-PopupQty').html(), {
-            captionICode:               RwLanguages.translate('I-Code')
-            , CaptionHowManyHeader:       RwLanguages.translate('How many?')
-            , captionDesc:                RwLanguages.translate('Desc')
-            , captionQty:                 RwLanguages.translate('Quantity')
-            , captionGrandTotal:          RwLanguages.translate('Grand Total')
-            , captionBarcode:             RwLanguages.translate('Bar Code')
-            , captionBtnItems:            RwLanguages.translate('Items')
-            , captionBtnScan:             RwLanguages.translate('Scan')
-            , captionAll:                 RwLanguages.translate('All')
-            , captionAdminPassword:       RwLanguages.translate('Admin Password')
-            , captionBack:                '<'
-            , captionOK:                  RwLanguages.translate('OK')
-            , captionCancel:              RwLanguages.translate('Cancel')
-            , captionRate:                RwLanguages.translate('Rate')
-            , captionPeriodTotal:         RwLanguages.translate('Period Total')
-            , captionSubmit:              RwLanguages.translate('Submit')
-            , captionRemoveItem:          RwLanguages.translate('Remove Item')
-            , captionCancelQuote:         RwLanguages.translate('Cancel') + ' ' + (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order'))
-            , captionYes:                 RwLanguages.translate('Yes')
-            , captionNo:                  RwLanguages.translate('No')
-        });
-        var $popupcontent = jQuery(template);
-        $popupcontent.find('#quote-popupQty-messages').hide();
-        screen.$popupQty = FwPopup.renderPopup($popupcontent, {ismodal:false});
-        FwPopup.showPopup(screen.$popupQty);
-        screen.$popupQty
-            .on('change', '#quote-txtQty', function() {
-                var $txtQty, qty, html, isNotANumber;
-                try {
-                    $txtQty = jQuery(this);
-                    isNotANumber = isNaN($txtQty.val());
-                    if (isNotANumber) {
-                        FwFunc.showError('Please enter a number.');
+                    } else {
+                        var $zeroitems = jQuery('<div class="zeroitems">0 Items Found</div>');
+                        $itemsearch.find('.item-search-items').append($zeroitems);
                     }
-                } catch(ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#quote-btnOK', function() {
-                var request, qtyOrdered, qtyValue, masterItemId, rentalItemId, masterNo;
-                try {
-                    masterItemId = String(jQuery('#quote-popupQty').data('masteritemid'));
-                    rentalItemId = '';
-                    masterNo     = String(jQuery('#quote-popupQty').data('masterno'));
-                    qtyOrdered   = Number(jQuery('#quote-popupQty').data('qtyordered'));
-                    qtyValue     = Number(jQuery('#quote-txtQty').val());
-                    //if ((qtyOrdered != qtyValue) && (qtyValue > 0)) {
-                    if (qtyOrdered < qtyValue) {
-                        screen.updateItem(masterItemId, masterNo, (qtyValue - qtyOrdered));
-                    } else if (qtyOrdered > qtyValue) {
-                        screen.removeItem(masterItemId, rentalItemId, (qtyOrdered - qtyValue));
-                    }
-                    screen.hidePopupQty();
-                } catch(ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#quote-btnCancel', function() {
-                try {
-                    screen.hidePopupQty();
-                } catch(ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#quote-btnSubtract', function() {
-                var quantity;
-                try {
-                    quantity = Number(jQuery('#quote-txtQty').val()) - 1;
-                    if (quantity >= 0) {
-                        jQuery('#quote-txtQty').val(quantity);
-                    }
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#quote-btnAdd', function() {
-                var quantity;
-                try {
-                    quantity = Number(jQuery('#quote-txtQty').val()) + 1;
-                    jQuery('#quote-txtQty').val(quantity);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-        ;
-    };
-
-    screen.renderPopupRemoveItem = function() {
-        var template = Mustache.render(jQuery('#tmpl-Quote-PopupRemoveItem').html(), {
-            captionICode:               RwLanguages.translate('I-Code')
-            , CaptionHowManyHeader:       RwLanguages.translate('How many?')
-            , captionDesc:                RwLanguages.translate('Desc')
-            , captionQty:                 RwLanguages.translate('Quantity')
-            , captionGrandTotal:          RwLanguages.translate('Grand Total')
-            , captionBarcode:             RwLanguages.translate('Bar Code')
-            , captionBtnItems:            RwLanguages.translate('Items')
-            , captionBtnScan:             RwLanguages.translate('Scan')
-            , captionAll:                 RwLanguages.translate('All')
-            , captionAdminPassword:       RwLanguages.translate('Admin Password')
-            , captionBack:                '<'
-            , captionOK:                  RwLanguages.translate('OK')
-            , captionCancel:              RwLanguages.translate('Cancel')
-            , captionRate:                RwLanguages.translate('Rate')
-            , captionPeriodTotal:         RwLanguages.translate('Period Total')
-            , captionSubmit:              RwLanguages.translate('Submit')
-            , captionRemoveItem:          RwLanguages.translate('Remove Item')
-            , captionCancelQuote:         RwLanguages.translate('Cancel') + ' ' + (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order'))
-            , captionYes:                 RwLanguages.translate('Yes')
-            , captionNo:                  RwLanguages.translate('No')
-        });
-        var $popupcontent = jQuery(template);
-        $popupcontent.find('#quote-popupRemoveItem-messages').hide();
-        screen.$popupRemoveItem = FwPopup.renderPopup($popupcontent, {ismodal:false});
-        FwPopup.showPopup(screen.$popupRemoveItem);
-        screen.$popupRemoveItem
-            .on('click', '#quote-popupRemoveItem-btnRemove', function() {
-                var masteritemid, rentalitemid;
-                try {
-                    masteritemid = jQuery('#quote-popupRemoveItem').data('masteritemid');
-                    rentalitemid = jQuery('#quote-popupRemoveItem').data('rentalitemid');
-                    screen.removeItem(masteritemid, rentalitemid, 1);
-                    screen.hideRemoveItem();
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#quote-popupRemoveItem-btnCancel', function() {
-                try {
-                    screen.hideRemoveItem();
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-        ;
-    };
+                });
+            }
+        })
+        .on('click', '.item', function () {
+            var $this = jQuery(this);
+            $this.siblings().removeClass('selected');
+            $this.addClass('selected');
+        })
+    ;
+    $itemsearch.showscreen = function () {
+        $itemsearch.find('.fwmobilecontrol-value').val('');
+        $itemsearch.find('.item-search-items').empty();
+        $itemsearch.show();
+    }
 
     screen.load = function() {
         program.setScanTarget('#scanBarcodeView-txtBarcodeData');
@@ -586,13 +451,14 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
         if (!Modernizr.touch) {
             jQuery('#scanBarcodeView-txtBarcodeData').select();
         }
-        screen.getItems();
+
+        $quotemain.find('#item-list').fwmobilesearch('search');
     };
 
     screen.unload = function() {
         program.setScanTarget('#scanBarcodeView-txtBarcodeData');
         program.setScanTargetLpNearfield('');
     };
-    
+
     return screen;
 };
