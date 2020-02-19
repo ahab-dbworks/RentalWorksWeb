@@ -67,7 +67,7 @@
                 InventoryId: inventoryId
             };
 
-            FwAppData.apiMethod(true, 'POST', `api/v1/checkoutpendingitem/addtoorder`, request, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/addtoorder`, request, FwServices.defaultTimeout,
                 response => {
                     const pageNo = parseInt($control.attr('data-pageno'));
                     const onDataBind = $control.data('ondatabind');
