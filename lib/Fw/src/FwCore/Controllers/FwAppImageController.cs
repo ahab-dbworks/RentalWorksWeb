@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
 using System.Threading.Tasks;
 
@@ -31,7 +32,13 @@ namespace FwCore.Controllers
             return new OkObjectResult(getAppImagesResult);
         }
         //------------------------------------------------------------------------------------
-        protected async Task<ActionResult<List<FwAppImageModel>>> DoGetOneAsync(string appimageid, string thumbnail, string uniqueid1, string uniqueid2, string uniqueid3, string orderby)
+        protected async Task<ActionResult<List<FwAppImageModel>>> DoGetOneAsync(
+            [Required,MinLength(1)]string appimageid, 
+            string thumbnail, 
+            [Required,MinLength(1)]string uniqueid1, 
+            string uniqueid2, 
+            string uniqueid3, 
+            string orderby)
         {
             if (!ModelState.IsValid)
             {

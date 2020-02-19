@@ -206,6 +206,7 @@ namespace FwStandard.Utilities
                     }
                     using (Bitmap destBitmap = new Bitmap(widthNew, heightNew))
                     {
+                        destBitmap.SetResolution(72, 72);
                         graphicsCanvas = Graphics.FromImage(destBitmap);
                         graphicsCanvas.CompositingMode = CompositingMode.SourceCopy;
                         graphicsCanvas.CompositingQuality = CompositingQuality.HighQuality;

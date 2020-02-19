@@ -288,7 +288,7 @@ namespace FwStandard.Grids.AppDocument
                     qry.AddColumn("DataUrl", false, FwDataTypes.JpgDataUrl);
                     qry.Add(";with");
                     qry.Add("  main_cte as (");
-                    qry.Add("    select RowNumber = row_number() over(order by i.datestamp),");
+                    qry.Add("    select RowNumber = row_number() over(order by i.datestamp desc),");
                     qry.Add("       ImageId = i.appimageid,");
                     qry.Add("       Description = i.imagedesc,");
                     qry.Add("       ImageNumber = i.imageno,");

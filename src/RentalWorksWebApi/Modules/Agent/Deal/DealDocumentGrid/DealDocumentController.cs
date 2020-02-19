@@ -212,7 +212,7 @@ namespace WebApi.Modules.Agent.Deal
         /// <returns></returns>
         [HttpPost("{dealid}/document/{documentid}/image")]
         [FwControllerMethod(Id: "AX4NPsS7nIuQ", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<DealDocumentLogic>> DocumentAttachImageFromDataUrlAsync([FromRoute]string dealid, [FromRoute]string documentid, PutDocumentImageRequest request)
+        public async Task<ActionResult<bool>> DocumentAttachImageFromDataUrlAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromBody]PostDocumentImageRequest request)
         {
             try
             {
@@ -233,11 +233,11 @@ namespace WebApi.Modules.Agent.Deal
         /// <returns></returns>
         [HttpPost("{dealid}/document/{documentid}/uploadimage")]
         [FwControllerMethod(Id: "TUsk5CeVVEdr", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<DealDocumentLogic>> DocumentAttachImageFromUploadAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromForm]IFormFile file)
+        public async Task<ActionResult<bool>> DocumentAttachImageFromFormAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromForm]IFormFile file)
         {
             try
             {
-                return await FwAppDocumentController.AttachImageFromUploadAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, file);
+                return await FwAppDocumentController.AttachImageFromFormAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, file);
             }
             catch (Exception ex)
             {
@@ -274,11 +274,11 @@ namespace WebApi.Modules.Agent.Deal
         /// <returns></returns>
         [HttpGet("{dealid}/document/{documentid}/file")]
         [FwControllerMethod(Id: "0MS5Tv3YvqwF", FwControllerActionTypes.ControlBrowse, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<FileContentResult>> GetFileAsync([FromRoute]string dealid, [FromRoute]string documentid)
+        public async Task<IActionResult> GetFileAsync([FromRoute]string dealid, [FromRoute]string documentid)
         {
             try
             {
-                return await FwAppDocumentController.GetFileAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid);
+                return await FwAppDocumentController.GetFileAsync<DealDocumentLogic>(Response, this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid);
             }
             catch (Exception ex)
             {
@@ -295,7 +295,7 @@ namespace WebApi.Modules.Agent.Deal
         /// <returns></returns>
         [HttpPut("{dealid}/document/{documentid}/file")]
         [FwControllerMethod(Id: "TEeu5N68gYrj", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<DealDocumentLogic>> DocumentAttachFileFromDataUrlAsync([FromRoute]string dealid, [FromRoute]string documentid, PutDocumentFileRequest request)
+        public async Task<ActionResult<bool>> DocumentAttachFileFromDataUrlAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromBody]PutDocumentFileRequest request)
         {
             try
             {
@@ -316,7 +316,7 @@ namespace WebApi.Modules.Agent.Deal
         /// <returns></returns>
         [HttpPut("{dealid}/document/{documentid}/uploadfile")]
         [FwControllerMethod(Id: "RzSbofEAfnCY", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
-        public async Task<ActionResult<DealDocumentLogic>> DocumentAttachFileFromUploadAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromForm]IFormFile file)
+        public async Task<ActionResult<bool>> DocumentAttachFileFromUploadAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromForm]IFormFile file)
         {
             try
             {

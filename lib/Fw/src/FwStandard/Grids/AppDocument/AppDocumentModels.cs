@@ -96,9 +96,14 @@ namespace FwStandard.Grids.AppDocument
         public string FileExtension { get; set; }
     }
 
-    public class PutDocumentImageRequest
+    public class PostDocumentImageRequest
     {
         public string DataUrl { get; set; }
         public string FileExtension { get; set; }
+    }
+
+    public class PutDocumentImageRequest : PostDocumentImageRequest
+    {
+        
     }
 }

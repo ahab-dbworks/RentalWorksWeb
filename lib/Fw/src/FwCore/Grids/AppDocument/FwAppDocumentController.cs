@@ -1,10 +1,8 @@
-﻿using FwCore.Controllers;
-using FwStandard.AppManager;
-using FwStandard.BusinessLogic;
+﻿using FwCore.Api;
+using FwCore.Controllers;
 using FwStandard.Grids.AppDocument;
 using FwStandard.Models;
 using FwStandard.SqlServer;
-using FwStandard.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -145,8 +143,8 @@ namespace FwCore.Grids.AppDocument
             }
         }
         //------------------------------------------------------------------------------------ 
-        public static async Task<ActionResult<T>> AttachImageFromDataUrlAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
-            string validateAginstTable, string validateAgainstField, string appDocumentId, PutDocumentImageRequest request)
+        public static async Task<ActionResult<bool>> AttachImageFromDataUrlAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
+            string validateAginstTable, string validateAgainstField, string appDocumentId, PostDocumentImageRequest request)
         {
             try
             {
@@ -163,7 +161,7 @@ namespace FwCore.Grids.AppDocument
             }
         }
         //------------------------------------------------------------------------------------ 
-        public static async Task<ActionResult<T>> AttachImageFromUploadAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
+        public static async Task<ActionResult<bool>> AttachImageFromFormAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
             string validateAginstTable, string validateAgainstField, string appDocumentId, IFormFile file)
         {
             try
@@ -204,9 +202,10 @@ namespace FwCore.Grids.AppDocument
             }
         }
         //------------------------------------------------------------------------------------ 
-        public static async Task<ActionResult<FileContentResult>> GetFileAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
+        public static async Task<IActionResult> GetFileAsync<T>(HttpResponse response, FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
             string validateAginstTable, string validateAgainstField, string appDocumentId) where T: AppDocumentLogic
         {
+            string filePath = string.Empty;
             try
             {
                 AppDocumentLogic bl = (AppDocumentLogic)Activator.CreateInstance(typeof(T));
@@ -220,10 +219,21 @@ namespace FwCore.Grids.AppDocument
                 }
                 else
                 {
-                    return new FileContentResult(documentFile.File.Data, documentFile.File.ContentType)
+                    string filename = bl.Description + "." + Guid.NewGuid().ToString().Replace("-", string.Empty) + "." + documentFile.File.Extension ;
+                    filePath = Path.Combine(Environment.CurrentDirectory, "wwwroot/temp/downloads/" + filename);
+                    using (var stream = File.OpenWrite(filePath))
                     {
-                        FileDownloadName = bl.Description + "." + documentFile.File.Extension
+                        await stream.WriteAsync(documentFile.File.Data, 0, documentFile.File.Data.Length);
+                    }
+                    response.Headers["Content-Disposition"] = "inline";
+                    return new TempPhysicalFileResult(filePath, documentFile.File.ContentType)
+                    {
+                        FileDownloadName = filename
                     };
+                    //return new FileContentResult(documentFile.File.Data, documentFile.File.ContentType)
+                    //{
+                    //    //FileDownloadName = filename
+                    //};
                 }
             }
             catch(Exception ex)
@@ -232,7 +242,7 @@ namespace FwCore.Grids.AppDocument
             }
         }
         //------------------------------------------------------------------------------------ 
-        public static async Task<ActionResult<T>> AttachFileFromDataUrlAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
+        public static async Task<ActionResult<bool>> AttachFileFromDataUrlAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
             string validateAginstTable, string validateAgainstField, string appDocumentId, PutDocumentFileRequest request)
         {
             try
@@ -250,7 +260,7 @@ namespace FwCore.Grids.AppDocument
             }
         }
         //------------------------------------------------------------------------------------ 
-        public static async Task<ActionResult<T>> AttachFileFromUploadAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
+        public static async Task<ActionResult<bool>> AttachFileFromUploadAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
             string validateAginstTable, string validateAgainstField, string appDocumentId, IFormFile file)
         {
             try

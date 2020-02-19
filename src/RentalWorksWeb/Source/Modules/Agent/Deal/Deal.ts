@@ -208,6 +208,24 @@ class Deal {
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and DealId is not available yet on the form
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'DealDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'DealId')}/document`;
+            },
+            gridSecurityId: '5pVhTJtGXLVx',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'DealId',
+            uniqueid1Name: 'DealId',
+            getUniqueid1Value: () => FwFormField.getValueByDataField($form, 'DealId'),
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+       
         FwModule.loadForm(this.Module, $form);
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
@@ -378,23 +396,6 @@ class Deal {
             beforeSave: (request: any) => {
                 request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
             }
-        });
-
-        // Documents Grid
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'DealDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'DealId')}/document`;
-            },
-            gridSecurityId: '5pVhTJtGXLVx',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'DealId',
-            uniqueid1Name: 'DealId',
-            getUniqueid1Value: () => FwFormField.getValueByDataField($form, 'DealId'),
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
         });
     }
     //----------------------------------------------------------------------------------------------

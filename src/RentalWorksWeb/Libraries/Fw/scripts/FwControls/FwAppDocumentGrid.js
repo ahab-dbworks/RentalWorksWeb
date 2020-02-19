@@ -90,7 +90,7 @@ class FwAppDocumentGridClass {
       data-formrequired="true">
     </div>
   </div>
-  <div class="column" data-width="300px" data-visible="true">
+  <div class="column" data-width="100%" data-visible="true">
     <div class="field" 
       data-cssclass="description" 
       data-caption="Description"
@@ -134,21 +134,44 @@ class FwAppDocumentGridClass {
       data-sort="desc">
     </div>
   </div>
-  <div class="column" data-width="200px" data-visible="true">
+  <div class="column" data-width="40px" data-visible="true">
+    <div class="field"
+      data-cssclass="images"
+      data-caption="Images"
+      data-isuniqueid="false"
+      data-browsedatafield="FileAppImageId"
+      data-browsedatatype="documentimage"
+      data-baseapiurl="${options.getBaseApiUrl()}"
+      data-appdocumentidfield="DocumentId"
+      data-hasimagesfield="HasImages"
+      data-documenttypeidfield="DocumentTypeId"
+      data-uniqueid1field="${options.uniqueid1Name}"
+      data-uniqueid2field="${options.uniqueid2Name}"
+      data-formdatafield="*"
+      data-formdatatype="documentimage"
+      data-formreadonly="false"
+      data-miscfield="Image"
+      data-sort="off"
+      data-showsearch="false">
+    </div>
+  </div>
+<div class="column" data-width="40px" data-visible="true">
     <div class="field"
       data-cssclass="file"
       data-caption="File"
       data-isuniqueid="false"
       data-browsedatafield="FileAppImageId"
-      data-browsedatatype="appdocumentimage"
-      data-browseappdocumentidfield="DocumentId"
+      data-browsedatatype="documentfile"
+      data-baseapiurl="${options.getBaseApiUrl()}"
+      data-appdocumentidfield="DocumentId"
+      data-hasfilefield="HasFile"
+      data-filenamefield="DocumentType"
+      data-fileextensionfield="FileExtension"
       data-documenttypeidfield="DocumentTypeId"
       data-uniqueid1field="${options.uniqueid1Name}"
       data-uniqueid2field="${options.uniqueid2Name}"
-      data-browsefilenamefield="DocumentType"
-      data-browsefileextensionfield="FileExtension"
       data-formdatafield="*"
-      data-formdatatype="appdocumentimage"
+      data-formdatatype="documentfile"
       data-formreadonly="false"
       data-miscfield="Image"
       data-sort="off"

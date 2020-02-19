@@ -208,7 +208,7 @@ namespace FwCore.Api
             //        }
             //    }
             //}
-            FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.PreSql2012;
+            FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.Sql2012;
             AlertFunc.RefreshAlerts(ApplicationConfig);
         }
         //------------------------------------------------------------------------------------
