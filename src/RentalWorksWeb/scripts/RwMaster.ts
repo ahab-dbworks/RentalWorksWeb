@@ -130,9 +130,9 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Utilities.children.InvoiceProcessBatch,
                     Constants.Modules.Utilities.children.ReceiptProcessBatch,
                     Constants.Modules.Utilities.children.VendorInvoiceProcessBatch,
-                    Constants.Modules.Utilities.children.RefreshGLHistory,
                     Constants.Modules.Utilities.children.QuikActivityCalendar,
                     Constants.Modules.Utilities.children.QuikSearch,
+                    Constants.Modules.Utilities.children.RefreshGLHistory,
                 ]
             };
             this.navigation.push(menuUtilities);
