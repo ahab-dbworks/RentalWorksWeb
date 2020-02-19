@@ -118,13 +118,14 @@ namespace WebApi.Modules.Warehouse.CheckOut
         public bool ConsignmentTab { get; set; } = false;
     }
     //-------------------------------------------------------------------------------------------------------
-    public class CheckOutPendingItemAddToOrderRequest
+    public class DecreaseOrderQuantityRequest
     {
         public string OrderId { get; set; }
         public string OrderItemId { get; set; }
         public string InventoryId { get; set; }
         public int? Quantity { get; set; }
     }
+    public class DecreaseOrderQuantityResponse : TSpStatusResponse { }
     //-------------------------------------------------------------------------------------------------------
     public static class CheckOutFunc
     {
@@ -463,17 +464,19 @@ namespace WebApi.Modules.Warehouse.CheckOut
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
-        public static async Task<TSpStatusResponse> CheckOutPendingItemAddToOrder(FwApplicationConfig appConfig, FwUserSession userSession, CheckOutPendingItemAddToOrderRequest request)
+        public static async Task<DecreaseOrderQuantityResponse> DecreaseOrderQuantity(FwApplicationConfig appConfig, FwUserSession userSession, DecreaseOrderQuantityRequest request)
         {
-            TSpStatusResponse response = new TSpStatusResponse();
+            DecreaseOrderQuantityResponse response = new DecreaseOrderQuantityResponse();
 
             int negativeQuantity = System.Math.Abs(Convert.ToInt32(request.Quantity)) * (-1);
+
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "addtoorder", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                 qry.AddParameter("@origmasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderItemId);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+                qry.AddParameter("@additemtoorder", SqlDbType.NVarChar, ParameterDirection.Input, "T");
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, negativeQuantity);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);

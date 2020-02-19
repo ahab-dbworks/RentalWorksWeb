@@ -228,6 +228,7 @@ namespace WebApi.Modules.Agent.Order
                 if (!string.IsNullOrEmpty(stagingWarehouseId))
                 {
                     select.AddWhere(" ((warehouseid = @stagingwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @stagingwhid))");
+                    select.AddWhere(" exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.rectype in ('" + RwConstants.RECTYPE_RENTAL + "','" + RwConstants.RECTYPE_SALE + "','" + RwConstants.RECTYPE_USED_SALE + "'))");
                     select.AddParameter("@stagingwhid", stagingWarehouseId);
                 }
             }
@@ -240,6 +241,7 @@ namespace WebApi.Modules.Agent.Order
                 if (!string.IsNullOrEmpty(exchangeWarehouseId))
                 {
                     select.AddWhere(" ((warehouseid = @exchangewhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @exchangewhid))");
+                    select.AddWhere(" exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.rectype in ('" + RwConstants.RECTYPE_RENTAL + "','" + RwConstants.RECTYPE_SALE + "','" + RwConstants.RECTYPE_USED_SALE + "'))");
                     select.AddParameter("@exchangewhid", exchangeWarehouseId);
                 }
                 select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(exchangeWarehouseId) ? "" : " and mi.warehouseid = @exchangewhid") + ")");

@@ -275,12 +275,12 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/checkout/addtoorder
-        [HttpPost("addtoorder")]
+        // POST api/v1/checkout/decreaseorderquantity
+        [HttpPost("decreaseorderquantity")]
         [FwControllerMethod(Id: "2VoXN2oAIUsF", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<TSpStatusResponse>> CheckOutPendingItemAddToOrder([FromBody]CheckOutPendingItemAddToOrderRequest request)
+        public async Task<ActionResult<DecreaseOrderQuantityResponse>> DecreaseOrderQuantity([FromBody]DecreaseOrderQuantityRequest request)
         {
-            return await CheckOutFunc.CheckOutPendingItemAddToOrder(AppConfig, UserSession, request);
+            return await CheckOutFunc.DecreaseOrderQuantity(AppConfig, UserSession, request);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/validateorder/browse 
