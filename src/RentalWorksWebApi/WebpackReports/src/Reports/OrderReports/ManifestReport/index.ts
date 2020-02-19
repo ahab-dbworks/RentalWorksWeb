@@ -19,8 +19,8 @@ export class ManifestReport extends WebpackReport {
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<DataTable>(`${apiUrl}/api/v1/manifestreport/runreport`, authorizationHeader, parameters)
-                        .then((response: any) => {
+                    Ajax.post<ManifestReportResponse>(`${apiUrl}/api/v1/manifestreport/runreport`, authorizationHeader, parameters)
+                        .then((response: ManifestReportResponse) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.ItemsTable);
                             data.Company = parameters.companyName;
@@ -95,6 +95,43 @@ export class ManifestReport extends WebpackReport {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
+}
+interface ManifestReportResponse {
+    _Custom: any[];
+    Agent: string;
+    AgentEmail: string;
+    Warehouse: string;
+    Department: string;
+    OfficeLocation: string;
+    OfficeLocationPhone: string;
+    OfficeLocationAddress1: string;
+    OfficeLocationAddress2: string;
+    OfficeLocationCityStateZipCodeCountry: string;
+    IssuedToCompany: string;
+    IssuedToAttention1: string;
+    IssuedToAttention2: string;
+    IssuedToAddress1: string;
+    IssuedToAddress2: string;
+    IssuedToCity: string;
+    IssuedToState: string;
+    IssuedToZipCode: string;
+    IssuedToCountry: string;
+    IssuedToPhone: string;
+    OutDeliveryLocation: string;
+    OutDeliveryAddress1: string;
+    OutDeliveryAddress2: string;
+    OutDeliveryCity: string;
+    OutDeliveryState: string;
+    OutDeliveryZipCode: string;
+    OutDeliveryCountryId: string;
+    OutDeliveryCountry: string;
+    OutDeliveryContactPhone: string;
+    OutDeliveryCityStateZipCodeCountry: string;
+    UsageDates: string;
+    BillingDates: string;
+    Description: string;
+    Deal: string;
+    ItemsTable: DataTable;
 }
 
 (<any>window).report = new ManifestReport();

@@ -203,6 +203,9 @@ namespace WebApi.Modules.Reports.ManifestReport
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
+        public string Department { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "officelocation", modeltype: FwDataTypes.Text)]
         public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 

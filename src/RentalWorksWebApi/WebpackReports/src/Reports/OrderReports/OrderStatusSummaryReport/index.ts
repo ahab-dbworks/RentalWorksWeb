@@ -13,25 +13,17 @@ const hbFooter = require("./hbFooter.hbs");
 export class OrderStatusSummaryReport extends WebpackReport {
     order: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
-        console.log(parameters, 'orderstatus params');
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-            // Order information
-            Ajax.get<any>(`${apiUrl}/api/v1/order/${parameters.OrderId}`, authorizationHeader).then((response: any) => {
-                const orderWarehouse = response.Warehouse;
-                const orderDepartment = response.Department;
             // Report rendering and Logo
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<DataTable>(`${apiUrl}/api/v1/orderstatussummaryreport/runreport`, authorizationHeader, parameters)
-                        .then((response: DataTable) => {
+                    Ajax.post<OrderStatusSummaryReportResponse>(`${apiUrl}/api/v1/orderstatussummaryreport/runreport`, authorizationHeader, parameters)
+                        .then((response: OrderStatusSummaryReportResponse) => {
                             const data: any = response;
-
-                            data.Items = DataTable.toObjectList(response);
+                            data.Items = DataTable.toObjectList(response.ItemsTable);
                             data.Company = parameters.companyName;
-                            data.Department = orderDepartment;
-                            data.Warehouse = orderWarehouse;
                             data.Order = parameters.orderno;
                             data.Report = "Order Status Summary";                     
                             data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
@@ -74,11 +66,6 @@ export class OrderStatusSummaryReport extends WebpackReport {
                 }).catch((ex) => {
                     console.log('exception: ', ex)
                 });
-
-            }).catch((ex) => {
-                console.log('exception: ', ex);
-            });
-
         } catch (ex) {
             this.onRenderReportFailed(ex);
         }
@@ -88,6 +75,44 @@ export class OrderStatusSummaryReport extends WebpackReport {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
+}
+
+interface OrderStatusSummaryReportResponse {
+    _Custom: any[];
+    Agent: string;
+    AgentEmail: string;
+    Warehouse: string;
+    Department: string;
+    OfficeLocation: string;
+    OfficeLocationPhone: string;
+    OfficeLocationAddress1: string;
+    OfficeLocationAddress2: string;
+    OfficeLocationCityStateZipCodeCountry: string;
+    IssuedToCompany: string;
+    IssuedToAttention1: string;
+    IssuedToAttention2: string;
+    IssuedToAddress1: string;
+    IssuedToAddress2: string;
+    IssuedToCity: string;
+    IssuedToState: string;
+    IssuedToZipCode: string;
+    IssuedToCountry: string;
+    IssuedToPhone: string;
+    OutDeliveryLocation: string;
+    OutDeliveryAddress1: string;
+    OutDeliveryAddress2: string;
+    OutDeliveryCity: string;
+    OutDeliveryState: string;
+    OutDeliveryZipCode: string;
+    OutDeliveryCountryId: string;
+    OutDeliveryCountry: string;
+    OutDeliveryContactPhone: string;
+    OutDeliveryCityStateZipCodeCountry: string;
+    UsageDates: string;
+    BillingDates: string;
+    Description: string;
+    Deal: string;
+    ItemsTable: DataTable;
 }
 
 (<any>window).report = new OrderStatusSummaryReport();

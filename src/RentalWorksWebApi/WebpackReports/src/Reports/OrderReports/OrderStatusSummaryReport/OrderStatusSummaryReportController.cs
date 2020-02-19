@@ -77,9 +77,9 @@ namespace WebApi.Modules.Reports.OrderStatusSummaryReport
             {
                 OrderStatusSummaryReportLoader l = new OrderStatusSummaryReportLoader();
                 l.SetDependencies(this.AppConfig, UserSession);
-                FwJsonDataTable dt = await l.RunReportAsync(request);
+                OrderStatusSummaryHeaderLoader Order = await l.RunReportAsync(request);
                 //l.HideSummaryColumnsInDataTable(request, dt);
-                return new OkObjectResult(dt);
+                return new OkObjectResult(Order);
             }
             catch (Exception ex)
             {
