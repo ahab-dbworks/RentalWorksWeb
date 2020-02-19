@@ -2507,7 +2507,7 @@ class OrderBase {
             var $report = ManifestReportController.openForm();
 
             FwModule.openSubModuleTab($form, $report);
-            
+
             //set order id value on the field
             FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderIdText);
             jQuery('.tab.submodule.active').find('.caption').html(`Print Manifest`);
@@ -3664,11 +3664,23 @@ class OrderBase {
         //        activityDateFields.show();
         //    }
         //});
+           // $newFields = $fieldsDataObj.remove(oldDateFields);
+            //const oldDateFields = $form.find('.og-datetime');
+
 
         const scheduleFields = $form.find('.schedule-date-fields');
-        const activityDateFields = $form.find('.activity-dates');
         scheduleFields.remove();
+        const activityDateFields = $form.find('.activity-dates');
         activityDateFields.show();
+
+        function addNewFieldsToDataObj($form, $newFieldsObj) {
+            const $fieldsDataObj = $form.data('fields');
+            const $newFields = $fieldsDataObj.add($newFieldsObj);
+            $form.data('fields', $newFields);
+        }
+
+        const newDateFields = $form.find('.pick-date-validation');
+        addNewFieldsToDataObj($form, newDateFields);
 
         $form.data('beforesave', request => {
             if ($form.find('.activity-dates:visible').length > 0) {

@@ -634,16 +634,16 @@ class Order extends OrderBase {
                     <div class="flexcolumn" style="flex:1 1 300px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Schedule">
                         <div class="flexrow schedule-date-fields"><!-- removed class date-field -->
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation" data-caption="Pick Date" data-dateactivitytype="PICK" data-datafield="PickDate" style="flex:1 1 115px;"></div>
-                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Pick Time" data-timeactivitytype="PICK" data-datafield="PickTime" style="flex:1 1 84px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation og-datetime" data-caption="Pick Date" data-dateactivitytype="PICK" data-datafield="PickDate" style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield og-datetime" data-caption="Pick Time" data-timeactivitytype="PICK" data-datafield="PickTime" style="flex:1 1 84px;"></div>
                         </div>
                         <div class="flexrow schedule-date-fields">
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation" data-caption="From Date" data-dateactivitytype="START" data-datafield="EstimatedStartDate" style="flex:1 1 115px;"></div>
-                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="From Time" data-timeactivitytype="START" data-datafield="EstimatedStartTime" style="flex:1 1 84px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation og-datetime" data-caption="From Date" data-dateactivitytype="START" data-datafield="EstimatedStartDate" style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield og-datetime" data-caption="From Time" data-timeactivitytype="START" data-datafield="EstimatedStartTime" style="flex:1 1 84px;"></div>
                         </div>
                         <div class="flexrow schedule-date-fields">
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation" data-caption="To Date" data-dateactivitytype="STOP" data-datafield="EstimatedStopDate" style="flex:1 1 115px;"></div>
-                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="To Time" data-timeactivitytype="STOP" data-datafield="EstimatedStopTime" style="flex:1 1 84px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation og-datetime" data-caption="To Date" data-dateactivitytype="STOP" data-datafield="EstimatedStopDate" style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield og-datetime" data-caption="To Time" data-timeactivitytype="STOP" data-datafield="EstimatedStopTime" style="flex:1 1 84px;"></div>
                         </div>
                         <div class="activity-dates" style="display:none;"></div>
                         <!--<div class="activity-dates-toggle"></div>-->
@@ -1827,6 +1827,7 @@ class Order extends OrderBase {
         if ($form.attr('data-mode') !== 'NEW') {
             let sessionId, $lossAndDamageItemGridControl;
             const userWarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+            const userLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             const dealId = FwFormField.getValueByDataField($form, 'DealId');
             const HTML: Array<string> = [];
             HTML.push(
@@ -1877,8 +1878,8 @@ class Order extends OrderBase {
                 $browse.find('.fwbrowse-menu').hide();
 
                 $browse.data('ondatabind', function (request) {
-                    request.ActiveViewFields = OrderController.ActiveViewFields;
-                    request.pagesize = 15;
+                    request.ActiveViewFields = { Status: ["ALL"], LocationId: [userLocationId] };
+                    request.pagesize = 16;
                     request.orderby = 'OrderDate desc';
                     request.miscfields = {
                         LossAndDamage: true,
