@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Logic;
+
 namespace WebApi.Modules.HomeControls.CheckOutPendingItem
 {
     [Route("api/v1/[controller]")]
@@ -28,6 +30,14 @@ namespace WebApi.Modules.HomeControls.CheckOutPendingItem
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkoutpendingitem/addtoorder
+        [HttpPost("addtoorder")]
+        [FwControllerMethod(Id: "2VoXN2oAIUsF", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<TSpStatusResponse>> CheckOutPendingItemAddToOrder([FromBody]CheckOutPendingItemAddToOrderRequest request)
+        {
+            return await CheckOutPendingItemFunc.CheckOutPendingItemAddToOrder(AppConfig, UserSession, request);
         }
         //------------------------------------------------------------------------------------ 
     }
