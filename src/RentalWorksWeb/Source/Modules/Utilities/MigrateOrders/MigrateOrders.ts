@@ -277,8 +277,9 @@ class MigrateOrders {
         $browse = FwModule.openBrowse($browse);
         $browse.find('.fwbrowse-menu').hide();
 
+        const userLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
         $browse.data('ondatabind', request => {
-            request.ActiveViewFields = OrderController.ActiveViewFields;
+            request.ActiveViewFields = { Status: ["ALL"], LocationId: [userLocationId] };
             request.orderby = 'OrderDate desc';
         });
         return $browse;
