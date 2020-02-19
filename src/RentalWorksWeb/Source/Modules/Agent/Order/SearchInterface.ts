@@ -217,12 +217,12 @@ class SearchInterface {
                 break;
             case 'Order':
             case 'Quote':
-                pickDate = FwFormField.getValueByDataField($form, 'PickDate');
-                startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-                stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-                FwFormField.setValueByDataField($popup, 'FromDate', startDate);
-                FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
+                pickDate = FwFormField.getValue($form, 'div[data-dateactivitytype="PICK"]');
                 FwFormField.setValueByDataField($popup, 'PickDate', pickDate);
+                startDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
+                FwFormField.setValueByDataField($popup, 'FromDate', startDate);
+                stopDate = FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]');
+                FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
                 break;
             case 'PurchaseOrder':
                 $popup.find('[data-datafield="PickDate"], [data-datafield="FromDate"], [data-datafield="ToDate"]').hide();
