@@ -169,8 +169,8 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"LYN8AJG5zSia")]
         //public bool? RentalShowMonthlyCostExtended { get { return rentalOrderTypeFields.ShowMonthlyCostExtended; } set { rentalOrderTypeFields.ShowMonthlyCostExtended = value; } }
 
-        //[FwLogicProperty(Id:"7o70mG7UnKwj")]
-        //public bool? RentalShowPeriodCostExtended { get { return rentalOrderTypeFields.ShowPeriodCostExtended; } set { rentalOrderTypeFields.ShowPeriodCostExtended = value; } }
+        [FwLogicProperty(Id: "7o70mG7UnKwj")]
+        public bool? RentalShowPeriodCostExtended { get { return rentalOrderTypeFields.ShowPeriodCostExtended; } set { rentalOrderTypeFields.ShowPeriodCostExtended = value; } }
 
         [FwLogicProperty(Id:"aOePQPWqucTA")]
         public bool? RentalShowDiscountPercent { get { return rentalOrderTypeFields.ShowDiscountPercent; } set { rentalOrderTypeFields.ShowDiscountPercent = value; } }
@@ -1365,8 +1365,8 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"FT79HMe1b7hv")]
         //public bool? RentalSaleShowMonthlyCostExtended { get { return rentalSaleOrderTypeFields.ShowMonthlyCostExtended; } set { rentalSaleOrderTypeFields.ShowMonthlyCostExtended = value; } }
 
-        //[FwLogicProperty(Id:"HOzoILrcWWLI")]
-        //public bool? RentalSaleShowPeriodCostExtended { get { return rentalSaleOrderTypeFields.ShowPeriodCostExtended; } set { rentalSaleOrderTypeFields.ShowPeriodCostExtended = value; } }
+        [FwLogicProperty(Id: "HOzoILrcWWLI")]
+        public bool? RentalSaleShowPeriodCostExtended { get { return rentalSaleOrderTypeFields.ShowPeriodCostExtended; } set { rentalSaleOrderTypeFields.ShowPeriodCostExtended = value; } }
 
         //[FwLogicProperty(Id:"TVcYL9mIH8Wg")]
         //public bool? RentalSaleShowDaysPerWeek { get { return rentalSaleOrderTypeFields.ShowDaysPerWeek; } set { rentalSaleOrderTypeFields.ShowDaysPerWeek = value; } }
@@ -1970,6 +1970,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (RentalShowConflictDateAllWarehouses == true) { showFields.Add("ConflictDateAllWarehouses"); }
                 if (RentalShowConsignmentConflictDate == true) { showFields.Add("ConflictDateConsignment"); }
                 if (RentalShowUnit == true) { showFields.Add("Unit"); }
+                if (RentalShowCost == true) { showFields.Add("UnitCost"); }
                 if (RentalShowMarkupPercent == true) { showFields.Add("MarkupPercent"); }
                 if (RentalShowMarginPercent == true) { showFields.Add("MarginPercent"); }
                 if (RentalShowRate == true) { showFields.Add("Rate"); }
@@ -1984,6 +1985,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (RentalShowMonthlyExtended == true) { showFields.Add("MonthlyExtended"); }
                 if (RentalShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
                 if (RentalShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (RentalShowPeriodCostExtended == true) { showFields.Add("PeriodCostExtended"); }
                 if (RentalShowTaxable == true) { showFields.Add("Taxable"); }
                 if (RentalShowWarehouse == true) { showFields.Add("Warehouse"); }
                 if (RentalShowReturnToWarehouse == true) { showFields.Add("ReturnToWarehouse"); }
@@ -2034,6 +2036,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (SalesShowConflictDate == true) { showFields.Add("ConflictDate"); }
                 if (SalesShowConflictDateAllWarehouses == true) { showFields.Add("ConflictDateAllWarehouses"); }
                 if (SalesShowUnit == true) { showFields.Add("Unit"); }
+                if (SalesShowCost == true) { showFields.Add("UnitCost"); }
                 if (SalesShowMarkupPercent == true) { showFields.Add("MarkupPercent"); }
                 if (SalesShowMarginPercent == true) { showFields.Add("MarginPercent"); }
                 if (SalesShowRate == true) { showFields.Add("Rate"); }
@@ -2042,6 +2045,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (SalesShowUnitExtended == true) { showFields.Add("UnitExtended"); }
                 if (SalesShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
                 if (SalesShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (SalesShowPeriodCostExtended == true) { showFields.Add("PeriodCostExtended"); }
                 if (SalesShowTaxable == true) { showFields.Add("Taxable"); }
                 if (SalesShowWarehouse == true) { showFields.Add("Warehouse"); }
                 if (SalesShowNotes == true) { showFields.Add("Notes"); }
@@ -2089,6 +2093,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (MiscShowBillablePeriods == true) { showFields.Add("BillablePeriods"); }
                 if (MiscShowSubQuantity == true) { showFields.Add("SubQuantity"); }
                 if (MiscShowUnit == true) { showFields.Add("Unit"); }
+                if (MiscShowCost == true) { showFields.Add("UnitCost"); }
                 if (MiscShowRate == true) { showFields.Add("Rate"); }
                 if (MiscShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
                 if (MiscShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
@@ -2099,6 +2104,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (MiscShowMonthlyExtended == true) { showFields.Add("MonthlyExtended"); }
                 if (MiscShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
                 if (MiscShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (MiscShowPeriodCostExtended == true) { showFields.Add("PeriodCostExtended"); }
                 if (MiscShowTaxable == true) { showFields.Add("Taxable"); }
                 if (MiscShowWarehouse == true) { showFields.Add("Warehouse"); }
                 if (MiscShowNotes == true) { showFields.Add("Notes"); }
@@ -2148,6 +2154,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (LaborShowHours == true) { showFields.Add("Hours"); }
                 if (LaborShowSubQuantity == true) { showFields.Add("SubQuantity"); }
                 if (LaborShowUnit == true) { showFields.Add("Unit"); }
+                if (LaborShowCost == true) { showFields.Add("UnitCost"); }
                 if (LaborShowRate == true) { showFields.Add("Rate"); }
                 if (LaborShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
                 if (LaborShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
@@ -2158,6 +2165,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (LaborShowMonthlyExtended == true) { showFields.Add("MonthlyExtended"); }
                 if (LaborShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
                 if (LaborShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (LaborShowPeriodCostExtended == true) { showFields.Add("PeriodCostExtended"); }
                 if (LaborShowTaxable == true) { showFields.Add("Taxable"); }
                 if (LaborShowWarehouse == true) { showFields.Add("Warehouse"); }
                 if (LaborShowNotes == true) { showFields.Add("Notes"); }
@@ -2193,6 +2201,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (RentalSaleShowCost == true) { showFields.Add("UnitCost"); }
                 if (RentalSaleShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
                 if (RentalSaleShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (RentalSaleShowPeriodCostExtended == true) { showFields.Add("PeriodCostExtended"); }
                 if (RentalSaleShowTaxable == true) { showFields.Add("Taxable"); }
                 if (RentalSaleShowWarehouse == true) { showFields.Add("Warehouse"); }
                 if (RentalSaleShowNotes == true) { showFields.Add("Notes"); }
@@ -2229,6 +2238,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (LossAndDamageShowCost == true) { showFields.Add("UnitCost"); }
                 if (LossAndDamageShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
                 if (LossAndDamageShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                //if (LossAndDamageShowPeriodCostExtended == true) { showFields.Add("PeriodCostExtended"); }
                 showFields.Add("RetiredReason");
                 if (LossAndDamageShowTaxable == true) { showFields.Add("Taxable"); }
                 if (LossAndDamageShowWarehouse == true) { showFields.Add("Warehouse"); }
