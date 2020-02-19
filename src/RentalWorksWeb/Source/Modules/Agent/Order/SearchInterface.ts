@@ -760,7 +760,7 @@ class SearchInterface {
             { value: 'PARTNO', text: 'Part No.' }
         ], true);
 
-        this.saveViewSettings($popup);
+        //this.saveViewSettings($popup);
     }
     //----------------------------------------------------------------------------------------------
     getViewSettings($popup) {
