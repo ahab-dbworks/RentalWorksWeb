@@ -361,17 +361,6 @@ class OrderItemGrid {
                 $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
-                if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
-                    const discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
-                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
-                    const isRentalGrid = jQuery($control).parent('[data-grid="OrderItemGrid"]').hasClass('R');
-                    if (isRentalGrid === true) {
-                        const daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
-                        FwBrowse.setFieldValue($control, $generatedtr, 'DaysPerWeek', { value: daysPerWeek });
-                    }
-                }
-
                 if ($generatedtr.hasClass("newmode")) {
                     const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
                     const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
