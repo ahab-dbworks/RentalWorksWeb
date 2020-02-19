@@ -239,7 +239,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairOrderStatusReport
                     {
                         select.AddWhere("billed " + (request.Billed.GetValueOrDefault(false) ? "=" : "<>") + " 'T'");
                     }
-                    if (!request.IncludeOutsideRepairsOnly.GetValueOrDefault(false))
+                    if (request.IncludeOutsideRepairsOnly.GetValueOrDefault(false))
                     {
                         select.AddWhere("vendorid is not null");
                     }

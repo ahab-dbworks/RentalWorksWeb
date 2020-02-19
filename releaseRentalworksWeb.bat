@@ -194,6 +194,7 @@ if exist RentalWorksQuikScan\ (rmdir RentalWorksQuikScan /S /Q)
 if exist %productname%WebApi\ (rmdir %productname%WebApi /S /Q)
 
 rem copy the ZIP delivable to "history" sub-directory
+if not exist history\ mkdir history
 copy %zipfilename% history
 
 set ftpcommandfilename=ftp.txt

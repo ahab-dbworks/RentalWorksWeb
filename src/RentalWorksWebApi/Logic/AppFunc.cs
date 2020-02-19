@@ -680,6 +680,9 @@ namespace WebApi.Logic
             public string companyname { get; set; } = string.Empty;
             public string locationcolor { get; set; } = string.Empty;
             public string ratetype { get; set; } = string.Empty;
+            public string defaultcurrency { get; set; } = string.Empty;
+            public string defaultcurrencyid { get; set; } = string.Empty;
+            public string defaultcurrencycode { get; set; } = string.Empty;
         }
         public static async Task<SessionLocation> GetSessionLocationAsync(FwApplicationConfig appConfig, string locationid)
         {
@@ -688,8 +691,8 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select locationid, location, locationcolor, company, ratetype");
-                    qry.Add("from location with (nolock)");
+                    qry.Add("select locationid, location, locationcolor, company, ratetype, defaultcurrencyid, defaultcurrency, defaultcurrencycode");
+                    qry.Add("from locationview with (nolock)");
                     qry.Add("where locationid = @locationid");
                     qry.AddParameter("@locationid", locationid);
                     await qry.ExecuteAsync();
@@ -698,6 +701,9 @@ namespace WebApi.Logic
                     response.companyname = qry.GetField("company").ToString().TrimEnd();
                     response.locationcolor = qry.GetField("locationcolor").ToHtmlColor();
                     response.ratetype = qry.GetField("ratetype").ToString().TrimEnd();
+                    response.defaultcurrencyid = qry.GetField("defaultcurrencyid").ToString().TrimEnd();
+                    response.defaultcurrency = qry.GetField("defaultcurrency").ToString().TrimEnd();
+                    response.defaultcurrencycode = qry.GetField("defaultcurrencycode").ToString().TrimEnd();
                 }
             }
             return response;

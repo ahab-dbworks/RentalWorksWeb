@@ -7,12 +7,12 @@ class OrderItemGrid {
         let $grid = $tr.parents('[data-grid="OrderItemGrid"]');
         let inventoryType;
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
-            var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
-            var pickTime = FwFormField.getValueByDataField($form, 'PickTime');
-            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-            var fromTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
-            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-            var toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
+            var pickDate = FwFormField.getValue($form, 'div[data-dateactivitytype="PICK"]');
+            var pickTime = FwFormField.getValue($form, 'div[data-timeactivitytype="PICK"]');
+            var fromDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
+            var fromTime = FwFormField.getValue($form, 'div[data-timeactivitytype="START"]');
+            var toDate = FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]');
+            var toTime = FwFormField.getValue($form, 'div[data-timeactivitytype="STOP"]');
         };
         const $td = $tr.find('[data-browsedatafield="InventoryId"]');
 
@@ -187,39 +187,27 @@ class OrderItemGrid {
                 //Option to open up Complete/Kit grid to add items
                 let itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
                 const $browsecontextmenu = $tr.find('.browsecontextmenu');
-                //$browsecontextmenu.data('contextmenuoptions', $tr => {
-                    //if (itemClass === 'C' || itemClass === 'K') {
-                        $browsecontextmenu.data('contextmenuoptions', $tr => {
-                            FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
-                                try {
-                                    this.renderCompleteKitGridPopup($control, $tr, itemClass);
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            });
-                            //Insert line-item option
-                            FwContextMenu.addMenuItem($browsecontextmenu, `Insert Line Item`, () => {
-                                try {
-                                    this.insertLineItem($control, $tr);
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            });
-                        });
-                    //}
-                    //else if (itemClass === 'KI' || itemClass === 'CI') {
-                    //    FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
-                    //        try {
-                    //            const parentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
-                    //            const $mainTr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${parentId}"]`).parents('tr');
-                    //                this.renderCompleteKitGridPopup($control, $tr, itemClass);
-                    //        } catch (ex) {
-                    //            FwFunc.showError(ex);
-                    //        }
-                    //    });
-                    //};
+                const classList: any = ['C', 'CI', 'CO', 'K', 'KI', 'KO'];
 
-                //});
+                $browsecontextmenu.data('contextmenuoptions', $tr => {
+                    if (classList.includes(itemClass)) {
+                        FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
+                            try {
+                                this.renderCompleteKitGridPopup($control, $tr, itemClass);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        });
+                    }
+                    //Insert line-item option
+                    FwContextMenu.addMenuItem($browsecontextmenu, `Insert Line Item`, () => {
+                        try {
+                            this.insertLineItem($control, $tr);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                });
             });
 
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
@@ -1322,7 +1310,7 @@ class OrderItemGrid {
         switch (itemClass) {
             case 'C':
             case 'CI':
-            case 'CO': //valid value?
+            case 'CO':
                 type = 'Complete';
                 break;
             case 'K':
