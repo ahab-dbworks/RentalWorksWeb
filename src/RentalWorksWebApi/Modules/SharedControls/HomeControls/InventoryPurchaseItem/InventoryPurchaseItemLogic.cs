@@ -1,4 +1,5 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.BarCodeHolding;
 
@@ -45,5 +46,15 @@ namespace WebApi.Modules.HomeControls.InventoryPurchaseItem
         public string DateStamp { get { return inventoryPurchaseItem.DateStamp; } set { inventoryPurchaseItem.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                // need to check for duplication on new Bar Codes and Serial Numbers
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
     }
 }
