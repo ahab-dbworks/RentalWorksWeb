@@ -37,16 +37,18 @@ class CheckOutPendingItemGrid {
         const quantity = FwBrowse.getValueByDataField($control, $tr, 'QuantityOrdered');
         const orderId = FwBrowse.getValueByDataField($control, $tr, 'OrderId');
         const description = FwBrowse.getValueByDataField($control, $tr, 'Description');
+        const remaining = FwBrowse.getValueByDataField($control, $tr, 'MissingQuantity');
         const iCode = $tr.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext');
         const html = `
                 <div id="decreaseOrderQty">
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" data-enabled="false" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" style="flex:1 1 75px;"></div>
-                        <div data-control="FwFormField" data-type="text" data-enabled="false" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 75px;"></div>
+                        <div data-control="FwFormField" data-type="text" data-enabled="false" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" style="flex:1 1 0px;"></div>
+                        <div data-control="FwFormField" data-type="text" data-enabled="false" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 25vw;"></div>
                     </div>
-                    <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" data-enabled="false" class="fwcontrol fwformfield" data-caption="Ordered" data-datafield="Ordered" style="flex:1 1 75px;"></div>
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty to Decrease" data-datafield="QtyToDecrease" style="flex:1 1 75px;"></div>                
+                    <div class="flexrow" style="max-width:21vw;">
+                        <div data-control="FwFormField" data-type="number" data-enabled="false" class="fwcontrol fwformfield" data-caption="Ordered" data-datafield="Ordered" style="flex:1 1 7vw;"></div>
+                        <div data-control="FwFormField" data-type="number" data-enabled="false" class="fwcontrol fwformfield" data-caption="Remaining" data-datafield="Remaining" style="flex:1 1 7vw;"></div>                       
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty to Decrease" data-datafield="QtyToDecrease" style="flex:1 1 7vw;"></div>                
                     </div>
                 </div>`;
 
@@ -57,7 +59,10 @@ class CheckOutPendingItemGrid {
         FwFormField.setValueByDataField($confirmation, 'InventoryId', iCode);
         FwFormField.setValueByDataField($confirmation, 'Description', description);
         FwFormField.setValueByDataField($confirmation, 'Ordered', quantity);
+        FwFormField.setValueByDataField($confirmation, 'Remaining', remaining);
+        FwFormField.setValueByDataField($confirmation, 'QtyToDecrease', remaining);
         FwConfirmation.addButton($confirmation, 'Cancel', true);
+        $confirmation.find('.fwconfirmationbox').css('width', '40vw');
 
         $ok.on('click', e => {
             const request: any = {
@@ -67,6 +72,7 @@ class CheckOutPendingItemGrid {
                 InventoryId: inventoryId
             };
 
+            FwConfirmation.destroyConfirmation($confirmation);
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/decreaseorderquantity`, request, FwServices.defaultTimeout,
                 response => {
                     const pageNo = parseInt($control.attr('data-pageno'));
@@ -77,7 +83,6 @@ class CheckOutPendingItemGrid {
                             request.pageno = pageNo;
                         });
                     }
-                    FwConfirmation.destroyConfirmation($confirmation);
                     FwBrowse.search($control);
                 }, ex => FwFunc.showError(ex), $control);
         })
