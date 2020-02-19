@@ -937,13 +937,14 @@ class OrderItemGrid {
                 subWorksheetData.RecType = 'RS'
             }
             const $form = jQuery(event.currentTarget).closest('.fwform');
+
             subWorksheetData.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
             subWorksheetData.RateType = FwFormField.getValueByDataField($form, 'RateType');
             subWorksheetData.CurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
             subWorksheetData.CurrencyCode = FwFormField.getTextByDataField($form, 'CurrencyId');
-            subWorksheetData.EstimatedStartDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-            subWorksheetData.EstimatedStopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-            subWorksheetData.EstimatedStartTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
+            subWorksheetData.EstimatedStartDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
+            subWorksheetData.EstimatedStopDate = FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]');
+            subWorksheetData.EstimatedStartTime = FwFormField.getValue($form, 'div[data-timeactivitytype="START"]');
             const $subWorksheetForm = SubWorksheetController.openForm('EDIT', subWorksheetData);
             FwModule.openSubModuleTab($form, $subWorksheetForm);
             jQuery('.tab.submodule.active').find('.caption').html('Sub Worksheet');
