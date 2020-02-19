@@ -80,6 +80,28 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/checkout/ordermessages/A0000001
+        [HttpGet("ordermessages/{id}")]
+        [FwControllerMethod(Id: "bduTu1UqSNBPS", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<OrderMessagesResponse>> GetOrderMessages([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                OrderMessagesRequest request = new OrderMessagesRequest();
+                request.OrderId = id;
+                OrderMessagesResponse response = await OrderFunc.GetOrderMessages(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
         // GET api/v1/checkout/stagingtabs?OrderId&WarehouseId
         [HttpGet("stagingtabs")]
         [FwControllerMethod(Id: "2EfNs9npvIhkL", ActionType: FwControllerActionTypes.Browse)]

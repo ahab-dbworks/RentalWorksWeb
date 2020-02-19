@@ -158,6 +158,17 @@ namespace WebApi.Modules.Agent.Order
     {
     }
 
+    public class OrderMessagesRequest
+    {
+        public string OrderId { get; set; }
+    }
+    public class OrderMessagesResponse : TSpStatusResponse
+    {
+        public List<string> Messages = new List<string>();
+    }
+
+
+
     public static class OrderFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -565,6 +576,30 @@ namespace WebApi.Modules.Agent.Order
             qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
             await qry.ExecuteNonQueryAsync();
             response.success = true;
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<OrderMessagesResponse> GetOrderMessages(FwApplicationConfig appConfig, FwUserSession userSession, OrderMessagesRequest request)
+        {
+            OrderMessagesResponse response = new OrderMessagesResponse();
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getordermessagesweb", appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    response.success = true;
+                    FwJsonDataTable dt = null;
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                    qry.AddColumn("message", "Message", FwDataTypes.Text, true, false, false);
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        //response.Messages.Add(row[dt.GetColumnNo("message")].ToString());
+                        response.Messages.Add(row[0].ToString());
+                    }
+                }
+            }
 
             return response;
         }
