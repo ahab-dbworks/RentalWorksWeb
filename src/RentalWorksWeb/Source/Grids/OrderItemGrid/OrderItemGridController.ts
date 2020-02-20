@@ -1330,22 +1330,22 @@ class OrderItemGrid {
         FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
         FwPopup.showPopup($popup);
 
-        let inventoryId;
-        let parentId;
+        let packageId;
+        let parentOrderItemId;
         const orderId = FwBrowse.getValueByDataField($control, $tr, 'OrderId');
         const optionTypes: any = ['KI', 'KO', 'CI', 'CO'];
         if (optionTypes.includes(itemClass)) {
             const optionParentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
             let $parenttr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${optionParentId}"]`).parents('tr');
-            inventoryId = FwBrowse.getValueByDataField($control, $parenttr, 'ParentId');
-            parentId = FwBrowse.getValueByDataField($control, $parenttr, 'OrderItemId');
+            packageId = FwBrowse.getValueByDataField($control, $parenttr, 'ParentId');
+            parentOrderItemId = FwBrowse.getValueByDataField($control, $parenttr, 'OrderItemId');
         } else {
             //inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
-            inventoryId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
-            parentId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
+            packageId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+            parentOrderItemId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
         }
 
-        FwFormField.setValueByDataField($popup.find('.fwform'), 'ParentId', parentId);
+        FwFormField.setValueByDataField($popup.find('.fwform'), 'ParentId', packageId);
 
         const $completeKitGrid = FwBrowse.renderGrid({
             nameGrid: `Inventory${type}Grid`,
@@ -1359,7 +1359,8 @@ class OrderItemGrid {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    PackageId:  (itemClass === 'K' || itemClass === 'C') ? inventoryId: parentId,
+                    //PackageId:  (itemClass === 'K' || itemClass === 'C') ? inventoryId: parentId,
+                    PackageId: packageId,
                     WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
                 };
             },
@@ -1427,7 +1428,7 @@ class OrderItemGrid {
             }
 
             request.OrderId = orderId;
-            request.ParentId = parentId;
+            request.ParentOrderItemId = parentOrderItemId;
             request.Items = $items;
             FwAppData.apiMethod(true, 'POST', "api/v1/orderitem/insertoption", request, FwServices.defaultTimeout,
                 response => {
