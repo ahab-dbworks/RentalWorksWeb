@@ -574,6 +574,7 @@
     <TypeScriptCompile Include="Source\Modules\Containers\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\ChangeOrderStatus\ChangeOrderStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\InventorySequenceUtility\InventorySequenceUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryUnretireUtility\InventoryUnretireUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryRetireUtility\InventoryRetireUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\AssignBarCodes\AssignBarCodes.ts" />

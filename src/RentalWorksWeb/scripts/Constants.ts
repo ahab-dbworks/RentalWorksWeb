@@ -789,6 +789,7 @@ var Constants = {
                 InventoryPurchaseUtility:  { id: 'sOxbXBmCPc9y',  caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility', nodetype: 'Module' },
                 InventoryRetireUtility:    { id: 'KIfiUkxPPwRBr', caption: 'Inventory Retire Utility', nav: 'module/inventoryretireutility', nodetype: 'Module' },
                 InventoryUnretireUtility:  { id: 'K1yCLThxh8VX8', caption: 'Inventory Unretire Utility', nav: 'module/inventoryunretireutility', nodetype: 'Module' },
+                InventorySequenceUtility:  { id: 'NY5nvYtS0WnEj', caption: 'Inventory Sequence Utility', nav: 'module/inventorysequenceutility', nodetype: 'Module' },
                 InvoiceProcessBatch:       { id: 'I8d2wTNNRmRJa', caption: 'Process Invoices',        nav: 'module/invoiceprocessbatch', nodetype: 'Module' },
                 MigrateOrders:             { id: '8NYSNibMVoO',   caption: 'Migrate Orders',          nav: 'module/migrateorders', nodetype: 'Module' },
                 QuikActivityCalendar:      { id: 'yhYOLhLE92IT',  caption: 'QuikActivity Calendar',   nav: 'module/quikactivitycalendar', nodetype: 'Module' },
