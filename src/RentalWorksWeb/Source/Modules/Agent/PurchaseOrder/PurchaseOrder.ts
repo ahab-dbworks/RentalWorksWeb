@@ -1538,6 +1538,14 @@ class PurchaseOrder implements IModule {
         if (!isSubMisc) { $form.find('.submisctab').hide() }
         if (!isSubLabor) { $form.find('.sublabortab').hide() }
 
+        //summary section visibility
+        isRental ? $form.find('.rental-pl').show() : $form.find('.rental-pl').hide();
+        isSales ? $form.find('.sales-pl').show() : $form.find('.sales-pl').hide();
+        isLabor ? $form.find('.labor-pl').show() : $form.find('.labor-pl').hide();
+        isMisc ? $form.find('.misc-pl').show() : $form.find('.misc-pl').hide();
+        //usedSaleVal ? $form.find('.usedsale-pl').show() : $form.find('.usedsale-pl').hide();
+
+
         if (!isMisc && !isLabor && !isSubRent && !isSubSale && !isSubMisc && !isSubLabor) $scheduleDateFields.hide();
 
         //Click Event on tabs to load grids/browses
@@ -2256,6 +2264,10 @@ class PurchaseOrder implements IModule {
         $form.find('.delivery-type-radio').on('change', event => {
             this.deliveryTypeAddresses($form, event);
         });
+        //summary toggle buttons
+        $form.find('.profit-loss-total input').off('change').on('change', e => {
+            this.loadSummary($form);
+        });
         // Stores previous value for Receive / ReturnDeliveryDeliveryType
         $form.find('.delivery-delivery').on('click', event => {
             const $element = jQuery(event.currentTarget);
@@ -2382,6 +2394,45 @@ class PurchaseOrder implements IModule {
             }
         }
     }
+    //----------------------------------------------------------------------------------------------
+    loadSummary($form: any) {
+        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+        FwFormField.disable($form.find('.frame'));
+        let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+        $form.find('.frame input').css('width', '100%');
+        if (id !== '') {
+            if (typeof period !== 'undefined') {
+                id = `${id}~${period}`
+            }
+            FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        $form.find(`[data-framedatafield="${key}"] input`).val(response[key]);
+                        $form.find(`[data-framedatafield="${key}"]`).attr('data-originalvalue', response[key]);
+                    }
+                }
+
+                const $profitFrames = $form.find('.profitframes .frame');
+                $profitFrames.each(function () {
+                    var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
+                    if (profit > 0) {
+                        jQuery(this).find('input').css('background-color', '#A6D785');
+                    } else if (profit < 0) {
+                        jQuery(this).find('input').css('background-color', '#ff9999');
+                    }
+                });
+
+                const $totalFrames = $form.find('.totalColors input');
+                $totalFrames.each(function () {
+                    var total = jQuery(this).val();
+                    if (total != 0) {
+                        jQuery(this).css('background-color', '#ffffe5');
+                    }
+                })
+            }, null, $form);
+            $form.find(".frame .add-on").children().hide();
+        }
+    };
     //----------------------------------------------------------------------------------------------
     getWarehouseAddress($form: any, prefix: string): void {
         //const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid; - J.Pace :: changed from user warehouse to order warehouse at request of mgmt 12/31/19
