@@ -1226,19 +1226,19 @@ class Order extends OrderBase {
                   <div class="flexcolumn" style="flex:0 0 auto;">
                   <div class="flexcolumn summarySection" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="L&D Totals">
-                      <div class="flexrow">
+                      <div class="flexrow lossdamagetotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 175px;"></div>
                       </div>
-                      <div class="flexrow">
+                      <div class="flexrow lossdamagetotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 175px;"></div>
                       </div>
-                      <div class="flexrow">
+                      <div class="flexrow lossdamagetotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 175px;"></div>
                       </div>
-                      <div class="flexrow">
+                      <div class="flexrow lossdamagetotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 175px;"></div>
                       </div>
-                      <div class="flexrow">
+                      <div class="flexrow lossdamagetotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 175px;"></div>
                       </div>
                     </div>
