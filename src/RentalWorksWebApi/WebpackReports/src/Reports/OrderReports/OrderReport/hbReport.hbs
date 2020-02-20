@@ -13,7 +13,7 @@
     <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 40%;">
-    <span class="sub-title">{{Department}}</span>
+    <span class="sub-title" style="font-size:20px;">{{Department}}</span>
     <span class="title blue">{{Report}}</span>
   </div>
   <!-- Order Number & Date -->
@@ -363,16 +363,17 @@
     <thead data-rowtype="{{RowType}}">
       <tr><td>&nbsp;</td></tr><!-- spacer row -->
       <tr>
-        <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+        <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">&nbsp;</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Extended</th>
+        <th style="min-width:100px;">I-Code</th>
+        <th style="min-width:360px;">Description</th>
+        <th style="min-width:80px;padding-right:15px;" class="number alignRight">Quantity</th>
+        <th style="min-width:85px;" class="">Bar Code</th>
+        <th style="min-width:105px;" class="">Serial Number</th>
+        <th style="min-width:95px;" class="number alignRight">Price</th>
+        <th style="min-width:95px;" class="number alignRight">Discount %</th>
+        <th style="min-width:105px;" class="number alignRight">Extended</th>
       </tr>
     </thead>
     {{/ifEquals}}
@@ -433,7 +434,7 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-        <td class="alignRight">{{QuantityOrdered}}</td>
+        <td class="alignRight" style="padding-right:15px;">{{QuantityOrdered}}</td>
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -443,13 +444,29 @@
         {{/ifCond}}
         {{/ifNotEquals}}
 
-        <!-- spacer column -->
+        <!-- Bar Code -->
         {{#ifEquals ItemClass "ST"}}
         <td class="subTotalRow"></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-        <td class="alignRight"></td>
+        <td class="" style="padding-left:6px;">{{BarCode}}</td>
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td class="textRow"></td>
+        {{else}}
+        <td class="headerRow"></td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+
+        <!-- Serial Number -->
+        {{#ifEquals ItemClass "ST"}}
+        <td class="subTotalRow"></td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        <td class="" style="padding-left:6px;">{{SerialNumber}}</td>
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -511,7 +528,7 @@
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
     <tr>
-      <td colspan="4"></td>
+      <td colspan="5"></td>
       <td colspan="2" class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
       <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
     </tr>
@@ -528,22 +545,48 @@
     <thead data-rowtype="{{RowType}}">
       <tr><td>&nbsp;</td></tr><!-- spacer row -->
       <tr>
-        <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+        <td colspan="9" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">&nbsp;</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Period Extended</th>
+        <th style="min-width:90px;">Order</th>
+        <th style="min-width:90px;">I-Code</th>
+        <th style="min-width:265px;">Description</th>
+        <th style="min-width:80px;padding-right:15px;" class="number alignRight">Quantity</th>
+        <th style="min-width:85px;" class="">Bar Code</th>
+        <th style="min-width:105px;" class="">Serial Number</th>
+        <th style="min-width:95px;" class="number alignRight">Price</th>
+        <th style="min-width:95px;" class="number alignRight">Discount %</th>
+        <th style="min-width:105px;" class="number alignRight">Extended</th>
       </tr>
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
       <tr data-isbold="{{Bold}}">
+        <!-- Original Order Number -->
+        {{#ifEquals ItemClass "ST"}}
+        <td data-itemclass="{{ItemClass}}" class="subTotalRow"></td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        {{#ifCond ItemClass '===' "CI"}}
+        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{OriginalOrderNumber}}</td><!-- Complete Accessory -->
+        {{else}}
+        {{#ifCond ItemClass '===' "KI"}}
+        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{OriginalOrderNumber}}</td><!-- Kit Accessory -->
+        {{else}}
+        <td data-itemclass="{{ItemClass}}">{{OriginalOrderNumber}}</td><!-- Item -->
+        {{/ifCond}}
+        {{/ifCond}}
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td data-itemclass="{{ItemClass}}" class="textRow"></td>
+        {{else}}
+        <td data-itemclass="{{ItemClass}}" class="headerRow"></td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+
         <!-- I-Code -->
         {{#ifEquals ItemClass "ST"}}
         <td data-itemclass="{{ItemClass}}" class="subTotalRow"></td>
@@ -598,7 +641,7 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-        <td class="alignRight">{{QuantityOrdered}}</td>
+        <td class="alignRight" style="padding-right:15px;">{{QuantityOrdered}}</td>
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -608,13 +651,29 @@
         {{/ifCond}}
         {{/ifNotEquals}}
 
-        <!-- spacer column -->
+        <!-- Bar Code -->
         {{#ifEquals ItemClass "ST"}}
         <td class="subTotalRow"></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-        <td class="alignRight"></td>
+        <td class="" style="padding-left:6px;">{{BarCode}}</td>
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td class="textRow"></td>
+        {{else}}
+        <td class="headerRow"></td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+
+        <!-- Serial Number -->
+        {{#ifEquals ItemClass "ST"}}
+        <td class="subTotalRow"></td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        <td class="" style="padding-left:6px;">{{SerialNumber}}</td>
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -676,7 +735,7 @@
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
     <tr>
-      <td colspan="4"></td>
+      <td colspan="6"></td>
       <td colspan="2" class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
       <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
     </tr>
