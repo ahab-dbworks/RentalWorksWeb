@@ -20,7 +20,7 @@
         $field.attr('data-ismodified', 'false');
     }
     //---------------------------------------------------------------------------------
-    getFieldValue($browse, $tr, $field, field, originalvalue): void {
+    getFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, field: any, originalvalue: any): void {
         if ($field.attr('data-uniqueid1field') !== undefined && $field.attr('data-uniqueid1') !== undefined) {
             field[$field.attr('data-uniqueid1field')] = $field.attr('data-uniqueid1');
         }
@@ -44,9 +44,9 @@
         return isModified;
     }
     //---------------------------------------------------------------------------------
-    async loadThumbnails($imagesPopup: JQuery, baseapiurl: string, documentid: string) {
+    async loadThumbnails($field: JQuery, $imagesPopup: JQuery, baseapiurl: string, documentid: string) {
         const request = new FwAjaxRequest();
-        request.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/thumbnails?pageno=1&pagesize=10`);
+        request.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/thumbnails?pageno=1&pagesize=50`);
         request.httpMethod = 'GET';
         const getThumbnailsResponse = await FwAjax.callWebApi<any, any>(request);
         let thumbnails = [];
@@ -56,21 +56,28 @@
         let html: string | string[] = [];
         for (let i = 0; i < thumbnails.length; i++) {
             const thumbnail = thumbnails[i];
-            html.push(`<div class="thumbnail" data-imageid="${thumbnail.ImageId}" style="width:128px;max-height:128px;cursor:pointer;">`);
+            html.push(`<div class="thumbnail" data-imageid="${thumbnail.ImageId}" style="width:128px;max-height:128px;cursor:pointer;float:left;">`);
             html.push(`  <div style="display:flex;align-items:center;justify-content:center;"><img src="${thumbnail.DataUrl}" /></div>`);
             html.push(`</div>`);
         }
         html = html.join('\n');
-        $imagesPopup.find('.thumbnails').html(html);
+        $imagesPopup.find('.thumbnails').width(128 * thumbnails.length).html(html);
         
         // click on the first thumbnail so that a fullsize image is visible
-        const $allThumbnails = $imagesPopup.find('.thumbnail')
+        const $allThumbnails = $imagesPopup.find('.thumbnail');
+        const $btnImageViewer = $field.find('.btnImageViewer');
         if ($allThumbnails.length > 0) {
+            $btnImageViewer.text('collections');
             $allThumbnails.eq(0).click();
+        } else {
+            $btnImageViewer.text('add_circle_outline');
+            $imagesPopup.find('.largeimagecontainer').css({
+                backgroundImage: 'url(data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)'
+            })
         }
     }
     //---------------------------------------------------------------------------------
-    addImages($imagesPopup: JQuery, baseapiurl: string, documentid: string) {
+    addImages($field: JQuery, $imagesPopup: JQuery, baseapiurl: string, documentid: string) {
         const $pasteImageConfirmation = FwConfirmation.renderConfirmation('Upload Images', '');
         let pasteImageHtml: string | string[] = [];
         pasteImageHtml.push('');
@@ -87,44 +94,276 @@
         const $pasteImage = jQuery(pasteImageHtml);
         FwConfirmation.addJqueryControl($pasteImageConfirmation, $pasteImage);
 
-        // Add Upload button
-        const $btnUploadImage = FwConfirmation.addButton($pasteImageConfirmation, 'Upload', false);
-        $btnUploadImage.on('click', (e: JQuery.ClickEvent) => {
-            const uploadImageRequest = new FwAjaxRequest();
-            uploadImageRequest.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/image`);
-            uploadImageRequest.httpMethod = 'POST';
-            const $fileInput = <JQuery<HTMLInputElement>>$pasteImage.find('.fileinput');
-            let file = null;
-            if ($fileInput.length > 0 && $fileInput[0].files.length > 0) {
-                file = $fileInput[0].files[0];
-                const reader = new FileReader();
-                reader.addEventListener("load", async() => {
-                    uploadImageRequest.data = {
-                        DataUrl: reader.result,
-                        FileExtension: file.name.split('.').pop()
-                    };
-                    const response = await FwAjax.callWebApi<any, boolean>(uploadImageRequest);
-                    if (response) {
-                        FwNotification.renderNotification('SUCCESS', 'Image upload succeeded.');
-                        $fileInput.val('');
-                        await this.loadThumbnails($imagesPopup, baseapiurl, documentid);
-                    } else {
-                        FwNotification.renderNotification('ERROR', 'Image upload failed.');
-                    }
-                }, false);
-                reader.readAsDataURL(file);
-            } else {
-                FwNotification.renderNotification('ERROR', 'No file selected to upload.');
+        $pasteImage.find('.fileinput').on('change', (e: JQuery.ChangeEvent) => {
+            try {
+                const uploadImageRequest = new FwAjaxRequest();
+                uploadImageRequest.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/image`);
+                uploadImageRequest.httpMethod = 'POST';
+                uploadImageRequest.$elementToBlock = $imagesPopup;
+                const $fileInput = <JQuery<HTMLInputElement>>$pasteImage.find('.fileinput');
+                let file = null;
+                if ($fileInput.length > 0 && $fileInput[0].files.length > 0) {
+                    file = $fileInput[0].files[0];
+                    const reader = new FileReader();
+                    reader.addEventListener("load", async() => {
+                        uploadImageRequest.data = {
+                            DataUrl: reader.result,
+                            FileExtension: file.name.split('.').pop()
+                        };
+                        const response = await FwAjax.callWebApi<any, boolean>(uploadImageRequest);
+                        if (response) {
+                            $fileInput.val('');
+                            await this.loadThumbnails($field, $imagesPopup, baseapiurl, documentid);
+                        } else {
+                            FwNotification.renderNotification('ERROR', 'Image upload failed.');
+                        }
+                    }, false);
+                    reader.readAsDataURL(file);
+                } else {
+                    FwNotification.renderNotification('ERROR', 'No file selected to upload.');
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
             }
         });
-                        
+
+        // Add Upload button
+        //const $btnUploadImage = FwConfirmation.addButton($pasteImageConfirmation, 'Upload', false);
+        //$btnUploadImage.on('click', (e: JQuery.ClickEvent) => {
+        //    const uploadImageRequest = new FwAjaxRequest();
+        //    uploadImageRequest.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/image`);
+        //    uploadImageRequest.httpMethod = 'POST';
+        //    const $fileInput = <JQuery<HTMLInputElement>>$pasteImage.find('.fileinput');
+        //    let file = null;
+        //    if ($fileInput.length > 0 && $fileInput[0].files.length > 0) {
+        //        file = $fileInput[0].files[0];
+        //        const reader = new FileReader();
+        //        reader.addEventListener("load", async() => {
+        //            uploadImageRequest.data = {
+        //                DataUrl: reader.result,
+        //                FileExtension: file.name.split('.').pop()
+        //            };
+        //            const response = await FwAjax.callWebApi<any, boolean>(uploadImageRequest);
+        //            if (response) {
+        //                FwNotification.renderNotification('SUCCESS', 'Image upload succeeded.');
+        //                $fileInput.val('');
+        //                await this.loadThumbnails($field, $imagesPopup, baseapiurl, documentid);
+        //            } else {
+        //                FwNotification.renderNotification('ERROR', 'Image upload failed.');
+        //            }
+        //        }, false);
+        //        reader.readAsDataURL(file);
+        //    } else {
+        //        FwNotification.renderNotification('ERROR', 'No file selected to upload.');
+        //    }
+        //});
+        
         // Add Close button
         const $btnClosePasteImage = FwConfirmation.addButton($pasteImageConfirmation, 'Close', true);
-        $btnClosePasteImage.on('click', (e: JQuery.ClickEvent) => {
-            FwConfirmation.destroyConfirmation($pasteImageConfirmation);
-        });
 
         $btnClosePasteImage.focus();
+    }
+    //---------------------------------------------------------------------------------
+    async deleteImage($field: JQuery, $imagesPopup: JQuery, baseapiurl: string, documentid: string, imageid: string): Promise<boolean> {
+        const deleteImageRequest = new FwAjaxRequest();
+        deleteImageRequest.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/image/${imageid}`);
+        deleteImageRequest.httpMethod = 'DELETE';
+        const isDeleted = await FwAjax.callWebApi<any, boolean>(deleteImageRequest);
+        if (isDeleted) {
+            this.loadThumbnails($field, $imagesPopup, baseapiurl, documentid);
+        }
+        return isDeleted;
+    }
+    //---------------------------------------------------------------------------------
+    async openImageViewer($browse: JQuery, $tr: JQuery, $field: JQuery, baseapiurl: string, documentid: string) {
+        let mode: 'VIEW'|'NEW'|'EDIT' = 'VIEW';
+        if ($tr.hasClass('viewmode')) {
+            mode = 'VIEW';
+        }
+        else if ($tr.hasClass('newmode')) {
+            mode = 'NEW';
+        }
+        else if ($tr.hasClass('editmode')) {
+            mode = 'EDIT';
+        }
+        // create confirmation box
+        const $confirmation = FwConfirmation.renderConfirmation('Images', '');
+                
+        // build content for Images Popup
+        let html: string[] | string = [];
+        html.push('<div style="display:flex;flex-direction:column;flex: 1 1 0;">');
+        //html.push('  <div class="largeimagecontainer" style="flex:1 1 0;display:flex;align-items:center;justify-content:center;">');
+        html.push('  <div class="largeimagecontainer" style="flex:1 1 0;position:relative;">');
+        //html.push('    <i class="material-icons btnLeft" style="font-size:44px;position:absolute;top:50%;left:0;color:#ffffff;cursor:pointer;">keyboard_arrow_left</i>');
+        //html.push('    <i class="material-icons btnRight" style="font-size:44px;position:absolute;top:50%;right:0;color:#ffffff;cursor:pointer;">keyboard_arrow_right</i>');
+        //html.push(`    <img class="largeimage" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="max-width:100%;" />`);
+        html.push('  </div>');
+        //html.push('  <div style="flex:0 0 auto;text-align:center;">');
+        //html.push('    <a src="javascript:{}"style="color:#0000ff;text-decoration:underline;cursor:pointer;">Set a description</a>')
+        ////html.push('    <div>Image Description</div>');
+        ////html.push('    <div><input type="text" /></div>');
+        //html.push('  </div>');
+        //html.push('  <div style="flex:0 0 auto;">');
+        //html.push('    <div>Image Number</div>');
+        //html.push('    <div><input type="text" /></div>');
+        //html.push('  </div>');
+        html.push('  <div style="flex:0 0 auto;">');
+        //html.push('    <div class="toolbar" style="display:flex;justify-content:center;">');
+        //html.push('      <i class="material-icons btnAdd" style="font-size:44px;cursor:pointer;color:#ffffff;">library_add</i>');
+        //html.push('    </div>');
+        html.push('  </div>');
+        html.push('  <div class="thumbnailscontainer" style="flex:0 0 100px;position:relative;overflow:hidden;overflow-x:auto;">');
+        html.push('    <div class="thumbnails" style="position:absolute;white-space:no-wrap;/*flex:0 0 100px;display:flex;justify-content:center;*/"></div>');
+        html.push('  </div>');
+        html.push('</div>');
+        html = html.join('\n');
+        const $imagesPopup = jQuery(html);
+        FwConfirmation.addJqueryControl($confirmation, $imagesPopup);
+
+        // Add Images
+        if (mode === 'NEW' || mode === 'EDIT') {
+            const $btnAddImages = FwConfirmation.addButton($confirmation, 'Add Images', false);
+            const idAddImages = FwAppData.generateUUID().replace(/-/g, '');
+            $btnAddImages.html(`<label for="${idAddImages}" style="cursor:pointer;">Add Images</label><input type="file" style="opacity:0;position:absolute;z-index:-1;" id="${idAddImages}" />`);
+            $btnAddImages.find(`#${idAddImages}`).on('change', (e: JQuery.ChangeEvent) => {
+                const $fileInput = jQuery<HTMLInputElement>(e.currentTarget);
+                try {
+                    const uploadImageRequest = new FwAjaxRequest();
+                    uploadImageRequest.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/image`);
+                    uploadImageRequest.httpMethod = 'POST';
+                    uploadImageRequest.$elementToBlock = $imagesPopup;
+                    let file = null;
+                    if ($fileInput.length > 0 && $fileInput[0].files.length > 0) {
+                        file = $fileInput[0].files[0];
+                        const reader = new FileReader();
+                        reader.addEventListener("load", async() => {
+                            uploadImageRequest.data = {
+                                DataUrl: reader.result,
+                                FileExtension: file.name.split('.').pop()
+                            };
+                            const response = await FwAjax.callWebApi<any, boolean>(uploadImageRequest);
+                            if (response) {
+                                await this.loadThumbnails($field, $imagesPopup, baseapiurl, documentid);
+                            } else {
+                                FwNotification.renderNotification('ERROR', 'Image upload failed.');
+                            }
+                        }, false);
+                        reader.readAsDataURL(file);
+                    } else {
+                        //FwNotification.renderNotification('ERROR', 'No file selected to upload.');
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+                finally {
+                    $fileInput.val('');
+                }
+            });
+        }
+
+        //const $btnAddImages = FwConfirmation.addButton($confirmation, 'Add Images', false);
+        //$btnAddImages.on('click', (e: JQuery.ClickEvent) => {
+        //    try {
+        //        this.addImages($field, $imagesPopup, baseapiurl, documentid);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
+
+        // Delete Image
+        if (mode === 'NEW' || mode === 'EDIT') {
+            const $btnDeleteImage = FwConfirmation.addButton($confirmation, 'Delete Image', false);
+            $btnDeleteImage.on('click', (e: JQuery.ClickEvent) => {
+                try {
+                    const $confirmDelete = FwConfirmation.renderConfirmation('Confirm', 'Delete this Image?');
+                    const $btnDelete = FwConfirmation.addButton($confirmDelete, 'Delete', false);
+                    $btnDelete.on('click', async (e: JQuery.ClickEvent) => {
+                        try {
+                            const imageid = $imagesPopup.find('.largeimagecontainer').attr('data-imageid');
+                            const isDeleted = await this.deleteImage($field, $imagesPopup, baseapiurl, documentid, imageid);
+                            if (isDeleted) {
+                                FwConfirmation.destroyConfirmation($confirmDelete);
+                            }
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                    const $btnClose = FwConfirmation.addButton($confirmDelete, 'Close', true);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
+        
+        // Add Close button
+        const $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
+        
+        // adjust css styles and positioning on the confirmation box
+        $confirmation.find('.fwconfirmationbox').css({
+            width: '95vw',
+            height: '95vh',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: 'rgba(0,0,0,0.85)'
+        });
+        $confirmation.find('.title,.more,.fwconfirmation-buttonbar').css({
+            flex: '0 0 auto'
+        });
+        $confirmation.find('.fwconfirmation-button').css({
+            backgroundColor: '#ffc107'
+        });
+        $confirmation.find('.title').css({
+            backgroundColor: 'unset'
+        });
+        $confirmation.find('.body').css({
+            flex: '1 1 0',
+            display: 'flex',
+            maxHeight: '100vh',
+            overflow: 'hidden'
+        });
+        $confirmation.find('.fwform').css({
+            flex: '1 1 0',
+            display: 'flex',
+            flexDirection: 'column'
+        });
+                
+        // register event handlers
+        $imagesPopup.on('click', '.thumbnail', async(e: JQuery.ClickEvent) => {
+            try {
+                const $thumbnail = jQuery(e.currentTarget);
+                const request = new FwAjaxRequest();
+                const imageid = $thumbnail.attr('data-imageid');
+                request.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/image/${imageid}`);
+                request.httpMethod = 'GET';
+                const getImageResponse = await FwAjax.callWebApi<any, any>(request);
+                if (getImageResponse !== undefined && getImageResponse !== null && getImageResponse.Image !== undefined && getImageResponse.Image !== null) {
+                    //$images.find('.largeimage').attr('src', getImageResponse.Image.DataUrl);
+                            
+                    $imagesPopup.find('.largeimagecontainer')
+                        .attr('data-imageid', imageid)
+                        .css({
+                            backgroundImage: `url('${getImageResponse.Image.DataUrl}')`,
+                            backgroundSize: 'contain',
+                            backgroundPosition: 'center center',
+                            backgroundRepeat: 'no-repeat'
+                        });
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+        $imagesPopup.on('click', '.btnAdd', async(e: JQuery.ClickEvent) => {
+            try {
+                this.addImages($field, $imagesPopup, baseapiurl, documentid);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        })
+
+        await this.loadThumbnails($field, $imagesPopup, baseapiurl, documentid);
+
+        $btnClose.focus();
     }
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
@@ -141,133 +380,17 @@
             webservicetype = 'grid';
         }
         if (hasimages) {
-            html.push('<i class="material-icons btnImages" title="View Images" style="cursor:pointer;">collections</i>');
-        }
+            html.push('<i class="material-icons btnImageViewer" title="View Images" style="cursor:pointer;color:#000000;">collections</i>');
+        } 
+        //else {
+        //    html.push('<i class="material-icons btnImageViewer" title="Add Images" style="cursor:pointer;">add_circle_outline</i>');
+        //}
         html = html.join('\n');
         $field.html(html);
-        $field.find('.btnImages').on('click', async (event: JQuery.ClickEvent) => {
+        $field.find('.btnImageViewer').on('click', async (event: JQuery.ClickEvent) => {
             try {
-                //window.open(`${applicationConfig.apiurl}api/v1/appimage/getimage?appimageid=${appimageid}`);
-                
-                // create confirmation box
-                const $confirmation = FwConfirmation.renderConfirmation('Images', '');
-                
-                // build content for Images Popup
-                let html: string[] | string = [];
-                html.push('<div style="display:flex;flex-direction:column;flex: 1 1 0;">');
-                //html.push('  <div class="largeimagecontainer" style="flex:1 1 0;display:flex;align-items:center;justify-content:center;">');
-                html.push('  <div class="largeimagecontainer" style="flex:1 1 0;position:relative;">');
-                //html.push('    <i class="material-icons btnLeft" style="font-size:44px;position:absolute;top:50%;left:0;color:#ffffff;cursor:pointer;">keyboard_arrow_left</i>');
-                //html.push('    <i class="material-icons btnRight" style="font-size:44px;position:absolute;top:50%;right:0;color:#ffffff;cursor:pointer;">keyboard_arrow_right</i>');
-                //html.push(`    <img class="largeimage" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="max-width:100%;" />`);
-                html.push('  </div>');
-                //html.push('  <div style="flex:0 0 auto;text-align:center;">');
-                //html.push('    <a src="javascript:{}"style="color:#0000ff;text-decoration:underline;cursor:pointer;">Set a description</a>')
-                ////html.push('    <div>Image Description</div>');
-                ////html.push('    <div><input type="text" /></div>');
-                //html.push('  </div>');
-                //html.push('  <div style="flex:0 0 auto;">');
-                //html.push('    <div>Image Number</div>');
-                //html.push('    <div><input type="text" /></div>');
-                //html.push('  </div>');
-                html.push('  <div style="flex:0 0 auto;">');
-                html.push('    <div class="toolbar" style="display:flex;justify-content:center;">');
-                html.push('      <i class="material-icons btnAdd" style="font-size:44px;cursor:pointer;color:#ffffff;">library_add</i>');
-                html.push('    </div>');
-                html.push('  </div>');
-                html.push('  <div class="thumbnails" style="flex:0 0 100px;display:flex;justify-content:center;overflow-x:auto;">');
-                html.push('  </div>');
-                html.push('</div>');
-                html = html.join('\n');
-                const $imagesPopup = jQuery(html);
-                FwConfirmation.addJqueryControl($confirmation, $imagesPopup);
-
-                // Add Images
-                const $btnAddImages = FwConfirmation.addButton($confirmation, 'Add Images', false);
-                $btnAddImages.on('click', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.addImages($imagesPopup, baseapiurl, documentid);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                
-                // Add Close button
-                const $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
-                $btnClose.on('click', (e: JQuery.ClickEvent) => {
-                    try {
-                        FwConfirmation.destroyConfirmation($confirmation);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                
-                // adjust css styles and positioning on the confirmation box
-                $confirmation.find('.fwconfirmationbox').css({
-                    width: '95vw',
-                    height: '95vh',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    backgroundColor: 'rgba(0,0,0,0.85)'
-                });
-                $confirmation.find('.title,.more,.fwconfirmation-buttonbar').css({
-                    flex: '0 0 auto'
-                });
-                $confirmation.find('.fwconfirmation-button').css({
-                    backgroundColor: '#ffc107'
-                });
-                $confirmation.find('.title').css({
-                    backgroundColor: 'unset'
-                });
-                $confirmation.find('.body').css({
-                    flex: '1 1 0',
-                    display: 'flex',
-                    maxHeight: '100vh',
-                    overflow: 'hidden'
-                });
-                $confirmation.find('.fwform').css({
-                    flex: '1 1 0',
-                    display: 'flex',
-                    flexDirection: 'column'
-                });
-                
-                // register event handlers
-                $imagesPopup.on('click', '.thumbnail', async(e: JQuery.ClickEvent) => {
-                    try {
-                        const $thumbnail = jQuery(e.currentTarget);
-                        const request = new FwAjaxRequest();
-                        request.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/image/${$thumbnail.attr('data-imageid')}`);
-                        request.httpMethod = 'GET';
-                        const getImageResponse = await FwAjax.callWebApi<any, any>(request);
-                        if (getImageResponse !== undefined && getImageResponse !== null && getImageResponse.Image !== undefined && getImageResponse.Image !== null) {
-                            //$images.find('.largeimage').attr('src', getImageResponse.Image.DataUrl);
-                            
-                            $imagesPopup.find('.largeimagecontainer').css({
-                                backgroundImage: `url('${getImageResponse.Image.DataUrl}')`,
-                                backgroundSize: 'contain',
-                                backgroundPosition: 'center center',
-                                backgroundRepeat: 'no-repeat'
-                            });
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-
-                $imagesPopup.on('click', '.btnAdd', async(e: JQuery.ClickEvent) => {
-                    try {
-                        this.addImages($imagesPopup, baseapiurl, documentid);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                })
-
-                await this.loadThumbnails($imagesPopup, baseapiurl, documentid);
-
-                $btnClose.focus();
-                event.preventDefault();
                 event.stopPropagation();
-                return false;
+                this.openImageViewer($browse, $tr, $field, baseapiurl, documentid);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -294,125 +417,26 @@
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
-        var $adi_upload, $adi_progress, $adi_progressPopup;
-        let html = [];
-        html.push('<div class="editappdocumentimage">');
-        html.push('  <img class="previewicon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />');
-        html.push('  <div class="appdocumentimageupload"><input type="file" /></div>');
-        html.push('  <div class="droporpastefilewrapper"><div class="droporpastefile" contenteditable="true" data-placeholder="drag or paste..."></div></div>');
-        html.push('</div>');
-        let htmlString = html.join('');
-        $adi_upload = jQuery(htmlString)
-            .on('paste', '.droporpastefile', function (event) {
-                var items, file, isWebkit, $image, $form;
-                try {
-                    isWebkit = /webkit/.test(navigator.userAgent.toLowerCase());
-                    $form = $field.closest('.fwform');
-                    if (isWebkit) {
-                        items = ((<any>event).clipboardData || (<any>event.originalEvent).clipboardData).items;
-                        if (items.length === 0) throw 'Browsers only support pasting image data.  You can drag and drop files though.';
-                        file = items[0].getAsFile();
-                        switch (file.type) {
-                            case "image/png":
-                                file.name = "pastedimage.png";
-                                $field.attr('data-ismodified', 'true');
-                                FwBrowse.appdocumentimageLoadFile($browse, $field, file);
-                                break;
-                            case "image/jpg":
-                            case "image/jpeg":
-                                file.name = "pastedimage.jpg";
-                                $field.attr('data-ismodified', 'true');
-                                FwBrowse.appdocumentimageLoadFile($browse, $field, file);
-                                break;
-                            case "image/bmp":
-                                file.name = "pastedimage.bmp";
-                                $field.attr('data-ismodified', 'true');
-                                FwBrowse.appdocumentimageLoadFile($browse, $field, file);
-                                break;
-                            case "image/tif":
-                            case "image/tiff":
-                                file.name = "pastedimage.tif";
-                                $field.attr('data-ismodified', 'true');
-                                FwBrowse.appdocumentimageLoadFile($browse, $field, file);
-                                break;
-                            case "image/gif":
-                                file.name = "pastedimage.gif";
-                                $field.attr('data-ismodified', 'true');
-                                FwBrowse.appdocumentimageLoadFile($browse, $field, file);
-                                break;
-                            default:
-                                throw 'Unsupported file type.';
-                        }
-                    }
-                    else {
-                        setTimeout(function () {
-                            var dataUrl, file, filename;
-                            try {
-                                if ($field.find('.droporpastefile > img').length > 0) {
-                                    dataUrl = $field.find('.droporpastefile > img').attr('src');
-                                    file = dataUrl.toString().substring(dataUrl.indexOf(',') + 1, dataUrl.length);
-                                    filename = 'image.' + dataUrl.toString().substring(dataUrl.indexOf('/') + 1, dataUrl.indexOf(';')).replace('jpeg', 'jpg');
-                                    $field.data('filedataurl', dataUrl);
-                                    $field.data('filepath', filename);
-                                    $field.find('.droporpastefile').empty();
-                                    if (dataUrl.indexOf('data:application/pdf;') === 0) {
-                                        $field.find('.previewicon').attr('src', 'theme/fwimages/icons/16/fileextension-pdf.png');
-                                    } else if (dataUrl.indexOf('data:image/') === 0) {
-                                        $field.find('.previewicon').attr('src', 'theme/fwimages/icons/16/fileextension-image.png');
-                                    } else if (dataUrl.indexOf('data:application/vnd.ms-excel;') === 0) { // mv 2018-06-22 converted from typescript and this was failing and doesn't make sense: || reader.result.indexOf('data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;') === 0) {
-                                        $field.find('.previewicon').attr('src', 'theme/fwimages/icons/16/fileextension-spreadsheet.png');
-                                    } else if (dataUrl.indexOf('data:application/msword;') === 0) { // mv 2018-06-22 converted from typescript and this was failing and doesn't make sense: || reader.result.indexOf('data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;') === 0) {
-                                        $field.find('.previewicon').attr('src', 'theme/fwimages/icons/16/fileextension-document.png');
-                                    } else {
-                                        $field.find('.previewicon').attr('src', 'theme/fwimages/icons/16/fileextension-generic.png');
-                                    }
-                                }
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        }, 1);
-                    }
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('dragover', '.droporpastefile', function (event) {
-                var dataTransfer;
-                try {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    dataTransfer = (<any>event).dataTransfer || (<any>event.originalEvent).dataTransfer;
-                    dataTransfer.dropEffect = 'copy';
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('drop', '.droporpastefile', function (event) {
-                var file, filepath, dataTransfer;
-                try {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    dataTransfer = (<any>event).dataTransfer || (<any>event.originalEvent).dataTransfer;
-                    file = dataTransfer.files[0];
-                    $field.attr('data-ismodified', 'true');
-                    FwBrowse.appdocumentimageLoadFile($browse, $field, file);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('change', 'input[type="file"]', function (e) {
-                var $file, file, filepath;
-                try {
-                    $file = $adi_upload.find('input[type=file]');
-                    file = $file[0].files[0];
-                    $field.attr('data-ismodified', 'true');
-                    FwBrowse.appdocumentimageLoadFile($browse, $field, file);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            ;
-        $field.empty().append($adi_upload);
+        var appimageid = typeof $field.attr('data-originalvalue') === 'string' ? $field.attr('data-originalvalue') : '';
+        const hasimages: boolean = typeof $field.attr('data-hasimages') === 'string' ? $field.attr('data-hasimages') === 'true' : false;
+        const baseapiurl = typeof $field.attr('data-baseapiurl') === 'string' ? $field.attr('data-baseapiurl') : '';
+        const documentid = typeof $field.attr('data-appdocumentid') === 'string' ? $field.attr('data-appdocumentid') : '';
+        let html: string | string[] = [];
+        if (hasimages) {
+            html.push('<i class="material-icons btnImageViewer" title="View Images" style="cursor:pointer;color:#000000;">collections</i>');
+        } else {
+            html.push('<i class="material-icons btnImageViewer" title="Add Images" style="cursor:pointer;color:#000000;">add_circle_outline</i>');
+        }
+        html = html.join('');
+        $field.html(html);
+        $field.find('.btnImageViewer').on('click', async (event: JQuery.ClickEvent) => {
+            try {
+                event.stopPropagation();
+                this.openImageViewer($browse, $tr, $field, baseapiurl, documentid);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     };
     //---------------------------------------------------------------------------------
 }

@@ -1,6 +1,6 @@
 ﻿class FwOverlay {
     //----------------------------------------------------------------------------------------------
-    static showPleaseWaitOverlay($appendToElement, requestid) {
+    static showPleaseWaitOverlay($appendToElement: JQuery, requestid: string) : JQuery {
         const html: Array<string> = [];
         html.push('<div class="fwoverlay-center pleasewait">');
         html.push(`<img src="${applicationConfig.appbaseurl}${applicationConfig.appvirtualdirectory}theme/fwimages/icons/128/loading.001.gif" />`);
@@ -26,7 +26,7 @@
         return $moduleoverlay;
     }
     //----------------------------------------------------------------------------------------------
-    static showProgressBarOverlay($appendToElement, progressBarSessionId) {
+    static showProgressBarOverlay($appendToElement: JQuery, progressBarSessionId: string): JQuery {
         let currentStep: number = 0;
         let totalSteps: number = 100;
         let caption: string;
@@ -100,7 +100,7 @@
         return $moduleoverlay;
     }
     //----------------------------------------------------------------------------------------------
-    static showErrorOverlay($appendToElement) {
+    static showErrorOverlay($appendToElement: JQuery): string {
         const overlayid = FwControl.generateControlId('overlay');
         const overlaycount = $appendToElement.data('overlayoutcount');
         if (typeof overlaycount === 'undefined') {

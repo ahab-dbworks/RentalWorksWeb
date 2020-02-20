@@ -475,13 +475,13 @@ namespace FwStandard.Grids.AppDocument
         //------------------------------------------------------------------------------------ 
         public async Task<bool> DeleteImageAsync(string validateAginstTable, string validateAgainstField, string appImageId)
         {
-            bool result = false;
+            bool success = false;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 await conn.OpenAsync();
                 using (SqlTransaction transaction = conn.BeginTransaction())
                 {
-                    // delete any existing files or images
+                    // delete the appimage
                     using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
                     {
                         qry.Add("delete i");
@@ -492,19 +492,43 @@ namespace FwStandard.Grids.AppDocument
                         qry.AddParameter("@appimageid", appImageId);
                         qry.AddParameter("@appdocumentid", this.DocumentId);
                         await qry.ExecuteNonQueryAsync();
-                        result = qry.RowCount > 0;
+                        success = qry.RowCount > 0;
                     }
 
-                    var date = DateTime.Now;
-                    this.AttachDate = date.ToString("yyyy-MM-dd");
-                    this.AttachTime = date.ToString("hh:mm:ss");
-                    this.DateStamp = date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
-                    await this.SaveAsync(saveMode: TDataRecordSaveMode.smUpdate);
-
-                    transaction.Commit();
+                    // Update the datestamp on the appdocument
+                    if (success)
+                    { 
+                        var date = DateTime.Now;
+                        this.AttachDate = date.ToString("yyyy-MM-dd");
+                        this.AttachTime = date.ToString("hh:mm:ss");
+                        this.DateStamp = date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+                        using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                        {
+                            qry.Add("update appdocument");
+                            qry.Add("set attachdate = @attachdate,");
+                            qry.Add("    attachtime = @attachtime,");
+                            qry.Add("    datestamp = @datestamp");
+                            qry.Add("where appdocumentid = @appdocumentid");
+                            qry.Add("  and uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                            qry.AddParameter("@appdocumentid", this.DocumentId);
+                            qry.AddParameter("@attachdate", this.AttachDate);
+                            qry.AddParameter("@attachtime", this.AttachTime);
+                            qry.AddParameter("@datestamp", this.DateStamp);
+                            await qry.ExecuteNonQueryAsync();
+                            success = qry.RowCount > 0;
+                        }
+                    }
+                    if (success)
+                    {
+                        transaction.Commit();
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                    }
                 }
             }
-            return result;
+            return success;
         }
         //------------------------------------------------------------------------------------ 
         public async Task<GetDocumentFileResponse> GetFileAsync(string validateAginstTable, string validateAgainstField)

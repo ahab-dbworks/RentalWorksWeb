@@ -11,7 +11,7 @@ namespace FwStandard.Utilities
 {
     public class FwGraphics
     {
-        static int ThumbnailWidth = 128, ThumbnailHeight = 128, MaxImageWidth = 1200, MaxImageHeight = 1200, ThumbnailImageJpgQuality = 70, FullSizeImageJpgQuality = 70;
+        static int ThumbnailWidth = 100, ThumbnailHeight = 100, MaxImageWidth = 1200, MaxImageHeight = 1200, ThumbnailImageJpgQuality = 70, FullSizeImageJpgQuality = 70;
         //---------------------------------------------------------------------------------------------
         //public static byte[] ConvertToJpg(byte[] image, ref int width, ref int height)
         //{

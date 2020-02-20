@@ -114,7 +114,7 @@ class FwAjaxClass {
                 };
                 if (options.httpMethod === 'GET') {
                     options.xmlHttpRequest.send();
-                } else if (options.httpMethod === 'POST') {
+                } else {
                     if (options.data != null) {
                         options.xmlHttpRequest.send(JSON.stringify(options.data));
                     } else {
