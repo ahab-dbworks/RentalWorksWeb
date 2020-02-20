@@ -3720,7 +3720,7 @@ class OrderBase {
             //$form.find('.generaltab').click();
         }
         this.renderGrids($form);
-        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+        //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         //this.dynamicColumns($form);
         this.applyOrderTypeAndRateTypeToForm($form);

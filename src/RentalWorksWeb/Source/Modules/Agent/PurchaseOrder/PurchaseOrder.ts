@@ -232,6 +232,14 @@ class PurchaseOrder implements IModule {
             { value: 'WAREHOUSE', caption: 'Warehouse' },
             { value: 'OTHER', caption: 'Other' }
         ], true);
+
+        //Toggle Buttons - Summary tab
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeProfitLoss"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period', checked: 'checked' }
+        ]);
+
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         this.renderPrintButton($form);
@@ -2396,6 +2404,7 @@ class PurchaseOrder implements IModule {
     }
     //----------------------------------------------------------------------------------------------
     loadSummary($form: any) {
+        //fields disabled
         const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         FwFormField.disable($form.find('.frame'));
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
