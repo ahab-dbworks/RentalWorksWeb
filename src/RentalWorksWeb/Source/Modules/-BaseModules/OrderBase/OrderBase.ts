@@ -3326,7 +3326,7 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form, response) {
-        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+        //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         this.applyOrderTypeAndRateTypeToForm($form);
 

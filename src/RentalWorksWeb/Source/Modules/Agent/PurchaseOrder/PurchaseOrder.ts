@@ -1563,7 +1563,9 @@ class PurchaseOrder implements IModule {
             const tabname = $tab.attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
             const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
-
+            if ($tab.hasClass('profitlosstab')) {
+                this.loadSummary($form);
+            }
             if ($tab.hasClass('audittab') == false) {
                 const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
                 if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
