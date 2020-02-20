@@ -217,6 +217,12 @@ namespace WebApi.Modules.HomeControls.DealOrder
         [FwSqlDataField(column: "billcountryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string IssuedToCountryId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billemail", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 40)]
+        public string IssuedToEmail { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billphone", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string IssuedToPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "includeinbillinganalysis", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? IncludeInBillingAnalysis { get; set; }
@@ -474,15 +480,6 @@ public bool? Adjustcontractdate { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "approveddate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")] 
 public string Approveddate { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "billemail", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 40)] 
-public string Billemail { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "billphone", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)] 
-public string Billphone { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
-public string CurrencyId { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "directbillcustomer", modeltype: FwDataTypes.Boolean, sqltype: "char")] 
 public bool? Directbillcustomer { get; set; } 
