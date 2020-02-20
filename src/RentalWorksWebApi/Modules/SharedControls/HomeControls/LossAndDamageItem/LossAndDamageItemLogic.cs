@@ -21,6 +21,9 @@ namespace WebApi.Modules.HomeControls.LossAndDamageItem
         [FwLogicProperty(Id:"wFhDwV7UH3HO", IsReadOnly:true)]
         public string BarCode { get; set; }
 
+        [FwLogicProperty(Id: "kCYU9MTDujPhS", IsReadOnly: true)]
+        public string SerialNumber { get; set; }
+
         [FwLogicProperty(Id:"ZbPDiS892ED8", IsReadOnly:true)]
         public string ICodeDisplay { get; set; }
 
