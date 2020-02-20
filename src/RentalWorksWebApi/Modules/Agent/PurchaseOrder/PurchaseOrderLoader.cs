@@ -837,6 +837,18 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public bool? PeriodSubLaborTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
 
+        [FwSqlDataField(column: "misccomplete", modeltype: FwDataTypes.Boolean)]
+        public bool? MiscellaneousIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "submisccomplete", modeltype: FwDataTypes.Boolean)]
+        public bool? SubMiscellaneousIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborcomplete", modeltype: FwDataTypes.Boolean)]
+        public bool? LaborIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "sublaborcomplete", modeltype: FwDataTypes.Boolean)]
+        public bool? SubLaborIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
 
 
 

@@ -36,7 +36,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             dataRecords.Add(tax);
             dataRecords.Add(receiveDelivery);
             dataRecords.Add(returnDelivery);
-            
+
             dataLoader = purchaseOrderLoader;
             browseLoader = purchaseOrderBrowseLoader;
 
@@ -873,6 +873,19 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
         [FwLogicProperty(Id: "DN7hr95RFHCXk", IsReadOnly: true)]
         public bool? PeriodSubLaborTotalIncludesTax { get; set; }
+
+
+        [FwLogicProperty(Id: "5fV4aZWQ5inMt")]
+        public bool? MiscellaneousIsComplete { get { return purchaseOrderDetail.MiscellaneousIsComplete; } set { purchaseOrderDetail.MiscellaneousIsComplete = value; } }
+        [FwLogicProperty(Id: "YqKPCQjxzvWsQ")]
+        public bool? SubMiscellaneousIsComplete { get { return purchaseOrderDetail.SubMiscellaneousIsComplete; } set { purchaseOrderDetail.SubMiscellaneousIsComplete = value; } }
+        [FwLogicProperty(Id: "ymgrPlOuhOdEp")]
+        public bool? LaborIsComplete { get { return purchaseOrderDetail.LaborIsComplete; } set { purchaseOrderDetail.LaborIsComplete = value; } }
+        [FwLogicProperty(Id: "4vB85neZs8r99")]
+        public bool? SubLaborIsComplete { get { return purchaseOrderDetail.SubLaborIsComplete; } set { purchaseOrderDetail.SubLaborIsComplete = value; } }
+        //------------------------------------------------------------------------------------
+
+
 
         [FwLogicProperty(Id: "EJHdP3FGL75fJ", IsReadOnly: true)]
         public string CurrencyColor { get; set; }
