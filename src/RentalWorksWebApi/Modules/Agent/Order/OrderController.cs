@@ -65,7 +65,7 @@ namespace WebApi.Modules.Agent.Order
             legend.Add("Multi-Warehouse", RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
             legend.Add("Repair", RwGlobals.ORDER_REPAIR_COLOR);
             legend.Add("Loss & Damage", RwGlobals.ORDER_LOSS_AND_DAMAGE_COLOR);
-            legend.Add("Unassigned Subs", RwGlobals.SUB_COLOR);
+            //legend.Add("Unassigned Subs", RwGlobals.SUB_COLOR);  // commented to avoid confusion until this enhancement is completed
             await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
