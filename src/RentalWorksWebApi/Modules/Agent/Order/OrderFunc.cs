@@ -162,9 +162,14 @@ namespace WebApi.Modules.Agent.Order
     {
         public string OrderId { get; set; }
     }
+    public class OrderMessage 
+    {
+        public string Message { get; set; }
+        public bool PreventCheckOut { get; set; }
+    }
     public class OrderMessagesResponse : TSpStatusResponse
     {
-        public List<string> Messages = new List<string>();
+        public List<OrderMessage> Messages = new List<OrderMessage>();
     }
 
 
@@ -591,12 +596,16 @@ namespace WebApi.Modules.Agent.Order
                     response.success = true;
                     FwJsonDataTable dt = null;
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     qry.AddColumn("message", "Message", FwDataTypes.Text, true, false, false);
+                    qry.AddColumn("preventcheckout", "PreventCheckOut", FwDataTypes.Text, true, false, false);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                     foreach (List<object> row in dt.Rows)
                     {
-                        //response.Messages.Add(row[dt.GetColumnNo("message")].ToString());
-                        response.Messages.Add(row[0].ToString());
+                        OrderMessage m = new OrderMessage();
+                        m.Message = row[0].ToString();
+                        m.PreventCheckOut = FwConvert.ToBoolean(row[1].ToString());
+                        response.Messages.Add(m);
                     }
                 }
             }
