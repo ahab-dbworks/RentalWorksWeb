@@ -1551,7 +1551,6 @@ class PurchaseOrder implements IModule {
         isSales ? $form.find('.sales-pl').show() : $form.find('.sales-pl').hide();
         isLabor ? $form.find('.labor-pl').show() : $form.find('.labor-pl').hide();
         isMisc ? $form.find('.misc-pl').show() : $form.find('.misc-pl').hide();
-        //usedSaleVal ? $form.find('.usedsale-pl').show() : $form.find('.usedsale-pl').hide();
 
 
         if (!isMisc && !isLabor && !isSubRent && !isSubSale && !isSubMisc && !isSubLabor) $scheduleDateFields.hide();
