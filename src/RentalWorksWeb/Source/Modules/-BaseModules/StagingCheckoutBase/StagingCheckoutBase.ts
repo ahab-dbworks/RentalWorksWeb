@@ -311,10 +311,9 @@ abstract class StagingCheckoutBase {
                     if (module == 'StagingCheckout') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                     if (module == 'FillContainer') FwFormField.setValueByDataField($form, 'BarCode', response.BarCode);
 
-                    //if (response.showAlert === true) {
-                    //    // pass in possible message
-                    //    this.showOrderAlert($form);
-                    //}
+
+                   // this.showOrderAlert($form, orderId);
+
                     // Determine tabs to render
                     FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
                         res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
@@ -1301,16 +1300,24 @@ abstract class StagingCheckoutBase {
         $form.find('.suspendedsession').show();
     }
     //----------------------------------------------------------------------------------------------
-    showOrderAlert($form, message?: string) {
-        if (message === null) {
-            message = 'ORDER ALERT -- CREATING CONTRACT IS DISABLED. PLEASE RESOLVE ISSUES BEFORE PROCEEDING.'
-        }
-        const alert = jQuery(`<div class="form-alert" style="background:#ffff33;text-align:center;font-size:1.3em"><span>${message}</span></div>`);
-        const $formbody = $form.find('.fwform-body');
-        $formbody.before(alert);
-        $form.find('.complete-checkout-contract').css({
-            'pointer-events': 'none',
-        });
+    showOrderAlert($form, orderId) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/checkout/ordermessages/${orderId}`, null, FwServices.defaultTimeout,
+            response => {
+                if (response.success) {
+                    const messages = response.Messages;
+                    if (messages.length) {
+                        const $formbody = $form.find('.fwform-body');
+                        for (let i = 0; i < messages.length; i++) {
+                            const alert = jQuery(`<div class="form-alert" style="background:#ffff33;text-align:center;font-size:1.3em"><span>${messages[i]}</span></div>`);
+                            $formbody.before(alert);
+                        }
+                        $form.find('.complete-checkout-contract').css({
+                            'pointer-events': 'none',
+                        });
+                    }
+                }
+            },
+            ex => FwFunc.showError(ex), $form);
     }
     //----------------------------------------------------------------------------------------------
     addLegend($form: any, $grid): void {
