@@ -1552,7 +1552,6 @@ class PurchaseOrder implements IModule {
         isLabor ? $form.find('.labor-pl').show() : $form.find('.labor-pl').hide();
         isMisc ? $form.find('.misc-pl').show() : $form.find('.misc-pl').hide();
 
-
         if (!isMisc && !isLabor && !isSubRent && !isSubSale && !isSubMisc && !isSubLabor) $scheduleDateFields.hide();
 
         //Click Event on tabs to load grids/browses
@@ -1907,26 +1906,37 @@ class PurchaseOrder implements IModule {
             , submiscTab = $form.find('.submisctab')
             , sublaborTab = $form.find('.sublabortab');
         const $scheduleDateFields = $form.find('.activity-unchecked');
+
         $form.find('[data-datafield="Rental"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     rentalTab.show();
+                    $form.find('.rental-pl').show();
                 } else {
                     rentalTab.hide();
+                    $form.find('.rental-pl').hide();
                 }
             } else {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     rentalTab.show();
+                    $form.find('.rental-pl').show();
                     FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
                 } else {
                     rentalTab.hide();
+                    $form.find('.rental-pl').hide();
                     FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
                 }
             }
         });
 
         $form.find('[data-datafield="Sales"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? salesTab.show() : salesTab.hide();
+            if (jQuery(e.currentTarget).prop('checked')) {
+                salesTab.show();
+                $form.find('.sales-pl').show();
+            } else {
+                salesTab.hide();
+                $form.find('.sales-pl').hide();
+            }
         });
         $form.find('[data-datafield="Parts"] input').on('change', e => {
             jQuery(e.currentTarget).prop('checked') ? partsTab.show() : partsTab.hide();
@@ -1934,18 +1944,22 @@ class PurchaseOrder implements IModule {
         $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 miscTab.show();
+                $form.find('.misc-pl').show();
                 $scheduleDateFields.show();
             } else {
                 miscTab.hide();
+                $form.find('.misc-pl').hide();
             }
         });
         $form.find('[data-datafield="Labor"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 laborTab.show();
+                $form.find('.labor-pl').show();
                 $scheduleDateFields.show();
             }
             else {
                 laborTab.hide();
+                $form.find('.labor-pl').hide();
             }
         });
         $form.find('[data-datafield="SubRent"] input').on('change', e => {

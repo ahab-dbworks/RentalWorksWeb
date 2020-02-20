@@ -1483,9 +1483,11 @@ class OrderBase {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     rentalTab.show();
+                    $form.find('.rental-pl').show()
                     FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
                 } else {
                     rentalTab.hide();
+                    $form.find('.rental-pl').hide();
                     FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
                 }
             } else {
@@ -1493,9 +1495,11 @@ class OrderBase {
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         rentalTab.show();
+                        $form.find('.rental-pl').show();
                         FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
                     } else {
                         rentalTab.hide();
+                        $form.find('.rental-pl').hide();
                         FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
                     }
                 }
@@ -1505,16 +1509,20 @@ class OrderBase {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     salesTab.show();
+                    $form.find('.sales-pl').show();
                 } else {
                     salesTab.hide();
+                    $form.find('.sales-pl').hide();
                 }
             } else {
                 let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         salesTab.show();
+                        $form.find('.sales-pl').show();
                     } else {
                         salesTab.hide();
+                        $form.find('.sales-pl').hide();
                     }
                 }
             }
@@ -1523,16 +1531,20 @@ class OrderBase {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     miscTab.show();
+                    $form.find('.misc-pl').show();
                 } else {
                     miscTab.hide();
+                    $form.find('.misc-pl').hide();
                 }
             } else {
                 let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         miscTab.show();
+                        $form.find('.misc-pl').show();
                     } else {
                         miscTab.hide();
+                        $form.find('.misc-pl').hide();
                     }
                 }
             }
@@ -1580,16 +1592,20 @@ class OrderBase {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     laborTab.show();
+                    $form.find('.labor-pl').show();
                 } else {
                     laborTab.hide();
+                    $form.find('.labor-pl').hide();
                 }
             } else {
                 let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         laborTab.show();
+                        $form.find('.labor-pl').show();
                     } else {
                         laborTab.hide();
+                        $form.find('.labor-pl').hide();
                     }
                 }
             }
@@ -1599,9 +1615,11 @@ class OrderBase {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     usedSaleTab.show();
+                    $form.find('.usedsale-pl').show();
                     FwFormField.disable($form.find('[data-datafield="Rental"]'));
                 } else {
                     usedSaleTab.hide();
+                    $form.find('.usedsale-pl').hide();
                     FwFormField.enable($form.find('[data-datafield="Rental"]'));
                 }
             } else {
@@ -1609,9 +1627,11 @@ class OrderBase {
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         usedSaleTab.show();
+                        $form.find('.usedsale-pl').show();
                         FwFormField.disable($form.find('[data-datafield="Rental"]'));
                     } else {
                         usedSaleTab.hide();
+                        $form.find('.usedsale-pl').hide();
                         FwFormField.enable($form.find('[data-datafield="Rental"]'));
                     }
                 }
