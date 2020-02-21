@@ -1318,7 +1318,7 @@ abstract class StagingCheckoutBase {
                         $form.find('.form-alert').remove();
                         for (let i = 0; i < messages.length; i++) {
                             let backgroundColor = '#ffff33'; //yellow
-                            if (messages[i].PreventCheckout === true) {
+                            if (messages[i].PreventCheckOut === true) {
                                 preventCheckout = true;
                                 backgroundColor = '#ff0000'; // red
                             }
