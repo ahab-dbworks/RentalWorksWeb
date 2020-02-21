@@ -102,6 +102,7 @@
                 uploadImageRequest.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/image`);
                 uploadImageRequest.httpMethod = 'POST';
                 uploadImageRequest.$elementToBlock = $imagesPopup;
+                uploadImageRequest.timeout = 60000;
                 const $fileInput = <JQuery<HTMLInputElement>>$pasteImage.find('.fileinput');
                 let file = null;
                 if ($fileInput.length > 0 && $fileInput[0].files.length > 0) {

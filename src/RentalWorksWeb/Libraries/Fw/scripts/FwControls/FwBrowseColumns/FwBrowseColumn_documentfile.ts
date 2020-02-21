@@ -131,25 +131,26 @@
     //                .remove();
     //}
     //---------------------------------------------------------------------------------
-    async addFile($browse: JQuery, $field: JQuery, $fileInput: JQuery<HTMLInputElement>, baseapiurl: string, documentid: string): Promise<boolean> {
+    async addFile($browse: JQuery, $tr, $field: JQuery, $fileInput: JQuery<HTMLInputElement>, baseapiurl: string, documentid: string, filename: string, fileextension: string): Promise<boolean> {
         let success = false;
         try {
-            const uploadImageRequest = new FwAjaxRequest();
-            uploadImageRequest.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/file`);
-            uploadImageRequest.httpMethod = 'PUT';
-            uploadImageRequest.$elementToBlock = $browse;
+            const addFileRequest = new FwAjaxRequest();
+            addFileRequest.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/file`);
+            addFileRequest.httpMethod = 'PUT';
+            addFileRequest.$elementToBlock = $browse;
+            addFileRequest.timeout = 60000;
             let file = null;
             if ($fileInput.length > 0 && $fileInput[0].files.length > 0) {
                 file = $fileInput[0].files[0];
                 const reader = new FileReader();
                 reader.addEventListener("load", async() => {
-                    uploadImageRequest.data = {
+                    addFileRequest.data = {
                         DataUrl: reader.result,
                         FileExtension: file.name.split('.').pop()
                     };
-                    success = await FwAjax.callWebApi<any, boolean>(uploadImageRequest);
+                    success = await FwAjax.callWebApi<any, boolean>(addFileRequest);
                     if (success) {
-                        this.setEditModeIcons($browse, $field, baseapiurl, documentid, true);
+                        this.setEditModeIcons($browse, $tr, $field, baseapiurl, documentid, true, filename, fileextension);
                     } else {
                         FwNotification.renderNotification('ERROR', 'File upload failed.');
                     }
@@ -167,13 +168,13 @@
         return success;
     }
     //---------------------------------------------------------------------------------
-    async deleteFile($browse: JQuery, $field: JQuery, baseapiurl: string, documentid: string): Promise<boolean> {
+    async deleteFile($browse: JQuery, $tr: JQuery, $field: JQuery, baseapiurl: string, documentid: string, filename: string, fileextension: string): Promise<boolean> {
         const deleteImageRequest = new FwAjaxRequest();
         deleteImageRequest.url = encodeURI(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/file`);
         deleteImageRequest.httpMethod = 'DELETE';
         const isDeleted = await FwAjax.callWebApi<any, boolean>(deleteImageRequest);
         if (isDeleted) {
-            this.setEditModeIcons($browse, $field, baseapiurl, documentid, false);
+            this.setEditModeIcons($browse, $tr, $field, baseapiurl, documentid, false, filename, fileextension);
         }
         return isDeleted;
     }
@@ -235,40 +236,67 @@
         return parameters;
     }
     //---------------------------------------------------------------------------------
-    setEditModeIcons($browse: JQuery, $field: JQuery, baseapiurl: string, documentid: string, hasfile: boolean) {
+    setEditModeIcons($browse: JQuery, $tr: JQuery, $field: JQuery, baseapiurl: string, documentid: string, hasfile: boolean, filename: string, fileextension: string) {
         let html: string | string[] = [];
         let idAddImages: string = null;
-        if (hasfile) {
-            html.push('<i class="material-icons btnOpenFile" title="Open File" style="cursor:pointer;">open_in_new</i>');
-            html.push('<i class="material-icons btnDownloadFile" title="Download File" style="cursor:pointer;margin:0 .5em 0 0;">cloud_download</i>');
-            html.push(' | ');
-            html.push('<i class="material-icons btnDeleteFile" title="Delete File" style="margin:0 0 0 .5em;cursor:pointer;">remove_circle_outline</i>');
-            //html.push('  <div class="col2"><i class="material-icons" title="E-mail Document">&#xE0BE;</i></div>'); //email
-        } else {
-            idAddImages = FwAppData.generateUUID().replace(/-/g, '');
-            html.push(`<label for="${idAddImages}" style="cursor:pointer;"><i class="material-icons" title="Add File" style="cursor:pointer;">add_circle_outline</i></label><input type="file" style="opacity:0;position:absolute;z-index:-1;" id="${idAddImages}" />`);
+        let mode: 'NEW'|'EDIT' = 'NEW';
+        if ($tr.hasClass('newmode')) {
+            mode = 'NEW';
+        }
+        else if ($tr.hasClass('editmode')) {
+            mode = 'EDIT';
+        }
+        if (mode === 'EDIT') {
+            if (hasfile) {
+                html.push('<i class="material-icons btnOpenFile" title="Open File" style="cursor:pointer;">open_in_new</i>');
+                html.push('<i class="material-icons btnDownloadFile" title="Download File" style="cursor:pointer;margin:0 .5em 0 0;">cloud_download</i>');
+                html.push(' | ');
+                html.push('<i class="material-icons btnDeleteFile" title="Delete File" style="margin:0 0 0 .5em;cursor:pointer;">remove_circle_outline</i>');
+                //html.push('  <div class="col2"><i class="material-icons" title="E-mail Document">&#xE0BE;</i></div>'); //email
+            } else {
+                idAddImages = FwAppData.generateUUID().replace(/-/g, '');
+                html.push(`<label for="${idAddImages}" style="cursor:pointer;"><i class="material-icons" title="Add File" style="cursor:pointer;">add_circle_outline</i></label><input type="file" style="opacity:0;position:absolute;z-index:-1;" id="${idAddImages}" />`);
+            }
         }
         html = html.join('');
         $field.find('.icons').html(html);
-        if (idAddImages !== null) {
-            $field.find(`#${idAddImages}`).on('change', async (e: JQuery.ChangeEvent) => {
+        if (html.length > 0) {
+            if (idAddImages !== null) {
+                $field.find(`#${idAddImages}`).on('change', async (e: JQuery.ChangeEvent) => {
+                    try {
+                        e.stopPropagation();
+                        const $fileInput = jQuery(e.currentTarget);
+                        const success = await this.addFile($browse, $tr, $field, $fileInput, baseapiurl, documentid, filename, fileextension);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            }
+            $field.find('.btnOpenFile').on('click', (e: JQuery.ClickEvent) => {
                 try {
                     e.stopPropagation();
-                    const $fileInput = jQuery(e.currentTarget);
-                    const success = await this.addFile($browse, $field, $fileInput, baseapiurl, documentid);
+                    this.openFile(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/file`, `${filename}.${fileextension}`);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            $field.find('.btnDownloadFile').on('click', (e: JQuery.ClickEvent) => {
+                try {
+                    e.stopPropagation();
+                    this.downloadFile(`${applicationConfig.apiurl}${baseapiurl}/${documentid}/file`, `${filename}.${fileextension}`);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            $field.find('.btnDeleteFile').on('click', async (e: JQuery.ClickEvent) => {
+                try {
+                    e.stopPropagation();
+                    const success = await this.deleteFile($browse, $tr, $field, baseapiurl, documentid, filename, fileextension);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
         }
-        $field.find('.btnDeleteFile').on('click', async (e: JQuery.ClickEvent) => {
-            try {
-                e.stopPropagation();
-                const success = await this.deleteFile($browse, $field, baseapiurl, documentid);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
@@ -280,30 +308,11 @@
         var fileextension = typeof $field.attr('data-fileextension') === 'string' ? $field.attr('data-fileextension').toUpperCase() : '';
         const hasfile: boolean = typeof $field.attr('data-hasfile') === 'string' ? $field.attr('data-hasfile') === 'true' : false;
         let idAddImages: string = null;
-        let mode: 'NEW'|'EDIT' = 'NEW';
-        if ($tr.hasClass('newmode')) {
-            mode = 'NEW';
-        }
-        else if ($tr.hasClass('editmode')) {
-            mode = 'EDIT';
-        }
         html.push('<div class="icons" style="color:#000000;display:flex;align-items:center;">');
-        //if (mode === 'EDIT') {
-        //    if (hasfile) {
-        //        html.push('<i class="material-icons btnOpenFile" title="Open File" style="cursor:pointer;">open_in_new</i>');
-        //        html.push('<i class="material-icons btnDownloadFile" title="Download File" style="cursor:pointer;margin:0 .5em 0 0;">cloud_download</i>');
-        //        html.push(' | ');
-        //        html.push('<i class="material-icons btnDeleteFile" title="Delete File" style="margin:0 0 0 .5em;cursor:pointer;">remove_circle_outline</i>');
-        //        //html.push('  <div class="col2"><i class="material-icons" title="E-mail Document">&#xE0BE;</i></div>'); //email
-        //    } else {
-        //        idAddImages = FwAppData.generateUUID().replace(/-/g, '');
-        //        html.push(`<label for="${idAddImages}" style="cursor:pointer;"><i class="material-icons" title="Add File" style="cursor:pointer;">add_circle_outline</i></label><input type="file" style="opacity:0;position:absolute;z-index:-1;" id="${idAddImages}" />`);
-        //    }
-        //}
         html.push('</div>');
         html = html.join('');
         $field.html(html);
-        this.setEditModeIcons($browse, $field, baseapiurl, documentid, hasfile);
+        this.setEditModeIcons($browse, $tr, $field, baseapiurl, documentid, hasfile, filename, fileextension);
     };
     //---------------------------------------------------------------------------------
 }

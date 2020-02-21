@@ -111,14 +111,14 @@ namespace FwCore.Grids.AppDocument
         }
         //------------------------------------------------------------------------------------ 
         public static async Task<ActionResult<GetDocumentThumbnailsResponse>> GetThumbnailsAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
-            string validateAginstTable, string validateAgainstField, string appDocumentId, int pageNo, int pageSize)
+            string validateUniqueid1Query, string appDocumentId, int pageNo, int pageSize)
         {
             try
             {
                 AppDocumentLogic bl = (AppDocumentLogic)Activator.CreateInstance(typeof(T));
                 bl.SetDependencies(appConfig, userSession);
                 bl.DocumentId = appDocumentId;
-                GetDocumentThumbnailsResponse response = await bl.GetThumbnailsAsync(validateAginstTable, validateAgainstField, pageNo, pageSize);
+                GetDocumentThumbnailsResponse response = await bl.GetThumbnailsAsync(validateUniqueid1Query, pageNo, pageSize);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -128,14 +128,14 @@ namespace FwCore.Grids.AppDocument
         }
         //------------------------------------------------------------------------------------ 
         public static async Task<ActionResult<GetDocumentImageResponse>> GetImageAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
-            string validateAginstTable, string validateAgainstField, string appDocumentId, string appImageId)
+            string validateUniqueid1Query, string appDocumentId, string appImageId)
         {
             try
             {
                 AppDocumentLogic bl = (AppDocumentLogic)Activator.CreateInstance(typeof(T));
                 bl.SetDependencies(appConfig, userSession);
                 bl.DocumentId = appDocumentId;
-                GetDocumentImageResponse response = await bl.GetImageAsync(validateAginstTable, validateAgainstField, appImageId);
+                GetDocumentImageResponse response = await bl.GetImageAsync(validateUniqueid1Query, appImageId);
                 if (response == null)
                 {
                     return new NotFoundObjectResult("Image not found.");
@@ -152,7 +152,7 @@ namespace FwCore.Grids.AppDocument
         }
         //------------------------------------------------------------------------------------ 
         public static async Task<ActionResult<bool>> AttachImageFromDataUrlAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
-            string validateAginstTable, string validateAgainstField, string appDocumentId, PostDocumentImageRequest request)
+            string validateUniqueid1Query, string appDocumentId, PostDocumentImageRequest request)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace FwCore.Grids.AppDocument
                 bl.SetDependencies(appConfig, userSession);
                 bl.DocumentId = appDocumentId;
                 await bl.LoadAsync<T>();
-                var response = await bl.AttachImageAsync(validateAginstTable, validateAgainstField, request.DataUrl);
+                var response = await bl.AttachImageAsync(validateUniqueid1Query, request.DataUrl);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -170,7 +170,7 @@ namespace FwCore.Grids.AppDocument
         }
         //------------------------------------------------------------------------------------ 
         public static async Task<ActionResult<bool>> AttachImageFromFormAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
-            string validateAginstTable, string validateAgainstField, string appDocumentId, IFormFile file)
+            string validateUniqueid1Query, string appDocumentId, IFormFile file)
         {
             try
             {
@@ -184,7 +184,7 @@ namespace FwCore.Grids.AppDocument
                     image = new byte[stream.Length];
                     stream.Read(image, 0, image.Length);
                 }
-                var response = await bl.AttachImageAsync(validateAginstTable, validateAgainstField, image);
+                var response = await bl.AttachImageAsync(validateUniqueid1Query, image);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -194,14 +194,14 @@ namespace FwCore.Grids.AppDocument
         }
         //------------------------------------------------------------------------------------ 
         public static async Task<ActionResult<bool>> DeleteImageAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
-            string validateAginstTable, string validateAgainstField, string appDocumentId, string appImageId)
+            string validateUniqueid1Query, string appDocumentId, string appImageId)
         {
             try
             {
                 AppDocumentLogic bl = (AppDocumentLogic)Activator.CreateInstance(typeof(T));
                 bl.SetDependencies(appConfig, userSession);
                 bl.DocumentId = appDocumentId;
-                bool response = await bl.DeleteImageAsync(validateAginstTable, validateAgainstField, appImageId);
+                bool response = await bl.DeleteImageAsync(validateUniqueid1Query, appImageId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -211,7 +211,7 @@ namespace FwCore.Grids.AppDocument
         }
         //------------------------------------------------------------------------------------ 
         public static async Task<IActionResult> GetFileAsync<T>(HttpResponse response, FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
-            string validateAginstTable, string validateAgainstField, string appDocumentId) where T: AppDocumentLogic
+            string validateUniqueid1Query, string appDocumentId) where T: AppDocumentLogic
         {
             string filePath = string.Empty;
             try
@@ -220,7 +220,7 @@ namespace FwCore.Grids.AppDocument
                 bl.SetDependencies(appConfig, userSession);
                 bl.DocumentId = appDocumentId;
                 await bl.LoadAsync<T>();
-                var documentFile = await bl.GetFileAsync(validateAginstTable, validateAgainstField);
+                var documentFile = await bl.GetFileAsync(validateUniqueid1Query);
                 if (documentFile == null)
                 {
                     return new NotFoundObjectResult("File not found.");
@@ -251,7 +251,7 @@ namespace FwCore.Grids.AppDocument
         }
         //------------------------------------------------------------------------------------ 
         public static async Task<ActionResult<bool>> AttachFileFromDataUrlAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
-            string validateAginstTable, string validateAgainstField, string appDocumentId, PutDocumentFileRequest request)
+            string validateUniqueid1Query, string appDocumentId, PutDocumentFileRequest request)
         {
             try
             {
@@ -259,7 +259,7 @@ namespace FwCore.Grids.AppDocument
                 bl.SetDependencies(appConfig, userSession);
                 bl.DocumentId = appDocumentId;
                 await bl.LoadAsync<T>();
-                var response = await bl.AttachFileAsync(validateAginstTable, validateAgainstField, request.DataUrl, request.FileExtension);
+                var response = await bl.AttachFileAsync(validateUniqueid1Query, request.DataUrl, request.FileExtension);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -269,7 +269,7 @@ namespace FwCore.Grids.AppDocument
         }
         //------------------------------------------------------------------------------------ 
         public static async Task<ActionResult<bool>> AttachFileFromUploadAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
-            string validateAginstTable, string validateAgainstField, string appDocumentId, IFormFile file)
+            string validateUniqueid1Query, string appDocumentId, IFormFile file)
         {
             try
             {
@@ -288,7 +288,7 @@ namespace FwCore.Grids.AppDocument
                 {
                     fileExtension = fileExtension.Substring(1);
                 }
-                var response = await bl.AttachFileAsync(validateAginstTable, validateAgainstField, fileData, fileExtension);
+                var response = await bl.AttachFileAsync(validateUniqueid1Query, fileData, fileExtension);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -298,7 +298,7 @@ namespace FwCore.Grids.AppDocument
         }
         //------------------------------------------------------------------------------------ 
         public static async Task<ActionResult<bool>> DeleteFileAsync<T>(FwApplicationConfig appConfig, FwUserSession userSession, ModelStateDictionary modelState,
-            string validateAginstTable, string validateAgainstField, string appDocumentId)
+            string validateUniqueid1Query, string appDocumentId)
         {
             try
             {
@@ -306,7 +306,7 @@ namespace FwCore.Grids.AppDocument
                 bl.SetDependencies(appConfig, userSession);
                 bl.DocumentId = appDocumentId;
                 await bl.LoadAsync<T>();
-                var response = await bl.DeleteFileAsync(validateAginstTable, validateAgainstField);
+                var response = await bl.DeleteFileAsync(validateUniqueid1Query);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

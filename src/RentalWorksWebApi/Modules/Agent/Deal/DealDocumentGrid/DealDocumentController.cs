@@ -16,6 +16,7 @@ namespace WebApi.Modules.Agent.Deal
     [FwControl(Caption: "Document", SecurityId: "5pVhTJtGXLVx", ControlType: FwControlTypes.Grid)]
     public partial class DealController
     {
+        const string VALIDATE_UNIQUEID1_QUERY = "select dealid from deal with (nolock)";
         //------------------------------------------------------------------------------------ 
         /// <summary>
         /// Get documents.
@@ -172,7 +173,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                return await FwAppDocumentController.GetThumbnailsAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, pageno, pagesize);
+                return await FwAppDocumentController.GetThumbnailsAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, VALIDATE_UNIQUEID1_QUERY, documentid, pageno, pagesize);
             }
             catch (Exception ex)
             {
@@ -193,7 +194,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                return await FwAppDocumentController.GetImageAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, imageid);
+                return await FwAppDocumentController.GetImageAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, VALIDATE_UNIQUEID1_QUERY, documentid, imageid);
             }
             catch (Exception ex)
             {
@@ -214,7 +215,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                return await FwAppDocumentController.AttachImageFromDataUrlAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, request);
+                return await FwAppDocumentController.AttachImageFromDataUrlAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, VALIDATE_UNIQUEID1_QUERY, documentid, request);
             }
             catch (Exception ex)
             {
@@ -235,7 +236,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                return await FwAppDocumentController.AttachImageFromFormAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, file);
+                return await FwAppDocumentController.AttachImageFromFormAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, VALIDATE_UNIQUEID1_QUERY, documentid, file);
             }
             catch (Exception ex)
             {
@@ -256,7 +257,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                return await FwAppDocumentController.DeleteImageAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, imageid);
+                return await FwAppDocumentController.DeleteImageAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, VALIDATE_UNIQUEID1_QUERY, documentid, imageid);
             }
             catch (Exception ex)
             {
@@ -276,7 +277,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                return await FwAppDocumentController.GetFileAsync<DealDocumentLogic>(Response, this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid);
+                return await FwAppDocumentController.GetFileAsync<DealDocumentLogic>(Response, this.AppConfig, this.UserSession, this.ModelState, VALIDATE_UNIQUEID1_QUERY, documentid);
             }
             catch (Exception ex)
             {
@@ -297,7 +298,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                return await FwAppDocumentController.AttachFileFromDataUrlAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, request);
+                return await FwAppDocumentController.AttachFileFromDataUrlAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, VALIDATE_UNIQUEID1_QUERY, documentid, request);
             }
             catch (Exception ex)
             {
@@ -318,7 +319,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                return await FwAppDocumentController.AttachFileFromUploadAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid, file);
+                return await FwAppDocumentController.AttachFileFromUploadAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, VALIDATE_UNIQUEID1_QUERY, documentid, file);
             }
             catch (Exception ex)
             {
@@ -338,7 +339,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                return await FwAppDocumentController.DeleteFileAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "deal", "dealid", documentid);
+                return await FwAppDocumentController.DeleteFileAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, VALIDATE_UNIQUEID1_QUERY, documentid);
             }
             catch (Exception ex)
             {

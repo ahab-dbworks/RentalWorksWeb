@@ -203,6 +203,24 @@ class Customer {
     loadForm(uniqueids: any) {
         const $form: any = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'CustomerId', uniqueids.CustomerId);
+
+        // Documents Grid
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'CustomerDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'CustomerId')}/document`;
+            },
+            gridSecurityId: 'keTrJRIKRGwN',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'CustomerId',
+            uniqueid1Name: 'CustomerId',
+            getUniqueid1Value: () => FwFormField.getValueByDataField($form, 'CustomerId'),
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
         FwModule.loadForm(this.Module, $form);
 
         $form.find('.contractSubModule').append(this.openContractBrowse($form));
@@ -380,23 +398,6 @@ class Customer {
             beforeSave: (request: any) => {
                 request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
             },
-        });
-
-        // Documents Grid
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'CustomerDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'CustomerId')}/document`;
-            },
-            gridSecurityId: 'keTrJRIKRGwN',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'CustomerId',
-            uniqueid1Name: 'CustomerId',
-            getUniqueid1Value: () => FwFormField.getValueByDataField($form, 'CustomerId'),
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
         });
     }
 

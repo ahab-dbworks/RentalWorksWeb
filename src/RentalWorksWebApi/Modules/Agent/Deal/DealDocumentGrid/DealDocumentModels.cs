@@ -40,11 +40,7 @@ namespace WebApi.Modules.Agent.Deal
     //*******************************************************************************************
     public class DealDocumentGetRequest : AppDocumentGetRequest
     {
-        ///// <summary>
-        ///// Filter expression
-        ///// </summary>
-        //[GetRequestProperty(true, true), MaxLength(8)]
-        //public string DealId { get; set; }
+        
     }
     //*******************************************************************************************
     public class DealDocumentPutRequest : AppDocumentPutRequest

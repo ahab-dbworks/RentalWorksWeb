@@ -269,7 +269,7 @@ namespace FwStandard.Grids.AppDocument
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<GetDocumentThumbnailsResponse> GetThumbnailsAsync(string validateAginstTable, string validateAgainstField, int pageNo, int pageSize)
+        public async Task<GetDocumentThumbnailsResponse> GetThumbnailsAsync(string validateUniqueid1Query, int pageNo, int pageSize)
         {
             int rowNoStart = 1;
             if (pageNo > 1)
@@ -293,7 +293,7 @@ namespace FwStandard.Grids.AppDocument
                     qry.Add("       DateStamp = i.datestamp");
                     qry.Add("    from appimage i with(nolock) join appdocument d with (nolock) on (i.uniqueid1 = d.appdocumentid)");
                     qry.Add("    where i.uniqueid1 = @appdocumentid ");
-                    qry.Add("      and d.uniqueid1 in (select dealid from deal with (nolock))");
+                    qry.Add("      and d.uniqueid1 in (" + validateUniqueid1Query + ")");
                     qry.Add("      and i.description = 'APPDOCUMENT_IMAGE'");
                     qry.Add("  ),");
                     qry.Add("  count_cte as (");
@@ -318,7 +318,7 @@ namespace FwStandard.Grids.AppDocument
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<GetDocumentImageResponse> GetImageAsync(string validateAginstTable, string validateAgainstField, string appImageId)
+        public async Task<GetDocumentImageResponse> GetImageAsync(string validateUniqueid1Query, string appImageId)
         {
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
@@ -333,7 +333,7 @@ namespace FwStandard.Grids.AppDocument
                     qry.Add("from appimage i with (nolock) join appdocument d with (nolock) on (i.uniqueid1 = d.appdocumentid)");
                     qry.Add("where i.appimageid = @appimageid");
                     qry.Add("  and i.uniqueid1 = @appdocumentid");
-                    qry.Add("  and d.uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                    qry.Add("  and d.uniqueid1 in (" + validateUniqueid1Query + ")");
                     qry.Add("  and i.description = 'APPDOCUMENT_IMAGE'");
                     qry.Add("order by i.datestamp");
                     qry.AddParameter("@appimageid", appImageId);
@@ -413,18 +413,18 @@ namespace FwStandard.Grids.AppDocument
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> AttachImageAsync(string validateAginstTable, string validateAgainstField, string dataUrl)
+        public async Task<bool> AttachImageAsync(string validateUniqueid1Query, string dataUrl)
         {
             bool result = false;
             string[] dataUrlParts = dataUrl.Split(new char[] { ',' });
             string dataUrlPrefix = dataUrlParts[0];
             string base64Data = dataUrlParts[1];
             byte[] image = Convert.FromBase64String(base64Data);
-            result = await this.AttachImageAsync(validateAginstTable, validateAgainstField, image);
+            result = await this.AttachImageAsync(validateUniqueid1Query, image);
             return result;
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> AttachImageAsync(string validateAginstTable, string validateAgainstField, byte[] image)
+        public async Task<bool> AttachImageAsync(string validateUniqueid1Query, byte[] image)
         {
             bool result = false;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
@@ -470,7 +470,7 @@ namespace FwStandard.Grids.AppDocument
             return result;
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> DeleteImageAsync(string validateAginstTable, string validateAgainstField, string appImageId)
+        public async Task<bool> DeleteImageAsync(string validateUniqueid1Query, string appImageId)
         {
             bool success = false;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
@@ -485,7 +485,7 @@ namespace FwStandard.Grids.AppDocument
                         qry.Add("from appimage i join appdocument d on (i.uniqueid1 = d.appdocumentid)");
                         qry.Add("where i.appimageid = @appimageid");
                         qry.Add("  and i.uniqueid1 = @appdocumentid");
-                        qry.Add("  and d.uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                        qry.Add("  and d.uniqueid1 in (" + validateUniqueid1Query + ")");
                         qry.AddParameter("@appimageid", appImageId);
                         qry.AddParameter("@appdocumentid", this.DocumentId);
                         await qry.ExecuteNonQueryAsync();
@@ -506,7 +506,7 @@ namespace FwStandard.Grids.AppDocument
                             qry.Add("    attachtime = @attachtime,");
                             qry.Add("    datestamp = @datestamp");
                             qry.Add("where appdocumentid = @appdocumentid");
-                            qry.Add("  and uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                            qry.Add("  and uniqueid1 in (" + validateUniqueid1Query + ")");
                             qry.AddParameter("@appdocumentid", this.DocumentId);
                             qry.AddParameter("@attachdate", this.AttachDate);
                             qry.AddParameter("@attachtime", this.AttachTime);
@@ -528,7 +528,7 @@ namespace FwStandard.Grids.AppDocument
             return success;
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<GetDocumentFileResponse> GetFileAsync(string validateAginstTable, string validateAgainstField)
+        public async Task<GetDocumentFileResponse> GetFileAsync(string validateUniqueid1Query)
         {
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
@@ -542,7 +542,7 @@ namespace FwStandard.Grids.AppDocument
                     qry.Add("from appimage i with (nolock) join appdocument d with (nolock) on (i.uniqueid1 = d.appdocumentid)");
                     qry.Add("where i.uniqueid1 = @appdocumentid");
                     qry.Add("  and i.rectype = 'F'");
-                    qry.Add("  and d.uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                    qry.Add("  and d.uniqueid1 in (" + validateUniqueid1Query + ")");
                     qry.Add("order by i.datestamp");
                     qry.AddParameter("@appdocumentid", this.DocumentId);
                     GetDocumentFileResponse response = null;
@@ -584,18 +584,18 @@ namespace FwStandard.Grids.AppDocument
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> AttachFileAsync(string validateAginstTable, string validateAgainstField, string dataUrl, string fileExtension)
+        public async Task<bool> AttachFileAsync(string validateUniqueid1Query, string dataUrl, string fileExtension)
         {
             bool result = false;
             string[] dataUrlParts = dataUrl.Split(new char[] { ',' });
             string dataUrlPrefix = dataUrlParts[0];
             string base64Data = dataUrlParts[1];
             byte[] image = Convert.FromBase64String(base64Data);
-            result = await this.AttachFileAsync(validateAginstTable, validateAgainstField, image, fileExtension);
+            result = await this.AttachFileAsync(validateUniqueid1Query, image, fileExtension);
             return result;
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> AttachFileAsync (string validateAginstTable, string validateAgainstField, byte[] fileData, string fileExtension)
+        public async Task<bool> AttachFileAsync (string validateUniqueid1Query, byte[] fileData, string fileExtension)
         {
             bool result = false;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
@@ -616,7 +616,7 @@ namespace FwStandard.Grids.AppDocument
                         qry.Add("from appimage i join appdocument d on (i.uniqueid1 = d.appdocumentid)");
                         qry.Add("where i.uniqueid1 = @appdocumentid");
                         qry.Add("  and i.rectype = 'F'");
-                        qry.Add("  and d.uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                        qry.Add("  and d.uniqueid1 in (" + validateUniqueid1Query + ")");
                         qry.AddParameter("@appdocumentid", this.DocumentId);
                         await qry.ExecuteNonQueryAsync();
                     }
@@ -648,7 +648,7 @@ namespace FwStandard.Grids.AppDocument
             return result;
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> DeleteFileAsync(string validateAginstTable, string validateAgainstField)
+        public async Task<bool> DeleteFileAsync(string validateUniqueid1Query)
         {
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
@@ -662,7 +662,7 @@ namespace FwStandard.Grids.AppDocument
                         qry.Add("from appimage i join appdocument d on (i.uniqueid1 = d.appdocumentid)");
                         qry.Add("where i.uniqueid1 = @appdocumentid");
                         qry.Add("  and i.rectype = 'F'");
-                        qry.Add("  and d.uniqueid1 in (select " + validateAgainstField + " from " + validateAginstTable + " with (nolock))");
+                        qry.Add("  and d.uniqueid1 in (" + validateUniqueid1Query + ")");
                         qry.AddParameter("@appdocumentid", this.DocumentId);
                         await qry.ExecuteNonQueryAsync();
                     }

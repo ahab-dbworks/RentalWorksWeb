@@ -167,7 +167,7 @@ class FwAppDocumentGridClass {
       data-baseapiurl="${options.getBaseApiUrl()}"
       data-appdocumentidfield="DocumentId"
       data-hasfilefield="HasFile"
-      data-filenamefield="DocumentType"
+      data-filenamefield="Description"
       data-fileextensionfield="FileExtension"
       data-documenttypeidfield="DocumentTypeId"
       data-uniqueid1field="${options.uniqueid1Name}"
