@@ -282,7 +282,7 @@ abstract class StagingCheckoutBase {
             try {
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type == 'ContainerItem' ? 'Order' : this.Type}Id`);
                 this.orderId = orderId;
-                this.checkMessages($form, orderId, false); // show order alerts, pass in false for button blocking behavior at this stage
+                this.checkMessages($form, false, null); // show order alerts, pass in false for button blocking behavior at this stage
 
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
