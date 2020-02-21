@@ -118,7 +118,7 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Edit a document.
+        /// Update a document.
         /// </summary>
         /// <param name="dealid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
@@ -159,7 +159,7 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Get document thumbnails for any images attached to the document.
+        /// Get thumbnails for any images attached to the document.
         /// </summary>
         /// <param name="dealid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
@@ -181,7 +181,7 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Get a fullsize document image.
+        /// Get a fullsize image.
         /// </summary>
         /// <param name="dealid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
@@ -202,14 +202,14 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Attach an image to a document (supports multiple images, but must be uploaded in separate requests).
+        /// Attach an image from a dataurl.
         /// </summary>
         /// <param name="dealid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("{dealid}/document/{documentid}/image")]
-        [FwControllerMethod(Id: "AX4NPsS7nIuQ", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
+        [FwControllerMethod(Id: "AX4NPsS7nIuQ", FwControllerActionTypes.ControlEdit, ParentId: "5pVhTJtGXLVx")]
         public async Task<ActionResult<bool>> DocumentAttachImageFromDataUrlAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromBody]PostDocumentImageRequest request)
         {
             try
@@ -223,14 +223,14 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Attach an image to a document (supports multiple images, but must be uploaded in separate requests).
+        /// Attach an image from a form submission.
         /// </summary>
         /// <param name="dealid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="file">The file to POST.</param>
         /// <returns></returns>
-        [HttpPost("{dealid}/document/{documentid}/uploadimage")]
-        [FwControllerMethod(Id: "TUsk5CeVVEdr", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
+        [HttpPost("{dealid}/document/{documentid}/imageformupload")]
+        [FwControllerMethod(Id: "TUsk5CeVVEdr", FwControllerActionTypes.ControlEdit, ParentId: "5pVhTJtGXLVx")]
         public async Task<ActionResult<bool>> DocumentAttachImageFromFormAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromForm]IFormFile file)
         {
             try
@@ -244,14 +244,14 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Delete document image.
+        /// Delete an attached image.
         /// </summary>
         /// <param name="dealid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="imageid">Unique identifier</param>
         /// <returns></returns>
         [HttpDelete("{dealid}/document/{documentid}/image/{imageid}")]
-        [FwControllerMethod(Id: "oCvKnIanCUGH", FwControllerActionTypes.ControlDelete, ParentId: "5pVhTJtGXLVx")]
+        [FwControllerMethod(Id: "oCvKnIanCUGH", FwControllerActionTypes.ControlEdit, ParentId: "5pVhTJtGXLVx")]
         public async Task<ActionResult<bool>> DeleteImageAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromRoute]string imageid)
         {
             try
@@ -265,7 +265,7 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Get document file.
+        /// Get the attached file.
         /// </summary>
         /// <param name="dealid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
@@ -285,14 +285,14 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Attach a file to a document.
+        /// Update the attached file from a dataurl.
         /// </summary>
         /// <param name="dealid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPut("{dealid}/document/{documentid}/file")]
-        [FwControllerMethod(Id: "TEeu5N68gYrj", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
+        [FwControllerMethod(Id: "TEeu5N68gYrj", FwControllerActionTypes.ControlEdit, ParentId: "5pVhTJtGXLVx")]
         public async Task<ActionResult<bool>> DocumentAttachFileFromDataUrlAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromBody]PutDocumentFileRequest request)
         {
             try
@@ -306,14 +306,14 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Attach a file to a document.  This will overwrite any existing file attached to this document without warning.
+        /// Update attached file from a form submission.
         /// </summary>
         /// <param name="dealid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="file">The file to PUT.</param>
         /// <returns></returns>
-        [HttpPut("{dealid}/document/{documentid}/uploadfile")]
-        [FwControllerMethod(Id: "RzSbofEAfnCY", FwControllerActionTypes.ControlNew, ParentId: "5pVhTJtGXLVx")]
+        [HttpPut("{dealid}/document/{documentid}/fileformupload")]
+        [FwControllerMethod(Id: "RzSbofEAfnCY", FwControllerActionTypes.ControlEdit, ParentId: "5pVhTJtGXLVx")]
         public async Task<ActionResult<bool>> DocumentAttachFileFromUploadAsync([FromRoute]string dealid, [FromRoute]string documentid, [FromForm]IFormFile file)
         {
             try
@@ -327,13 +327,13 @@ namespace WebApi.Modules.Agent.Deal
         }
         //------------------------------------------------------------------------------------ 
         /// <summary>
-        /// Delete document file.
+        /// Delete attached file.
         /// </summary>
         /// <param name="dealid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <returns></returns>
         [HttpDelete("{dealid}/document/{documentid}/file")]
-        [FwControllerMethod(Id: "udhmtXfoY2Ak", FwControllerActionTypes.ControlDelete, ParentId: "5pVhTJtGXLVx")]
+        [FwControllerMethod(Id: "udhmtXfoY2Ak", FwControllerActionTypes.ControlEdit, ParentId: "5pVhTJtGXLVx")]
         public async Task<ActionResult<bool>> DeleteImageAsync([FromRoute]string dealid, [FromRoute]string documentid)
         {
             try
