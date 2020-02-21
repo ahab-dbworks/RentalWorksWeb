@@ -1018,12 +1018,12 @@ abstract class StagingCheckoutBase {
         });
         // Complete Checkout Contract
         $form.find('.complete-checkout-contract').on('click', e => {
-            this.checkMessages($form, false, this.completeCheckOutContract.bind(this, [$form, e]));
+            this.checkMessages($form, true, this.completeCheckOutContract.bind(this, [$form, e]));
             //this.completeCheckOutContract($form, e);
         });
         // Create Contract
         $form.find('.createcontract').on('click', e => {
-            this.checkMessages($form, false, this.createContract.bind(this, [$form, e]));
+            this.checkMessages($form, true, this.createContract.bind(this, [$form, e]));
             // this.createContract($form, e);
         });
         //Options button
