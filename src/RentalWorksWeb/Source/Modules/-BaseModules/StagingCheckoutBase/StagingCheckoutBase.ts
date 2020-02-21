@@ -408,7 +408,7 @@ abstract class StagingCheckoutBase {
         const $createPartialContract = FwMenu.generateButtonMenuOption(partialCaption);
         $createPartialContract.on('click', e => {
             e.stopPropagation();
-            this.startPartialCheckoutItems($form, e);
+            this.checkMessages($form, true, this.startPartialCheckoutItems.bind(this, [$form, e]));
         });
 
         const menuOptions: JQuery<HTMLElement>[] = [];
@@ -418,7 +418,9 @@ abstract class StagingCheckoutBase {
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     };
     //----------------------------------------------------------------------------------------------
-    startPartialCheckoutItems = ($form: JQuery, event): void => {
+    startPartialCheckoutItems = (args): void => {
+        const $form = args[0];
+        const event = args[1];
         $form.find('.error-msg:not(.qty)').html('');
 
         const location = JSON.parse(sessionStorage.getItem('location'));
