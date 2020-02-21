@@ -163,6 +163,7 @@ namespace FwCore.Api
             {
                 c.DescribeAllEnumsAsStrings();
                 this.AddSwaggerDocs(c);
+                c.OperationFilter<FwFormFileSwaggerFilter>();
                 var filePath = Path.Combine(ApplicationEnvironment.ApplicationBasePath, "FwStandard.xml");
                 c.IncludeXmlComments(filePath);
                 filePath = Path.Combine(ApplicationEnvironment.ApplicationBasePath, "FwCore.xml");
@@ -207,7 +208,7 @@ namespace FwCore.Api
             //        }
             //    }
             //}
-            FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.PreSql2012;
+            FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.Sql2012;
             AlertFunc.RefreshAlerts(ApplicationConfig);
         }
         //------------------------------------------------------------------------------------

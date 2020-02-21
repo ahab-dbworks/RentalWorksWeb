@@ -31,7 +31,7 @@ namespace WebApi.Controllers.SharedControls.AppImage
             return await base.DoGetManyAsync(uniqueid1, uniqueid2, uniqueid3, description, rectype);
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/appimage/getonebyid?&appimageid=value&thumbnail=value
+        // GET api/v1/appimage/getimage?appimageid=value&thumbnail=value
         [HttpGet("getimage")]
         [FwControllerMethod(Id: "6VM5MbZwucZi", ActionType: FwControllerActionTypes.Browse, AllowAnonymous: true)]
         public async Task<ActionResult<List<FwAppImageModel>>> GetImageAsync([FromQuery]string appimageid, [FromQuery]string thumbnail="")

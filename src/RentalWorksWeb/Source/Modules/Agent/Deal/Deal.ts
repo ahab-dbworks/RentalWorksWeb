@@ -208,6 +208,24 @@ class Deal {
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'DealDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${uniqueids.DealId}/document`;
+            },
+            gridSecurityId: '5pVhTJtGXLVx',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'DealId',
+            uniqueid1Name: 'DealId',
+            getUniqueid1Value: () => uniqueids.DealId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+       
         FwModule.loadForm(this.Module, $form);
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
@@ -1064,6 +1082,7 @@ class Deal {
               <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
               <div data-type="tab" id="creditstab" class="tab submodule" data-tabpageid="creditstabpage" data-caption="Credits"></div>
+              <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -1635,6 +1654,15 @@ class Deal {
               
               <!-- CREDITS TAB -->
               <div data-type="tabpage" id="creditstabpage" class="tabpage submodule credits-page rwSubModule" data-tabid="creditstab"></div>
+
+              <!-- DOCUMENTS TAB -->
+              <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+                <div class="flexpage">
+                  <div class="flexrow">
+                    <div data-control="FwGrid" data-grid="DealDocumentGrid"></div>
+                  </div>
+                </div>
+              </div>
               
               <!-- NOTES TAB -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">

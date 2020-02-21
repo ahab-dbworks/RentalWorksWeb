@@ -362,7 +362,7 @@ namespace FwStandard.SqlServer
                 sp.AddParameter("@errmsg",        SqlDbType.VarChar, ParameterDirection.Output);
                 try
                 {
-                    await sp.ExecuteReaderAsync();
+                    await sp.ExecuteNonQueryAsync();
                     result.IsValid = sp.GetParameter("@validpassword").ToBoolean();
                     result.ErrorNo   = sp.GetParameter("@errno").ToInt32();
                     result.ErrorMessage  = sp.GetParameter("@errmsg").ToString().TrimEnd();

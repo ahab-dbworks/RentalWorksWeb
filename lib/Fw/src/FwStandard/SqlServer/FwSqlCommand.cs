@@ -920,9 +920,10 @@ namespace FwStandard.SqlServer
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
-        public async Task ExecuteReaderAsync()
+        public async Task<SqlDataReader> ExecuteReaderAsync()
         {
             bool closeConnection = true;
+            SqlDataReader reader = null;
             try
             {
                 this.RowCount = 0;
@@ -940,10 +941,8 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
-                using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
-                {
-                    this.RowCount = reader.RecordsAffected;
-                }
+                reader = await this.sqlCommand.ExecuteReaderAsync();
+                this.RowCount = reader.RecordsAffected;
             }
             finally
             {
@@ -954,6 +953,7 @@ namespace FwStandard.SqlServer
                     this.sqlConnection.Close();
                 }
             }
+            return reader;
         }
         //------------------------------------------------------------------------------------
         public bool Next(SqlDataReader reader)

@@ -40,7 +40,7 @@ namespace WebApi.Modules.Agent.Quote
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "jFkSBEur1dluU")]
-    public class QuoteController : AppDataController
+    public partial class QuoteController : AppDataController
     {
         public QuoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(QuoteLogic); }
         //------------------------------------------------------------------------------------

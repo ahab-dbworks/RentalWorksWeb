@@ -29,7 +29,7 @@ namespace WebApi.Modules.Agent.Deal
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"8WdRib388fFF")]
-    public class DealController : AppDataController
+    public partial class DealController : AppDataController
     {
         public DealController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DealLogic); }
         //------------------------------------------------------------------------------------ 

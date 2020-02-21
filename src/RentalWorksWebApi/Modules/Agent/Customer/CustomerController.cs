@@ -23,7 +23,7 @@ namespace WebApi.Modules.Agent.Customer
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"InSfo1f2lbFV")]
-    public class CustomerController : AppDataController
+    public partial class CustomerController : AppDataController
     {
         public CustomerController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomerLogic); }
         //------------------------------------------------------------------------------------

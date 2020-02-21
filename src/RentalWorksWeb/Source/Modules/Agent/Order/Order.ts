@@ -216,6 +216,24 @@ class Order extends OrderBase {
     loadForm(uniqueids) {
         const $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'OrderDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${uniqueids.OrderId}/document`;
+            },
+            gridSecurityId: 'O9wP1M9xrgEY',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'OrderId',
+            uniqueid1Name: 'OrderId',
+            getUniqueid1Value: () => uniqueids.OrderId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -547,6 +565,7 @@ class Order extends OrderBase {
               <div data-type="tab" id="manifesttab" class="tab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="repairtab" class="tab submodule" data-tabpageid="repairtabpage" data-caption="Repair"></div>
+              <div data-type="tab" id="documentstab" class="documentstab tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notetab" class="notestab tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
               <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
               <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
@@ -1743,6 +1762,13 @@ class Order extends OrderBase {
 
              <!-- REPAIR TAB -->
               <div data-type="tabpage" id="repairtabpage" class="tabpage submodule repair-submodule rwSubModule" data-tabid="repairtab"></div>
+
+              <!-- DOCUMENTS TAB -->
+              <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+                <div class="wideflexrow">
+                  <div class="rwGrid" data-control="FwGrid" data-grid="OrderDocumentGrid"></div>
+                </div>
+              </div>
 
               <!-- NOTES TAB -->
               <div data-type="tabpage" id="notetabpage" class="tabpage" data-tabid="notetab">
