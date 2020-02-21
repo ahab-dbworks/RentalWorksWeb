@@ -39,6 +39,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
         public bool? Bold { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "iszeroextendedaccessory", modeltype: FwDataTypes.Boolean)]
+        public bool? IsZeroExtendedAccessory { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public string QuantityOrdered { get; set; }
         //------------------------------------------------------------------------------------ 
