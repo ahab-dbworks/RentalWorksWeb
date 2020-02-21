@@ -239,7 +239,7 @@ class Quote extends OrderBase {
             <div class="field" data-caption="Status As Of" data-datafield="StatusDate" data-datatype="date" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="100px" data-visible="true">
-            <div class="field" data-caption="Total" data-datafield="Total" data-datatype="number" data-cellcolor="CurrencyColor" data-formatnumeric="true" data-digits="2" data-sort="off"></div>
+            <div class="field" data-caption="Total" data-datafield="Total" data-datatype="money" data-cellcolor="CurrencyColor" data-formatnumeric="true" data-digits="2" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="75px" data-visible="true">
             <div class="field" data-caption="PO No." data-datafield="PoNumber" data-cellcolor="PoNumberColor" data-datatype="text" data-sort="off"></div>
