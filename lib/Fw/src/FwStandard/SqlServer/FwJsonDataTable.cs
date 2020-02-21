@@ -118,7 +118,8 @@ namespace FwStandard.SqlServer
             for (int colno = 0; colno < this.Columns.Count; colno++)
             {
                 col = this.Columns[colno];
-                if ((!col.IsUniqueId) && (col.IsVisible))
+                //if ((!col.IsUniqueId) && (col.IsVisible))
+                if (col.IsVisible)
                 {
                     //worksheet.Cells[1, worksheetcol].Value = this.Columns[colno].Name;
                     worksheet.Cells[1, worksheetcol].Value = this.Columns[colno].DataField; //justin 02/24/2019
@@ -137,7 +138,8 @@ namespace FwStandard.SqlServer
                 {
                     maxColumnWidth = 0;
                     col = this.Columns[colno];
-                    if ((!col.IsUniqueId) && (col.IsVisible))
+                    //if ((!col.IsUniqueId) && (col.IsVisible))
+                    if (col.IsVisible)
                     {
                         if (col.DataType == FwDataTypes.JpgDataUrl)
                         {

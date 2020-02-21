@@ -413,6 +413,32 @@ namespace FwStandard.Data
             Dictionary<string, string> columns = new Dictionary<string, string>();
             string fullFieldName = "";
 
+            if (request != null)
+            {
+                if ((request.forexcel) && (request.excelfields != null) && (request.excelfields.Count > 0))
+                {
+                    List<PropertyInfo> selectedProperties = new List<PropertyInfo>();
+                    List<string> selectedFields = new List<string>();
+                    foreach (CheckBoxListItem item in request.excelfields.GetSelectedItems())
+                    {
+                        selectedFields.Add(item.value);
+                    }
+
+                    foreach (string selectedField in selectedFields)
+                    {
+                        for (int p = 0; p <= properties.Length - 1; p++)
+                        {
+                            if (selectedField.Equals(properties[p].Name))
+                            {
+                                selectedProperties.Add(properties[p]);
+                            }
+                        }
+                    }
+                    properties = selectedProperties.ToArray();
+                }
+            }
+
+
             int maxFieldNameLength = 0;
             foreach (PropertyInfo property in properties)
             {

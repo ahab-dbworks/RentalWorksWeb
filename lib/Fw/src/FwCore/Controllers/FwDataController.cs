@@ -100,25 +100,25 @@ namespace FwCore.Controllers
                 // Delete any existing excel files belonginng to this user
                 FwDownloadController.DeleteCurrentWebUserDownloads(this.UserSession.WebUsersId);
 
-                bool includeColorColumns = browseRequest.includecolorcolumns;
-                bool includeIdColumns = browseRequest.includeidcolumns;
-
-                if (!includeIdColumns || !includeColorColumns)
-                {
-                    foreach (FwJsonDataTableColumn col in dt.Columns)
-                    {
-                        string dataField = col.DataField.ToUpper();
-                        if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")))
-                        {
-                            col.IsVisible = false;
-                        }
-
-                        if ((!includeColorColumns) && (col.DataType.Equals(FwDataTypes.OleToHtmlColor)))
-                        {
-                            col.IsVisible = false;
-                        }
-                    }
-                }
+                //bool includeColorColumns = browseRequest.includecolorcolumns;
+                //bool includeIdColumns = browseRequest.includeidcolumns;
+                //
+                //if (!includeIdColumns || !includeColorColumns)
+                //{
+                //    foreach (FwJsonDataTableColumn col in dt.Columns)
+                //    {
+                //        string dataField = col.DataField.ToUpper();
+                //        if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")))
+                //        {
+                //            col.IsVisible = false;
+                //        }
+                //
+                //        if ((!includeColorColumns) && (col.DataType.Equals(FwDataTypes.OleToHtmlColor)))
+                //        {
+                //            col.IsVisible = false;
+                //        }
+                //    }
+                //}
 
                 dt.ToExcelXlsxFile(worksheetName, path);
                 DoExportExcelXlsxExportFileAsyncResult result = new DoExportExcelXlsxExportFileAsyncResult();
@@ -192,6 +192,8 @@ namespace FwCore.Controllers
                 if (id.Equals("emptyobject")) //justin 10/23/2018 temporary solution for listing Fields on Custom Forms and Duplicate Rules.  Will be replaced with a front-end solution to traverse the Security Tree (once ready)
                 {
                     l.IsEmptyObject = true;
+
+                    // need to remove "RecordTitle" from the object in this context
 
                     if ((l._Custom.CustomFields != null) && (l._Custom.CustomFields.Count > 0))
                     {
