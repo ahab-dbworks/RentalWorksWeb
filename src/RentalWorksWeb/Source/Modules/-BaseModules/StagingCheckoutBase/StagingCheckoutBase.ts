@@ -1018,12 +1018,12 @@ abstract class StagingCheckoutBase {
         });
         // Complete Checkout Contract
         $form.find('.complete-checkout-contract').on('click', e => {
-            this.checkMessages($form, this.orderId, false, this.completeCheckOutContract.bind(this, [$form, e]));
+            this.checkMessages($form, false, this.completeCheckOutContract.bind(this, [$form, e]));
             //this.completeCheckOutContract($form, e);
         });
         // Create Contract
         $form.find('.createcontract').on('click', e => {
-            this.checkMessages($form, this.orderId, false, this.createContract.bind(this, [$form, e]));
+            this.checkMessages($form, false, this.createContract.bind(this, [$form, e]));
             // this.createContract($form, e);
         });
         //Options button
@@ -1306,31 +1306,34 @@ abstract class StagingCheckoutBase {
         $form.find('.suspendedsession').show();
     }
     //----------------------------------------------------------------------------------------------
-    async checkMessages($form, orderId, buttonBlocking, func?) {
-        await FwAppData.apiMethod(true, 'GET', `api/v1/checkout/ordermessages/${orderId}`, null, FwServices.defaultTimeout, response => {
-            if (response.success) {
-                let preventCheckout = false;
-                const messages = response.Messages;
-                if (messages.length) {
-                    const $formBody = $form.find('.fwform-body');
-                    $form.find('.form-alert').remove();
-                    for (let i = 0; i < messages.length; i++) {
-                        let backgroundColor = '#ffff33'; //yellow
-                        if (messages[i].PreventCheckout === true) {
-                            preventCheckout = true;
-                            backgroundColor = '#ff0000'; // red
+    async checkMessages($form, buttonBlocking, func?) {
+        const orderId = this.orderId;
+        if (orderId) {
+            await FwAppData.apiMethod(true, 'GET', `api/v1/checkout/ordermessages/${orderId}`, null, FwServices.defaultTimeout, response => {
+                if (response.success) {
+                    let preventCheckout = false;
+                    const messages = response.Messages;
+                    if (messages.length) {
+                        const $formBody = $form.find('.fwform-body');
+                        $form.find('.form-alert').remove();
+                        for (let i = 0; i < messages.length; i++) {
+                            let backgroundColor = '#ffff33'; //yellow
+                            if (messages[i].PreventCheckout === true) {
+                                preventCheckout = true;
+                                backgroundColor = '#ff0000'; // red
+                            }
+                            const alert = jQuery(`<div class="form-alert" style="background:${backgroundColor};text-align:center;font-size:1.3em"><span>${messages[i].Message}</span></div>`);
+                            $formBody.before(alert);
                         }
-                        const alert = jQuery(`<div class="form-alert" style="background:${backgroundColor};text-align:center;font-size:1.3em"><span>${messages[i].Message}</span></div>`);
-                        $formBody.before(alert);
-                    }
-                    if (buttonBlocking && preventCheckout) {
-                        FwNotification.renderNotification('WARNING', 'Issues highlighted above in red must be resolved before proceeding.')
-                    } else if (func && typeof func === 'function') {
-                        func.apply(arguments);
+                        if (buttonBlocking && preventCheckout) {
+                            FwNotification.renderNotification('WARNING', 'Issues highlighted above in red must be resolved before proceeding.')
+                        } else if (func && typeof func === 'function') {
+                            func.apply(arguments);
+                        }
                     }
                 }
-            }
-        }, ex => FwFunc.showError(ex), $form);
+            }, ex => FwFunc.showError(ex), $form);
+        }
     }
     //----------------------------------------------------------------------------------------------
     addLegend($form: any, $grid): void {
