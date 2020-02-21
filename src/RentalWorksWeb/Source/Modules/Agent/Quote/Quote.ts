@@ -181,6 +181,24 @@ class Quote extends OrderBase {
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="QuoteId"] input').val(uniqueids.QuoteId);
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'QuoteDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${uniqueids.QuoteId}/document`;
+            },
+            gridSecurityId: 'xCSRqSpYe73d',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'QuoteId',
+            uniqueid1Name: 'QuoteId',
+            getUniqueid1Value: () => uniqueids.QuoteId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
         FwModule.loadForm(this.Module, $form);
 
         let userType = sessionStorage.getItem('userType');
@@ -273,6 +291,7 @@ class Quote extends OrderBase {
               <div data-type="tab" id="activitytab" class="tab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
               <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
               <!--<div data-type="tab" id="manifesttab" class="tab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>-->
+              <div data-type="tab" id="doucumentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notetab" class="tab notestab" data-tabpageid="notetabpage" data-caption="Notes"></div>
               <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
               <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
@@ -1500,6 +1519,13 @@ class Quote extends OrderBase {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              <!-- DOCUMENTS TAB -->
+              <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+                <div class="wideflexrow">
+                  <div class="rwGrid" data-control="FwGrid" data-grid="QuoteDocumentGrid"></div>
                 </div>
               </div>
 

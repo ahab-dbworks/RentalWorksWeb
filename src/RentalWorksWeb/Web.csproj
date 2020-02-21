@@ -1338,7 +1338,6 @@
     </Content>
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js.map" />
     <Content Include="tsconfig.json" />
-    <Content Include="Source\Modules\Agent\Quote\Quote.js.map" />
     <Content Include="Source\Modules\Settings\FiscalYear\FiscalYear\FiscalYear.js.map" />
     <Content Include="Source\Modules\Settings\FacilitySettings\Building\Building.js.map" />
     <Content Include="Source\Modules\Settings\FacilitySettings\FacilityCategory\FacilityCategory.js.map" />
@@ -1572,7 +1571,6 @@
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwDeploymentDirectory)\web.config&quot; -pattern &quot;debug=&quot;&quot;true&quot;&quot;&quot; -replacement &quot;debug=&quot;&quot;false&quot;&quot;&quot;" ContinueOnError="false" IgnoreExitCode="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\bin" Condition="!Exists('$(FwDeploymentDirectory)\bin')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentDirectory)\bin&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries" Condition="!Exists('$(FwDeploymentDirectory)\Libraries')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts')" ContinueOnError="false" />
@@ -1581,12 +1579,10 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css&quot; &quot;$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\ckeditor" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\ckeditor')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\ckeditor&quot; &quot;$(FwDeploymentDirectory)\Libraries\ckeditor&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\codemirror" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\codemirror')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\codemirror&quot; &quot;$(FwDeploymentDirectory)\Libraries\codemirror&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    
     <MakeDir Directories="$(FwDeploymentDirectory)\source" Condition="!Exists('$(FwDeploymentDirectory)\source')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data" Condition="!Exists('$(FwDeploymentDirectory)\App_Data')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp')" ContinueOnError="false" />

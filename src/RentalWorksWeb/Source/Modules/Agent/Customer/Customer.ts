@@ -204,19 +204,19 @@ class Customer {
         const $form: any = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'CustomerId', uniqueids.CustomerId);
 
-        // Documents Grid
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
         FwAppDocumentGrid.renderGrid({
             $form: $form,
             caption: 'Documents',
             nameGrid: 'CustomerDocumentGrid',
             getBaseApiUrl: () => {
-                return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'CustomerId')}/document`;
+                return `${this.apiurl}/${uniqueids.CustomerId}/document`;
             },
-            gridSecurityId: 'keTrJRIKRGwN',
+            gridSecurityId: '0zkYs0eRgG7E',
             moduleSecurityId: this.id,
             parentFormDataFields: 'CustomerId',
             uniqueid1Name: 'CustomerId',
-            getUniqueid1Value: () => FwFormField.getValueByDataField($form, 'CustomerId'),
+            getUniqueid1Value: () => uniqueids.CustomerId,
             uniqueid2Name: '',
             getUniqueid2Value: () => ''
         });

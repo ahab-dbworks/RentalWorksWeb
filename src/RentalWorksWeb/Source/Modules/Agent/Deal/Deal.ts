@@ -209,19 +209,19 @@ class Deal {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
 
-        // Documents Grid - Need to put this here, because renderGrids is called from openForm and DealId is not available yet on the form
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
         FwAppDocumentGrid.renderGrid({
             $form: $form,
             caption: 'Documents',
             nameGrid: 'DealDocumentGrid',
             getBaseApiUrl: () => {
-                return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'DealId')}/document`;
+                return `${this.apiurl}/${uniqueids.DealId}/document`;
             },
             gridSecurityId: '5pVhTJtGXLVx',
             moduleSecurityId: this.id,
             parentFormDataFields: 'DealId',
             uniqueid1Name: 'DealId',
-            getUniqueid1Value: () => FwFormField.getValueByDataField($form, 'DealId'),
+            getUniqueid1Value: () => uniqueids.DealId,
             uniqueid2Name: '',
             getUniqueid2Value: () => ''
         });
