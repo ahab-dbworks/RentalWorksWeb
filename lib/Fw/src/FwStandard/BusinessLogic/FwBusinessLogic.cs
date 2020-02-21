@@ -407,7 +407,7 @@ namespace FwStandard.BusinessLogic
 
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request)
+        public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request, FwSqlConnection conn = null)
         {
             LoadCustomFields();
 
@@ -419,7 +419,7 @@ namespace FwStandard.BusinessLogic
                     MethodInfo method = dataRecords[0].GetType().GetMethod("SelectAsync");
                     MethodInfo generic = method.MakeGenericMethod(dataRecords[0].GetType());
                     FwCustomFields customFields = _Custom.CustomFields;
-                    dynamic result = generic.Invoke(dataRecords[0], new object[] { request, customFields });
+                    dynamic result = generic.Invoke(dataRecords[0], new object[] { request, customFields, conn });
                     dynamic dataRecordsResults = await result;
                     records = new List<T>(dataRecordsResults.Count);
                     Mapper.Map((object)dataRecordsResults, records, opts =>
@@ -433,7 +433,7 @@ namespace FwStandard.BusinessLogic
                 MethodInfo method = dataLoader.GetType().GetMethod("SelectAsync");
                 MethodInfo generic = method.MakeGenericMethod(dataLoader.GetType());
                 FwCustomFields customFields = _Custom.CustomFields;
-                dynamic result = generic.Invoke(dataLoader, new object[] { request, customFields });
+                dynamic result = generic.Invoke(dataLoader, new object[] { request, customFields, conn });
                 dynamic dataLoaderResults = await result;
                 records = new List<T>(dataLoaderResults.Count);
                 //Mapper.Map(dataLoaderResults, records);
@@ -446,7 +446,7 @@ namespace FwStandard.BusinessLogic
             return records;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<GetResponse<T>> GetManyAsync<T>(GetRequest request, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
+        public virtual async Task<GetResponse<T>> GetManyAsync<T>(GetRequest request, Func<FwSqlSelect, Task> beforeExecuteQuery = null, FwSqlConnection conn = null)
         {
             LoadCustomFields();
 
@@ -458,7 +458,7 @@ namespace FwStandard.BusinessLogic
                     MethodInfo method = dataRecords[0].GetType().GetMethod("GetManyAsync");
                     MethodInfo generic = method.MakeGenericMethod(dataRecords[0].GetType());
                     FwCustomFields customFields = _Custom.CustomFields;
-                    dynamic taskGetManyAsync = generic.Invoke(dataRecords[0], new object[] { request, customFields, beforeExecuteQuery });
+                    dynamic taskGetManyAsync = generic.Invoke(dataRecords[0], new object[] { request, customFields, beforeExecuteQuery, conn });
                     var result = await taskGetManyAsync;
                     if (result != null)
                     {
@@ -479,7 +479,7 @@ namespace FwStandard.BusinessLogic
                 MethodInfo method = dataLoader.GetType().GetMethod("GetManyAsync");
                 MethodInfo generic = method.MakeGenericMethod(dataLoader.GetType());
                 FwCustomFields customFields = _Custom.CustomFields;
-                dynamic taskGetManyAsync = generic.Invoke(dataLoader, new object[] { request, customFields, beforeExecuteQuery });
+                dynamic taskGetManyAsync = generic.Invoke(dataLoader, new object[] { request, customFields, beforeExecuteQuery, conn });
                 var result = await taskGetManyAsync;
                 if (result != null)
                 {

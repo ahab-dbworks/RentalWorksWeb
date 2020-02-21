@@ -1377,49 +1377,49 @@ namespace FwStandard.Data
             return dt;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request, FwCustomFields customFields = null)
+        public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request, FwCustomFields customFields = null, FwSqlConnection conn = null)
         {
-            using (FwSqlConnection conn = GetDatabaseConnection())
+            if (conn == null)
             {
-                FwSqlSelect select = new FwSqlSelect();
-                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
-                {
-                    SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
-                    select.SetQuery(qry);
-                    MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
-                    MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                    dynamic result = generic.Invoke(qry, new object[] { customFields });
-                    dynamic records = await result;
-                    return records;
-                }
+                conn = GetDatabaseConnection();
+            }
+            FwSqlSelect select = new FwSqlSelect();
+            using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+            {
+                SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
+                select.SetQuery(qry);
+                MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
+                MethodInfo generic = method.MakeGenericMethod(this.GetType());
+                dynamic result = generic.Invoke(qry, new object[] { customFields });
+                dynamic records = await result;
+                return records;
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<GetResponse<T>> GetManyAsync<T>(GetRequest request, FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
+        public virtual async Task<GetResponse<T>> GetManyAsync<T>(GetRequest request, FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null, FwSqlConnection conn = null)
         {
-            //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
-            using (FwSqlConnection conn = GetDatabaseConnection())
+            if (conn == null)
             {
-                FwSqlSelect select = new FwSqlSelect();
-                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
-                {
-                    SetBaseGetManyQuery<T>(select, qry, request, customFields);
-                    select.Parse();
-                    if (beforeExecuteQuery != null)
-                    {
-                        await beforeExecuteQuery(select);
-                    }
-                    select.SetQuery(qry);
-
-                    // call the generic method SelectAsync<T> on the qry using reflection
-                    MethodInfo method = typeof(FwSqlCommand).GetMethod("GetManyAsync");
-                    MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                    Task<GetResponse<T>> result = (Task<GetResponse<T>>)generic.Invoke(qry, new object[] { customFields });
-                    var response = await result;
-                    return response;
-                }
+                conn = GetDatabaseConnection();
             }
+            FwSqlSelect select = new FwSqlSelect();
+            using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+            {
+                SetBaseGetManyQuery<T>(select, qry, request, customFields);
+                select.Parse();
+                if (beforeExecuteQuery != null)
+                {
+                    await beforeExecuteQuery(select);
+                }
+                select.SetQuery(qry);
 
+                // call the generic method SelectAsync<T> on the qry using reflection
+                MethodInfo method = typeof(FwSqlCommand).GetMethod("GetManyAsync");
+                MethodInfo generic = method.MakeGenericMethod(this.GetType());
+                Task<GetResponse<T>> result = (Task<GetResponse<T>>)generic.Invoke(qry, new object[] { customFields });
+                var response = await result;
+                return response;
+            }
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<dynamic> GetAsync<T>(object[] primaryKeyValues, FwCustomFields customFields = null, FwSqlConnection conn = null)
