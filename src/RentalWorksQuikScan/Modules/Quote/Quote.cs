@@ -126,7 +126,20 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@masteritemid", SqlDbType.Char,    ParameterDirection.InputOutput, masteritemid);
             sp.AddParameter("@errno",        SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@errmsg",       SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            try
+            {
+                sp.Execute();
+                result.masteritemid = sp.GetParameter("@masteritemid").ToString();
+                result.errno        = sp.GetParameter("@errno").ToString();
+                result.errmsg       = sp.GetParameter("@errmsg").ToString();
+            }
+            catch (Exception ex)
+            {
+                int indexofBEGINTRANSACTION = ex.Message.IndexOf("BEGIN TRANSACTION");
+                string error                = ex.Message.Remove(0, indexofBEGINTRANSACTION+17);
+                result.errno                = "1";
+                result.errmsg               = error;
+            }
 
             dynamic result      = new ExpandoObject();
             result.masteritemid = sp.GetParameter("@masteritemid").ToString();
@@ -190,6 +203,9 @@ namespace RentalWorksQuikScan.Modules
         public static List<dynamic> SearchQuantityItems(string searchvalue, string warehouseid)
         {
             List<dynamic> result;
+            string[] searchvalues;
+
+            searchvalues = searchvalue.Split(' ');
 
             FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             qry.Add("select *");
@@ -201,9 +217,28 @@ namespace RentalWorksQuikScan.Modules
             qry.Add("   and hasqty = 'T'");
             qry.Add("   and trackedby = 'QUANTITY'");
             qry.Add("   and class = 'I'");
-            qry.Add("   and master like '%' + @searchvalue + '%'");
+
+            if (searchvalues.Length == 1)
+            {
+                qry.Add("   and master like '%' + @searchvalue + '%'");
+                qry.AddParameter("@searchvalue", searchvalues[0]);
+            }
+            else
+            {
+                qry.Add("   and (");
+                for (int i = 0; i < searchvalues.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        qry.Add(" or ");
+                    }
+                    qry.Add("(master like '%' + @searchvalue" + i + " + '%')");
+                    qry.AddParameter("@searchvalue" + i, searchvalues[i]);
+                }
+                qry.Add(")");
+            }
+
             qry.Add("order by master");
-            qry.AddParameter("@searchvalue", searchvalue);
             qry.AddParameter("@warehouseid", warehouseid);
             result = qry.QueryToDynamicList2();
 
