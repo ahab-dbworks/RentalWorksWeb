@@ -24,6 +24,7 @@
                     contractId = FwFormField.getValueByDataField($form, 'ContractId'),
                     orderItemId = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'),
                     code = $tr.find('[data-browsedatafield="ICode"]').attr('data-originalvalue'),
+                    vendorId = $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'),
                     orderItemIdComment,
                     codeComment,
                     newValue = jQuery(e.currentTarget).val(),
@@ -35,7 +36,8 @@
                     OrderItemId: orderItemId,
                     Code: code,
                     Quantity: quantity,
-                    ModuleType: 'O'
+                    ModuleType: 'O',
+                    VendorId: vendorId,
                 };
 
                 if (orderItemIdComment) {

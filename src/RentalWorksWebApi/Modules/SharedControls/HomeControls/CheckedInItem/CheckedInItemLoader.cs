@@ -122,6 +122,12 @@ namespace WebApi.Modules.HomeControls.CheckedInItem
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
         public string VendorId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
+        public string VendorConsignor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorConsignorColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text)]
         public string NestedOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 

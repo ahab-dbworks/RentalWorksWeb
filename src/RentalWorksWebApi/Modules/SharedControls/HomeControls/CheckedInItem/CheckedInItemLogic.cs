@@ -120,6 +120,12 @@ namespace WebApi.Modules.HomeControls.CheckedInItem
         [FwLogicProperty(Id:"DoFfd3irzwQ")]
         public string VendorId { get; set; }
 
+        [FwLogicProperty(Id: "DvMQH76o4dDvB")]
+        public string VendorConsignor { get; set; }
+
+        [FwLogicProperty(Id: "fo1xowL0cPX9G", IsReadOnly: true)]
+        public string VendorConsignorColor { get; set; }
+
         [FwLogicProperty(Id:"xSdzUerr0Te")]
         public string NestedOrderItemId { get; set; }
 

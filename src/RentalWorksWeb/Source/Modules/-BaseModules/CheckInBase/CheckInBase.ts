@@ -725,14 +725,14 @@ abstract class CheckInBase implements IModule {
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Items">
                       <div class="flexrow">
-                        <div class="flexcolumn" style="flex:1 1 850px;">
+                        <div class="flexcolumn" style="flex:1 1 950px;">
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Bar Code / I-Code" data-datafield="BarCode" style="flex:1 1 300px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 300px;" data-enabled="false"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="InventoryDescription" style="flex:1 1 400px;" data-enabled="false"></div>
                           </div>
                         </div>
-                        <div class="flexcolumn" style="flex:1 1 850px;">
+                        <div class="flexcolumn" style="flex:1 1 950px;">
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="flex:0 1 100px; margin-right:256px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Ordered" data-datafield="QuantityOrdered" style="flex:0 1 100px;" data-enabled="false"></div>
@@ -748,7 +748,9 @@ abstract class CheckInBase implements IModule {
                       <div class="fwformcontrol addordertocontract" data-type="button" style="display:none; flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Add Order To Contract</div>
                       <div class="fwformcontrol swapitem" data-type="button" style="display:none; flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Swap Item</div>
                       <div class="flexrow">
-                        <div data-control="FwGrid" data-grid="CheckedInItemGrid" data-securitycaption=""></div>
+                        <div class="flexcolumn" style="flex:1 1 950px;">
+                          <div data-control="FwGrid" data-grid="CheckedInItemGrid" data-securitycaption=""></div>
+                        </div>
                       </div>
                       <div class="formrow">
                         <div class="fwformcontrol orderstatus" data-type="button" style="float:left; margin-left:10px;">${this.Module == 'CheckIn' ? 'Order' : 'Transfer'} Status</div>
