@@ -2567,6 +2567,7 @@ class FwBrowseClass {
                             let funcAddContextMenuOptions: ($tr: JQuery) => void = ($browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS));
                             const $tr = jQuery(this).closest('tr');
                             funcAddContextMenuOptions($tr);
+                            menuItemCount++;
                         }
 
                         // Audit history menu option

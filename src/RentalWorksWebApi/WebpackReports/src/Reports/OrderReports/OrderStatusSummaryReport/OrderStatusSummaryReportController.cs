@@ -25,7 +25,7 @@ namespace WebApi.Modules.Reports.OrderStatusSummaryReport
     [FwController(Id: "44jjIwel6TP0d")]
     public class OrderStatusSummaryReportController : AppReportController
     {
-        public OrderStatusSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderStatusSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrderStatusSummaryReportLoader); }
         protected override string GetReportFileName() { return "OrderStatusSummaryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Order Status"; }
@@ -77,9 +77,9 @@ namespace WebApi.Modules.Reports.OrderStatusSummaryReport
             {
                 OrderStatusSummaryReportLoader l = new OrderStatusSummaryReportLoader();
                 l.SetDependencies(this.AppConfig, UserSession);
-                FwJsonDataTable dt = await l.RunReportAsync(request);
+                OrderStatusSummaryHeaderLoader Order = await l.RunReportAsync(request);
                 //l.HideSummaryColumnsInDataTable(request, dt);
-                return new OkObjectResult(dt);
+                return new OkObjectResult(Order);
             }
             catch (Exception ex)
             {

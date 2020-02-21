@@ -343,6 +343,11 @@ class QuikActivityCalendar {
                 if (typeof $calendar.data('oneventclick') === 'function') {
                     $calendar.data('oneventclick')(event);
                 }
+            })
+            .data('oneventdoubleclicked', event => {
+                if (typeof $calendar.data('oneventclick') === 'function') {
+                    $calendar.data('oneventclick')(event);
+                }
             });
 
         if ($calendar.length > 0) {

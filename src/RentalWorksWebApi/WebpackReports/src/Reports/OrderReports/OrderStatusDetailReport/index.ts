@@ -13,21 +13,20 @@ const hbFooter = require("./hbFooter.hbs");
 export class OrderStatusDetailReport extends WebpackReport {
     order: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
-        console.log(parameters, 'orderstatus params');
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-            // Report rendering and Logo
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<DataTable>(`${apiUrl}/api/v1/orderstatusdetailreport/runreport`, authorizationHeader, parameters)
-                        .then((response: DataTable) => {
+                    Ajax.post<OrderStatusDetailReportResponse>(`${apiUrl}/api/v1/orderstatusdetailreport/runreport`, authorizationHeader, parameters)
+                        .then((response: OrderStatusDetailReportResponse) => {
                             const data: any = response;
-                            data.Items = DataTable.toObjectList(response);
+                            data.Items = DataTable.toObjectList(response.ItemsTable);
                             data.Company = parameters.companyName;
                             data.Order = parameters.orderno;
                             data.Report = "Order Status Detail";
                             data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                            data.PrintDate = `${moment().format('MM/DD/YYYY')}`;
                             data.System = 'RENTALWORKS';
                             data.TermsAndConditions == '';
                             if (logoObject.LogoImage != '') {
@@ -64,8 +63,7 @@ export class OrderStatusDetailReport extends WebpackReport {
                             this.onRenderReportFailed(ex);
                         });
 
-                })
-                .catch((ex) => {
+                }).catch((ex) => {
                     console.log('exception: ', ex)
                 });
 
@@ -78,6 +76,44 @@ export class OrderStatusDetailReport extends WebpackReport {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
+}
+
+interface OrderStatusDetailReportResponse {
+    _Custom: any[];
+    Agent: string;
+    AgentEmail: string;
+    Warehouse: string;
+    Department: string;
+    OfficeLocation: string;
+    OfficeLocationPhone: string;
+    OfficeLocationAddress1: string;
+    OfficeLocationAddress2: string;
+    OfficeLocationCityStateZipCodeCountry: string;
+    IssuedToCompany: string;
+    IssuedToAttention1: string;
+    IssuedToAttention2: string;
+    IssuedToAddress1: string;
+    IssuedToAddress2: string;
+    IssuedToCity: string;
+    IssuedToState: string;
+    IssuedToZipCode: string;
+    IssuedToCountry: string;
+    IssuedToPhone: string;
+    OutDeliveryLocation: string;
+    OutDeliveryAddress1: string;
+    OutDeliveryAddress2: string;
+    OutDeliveryCity: string;
+    OutDeliveryState: string;
+    OutDeliveryZipCode: string;
+    OutDeliveryCountryId: string;
+    OutDeliveryCountry: string;
+    OutDeliveryContactPhone: string;
+    OutDeliveryCityStateZipCodeCountry: string;
+    UsageDates: string;
+    BillingDates: string;
+    Description: string;
+    Deal: string;
+    ItemsTable: DataTable;
 }
 
 (<any>window).report = new OrderStatusDetailReport();

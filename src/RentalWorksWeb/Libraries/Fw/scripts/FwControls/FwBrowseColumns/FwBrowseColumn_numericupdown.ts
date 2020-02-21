@@ -82,7 +82,8 @@ class FwBrowseColumn_numericupdownClass implements IFwBrowseColumn {
             $field.find('.value').on('keydown', (e) => {
                 if (!((e.keyCode > 95 && e.keyCode < 106)
                     || (e.keyCode > 47 && e.keyCode < 58)
-                    || e.keyCode == 8)) {
+                    || e.keyCode == 8 || e.keyCode == 9
+                    || (e.keyCode > 36 && e.keyCode < 41))) {
                     return false;
                 }
             });
@@ -112,7 +113,8 @@ class FwBrowseColumn_numericupdownClass implements IFwBrowseColumn {
             $field.find('.value').on('keydown', (e) => {
                 if (!((e.keyCode > 95 && e.keyCode < 106)
                     || (e.keyCode > 47 && e.keyCode < 58)
-                    || e.keyCode == 8)) {
+                    || e.keyCode == 8 || e.keyCode == 9
+                    || (e.keyCode > 36 && e.keyCode < 41))) {
                     return false;
                 }
             });

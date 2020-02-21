@@ -158,6 +158,22 @@ namespace WebApi.Modules.Agent.Order
     {
     }
 
+    public class OrderMessagesRequest
+    {
+        public string OrderId { get; set; }
+    }
+    public class OrderMessage 
+    {
+        public string Message { get; set; }
+        public bool PreventCheckOut { get; set; }
+    }
+    public class OrderMessagesResponse : TSpStatusResponse
+    {
+        public List<OrderMessage> Messages = new List<OrderMessage>();
+    }
+
+
+
     public static class OrderFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -565,6 +581,34 @@ namespace WebApi.Modules.Agent.Order
             qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
             await qry.ExecuteNonQueryAsync();
             response.success = true;
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<OrderMessagesResponse> GetOrderMessages(FwApplicationConfig appConfig, FwUserSession userSession, OrderMessagesRequest request)
+        {
+            OrderMessagesResponse response = new OrderMessagesResponse();
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getordermessagesweb", appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    response.success = true;
+                    FwJsonDataTable dt = null;
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddColumn("message", "Message", FwDataTypes.Text, true, false, false);
+                    qry.AddColumn("preventcheckout", "PreventCheckOut", FwDataTypes.Text, true, false, false);
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        OrderMessage m = new OrderMessage();
+                        m.Message = row[0].ToString();
+                        m.PreventCheckOut = FwConvert.ToBoolean(row[1].ToString());
+                        response.Messages.Add(m);
+                    }
+                }
+            }
 
             return response;
         }

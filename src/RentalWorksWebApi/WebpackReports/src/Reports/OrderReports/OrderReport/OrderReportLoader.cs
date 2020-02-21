@@ -268,6 +268,13 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         {
             recType = RwConstants.RECTYPE_USED_SALE;
         }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class LossAndDamageOrderItemReportLoader : OrderItemReportLoader
@@ -276,6 +283,21 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         {
             recType = RwConstants.RECTYPE_LOSS_AND_DAMAGE;
         }
+
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldorderno", modeltype: FwDataTypes.Text)]
+        public string OriginalOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldorderdesc", modeltype: FwDataTypes.Text)]
+        public string OriginalOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumber{ get; set; }
+        //------------------------------------------------------------------------------------ 
+
     }
     //------------------------------------------------------------------------------------ 
 

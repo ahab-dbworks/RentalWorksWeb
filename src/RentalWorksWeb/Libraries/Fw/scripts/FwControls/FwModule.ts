@@ -1280,23 +1280,20 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static validateForm($form: JQuery) {
-        var isvalid, $fields;
-
-        isvalid = true;
+        let isValid = true;
 
         if ($form.parent().data('type') === 'settings-row') {
             $form.data('fields', $form.find('.fwformfield'))
         }
 
-        $fields = $form.data('fields');
-
+        const $fields = $form.data('fields');
         $fields.each(function (index) {
             var $field = jQuery(this);
 
             if (($field.attr('data-required') == 'true') && ($field.attr('data-enabled') == 'true')) {
                 if ($field.find('.fwformfield-value').val() == '') {
                     var errorTab = $field.closest('.tabpage').attr('data-tabid');
-                    isvalid = false;
+                    isValid = false;
                     $field.addClass('error');
                     $field.parents('.fwcontrol .fwtabs').find('#' + errorTab).addClass('error');
                 } else if ($field.find('.fwformfield-value').val() != '' && !$field.hasClass('dev-err')) {
@@ -1304,23 +1301,23 @@ class FwModule {
                 }
             }
             if (($field.attr('data-noduplicate') == 'true') && ($field.hasClass('error'))) {
-                isvalid = false;
+                isValid = false;
             }
             if ($field.hasClass('error')) {
-                isvalid = false;
+                isValid = false;
             }
-            if (isvalid) {
+            if (isValid) {
                 $field.removeClass('error');
             }
         });
 
-        if (!isvalid) {
+        if (!isValid) {
             FwNotification.renderNotification('ERROR', 'Please resolve the error(s) on the form.');
         } else {
             $form.find('[data-type="tab"].error').removeClass('error');
         }
 
-        return isvalid;
+        return isValid;
     }
     //----------------------------------------------------------------------------------------------
     static getData($object: JQuery, request: any, responseFunc: Function, $elementToBlock: JQuery, timeout?: number) {

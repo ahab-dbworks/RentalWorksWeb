@@ -109,6 +109,21 @@ namespace WebApi.Modules.HomeControls.DealOrderDetail
         public bool? IsManualSort { get; set; }
         //------------------------------------------------------------------------------------
 
+
+        [FwSqlDataField(column: "misccomplete", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? MiscellaneousIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "submisccomplete", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? SubMiscellaneousIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborcomplete", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? LaborIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "sublaborcomplete", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? SubLaborIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
+
+
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

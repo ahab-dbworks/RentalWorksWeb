@@ -232,6 +232,14 @@ class PurchaseOrder implements IModule {
             { value: 'WAREHOUSE', caption: 'Warehouse' },
             { value: 'OTHER', caption: 'Other' }
         ], true);
+
+        //Toggle Buttons - Summary tab
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeProfitLoss"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period', checked: 'checked' }
+        ]);
+
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         this.renderPrintButton($form);
@@ -1538,6 +1546,12 @@ class PurchaseOrder implements IModule {
         if (!isSubMisc) { $form.find('.submisctab').hide() }
         if (!isSubLabor) { $form.find('.sublabortab').hide() }
 
+        //summary section visibility
+        isRental ? $form.find('.rental-pl').show() : $form.find('.rental-pl').hide();
+        isSales ? $form.find('.sales-pl').show() : $form.find('.sales-pl').hide();
+        isLabor ? $form.find('.labor-pl').show() : $form.find('.labor-pl').hide();
+        isMisc ? $form.find('.misc-pl').show() : $form.find('.misc-pl').hide();
+
         if (!isMisc && !isLabor && !isSubRent && !isSubSale && !isSubMisc && !isSubLabor) $scheduleDateFields.hide();
 
         //Click Event on tabs to load grids/browses
@@ -1547,7 +1561,9 @@ class PurchaseOrder implements IModule {
             const tabname = $tab.attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
             const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
-
+            if ($tab.hasClass('profitlosstab')) {
+                this.loadSummary($form);
+            }
             if ($tab.hasClass('audittab') == false) {
                 const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
                 if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
@@ -1890,26 +1906,37 @@ class PurchaseOrder implements IModule {
             , submiscTab = $form.find('.submisctab')
             , sublaborTab = $form.find('.sublabortab');
         const $scheduleDateFields = $form.find('.activity-unchecked');
+
         $form.find('[data-datafield="Rental"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     rentalTab.show();
+                    $form.find('.rental-pl').show();
                 } else {
                     rentalTab.hide();
+                    $form.find('.rental-pl').hide();
                 }
             } else {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     rentalTab.show();
+                    $form.find('.rental-pl').show();
                     FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
                 } else {
                     rentalTab.hide();
+                    $form.find('.rental-pl').hide();
                     FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
                 }
             }
         });
 
         $form.find('[data-datafield="Sales"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? salesTab.show() : salesTab.hide();
+            if (jQuery(e.currentTarget).prop('checked')) {
+                salesTab.show();
+                $form.find('.sales-pl').show();
+            } else {
+                salesTab.hide();
+                $form.find('.sales-pl').hide();
+            }
         });
         $form.find('[data-datafield="Parts"] input').on('change', e => {
             jQuery(e.currentTarget).prop('checked') ? partsTab.show() : partsTab.hide();
@@ -1917,18 +1944,22 @@ class PurchaseOrder implements IModule {
         $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 miscTab.show();
+                $form.find('.misc-pl').show();
                 $scheduleDateFields.show();
             } else {
                 miscTab.hide();
+                $form.find('.misc-pl').hide();
             }
         });
         $form.find('[data-datafield="Labor"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 laborTab.show();
+                $form.find('.labor-pl').show();
                 $scheduleDateFields.show();
             }
             else {
                 laborTab.hide();
+                $form.find('.labor-pl').hide();
             }
         });
         $form.find('[data-datafield="SubRent"] input').on('change', e => {
@@ -2256,6 +2287,10 @@ class PurchaseOrder implements IModule {
         $form.find('.delivery-type-radio').on('change', event => {
             this.deliveryTypeAddresses($form, event);
         });
+        //summary toggle buttons
+        $form.find('.profit-loss-total input').off('change').on('change', e => {
+            this.loadSummary($form);
+        });
         // Stores previous value for Receive / ReturnDeliveryDeliveryType
         $form.find('.delivery-delivery').on('click', event => {
             const $element = jQuery(event.currentTarget);
@@ -2382,6 +2417,46 @@ class PurchaseOrder implements IModule {
             }
         }
     }
+    //----------------------------------------------------------------------------------------------
+    loadSummary($form: any) {
+        //fields disabled
+        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+        FwFormField.disable($form.find('.frame'));
+        let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+        $form.find('.frame input').css('width', '100%');
+        if (id !== '') {
+            if (typeof period !== 'undefined') {
+                id = `${id}~${period}`
+            }
+            FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        $form.find(`[data-framedatafield="${key}"] input`).val(response[key]);
+                        $form.find(`[data-framedatafield="${key}"]`).attr('data-originalvalue', response[key]);
+                    }
+                }
+
+                const $profitFrames = $form.find('.profitframes .frame');
+                $profitFrames.each(function () {
+                    var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
+                    if (profit > 0) {
+                        jQuery(this).find('input').css('background-color', '#A6D785');
+                    } else if (profit < 0) {
+                        jQuery(this).find('input').css('background-color', '#ff9999');
+                    }
+                });
+
+                const $totalFrames = $form.find('.totalColors input');
+                $totalFrames.each(function () {
+                    var total = jQuery(this).val();
+                    if (total != 0) {
+                        jQuery(this).css('background-color', '#ffffe5');
+                    }
+                })
+            }, null, $form);
+            $form.find(".frame .add-on").children().hide();
+        }
+    };
     //----------------------------------------------------------------------------------------------
     getWarehouseAddress($form: any, prefix: string): void {
         //const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid; - J.Pace :: changed from user warehouse to order warehouse at request of mgmt 12/31/19

@@ -126,14 +126,13 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Utilities.children.DashboardSettings,
                     Constants.Modules.Utilities.children.InventoryPurchaseUtility,
                     Constants.Modules.Utilities.children.InventoryRetireUtility,
-                    Constants.Modules.Utilities.children.InventoryUnretireUtility,
                     Constants.Modules.Utilities.children.MigrateOrders,
                     Constants.Modules.Utilities.children.InvoiceProcessBatch,
                     Constants.Modules.Utilities.children.ReceiptProcessBatch,
                     Constants.Modules.Utilities.children.VendorInvoiceProcessBatch,
-                    Constants.Modules.Utilities.children.RefreshGLHistory,
                     Constants.Modules.Utilities.children.QuikActivityCalendar,
                     Constants.Modules.Utilities.children.QuikSearch,
+                    Constants.Modules.Utilities.children.RefreshGLHistory,
                 ]
             };
             this.navigation.push(menuUtilities);

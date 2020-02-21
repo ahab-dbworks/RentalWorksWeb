@@ -65,7 +65,7 @@ namespace WebApi.Modules.Agent.Order
             legend.Add("Multi-Warehouse", RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
             legend.Add("Repair", RwGlobals.ORDER_REPAIR_COLOR);
             legend.Add("Loss & Damage", RwGlobals.ORDER_LOSS_AND_DAMAGE_COLOR);
-            legend.Add("Unassigned Subs", RwGlobals.SUB_COLOR);
+            //legend.Add("Unassigned Subs", RwGlobals.SUB_COLOR);  // commented to avoid confusion until this enhancement is completed
             await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
@@ -546,6 +546,28 @@ namespace WebApi.Modules.Agent.Order
             }
         }
         //------------------------------------------------------------------------------------       
+        // GET api/v1/order/A0000001/messages
+        [HttpGet("{id}/messages")]
+        [FwControllerMethod(Id: "EkH24Uo3xLhBX", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<OrderMessagesResponse>> GetOrderMessages([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                OrderMessagesRequest request = new OrderMessagesRequest();
+                request.OrderId = id;
+                OrderMessagesResponse response = await OrderFunc.GetOrderMessages(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
         // GET api/v1/order
         [HttpGet]
         [FwControllerMethod(Id: "proTzh4yd7gn", ActionType: FwControllerActionTypes.Browse)]
@@ -801,6 +823,6 @@ namespace WebApi.Modules.Agent.Order
         {
             return await DoBrowseAsync<CountryLogic>(browseRequest);
         }
-
+        //------------------------------------------------------------------------------------
     }
 }

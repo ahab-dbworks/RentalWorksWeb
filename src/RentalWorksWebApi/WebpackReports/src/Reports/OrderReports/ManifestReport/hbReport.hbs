@@ -1,0 +1,162 @@
+﻿<!--Manifest Report-->
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+    <div class="rpt-flexcolumn" style="padding-bottom:5px;">
+        {{#if Logosrc}}
+        <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+        {{else}}
+        <div></div>
+        {{/if}}
+        <span style="font-weight:600; font-size:18px;">{{OfficeLocationCompany}}</span>
+        <span class="company-header">{{OfficeLocationAddress1}}</span>
+        <span class="company-header">{{OfficeLocationAddress2}}</span>
+        <span class="company-header">{{OfficeLocationCityStateZipCodeCountry}}</span>
+        <span class="company-header"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
+        {{#gt OfficeLocationFax.length 0}}
+        <span class="company-header"><span style="font-weight:600;">Fax: </span>{{OfficeLocationFax}}</span>
+        {{/gt}}
+    </div>
+    <div style="max-width: 283px;" class="rpt-flexcolumn">
+        <span class="title blue">{{Report}}</span>
+        <span class="sub-title blue">{{Department}}</span>
+    </div>
+    <div class="rpt-flexcolumn">
+        <span class="header-right blue" style="font-size:32px;"><span style="font-weight:600;padding-right:8px;">No: </span><span style="background-color:#DCDCDC;color:black;border:3px solid #0798ee;padding:3px;">{{OrderNumber}}</span></span>
+        <span style="font-size:20px;padding-top:10px;" class="header-right blue"><span style="font-weight:600;">Date: </span><span style="color:black;padding-left:12px;">{{Date}}</span></span>
+    </div>
+</div>
+<div class="rpt-flexrow" style="padding-left:3px;">
+    <div class="rpt-flexcolumn">
+        <div class="meta-header"><span>Issued To:</span></div>
+        <div class="meta-address">
+            <span class="header-left">{{IssuedToCompany}}</span>
+            {{#if IssuedToAttentionTo1}}
+            <span class="header-left">c/o {{IssuedToAttentionTo1}}</span>
+            {{/if}}
+            <span class="header-left">{{IssuedToAddress1}}</span>
+            <span class="header-left">{{IssuedToAddress2}}</span>
+            <span class="header-left">{{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}</span>
+            <span class="header-left"><span style="font-weight:600;">Phone: </span>{{IssuedToPhone}}</span>
+            {{#gt DealFax.length 0}}
+            <span class="header-left"><span style="font-weight:600;">Fax: </span>{{OrderIssuedToFax}}</span>
+            {{/gt}}
+        </div>
+        <div class="meta-header"><span>Outgoing (Deliver)</span></div>
+        <div class="meta-address">
+            <span class="header-left">{{OutDeliveryLocation}}</span>
+            <span class="header-left">{{OutDeliveryAddress1}}</span>
+            <span class="header-left">{{OutDeliveryAddress2}}</span>
+            <span class="header-left">{{OutDeliveryCityStateZipCodeCountry}}</span>
+            <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OutDeliveryContactPhone}}</span>
+            {{#gt DealFax.length 0}}
+            <span class="header-left"><span style="font-weight:600;">Fax: </span>{{OrderIssuedToFax}}</span>
+            {{/gt}}
+        </div>
+    </div>
+    <div style="max-width:50px;" class="rpt-flexcolumn middle">
+        <span style="padding:10px;"></span>
+    </div>
+    <div class="rpt-flexcolumn">
+
+        <div class="meta-header"><span>Order Details:</span></div>
+        <table style="border-top:none;" class="meta-section">
+            <tr>
+                <td style="width:84px;" class="shaded-block">Order No: </td>
+                <td class="meta-content" style="vertical-align:top;">{{OrderNumber}}</td>
+            </tr>
+            <tr>
+                <td style="width:84px;" class="shaded-block">Deal: </td>
+                <td class="meta-content" style="vertical-align:top;">{{Deal}}</td>
+            </tr>
+            <tr>
+                <td style="width:84px;" class="shaded-block">Description: </td>
+                <td class="meta-content" style="vertical-align:top;">{{Description}}</td>
+            </tr>
+        </table>
+        <table class="meta-section">
+            <tr>
+                <td style="width:84px;" class="shaded-block">Usage Dates: </td>
+                <td class="meta-content">{{UsageDates}}</td>
+            </tr>
+            <tr>
+                <td style="width:84px;" class="shaded-block">Billing Period: </td>
+                <td class="meta-content">{{BillingDates}}</td>
+            </tr>
+        </table>
+        <table class="meta-section">
+            <tr>
+                <td style="width:84px;" class="shaded-block">Agent: </td>
+                <td class="meta-content">{{Agent}}</td>
+            </tr>
+            <tr>
+                <td style="width:84px;" class="shaded-block">Email: </td>
+                <td class="meta-content">{{AgentEmail}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:25px;">
+    <table>
+        <thead>
+            <!--<tr>
+                <td colspan="6" class="section-header">&nbsp;</td>
+            </tr>-->
+            <tr>
+                <td></td>
+                <th>I-Code</th>
+                <th>Description</th>
+                <th>Country <br />of Origin</th>
+                {{#ifEquals WhichReport "DETAIL"}}
+                <th class="number">Serial No.</th>
+                <th class="number">Barcode</th>
+                {{/ifEquals}}
+                <th class="number">Quantity</th>
+                {{#ifEquals WhichReport "DETAIL"}}
+                <th class="number">Weight<br /> Per Item</th>
+                <th class="number">Extended<br /> Weight</th>
+                {{/ifEquals}}
+                <th class="number">Item<br /> Value</th>
+                <th class="number">Extended<br /> Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each Items}}
+            {{#ifEquals RowType "detail"}}
+            <tr data-rowtype="{{RowType}}" class="description-row">
+                <td></td>
+                <td class="nowrap">{{ICode}}</td>
+                <td>{{OrderDescription}}</td>
+                <td>{{CountryOfOrigin}}</td>
+                {{#ifEquals WhichReport "DETAIL"}}
+                <th class="number">{{MfgSerial}}</th>
+                <th class="number">{{Barcode}}</th>
+                {{/ifEquals}}
+                <td class="number">{{Quantity}}</td>
+                {{#ifEquals WhichReport "DETAIL"}}
+                <td class="number">{{WeightLbs}} lb {{WeightOz}} oz</td>
+                <td class="number">{{ExtendedWeightLbs}} lb {{ExtendedWeightOz}} oz</td>
+                {{/ifEquals}}
+                <td class="number">{{ValuePerItem}}</td>
+                <td class="number">{{ValueExtended}}</td>
+            </tr>
+            {{/ifEquals}}
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+<div class="rpt-flexrow" style="margin-top:25px;">
+    {{#each Items}}
+    {{#ifEquals RowType "grandtotal"}}
+    <table class="grandTotalRow">
+        <tr>
+            <td style="min-width:438px;"></td>
+            <td style="min-width:300px;text-align:right;padding-right:10px;font-weight:bold;">GRAND TOTAL</td>
+            {{#ifEquals WhichReport "DETAIL"}}
+            <td class="grandTotalAllActivities" style="min-width:155px;padding-right:3px;">{{ExtendedWeightLbs}} lb {{ExtendedWeightOz}} oz</td>
+            <td class="grandTotalAllActivities" style="min-width:40px;"></td>
+            {{/ifEquals}}
+            <td class="number grandTotalAllActivities" style="min-width:150px;padding-right:3px;" data-value="{{ValueExtended}}"></td>
+        </tr>
+    </table>
+    {{/ifEquals}}
+    {{/each}}
+</div>
