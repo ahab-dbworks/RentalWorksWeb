@@ -252,13 +252,15 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             get
             {
                 string display = FwConvert.ToUSShortDate(ToDateTime);
-                if (ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                //if (ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                if (Late)
                 {
-                    display = "No End Date";
+                    display = "No End Date (Late)";
                 }
                 return display;
             }
         }
+        public bool Late { get; set; }
         public bool LateButReturning { get; set; }
         public bool QcRequired { get; set; }
         public bool EnableQcDelay { get; set; }
@@ -411,6 +413,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             this.Deal = source.Deal;
             this.FromDateTime = source.FromDateTime;
             this.ToDateTime = source.ToDateTime;
+            this.Late = source.Late;
             this.LateButReturning = source.LateButReturning;
             this.QcRequired = source.QcRequired;
             this.EnableQcDelay = source.EnableQcDelay;
@@ -837,6 +840,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             avail3.InventoryWarehouse.WarehouseId = avail1.InventoryWarehouse.WarehouseId + "," + avail2.InventoryWarehouse.WarehouseId;
             avail3.InventoryWarehouse.WarehouseCode = avail1.InventoryWarehouse.WarehouseCode + ", " + avail2.InventoryWarehouse.WarehouseCode;
             avail3.InventoryWarehouse.Warehouse = avail1.InventoryWarehouse.Warehouse + ", " + avail2.InventoryWarehouse.Warehouse;
+            avail3.InventoryWarehouse.NoAvailabilityCheck = (avail1.InventoryWarehouse.NoAvailabilityCheck || avail2.InventoryWarehouse.NoAvailabilityCheck);
             avail3.AvailDataFromDateTime = avail2.AvailDataFromDateTime;
             avail3.AvailDataToDateTime = avail2.AvailDataToDateTime;
             avail3.CalculatedDateTime = avail2.CalculatedDateTime;
@@ -1326,7 +1330,18 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 }
             }
 
-            //#jhtodo: add all of the accessories to the searchsession, too
+            //add all of the accessories to the searchsession, too
+            {
+                FwSqlCommand qryAcc = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qryAcc.Add("insert into tmpsearchsession (sessionid, masterid)                       ");
+                qryAcc.Add("select distinct a.sessionid, p.masterid                                  ");
+                qryAcc.Add(" from  packagemasterwhforavailview p                                     ");
+                qryAcc.Add("              join tmpsearchsession a on (p.packageid = a.masterid)      ");
+                qryAcc.Add(" where a.sessionid = @sessionid                                          ");
+                qryAcc.AddParameter("@sessionid", sessionId);
+                await qryAcc.ExecuteNonQueryAsync();
+            }
+
 
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
@@ -1617,24 +1632,77 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 res.ToDateTime = res.ToDateTime.Date;
                             }
 
-                            if ((res.ToDateTime < DateTime.Now) && ((res.QuantityStaged.Total + res.QuantityOut.Total + +res.QuantityInRepair.Total) > 0))
+                            //if ((res.ToDateTime < DateTime.Now) && ((res.QuantityStaged.Total + res.QuantityOut.Total + +res.QuantityInRepair.Total) > 0))
+                            //{
+                            //    int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
+                            //    DateTime lateButReturningThroughDate = res.ToDateTime.AddDays(warehouseLateDays);
+                            //    if ((warehouseLateDays > 0) && (res.QuantityOut.Total > 0) && (res.ToDateTime < lateButReturningThroughDate) && (lateButReturningThroughDate > DateTime.Now))
+                            //    {
+                            //        res.ToDateTime = lateButReturningThroughDate;
+                            //        res.LateButReturning = true;
+                            //    }
+                            //    else
+                            //    {
+                            //        res.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                            //    }
+                            //}
+
+                            // adjust for Late and LateButReturning
+                            if ((res.QuantityStaged.Total + res.QuantityOut.Total + +res.QuantityInRepair.Total) > 0)
                             {
-                                int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
-                                DateTime lateButReturningThroughDate = res.ToDateTime.AddDays(warehouseLateDays);
-                                if ((warehouseLateDays > 0) && (res.QuantityOut.Total > 0) && (res.ToDateTime < lateButReturningThroughDate) && (lateButReturningThroughDate > DateTime.Now))
+                                bool isLate = false;
+                                if (hourlyAvailability)
                                 {
-                                    res.ToDateTime = lateButReturningThroughDate;
-                                    res.LateButReturning = true;
+                                    //hourly availability
+                                    isLate = (res.ToDateTime < DateTime.Now);
+
+                                    if (isLate)
+                                    {
+                                        int warehouseLateHours = FwConvert.ToInt32(row[dt.GetColumnNo("availlatehours")].ToString());
+                                        DateTime lateButReturningThroughDateTime = res.ToDateTime.AddHours(warehouseLateHours);
+                                        if ((warehouseLateHours > 0) && (res.QuantityOut.Total > 0) && (res.ToDateTime < lateButReturningThroughDateTime) && (lateButReturningThroughDateTime > DateTime.Now))
+                                        {
+                                            res.ToDateTime = lateButReturningThroughDateTime;
+                                            res.LateButReturning = true;
+                                        }
+                                        else
+                                        {
+                                            res.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                                            res.Late = true;
+                                        }
+                                    }
+
                                 }
                                 else
                                 {
-                                    res.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                                    //daily availability
+                                    isLate = (res.ToDateTime < DateTime.Today);
+
+                                    if (isLate)
+                                    {
+                                        int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
+                                        DateTime lateButReturningThroughDate = res.ToDateTime.AddDays(warehouseLateDays);
+                                        if ((warehouseLateDays > 0) && (res.QuantityOut.Total > 0) && (res.ToDateTime < lateButReturningThroughDate) && (lateButReturningThroughDate > DateTime.Today))
+                                        {
+                                            res.ToDateTime = lateButReturningThroughDate;
+                                            res.LateButReturning = true;
+                                        }
+                                        else
+                                        {
+                                            res.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                                            res.Late = true;
+                                        }
+                                    }
                                 }
+
                             }
+
+
 
                             if ((res.QcRequired) && (res.OrderType.Equals(RwConstants.ORDER_TYPE_QUOTE) || res.OrderType.Equals(RwConstants.ORDER_TYPE_ORDER)) && ((res.QuantityReserved.Owned + res.QuantityStaged.Owned + res.QuantityOut.Owned) > 0) && (res.EnableQcDelay) && ((res.QcDelayDays > 0) || (res.QcDelayIndefinite)))
                             {
-                                if (!res.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                                //if (!res.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                                if (!res.Late)
                                 {
                                     res.QcDelayFromDateTime = res.ToDateTime.AddDays(1);
                                     res.QcDelayToDateTime = res.ToDateTime.AddDays(res.QcDelayDays);
@@ -1692,94 +1760,19 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         //-------------------------------------------------------------------------------------------------------
         private static void CalculateFutureAvailability(ref TAvailabilityCache availCache)
         {
+            // first pass, just calculate future availability for stand-alone items
             foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in availCache)
             {
                 TInventoryWarehouseAvailabilityKey availKey = availEntry.Key;
                 TInventoryWarehouseAvailability availData = availEntry.Value;
-                DateTime currentAvailabilityDateTime = (availData.InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
-                DateTime fromDateTime = currentAvailabilityDateTime;
-                DateTime toDateTime = availData.AvailDataToDateTime;
-                availData.AvailabilityDatesAndTimes.Clear();
-                if (!availData.InventoryWarehouse.NoAvailabilityCheck)
+                if (!AppFunc.InventoryClassIsPackage(availData.InventoryWarehouse.Classification))   // stand-alone item
                 {
-                    if (AppFunc.InventoryClassIsPackage(availData.InventoryWarehouse.Classification))   // complete / kit
+                    if (!availData.InventoryWarehouse.NoAvailabilityCheck)
                     {
-                        DateTime theDateTime = fromDateTime;
-                        while (theDateTime <= toDateTime)
-                        {
-                            TInventoryWarehouseAvailabilityQuantity packageAvailable = new TInventoryWarehouseAvailabilityQuantity();
-                            bool initialPackageAvailableDetermined = false;
-                            bool accessoryAvailabilityDataExists = true;
-
-                            foreach (TPackageAccessory accessory in availData.InventoryWarehouse.Accessories)
-                            {
-                                if (accessory.DefaultQuantity != 0) // avoid divide-by-zero error.  value should not be zero anyway
-                                {
-                                    TInventoryWarehouseAvailabilityKey accKey = new TInventoryWarehouseAvailabilityKey(accessory.InventoryId, availKey.WarehouseId);
-                                    TInventoryWarehouseAvailability accAvailCache = null;
-                                    if (AvailabilityCache.TryGetValue(accKey, out accAvailCache))
-                                    {
-                                        TInventoryWarehouseAvailabilityDateTime accAvailableDateTime = null;
-                                        if (accAvailCache.AvailabilityDatesAndTimes.TryGetValue(theDateTime, out accAvailableDateTime))
-                                        {
-                                            TInventoryWarehouseAvailabilityQuantity accAvailable = accAvailableDateTime.Available;
-                                            if (initialPackageAvailableDetermined)
-                                            {
-                                                //Compare with available calculation based on other accessories already looked at
-                                                packageAvailable.Owned = Math.Min(packageAvailable.Owned, accAvailable.Owned / accessory.DefaultQuantity);
-                                                packageAvailable.Consigned = Math.Min(packageAvailable.Consigned, (accAvailable.Consigned / accessory.DefaultQuantity));
-                                            }
-                                            else
-                                            {
-                                                packageAvailable.Owned = (accAvailable.Owned / accessory.DefaultQuantity);
-                                                packageAvailable.Consigned = (accAvailable.Consigned / accessory.DefaultQuantity);
-                                            }
-                                            initialPackageAvailableDetermined = true;
-                                        }
-                                        else
-                                        {
-                                            // accessory availabiltiy data not found in cache
-                                            accessoryAvailabilityDataExists = false;
-                                            break;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // accessory availabiltiy data not found in cache
-                                        accessoryAvailabilityDataExists = false;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            //round the package available numbers to the next whole number (important when spare accessories are used)
-                            packageAvailable.Owned = (float)Math.Floor(packageAvailable.Owned);
-                            packageAvailable.Consigned = (float)Math.Floor(packageAvailable.Consigned);
-
-                            if (accessoryAvailabilityDataExists)
-                            {
-                                TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = new TInventoryWarehouseAvailabilityDateTime(theDateTime);
-                                inventoryWarehouseAvailabilityDateTime.Available = packageAvailable;
-                                availData.AvailabilityDatesAndTimes.TryAdd(theDateTime, inventoryWarehouseAvailabilityDateTime);
-                                if (availData.InventoryWarehouse.HourlyAvailability)
-                                {
-                                    theDateTime = theDateTime.AddHours(1);
-                                }
-                                else
-                                {
-                                    theDateTime = theDateTime.AddDays(1);
-                                }
-                            }
-                            else
-                            {
-                                // availabiltiy data not found in cache for at least one accessory for at least one date in the range
-                                break;
-                                // exit the date while loop.  leave package availability data incomplete
-                            }
-                        }
-                    }
-                    else  // item/accesssory
-                    {
+                        DateTime currentAvailabilityDateTime = (availData.InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
+                        DateTime fromDateTime = currentAvailabilityDateTime;
+                        DateTime toDateTime = availData.AvailDataToDateTime;
+                        availData.AvailabilityDatesAndTimes.Clear();
                         TInventoryWarehouseAvailabilityQuantity available = new TInventoryWarehouseAvailabilityQuantity();
                         //available.CloneFrom(availData.In);   // snapshot the current IN quantity.  use this as a running total
                         available = TInventoryWarehouseAvailabilityQuantity.MakeCopy(availData.In);   // snapshot the current IN quantity.  use this as a running total
@@ -1896,6 +1889,99 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     availData.CalculatedDateTime = DateTime.Now;
                 }
             }
+
+            // second pass, calculate future availability for completes and kits
+            foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in availCache)
+            {
+                TInventoryWarehouseAvailabilityKey availKey = availEntry.Key;
+                TInventoryWarehouseAvailability availData = availEntry.Value;
+                if (AppFunc.InventoryClassIsPackage(availData.InventoryWarehouse.Classification))   // complete / kit
+                {
+                    if (!availData.InventoryWarehouse.NoAvailabilityCheck)
+                    {
+                        DateTime currentAvailabilityDateTime = (availData.InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
+                        DateTime fromDateTime = currentAvailabilityDateTime;
+                        DateTime toDateTime = availData.AvailDataToDateTime;
+                        availData.AvailabilityDatesAndTimes.Clear();
+                        DateTime theDateTime = fromDateTime;
+                        while (theDateTime <= toDateTime)
+                        {
+                            TInventoryWarehouseAvailabilityQuantity packageAvailable = new TInventoryWarehouseAvailabilityQuantity();
+                            bool initialPackageAvailableDetermined = false;
+                            bool accessoryAvailabilityDataExists = true;
+
+                            foreach (TPackageAccessory accessory in availData.InventoryWarehouse.Accessories)
+                            {
+                                if (accessory.DefaultQuantity != 0) // avoid divide-by-zero error.  value should not be zero anyway
+                                {
+                                    TInventoryWarehouseAvailabilityKey accKey = new TInventoryWarehouseAvailabilityKey(accessory.InventoryId, availKey.WarehouseId);
+                                    TInventoryWarehouseAvailability accAvailCache = null;
+                                    if (availCache.TryGetValue(accKey, out accAvailCache))
+                                    {
+                                        TInventoryWarehouseAvailabilityDateTime accAvailableDateTime = null;
+                                        if (accAvailCache.AvailabilityDatesAndTimes.TryGetValue(theDateTime, out accAvailableDateTime))
+                                        {
+                                            TInventoryWarehouseAvailabilityQuantity accAvailable = accAvailableDateTime.Available;
+                                            if (initialPackageAvailableDetermined)
+                                            {
+                                                //Compare with available calculation based on other accessories already looked at
+                                                packageAvailable.Owned = Math.Min(packageAvailable.Owned, accAvailable.Owned / accessory.DefaultQuantity);
+                                                packageAvailable.Consigned = Math.Min(packageAvailable.Consigned, (accAvailable.Consigned / accessory.DefaultQuantity));
+                                            }
+                                            else
+                                            {
+                                                packageAvailable.Owned = (accAvailable.Owned / accessory.DefaultQuantity);
+                                                packageAvailable.Consigned = (accAvailable.Consigned / accessory.DefaultQuantity);
+                                            }
+                                            initialPackageAvailableDetermined = true;
+                                        }
+                                        else
+                                        {
+                                            // accessory availabiltiy data not found in cache
+                                            accessoryAvailabilityDataExists = false;
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // accessory availabiltiy data not found in cache
+                                        accessoryAvailabilityDataExists = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            //round the package available numbers to the next whole number (important when spare accessories are used)
+                            packageAvailable.Owned = (float)Math.Floor(packageAvailable.Owned);
+                            packageAvailable.Consigned = (float)Math.Floor(packageAvailable.Consigned);
+
+                            if (accessoryAvailabilityDataExists)
+                            {
+                                TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = new TInventoryWarehouseAvailabilityDateTime(theDateTime);
+                                inventoryWarehouseAvailabilityDateTime.Available = packageAvailable;
+                                availData.AvailabilityDatesAndTimes.TryAdd(theDateTime, inventoryWarehouseAvailabilityDateTime);
+                                if (availData.InventoryWarehouse.HourlyAvailability)
+                                {
+                                    theDateTime = theDateTime.AddHours(1);
+                                }
+                                else
+                                {
+                                    theDateTime = theDateTime.AddDays(1);
+                                }
+                            }
+                            else
+                            {
+                                // availabiltiy data not found in cache for at least one accessory for at least one date in the range
+                                break;
+                                // exit the date while loop.  leave package availability data incomplete
+                            }
+                        }
+                    }
+                    availData.CalculatedDateTime = DateTime.Now;
+                }
+            }
+
+
         }
         //-------------------------------------------------------------------------------------------------------
         private static void CalculateAllWarehouseAvailability(ref TAvailabilityCache availCache)
@@ -2284,16 +2370,17 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 }
 
                 startDisplay = reservationFromDateTime.ToString();
-                if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                //if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                if (reservation.Late)
                 {
-                    endDisplay = "No End Date";
+                    endDisplay = "No End Date (Late)";
                 }
                 else
                 {
                     endDisplay = reservationToDateTime.ToString();
                     if (reservation.LateButReturning)
                     {
-                        endDisplay += " (Late)";
+                        endDisplay += " (Late But Returning)";
                     }
                 }
 
@@ -2346,9 +2433,10 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     }
 
                     startDisplay = qcFromDateTime.ToString();
-                    if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                    //if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                    if (reservation.Late)
                     {
-                        endDisplay = "No End Date";
+                        endDisplay = "No End Date (Late)";
                     }
                     else
                     {

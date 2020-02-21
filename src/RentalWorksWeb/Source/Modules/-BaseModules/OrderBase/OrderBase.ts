@@ -3052,6 +3052,28 @@ class OrderBase {
         };
     };
     //----------------------------------------------------------------------------------------------
+    checkMessages($form, module, id) {
+        if (id) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/${module}/${id}/messages`, null, FwServices.defaultTimeout, response => {
+                if (response.success) {
+                    const messages = response.Messages;
+                    if (messages.length) {
+                        const $formBody = $form.find('.fwform-body');
+                        $form.find('.form-alert').remove();
+                        for (let i = 0; i < messages.length; i++) {
+                            let backgroundColor = '#ffff33'; //yellow
+                            if (messages[i].PreventCheckOut === true) {
+                                backgroundColor = '#ff0000'; // red
+                            }
+                            const alert = jQuery(`<div class="form-alert" style="background:${backgroundColor};text-align:center;font-size:1.3em"><span>${messages[i].Message}</span></div>`);
+                            $formBody.before(alert);
+                        }
+                    }
+                }
+            }, ex => FwFunc.showError(ex), $form);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     changeOfficeLocation($form: any) {
         const module = this.Module;
         const controller = $form.attr('data-controller');

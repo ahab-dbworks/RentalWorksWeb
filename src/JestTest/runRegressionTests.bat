@@ -34,7 +34,7 @@ cd %testrootpath%
 if not exist %testrootpath%\output\ (md output)
 set testpath=%testrootpath%\output
 cd %testpath%
-if not exist %testrootpath%\%testnumber%\ (md %testnumber%)
+if not exist %testnumber%\ (md %testnumber%)
 set testpath=%testpath%\%testnumber%
 cd %testrootpath%
 

@@ -38,28 +38,30 @@ class InventoryPurchaseUtility {
         const $manufacturerValidation = $form.find('[data-datafield="ManufacturerVendorId"]');
         $manufacturerValidation.data('beforevalidate', ($form, $manufacturerValidation, request) => {
             request.uniqueids = {
-                'Manufacturer': true
+                'Manufacturer': true,
             }
         });
 
         const $purchaseValidation = $form.find('[data-datafield="PurchaseVendorId"]');
         $purchaseValidation.data('beforevalidate', ($form, $purchaseValidation, request) => {
             request.uniqueids = {
-                'RentalInventory': true
+                'RentalInventory': true,
             }
         });
 
         const $rentalInventoryValidation = $form.find('.icode[data-datafield="InventoryId"]');
         $rentalInventoryValidation.data('beforevalidate', ($form, $rentalInventoryValidation, request) => {
             request.uniqueids = {
-                'WarehouseId': warehouse.warehouseid
+                'WarehouseId': warehouse.warehouseid,
+                'Classification': 'I,A',
             }
         });
 
         const $rentalInventoryDescValidation = $form.find('.description[data-datafield="InventoryId"]');
         $rentalInventoryDescValidation.data('beforevalidate', ($form, $rentalInventoryDescValidation, request) => {
             request.uniqueids = {
-                'WarehouseId': warehouse.warehouseid
+                'WarehouseId': warehouse.warehouseid,
+                'Classification': 'I,A',
             }
         });
 
@@ -216,7 +218,7 @@ class InventoryPurchaseUtility {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
-            case 'InventoryId': 
+            case 'InventoryId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                 break;
             case 'WarehouseId':
