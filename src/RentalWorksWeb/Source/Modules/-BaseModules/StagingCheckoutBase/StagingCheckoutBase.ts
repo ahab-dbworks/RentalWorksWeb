@@ -8,6 +8,7 @@ abstract class StagingCheckoutBase {
     contractId: string;
     isPendingItemGridView: boolean = false;
     Type: string;
+    orderId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -302,6 +303,8 @@ abstract class StagingCheckoutBase {
                         break;
                 }
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type == 'ContainerItem' ? 'Order' : this.Type}Id`);
+                this.orderId = orderId;
+                this.showOrderAlert($form, orderId, false); // show order alerts, pass in false for button blocking behavior at this stage
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
                 const apiUrl = `api/v1/${apiName}/${orderId}`;
@@ -312,7 +315,6 @@ abstract class StagingCheckoutBase {
                     if (module == 'FillContainer') FwFormField.setValueByDataField($form, 'BarCode', response.BarCode);
 
 
-                   // this.showOrderAlert($form, orderId);
 
                     // Determine tabs to render
                     FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
@@ -1014,10 +1016,12 @@ abstract class StagingCheckoutBase {
         });
         // Complete Checkout Contract
         $form.find('.complete-checkout-contract').on('click', e => {
+            this.showOrderAlert($form, this.orderId, false);
             this.completeCheckOutContract($form, e);
         });
         // Create Contract
         $form.find('.createcontract').on('click', e => {
+            this.showOrderAlert($form, this.orderId, false);
             this.createContract($form, e);
         });
         //Options button
@@ -1300,24 +1304,31 @@ abstract class StagingCheckoutBase {
         $form.find('.suspendedsession').show();
     }
     //----------------------------------------------------------------------------------------------
-    showOrderAlert($form, orderId) {
-        FwAppData.apiMethod(true, 'GET', `api/v1/checkout/ordermessages/${orderId}`, null, FwServices.defaultTimeout,
-            response => {
-                if (response.success) {
-                    const messages = response.Messages;
-                    if (messages.length) {
-                        const $formbody = $form.find('.fwform-body');
-                        for (let i = 0; i < messages.length; i++) {
-                            const alert = jQuery(`<div class="form-alert" style="background:#ffff33;text-align:center;font-size:1.3em"><span>${messages[i]}</span></div>`);
-                            $formbody.before(alert);
+    async showOrderAlert($form, orderId, buttonBlocking?) {
+        await FwAppData.apiMethod(true, 'GET', `api/v1/checkout/ordermessages/${orderId}`, null, FwServices.defaultTimeout, response => {
+            if (response.success) {
+                let preventCheckout = false;
+                const messages = response.Messages;
+                if (messages.length) {
+                    const $formBody = $form.find('.fwform-body');
+                    $form.find('.form-alert').remove();
+                    for (let i = 0; i < messages.length; i++) {
+                        let backgroundColor = '#ffff33'; //yellow
+                        if (messages[i].PreventCheckout === true) {
+                            preventCheckout = true;
+                            backgroundColor = '#ff0000';
                         }
-                        $form.find('.complete-checkout-contract').css({
+                        const alert = jQuery(`<div class="form-alert" style="background:${backgroundColor};text-align:center;font-size:1.3em"><span>${messages[i].Message}</span></div>`);
+                        $formBody.before(alert);
+                    }
+                    if (buttonBlocking && preventCheckout) {
+                        $form.find('.createcontract').css({
                             'pointer-events': 'none',
                         });
                     }
                 }
-            },
-            ex => FwFunc.showError(ex), $form);
+            }
+        }, ex => FwFunc.showError(ex), $form);
     }
     //----------------------------------------------------------------------------------------------
     addLegend($form: any, $grid): void {
