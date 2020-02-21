@@ -2,6 +2,7 @@
 using Fw.Json.Services.Common;
 using Fw.Json.SqlServer;
 using RentalWorksQuikScan.Source;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
@@ -118,6 +119,7 @@ namespace RentalWorksQuikScan.Modules
         //---------------------------------------------------------------------------------------------
         public static dynamic QSInsertMasterItem(string orderid, string barcode, int qtyordered, string masteritemid, string webusersid)
         {
+            dynamic result = new ExpandoObject();
             FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.qsinsertmasteritem");
             sp.AddParameter("@orderid",      orderid);
             sp.AddParameter("@barcode",      barcode);
@@ -140,8 +142,6 @@ namespace RentalWorksQuikScan.Modules
                 result.errno                = "1";
                 result.errmsg               = error;
             }
-
-            dynamic result      = new ExpandoObject();
             result.masteritemid = sp.GetParameter("@masteritemid").ToString();
             result.errno        = sp.GetParameter("@errno").ToString();
             result.errmsg       = sp.GetParameter("@errmsg").ToString();
