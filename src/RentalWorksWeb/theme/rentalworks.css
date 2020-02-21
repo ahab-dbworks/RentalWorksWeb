@@ -498,8 +498,9 @@ Form tables
 
 .item-container .item-accessories .item-accessory-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;background-color:#EEEEEE;}
 .item-container .item-accessories .item-accessory-info .toggleaccessories { text-indent: 1em; }
+.item-accessory-info[data-isprimary="true"] [data-column="Quantity"] > * {display:none;}
 
-#previewHtml {height:100%;}
+#previewHtml {height: 100%;}
 #previewHtml div[data-browsedatafield="QuantityAvailable"] .fieldvalue {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
 #previewHtml div[data-browsedatafield="QuantityAvailable"][data-state="enough"] .fieldvalue {background-color:#009933;color:#ffffff;}
 #previewHtml div[data-browsedatafield="QuantityAvailable"][data-state="negative"] .fieldvalue {background-color:#f44336;color:#ffffff;}

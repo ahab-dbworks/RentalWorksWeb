@@ -1687,6 +1687,7 @@ class SearchInterface {
             const icodeIndex                     = response.ColumnIndex.ICode;
             const partNumberIndex                = response.ColumnIndex.ManufacturerPartNumber;
             const note                           = response.ColumnIndex.Note;
+            const isPrimaryIndex                = response.ColumnIndex.IsPrimary;
                 if (isAccessory) {
                     accessoryContainer.find(`.item-accessory-info`).remove();
                 } else {
@@ -1697,7 +1698,7 @@ class SearchInterface {
                 let imageId        = response.Rows[i][appImageId] ? response.Rows[i][appImageId] : '';
                 let conflictdate   = response.Rows[i][conflictIndex] ? moment(response.Rows[i][conflictIndex]).format('L') : '';
 
-                let accessoryhtml = `<div class="item-accessory-info" data-inventoryid="${response.Rows[i][inventoryIdIndex]}">
+                let accessoryhtml = `<div class="item-accessory-info" data-inventoryid="${response.Rows[i][inventoryIdIndex]}" data-isprimary="${response.Rows[i][isPrimaryIndex]}">
                                        <div data-column="Description" class="columnorder">
                                             <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
                                             <div class="descriptionrow">${response.Rows[i][descriptionIndex]}</div>
