@@ -18,6 +18,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         private bool _shortagesOnly = false;
         private bool _hasSubTotal = false;
         private string _orderType = string.Empty;
+        private bool _noAvailabilityCheck = false;
 
         //------------------------------------------------------------------------------------ 
         public OrderItemLoader()
@@ -368,6 +369,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterclass", modeltype: FwDataTypes.Text)]
+        public string InventoryClass { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text)]
         public string RetiredReasonId { get; set; }
@@ -841,6 +845,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             bool subs = false;
             bool rollup = GetUniqueIdAsBoolean("Rollup", request).GetValueOrDefault(false);
             _shortagesOnly = GetUniqueIdAsBoolean("ShortagesOnly", request).GetValueOrDefault(false);
+            _noAvailabilityCheck = GetUniqueIdAsBoolean("NoAvailabilityCheck", request).GetValueOrDefault(false);
 
             if (string.IsNullOrEmpty(orderId))
             {
@@ -871,7 +876,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qrySt = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
-                qrySt.Add("select hassubtotal = (case when exists (select * from masteritem mi where mi.orderid = @orderid and mi.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') then 'T' else 'F' end) ");
+                qrySt.Add("select hassubtotal = (case when exists (select * from masteritem mi with (nolock) where mi.orderid = @orderid and mi.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') then 'T' else 'F' end) ");
                 qrySt.AddParameter("@orderid", orderId);
                 FwJsonDataTable dt = qrySt.QueryToFwJsonTableAsync().Result;
                 _hasSubTotal = FwConvert.ToBoolean(dt.Rows[0][0].ToString());
@@ -880,7 +885,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qryOrderType = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
-                qryOrderType.Add("select ordertype from dealorder where orderid = @orderid");
+                qryOrderType.Add("select ordertype from dealorder with (nolock) where orderid = @orderid");
                 qryOrderType.AddParameter("@orderid", orderId);
                 FwJsonDataTable dt = qryOrderType.QueryToFwJsonTableAsync().Result;
                 _orderType = dt.Rows[0][0].ToString();
@@ -982,6 +987,10 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         loadAvail = false;
                     }
                     if (_orderType.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER))
+                    {
+                        loadAvail = false;
+                    }
+                    if (_noAvailabilityCheck)
                     {
                         loadAvail = false;
                     }

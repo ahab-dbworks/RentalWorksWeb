@@ -840,6 +840,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             avail3.InventoryWarehouse.WarehouseId = avail1.InventoryWarehouse.WarehouseId + "," + avail2.InventoryWarehouse.WarehouseId;
             avail3.InventoryWarehouse.WarehouseCode = avail1.InventoryWarehouse.WarehouseCode + ", " + avail2.InventoryWarehouse.WarehouseCode;
             avail3.InventoryWarehouse.Warehouse = avail1.InventoryWarehouse.Warehouse + ", " + avail2.InventoryWarehouse.Warehouse;
+            avail3.InventoryWarehouse.NoAvailabilityCheck = (avail1.InventoryWarehouse.NoAvailabilityCheck || avail2.InventoryWarehouse.NoAvailabilityCheck);
             avail3.AvailDataFromDateTime = avail2.AvailDataFromDateTime;
             avail3.AvailDataToDateTime = avail2.AvailDataToDateTime;
             avail3.CalculatedDateTime = avail2.CalculatedDateTime;
@@ -1329,7 +1330,18 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 }
             }
 
-            //#jhtodo: add all of the accessories to the searchsession, too
+            //add all of the accessories to the searchsession, too
+            {
+                FwSqlCommand qryAcc = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qryAcc.Add("insert into tmpsearchsession (sessionid, masterid)                       ");
+                qryAcc.Add("select distinct a.sessionid, p.masterid                                  ");
+                qryAcc.Add(" from  packagemasterwhforavailview p                                     ");
+                qryAcc.Add("              join tmpsearchsession a on (p.packageid = a.masterid)      ");
+                qryAcc.Add(" where a.sessionid = @sessionid                                          ");
+                qryAcc.AddParameter("@sessionid", sessionId);
+                await qryAcc.ExecuteNonQueryAsync();
+            }
+
 
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
@@ -1748,94 +1760,19 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         //-------------------------------------------------------------------------------------------------------
         private static void CalculateFutureAvailability(ref TAvailabilityCache availCache)
         {
+            // first pass, just calculate future availability for stand-alone items
             foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in availCache)
             {
                 TInventoryWarehouseAvailabilityKey availKey = availEntry.Key;
                 TInventoryWarehouseAvailability availData = availEntry.Value;
-                DateTime currentAvailabilityDateTime = (availData.InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
-                DateTime fromDateTime = currentAvailabilityDateTime;
-                DateTime toDateTime = availData.AvailDataToDateTime;
-                availData.AvailabilityDatesAndTimes.Clear();
-                if (!availData.InventoryWarehouse.NoAvailabilityCheck)
+                if (!AppFunc.InventoryClassIsPackage(availData.InventoryWarehouse.Classification))   // stand-alone item
                 {
-                    if (AppFunc.InventoryClassIsPackage(availData.InventoryWarehouse.Classification))   // complete / kit
+                    if (!availData.InventoryWarehouse.NoAvailabilityCheck)
                     {
-                        DateTime theDateTime = fromDateTime;
-                        while (theDateTime <= toDateTime)
-                        {
-                            TInventoryWarehouseAvailabilityQuantity packageAvailable = new TInventoryWarehouseAvailabilityQuantity();
-                            bool initialPackageAvailableDetermined = false;
-                            bool accessoryAvailabilityDataExists = true;
-
-                            foreach (TPackageAccessory accessory in availData.InventoryWarehouse.Accessories)
-                            {
-                                if (accessory.DefaultQuantity != 0) // avoid divide-by-zero error.  value should not be zero anyway
-                                {
-                                    TInventoryWarehouseAvailabilityKey accKey = new TInventoryWarehouseAvailabilityKey(accessory.InventoryId, availKey.WarehouseId);
-                                    TInventoryWarehouseAvailability accAvailCache = null;
-                                    if (AvailabilityCache.TryGetValue(accKey, out accAvailCache))
-                                    {
-                                        TInventoryWarehouseAvailabilityDateTime accAvailableDateTime = null;
-                                        if (accAvailCache.AvailabilityDatesAndTimes.TryGetValue(theDateTime, out accAvailableDateTime))
-                                        {
-                                            TInventoryWarehouseAvailabilityQuantity accAvailable = accAvailableDateTime.Available;
-                                            if (initialPackageAvailableDetermined)
-                                            {
-                                                //Compare with available calculation based on other accessories already looked at
-                                                packageAvailable.Owned = Math.Min(packageAvailable.Owned, accAvailable.Owned / accessory.DefaultQuantity);
-                                                packageAvailable.Consigned = Math.Min(packageAvailable.Consigned, (accAvailable.Consigned / accessory.DefaultQuantity));
-                                            }
-                                            else
-                                            {
-                                                packageAvailable.Owned = (accAvailable.Owned / accessory.DefaultQuantity);
-                                                packageAvailable.Consigned = (accAvailable.Consigned / accessory.DefaultQuantity);
-                                            }
-                                            initialPackageAvailableDetermined = true;
-                                        }
-                                        else
-                                        {
-                                            // accessory availabiltiy data not found in cache
-                                            accessoryAvailabilityDataExists = false;
-                                            break;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // accessory availabiltiy data not found in cache
-                                        accessoryAvailabilityDataExists = false;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            //round the package available numbers to the next whole number (important when spare accessories are used)
-                            packageAvailable.Owned = (float)Math.Floor(packageAvailable.Owned);
-                            packageAvailable.Consigned = (float)Math.Floor(packageAvailable.Consigned);
-
-                            if (accessoryAvailabilityDataExists)
-                            {
-                                TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = new TInventoryWarehouseAvailabilityDateTime(theDateTime);
-                                inventoryWarehouseAvailabilityDateTime.Available = packageAvailable;
-                                availData.AvailabilityDatesAndTimes.TryAdd(theDateTime, inventoryWarehouseAvailabilityDateTime);
-                                if (availData.InventoryWarehouse.HourlyAvailability)
-                                {
-                                    theDateTime = theDateTime.AddHours(1);
-                                }
-                                else
-                                {
-                                    theDateTime = theDateTime.AddDays(1);
-                                }
-                            }
-                            else
-                            {
-                                // availabiltiy data not found in cache for at least one accessory for at least one date in the range
-                                break;
-                                // exit the date while loop.  leave package availability data incomplete
-                            }
-                        }
-                    }
-                    else  // item/accesssory
-                    {
+                        DateTime currentAvailabilityDateTime = (availData.InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
+                        DateTime fromDateTime = currentAvailabilityDateTime;
+                        DateTime toDateTime = availData.AvailDataToDateTime;
+                        availData.AvailabilityDatesAndTimes.Clear();
                         TInventoryWarehouseAvailabilityQuantity available = new TInventoryWarehouseAvailabilityQuantity();
                         //available.CloneFrom(availData.In);   // snapshot the current IN quantity.  use this as a running total
                         available = TInventoryWarehouseAvailabilityQuantity.MakeCopy(availData.In);   // snapshot the current IN quantity.  use this as a running total
@@ -1952,6 +1889,99 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     availData.CalculatedDateTime = DateTime.Now;
                 }
             }
+
+            // second pass, calculate future availability for completes and kits
+            foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in availCache)
+            {
+                TInventoryWarehouseAvailabilityKey availKey = availEntry.Key;
+                TInventoryWarehouseAvailability availData = availEntry.Value;
+                if (AppFunc.InventoryClassIsPackage(availData.InventoryWarehouse.Classification))   // complete / kit
+                {
+                    if (!availData.InventoryWarehouse.NoAvailabilityCheck)
+                    {
+                        DateTime currentAvailabilityDateTime = (availData.InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
+                        DateTime fromDateTime = currentAvailabilityDateTime;
+                        DateTime toDateTime = availData.AvailDataToDateTime;
+                        availData.AvailabilityDatesAndTimes.Clear();
+                        DateTime theDateTime = fromDateTime;
+                        while (theDateTime <= toDateTime)
+                        {
+                            TInventoryWarehouseAvailabilityQuantity packageAvailable = new TInventoryWarehouseAvailabilityQuantity();
+                            bool initialPackageAvailableDetermined = false;
+                            bool accessoryAvailabilityDataExists = true;
+
+                            foreach (TPackageAccessory accessory in availData.InventoryWarehouse.Accessories)
+                            {
+                                if (accessory.DefaultQuantity != 0) // avoid divide-by-zero error.  value should not be zero anyway
+                                {
+                                    TInventoryWarehouseAvailabilityKey accKey = new TInventoryWarehouseAvailabilityKey(accessory.InventoryId, availKey.WarehouseId);
+                                    TInventoryWarehouseAvailability accAvailCache = null;
+                                    if (availCache.TryGetValue(accKey, out accAvailCache))
+                                    {
+                                        TInventoryWarehouseAvailabilityDateTime accAvailableDateTime = null;
+                                        if (accAvailCache.AvailabilityDatesAndTimes.TryGetValue(theDateTime, out accAvailableDateTime))
+                                        {
+                                            TInventoryWarehouseAvailabilityQuantity accAvailable = accAvailableDateTime.Available;
+                                            if (initialPackageAvailableDetermined)
+                                            {
+                                                //Compare with available calculation based on other accessories already looked at
+                                                packageAvailable.Owned = Math.Min(packageAvailable.Owned, accAvailable.Owned / accessory.DefaultQuantity);
+                                                packageAvailable.Consigned = Math.Min(packageAvailable.Consigned, (accAvailable.Consigned / accessory.DefaultQuantity));
+                                            }
+                                            else
+                                            {
+                                                packageAvailable.Owned = (accAvailable.Owned / accessory.DefaultQuantity);
+                                                packageAvailable.Consigned = (accAvailable.Consigned / accessory.DefaultQuantity);
+                                            }
+                                            initialPackageAvailableDetermined = true;
+                                        }
+                                        else
+                                        {
+                                            // accessory availabiltiy data not found in cache
+                                            accessoryAvailabilityDataExists = false;
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // accessory availabiltiy data not found in cache
+                                        accessoryAvailabilityDataExists = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            //round the package available numbers to the next whole number (important when spare accessories are used)
+                            packageAvailable.Owned = (float)Math.Floor(packageAvailable.Owned);
+                            packageAvailable.Consigned = (float)Math.Floor(packageAvailable.Consigned);
+
+                            if (accessoryAvailabilityDataExists)
+                            {
+                                TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = new TInventoryWarehouseAvailabilityDateTime(theDateTime);
+                                inventoryWarehouseAvailabilityDateTime.Available = packageAvailable;
+                                availData.AvailabilityDatesAndTimes.TryAdd(theDateTime, inventoryWarehouseAvailabilityDateTime);
+                                if (availData.InventoryWarehouse.HourlyAvailability)
+                                {
+                                    theDateTime = theDateTime.AddHours(1);
+                                }
+                                else
+                                {
+                                    theDateTime = theDateTime.AddDays(1);
+                                }
+                            }
+                            else
+                            {
+                                // availabiltiy data not found in cache for at least one accessory for at least one date in the range
+                                break;
+                                // exit the date while loop.  leave package availability data incomplete
+                            }
+                        }
+                    }
+                    availData.CalculatedDateTime = DateTime.Now;
+                }
+            }
+
+
         }
         //-------------------------------------------------------------------------------------------------------
         private static void CalculateAllWarehouseAvailability(ref TAvailabilityCache availCache)

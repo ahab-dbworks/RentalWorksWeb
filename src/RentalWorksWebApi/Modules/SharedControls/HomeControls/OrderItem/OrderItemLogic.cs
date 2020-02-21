@@ -338,6 +338,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwLogicProperty(Id: "VcghZbMujni2")]
         public string ItemClass { get { return orderItem.ItemClass; } set { orderItem.ItemClass = value; } }
 
+        [FwLogicProperty(Id: "9YFFe6BZ7WRRn", IsReadOnly: true)]
+        public string InventoryClass { get; set; }
 
         [FwLogicProperty(Id: "dN4KvdTOsjK0")]
         public string RetiredReasonId { get { return orderItem.RetiredReasonId; } set { orderItem.RetiredReasonId = value; } }
@@ -1270,6 +1272,26 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     {
                         bool b2 = OrderFunc.UpdatePackageSubQuantities(AppConfig, UserSession, this).Result;
                     }
+
+
+                    // request availability recalculation on all accessories
+                    {
+                        BrowseRequest accessoryBrowseRequest = new BrowseRequest();
+                        accessoryBrowseRequest.uniqueids = new Dictionary<string, object>();
+                        accessoryBrowseRequest.uniqueids.Add("OrderId", OrderId);
+                        accessoryBrowseRequest.uniqueids.Add("ParentId", OrderItemId);
+                        accessoryBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
+
+                        OrderItemLogic acc = new OrderItemLogic();
+                        acc.SetDependencies(AppConfig, UserSession);
+                        List<OrderItemLogic> accessories = acc.SelectAsync<OrderItemLogic>(accessoryBrowseRequest, e.SqlConnection).Result;
+
+                        foreach (OrderItemLogic a in accessories)
+                        {
+                            InventoryAvailabilityFunc.RequestRecalc(a.InventoryId, a.WarehouseId, a.InventoryClass);
+                        }
+                    }
+
                 }
             }
         }
@@ -1282,7 +1304,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
             if ((InventoryId != null) && (WarehouseId != null))
             {
-                InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, ItemClass);
+                InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, InventoryClass);
             }
         }
         //------------------------------------------------------------------------------------
@@ -1396,15 +1418,17 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 accessoryBrowseRequest.uniqueids = new Dictionary<string, object>();
                 accessoryBrowseRequest.uniqueids.Add("OrderId", OrderId);
                 accessoryBrowseRequest.uniqueids.Add("ParentId", OrderItemId);
+                accessoryBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
 
                 OrderItemLogic acc = new OrderItemLogic();
                 acc.SetDependencies(AppConfig, UserSession);
-                List<OrderItemLogic> accessories = acc.SelectAsync<OrderItemLogic>(accessoryBrowseRequest).Result;
+                List<OrderItemLogic> accessories = acc.SelectAsync<OrderItemLogic>(accessoryBrowseRequest, e.SqlConnection).Result;
 
                 foreach (OrderItemLogic a in accessories)
                 {
                     a.SetDependencies(AppConfig, UserSession);
                     bool b = a.DeleteAsync(e.SqlConnection).Result;
+                    InventoryAvailabilityFunc.RequestRecalc(a.InventoryId, a.WarehouseId, a.InventoryClass);
                 }
 
 
