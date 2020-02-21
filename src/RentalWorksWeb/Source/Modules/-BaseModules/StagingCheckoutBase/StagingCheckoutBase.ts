@@ -280,6 +280,10 @@ abstract class StagingCheckoutBase {
 
         $form.on('change', `[data-datafield="${this.Type}Id"]`, e => {
             try {
+                const orderId = FwFormField.getValueByDataField($form, `${this.Type == 'ContainerItem' ? 'Order' : this.Type}Id`);
+                this.orderId = orderId;
+                this.checkMessages($form, orderId, false); // show order alerts, pass in false for button blocking behavior at this stage
+
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
                 $form.find('.error-msg:not(.qty)').html('');
@@ -302,9 +306,6 @@ abstract class StagingCheckoutBase {
                         apiName = 'containeritem';
                         break;
                 }
-                const orderId = FwFormField.getValueByDataField($form, `${this.Type == 'ContainerItem' ? 'Order' : this.Type}Id`);
-                this.orderId = orderId;
-                this.showOrderAlert($form, orderId, false); // show order alerts, pass in false for button blocking behavior at this stage
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
                 const apiUrl = `api/v1/${apiName}/${orderId}`;
@@ -313,8 +314,6 @@ abstract class StagingCheckoutBase {
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
                     if (module == 'StagingCheckout') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                     if (module == 'FillContainer') FwFormField.setValueByDataField($form, 'BarCode', response.BarCode);
-
-
 
                     // Determine tabs to render
                     FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
@@ -711,7 +710,9 @@ abstract class StagingCheckoutBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-    completeCheckOutContract($form: JQuery, event): void {
+    completeCheckOutContract(args): void {
+        const $form = args[0];
+        const event = args[1];
         $form.find('.error-msg:not(.qty)').html('');
         $form.find('div[data-datafield="GridView"]').hide();
         if (this.contractId) {
@@ -734,8 +735,9 @@ abstract class StagingCheckoutBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-    createContract($form: JQuery, event): void {
-
+    createContract(args): void {
+        const $form = args[0];
+        const event = args[1];
         // API REQUEST to see if alert issues exist else toaster message and continue to block create contract
         const type = this.Type;
         const errorMsg = $form.find('.error-msg:not(.qty)');
@@ -1016,13 +1018,13 @@ abstract class StagingCheckoutBase {
         });
         // Complete Checkout Contract
         $form.find('.complete-checkout-contract').on('click', e => {
-            this.showOrderAlert($form, this.orderId, false);
-            this.completeCheckOutContract($form, e);
+            this.checkMessages($form, this.orderId, false, this.completeCheckOutContract.bind(this, [$form, e]));
+            //this.completeCheckOutContract($form, e);
         });
         // Create Contract
         $form.find('.createcontract').on('click', e => {
-            this.showOrderAlert($form, this.orderId, false);
-            this.createContract($form, e);
+            this.checkMessages($form, this.orderId, false, this.createContract.bind(this, [$form, e]));
+            // this.createContract($form, e);
         });
         //Options button
         $form.find('.options-button').on('click', e => {
@@ -1304,7 +1306,7 @@ abstract class StagingCheckoutBase {
         $form.find('.suspendedsession').show();
     }
     //----------------------------------------------------------------------------------------------
-    async showOrderAlert($form, orderId, buttonBlocking?) {
+    async checkMessages($form, orderId, buttonBlocking, func?) {
         await FwAppData.apiMethod(true, 'GET', `api/v1/checkout/ordermessages/${orderId}`, null, FwServices.defaultTimeout, response => {
             if (response.success) {
                 let preventCheckout = false;
@@ -1316,15 +1318,15 @@ abstract class StagingCheckoutBase {
                         let backgroundColor = '#ffff33'; //yellow
                         if (messages[i].PreventCheckout === true) {
                             preventCheckout = true;
-                            backgroundColor = '#ff0000';
+                            backgroundColor = '#ff0000'; // red
                         }
                         const alert = jQuery(`<div class="form-alert" style="background:${backgroundColor};text-align:center;font-size:1.3em"><span>${messages[i].Message}</span></div>`);
                         $formBody.before(alert);
                     }
                     if (buttonBlocking && preventCheckout) {
-                        $form.find('.createcontract').css({
-                            'pointer-events': 'none',
-                        });
+                        FwNotification.renderNotification('WARNING', 'Issues highlighted above in red must be resolved before proceeding.')
+                    } else if (func && typeof func === 'function') {
+                        func.apply(arguments);
                     }
                 }
             }
