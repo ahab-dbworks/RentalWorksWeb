@@ -403,6 +403,8 @@ class Order extends OrderBase {
         super.afterLoad($form, response);
         const lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
 
+        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        this.checkMessages($form, 'order', orderId);
         if (!FwFormField.getValueByDataField($form, 'CombineActivity')) {
             // show / hide tabs
             if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { lossDamageTab.hide(), FwFormField.disable($form.find('[data-datafield="Rental"]')); }

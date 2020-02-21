@@ -1308,10 +1308,10 @@ abstract class StagingCheckoutBase {
         $form.find('.suspendedsession').show();
     }
     //----------------------------------------------------------------------------------------------
-    async checkMessages($form, buttonBlocking, func?) {
+    checkMessages($form, buttonBlocking, func?) {
         const orderId = this.orderId;
         if (orderId) {
-            await FwAppData.apiMethod(true, 'GET', `api/v1/checkout/ordermessages/${orderId}`, null, FwServices.defaultTimeout, response => {
+            FwAppData.apiMethod(true, 'GET', `api/v1/checkout/ordermessages/${orderId}`, null, FwServices.defaultTimeout, response => {
                 if (response.success) {
                     let preventCheckout = false;
                     const messages = response.Messages;

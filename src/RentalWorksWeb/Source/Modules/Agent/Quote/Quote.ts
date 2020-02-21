@@ -1646,6 +1646,8 @@ class Quote extends OrderBase {
     afterLoad($form, response) {
         super.afterLoad($form, response);
 
+        const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+        this.checkMessages($form, 'quote', quoteId);
         const status = FwFormField.getValueByDataField($form, 'Status');
         if (status != 'CLOSED') {
             //const makeQuoteActiveOptionId = this.menuMakeQuoteActiveId;
