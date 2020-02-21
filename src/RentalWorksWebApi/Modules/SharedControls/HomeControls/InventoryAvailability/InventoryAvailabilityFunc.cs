@@ -252,13 +252,15 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             get
             {
                 string display = FwConvert.ToUSShortDate(ToDateTime);
-                if (ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                //if (ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                if (Late)
                 {
-                    display = "No End Date";
+                    display = "No End Date (Late)";
                 }
                 return display;
             }
         }
+        public bool Late { get; set; }
         public bool LateButReturning { get; set; }
         public bool QcRequired { get; set; }
         public bool EnableQcDelay { get; set; }
@@ -411,6 +413,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             this.Deal = source.Deal;
             this.FromDateTime = source.FromDateTime;
             this.ToDateTime = source.ToDateTime;
+            this.Late = source.Late;
             this.LateButReturning = source.LateButReturning;
             this.QcRequired = source.QcRequired;
             this.EnableQcDelay = source.EnableQcDelay;
@@ -1617,24 +1620,77 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 res.ToDateTime = res.ToDateTime.Date;
                             }
 
-                            if ((res.ToDateTime < DateTime.Now) && ((res.QuantityStaged.Total + res.QuantityOut.Total + +res.QuantityInRepair.Total) > 0))
+                            //if ((res.ToDateTime < DateTime.Now) && ((res.QuantityStaged.Total + res.QuantityOut.Total + +res.QuantityInRepair.Total) > 0))
+                            //{
+                            //    int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
+                            //    DateTime lateButReturningThroughDate = res.ToDateTime.AddDays(warehouseLateDays);
+                            //    if ((warehouseLateDays > 0) && (res.QuantityOut.Total > 0) && (res.ToDateTime < lateButReturningThroughDate) && (lateButReturningThroughDate > DateTime.Now))
+                            //    {
+                            //        res.ToDateTime = lateButReturningThroughDate;
+                            //        res.LateButReturning = true;
+                            //    }
+                            //    else
+                            //    {
+                            //        res.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                            //    }
+                            //}
+
+                            // adjust for Late and LateButReturning
+                            if ((res.QuantityStaged.Total + res.QuantityOut.Total + +res.QuantityInRepair.Total) > 0)
                             {
-                                int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
-                                DateTime lateButReturningThroughDate = res.ToDateTime.AddDays(warehouseLateDays);
-                                if ((warehouseLateDays > 0) && (res.QuantityOut.Total > 0) && (res.ToDateTime < lateButReturningThroughDate) && (lateButReturningThroughDate > DateTime.Now))
+                                bool isLate = false;
+                                if (hourlyAvailability)
                                 {
-                                    res.ToDateTime = lateButReturningThroughDate;
-                                    res.LateButReturning = true;
+                                    //hourly availability
+                                    isLate = (res.ToDateTime < DateTime.Now);
+
+                                    if (isLate)
+                                    {
+                                        int warehouseLateHours = FwConvert.ToInt32(row[dt.GetColumnNo("availlatehours")].ToString());
+                                        DateTime lateButReturningThroughDateTime = res.ToDateTime.AddHours(warehouseLateHours);
+                                        if ((warehouseLateHours > 0) && (res.QuantityOut.Total > 0) && (res.ToDateTime < lateButReturningThroughDateTime) && (lateButReturningThroughDateTime > DateTime.Now))
+                                        {
+                                            res.ToDateTime = lateButReturningThroughDateTime;
+                                            res.LateButReturning = true;
+                                        }
+                                        else
+                                        {
+                                            res.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                                            res.Late = true;
+                                        }
+                                    }
+
                                 }
                                 else
                                 {
-                                    res.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                                    //daily availability
+                                    isLate = (res.ToDateTime < DateTime.Today);
+
+                                    if (isLate)
+                                    {
+                                        int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
+                                        DateTime lateButReturningThroughDate = res.ToDateTime.AddDays(warehouseLateDays);
+                                        if ((warehouseLateDays > 0) && (res.QuantityOut.Total > 0) && (res.ToDateTime < lateButReturningThroughDate) && (lateButReturningThroughDate > DateTime.Today))
+                                        {
+                                            res.ToDateTime = lateButReturningThroughDate;
+                                            res.LateButReturning = true;
+                                        }
+                                        else
+                                        {
+                                            res.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                                            res.Late = true;
+                                        }
+                                    }
                                 }
+
                             }
+
+
 
                             if ((res.QcRequired) && (res.OrderType.Equals(RwConstants.ORDER_TYPE_QUOTE) || res.OrderType.Equals(RwConstants.ORDER_TYPE_ORDER)) && ((res.QuantityReserved.Owned + res.QuantityStaged.Owned + res.QuantityOut.Owned) > 0) && (res.EnableQcDelay) && ((res.QcDelayDays > 0) || (res.QcDelayIndefinite)))
                             {
-                                if (!res.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                                //if (!res.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                                if (!res.Late)
                                 {
                                     res.QcDelayFromDateTime = res.ToDateTime.AddDays(1);
                                     res.QcDelayToDateTime = res.ToDateTime.AddDays(res.QcDelayDays);
@@ -2284,16 +2340,17 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 }
 
                 startDisplay = reservationFromDateTime.ToString();
-                if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                //if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                if (reservation.Late)
                 {
-                    endDisplay = "No End Date";
+                    endDisplay = "No End Date (Late)";
                 }
                 else
                 {
                     endDisplay = reservationToDateTime.ToString();
                     if (reservation.LateButReturning)
                     {
-                        endDisplay += " (Late)";
+                        endDisplay += " (Late But Returning)";
                     }
                 }
 
@@ -2346,9 +2403,10 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     }
 
                     startDisplay = qcFromDateTime.ToString();
-                    if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                    //if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                    if (reservation.Late)
                     {
-                        endDisplay = "No End Date";
+                        endDisplay = "No End Date (Late)";
                     }
                     else
                     {
