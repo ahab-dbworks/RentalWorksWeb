@@ -2440,7 +2440,16 @@ class FwBrowseClass {
                         }
                     }
 
-                    this.setFieldViewMode($control, $tr, $field);
+                    if ($field.attr('data-browsedatatype') === 'number') {
+                        if (typeof window['FwBrowseColumn_' + $field.attr('data-browsedatatype')] !== 'undefined') {
+                            if (typeof window['FwBrowseColumn_' + $field.attr('data-browsedatatype')].renderRuntimeHtml === 'function') {
+                                window['FwBrowseColumn_' + $field.attr('data-browsedatatype')].renderRuntimeHtml($control, $tr, $field);
+                            }
+                        }
+                    } else {
+                        this.setFieldViewMode($control, $tr, $field);
+                    }
+                    //this.setFieldViewMode($control, $tr, $field);
 
                     // if you want to dynamically change something on a .field or td:
                     const AFTER_RENDER_FIELD = 'afterrenderfield';
