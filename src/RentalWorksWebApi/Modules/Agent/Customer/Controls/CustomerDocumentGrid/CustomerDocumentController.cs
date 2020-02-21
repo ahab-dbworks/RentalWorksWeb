@@ -90,8 +90,7 @@ namespace WebApi.Modules.Agent.Customer
         {
             try
             {
-                var logic = AutoMapper.Mapper.Map<CustomerDocumentLogic>(Model);
-                return await FwAppDocumentController.NewAsync<CustomerDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "CustomerId", CustomerId, string.Empty, string.Empty, logic);
+                return await FwAppDocumentController.NewAsync<CustomerDocumentPostRequest, CustomerDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "CustomerId", CustomerId, string.Empty, string.Empty, Model);
             }
             catch (Exception ex)
             {
@@ -113,8 +112,7 @@ namespace WebApi.Modules.Agent.Customer
         {
             try
             {
-                var logic = AutoMapper.Mapper.Map<CustomerDocumentLogic>(Model);
-                return await FwAppDocumentController.EditAsync<CustomerDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "CustomerId", CustomerId, string.Empty, string.Empty, DocumentId, logic);
+                return await FwAppDocumentController.EditAsync<CustomerDocumentPutRequest, CustomerDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "CustomerId", CustomerId, string.Empty, string.Empty, DocumentId, Model);
             }
             catch (Exception ex)
             {

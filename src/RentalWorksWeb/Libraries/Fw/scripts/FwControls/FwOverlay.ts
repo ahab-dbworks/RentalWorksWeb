@@ -110,19 +110,19 @@
             $appendToElement.data('overlayoutcount', overlaycount + 1);
         }
 
-        const html: Array<string> = [];
+        let html: string | string[] = [];
         html.push('<div class="fwoverlay-center error">');
         html.push('<div style="height:128px;"></div>');
         html.push('<div class="message">Error</div>');
         html.push('</div>');
-
+        html = html.join('');
         let $moduleoverlay = $appendToElement.find('.fwoverlay');
         if ($moduleoverlay.length === 0) {
             $moduleoverlay = jQuery(`<div id="${overlayid}" class="fwoverlay">`);
-            $moduleoverlay.html(html.join(''));
+            $moduleoverlay.html(html);
             $appendToElement.css('position', 'relative').append($moduleoverlay);
         } else {
-            $moduleoverlay.html(html.join(''));
+            //$moduleoverlay.html(html.join(''));
             $appendToElement.css('position', 'relative').append(html);
         }
 

@@ -153,8 +153,8 @@ namespace FwStandard.Grids.AppDocument
             string dataUrlPrefix = null;
             string base64Data = null;
             string imageExtension = null;
-            bool hasImage = false;
-            bool hasFile = false;
+            //bool hasImage = false;
+            //bool hasFile = false;
             if (hasFileOrImage)
             {
                 dataUrlParts = this.FileDataUrl.Split(new char[] { ',' });
@@ -170,11 +170,11 @@ namespace FwStandard.Grids.AppDocument
                     case "tiff":
                     case "bmp":
                     case "png":
-                        hasImage = true;
+                        //hasImage = true;
                         imageDescription = "APPDOCUMENT_IMAGE";
                         break;
                     default:
-                        hasFile = true;
+                        //hasFile = true;
                         imageRectype = "F";
                         break;
                 }
@@ -206,9 +206,6 @@ namespace FwStandard.Grids.AppDocument
                             cmd.AddParameter("@uniqueid2", this.GetUniqueId2());
                             cmd.AddParameter("@attachdate", this.AttachDate);
                             cmd.AddParameter("@attachtime", this.AttachTime);
-                            cmd.AddParameter("@hasimage", hasImage);
-                            cmd.AddParameter("@hasfile", hasFile);
-                            cmd.AddParameter("@fileappimageid", appimageid);
                             await cmd.ExecuteInsertQueryAsync("appdocument");
                         }
                     }

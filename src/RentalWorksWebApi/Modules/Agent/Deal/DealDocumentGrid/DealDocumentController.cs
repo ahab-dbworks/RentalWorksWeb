@@ -109,8 +109,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                var logic = AutoMapper.Mapper.Map<DealDocumentLogic>(model);
-                return await FwAppDocumentController.NewAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "DealId", dealid, string.Empty, string.Empty, logic);
+                return await FwAppDocumentController.NewAsync<DealDocumentPostRequest, DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "DealId", dealid, string.Empty, string.Empty, model);
             }
             catch (Exception ex)
             {
@@ -131,8 +130,7 @@ namespace WebApi.Modules.Agent.Deal
         {
             try
             {
-                var logic = AutoMapper.Mapper.Map<DealDocumentLogic>(model);
-                return await FwAppDocumentController.EditAsync<DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "DealId", dealid, string.Empty, string.Empty, documentid, logic);
+                return await FwAppDocumentController.EditAsync<DealDocumentPutRequest, DealDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "DealId", dealid, string.Empty, string.Empty, documentid, model);
             }
             catch (Exception ex)
             {

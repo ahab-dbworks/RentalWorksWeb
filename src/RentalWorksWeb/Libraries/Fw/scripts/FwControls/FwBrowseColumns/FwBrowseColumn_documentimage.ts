@@ -75,6 +75,8 @@
                 backgroundImage: 'url(data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)'
             })
         }
+        const hasimages = thumbnails.length > 0;
+        this.setImageViewerMode($field, hasimages);
     }
     //---------------------------------------------------------------------------------
     addImages($field: JQuery, $imagesPopup: JQuery, baseapiurl: string, documentid: string) {
@@ -368,28 +370,17 @@
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
         let html: string[] | string = [];
-        var $adiContainer;
-        var appimageid = typeof $field.attr('data-originalvalue') === 'string' ? $field.attr('data-originalvalue') : '';
         const hasimages: boolean = typeof $field.attr('data-hasimages') === 'string' ? $field.attr('data-hasimages') === 'true' : false;
         const baseapiurl = typeof $field.attr('data-baseapiurl') === 'string' ? $field.attr('data-baseapiurl') : '';
         const documentid = typeof $field.attr('data-appdocumentid') === 'string' ? $field.attr('data-appdocumentid') : '';
-        var webservicetype = '';
-        if ($browse.attr('data-type') === 'Browse') {
-            webservicetype = 'module';
-        } else if ($browse.attr('data-type') === 'Grid') {
-            webservicetype = 'grid';
-        }
         if (hasimages) {
-            html.push('<i class="material-icons btnImageViewer" title="View Images" style="cursor:pointer;color:#000000;">collections</i>');
+            html.push('<i class="material-icons btnImageViewer" title="View Images" style="cursor:pointer;">collections</i>');
         } 
-        //else {
-        //    html.push('<i class="material-icons btnImageViewer" title="Add Images" style="cursor:pointer;">add_circle_outline</i>');
-        //}
         html = html.join('\n');
         $field.html(html);
-        $field.find('.btnImageViewer').on('click', async (event: JQuery.ClickEvent) => {
+        $field.find('.btnImageViewer').on('click', async (e: JQuery.ClickEvent) => {
             try {
-                event.stopPropagation();
+                e.stopPropagation();
                 this.openImageViewer($browse, $tr, $field, baseapiurl, documentid);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -416,19 +407,38 @@
         return parameters;
     }
     //---------------------------------------------------------------------------------
+    setImageViewerMode($field: JQuery, hasImages: boolean) {
+        if (hasImages) {
+            $field.find('.btnImageViewer')
+                .attr('title', 'Manage Images')
+                .text('collections');
+        } else {
+            $field.find('.btnImageViewer')
+                .attr('title', 'Add Images')
+                .text('add_circle_outline');
+        }
+    }
+    //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
-        var appimageid = typeof $field.attr('data-originalvalue') === 'string' ? $field.attr('data-originalvalue') : '';
         const hasimages: boolean = typeof $field.attr('data-hasimages') === 'string' ? $field.attr('data-hasimages') === 'true' : false;
         const baseapiurl = typeof $field.attr('data-baseapiurl') === 'string' ? $field.attr('data-baseapiurl') : '';
         const documentid = typeof $field.attr('data-appdocumentid') === 'string' ? $field.attr('data-appdocumentid') : '';
+        let mode: 'NEW'|'EDIT' = 'NEW';
+        if ($tr.hasClass('newmode')) {
+            mode = 'NEW';
+        }
+        else if ($tr.hasClass('editmode')) {
+            mode = 'EDIT';
+        }
         let html: string | string[] = [];
-        if (hasimages) {
-            html.push('<i class="material-icons btnImageViewer" title="View Images" style="cursor:pointer;color:#000000;">collections</i>');
-        } else {
-            html.push('<i class="material-icons btnImageViewer" title="Add Images" style="cursor:pointer;color:#000000;">add_circle_outline</i>');
+        if (mode === 'EDIT') {
+            html.push('<i class="material-icons btnImageViewer" style="cursor:pointer;color:#000000;"></i>');
         }
         html = html.join('');
         $field.html(html);
+        if (mode === 'EDIT') {
+            this.setImageViewerMode($field, hasimages);
+        }
         $field.find('.btnImageViewer').on('click', async (event: JQuery.ClickEvent) => {
             try {
                 event.stopPropagation();

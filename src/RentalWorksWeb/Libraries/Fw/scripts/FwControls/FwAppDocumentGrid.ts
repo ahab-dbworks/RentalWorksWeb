@@ -60,7 +60,9 @@ class FwAppDocumentGridClass {
   data-type="Grid" 
   class="fwcontrol fwbrowse" 
   data-caption="${options.caption}"  
-  data-controller="${options.nameGrid}Controller">
+  data-controller="${options.nameGrid}Controller"
+  data-refreshaftersave="true"
+  data-refreshaftercancel="true">
   <div class="column" data-width="0" data-visible="false">
     <div class="field"  
       data-cssclass="appdocumentid" 

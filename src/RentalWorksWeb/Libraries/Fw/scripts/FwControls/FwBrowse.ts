@@ -2995,6 +2995,9 @@ class FwBrowseClass {
 
             this.setRowViewMode($control, $tr);
         }
+        if ($control.attr('data-refreshaftercancel') !== undefined && $control.attr('data-refreshaftercancel') === 'true') {
+            this.databind($control);
+        }
     }
     //---------------------------------------------------------------------------------
     // trigger an auto-save on any rows in new or edit mode
