@@ -3065,7 +3065,7 @@ class OrderBase {
                             if (messages[i].PreventCheckOut === true) {
                                 backgroundColor = '#ff0000'; // red
                             }
-                            const alert = jQuery(`<div class="form-alert" style="background:${backgroundColor};text-align:center;font-size:1.3em"><span>${messages[i].Message}</span></div>`);
+                            const alert = jQuery(`<div class="form-alert" style="background:${backgroundColor};text-align:center;font-size:1.3em"><span>${messages[i].Message}</span><div style="display:flex; position:absolute;right:15px; cursor:pointer;"><i class="material-icons">clear</i></div>`);
                             $formBody.before(alert);
                         }
                     }
