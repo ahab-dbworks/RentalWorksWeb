@@ -1434,9 +1434,14 @@ class SearchInterface {
 
         $popup.on('click', '.opentab', e => {
             const type = FwFormField.getValueByDataField($popup, 'InventoryType');
-            let module;
             const uniqueids: any = {};
-            const inventoryId = jQuery(e.currentTarget).closest('.item-info').attr('data-inventoryid');
+            let module;
+            let inventoryId;
+            if (jQuery(e.currentTarget).hasClass('is-accessory')) {
+                inventoryId = jQuery(e.currentTarget).closest('.item-accessory-info').attr('data-inventoryid');
+            } else {
+                inventoryId = jQuery(e.currentTarget).closest('.item-info').attr('data-inventoryid');
+            }
             switch (type) {
                 case 'R':
                     module = 'RentalInventory';
@@ -1701,7 +1706,10 @@ class SearchInterface {
                 let accessoryhtml = `<div class="item-accessory-info" data-inventoryid="${response.Rows[i][inventoryIdIndex]}" data-isprimary="${response.Rows[i][isPrimaryIndex]}">
                                        <div data-column="Description" class="columnorder">
                                             <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
-                                            <div class="descriptionrow">${response.Rows[i][descriptionIndex]}</div>
+                                            <div class="descriptionrow">
+                                                <div class="description">${response.Rows[i][descriptionIndex]}</div>
+                                                <i class="material-icons opentab is-accessory">more_horiz</i>
+                                            </div>
                                        </div>
                                        <div data-column="Tags" class="columnorder"></div>
                                        <div data-column="Quantity" class="columnorder">

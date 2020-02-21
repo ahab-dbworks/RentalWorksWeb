@@ -475,7 +475,7 @@ Form tables
 #itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="Description"] {margin-right:5em;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="ItemImage"] { float: left; margin-left:7em;}
 
-#inventory .item-container .item-info .opentab {margin-left:auto;cursor:pointer;}
+#inventory .descriptionrow .opentab {margin-left:auto;cursor:pointer;}
 #inventory .item-container .toggleaccessories { font-weight: bold; color: #1E88E5; display: inline-block; cursor: pointer; }
 #inventory .item-container .toggleaccessories:hover { text-decoration: underline; }
 
