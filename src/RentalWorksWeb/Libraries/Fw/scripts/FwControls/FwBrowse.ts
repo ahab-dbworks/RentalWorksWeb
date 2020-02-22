@@ -4059,6 +4059,10 @@ class FwBrowseClass {
             });
 
             $yes.on('click', e => {
+                const $existingNotification = jQuery('body').find(".fwnotification.advisory.info .message:contains('Downloading Excel Workbook...')");
+                if ($existingNotification.length > 0) {
+                    $existingNotification.parent().remove();
+                }
                 const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Downloading Excel Workbook...');
                 let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
