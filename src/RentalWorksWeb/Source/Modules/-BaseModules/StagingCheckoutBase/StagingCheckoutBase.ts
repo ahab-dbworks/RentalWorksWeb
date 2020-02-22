@@ -1330,19 +1330,19 @@ abstract class StagingCheckoutBase {
                         }
                         html.push(`</div>`);
                         $formBody.before(html.join(''));
-
-                        if (buttonBlocking && preventCheckout) {
-                            FwNotification.renderNotification('WARNING', 'Issues highlighted above in red must be resolved before proceeding.')
-                        } else if (func && typeof func === 'function') {
-                            func.apply(arguments);
-                        }
-                        // close button - currently hidden
-                        $form.find('div.form-alert i').on('click', e => {
-                            jQuery(e.currentTarget).parents('.form-alert').remove();
-                            if ($form.find('div.form-alert').length === 0) {
-                                $form.find('.form-alert-container').remove();
-                            }
-                        });
+                       
+                        // close button - currently hidden in this module
+                        //$form.find('div.form-alert i').on('click', e => {
+                        //    jQuery(e.currentTarget).parents('.form-alert').remove();
+                        //    if ($form.find('div.form-alert').length === 0) {
+                        //        $form.find('.form-alert-container').remove();
+                        //    }
+                        //});
+                    }
+                    if (buttonBlocking && preventCheckout) {
+                        FwNotification.renderNotification('WARNING', 'Issues highlighted above in red must be resolved before proceeding.')
+                    } else if (func && typeof func === 'function') {
+                        func.apply(arguments);
                     }
                 }
             }, ex => FwFunc.showError(ex), $form);
