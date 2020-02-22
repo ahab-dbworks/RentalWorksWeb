@@ -278,10 +278,11 @@ class FwBrowseClass {
                         case 45: //Insert key
                             $tr = jQuery(e.currentTarget);
                             const inEditMode = $tr.hasClass('editmode');
+                            const inNewMode = $tr.hasClass('newmode');
                             const hasNew = $control.find('.buttonbar [data-type="NewButton"]:visible');
                             const hasMultiSave = $control.attr('data-multisave') === 'true' && $control.find('.grid-multi-save:visible').length > 0;
-                            if (hasNew.length > 0 || hasMultiSave) {
-                                if (inEditMode) {
+                            if (hasNew.length > 0 || hasMultiSave || inNewMode) {
+                                if ((inEditMode) || (inNewMode)) {
                                     if (hasMultiSave) {
                                         const $trs = $control.find('tr.editmode.editrow');
                                         me.multiSaveRow($control, $trs).then(() => {
