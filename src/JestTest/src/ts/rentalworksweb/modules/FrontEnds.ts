@@ -44,6 +44,9 @@ export abstract class StagingBase extends FrontEndModule {
         const createContractElementHandle = await page.$(`div .createcontract .btnmenu`);
         await createContractElementHandle.click();
 
+        // need to wait here for please wait to pop and go away - new staging messages
+        await TestUtils.waitForPleaseWait();
+
         //if pending items exist and pop-up occurs, click "Continue" to proceed:
         var popUp;
         try {
@@ -75,6 +78,10 @@ export class Staging extends StagingBase {
         await page.keyboard.sendCharacter(orderNumber);
         await page.keyboard.press('Enter');
         await TestUtils.waitForPleaseWait();
+
+        // need to wait here for please wait to pop and go away - new staging messages
+        await TestUtils.waitForPleaseWait();
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -93,6 +100,9 @@ export class TransferOut extends StagingBase {
         await transferNumberElementHandle.click();
         await page.keyboard.sendCharacter(transferNumber);
         await page.keyboard.press('Enter');
+        await TestUtils.waitForPleaseWait();
+
+        // need to wait here for please wait to pop and go away - new staging messages
         await TestUtils.waitForPleaseWait();
     }
     //---------------------------------------------------------------------------------------
