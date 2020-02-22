@@ -3059,19 +3059,26 @@ class OrderBase {
                     const messages = response.Messages;
                     if (messages.length) {
                         const $formBody = $form.find('.fwform-body');
-                        $form.find('.form-alert').remove();
+                        $form.find('.form-alert-container').remove();
+                        const html: Array<string> = [];
+                        html.push(`<div class="form-alert-container">`);
                         for (let i = 0; i < messages.length; i++) {
                             let backgroundColor = '#ffff33'; //yellow
                             if (messages[i].PreventCheckOut === true) {
                                 backgroundColor = '#ff0000'; // red
                             }
-                            const alert = jQuery(`<div class="form-alert" style="background:${backgroundColor};text-align:center;font-size:1.3em"><span>${messages[i].Message}</span><div style="padding:2px;float:right;cursor:pointer;"><i class="material-icons">clear</i></div></div>`);
-                            $formBody.before(alert);
+                            html.push(`<div class="form-alert" style="background:${backgroundColor};"><div style="float:left;"></div><span>${messages[i].Message}</span><div class="close"><i class="material-icons">clear</i></div></div>`);
                         }
+                        html.push(`</div>`);
+                        $formBody.before(html.join(''));
+
                         // close button
                         $form.find('div.form-alert i').on('click', e => {
                             jQuery(e.currentTarget).parents('.form-alert').remove();
-                        })
+                            if ($form.find('div.form-alert').length === 0) {
+                                $form.find('.form-alert-container').remove();
+                            }
+                        });
                     }
                 }
             }, ex => FwFunc.showError(ex), $form);
@@ -3710,8 +3717,8 @@ class OrderBase {
         //        activityDateFields.show();
         //    }
         //});
-           // $newFields = $fieldsDataObj.remove(oldDateFields);
-            //const oldDateFields = $form.find('.og-datetime');
+        // $newFields = $fieldsDataObj.remove(oldDateFields);
+        //const oldDateFields = $form.find('.og-datetime');
 
 
         const scheduleFields = $form.find('.schedule-date-fields');

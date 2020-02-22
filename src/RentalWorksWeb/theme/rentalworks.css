@@ -322,6 +322,12 @@ Form tables
     margin-left:8px;
 }
 
+/*form alert messages*/
+.fwform .form-alert-container { display:flex;flex-direction:column; }
+.fwform .form-alert-container .form-alert { text-align:center;font-size:1.3em;flex-direction:row; }
+.fwform .form-alert-container .form-alert .close { position:relative;top:3px;right:3px;float:right;cursor:pointer; }
+
+/*popup*/
 .popup {
     background-color: white;
     box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22);
@@ -331,7 +337,7 @@ Form tables
     position: relative;
 }
 
-.close-modal {display: flex;position: absolute;top: 10px;right: 15px;cursor: pointer;}
+.close-modal { display:flex;position:absolute;top:10px;right:15px;cursor:pointer; }
 
 /*#region Search Interface*/
 #searchpopup {
