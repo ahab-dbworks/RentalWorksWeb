@@ -1477,7 +1477,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("       a.availlatedays, a.availlatehours,                                              ");
                 qry.Add("       a.qcrequired, a.availenableqcdelay, a.availqcdelay,                             ");
                 qry.Add("       a.availqcdelayexcludeweekend, a.availqcdelayexcludeholiday,                     ");
-                qry.Add("       a.availqcdelayindefinite,                                                       ");
+                qry.Add("       a.availqcdelayindefinite, a.availbyhour,                                        ");
                 qry.Add("       a.excludecontainedfromavail, a.containerbarcode,                                ");
                 qry.Add("       a.contractid,                                                                   ");
                 qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
@@ -1607,11 +1607,17 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         {
                         }
 
-                        if (reservation.ToDateTime < DateTime.Now)
                         {
-                            reservation.QuantityReserved.Owned = 0;
-                            reservation.QuantityReserved.Subbed = 0;
-                            reservation.QuantityReserved.Consigned = 0;
+                            bool hourlyAvailability = FwConvert.ToBoolean(row[dt.GetColumnNo("availbyhour")].ToString());
+
+                            //if (reservation.ToDateTime < DateTime.Now)
+                            if (((hourlyAvailability) && (reservation.ToDateTime < DateTime.Now)) ||
+                                ((!hourlyAvailability) && (reservation.ToDateTime < DateTime.Today)))
+                            {
+                                reservation.QuantityReserved.Owned = 0;
+                                reservation.QuantityReserved.Subbed = 0;
+                                reservation.QuantityReserved.Consigned = 0;
+                            }
                         }
 
                         string inventoryId = row[dt.GetColumnNo("masterid")].ToString();

@@ -1437,12 +1437,12 @@ namespace WebApi.Modules.Agent.Order
                         newPickDate = d.Date;
                         newPickTime = d.Time;
                     }
-                    else if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_OUT))
+                    else if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_START))
                     {
                         newEstimatedStartDate = d.Date;
                         newEstimatedStartTime = d.Time;
                     }
-                    else if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_IN))
+                    else if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_STOP))
                     {
                         newEstimatedStopDate = d.Date;
                         newEstimatedStopTime = d.Time;
