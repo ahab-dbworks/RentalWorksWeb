@@ -417,12 +417,42 @@ namespace FwStandard.Data
             {
                 if ((request.forexcel) && (request.excelfields != null) && (request.excelfields.Count > 0))
                 {
+
+
                     List<PropertyInfo> selectedProperties = new List<PropertyInfo>();
                     List<string> selectedFields = new List<string>();
                     foreach (CheckBoxListItem item in request.excelfields.GetSelectedItems())
                     {
                         selectedFields.Add(item.value);
                     }
+
+
+                    if (request.searchfields.Count > 0)
+                    {
+                        for (int i = 0; i < request.searchfields.Count; i++)
+                        {
+                            if (!selectedFields.Contains(request.searchfields[i]))
+                            {
+                                selectedFields.Add(request.searchfields[i]);
+                            }
+                        }
+                    }
+
+
+                    List<string> tokens = new List<string>(request.orderby.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries));
+                    foreach (string token in tokens)
+                    {
+                        if ((!token.Equals("asc")) && (!token.Equals("desc")))
+                        {
+                            if (!selectedFields.Contains(token))
+                            {
+                                selectedFields.Add(token);
+                            }
+                        }
+                    }
+
+
+
 
                     foreach (string selectedField in selectedFields)
                     {
