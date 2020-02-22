@@ -825,7 +825,7 @@ class Customer {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield vendorclass" data-caption="Property Value Deductible" data-datafield="InsuranceCoveragePropertyValueDeductible" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Insurance Certification on File" data-datafield="" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Insurance Certification on File" data-datafield="InsuranceCertificationOnFile" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Vehicle Insurance on File" data-datafield="VehicleInsuranceCertficationOnFile" style="flex:1 1 125px;"></div>
