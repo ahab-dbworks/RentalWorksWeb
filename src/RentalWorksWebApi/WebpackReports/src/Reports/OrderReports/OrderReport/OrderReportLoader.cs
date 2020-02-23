@@ -101,6 +101,18 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "weeklyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklytax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklytaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklyextendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyExtendedWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklyextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyExtendedWithTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         //AVERAGE WEEKLY
         //------------------------------------------------------------------------------------ 
@@ -131,6 +143,18 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "monthlyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string MonthlyExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlytax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlytaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyextendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyExtendedWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyExtendedWithTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         //PERIOD
         //------------------------------------------------------------------------------------ 
@@ -151,6 +175,18 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PeriodExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodextendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodExtendedWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodExtendedWithTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
 
 
@@ -176,9 +212,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 //--------------------------------------------------------------------------------- 
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-            string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal", "AverageWeeklyExtended", "AverageWeeklyExtendedSubTotal",
-                                                 "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal",
-                                                 "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal" };
+            string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal", "WeeklyTax", "WeeklyTaxSubTotal", "WeeklyExtendedWithTax", "WeeklyExtendedWithTaxSubTotal", 
+                                                 "AverageWeeklyExtended", "AverageWeeklyExtendedSubTotal",
+                                                 "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal","MonthlyTax", "MonthlyTaxSubTotal", "MonthlyExtendedWithTax", "MonthlyExtendedWithTaxSubTotal",
+                                                 "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal", "PeriodTax", "PeriodTaxSubTotal", "PeriodExtendedWithTax", "PeriodExtendedWithTaxSubTotal", };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
