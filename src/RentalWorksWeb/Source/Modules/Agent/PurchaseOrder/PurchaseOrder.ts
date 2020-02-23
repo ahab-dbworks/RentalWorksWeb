@@ -252,6 +252,24 @@ class PurchaseOrder implements IModule {
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="PurchaseOrderId"] input').val(uniqueids.PurchaseOrderId);
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'PurchaseOrderDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${uniqueids.PurchaseOrderId}/document`;
+            },
+            gridSecurityId: 'OCGVS960nEwc',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'PurchaseOrderId',
+            uniqueid1Name: 'PurchaseOrderId',
+            getUniqueid1Value: () => uniqueids.PurchaseOrderId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
         FwModule.loadForm(this.Module, $form);
 
         return $form;

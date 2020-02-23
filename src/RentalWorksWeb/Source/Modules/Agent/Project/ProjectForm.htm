@@ -5,6 +5,7 @@
       <div data-type="tab" id="projecttab" class="tab" data-tabpageid="projecttabpage" data-caption="Project"></div>
       <div data-type="tab" id="contacttab" class="tab" data-tabpageid="contacttabpage" data-caption="Contact"></div>
       <div data-type="tab" id="poapproverstab" class="tab" data-tabpageid="poapproverstabpage" data-caption="PO Approvers"></div>
+      <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
       <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
     </div>
     <div class="tabpages">
@@ -39,13 +40,13 @@
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Sales" data-datafield="Sales" style="flex: 1 1 100px;"></div>
                 </div>
                 <!--
-                <div class="flexrow activityCheckboxes">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Facilities" data-datafield="Facilities" style="flex: 1 1 100px;"></div>
-                </div>
-                <div class="flexrow activityCheckboxes">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Transportation" data-datafield="Transportation" style="flex: 1 1 100px;"></div>
-                </div>
-                -->
+            <div class="flexrow activityCheckboxes">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Facilities" data-datafield="Facilities" style="flex: 1 1 100px;"></div>
+            </div>
+            <div class="flexrow activityCheckboxes">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Transportation" data-datafield="Transportation" style="flex: 1 1 100px;"></div>
+            </div>
+            -->
                 <div class="flexrow activityCheckboxes">
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Labor" data-datafield="Labor" style="flex: 1 1 100px;"></div>
                 </div>
@@ -120,6 +121,16 @@
           <div data-control="FwGrid" data-grid="POApproverGrid" data-securitycaption="PO Approvers"></div>
         </div>
       </div>
+
+      <!-- DOCUMENTS TAB -->
+      <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div data-control="FwGrid" data-grid="ProjectDocumentGrid"></div>
+          </div>
+        </div>
+      </div>
+
       <!--  NOTES TAB -->
       <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab" data-render="false">
         <div class="flexrow">
