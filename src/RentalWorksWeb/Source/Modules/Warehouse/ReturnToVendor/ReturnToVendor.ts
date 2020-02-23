@@ -348,8 +348,8 @@ class ReturnToVendor {
                 </div>
               </div>
             </div>
-            <div class="flexrow" style="max-width:1800px;">
-              <div class="flexcolumn" style="max-width:1225px;">
+            <div class="flexrow" style="max-width:1900px;">
+              <div class="flexcolumn" style="max-width:1325px;">
                 <div class="POReturnItemGrid">
                   <div data-control="FwGrid" data-grid="POReturnItemGrid" data-securitycaption="Return Items"></div>
                 </div>
@@ -360,7 +360,7 @@ class ReturnToVendor {
                 <div class="POReturnBarCodeGrid" data-control="FwGrid" data-grid="POReturnBarCodeGrid" data-securitycaption="Bar Code Items"></div>
               </div>
             </div>
-            <div class="formrow" style="max-width:1200px;">
+            <div class="formrow" style="max-width:1325px;">
               <div class="selectall fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Select All</div>
               <div class="selectnone fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Select None</div>
               <div class="createcontract fwformcontrol" data-type="button" style="float:right;">Create Contract</div>
