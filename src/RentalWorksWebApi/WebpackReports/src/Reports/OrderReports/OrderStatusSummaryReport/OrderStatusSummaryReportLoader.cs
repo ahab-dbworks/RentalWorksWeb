@@ -224,6 +224,7 @@ namespace WebApi.Modules.Reports.OrderStatusSummaryReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddParameter("@orderid", request.OrderId);
+                    select.AddOrderBy("rectypedisplay");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
