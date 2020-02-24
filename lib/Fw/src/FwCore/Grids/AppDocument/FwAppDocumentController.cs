@@ -227,21 +227,12 @@ namespace FwCore.Grids.AppDocument
                 }
                 else
                 {
-                    string filename = bl.Description + "." + Guid.NewGuid().ToString().Replace("-", string.Empty) + "." + documentFile.File.Extension ;
-                    filePath = Path.Combine(Environment.CurrentDirectory, "wwwroot/temp/downloads/" + filename);
-                    using (var stream = File.OpenWrite(filePath))
-                    {
-                        await stream.WriteAsync(documentFile.File.Data, 0, documentFile.File.Data.Length);
-                    }
+                    string filename = bl.Description + "." + documentFile.File.Extension;
                     response.Headers["Content-Disposition"] = "inline";
-                    return new TempPhysicalFileResult(filePath, documentFile.File.ContentType)
+                    return new FileContentResult(documentFile.File.Data, documentFile.File.ContentType)
                     {
                         FileDownloadName = filename
                     };
-                    //return new FileContentResult(documentFile.File.Data, documentFile.File.ContentType)
-                    //{
-                    //    //FileDownloadName = filename
-                    //};
                 }
             }
             catch(Exception ex)
