@@ -325,8 +325,8 @@ Form tables
 /*form alert messages checkMessages() in OrderBase and StagingCheckoutBase*/
 .fwform .form-alert-container { display:flex;flex-direction:column; }
 .fwform .form-alert-container .form-alert { text-align:center;font-size:.8em;flex-direction:row; }
-.fwform .form-alert-container .form-alert.elevated { background-color:#ffff99 }
-.fwform .form-alert-container .form-alert.severe { background-color:#ff4c4c }
+.fwform .form-alert-container .form-alert.elevated { background-color:#ffff99 } /*yellow*/
+.fwform .form-alert-container .form-alert.severe { background-color:#ff4c4c;color:white; } /*red*/
 .fwform .form-alert-container .form-alert .close { position:relative;top:1px;right:3px;float:right;cursor:pointer; }
 .fwform .form-alert-container .form-alert i { font-size:17px; }
 
