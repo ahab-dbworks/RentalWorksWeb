@@ -191,6 +191,15 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
 
 
 
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxrate1", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string TaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxrate2", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string TaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -216,7 +225,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                                                  "AverageWeeklyExtended", "AverageWeeklyExtendedSubTotal",
                                                  "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal","MonthlyTax", "MonthlyTaxSubTotal", "MonthlyExtendedWithTax", "MonthlyExtendedWithTaxSubTotal",
                                                  "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal", "PeriodTax", "PeriodTaxSubTotal", "PeriodExtendedWithTax", "PeriodExtendedWithTaxSubTotal", };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2"}, includeGroupColumnValueInFooter: true);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
