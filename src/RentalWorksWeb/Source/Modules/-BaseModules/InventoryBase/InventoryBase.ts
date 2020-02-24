@@ -204,14 +204,19 @@ abstract class InventoryBase {
                     const days = request.days ? request.days : 34;
                     const endOfMonth = moment(request.start.value).add(days, 'days').format('MM/DD/YYYY');
                     let warehouseId;
-                    if ($form.is('tr')) {
-                        if (typeof $form.data('warehousefilter') === 'string') {
-                            warehouseId = $form.data('warehousefilter');
-                        } else {
-                            warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
-                        }
+                    const allWh = FwFormField.getValueByDataField($form, 'AllWarehouses');
+                    if (allWh) {
+                        warehouseId = '';
                     } else {
-                        warehouseId = FwFormField.getValue($form, '.warehousefilter');            //justin 11/11/2018 fixing build error
+                        if ($form.is('tr')) {
+                            if (typeof $form.data('warehousefilter') === 'string') {
+                                warehouseId = $form.data('warehousefilter');
+                            } else {
+                                warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
+                            }
+                        } else {
+                            warehouseId = FwFormField.getValue($form, '.warehousefilter');            //justin 11/11/2018 fixing build error
+                        }
                     }
                     if (inventoryId === null || inventoryId === '') {
                         inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');     // err here if line in grid has no icode selected
@@ -290,16 +295,20 @@ abstract class InventoryBase {
                 .data('ongetevents', request => {
                     const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                     const endOfMonth = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY');
-
                     let warehouseId;
-                    if ($form.is('tr')) {
-                        if (typeof $form.data('warehousefilter') === 'string') {
-                            warehouseId = $form.data('warehousefilter');
-                        } else {
-                            warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
-                        }
+                    const allWh = FwFormField.getValueByDataField($form, 'AllWarehouses');
+                    if (allWh) {
+                        warehouseId = '';
                     } else {
-                        warehouseId = FwFormField.getValue($form, '.warehousefilter');
+                        if ($form.is('tr')) {
+                            if (typeof $form.data('warehousefilter') === 'string') {
+                                warehouseId = $form.data('warehousefilter');
+                            } else {
+                                warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
+                            }
+                        } else {
+                            warehouseId = FwFormField.getValue($form, '.warehousefilter');
+                        }
                     }
                     if (inventoryId === null || inventoryId === '') {
                         inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
@@ -594,6 +603,21 @@ abstract class InventoryBase {
                 FwBrowse.search($form.find('[data-name="InventoryWarehouseCompletePricingGrid"]'));
             }
         });
+
+        //Toggle All Warehouses
+        $form.find(`[data-datafield="AllWarehouses"]`).on('change', e => {
+            const $this = jQuery(e.currentTarget);
+            if (FwFormField.getValue2($this)) {
+                FwFormField.disable($form.find('[data-datafield="WarehouseId"]'));
+            } else {
+                FwFormField.enable($form.find('[data-datafield="WarehouseId"]'));
+            }
+
+            const $calendar = $form.find('.calendar');
+            const $realScheduler = $form.find('.realscheduler');
+            FwSchedulerDetailed.refresh($realScheduler);
+            FwScheduler.refresh($calendar);
+        })
     }
     //----------------------------------------------------------------------------------------------
     enablePricingFields($form) {
