@@ -116,7 +116,21 @@ class QuikActivityCalendar {
             nameGrid: 'QuikActivityGrid',
             gridSecurityId: 'yhYOLhLE92IT',
             moduleSecurityId: this.id,
-            $form: $popup
+            $form: $popup,
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                const isSummary = FwFormField.getValueByDataField($popup, 'Summary');
+                const $detailColumns = $quikActivityGrid
+                    .find('[data-browsedatafield="InventoryId"], [data-browsedatafield="Description"]')
+                    .parents('.column');
+                const detailReadOnlyColumns = $quikActivityGrid.find('[data-browsedatafield="ActivityStatusId"], [data-browsedatafield="AssignedToUserId"]');
+                if (isSummary == 'true') {
+                    $detailColumns.hide();
+                    detailReadOnlyColumns.attr('data-formreadonly', 'false');
+                } else {
+                    $detailColumns.show();
+                    detailReadOnlyColumns.attr('data-formreadonly', 'true');
+                }
+            }
         });
         const $quikActivityGrid = $popup.find('div[data-grid="QuikActivityGrid"]');
         const $quikActivityGridControl = $popup.find('div[data-name="QuikActivityGrid"]');
@@ -135,17 +149,6 @@ class QuikActivityCalendar {
 
         $popup.find('[data-datafield="Summary"]').on('change', e => {
             const isSummary = FwFormField.getValueByDataField($popup, 'Summary');
-            const $detailColumns = $quikActivityGrid
-                .find('[data-browsedatafield="ICode"], [data-browsedatafield="Description"]')
-                .parents('.column');
-            const detailReadOnlyColumns = $quikActivityGrid.find('[data-browsedatafield="ActivityStatusId"], [data-browsedatafield="AssignedToUserId"]');
-            if (isSummary == 'true') {
-                $detailColumns.hide();
-                detailReadOnlyColumns.attr('data-formreadonly', 'false');
-            } else {
-                $detailColumns.show();
-                detailReadOnlyColumns.attr('data-formreadonly', 'true');
-            }
             const $quikActivityGridControl = $quikActivityGrid.find('[data-type="Grid"]');
             const onDataBind = $quikActivityGridControl.data('ondatabind');
             if (typeof onDataBind == 'function') {
