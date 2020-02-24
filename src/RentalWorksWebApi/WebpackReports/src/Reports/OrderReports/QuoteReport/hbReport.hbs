@@ -345,10 +345,22 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
+    {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td colspan="5"></td>
-      <td class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
-      <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">RENTAL Sub-Total</td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    <tr>
+      <td colspan="5"></td>
+      <td class="tax" style="text-align:right;font-weight:700;">Tax ({{TaxRate1}}%)</td>
+      <td class="tax" style="text-align:right;font-weight:700;" data-value="{{PeriodTax}}"></td>
+    </tr>
+    {{/ifNotEquals}}
+    <tr>
+      <td colspan="5"></td>
+      <td class="display-footer" style="background-color:#e3f2fd">RENTAL Total</td>
+      <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
     {{/each}}
@@ -527,10 +539,22 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
+    {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td colspan="5"></td>
-      <td colspan="2" class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
-      <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">USED SALE Sub-Total</td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    <tr>
+      <td colspan="5"></td>
+      <td class="tax" style="text-align:right;font-weight:700;">Tax ({{TaxRate1}}%)</td>
+      <td class="tax" style="text-align:right;font-weight:700;" data-value="{{PeriodTax}}"></td>
+    </tr>
+    {{/ifNotEquals}}
+    <tr>
+      <td colspan="5"></td>
+      <td class="display-footer" style="background-color:#e3f2fd">USED SALE Total</td>
+      <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
     {{/each}}
@@ -692,10 +716,22 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
+    {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td colspan="5"></td>
-      <td class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
-      <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">SALES Sub-Total</td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    <tr>
+      <td colspan="5"></td>
+      <td class="tax" style="text-align:right;font-weight:700;">Tax ({{TaxRate1}}%)</td>
+      <td class="tax" style="text-align:right;font-weight:700;" data-value="{{PeriodTax}}"></td>
+    </tr>
+    {{/ifNotEquals}}
+    <tr>
+      <td colspan="5"></td>
+      <td class="display-footer" style="background-color:#e3f2fd">SALES Total</td>
+      <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
     {{/each}}
@@ -857,10 +893,22 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
+    {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td colspan="4"></td>
-      <td colspan="2" class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
-      <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+      <td colspan="2" class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">MISCELLANEOUS Sub-Total</td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    <tr>
+      <td colspan="5"></td>
+      <td class="tax" style="text-align:right;font-weight:700;">Tax ({{TaxRate1}}%)</td>
+      <td class="tax" style="text-align:right;font-weight:700;" data-value="{{PeriodTax}}"></td>
+    </tr>
+    {{/ifNotEquals}}
+    <tr>
+      <td colspan="4"></td>
+      <td colspan="2" class="display-footer" style="background-color:#e3f2fd">MISCELLANEOUS Total</td>
+      <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
     {{/each}}
@@ -1022,10 +1070,22 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
+    {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td colspan="5"></td>
-      <td class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
-      <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">LABOR Sub-Total</td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    <tr>
+      <td colspan="5"></td>
+      <td class="tax" style="text-align:right;font-weight:700;">Tax ({{TaxRate1}}%)</td>
+      <td class="tax" style="text-align:right;font-weight:700;" data-value="{{PeriodTax}}"></td>
+    </tr>
+    {{/ifNotEquals}}
+    <tr>
+      <td colspan="5"></td>
+      <td class="display-footer" style="background-color:#e3f2fd">LABOR Total</td>
+      <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
     {{/each}}
@@ -1187,10 +1247,22 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
+    {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td colspan="5"></td>
-      <td class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}}&nbsp;</td>
-      <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">FACILITIES Sub-Total</td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    <tr>
+      <td colspan="5"></td>
+      <td class="tax" style="text-align:right;font-weight:700;">Tax ({{TaxRate1}}%)</td>
+      <td class="tax" style="text-align:right;font-weight:700;" data-value="{{PeriodTax}}"></td>
+    </tr>
+    {{/ifNotEquals}}
+    <tr>
+      <td colspan="5"></td>
+      <td class="display-footer" style="background-color:#e3f2fd">FACILITIES Total</td>
+      <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
     {{/each}}
@@ -1201,10 +1273,22 @@
   {{#each Items}}
   {{#ifEquals RowType "grandtotal"}}
   <table class="grandTotalRow">
+    {{#ifNotEquals PeriodTax 0}}
+    <tr>
+      <td style="min-width:638px;"></td>
+      <td style="min-width:300px;text-align:right;padding-right:10px;font-weight:bold;">SUB TOTAL</td>
+      <td class="number grandTotalAllActivities" style="min-width:150px;padding-right:3px;" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    <tr>
+      <td style="min-width:638px;"></td>
+      <td class="tax" style="min-width:300px;text-align:right;padding-right:10px;font-weight:700;text-align:right;">TAX</td>
+      <td class="number tax" style="min-width:150px;padding-right:3px;font-weight:700;" data-value="{{PeriodTax}}"></td>
+    </tr>
+    {{/ifNotEquals}}
     <tr>
       <td style="min-width:638px;"></td>
       <td style="min-width:300px;text-align:right;padding-right:10px;font-weight:bold;">GRAND TOTAL</td>
-      <td class="number grandTotalAllActivities" style="min-width:150px;padding-right:3px;" data-value="{{PeriodExtended}}"></td>
+      <td class="number grandTotalAllActivities" style="min-width:150px;padding-right:3px;" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
   </table>
   {{/ifEquals}}
