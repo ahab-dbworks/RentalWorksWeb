@@ -288,6 +288,7 @@ class MigrateOrders {
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
         switch (datafield) {
+            case 'CreateNewDealId':
             case 'DealId':
                 const shareDeals = JSON.parse(sessionStorage.getItem('controldefaults')).sharedealsacrossofficelocations;
                 if (!shareDeals) {
