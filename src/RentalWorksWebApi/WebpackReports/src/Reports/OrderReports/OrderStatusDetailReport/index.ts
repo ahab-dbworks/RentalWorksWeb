@@ -25,8 +25,9 @@ export class OrderStatusDetailReport extends WebpackReport {
                             data.Company = parameters.companyName;
                             data.Order = parameters.orderno;
                             data.Report = "Order Status Detail";
-                            data.PrintTime = ` Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                            data.PrintDate = `${moment().format('MM/DD/YYYY')}`;
+                            data.PrintTime = moment().format('h:mm:ss A');
+                            data.PrintDate = moment().format('MM/DD/YYYY');
+                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
                             data.TermsAndConditions == '';
                             if (logoObject.LogoImage != '') {

@@ -76,9 +76,10 @@ body {
 // Print time footer on all reports
 .rpt-footer {
     align-self: flex-start;
-    font-size: 11px;
+    font-size: .6em;
     font-weight: bold;
     padding-top: 12px;
+    margin: 0 0 0 3px;
 }
 
 .meta-header {
