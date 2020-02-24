@@ -192,10 +192,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
 
 
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "taxrate1", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "taxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRate1 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "taxrate2", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "taxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
 
