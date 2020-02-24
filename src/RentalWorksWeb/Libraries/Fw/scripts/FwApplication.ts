@@ -415,7 +415,12 @@ class FwApplication {
             document.body.scrollTop = 0;
         }
         if (!foundmatch) {
-            FwFunc.showError(`404: Not Found - ${path}`);
+            //okta redirects to the base url without a hash symbol, so if its active and we are there its probaly redirecting with tokens to the base app page, so we redirect to login.
+            if ((window.location.href === "http://localhost/rentalworksweb/" || "http://localhost/gateworksweb")  && applicationConfig.isOktaLogin === true) {
+                program.navigate('login');
+            } else {
+                FwFunc.showError(`404: Not Found - ${path}`);
+            }
         }
     };
     //---------------------------------------------------------------------------------

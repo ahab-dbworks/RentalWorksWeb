@@ -1313,6 +1313,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <TypeScriptCompile Include="Source\Pages\OktaLogin\OktaLogin.ts" />
     <TypeScriptCompile Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\BaseInventoryValidation\BaseInventoryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\CountryValidation\CountryValidationController.ts" />
