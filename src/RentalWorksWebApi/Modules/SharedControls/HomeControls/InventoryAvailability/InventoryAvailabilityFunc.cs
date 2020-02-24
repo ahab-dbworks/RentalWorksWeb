@@ -1688,7 +1688,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                     {
                                         int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
                                         DateTime lateButReturningThroughDate = res.ToDateTime.AddDays(warehouseLateDays);
-                                        if ((warehouseLateDays > 0) && (res.QuantityOut.Total > 0) && (res.ToDateTime < lateButReturningThroughDate) && (lateButReturningThroughDate > DateTime.Today))
+                                        if ((warehouseLateDays > 0) && (res.QuantityOut.Total > 0) && (res.ToDateTime < lateButReturningThroughDate) && (lateButReturningThroughDate > DateTime.Today.AddDays(-1)))
                                         {
                                             res.ToDateTime = lateButReturningThroughDate;
                                             res.LateButReturning = true;
