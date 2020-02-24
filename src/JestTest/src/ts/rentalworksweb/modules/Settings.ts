@@ -103,7 +103,6 @@ export class Country extends SettingsModule {
         this.defaultNewRecordToExpect = {
             Country: "",
             CountryCode: "",
-            IsUSA: false,
             Metric: false,
             Inactive: false,
         }
@@ -113,7 +112,6 @@ export class Country extends SettingsModule {
                 record: {
                     Country: "GlobalScope.TestToken~1.TestToken",
                     CountryCode: "GlobalScope.TestToken~1.ShortTestToken",
-                    IsUSA: true,
                 },
                 seekObject: {
                     Country: "GlobalScope.TestToken~1.TestToken",
@@ -138,7 +136,6 @@ export class Country extends SettingsModule {
         this.newRecordsToCreate[0].recordToExpect = {
             Country: this.newRecordsToCreate[0].record.Country.toUpperCase(),
             CountryCode: this.newRecordsToCreate[0].record.CountryCode.toUpperCase(),
-            IsUSA: true,
             Metric: false,
             Inactive: false,
         }
