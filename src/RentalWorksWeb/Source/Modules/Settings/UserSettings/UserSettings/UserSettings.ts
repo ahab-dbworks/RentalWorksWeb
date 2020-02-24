@@ -60,6 +60,7 @@
                 }
             }
         });
+        defaultHomePages.push({ value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', nav: 'module/dashboard' }); // Dashboard will be excluded without this
         FwApplicationTree.sortModules(defaultHomePages);
         const $defaultHomePage = $form.find('.default-home-page');
         FwFormField.loadItems($defaultHomePage, defaultHomePages, true);
