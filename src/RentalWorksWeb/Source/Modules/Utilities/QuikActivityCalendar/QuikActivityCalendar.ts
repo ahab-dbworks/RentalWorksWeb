@@ -222,19 +222,47 @@ class QuikActivityCalendar {
                         };
                     });
 
-
                     FwBrowse.search($quikActivityGridControl);
 
                 }, ex => {
                     FwFunc.showError(ex);
                 }, $calendar)
             })
+            .data('ontimerangeselect', event => {
+                try {
+                    const $overlay = FwOverlay.showPleaseWaitOverlay($form, null);
+                    const fromDate = moment(event.start.value).format('MM/DD/YYYY');
+                    const toDate = moment(event.start.value).format('MM/DD/YYYY');
+                    const summary = FwFormField.getValueByDataField($popup, 'Summary');
+                    let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                    if (FwFormField.getValueByDataField($form, 'AllWarehouses')) {
+                        warehouseId = '';
+                    }
+                    let officeLocationId: string = '';//FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                    let departmentId: string = FwFormField.getValueByDataField($form, 'DepartmentId');
+                    $popup.find('.activities-header .fwform-section-title').text(`Activities for ${fromDate}`);
+                    FwPopup.showPopup($popup);
+                    $quikActivityGridControl.data('ondatabind', request => {
+                        request.uniqueids = {
+                            FromDate: fromDate,
+                            ToDate: toDate,
+                            OfficeLocationId: officeLocationId,
+                            WarehouseId: warehouseId,
+                            DepartmentId: departmentId,
+                            ActivityTypeId: activityTypes,
+                            Summary: summary,
+                            AssignedToUserId: FwFormField.getValueByDataField($form, 'MyActivitiesOnly') ? JSON.parse(sessionStorage.getItem('userid')).usersid : '',
+                            IncludeCompleted: FwFormField.getValueByDataField($form, 'IncludeCompleted')
+                        };
+                    });
+                    FwBrowse.search($quikActivityGridControl);
+                    FwOverlay.hideOverlay($overlay);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
             .data('ontimerangedoubleclicked', event => {
                 try {
-                    //const date = event.start.toString('MM/dd/yyyy');
-                    //FwScheduler.setSelectedDay($calendar, date);
-                    //$form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
-                    //$form.find('div.tab.schedule').click();
                     if (typeof $calendar.data('ontimerangeselect') === 'function') {
                         $calendar.data('ontimerangeselect')(event);
                     }
@@ -259,39 +287,6 @@ class QuikActivityCalendar {
                         request.uniqueids = {
                             FromDate: date,
                             ToDate: date,
-                            OfficeLocationId: officeLocationId,
-                            WarehouseId: warehouseId,
-                            DepartmentId: departmentId,
-                            ActivityTypeId: activityTypes,
-                            Summary: summary,
-                            AssignedToUserId: FwFormField.getValueByDataField($form, 'MyActivitiesOnly') ? JSON.parse(sessionStorage.getItem('userid')).usersid : '',
-                            IncludeCompleted: FwFormField.getValueByDataField($form, 'IncludeCompleted')
-                        };
-                    });
-                    FwBrowse.search($quikActivityGridControl);
-                    FwOverlay.hideOverlay($overlay);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .data('ontimerangeselect', event => {
-                try {
-                    const $overlay = FwOverlay.showPleaseWaitOverlay($form, null);
-                    const fromDate = moment(event.start.value).format('MM/DD/YYYY');
-                    const toDate = moment(event.start.value).format('MM/DD/YYYY');
-                    const summary = FwFormField.getValueByDataField($popup, 'Summary');
-                    let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                    if (FwFormField.getValueByDataField($form, 'AllWarehouses')) {
-                        warehouseId = '';
-                    }
-                    let officeLocationId: string = '';//FwFormField.getValueByDataField($form, 'OfficeLocationId');
-                    let departmentId: string = FwFormField.getValueByDataField($form, 'DepartmentId');
-                    $popup.find('.activities-header .fwform-section-title').text(`Activities for ${fromDate}`);
-                    FwPopup.showPopup($popup);
-                    $quikActivityGridControl.data('ondatabind', request => {
-                        request.uniqueids = {
-                            FromDate: fromDate,
-                            ToDate: toDate,
                             OfficeLocationId: officeLocationId,
                             WarehouseId: warehouseId,
                             DepartmentId: departmentId,
@@ -378,7 +373,8 @@ class QuikActivityCalendar {
     events($form: any) {
         $form.find('.calendarmenu').css({
             'border-left': '1px solid #a9a9a9',
-            'border-right': '1px solid #a9a9a9'});
+            'border-right': '1px solid #a9a9a9'
+        });
 
         const $calendar = $form.find('.calendar');
         $form.on('change', '[data-datafield="WarehouseId"]', e => {
