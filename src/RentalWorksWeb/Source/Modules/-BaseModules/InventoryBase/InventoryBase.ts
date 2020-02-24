@@ -250,25 +250,40 @@ abstract class InventoryBase {
                         FwFunc.showError(response);
                     }, $control)
                 })
-                .data('ontimerangedoubleclicked', event => {
+                .data('oneventclick', e => {
+                    const data = e.e.data;
+                    const reservationDate = moment(data.start.value).format('YYYY-MM-DD');
+                    const displayDate = moment(data.start.value).format('MM/DD/YYYY');
+                    this.renderReservationsPopup($control, reservationDate, displayDate);
+                })
+                .data('oneventdoubleclick', e => {
+                    if (typeof $control.data('oneventclick') === 'function') {
+                        $control.data('oneventclick')(e);
+                    }
+                })
+                .data('oneventdoubleclicked', e => {
+                    if (typeof $control.data('oneventclick') === 'function') {
+                        $control.data('oneventclick')(e);
+                    }
+                })
+                .data('ontimerangeselect', e => {
                     try {
-                        const date = event.start.toString('MM/dd/yyyy');
+                        const date = e.start.toString('MM/dd/yyyy');
                         FwScheduler.setSelectedDay($control, date);
                         //DriverController.openTicket($form);
                         $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
                         $form.find('div.tab.schedule').click();
-                        const reservationDate = moment(event.start.value).format('YYYY-MM-DD');
-                        const displayDate = moment(event.start.value).format('MM/DD/YYYY');
+                        const reservationDate = moment(e.start.value).format('YYYY-MM-DD');
+                        const displayDate = moment(e.start.value).format('MM/DD/YYYY');
                         this.renderReservationsPopup($control, reservationDate, displayDate);
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 })
-                .data('oneventdoubleclicked', e => {
-                    const data = e.e.data;
-                    const reservationDate = moment(data.start.value).format('YYYY-MM-DD');
-                    const displayDate = moment(data.start.value).format('MM/DD/YYYY');
-                    this.renderReservationsPopup($control, reservationDate, displayDate);
+                .data('ontimerangedoubleclicked', e => {
+                    if (typeof $control.data('ontimerangeselect') === 'function') {
+                        $control.data('ontimerangeselect')(e);
+                    }
                 })
         } else if ($control.hasClass('realscheduler')) {
             $control
