@@ -36,7 +36,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             dataRecords.Add(tax);
             dataRecords.Add(receiveDelivery);
             dataRecords.Add(returnDelivery);
-            
+
             dataLoader = purchaseOrderLoader;
             browseLoader = purchaseOrderBrowseLoader;
 
@@ -601,10 +601,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "g1K0q6Vn89Oj9")]
         public string ReturnDeliveryDateStamp { get { return returnDelivery.DateStamp; } set { returnDelivery.DateStamp = value; } }
 
-
-
-
-
         [FwLogicProperty(Id: "TJnlyuYOArN3")]
         public string ProjectId { get { return purchaseOrder.ProjectId; } set { purchaseOrder.ProjectId = value; } }
 
@@ -623,11 +619,50 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "T6x3UjlxoKwxj", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
+        [FwLogicProperty(Id: "qUfpc2ERE8Kxy", IsReadOnly: true)]
+        public string Currency { get; set; }
+
         [FwLogicProperty(Id: "uApGEj8iolr8")]
         public string BillingCycleId { get { return purchaseOrder.BillingCycleId; } set { purchaseOrder.BillingCycleId = value; } }
 
         [FwLogicProperty(Id: "QRNhl3XsQMUmi", IsReadOnly: true)]
         public string BillingCycle { get; set; }
+
+        [FwLogicProperty(Id: "wW6cre9T4eosh")]
+        public string RemitToAttention1 { get { return purchaseOrder.IssuedToAttention; } set { purchaseOrder.IssuedToAttention = value; } }
+
+        [FwLogicProperty(Id: "Rg0zsblCgefCb")]
+        public string RemitToAttention2 { get { return purchaseOrder.IssuedToAttention2; } set { purchaseOrder.IssuedToAttention2 = value; } }
+
+        [FwLogicProperty(Id: "PA2Facncfq9MJ")]
+        public string RemitToAddress1 { get { return purchaseOrder.IssuedToAddress1; } set { purchaseOrder.IssuedToAddress1 = value; } }
+
+        [FwLogicProperty(Id: "VIU7lNauU5UXz")]
+        public string RemitToAddress2 { get { return purchaseOrder.IssuedToAddress2; } set { purchaseOrder.IssuedToAddress2 = value; } }
+
+        [FwLogicProperty(Id: "VA772stcN1yL5")]
+        public string RemitToCity { get { return purchaseOrder.IssuedToCity; } set { purchaseOrder.IssuedToCity = value; } }
+
+        [FwLogicProperty(Id: "6U3S98f738p5A")]
+        public string RemitToState { get { return purchaseOrder.IssuedToState; } set { purchaseOrder.IssuedToState = value; } }
+
+        [FwLogicProperty(Id: "0W3PTnyhvCaum")]
+        public string RemitToCountryId { get { return purchaseOrder.IssuedToCountryId; } set { purchaseOrder.IssuedToCountryId = value; } }
+
+        [FwLogicProperty(Id: "ndc6mguzChPmz", IsReadOnly: true)]
+        public string RemitToCountry { get; set; }
+
+        [FwLogicProperty(Id: "31KVsaJic391U")]
+        public string RemitToEmail { get { return purchaseOrder.IssuedToEmail; } set { purchaseOrder.IssuedToEmail = value; } }
+
+        [FwLogicProperty(Id: "hAhc3b9qpN75d")]
+        public string RemitToPhone { get { return purchaseOrder.IssuedToPhone; } set { purchaseOrder.IssuedToPhone = value; } }
+
+        [FwLogicProperty(Id: "t86a4sDnXfJX7")]
+        public string PaymentTypeId { get { return purchaseOrder.PaymentTypeId; } set { purchaseOrder.PaymentTypeId = value; } }
+
+        [FwLogicProperty(Id: "enPU3AuYFjj8d", IsReadOnly: true)]
+        public string PaymentType { get; set; }
 
         [FwLogicProperty(Id: "XfP2lmt73Pt")]
         public string PaymentTermsId { get { return purchaseOrder.PaymentTermsId; } set { purchaseOrder.PaymentTermsId = value; } }
@@ -839,6 +874,19 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "DN7hr95RFHCXk", IsReadOnly: true)]
         public bool? PeriodSubLaborTotalIncludesTax { get; set; }
 
+
+        [FwLogicProperty(Id: "5fV4aZWQ5inMt")]
+        public bool? MiscellaneousIsComplete { get { return purchaseOrderDetail.MiscellaneousIsComplete; } set { purchaseOrderDetail.MiscellaneousIsComplete = value; } }
+        [FwLogicProperty(Id: "YqKPCQjxzvWsQ")]
+        public bool? SubMiscellaneousIsComplete { get { return purchaseOrderDetail.SubMiscellaneousIsComplete; } set { purchaseOrderDetail.SubMiscellaneousIsComplete = value; } }
+        [FwLogicProperty(Id: "ymgrPlOuhOdEp")]
+        public bool? LaborIsComplete { get { return purchaseOrderDetail.LaborIsComplete; } set { purchaseOrderDetail.LaborIsComplete = value; } }
+        [FwLogicProperty(Id: "4vB85neZs8r99")]
+        public bool? SubLaborIsComplete { get { return purchaseOrderDetail.SubLaborIsComplete; } set { purchaseOrderDetail.SubLaborIsComplete = value; } }
+        //------------------------------------------------------------------------------------
+
+
+
         [FwLogicProperty(Id: "EJHdP3FGL75fJ", IsReadOnly: true)]
         public string CurrencyColor { get; set; }
         [FwLogicProperty(Id: "mbfCIKAk0BI79", IsReadOnly: true)]
@@ -971,7 +1019,13 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 purchaseOrder.TaxId = tax.TaxId;
                 int i = purchaseOrder.SaveAsync(null, e.SqlConnection).Result;
             }
-            bool b2 = purchaseOrder.UpdatePoStatus(e.SqlConnection).Result;
+            //bool b2 = purchaseOrder.UpdatePoStatus(e.SqlConnection).Result;
+
+            //after save - do work in the database
+            {
+                TSpStatusResponse r = PurchaseOrderFunc.AfterSavePurchaseOrder(AppConfig, UserSession, this.GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
+            }
+
         }
         //------------------------------------------------------------------------------------
         public void OnBeforeSavePurchaseOrder(object sender, BeforeSaveDataRecordEventArgs e)

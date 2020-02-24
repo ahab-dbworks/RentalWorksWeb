@@ -275,6 +275,29 @@ class FwBrowseClass {
                                 }
                                 return false;
                             }
+                        case 45: //Insert key
+                            $tr = jQuery(e.currentTarget);
+                            const inEditMode = $tr.hasClass('editmode');
+                            const inNewMode = $tr.hasClass('newmode');
+                            const hasNew = $control.find('.buttonbar [data-type="NewButton"]:visible');
+                            const hasMultiSave = $control.attr('data-multisave') === 'true' && $control.find('.grid-multi-save:visible').length > 0;
+                            if (hasNew.length > 0 || hasMultiSave || inNewMode) {
+                                if ((inEditMode) || (inNewMode)) {
+                                    if (hasMultiSave) {
+                                        const $trs = $control.find('tr.editmode.editrow');
+                                        me.multiSaveRow($control, $trs).then(() => {
+                                            me.addRowNewMode($control);
+                                        });
+                                    } else {
+                                        me.saveRow($control, $tr).then(() => {
+                                            me.addRowNewMode($control);
+                                        });
+                                    }
+                                } else {
+                                    me.addRowNewMode($control);
+                                }
+                            }
+                            return false;
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -459,7 +482,16 @@ class FwBrowseClass {
             .on('click', '.runtime .pager div.btn-manualsort', function (e: JQuery.Event) {
                 try {
                     if ($control.attr('data-enabled') != 'false') {
-                        $control.find('td.manual-sort').toggle();
+                        const $sort = $control.find('td.manual-sort');
+                        const $newBtn = $control.find('.buttonbar [data-type="NewButton"]');
+                        $sort.toggle();
+                        if ($sort.is(':visible')) {
+                            $control.addClass('sort-mode');
+                            $newBtn.hide();
+                        } else {
+                            $control.removeClass('sort-mode');
+                            $newBtn.show();
+                        }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -611,7 +643,7 @@ class FwBrowseClass {
 
         //Events only attached when the API is not defined for the control.
         var controllerInstance = (<any>window)[$control.attr('data-controller')];
-        if (($control.attr('data-type') == 'Grid') && (typeof controllerInstance.apiurl === 'undefined')) {
+        if (($control !== undefined) && ($control.attr('data-type') === 'Grid') && (controllerInstance !== undefined) && (typeof controllerInstance.apiurl === 'undefined')) {
             $control.on('change', '.field[data-formnoduplicate="true"]', function () {
                 var $field, value, originalvalue, $form, formuniqueids, formfields, request: any = {};
                 $field = jQuery(this);
@@ -654,7 +686,7 @@ class FwBrowseClass {
 
         //Register Custom Events on grids and validations
         if (controller !== 'AuditHistoryGrid' && (($control.attr('data-type') == 'Grid') || ($control.attr('data-type') == 'Validation')) && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-            if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller] === 'undefined') throw new Error('Missing javascript module: ' + controller);
             if (typeof (<any>window)[controller]['init'] === 'function') {
                 (<any>window)[controller]['init']($control);
             }
@@ -1812,10 +1844,14 @@ class FwBrowseClass {
                     let mode = $form.attr('data-mode');
                     if (options.$browse.attr('data-enabled') !== 'false') {
                         if ((mode === 'EDIT') || ($new.closest('.fwconfirmation').length > 0)) {
-                            if (typeof $new.data('onclick') === 'function') {
-                                $new.data('onclick')(options.$browse);
+                            if (options.$browse.hasClass('sort-mode')) {
+                                FwNotification.renderNotification('WARNING', 'Please exit sort mode before adding new records.');
                             } else {
-                                this.addRowNewMode(options.$browse);
+                                if (typeof $new.data('onclick') === 'function') {
+                                    $new.data('onclick')(options.$browse);
+                                } else {
+                                    this.addRowNewMode(options.$browse);
+                                }
                             }
                         } else {
                             FwNotification.renderNotification('WARNING', 'Please save the record before performing this function.');
@@ -2310,7 +2346,7 @@ class FwBrowseClass {
                 let dtCol = dt.Columns[i];
                 dt.ColumnIndex[dtCol.DataField] = i;
             }
-            let $tbody = $control.find('.runtime tbody');
+            let $tbody = $control.find('.runtime tbody').remove();
             $tbody.empty();
             for (let rowIndex = 0; rowIndex < dt.Rows.length; rowIndex++) {
                 var $tr;
@@ -2427,7 +2463,16 @@ class FwBrowseClass {
                         }
                     }
 
-                    this.setFieldViewMode($control, $tr, $field);
+                    if ($field.attr('data-browsedatatype') === 'number') {
+                        if (typeof window['FwBrowseColumn_' + $field.attr('data-browsedatatype')] !== 'undefined') {
+                            if (typeof window['FwBrowseColumn_' + $field.attr('data-browsedatatype')].renderRuntimeHtml === 'function') {
+                                window['FwBrowseColumn_' + $field.attr('data-browsedatatype')].renderRuntimeHtml($control, $tr, $field);
+                            }
+                        }
+                    } else {
+                        this.setFieldViewMode($control, $tr, $field);
+                    }
+                    //this.setFieldViewMode($control, $tr, $field);
 
                     // if you want to dynamically change something on a .field or td:
                     const AFTER_RENDER_FIELD = 'afterrenderfield';
@@ -2450,6 +2495,8 @@ class FwBrowseClass {
                     funcAfterRenderRow($tr, dt, rowIndex);
                 }
             }
+
+            $control.find('.runtime table').append($tbody);
 
             if ($control.attr('data-type') === 'Grid') {
                 if ($control.attr('data-manualsorting') === 'true') {
@@ -2546,6 +2593,15 @@ class FwBrowseClass {
                                 }
                             }
                         }
+
+                        const ADD_CONTEXT_MENU_OPTIONS = 'contextmenuoptions';
+                        if (typeof $browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS) === 'function') {
+                            let funcAddContextMenuOptions: ($tr: JQuery) => void = ($browsecontextmenu.data(ADD_CONTEXT_MENU_OPTIONS));
+                            const $tr = jQuery(this).closest('tr');
+                            funcAddContextMenuOptions($tr);
+                            menuItemCount++;
+                        }
+
                         // Audit history menu option
                         if ($browse.attr('data-hasaudithistory') !== 'false') {
                             var nodeAuditGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'xepjGBf0rdL');
@@ -2561,6 +2617,7 @@ class FwBrowseClass {
                                 menuItemCount++;
                             }
                         }
+
                         if (menuItemCount === 0) {
                             FwContextMenu.destroy($contextmenu);
                         }
@@ -2598,7 +2655,7 @@ class FwBrowseClass {
                                 $control.data('onselectedrowchanged')($control, $tr);
                             }
                         }
-                        if ($control.attr('data-type') === 'Grid' && $control.attr('data-enabled') !== 'false' && !$tr.hasClass('editmode')) {
+                        if ($control.attr('data-type') === 'Grid' && $control.attr('data-enabled') !== 'false' && !$tr.hasClass('editmode') && !$tr.find('.manual-sort').is(':visible')) {
                             me.setRowEditMode($control, $tr);
                             $field.find('.value').focus();
                         }
@@ -2705,10 +2762,15 @@ class FwBrowseClass {
                     $control.find('.pager .count').hide();
                     $control.find('.pager .show-all').text(`Show All ${dt.TotalRows} rows`);
 
-                    if (dt.TotalPages <= 1) {
-                        $control.find('.pager .show-all').hide();
+                    const isMultiSelect = $control.attr('data-multiselectvalidation');
+                    if (isMultiSelect) {
+                        if (dt.TotalPages <= 1) {
+                            $control.find('.pager .show-all').hide();
+                        } else {
+                            $control.find('.pager .show-all').show();
+                        }
                     } else {
-                        $control.find('.pager .show-all').show();
+                        $control.find('.pager .show-all').hide();
                     }
                     break;
             }
@@ -2775,13 +2837,18 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     generateRow($control) {
-        var $table, $theadtds, $tr;
-        $table = $control.find('table');
-        $tr = jQuery('<tr>');
-        $theadtds = $table.find('> thead > tr.fieldnames > td.column');
-        for (let i = 0; i < $theadtds.length; i++) {
-            let $theadtd = $theadtds.eq(i);
-            let $td = $theadtd.clone().empty();
+        const $table = $control.find('table');
+        const hasMultiRowSelect = $control.attr('data-hasmultirowselect') === 'true';
+        let $tr;
+
+        if ($control.data('trtemplate') != undefined) {
+            $tr = $control.data('trtemplate').clone();    
+        } else {
+            $tr = jQuery('<tr>');
+            const $theadtds = $table.find('> thead > tr.fieldnames > td.column');
+            for (let i = 0; i < $theadtds.length; i++) {
+                let $theadtd = $theadtds.eq(i);
+                let $td = $theadtd.clone().empty();
             //$td.css({ 'min-width': width });
             $tr.append($td);
             var $theadfields = $theadtd.children('.field');
@@ -2790,25 +2857,23 @@ class FwBrowseClass {
                 $theadfield = jQuery(element);
                 $field = $theadfield.clone().empty();
                 $td.append($field);
-            });
-        }
-
-        if (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true')) {
-            let cbuniqueId = FwApplication.prototype.uniqueId(10);
-            $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
-        }
-
-        if ($control.attr('data-type') === 'Grid') {
-            if ($control.attr('data-manualsorting') === 'true') {
-                $tr.find('.manual-sort').append(`<i style="vertical-align:-webkit-baseline-middle; cursor:grab;" class="material-icons drag-handle">drag_handle</i>`);
+                });
             }
-            let cbuniqueId = FwApplication.prototype.uniqueId(10);
-            if ($control.attr('data-hasmultirowselect') !== 'false') {
-                $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
+
+            if ($control.attr('data-type') === 'Grid') {
+                if ($control.attr('data-manualsorting') === 'true') {
+                    $tr.find('.manual-sort').append(`<i style="vertical-align:-webkit-baseline-middle; cursor:grab;" class="material-icons drag-handle">drag_handle</i>`);
+                }
+                $tr.find('.browsecontextmenucell').append('<div class="browsecontextmenu"><i class="material-icons">more_vert</i><div>');
             }
-            $tr.find('.browsecontextmenucell').append('<div class="browsecontextmenu"><i class="material-icons">more_vert</i><div>');
+
+            $control.data('trtemplate', $tr.clone());
         }
 
+        if ((($control.attr('data-type') === 'Browse') && hasMultiRowSelect) || (($control.attr('data-type') === 'Grid') && !hasMultiRowSelect)) {
+            const cbuniqueId = FwApplication.prototype.uniqueId(10);
+            $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
+        }
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             let controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
@@ -2962,6 +3027,9 @@ class FwBrowseClass {
             $browsecontextmenucell.find('.browsecontextmenu').show();
 
             this.setRowViewMode($control, $tr);
+        }
+        if ($control.attr('data-refreshaftercancel') !== undefined && $control.attr('data-refreshaftercancel') === 'true') {
+            this.databind($control);
         }
     }
     //---------------------------------------------------------------------------------
@@ -3270,6 +3338,7 @@ class FwBrowseClass {
                     response => {
                         if (response.success) {
                             FwBrowse.search($control);
+                            $control.removeClass('sort-mode');
                             $control.find('td.manual-sort').hide();
                             $gridMenu.find('.sorting').hide();
                             $gridMenu.find('.buttonbar').show();
@@ -3292,6 +3361,7 @@ class FwBrowseClass {
             $gridMenu.find('.sorting').hide();
             $gridMenu.find('.buttonbar').show();
             $control.find('.btn-manualsort').show();
+            $control.removeClass('sort-mode');
         });
 
         //initialize Sortable
@@ -3387,8 +3457,7 @@ class FwBrowseClass {
             let formdatafield = (typeof $field.attr('data-formdatafield') === 'string') ? $field.attr('data-formdatafield') : '';
             let formdatatype = (typeof $field.attr('data-formdatatype') === 'string') ? $field.attr('data-formdatatype') : '';
             let originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-            let validationDisplayField = (typeof $field.attr('data-browsedisplayfield') === 'string') ? $field.attr('data-browsedisplayfield') : '';
-            let validationDisplayValue = $tr.find(`.field[data-browsedatafield="${formdatafield}"] input.text`).val();
+            
 
             let field: any = {};
             if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
@@ -3396,10 +3465,14 @@ class FwBrowseClass {
                     fields._Custom = [];
                 }
             } else {
-                field = {
-                    datafield: formdatafield,
-                    value: originalvalue
-                };
+                if (formdatatype === 'appdocumentimage') {
+                    field = {};
+                } else {
+                    field = {
+                        datafield: formdatafield,
+                        value: originalvalue
+                    };
+                }
             }
 
             if (typeof window['FwBrowseColumn_' + formdatatype] !== 'undefined') {
@@ -3432,16 +3505,37 @@ class FwBrowseClass {
                     FieldValue: field.value
                 }
                 fields._Custom.push(field);
-            } else {
+            } 
+            else if (formdatatype === 'appdocumentimage') {
+                const uniqueId1Field = (typeof $field.attr('data-uniqueid1field') === 'string') ? $field.attr('data-uniqueid1field') : '';
+                const uniqueId2Field = (typeof $field.attr('data-uniqueid2field') === 'string') ? $field.attr('data-uniqueid2field') : '';
+                if (uniqueId1Field.length > 0) {
+                    fields[uniqueId1Field] = field[uniqueId1Field];
+                }
+                if (uniqueId2Field.length > 0) {
+                    fields[uniqueId2Field] = field[uniqueId2Field];
+                }
+                fields.FileIsModified = field.FileIsModified;
+                fields.FileDataUrl = field.FileDataUrl;
+                fields.FilePath = field.FilePath;
+            }
+            else {
                 fields[formdatafield] = field.value;
             }
 
             if (formdatatype === 'validation') {
+                const validationDisplayField = (typeof $field.attr('data-browsedisplayfield') === 'string') ? $field.attr('data-browsedisplayfield') : '';
+                const validationDisplayValue = $tr.find(`.field[data-browsedatafield="${formdatafield}"] input.text`).val();
                 if (validationDisplayField != formdatafield) {
                     fields[validationDisplayField] = validationDisplayValue; // 11/09/2018 CAS-24077-PDIB adding display field here for audit history
                 }
             }
         });
+        for (const key in fields) {
+            if (fields[key] === undefined) {
+                delete fields[key];
+            }
+        }
         return fields;
     }
     //----------------------------------------------------------------------------------------------
@@ -3824,6 +3918,7 @@ class FwBrowseClass {
 
             let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
             $yes.on('click', () => {
+                const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Downloading Excel Workbook...');
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
                 request.pagesize = userDefinedNumberofRows;
                 let includeIdColumns: boolean;
@@ -3844,13 +3939,13 @@ class FwBrowseClass {
                         jQuery('#application').append($iframe);
                         setTimeout(function () {
                             $iframe.remove();
+                            FwNotification.closeNotification($notification);
                         }, 500);
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 }, null, null);
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
             });
         } else {
             FwNotification.renderNotification('WARNING', 'There are no records to export.');
@@ -4144,6 +4239,7 @@ class FwBrowseClass {
         beforeSave?: (request: any) => void,
         addGridMenu?: (options: IAddGridMenuOptions) => void,
         beforeInit?: ($fwgrid: JQuery, $browse: JQuery) => void
+        getTemplate?: () => string
     }): JQuery {
         if (typeof options.gridSelector !== 'string' || options.gridSelector.length === 0) {
             options.gridSelector = `div[data-grid="${options.nameGrid}"]`;
@@ -4153,7 +4249,12 @@ class FwBrowseClass {
         //    options.pageSize = 15;
         //}
         const $fwgrid: JQuery = options.$form.find(options.gridSelector);
-        const $browse: JQuery = FwBrowse.loadGridFromTemplate(options.nameGrid);
+        let $browse: JQuery;
+        if (typeof options.getTemplate !== 'function') {
+            $browse = FwBrowse.loadGridFromTemplate(options.nameGrid);
+        } else {
+            $browse = jQuery(options.getTemplate());
+        }
         $fwgrid.empty().append($browse);
         $browse.data('secid', options.gridSecurityId);
         $browse.attr('data-pagesize', options.pageSize);

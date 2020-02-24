@@ -17,6 +17,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
     {
         private bool _shortagesOnly = false;
         private bool _hasSubTotal = false;
+        private string _orderType = string.Empty;
+        private bool _noAvailabilityCheck = false;
 
         //------------------------------------------------------------------------------------ 
         public OrderItemLoader()
@@ -46,10 +48,10 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "row_number() over(partition by rectype order by primaryitemorder)", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(calculatedColumnSql: "row_number() over(partition by rectype order by primaryitemorder, itemorder)", modeltype: FwDataTypes.Integer)]
         public int? RowNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "row_number() over(order by primaryitemorder)", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(calculatedColumnSql: "row_number() over(order by primaryitemorder, itemorder)", modeltype: FwDataTypes.Integer)]
         public int? RowNumberCombined { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
@@ -362,8 +364,14 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
         public string ParentId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text)]
+        public string NestedOrderItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterclass", modeltype: FwDataTypes.Text)]
+        public string InventoryClass { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text)]
         public string RetiredReasonId { get; set; }
@@ -409,6 +417,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hascheckoutaudit", modeltype: FwDataTypes.Boolean)]
         public bool? ModifiedAtStaging { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mute", modeltype: FwDataTypes.Boolean)]
+        public bool? Mute { get; set; }
         //------------------------------------------------------------------------------------ 
 
 
@@ -834,6 +845,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             bool subs = false;
             bool rollup = GetUniqueIdAsBoolean("Rollup", request).GetValueOrDefault(false);
             _shortagesOnly = GetUniqueIdAsBoolean("ShortagesOnly", request).GetValueOrDefault(false);
+            _noAvailabilityCheck = GetUniqueIdAsBoolean("NoAvailabilityCheck", request).GetValueOrDefault(false);
 
             if (string.IsNullOrEmpty(orderId))
             {
@@ -864,10 +876,19 @@ namespace WebApi.Modules.HomeControls.OrderItem
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qrySt = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
-                qrySt.Add("select hassubtotal = (case when exists (select * from masteritem mi where mi.orderid = @orderid and mi.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') then 'T' else 'F' end) ");
+                qrySt.Add("select hassubtotal = (case when exists (select * from masteritem mi with (nolock) where mi.orderid = @orderid and mi.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') then 'T' else 'F' end) ");
                 qrySt.AddParameter("@orderid", orderId);
                 FwJsonDataTable dt = qrySt.QueryToFwJsonTableAsync().Result;
                 _hasSubTotal = FwConvert.ToBoolean(dt.Rows[0][0].ToString());
+            }
+
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qryOrderType = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                qryOrderType.Add("select ordertype from dealorder with (nolock) where orderid = @orderid");
+                qryOrderType.AddParameter("@orderid", orderId);
+                FwJsonDataTable dt = qryOrderType.QueryToFwJsonTableAsync().Result;
+                _orderType = dt.Rows[0][0].ToString();
             }
 
             string tableName = "orderitemdetailwebview";
@@ -879,11 +900,13 @@ namespace WebApi.Modules.HomeControls.OrderItem
             OverrideFromClause = " from " + tableName + " [t] with (nolock) ";
             if (_hasSubTotal)
             {
+                string recType = GetUniqueIdAsString("RecType", request) ?? "";
                 tableName = "masteritem";
                 OverrideFromClause +=
                        " outer apply (select nextgroupheaderitemorder = (case when (t.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') then '' else min(v2.itemorder) end)" +
                        "               from  " + tableName + " v2 with (nolock)" +
                        "               where v2.orderid   = t.orderid" +
+                       (string.IsNullOrEmpty(recType) ? "" : "    and   v2.rectype   = t.rectype") +
                        "               and   v2.itemorder > t.itemorder" +
                        "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') groupheader" +
                        " outer apply (select nextsubtotalitemorder = (case " +
@@ -892,6 +915,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                        "                                                 else                                                                 min(v2.itemorder) end)" +
                        "               from  " + tableName + " v2" +
                        "               where v2.orderid   = t.orderid" +
+                       (string.IsNullOrEmpty(recType) ? "" : "    and   v2.rectype   = t.rectype") +
                        "               and   v2.itemorder > t.itemorder" +
                        "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') subtotal";
             }
@@ -901,9 +925,6 @@ namespace WebApi.Modules.HomeControls.OrderItem
                        "outer apply(select nextgroupheaderitemorder = null) groupheader " +
                        "outer apply(select nextsubtotalitemorder = null) subtotal";
             }
-
-
-
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
@@ -925,6 +946,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             select.AddWhere("poorderid " + (subs ? ">" : "=") + "''");
 
             addFilterToSelect("RecType", "rectype", select, request);
+            addFilterToSelect("ParentId", "parentid", select, request);
 
             select.AddWhere("orderid = @orderid");
             select.AddParameter("@orderid", orderId);
@@ -957,17 +979,37 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 FwJsonDataTable dt = e.DataTable;
                 if (dt.Rows.Count > 0)
                 {
-                    TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
-                    foreach (List<object> row in dt.Rows)
+                    bool loadAvail = true;
+
+                    string recType = GetUniqueIdAsString("RecType", e.Request) ?? "";
+                    if ((recType != RwConstants.RECTYPE_RENTAL) && (recType != RwConstants.RECTYPE_SALE) && (recType != RwConstants.RECTYPE_PARTS))
                     {
-                        string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
-                        string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                        DateTime fromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());   // not accurate
-                        DateTime toDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());       // not accurate
-                        availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                        loadAvail = false;
+                    }
+                    if (_orderType.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER))
+                    {
+                        loadAvail = false;
+                    }
+                    if (_noAvailabilityCheck)
+                    {
+                        loadAvail = false;
                     }
 
-                    TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false).Result;
+                    TAvailabilityCache availCache = null;
+                    if (loadAvail)
+                    {
+                        TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                            string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                            DateTime fromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());   // not accurate
+                            DateTime toDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());       // not accurate
+                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                        }
+
+                        availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false).Result;
+                    }
 
                     foreach (List<object> row in dt.Rows)
                     {
@@ -984,15 +1026,18 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
                         string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
 
-                        if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
+                        if (loadAvail)
                         {
-                            TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
+                            if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
+                            {
+                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
 
-                            qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
-                            conflictDate = minAvail.FirstConfict;
-                            isStale = minAvail.IsStale;
-                            availColor = minAvail.Color;
-                            availabilityState = minAvail.AvailabilityState;
+                                qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
+                                conflictDate = minAvail.FirstConfict;
+                                isStale = minAvail.IsStale;
+                                availColor = minAvail.Color;
+                                availabilityState = minAvail.AvailabilityState;
+                            }
                         }
 
                         row[dt.GetColumnNo("AvailableQuantity")] = qtyAvailable;
@@ -1006,38 +1051,38 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         row[dt.GetColumnNo("QuantityColor")] = getQuantityColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ModifiedAtStaging")].ToString()));
                         row[dt.GetColumnNo("SubQuantityColor")] = getSubQuantityColor(row[dt.GetColumnNo("SubPurchaseOrderItemId")].ToString());
                     }
-                }
 
-                if (_shortagesOnly)
-                {
-                    if (dt.Rows.Count > 0)
+                    if (_shortagesOnly)
                     {
-                        for (int r = dt.Rows.Count - 1; r >= 0; r--)
+                        if (dt.Rows.Count > 0)
                         {
-                            if (FwConvert.ToInt32(dt.Rows[r][dt.GetColumnNo("AvailableQuantity")]) >= 0)
+                            for (int r = dt.Rows.Count - 1; r >= 0; r--)
                             {
-                                dt.Rows.RemoveAt(r);
+                                if (FwConvert.ToInt32(dt.Rows[r][dt.GetColumnNo("AvailableQuantity")]) >= 0)
+                                {
+                                    dt.Rows.RemoveAt(r);
+                                }
                             }
                         }
                     }
-                }
 
-                if (_hasSubTotal)
-                {
-                    if (dt.Rows.Count > 0)
+                    if (_hasSubTotal)
                     {
-                        foreach (List<object> row in dt.Rows)
+                        if (dt.Rows.Count > 0)
                         {
-                            string itemClass = row[dt.GetColumnNo("ItemClass")].ToString();
-                            if (itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
+                            foreach (List<object> row in dt.Rows)
                             {
-                                for (int c = 0; c < dt.Columns.Count; c++)
+                                string itemClass = row[dt.GetColumnNo("ItemClass")].ToString();
+                                if (itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
                                 {
-                                    if (dt.ColumnNameByIndex[c].EndsWith("SubTotal"))
+                                    for (int c = 0; c < dt.Columns.Count; c++)
                                     {
-                                        string subTotalColumnName = dt.ColumnNameByIndex[c];
-                                        string nonSubTotalColumnName = subTotalColumnName.Replace("SubTotal", "");
-                                        row[dt.GetColumnNo(nonSubTotalColumnName)] = row[c];
+                                        if (dt.ColumnNameByIndex[c].EndsWith("SubTotal"))
+                                        {
+                                            string subTotalColumnName = dt.ColumnNameByIndex[c];
+                                            string nonSubTotalColumnName = subTotalColumnName.Replace("SubTotal", "");
+                                            row[dt.GetColumnNo(nonSubTotalColumnName)] = row[c];
+                                        }
                                     }
                                 }
                             }

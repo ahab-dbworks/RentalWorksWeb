@@ -123,6 +123,9 @@ namespace WebApi.Modules.HomeControls.MasterItem
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         public string ParentId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string NestedOrderItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -276,14 +279,14 @@ namespace WebApi.Modules.HomeControls.MasterItem
         public async Task<bool> SaveNoteASync(string Note)
         {
             bool saved = await AppFunc.SaveNoteAsync(AppConfig, UserSession, OrderId, MasterItemId, "", Note);
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-            {
-                FwSqlCommand qry = new FwSqlCommand(conn, "syncorderitem", this.AppConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, MasterItemId);
-                await qry.ExecuteNonQueryAsync();
-                saved = true;
-            }
+            //using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            //{
+            //    FwSqlCommand qry = new FwSqlCommand(conn, "syncorderitem", this.AppConfig.DatabaseSettings.QueryTimeout);
+            //    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+            //    qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, MasterItemId);
+            //    await qry.ExecuteNonQueryAsync();
+            //    saved = true;
+            //}
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------

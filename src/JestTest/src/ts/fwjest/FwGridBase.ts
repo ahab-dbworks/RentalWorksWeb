@@ -323,6 +323,7 @@ export class FwGridBase {
             let gridFieldSelector: string = "";
             switch (datatype) {
                 case 'phone':
+                case 'phoneinternational':
                 case 'email':
                 case 'zipcode':
                 case 'percent':
@@ -663,12 +664,22 @@ export class FwGridBase {
                 const datatype = await this.getGridDataType(fieldToFind);
                 FwLogging.logInfo(`Looking for value of ${valueToFind} in field ${fieldToFind} in grid: ${this.gridSelector}`);
 
+                if (datatype === 'displayfield') {
+                    let displayfield = fieldToFind;
+                    fieldToFind = await page.$eval(`${this.gridSelector} .tablewrapper table tbody tr td div[data-browsedisplayfield="${displayfield}"]`, el => el.getAttribute('data-browsedatafield'));
+                    FwLogging.logInfo(`Looking for value of ${valueToFind} in field ${fieldToFind} in grid: ${this.gridSelector}`);
+                }
+
                 let cellSelector = "";
                 var cellValue = "";
                 switch (datatype) {
                     case 'checkbox':
                         //cellSelector = rowSelector + ` td.column .field[data-browsedatafield="${fieldToFind}"] input`;
                         //cellValue = await page.$eval(cellSelector, (e: any) => e.value);
+                        break;
+                    case 'displayfield':
+                        cellSelector = rowSelector + ` td.column .field[data-browsedatafield="${fieldToFind}"]`;
+                        cellValue = await page.$eval(cellSelector, el => el.getAttribute('data-originaltext'));
                         break;
                     default:
                         cellSelector = rowSelector + ` td.column .field[data-browsedatafield="${fieldToFind}"]`;

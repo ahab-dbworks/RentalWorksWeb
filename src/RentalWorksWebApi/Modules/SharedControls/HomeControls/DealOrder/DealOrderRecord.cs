@@ -217,6 +217,12 @@ namespace WebApi.Modules.HomeControls.DealOrder
         [FwSqlDataField(column: "billcountryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string IssuedToCountryId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billemail", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 40)]
+        public string IssuedToEmail { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billphone", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string IssuedToPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "includeinbillinganalysis", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? IncludeInBillingAnalysis { get; set; }
@@ -474,15 +480,6 @@ public bool? Adjustcontractdate { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "approveddate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")] 
 public string Approveddate { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "billemail", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 40)] 
-public string Billemail { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "billphone", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)] 
-public string Billphone { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
-public string CurrencyId { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "directbillcustomer", modeltype: FwDataTypes.Boolean, sqltype: "char")] 
 public bool? Directbillcustomer { get; set; } 
@@ -1089,42 +1086,53 @@ public string DateStamp { get; set; }
         public async Task<bool> ApplyBottomLineDaysPerWeek(ApplyBottomLineDaysPerWeekRequest request)
         {
             bool success = false;
+
             if (OrderId != null)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                success = (await AppFunc.UserCanDW(this.AppConfig, UserSession.UsersId, request.DaysPerWeek));
+
+                if (success)
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateadjustmentdw", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, "");   // supply a value to update all rows in a Complete or Kit
-                    qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
-                    qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T" : "F"));
-                    qry.AddParameter("@dw", SqlDbType.Decimal, ParameterDirection.Input, request.DaysPerWeek);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync();
-                    success = true;
+                    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                    {
+                        FwSqlCommand qry = new FwSqlCommand(conn, "updateadjustmentdw", this.AppConfig.DatabaseSettings.QueryTimeout);
+                        qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                        qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, "");   // supply a value to update all rows in a Complete or Kit
+                        qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
+                        qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                        qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T" : "F"));
+                        qry.AddParameter("@dw", SqlDbType.Decimal, ParameterDirection.Input, request.DaysPerWeek);
+                        qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                        await qry.ExecuteNonQueryAsync();
+                        success = true;
+                    }
                 }
             }
             return success;
         }
-        //-------------------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
         public async Task<bool> ApplyBottomLineDiscountPercent(ApplyBottomLineDiscountPercentRequest request)
         {
             bool success = false;
             if (OrderId != null)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                success = (await AppFunc.UserCanDiscount(this.AppConfig, UserSession.UsersId, request.DiscountPercent));
+
+                if (success)
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateadjustmentdiscount2", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, "");   // supply a value to update all rows in a Complete or Kit
-                    qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
-                    qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T" : "F"));
-                    qry.AddParameter("@discountpct", SqlDbType.Decimal, ParameterDirection.Input, request.DiscountPercent);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync();
-                    success = true;
+                    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                    {
+                        FwSqlCommand qry = new FwSqlCommand(conn, "updateadjustmentdiscount2", this.AppConfig.DatabaseSettings.QueryTimeout);
+                        qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                        qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, "");   // supply a value to update all rows in a Complete or Kit
+                        qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
+                        qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                        qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T" : "F"));
+                        qry.AddParameter("@discountpct", SqlDbType.Decimal, ParameterDirection.Input, request.DiscountPercent);
+                        qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                        await qry.ExecuteNonQueryAsync();
+                        success = true;
+                    }
                 }
             }
             return success;

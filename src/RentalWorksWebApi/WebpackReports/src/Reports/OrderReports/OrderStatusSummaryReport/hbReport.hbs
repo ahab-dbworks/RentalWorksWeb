@@ -1,0 +1,72 @@
+﻿<!--Order Status Summary Report-->
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+  <div class="rpt-flexcolumn" style="flex:0 0 30%;padding-bottom:5px;">
+    {{#if Logosrc}}
+    <div style="height:100px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+    {{else}}
+    <div></div>
+    {{/if}}
+    <span class="header-left" style="font-weight:600">{{Company}}</span>
+    <span class="header-left">{{OfficeLocationAddress1}}</span>
+    <span class="header-left">{{OfficeLocationAddress2}}</span>
+    <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
+    <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
+  </div>
+  <div class="rpt-flexcolumn" style="flex:0 0 40%;">
+    <span class="sub-title" style="font-size:20px;">{{Department}}</span>
+    <span class="title blue">{{Report}}</span>
+    <span class="" style="margin-top:10px;font-size:18px;text-align:center;">Order: {{Description}}</span>
+    <span class="" style="margin-top:5px;font-size:18px;text-align:center;">Deal: {{Deal}}</span>
+  </div>
+  <!-- Order Number & Date -->
+  <div class="rpt-flexcolumn" style="flex:0 0 30%;">
+    <table>
+      <tr>
+        <td style="width:50%;font-size:18px;font-weight:700;text-align:right;">No:</td>
+        <td style="width:50%;background-color:#e3f2fd;color:#027cc5;border:2px solid #212121;padding:5px 10px;font-size:26px;text-align:center;">{{Order}}</td>
+      </tr>
+      <tr>
+        <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
+        <td style="width:50%;font-size:18px;text-align:center;">{{PrintDate}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="rpt-flexrow">
+    <table>
+        {{#each Items}}
+        {{#ifEquals RowType "RecTypeDisplayheader"}}
+      <thead data-rowtype="{{RowType}}">
+        <tr><td>&nbsp;</td></tr><!-- spacer row -->
+        <tr>
+          <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+        </tr>
+        <tr>
+          <th style="min-width:80px">I-Code</th>
+          <th style="min-width:375px">Description</th>
+          <th style="min-width:75px" class="number">Ordered</th>
+          <th style="min-width:75px" class="number">Staged</th>
+          <th style="min-width:75px" class="number">Out</th>
+          <th style="min-width:75px" class="number">In</th>
+          <th style="min-width:75px" class="number">Still Out</th>
+          <th style="min-width:90px" class="number">Warehouse</th>
+        </tr>
+      </thead>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <tbody data-rowtype="{{RowType}}">
+            <tr data-isbold="{{Bold}}">
+                <td data-itemclass="{{ItemClass}}">{{ICode}}</td>
+                <td data-itemclass="{{ItemClass}}">{{OrderDescription}}</td>
+                <td class="number">{{QuantityOrdered}}</td>
+                <td class="number">{{StageQuantity}}</td>
+                <td class="number">{{OutQuantity}}</td>
+                <td class="number">{{InQuantity}}</td>
+                <td class="number">{{StillOutQuantity}}</td>
+                <td class="number">{{WarehouseIcode}}</td>
+            </tr>
+        </tbody>
+        {{/ifEquals}}
+        {{/each}}
+    </table>
+</div>

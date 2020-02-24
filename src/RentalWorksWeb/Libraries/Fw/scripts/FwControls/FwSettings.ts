@@ -20,10 +20,12 @@ class FwSettingsClass {
         //html.push('</div>')
         html.push('  <div class="settings-header-title">Settings</div>');
         html.push('  <div class="input-group pull-right">');
+        html.push('    <div style="display:flex;width:255px;">');
         html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search..." autofocus>');
-        html.push('    <span class="input-group-clear">');
-        html.push('      <i class="material-icons clear-search">clear</i>');
+        html.push('    <span class="input-group-clear" style="display:none;">');
+        html.push('      <i class="material-icons">clear</i>');
         html.push('    </span>');
+        html.push('    </div>');
         html.push('    <span class="input-group-search">');
         html.push('      <i class="material-icons">search</i>');
         html.push('    </span>');
@@ -1075,15 +1077,33 @@ class FwSettingsClass {
                         }
                     })
 
-                $control.on('click', '.input-group-clear', function (e) {
-                    let event = jQuery.Event('keypress');
-                    event.which = 13;
-                    jQuery(this).parent().find('#settingsSearch').val('').trigger(event).focus();
-                    jQuery(this).find('.clear-search').css('visibility', 'hidden');
-                })
-                $control.on('keypress', '#settingsSearch', function (e) {
+                // Clear 'X' button
+                $control.on('click', '.input-group-clear', e => {
+                    const $this = jQuery(e.currentTarget);
+                    const event = jQuery.Event("keyup", { which: 13 });
+                    $this.parent().find('#settingsSearch').val('').trigger(event);
+                });
+                // Search Input and icon
+                $control.on('click', '.input-group-search', e => {
+                    const $search = jQuery(e.currentTarget).parent().find('#settingsSearch');
+                    const event = jQuery.Event("keyup", { which: 13 });
+                    $search.trigger(event);
+                });
+                $control.on('change', '#settingsSearch', e => {
+                    const $search = jQuery(e.currentTarget);
+                    const event = jQuery.Event("keyup", { which: 13 });
+                    $search.trigger(event);
+                });
+                $control.on('keyup', '#settingsSearch', function (e) {
+                    const val = jQuery.trim(this.value).toUpperCase();
+                    const $searchClear = jQuery(this).parent().find('.input-group-clear');
+                    if ($searchClear.is(":hidden") && val !== '') {
+                        $searchClear.show();
+                    } else if (val === '') {
+                        $searchClear.hide();
+                    }
                     if (e.which === 13) {
-                        var $settings, val, $module, $settingsTitles, $settingsDescriptions, filter, customFilter, sectionFilter;
+                        var $settings, $module, $settingsTitles, $settingsDescriptions, filter, customFilter, sectionFilter;
                         $control.find('.selected').removeClass('selected');
 
                         filter = [];
@@ -1094,14 +1114,12 @@ class FwSettingsClass {
                         $settingsDescriptions = jQuery('small#description-text');
                         $module = jQuery('.panel-group');
                         $module.find('.highlighted').removeClass('highlighted');
-                        val = jQuery.trim(this.value).toUpperCase();
                         if (val === "") {
-                            jQuery(this).parent().find('.clear-search').css('visibility', 'hidden');
                             $settings.closest('div.panel-group').show();
                         } else {
                             var results = [];
                             results.push(val);
-                            jQuery(this).parent().find('.clear-search').css('visibility', 'visible');
+                            $searchClear.show();
                             $settings.closest('div.panel-group').hide();
                             for (var caption in me.screen.moduleCaptions) {
                                 if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {

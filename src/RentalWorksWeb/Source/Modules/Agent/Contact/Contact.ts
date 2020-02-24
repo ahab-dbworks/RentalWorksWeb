@@ -93,6 +93,24 @@ class Contact {
     loadForm(uniqueids: any) {
         let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="ContactId"] input').val(uniqueids.ContactId);
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'ContactDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${uniqueids.ContactId}/document`;
+            },
+            gridSecurityId: 'OdKeQWKOM7sL',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'ContactId',
+            uniqueid1Name: 'ContactId',
+            getUniqueid1Value: () => uniqueids.ContactId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
         FwModule.loadForm(this.Module, $form);
 
         $form.find('.orderSubModule').append(this.openOrderBrowse($form));
@@ -348,6 +366,7 @@ class Contact {
               <div data-type="tab" id="contacttab" class="tab" data-tabpageid="contacttabpage" data-caption="Contact"></div>
               <div data-type="tab" id="companytab" class="tab" data-tabpageid="companytabpage" data-caption="Company"></div>
               <div data-type="tab" id="profiletab" class="tab" data-tabpageid="profiletabpage" data-caption="Profile"></div>
+              <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
               <!-- <div data-type="tab" id="documenttab" class="tab" data-tabpageid="documenttabpage" data-caption="Document"></div> -->
               <div data-type="tab" id="accesstab" class="tab" data-tabpageid="accesstabpage" data-caption="Web Access"></div>
@@ -462,6 +481,16 @@ class Contact {
                   </div>
                 </div>
               </div>
+              
+              <!-- DOCUMENTS TAB -->
+              <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+                <div class="flexpage">
+                  <div class="flexrow">
+                    <div data-control="FwGrid" data-grid="ContactDocumentGrid"></div>
+                  </div>
+                </div>
+              </div>
+
               <!-- NOTES TAB -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
                 <div class="flexpage">
@@ -470,13 +499,7 @@ class Contact {
                   </div>
                 </div>
               </div>
-              <!-- DOCUMENTS TAB
-              <div data-type="tabpage" id="documenttabpage" class="tabpage" data-tabid="documenttab">
-                <div class="flexpage">
-                  <div data-control="FwGrid" data-grid="ContactDocument" data-securitycaption="Contact Document"></div>
-                </div>
-              </div>
-              -->
+              
               <!-- ACCESS TAB -->
               <div data-type="tabpage" id="accesstabpage" class="tabpage" data-tabid="accesstab">
                 <div class="flexpage">

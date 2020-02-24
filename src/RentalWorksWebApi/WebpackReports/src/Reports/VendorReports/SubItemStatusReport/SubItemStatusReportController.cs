@@ -65,9 +65,8 @@ namespace WebApi.Modules.Reports.VendorReports.SubItemStatusReport
         [FwControllerMethod(Id: "cofoTjgvuSM9N")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/subitemstatusreport/exportexcelxlsx

@@ -14,6 +14,7 @@ using static FwCore.Controllers.FwDataController;
 
 using WebApi.Data;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Agent.Customer;
 using WebApi.Modules.Agent.Deal;
@@ -28,6 +29,7 @@ namespace WebApi.Modules.Reports.OrderReports.LateReturnsReport
         public int? Days { get; set; }
         public DateTime DueBackDate { get; set; }
         public string OfficeLocationId { get; set; }
+        public string WarehouseId { get; set; }
         public string DepartmentId { get; set; }
         public string CustomerId { get; set; }
         public string DealId { get; set; }
@@ -64,9 +66,8 @@ namespace WebApi.Modules.Reports.OrderReports.LateReturnsReport
         [FwControllerMethod(Id:"CM0Y0pZoY03N")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx
@@ -109,6 +110,14 @@ namespace WebApi.Modules.Reports.OrderReports.LateReturnsReport
         public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/latereturnsreport/validatewarehouse/browse 
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "N2ELvKMK7GHu", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/latereturnsreport/validatedepartment/browse 

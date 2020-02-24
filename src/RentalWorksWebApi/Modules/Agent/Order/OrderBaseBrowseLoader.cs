@@ -156,6 +156,9 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "billperiodtype", modeltype: FwDataTypes.Text)]
         public string BillingCycleType { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "unassignedsubs", modeltype: FwDataTypes.Boolean)]
+        public bool? UnassignedSubs { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string NumberColor
         {
@@ -198,6 +201,13 @@ namespace WebApi.Modules.Agent.Order
             set { }
         }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string UnassignedSubsColor
+        {
+            get { return getUnassignedSubsColor(UnassignedSubs); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -218,6 +228,7 @@ namespace WebApi.Modules.Agent.Order
                 if (!string.IsNullOrEmpty(stagingWarehouseId))
                 {
                     select.AddWhere(" ((warehouseid = @stagingwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @stagingwhid))");
+                    select.AddWhere(" exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.rectype in ('" + RwConstants.RECTYPE_RENTAL + "','" + RwConstants.RECTYPE_SALE + "','" + RwConstants.RECTYPE_USED_SALE + "'))");
                     select.AddParameter("@stagingwhid", stagingWarehouseId);
                 }
             }
@@ -230,6 +241,7 @@ namespace WebApi.Modules.Agent.Order
                 if (!string.IsNullOrEmpty(exchangeWarehouseId))
                 {
                     select.AddWhere(" ((warehouseid = @exchangewhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @exchangewhid))");
+                    select.AddWhere(" exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.rectype in ('" + RwConstants.RECTYPE_RENTAL + "','" + RwConstants.RECTYPE_SALE + "','" + RwConstants.RECTYPE_USED_SALE + "'))");
                     select.AddParameter("@exchangewhid", exchangeWarehouseId);
                 }
                 select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(exchangeWarehouseId) ? "" : " and mi.warehouseid = @exchangewhid") + ")");
@@ -242,7 +254,7 @@ namespace WebApi.Modules.Agent.Order
                 string checkInWarehouseId = GetMiscFieldAsString("CheckInWarehouseId", request);
                 if (!string.IsNullOrEmpty(checkInWarehouseId))
                 {
-                    select.AddWhere(" ((warehouseid = @checkinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @checkinwhid))");
+                    select.AddWhere(" ((warehouseid = @checkinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @checkinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.returntowarehouseid = @checkinwhid))");
                     select.AddParameter("@checkinwhid", checkInWarehouseId);
                 }
             }
@@ -346,6 +358,7 @@ namespace WebApi.Modules.Agent.Order
                         row[dt.GetColumnNo("PoNumberColor")] = getPoNumberColor(FwConvert.ToBoolean(row[dt.GetColumnNo("NoCharge")].ToString()));
                         row[dt.GetColumnNo("StatusColor")] = getStatusColor(row[dt.GetColumnNo("Type")].ToString(), row[dt.GetColumnNo("Status")].ToString(), row[dt.GetColumnNo("DealStatusType")].ToString(), row[dt.GetColumnNo("CustomerStatusType")].ToString());
                         row[dt.GetColumnNo("CurrencyColor")] = getCurrencyColor(row[dt.GetColumnNo("CurrencyId")].ToString(), row[dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString());
+                        row[dt.GetColumnNo("UnassignedSubsColor")] = getUnassignedSubsColor(FwConvert.ToBoolean(row[dt.GetColumnNo("UnassignedSubs")].ToString()));
                     }
                 }
             }
@@ -423,6 +436,16 @@ namespace WebApi.Modules.Agent.Order
             if ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationCurrencyId)))
             {
                 color = RwGlobals.FOREIGN_CURRENCY_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getUnassignedSubsColor(bool? unassignedsubs)
+        {
+            string color = null;
+            if (unassignedsubs.GetValueOrDefault(false))
+            {
+                color = RwGlobals.SUB_COLOR;
             }
             return color;
         }

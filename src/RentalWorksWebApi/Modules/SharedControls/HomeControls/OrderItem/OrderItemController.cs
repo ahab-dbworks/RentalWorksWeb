@@ -10,6 +10,7 @@ using System;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Inventory.PartsInventory;
 using WebApi.Modules.Settings.InventorySettings.Unit;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Inventory.SalesInventory;
@@ -133,6 +134,44 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderitem/insertlineitem
+        [HttpPost("insertlineitem")]
+        [FwControllerMethod(Id: "BwBwNt1RtgwE")]
+        public async Task<ActionResult<TSpStatusResponse>> InsertIntoCompleteAsync([FromBody]InsertLineItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.InsertLineItem(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderitem/insertoption
+        [HttpPost("insertoption")]
+        [FwControllerMethod(Id: "vU1SzhPABeZ2")]
+        public async Task<ActionResult<TSpStatusResponse>> InsertOptionAsync([FromBody]InsertOptionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.InsertOption(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/orderitem/A0000001
         [HttpDelete("{id}")]
         [FwControllerMethod(Id: "042zT8NJ4EW8", ActionType: FwControllerActionTypes.Delete)]
@@ -233,6 +272,25 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/cancelmanualsort/id
+        [HttpPost("cancelmanualsort/{id}")]
+        [FwControllerMethod(Id: "HEg0EHlwFNVr", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<TSpStatusResponse>> CancelManualSortAsync([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.CancelManualSort(AppConfig, UserSession, id);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/orderitem/validatebarcode/browse
         //[HttpPost("validatebarcode/browse")]
         //[FwControllerMethod(Id: "xh9fNFxwpvGU", ActionType: FwControllerActionTypes.Browse)]
@@ -272,6 +330,14 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeLaborBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<LaborRateLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validateicodeparts/browse
+        [HttpPost("validateicodeparts/browse")]
+        [FwControllerMethod(Id: "owR5LvugsfCMN", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIcodePartsBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PartsInventoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/orderitem/validateunit/browse

@@ -538,65 +538,6 @@ namespace RentalWorksQuikScan.Source
                                                                                contractId:  string.Empty);
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetQuoteItems(dynamic request, dynamic response, dynamic session)
-        {
-            response.getQuoteItems = RwAppData.QSMasterItem(conn:         FwSqlConnection.RentalWorks,
-                                                            orderid:      request.orderid            ,
-                                                            masteritemid: string.Empty);
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void AddItem(dynamic request, dynamic response, dynamic session)
-        {
-            response.insert = RwAppData.QSInsertMasterItem(conn:         FwSqlConnection.RentalWorks,
-                                                           orderid:      request.orderid            ,
-                                                           barcode:      request.masterno           ,
-                                                           qtyordered:   request.qty                ,
-                                                           webusersid:   session.security.webUser.webusersid,
-                                                           masteritemid: "");
-
-            response.getItemInfo = RwAppData.QSMasterItem(conn:         FwSqlConnection.RentalWorks,
-                                                          orderid:      request.orderid,
-                                                          masteritemid: response.insert.masteritemid);
-
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void UpdateItemQty(dynamic request, dynamic response, dynamic session)
-        {
-            response.update = RwAppData.QSInsertMasterItem(conn:         FwSqlConnection.RentalWorks,
-                                                           orderid:      request.orderid            ,
-                                                           barcode:      request.masterno           ,
-                                                           qtyordered:   request.qty                ,
-                                                           webusersid:   session.security.webUser.webusersid,
-                                                           masteritemid: request.masteritemid);
-
-            response.getItemInfo = RwAppData.QSMasterItem(conn:         FwSqlConnection.RentalWorks,
-                                                          orderid:      request.orderid,
-                                                          masteritemid: response.update.masteritemid);
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void DeleteItem(dynamic request, dynamic response, dynamic session)
-        {
-            response.deleteitem = RwAppData.QSDeleteMasterItem(conn:         FwSqlConnection.RentalWorks,
-                                                               orderid:      request.orderid,
-                                                               masteritemid: request.masteritemid,
-                                                               rentalitemid: request.rentalitemid,
-                                                               webusersid:   session.security.webUser.webusersid);
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void QSSubmitQuote(dynamic request, dynamic response, dynamic session)
-        {
-            response.submit = RwAppData.QSSubmitQuote(conn:       FwSqlConnection.RentalWorks,
-                                                      orderid:    request.orderid,
-                                                      webusersid: session.security.webUser.webusersid);
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void QSCancelQuote(dynamic request, dynamic response, dynamic session)
-        {
-            response.cancel = RwAppData.QSCancelQuote(conn:       FwSqlConnection.RentalWorks,
-                                                      orderid:    request.orderid,
-                                                      webusersid: session.security.webUser.webusersid);
-        }
-        //---------------------------------------------------------------------------------------------
         public static void LoadRFIDPending(dynamic request, dynamic response, dynamic session)
         {
             if (request.rfidmode == "STAGING")

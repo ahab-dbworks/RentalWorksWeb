@@ -49,7 +49,7 @@ export class FwNewRecordToCreate {
     recordToExpect?: any;
     attemptDuplicate?: boolean = false;
     editRecord?: FwRecordToEdit;
-    //persistData?: boolean = false;
+    persistData?: boolean = false;
     gridRecords?: FwGridRecordToCreate[];
 }
 
@@ -745,6 +745,13 @@ export class FwModuleBase {
                         }
                         await this.populateTextField(fieldToPopulate, valueToPopulate);
                         break;
+                    case 'phoneinternational':
+                        currentValue = await this.getDataFieldValue(fieldToPopulate);
+                        if (currentValue != "") {
+                            await this.clearInputField(fieldToPopulate);
+                        }
+                        await this.populateInternationalPhoneField(fieldToPopulate, valueToPopulate);
+                        break;
                     case 'textarea':
                         currentValue = await this.getDataFieldValue(fieldToPopulate);
                         if (currentValue != "") {
@@ -759,6 +766,7 @@ export class FwModuleBase {
                         await this.populateRadioGroupField(fieldToPopulate, valueToPopulate);
                         break;
                     case 'validation':
+                    case 'multiselectvalidation':
                         currentValue = await this.getDataFieldText(fieldToPopulate);
                         if (currentValue != "") {
                             await this.populateValidationTextField(fieldToPopulate, "");
@@ -811,6 +819,7 @@ export class FwModuleBase {
                 const datatype = await this.getDataType(dataField);
                 switch (datatype) {
                     case 'phone':
+                    case 'phoneinternational':
                     case 'email':
                     case 'zipcode':
                     case 'text':
@@ -842,6 +851,7 @@ export class FwModuleBase {
                         record[dataField] = value;
                         break;
                     case 'validation':
+                    case 'multiselectvalidation':
                         value = await this.getDataFieldText(dataField);
                         const displayFieldName = await page.$eval(`.fwformfield[data-datafield="${dataField}"]`, el => el.getAttribute('data-displayfield'));
                         const displayValue = await this.getDataFieldValue(dataField);
@@ -907,6 +917,20 @@ export class FwModuleBase {
         }
     }
     //---------------------------------------------------------------------------------------
+    async populateInternationalPhoneField(dataField: string, value: string): Promise<void> {
+        if (value === '') {
+            await this.clearInputField(dataField);
+        }
+        else {
+            //await page.type(`.fwformfield[data-datafield="${dataField}"] input`, value);
+            const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
+            await elementHandle.click();
+            await elementHandle.focus();
+            await elementHandle.click({ clickCount: 3 });
+            await page.keyboard.sendCharacter(value);
+        }
+    }
+    //---------------------------------------------------------------------------------------
     async populateTextAreaField(dataField: string, value: string): Promise<void> {
         if (value === '') {
             await this.clearInputField(dataField);
@@ -965,7 +989,8 @@ export class FwModuleBase {
         if (recordToSelect === undefined) {
             recordToSelect = 1;
         }
-        await page.click(`.fwformfield[data-datafield="${dataField}"] i.btnvalidate`);
+        //await page.click(`.fwformfield[data-datafield="${dataField}"] i.btnvalidate`);
+        await page.click(`.fwformfield[data-datafield="${dataField}"] .btnvalidate`);
         //await ModuleBase.wait(500);  // wait for validation to open
         // wait for the validation to open, then check for errors
         var popUp;

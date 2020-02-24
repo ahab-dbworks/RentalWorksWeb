@@ -223,15 +223,32 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static openBrowse($browse: JQuery) {
+        let isCustomTemplate = false;
+        let $customBrowse;
         if (sessionStorage.getItem('customForms') !== null) {
             const controller = $browse.attr('data-controller');
             const baseForm = controller.replace('Controller', 'Browse');
             const customForms = JSON.parse(sessionStorage.getItem('customForms')).filter(a => a.BaseForm == baseForm);
             if (customForms.length > 0) {
-                $browse = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+                $customBrowse = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+                if ($customBrowse.length > 0) {
+                    isCustomTemplate = true;
+                    const attributes = $browse.each(function () { // replacing attributes/classes previously assigned to $browse when using a $customBrowse template
+                        jQuery.each(this.attributes, function () {
+                            // this.attributes is not a plain object, but an array of attribute nodes, which contain both the name and value
+                            if (this.specified) {
+                                $customBrowse.attr(this.name, this.value)
+                            }
+                        });
+                    });
+                } else {
+                    throw new Error(`${baseForm} custom template not found.`)
+                }
             }
         }
-
+        if (isCustomTemplate) {
+            $browse = $customBrowse
+        }
         FwControl.renderRuntimeControls($browse.find('.fwcontrol').addBack());
         const options: IAddBrowseMenuOptions = this.getDefaultBrowseMenuOptions($browse);
         FwModule.addBrowseMenu(options);
@@ -338,8 +355,8 @@ class FwModule {
     //----------------------------------------------------------------------------------------------
     static openForm($form: JQuery, mode: string) {
         var $fwcontrols, formid, $formTabControl, auditTabIds, controller,
-            nodeModule=null, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeControl, $grids, $tabcontrol, args;
-        
+            nodeModule = null, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeControl, $grids, $tabcontrol, args;
+
         controller = $form.attr('data-controller');
 
         if (sessionStorage.getItem('customForms') !== null) {
@@ -381,7 +398,7 @@ class FwModule {
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Form" style="max-width:900px;">
                               <div class="flexrow">
                                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Base Form" data-datafield="CustomFormBaseForm" data-enabled="false" data-formreadonly="true" style="flex:1 1 200px;"></div>
-                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Description" data-datafield="CustomFormId" data-displayfield="Description" data-validationname="CustomFormValidation" data-validationpeek="true" data-enabled="false" data-formreadonly="true" style="flex:1 1 300px;"></div>
+                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Description" data-datafield="CustomFormId" data-displayfield="CustomFormDescription" data-validationname="CustomFormValidation" data-validationpeek="true" data-enabled="false" data-formreadonly="true" style="flex:1 1 300px;"></div>
                               </div>
                           </div>
                     </div>`);
@@ -397,11 +414,11 @@ class FwModule {
             let $keys = $form.find('.fwformfield[data-type="key"]');
             if ($keys.length !== 0) {
                 auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-                const moduleControllerName = $form.data('controller'); 
+                const moduleControllerName = $form.data('controller');
                 if (moduleControllerName !== undefined) {
-                    const moduleController = (<any>window)[moduleControllerName]; 
+                    const moduleController = (<any>window)[moduleControllerName];
                     if (moduleController !== undefined) {
-                        const moduleSecurityId = moduleController.id; 
+                        const moduleSecurityId = moduleController.id;
                         if (moduleSecurityId !== undefined) {
                             const $auditControl = FwBrowse.renderGrid({
                                 moduleSecurityId: moduleSecurityId,
@@ -580,7 +597,7 @@ class FwModule {
 
         // hide grids based on security tree
         const nodeControls = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args2: any) => {
-           return node.nodetype === 'Controls';
+            return node.nodetype === 'Controls';
         });
         const $securitycontrols = $form.find('[data-secid]');
         $securitycontrols.each(function (index, element) {
@@ -730,7 +747,7 @@ class FwModule {
                 window[controller]['afterLoad']($form, response);
             }
         }
-        
+
         // work around for when devs add fields in the afterLoad
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
         $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
@@ -918,9 +935,9 @@ class FwModule {
 
         const options: IAddFormMenuOptions = {
             $form: $form,
-            $menu: $menu, 
-            $subMenu: $subMenu, 
-            $colOptions: $colOptions, 
+            $menu: $menu,
+            $subMenu: $subMenu,
+            $colOptions: $colOptions,
             $groupOptions: $groupOptions,
             hasSave: true,
             hasNext: false,
@@ -935,7 +952,7 @@ class FwModule {
         else {
             FwMenu.addFormMenuButtons(options);
         }
-        
+
 
         // Refresh form button
         if (typeof (<any>window[controller])['loadForm'] === 'function') {
@@ -1263,23 +1280,20 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static validateForm($form: JQuery) {
-        var isvalid, $fields;
-
-        isvalid = true;
+        let isValid = true;
 
         if ($form.parent().data('type') === 'settings-row') {
             $form.data('fields', $form.find('.fwformfield'))
         }
 
-        $fields = $form.data('fields');
-
+        const $fields = $form.data('fields');
         $fields.each(function (index) {
             var $field = jQuery(this);
 
             if (($field.attr('data-required') == 'true') && ($field.attr('data-enabled') == 'true')) {
                 if ($field.find('.fwformfield-value').val() == '') {
                     var errorTab = $field.closest('.tabpage').attr('data-tabid');
-                    isvalid = false;
+                    isValid = false;
                     $field.addClass('error');
                     $field.parents('.fwcontrol .fwtabs').find('#' + errorTab).addClass('error');
                 } else if ($field.find('.fwformfield-value').val() != '' && !$field.hasClass('dev-err')) {
@@ -1287,23 +1301,23 @@ class FwModule {
                 }
             }
             if (($field.attr('data-noduplicate') == 'true') && ($field.hasClass('error'))) {
-                isvalid = false;
+                isValid = false;
             }
             if ($field.hasClass('error')) {
-                isvalid = false;
+                isValid = false;
             }
-            if (isvalid) {
+            if (isValid) {
                 $field.removeClass('error');
             }
         });
 
-        if (!isvalid) {
+        if (!isValid) {
             FwNotification.renderNotification('ERROR', 'Please resolve the error(s) on the form.');
         } else {
             $form.find('[data-type="tab"].error').removeClass('error');
         }
 
-        return isvalid;
+        return isValid;
     }
     //----------------------------------------------------------------------------------------------
     static getData($object: JQuery, request: any, responseFunc: Function, $elementToBlock: JQuery, timeout?: number) {
@@ -1534,4 +1548,3 @@ interface IModuleScreen {
     [key: string]: any
 }
 
- 

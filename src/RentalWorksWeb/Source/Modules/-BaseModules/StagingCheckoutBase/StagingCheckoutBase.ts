@@ -8,6 +8,7 @@ abstract class StagingCheckoutBase {
     contractId: string;
     isPendingItemGridView: boolean = false;
     Type: string;
+    orderId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -63,6 +64,7 @@ abstract class StagingCheckoutBase {
         $form.find(`div[data-datafield="${this.Type}Id"] input`).focus();
         this.getSuspendedSessions($form);
         this.events($form);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -278,6 +280,10 @@ abstract class StagingCheckoutBase {
 
         $form.on('change', `[data-datafield="${this.Type}Id"]`, e => {
             try {
+                const orderId = FwFormField.getValueByDataField($form, `${this.Type == 'ContainerItem' ? 'Order' : this.Type}Id`);
+                this.orderId = orderId;
+                this.checkMessages($form, false, null); // show order alerts, pass in false for button blocking behavior at this stage
+
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
                 $form.find('.error-msg:not(.qty)').html('');
@@ -300,7 +306,6 @@ abstract class StagingCheckoutBase {
                         apiName = 'containeritem';
                         break;
                 }
-                const orderId = FwFormField.getValueByDataField($form, `${this.Type == 'ContainerItem' ? 'Order' : this.Type}Id`);
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
                 const apiUrl = `api/v1/${apiName}/${orderId}`;
@@ -309,6 +314,7 @@ abstract class StagingCheckoutBase {
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
                     if (module == 'StagingCheckout') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                     if (module == 'FillContainer') FwFormField.setValueByDataField($form, 'BarCode', response.BarCode);
+
                     // Determine tabs to render
                     FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
                         res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
@@ -402,7 +408,7 @@ abstract class StagingCheckoutBase {
         const $createPartialContract = FwMenu.generateButtonMenuOption(partialCaption);
         $createPartialContract.on('click', e => {
             e.stopPropagation();
-            this.startPartialCheckoutItems($form, e);
+            this.checkMessages($form, true, this.startPartialCheckoutItems.bind(this, [$form, e]));
         });
 
         const menuOptions: JQuery<HTMLElement>[] = [];
@@ -412,7 +418,9 @@ abstract class StagingCheckoutBase {
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     };
     //----------------------------------------------------------------------------------------------
-    startPartialCheckoutItems = ($form: JQuery, event): void => {
+    startPartialCheckoutItems = (args): void => {
+        const $form = args[0];
+        const event = args[1];
         $form.find('.error-msg:not(.qty)').html('');
 
         const location = JSON.parse(sessionStorage.getItem('location'));
@@ -704,7 +712,9 @@ abstract class StagingCheckoutBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-    completeCheckOutContract($form: JQuery, event): void {
+    completeCheckOutContract(args): void {
+        const $form = args[0];
+        const event = args[1];
         $form.find('.error-msg:not(.qty)').html('');
         $form.find('div[data-datafield="GridView"]').hide();
         if (this.contractId) {
@@ -727,7 +737,10 @@ abstract class StagingCheckoutBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-    createContract($form: JQuery, event): void {
+    createContract(args): void {
+        const $form = args[0];
+        const event = args[1];
+        // API REQUEST to see if alert issues exist else toaster message and continue to block create contract
         const type = this.Type;
         const errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
@@ -737,7 +750,7 @@ abstract class StagingCheckoutBase {
         let request: any = {};
 
         setTimeout(() => {
-            if (this.Module === 'StagingCheckout' && warehouse.promptforcheckoutexceptions == true) {
+            if (warehouse.promptforcheckoutexceptions == true) {
                 const $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
                 FwBrowse.search($grid).then(() => {
                     if ($grid.find('tbody tr').length > 0) {
@@ -1007,11 +1020,13 @@ abstract class StagingCheckoutBase {
         });
         // Complete Checkout Contract
         $form.find('.complete-checkout-contract').on('click', e => {
-            this.completeCheckOutContract($form, e);
+            this.checkMessages($form, true, this.completeCheckOutContract.bind(this, [$form, e]));
+            //this.completeCheckOutContract($form, e);
         });
         // Create Contract
         $form.find('.createcontract').on('click', e => {
-            this.createContract($form, e);
+            this.checkMessages($form, true, this.createContract.bind(this, [$form, e]));
+            // this.createContract($form, e);
         });
         //Options button
         $form.find('.options-button').on('click', e => {
@@ -1291,6 +1306,47 @@ abstract class StagingCheckoutBase {
         this.contractId = '';
         $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'false');
         $form.find('.suspendedsession').show();
+    }
+    //----------------------------------------------------------------------------------------------
+    checkMessages($form, buttonBlocking, func?) {
+        const orderId = this.orderId;
+        if (orderId) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/checkout/ordermessages/${orderId}`, null, FwServices.defaultTimeout, response => {
+                if (response.success) {
+                    let preventCheckout = false;
+                    const messages = response.Messages;
+                    if (messages.length) {
+                        const $formBody = $form.find('.fwform-body');
+                        $form.find('.form-alert-container').remove();
+                        const html: Array<string> = [];
+                        html.push(`<div class="form-alert-container">`);
+                        for (let i = 0; i < messages.length; i++) {
+                            let backgroundColor = '#ffff33'; //yellow
+                            if (messages[i].PreventCheckOut === true) {
+                                backgroundColor = '#ff0000'; // red
+                                preventCheckout = true;
+                            }
+                            html.push(`<div class="form-alert" style="background:${backgroundColor};"><div style="float:left;"></div><span>${messages[i].Message}</span><div style="display:none;" class="close"><i class="material-icons">clear</i></div></div>`);
+                        }
+                        html.push(`</div>`);
+                        $formBody.before(html.join(''));
+                       
+                        // close button - currently hidden in this module
+                        //$form.find('div.form-alert i').on('click', e => {
+                        //    jQuery(e.currentTarget).parents('.form-alert').remove();
+                        //    if ($form.find('div.form-alert').length === 0) {
+                        //        $form.find('.form-alert-container').remove();
+                        //    }
+                        //});
+                    }
+                    if (buttonBlocking && preventCheckout) {
+                        FwNotification.renderNotification('WARNING', 'Issues highlighted above in red must be resolved before proceeding.')
+                    } else if (func && typeof func === 'function') {
+                        func.apply(arguments);
+                    }
+                }
+            }, ex => FwFunc.showError(ex), $form);
+        }
     }
     //----------------------------------------------------------------------------------------------
     addLegend($form: any, $grid): void {

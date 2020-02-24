@@ -10,7 +10,7 @@ import {
     Invoice, Receipt, VendorInvoice,
 
     //settings
-    AccountingSettings, GlAccount, GlDistribution, Country, State, BillingCycle, Department, ContactEvent, ContactTitle, MailList, Currency,
+    ActivityType, AccountingSettings, GlAccount, GlDistribution, Country, State, BillingCycle, Department, ContactEvent, ContactTitle, MailList, Currency,
     CreditStatus, CustomerCategory, CustomerStatus, CustomerType, DealClassification, DealType, DealStatus, ProductionType, ScheduleType, DiscountTemplate,
     DocumentType, CoverLetter, TermsConditions, EventCategory, EventType, PersonnelType, PhotographyType, Building, FacilityType, FacilityRate, FacilityScheduleStatus,
     FacilityStatus, FacilityCategory, SpaceType, FiscalYear, GeneratorFuelType, GeneratorMake, GeneratorRating, GeneratorWatts, GeneratorType, Holiday,
@@ -257,7 +257,8 @@ export class MediumRegressionTest extends BaseTest {
                                                                     }
                                                                 }
 
-                                                                if (grid.canDelete) {
+                                                                //if (grid.canDelete) {
+                                                                if ((grid.canDelete) && (!gridRecord.recordToCreate.persistData)) {
                                                                     testName = `Confirm that rows exist in the Grid: ${grid.gridDisplayName}`;
                                                                     test(testName, async () => {
                                                                         await grid.getRecordCount()
@@ -556,7 +557,8 @@ export class MediumRegressionTest extends BaseTest {
 
                                 }
 
-                                if (module.canDelete) {
+                                //if (module.canDelete) {
+                                if ((module.canDelete) && (!rec.persistData)) {
                                     testName = `Seek to the newly-created ${module.moduleCaption} record`;
                                     test(testName, async () => {
                                         let recordCount = await module.browseSeek(rec.seekObject);//.then().catch(err => this.LogError(testName, err));
@@ -1036,6 +1038,7 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new VendorInvoice());
 
         //Settings
+        this.MediumRegressionOnModule(new ActivityType());
         this.MediumRegressionOnModule(new AccountingSettings());
         this.MediumRegressionOnModule(new GlAccount());
         this.MediumRegressionOnModule(new GlDistribution());

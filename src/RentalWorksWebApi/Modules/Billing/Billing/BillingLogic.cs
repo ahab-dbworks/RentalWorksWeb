@@ -133,6 +133,15 @@ namespace WebApi.Modules.Billing.Billing
         [FwLogicProperty(Id: "KIAJkKCEWagaK", IsReadOnly: true)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
 
+        [FwLogicProperty(Id: "ikmVHI6K9Milm", IsReadOnly: true)]
+        public string ProjectManagerId { get; set; }
+        [FwLogicProperty(Id: "qwtJ2S6quPOfV", IsReadOnly: true)]
+        public string ProjectManager { get; set; }
+        [FwLogicProperty(Id: "RhpgIBPng2FrM", IsReadOnly: true)]
+        public string OutsideSalesRepresentativeId { get; set; }
+        [FwLogicProperty(Id: "FljWrG1LF0R2y", IsReadOnly: true)]
+        public string OutsideSalesRepresentative { get; set; }
+
 
         //colors
 

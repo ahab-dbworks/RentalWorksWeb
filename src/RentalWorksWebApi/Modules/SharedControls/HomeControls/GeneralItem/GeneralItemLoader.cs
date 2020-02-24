@@ -13,6 +13,9 @@ namespace WebApi.Modules.HomeControls.GeneralItem
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string ItemId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
+        public string InventoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 

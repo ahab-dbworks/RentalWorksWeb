@@ -19,15 +19,18 @@ export class OrderReport extends WebpackReport {
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, parameters)
-                        .then((response: Order) => {
+                    Ajax.post<DataTable>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, parameters)
+                        .then((response: DataTable) => {
                             const data: any = response;
+                            console.log(response);
                             //data.Items = DataTable.toObjectList(response.Items);
                             //data.RentalItems = DataTable.toObjectList(response.RentalItems);
                             //data.SalesItems = DataTable.toObjectList(response.SalesItems);
                             //data.MiscItems = DataTable.toObjectList(response.MiscItems);
                             //data.LaborItems = DataTable.toObjectList(response.LaborItems);
-                            data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                            data.PrintTime = moment().format('h:mm:ss A');
+                            data.PrintDate = moment().format('MM/DD/YYYY');
+                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

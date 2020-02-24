@@ -124,6 +124,26 @@ namespace WebApi.Modules.Transfers.TransferIn
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/transferin/cancelcontract
+        [HttpPost("cancelcontract")]
+        [FwControllerMethod(Id: "q9pERMOQZkwOl", ActionType: FwControllerActionTypes.Option, Caption: "Cancel Contract")]
+        public async Task<ActionResult<TSpStatusResponse>> CancelContract([FromBody]CancelContractRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                TSpStatusResponse response = await ContractFunc.CancelContract(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/transferin/validatetransfer/browse 
         [HttpPost("validatetransfer/browse")]
         [FwControllerMethod(Id: "dvWPAAj5GMnn", ActionType: FwControllerActionTypes.Browse)]
@@ -131,6 +151,7 @@ namespace WebApi.Modules.Transfers.TransferIn
         {
             return await DoBrowseAsync<TransferOrderLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------
     }
 }
 

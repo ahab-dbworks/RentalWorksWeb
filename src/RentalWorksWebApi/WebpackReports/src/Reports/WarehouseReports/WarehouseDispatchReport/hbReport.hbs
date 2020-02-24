@@ -1,0 +1,60 @@
+﻿<!--WarehouseDispatchReport-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th>Activity Date</th>
+        <th>Order No.</th>
+        <th>Deal</th>
+        <th>Order Type</th>
+        <th>Activity</th>
+        <th>Order Status</th>
+        <th>Assigned To</th>
+        <th class="number">Item Qty.</th>
+        <th>Ship Type</th>
+        <th>Carrier</th>
+        <th>Ship Via</th>
+        <th>Outgoing Location</th>
+        <th>Freight PO</th>
+        <th>Tracking No.</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td data-value="{{ActivityDateTime}}"></td>
+        <td data-value="{{OrderNumber}}"></td>
+        <td data-value="{{Deal}}"></td>
+        <td data-value="{{OrderTypeDescription}}"></td>
+        <td data-value="{{ActivityType}}"></td>
+        <td data-value="{{OrderStatus}}"></td>
+        <td data-value="{{AssignedToUserName}}"></td>
+        <td class="number" data-value="{{TotalQuantity}}"></td>
+        <td data-value="{{Carrier}}"></td>
+        <td data-value="{{Carrier}}"></td>
+        <td data-value="{{ShipVia}}"></td>
+        <td data-value="{{OutgoingLocation}}"></td>
+        <td data-value="{{FreightPoNumber}}"></td>
+        <td data-value="{{TrackingNumber}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

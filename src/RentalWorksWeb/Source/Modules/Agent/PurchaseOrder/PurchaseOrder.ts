@@ -54,6 +54,13 @@ class PurchaseOrder implements IModule {
                 FwFunc.showError(ex);
             }
         });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Purchase Order Status', 'Buwl6WTPrOMk', (e: JQuery.ClickEvent) => {
+            try {
+                this.purchaseOrderStatus(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         FwMenu.addSubMenuItem(options.$groupOptions, 'Receive From Vendor', 'MtgBxCKWVl7m', (e: JQuery.ClickEvent) => {
             try {
                 this.receiveFromVendor(options.$form);
@@ -178,6 +185,7 @@ class PurchaseOrder implements IModule {
             const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', office.defaultcurrencyid, office.defaultcurrencycode);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
             FwFormField.setValue($form, 'div[data-datafield="PoTypeId"]', this.DefaultPurchasePoTypeId, this.DefaultPurchasePoType);
         };
@@ -224,8 +232,17 @@ class PurchaseOrder implements IModule {
             { value: 'WAREHOUSE', caption: 'Warehouse' },
             { value: 'OTHER', caption: 'Other' }
         ], true);
+
+        //Toggle Buttons - Summary tab
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeProfitLoss"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period', checked: 'checked' }
+        ]);
+
         this.events($form);
         this.activityCheckboxEvents($form, mode);
+        this.renderPrintButton($form);
         this.renderSearchButton($form);
         this.applyRateType($form);
 
@@ -235,10 +252,55 @@ class PurchaseOrder implements IModule {
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="PurchaseOrderId"] input').val(uniqueids.PurchaseOrderId);
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'PurchaseOrderDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${uniqueids.PurchaseOrderId}/document`;
+            },
+            gridSecurityId: 'OCGVS960nEwc',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'PurchaseOrderId',
+            uniqueid1Name: 'PurchaseOrderId',
+            getUniqueid1Value: () => uniqueids.PurchaseOrderId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    renderPrintButton($form: any) {
+        var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
+        $print.prepend('<i class="material-icons">print</i>');
+        $print.on('click', () => {
+            this.printPurchaseOrder($form);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    printPurchaseOrder($form: any) {
+        try {
+            const module = this.Module;
+            const purchaseOrderNumber = FwFormField.getValue($form, `div[data-datafield="PurchaseOrderNumber"]`);
+            const purchaseOrderId = FwFormField.getValue($form, `div[data-datafield="PurchaseOrderId"]`);
+            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+
+            var $report = PurchaseOrderReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValue($report, `div[data-datafield="PurchaseOrderId"]`, purchaseOrderId, purchaseOrderNumber);
+            const printTab = jQuery('.tab.submodule.active');
+            printTab.find('.caption').html(`Print Purchase Order`);
+            printTab.attr('data-caption', `${module} ${recordTitle}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
         const $browse = EmailHistoryController.openBrowse();
@@ -1109,7 +1171,7 @@ class PurchaseOrder implements IModule {
 
         //FwBrowse.init($orderItemGridSubLaborControl);
         //FwBrowse.renderRuntimeHtml($orderItemGridSubLaborControl);
-
+        // ----------
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.sublaborgrid div[data-grid="OrderItemGrid"]',
@@ -1213,7 +1275,7 @@ class PurchaseOrder implements IModule {
 
         //FwBrowse.init($orderItemGridSubMiscControl);
         //FwBrowse.renderRuntimeHtml($orderItemGridSubMiscControl);
-
+        // ----------
         FwBrowse.renderGrid({
             nameGrid: 'OrderContactGrid',
             gridSecurityId: 'B9CzDEmYe1Zf',
@@ -1233,6 +1295,7 @@ class PurchaseOrder implements IModule {
                 request.CompanyId = companyId;
             }
         });
+        // ----------
 
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
@@ -1306,20 +1369,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
-        //const $orderNoteGridControl = FwBrowse.loadGridFromTemplate('OrderNoteGrid');
-        //$orderNoteGrid.empty().append($orderNoteGridControl);
-        //$orderNoteGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-        //    };
-        //});
-        //$orderNoteGridControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-        //});
-        //FwBrowse.init($orderNoteGridControl);
-        //FwBrowse.renderRuntimeHtml($orderNoteGridControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderNoteGrid',
             gridSecurityId: '8aq0E3nK2upt',
@@ -1334,20 +1383,35 @@ class PurchaseOrder implements IModule {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             }
         });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'ActivityGrid',
+            gridSecurityId: 'hb52dbhX1mNLZ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+            },
+        });
+        // ----------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+        jQuery($form.find('.partsgrid .valtype')).attr('data-validationname', 'PartsInventoryValidation');
         jQuery($form.find('.rentalsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
     };
-
     //----------------------------------------------------------------------------------------------
     loadAudit($form: JQuery): void {
         const uniqueid = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         FwModule.loadAudit($form, uniqueid);
     };
     //----------------------------------------------------------------------------------------------
-
     applyPurchaseOrderTypeToForm($form) {
         let self = this;
 
@@ -1500,6 +1564,12 @@ class PurchaseOrder implements IModule {
         if (!isSubMisc) { $form.find('.submisctab').hide() }
         if (!isSubLabor) { $form.find('.sublabortab').hide() }
 
+        //summary section visibility
+        isRental ? $form.find('.rental-pl').show() : $form.find('.rental-pl').hide();
+        isSales ? $form.find('.sales-pl').show() : $form.find('.sales-pl').hide();
+        isLabor ? $form.find('.labor-pl').show() : $form.find('.labor-pl').hide();
+        isMisc ? $form.find('.misc-pl').show() : $form.find('.misc-pl').hide();
+
         if (!isMisc && !isLabor && !isSubRent && !isSubSale && !isSubMisc && !isSubLabor) $scheduleDateFields.hide();
 
         //Click Event on tabs to load grids/browses
@@ -1509,7 +1579,9 @@ class PurchaseOrder implements IModule {
             const tabname = $tab.attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
             const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
-
+            if ($tab.hasClass('profitlosstab')) {
+                this.loadSummary($form);
+            }
             if ($tab.hasClass('audittab') == false) {
                 const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
                 if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
@@ -1852,26 +1924,37 @@ class PurchaseOrder implements IModule {
             , submiscTab = $form.find('.submisctab')
             , sublaborTab = $form.find('.sublabortab');
         const $scheduleDateFields = $form.find('.activity-unchecked');
+
         $form.find('[data-datafield="Rental"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     rentalTab.show();
+                    $form.find('.rental-pl').show();
                 } else {
                     rentalTab.hide();
+                    $form.find('.rental-pl').hide();
                 }
             } else {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     rentalTab.show();
+                    $form.find('.rental-pl').show();
                     FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
                 } else {
                     rentalTab.hide();
+                    $form.find('.rental-pl').hide();
                     FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
                 }
             }
         });
 
         $form.find('[data-datafield="Sales"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? salesTab.show() : salesTab.hide();
+            if (jQuery(e.currentTarget).prop('checked')) {
+                salesTab.show();
+                $form.find('.sales-pl').show();
+            } else {
+                salesTab.hide();
+                $form.find('.sales-pl').hide();
+            }
         });
         $form.find('[data-datafield="Parts"] input').on('change', e => {
             jQuery(e.currentTarget).prop('checked') ? partsTab.show() : partsTab.hide();
@@ -1879,18 +1962,22 @@ class PurchaseOrder implements IModule {
         $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 miscTab.show();
+                $form.find('.misc-pl').show();
                 $scheduleDateFields.show();
             } else {
                 miscTab.hide();
+                $form.find('.misc-pl').hide();
             }
         });
         $form.find('[data-datafield="Labor"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 laborTab.show();
+                $form.find('.labor-pl').show();
                 $scheduleDateFields.show();
             }
             else {
                 laborTab.hide();
+                $form.find('.labor-pl').hide();
             }
         });
         $form.find('[data-datafield="SubRent"] input').on('change', e => {
@@ -2218,6 +2305,10 @@ class PurchaseOrder implements IModule {
         $form.find('.delivery-type-radio').on('change', event => {
             this.deliveryTypeAddresses($form, event);
         });
+        //summary toggle buttons
+        $form.find('.profit-loss-total input').off('change').on('change', e => {
+            this.loadSummary($form);
+        });
         // Stores previous value for Receive / ReturnDeliveryDeliveryType
         $form.find('.delivery-delivery').on('click', event => {
             const $element = jQuery(event.currentTarget);
@@ -2312,6 +2403,17 @@ class PurchaseOrder implements IModule {
             this.applyRateType($form);
         });
 
+        //Activity Filters
+        $form.on('change', '.activity-filters', e => {
+            ActivityGridController.filterActivities($form);
+        });
+        // Prevent items tab view on 'NEW' records
+        $form.find('[data-type="tab"][data-notOnNew="true"]').on('click', e => {
+            if ($form.attr('data-mode') === 'NEW') {
+                e.stopImmediatePropagation();
+                FwNotification.renderNotification('WARNING', 'Save Record first.');
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
@@ -2333,6 +2435,46 @@ class PurchaseOrder implements IModule {
             }
         }
     }
+    //----------------------------------------------------------------------------------------------
+    loadSummary($form: any) {
+        //fields disabled
+        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+        FwFormField.disable($form.find('.frame'));
+        let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+        $form.find('.frame input').css('width', '100%');
+        if (id !== '') {
+            if (typeof period !== 'undefined') {
+                id = `${id}~${period}`
+            }
+            FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        $form.find(`[data-framedatafield="${key}"] input`).val(response[key]);
+                        $form.find(`[data-framedatafield="${key}"]`).attr('data-originalvalue', response[key]);
+                    }
+                }
+
+                const $profitFrames = $form.find('.profitframes .frame');
+                $profitFrames.each(function () {
+                    var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
+                    if (profit > 0) {
+                        jQuery(this).find('input').css('background-color', '#A6D785');
+                    } else if (profit < 0) {
+                        jQuery(this).find('input').css('background-color', '#ff9999');
+                    }
+                });
+
+                const $totalFrames = $form.find('.totalColors input');
+                $totalFrames.each(function () {
+                    var total = jQuery(this).val();
+                    if (total != 0) {
+                        jQuery(this).css('background-color', '#ffffe5');
+                    }
+                })
+            }, null, $form);
+            $form.find(".frame .add-on").children().hide();
+        }
+    };
     //----------------------------------------------------------------------------------------------
     getWarehouseAddress($form: any, prefix: string): void {
         //const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid; - J.Pace :: changed from user warehouse to order warehouse at request of mgmt 12/31/19
@@ -2448,6 +2590,16 @@ class PurchaseOrder implements IModule {
         let $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $receiveFromVendorForm);
         jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor');
+    }
+    //---------------------------------------------------------------------------------
+    purchaseOrderStatus($form: JQuery) {
+        let mode = 'EDIT';
+        let orderInfo: any = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+        let $orderStatusForm = PurchaseOrderStatusController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $orderStatusForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Purchase Order Status');
     }
     //----------------------------------------------------------------------------------------------	
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {

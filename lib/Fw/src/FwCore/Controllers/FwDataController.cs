@@ -89,6 +89,7 @@ namespace FwCore.Controllers
 
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 browseRequest.forexcel = true;
+                browseRequest.pageno = 1; // Required for successful download excel from any page other than 1
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
                 string strippedWorksheetName = new string(worksheetName.Where(c => char.IsLetterOrDigit(c)).ToArray());
                 string filename = $"{this.UserSession.WebUsersId}_{strippedWorksheetName}_{Guid.NewGuid().ToString().Replace("-", string.Empty)}_xlsx";
@@ -288,7 +289,7 @@ namespace FwCore.Controllers
                 GetResponse<T> response = await l.GetManyAsync<T>(request);
                 return new OkObjectResult(response);
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 ModelState.AddModelError(ex.ParamName, ex.Message);
                 return BadRequest(ModelState);
@@ -423,7 +424,7 @@ namespace FwCore.Controllers
                 if (l.LoadOriginalBeforeSaving)
                 {
                     //load the original record from the database
-                    original = FwBusinessLogic.CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
+                    original = FwBusinessLogic.CreateBusinessLogic(typeof(T), this.AppConfig, this.UserSession);
                     original.SetPrimaryKeys(l.GetPrimaryKeys());
                     bool exists = await original.LoadAsync<T>();
                     //if (!exists)
@@ -432,7 +433,7 @@ namespace FwCore.Controllers
                         return NotFound();
                     }
                 }
- 
+
                 await l.ValidateBusinessLogicAsync(saveMode, original, result);
 
                 if (result.IsValid)
@@ -586,18 +587,12 @@ namespace FwCore.Controllers
         }
         //END LEGACY CODE
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<bool>> DoDeleteAsync<T>(string id, Type type = null)
+        protected virtual async Task<ActionResult<bool>> DoDeleteAsync<T>(string id)
         {
             try
             {
-
-                if (type == null)
-                {
-                    type = logicType;
-                }
-
                 string[] ids = id.Split('~');
-                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(typeof(T), this.AppConfig, this.UserSession);
                 l.SetPrimaryKeys(ids);
 
                 if (l.LoadOriginalBeforeDeleting)

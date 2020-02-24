@@ -15,17 +15,44 @@ namespace WebApi.Modules.Utilities.QuikActivity
     public class QuikActivityLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activityid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
+        public int? ActivityId { get; set; } = 0;
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitydate", modeltype: FwDataTypes.Date)]
         public string ActivityDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytime", modeltype: FwDataTypes.Text)]
         public string ActivityTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitydesc", modeltype: FwDataTypes.Text)]
-        public string ActivityDescription { get; set; }
+        [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer)]
+        public int? ActivityTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitytypedesc", modeltype: FwDataTypes.Text)]
+        public string ActivityTypeDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitytypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ActivityTypeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitytypetextcolor", modeltype: FwDataTypes.Text)]
+        public string ActivityTypeTextColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitystatusid", modeltype: FwDataTypes.Integer)]
+        public int? ActivityStatusId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitystatusdesc", modeltype: FwDataTypes.Text)]
+        public string ActivityStatus { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitystatuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ActivityStatusColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitystatustextcolor", modeltype: FwDataTypes.Text)]
+        public string ActivityStatusTextColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertypedesc", modeltype: FwDataTypes.Text)]
+        public string OrderTypeDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
         public string OrderType { get; set; }
@@ -69,41 +96,66 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemcount", modeltype: FwDataTypes.Decimal)]
-        public decimal? Quantity { get; set; }
+        //[FwSqlDataField(column: "itemcount", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Quantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalqty", modeltype: FwDataTypes.Integer)]
+        public int? TotalQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remainingqty", modeltype: FwDataTypes.Integer)]
+        public int? RemainingQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "completeqty", modeltype: FwDataTypes.Integer)]
+        public int? CompleteQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "completepct", modeltype: FwDataTypes.Decimal)]
+        public decimal? CompletePercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "assignedtousersid", modeltype: FwDataTypes.Text)]
+        public string AssignedToUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "assignedtousername", modeltype: FwDataTypes.Text)]
+        public string AssignedToUserName { get; set; }
         //------------------------------------------------------------------------------------ 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
-            string sessionId = GetUniqueIdAsString("SessionId", request) ?? "";
-            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
             DateTime fromDate = GetUniqueIdAsDate("FromDate", request).GetValueOrDefault(DateTime.Today);
             DateTime toDate = GetUniqueIdAsDate("ToDate", request).GetValueOrDefault(DateTime.Today);
-            string activityType = GetUniqueIdAsString("ActivityType", request) ?? "";
+            string officeLocationId = GetUniqueIdAsString("OfficeLocationId", request) ?? "";
+            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
+            string departmentId = GetUniqueIdAsString("DepartmentId", request) ?? "";
+            string activityTypeId = GetUniqueIdAsString("ActivityTypeId", request) ?? "";
+            string assignedToUserId = GetUniqueIdAsString("AssignedToUserId", request) ?? "";
+            bool includeCompleted = GetUniqueIdAsBoolean("IncludeCompleted", request).GetValueOrDefault(false);
             bool summary = GetUniqueIdAsBoolean("Summary", request).GetValueOrDefault(false);
 
             FwJsonDataTable dt = null;
 
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getquikactivitydatadetail", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getquikactivitydatadetail2", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
+                    qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, fromDate);
+                    qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, toDate);
+                    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, officeLocationId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
-                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, fromDate);
-                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, toDate);
-                    qry.AddParameter("@activitytype", SqlDbType.NVarChar, ParameterDirection.Input, activityType);
-                    qry.AddParameter("@summarizeorders", SqlDbType.NVarChar, ParameterDirection.Input, (summary ? "T" : "F"));
+                    qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, departmentId);
+                    qry.AddParameter("@activitytypeid", SqlDbType.NVarChar, ParameterDirection.Input, activityTypeId);
+                    qry.AddParameter("@assignedtousersid", SqlDbType.NVarChar, ParameterDirection.Input, assignedToUserId);
+                    qry.AddParameter("@includecompleted", SqlDbType.NVarChar, ParameterDirection.Input, includeCompleted);
+                    qry.AddParameter("@summarizeorders", SqlDbType.NVarChar, ParameterDirection.Input, summary);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
 
+            //maybe this should just be done on the front-end?
             if (dt.Rows.Count > 0)
             {
                 foreach (List<object> row in dt.Rows)
                 {
-                    string orderTypeDescription = row[dt.GetColumnNo("OrderType")].ToString();
-                    row[dt.GetColumnNo("OrderTypeController")] = AppFunc.GetOrderTypeDescriptionFronEndControllerName(orderTypeDescription);
+                    string orderType = row[dt.GetColumnNo("OrderType")].ToString();
+                    row[dt.GetColumnNo("OrderTypeController")] = AppFunc.GetOrderTypeDescriptionFronEndControllerName(orderType);
                 }
             }
 

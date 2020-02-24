@@ -80,6 +80,28 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/checkout/ordermessages/A0000001
+        [HttpGet("ordermessages/{id}")]
+        [FwControllerMethod(Id: "bduTu1UqSNBPS", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<OrderMessagesResponse>> GetOrderMessages([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                OrderMessagesRequest request = new OrderMessagesRequest();
+                request.OrderId = id;
+                OrderMessagesResponse response = await OrderFunc.GetOrderMessages(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
         // GET api/v1/checkout/stagingtabs?OrderId&WarehouseId
         [HttpGet("stagingtabs")]
         [FwControllerMethod(Id: "2EfNs9npvIhkL", ActionType: FwControllerActionTypes.Browse)]
@@ -255,6 +277,33 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
         }
         //------------------------------------------------------------------------------------       
+        // POST api/v1/checkout/cancelcontract
+        [HttpPost("cancelcontract")]
+        [FwControllerMethod(Id: "6A9xouMp1vTaY", ActionType: FwControllerActionTypes.Option, Caption: "Cancel Contract")]
+        public async Task<ActionResult<TSpStatusResponse>> CancelContract([FromBody]CancelContractRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                TSpStatusResponse response = await ContractFunc.CancelContract(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/checkout/decreaseorderquantity
+        [HttpPost("decreaseorderquantity")]
+        [FwControllerMethod(Id: "2VoXN2oAIUsF", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<DecreaseOrderQuantityResponse>> DecreaseOrderQuantity([FromBody]DecreaseOrderQuantityRequest request)
+        {
+            return await CheckOutFunc.DecreaseOrderQuantity(AppConfig, UserSession, request);
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/validateorder/browse 
         [HttpPost("validateorder/browse")]

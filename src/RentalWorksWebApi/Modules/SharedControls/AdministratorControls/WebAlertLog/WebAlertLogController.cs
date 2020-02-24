@@ -49,29 +49,29 @@ namespace WebApi.Modules.AdministratorControls.WebAlertLog
             return await DoGetAsync<WebAlertLogLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/webalertlog 
-        [HttpPost]
-        [FwControllerMethod(Id: "z7FZ8SZWVp1Me", ActionType: FwControllerActionTypes.New)]
-        public async Task<ActionResult<WebAlertLogLogic>> NewAsync([FromBody]WebAlertLogLogic l)
-        {
-            return await DoNewAsync<WebAlertLogLogic>(l);
-        }
-        //------------------------------------------------------------------------------------ 
-        // PUT api/v1/webalertlog/A0000001
-        [HttpPut("{id}")]
-        [FwControllerMethod(Id: "EPTmz32qPMMpL", ActionType: FwControllerActionTypes.Edit)]
-        public async Task<ActionResult<WebAlertLogLogic>> EditAsync([FromRoute] string id, [FromBody]WebAlertLogLogic l)
-        {
-            return await DoEditAsync<WebAlertLogLogic>(l);
-        }
-        //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/webalertlog/A0000001 
-        [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "IVXuvsvLXHTXf", ActionType: FwControllerActionTypes.Delete)]
-        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        {
-            return await DoDeleteAsync<WebAlertLogLogic>(id);
-        }
-        //------------------------------------------------------------------------------------ 
+        //// POST api/v1/webalertlog 
+        //[HttpPost]
+        //[FwControllerMethod(Id: "z7FZ8SZWVp1Me", ActionType: FwControllerActionTypes.New)]
+        //public async Task<ActionResult<WebAlertLogLogic>> NewAsync([FromBody]WebAlertLogLogic l)
+        //{
+        //    return await DoNewAsync<WebAlertLogLogic>(l);
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// PUT api/v1/webalertlog/A0000001
+        //[HttpPut("{id}")]
+        //[FwControllerMethod(Id: "EPTmz32qPMMpL", ActionType: FwControllerActionTypes.Edit)]
+        //public async Task<ActionResult<WebAlertLogLogic>> EditAsync([FromRoute] string id, [FromBody]WebAlertLogLogic l)
+        //{
+        //    return await DoEditAsync<WebAlertLogLogic>(l);
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// DELETE api/v1/webalertlog/A0000001 
+        //[HttpDelete("{id}")]
+        //[FwControllerMethod(Id: "IVXuvsvLXHTXf", ActionType: FwControllerActionTypes.Delete)]
+        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync<WebAlertLogLogic>(id);
+        //}
+        ////------------------------------------------------------------------------------------ 
     }
 }

@@ -152,9 +152,15 @@
     <TypeScriptCompile Include="scripts\Constants.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\intlTelInput.css" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput-jquery.js" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput.js" />
+    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\utils.js" />
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
+    <Content Include="Source\Grids\ActivityGrid\ActivityGridBrowse.htm" />
+    <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
     <Content Include="Source\Grids\ContractHistoryGrid\ContractHistoryGridBrowse.htm" />
@@ -165,6 +171,7 @@
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js" />
     <Content Include="Source\Grids\InventoryWarehouseKitPricingGrid\InventoryWarehouseKitPricingGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderManifestGrid\OrderManifestGridBrowse.htm" />
     <Content Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridBrowse.htm" />
     <Content Include="Source\Grids\OrderActivitySummaryGrid\OrderActivitySummaryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypePresentationLayerGrid\OrderTypePresentationLayerGridBrowse.htm" />
@@ -244,10 +251,9 @@
     <Content Include="Source\Grids\PickListUtilityGrid\PickListUtilityGridBrowse.htm" />
     <Content Include="Source\Grids\OrderNoteGrid\OrderNoteGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridBrowse.htm" />
-    <Content Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderStatusDetailGrid\OrderStatusDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderPickListGrid\OrderPickListGridBrowse.htm" />
     <Content Include="Source\Grids\PickListItemGrid\PickListItemGridBrowse.htm" />
-    <Content Include="Source\Grids\OrderStatusSalesDetailGrid\OrderStatusSalesDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusSummaryGrid\OrderStatusSummaryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeCoverLetterGrid\OrderTypeCoverLetterGridBrowse.htm" />
@@ -318,6 +324,8 @@
     <Content Include="Source\Grids\InventoryLocationTaxGrid\InventoryLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="Source\Grids\ActivityGrid\ActivityGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContractHistoryGrid\ContractHistoryGridController.ts" />
@@ -327,6 +335,7 @@
     <TypeScriptCompile Include="Source\Grids\InventoryWarehouseKitPricingGrid\InventoryWarehouseKitPricingGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderActivitySummaryGrid\OrderActivitySummaryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderManifestGrid\OrderManifestGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypePresentationLayerGrid\OrderTypePresentationLayerGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryWarehouseCompletePricingGrid\InventoryWarehouseCompletePricingGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SystemNumberGrid\SystemNumberGridController.ts" />
@@ -406,10 +415,9 @@
     <TypeScriptCompile Include="Source\Grids\PickListUtilityGrid\PickListUtilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderNoteGrid\OrderNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderStatusDetailGrid\OrderStatusDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderPickListGrid\OrderPickListGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PickListItemGrid\PickListItemGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\OrderStatusSalesDetailGrid\OrderStatusSalesDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusSummaryGrid\OrderStatusSummaryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeCoverLetterGrid\OrderTypeCoverLetterGridController.ts" />
@@ -515,7 +523,16 @@
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Inventory\RetiredHistory\RetiredHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\ManifestReport\ManifestReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusDetailReport\OrderStatusDetailReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusSummaryReport\OrderStatusSummaryReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutReport\WarehouseOutReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseDispatchReport\WarehouseDispatchReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseInboundReport\WarehouseInboundReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutboundReport\WarehouseOutboundReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnContractReport\ReturnContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\InContractReport\InContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ExchangeContractReport\ExchangeContractReportController.ts" />
@@ -546,6 +563,7 @@
     <TypeScriptCompile Include="Source\Modules\Containers\ContainerStatus\ContainerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\FillContainer\FillContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SuspendedSession\SuspendedSession.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\OrderSettings\ActivityType\ActivityType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationSettings\FormDesign\FormDesign.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationSettings\PresentationLayer\PresentationLayer.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SystemSettings\AvailabilitySettings\AvailabilitySettings.ts" />
@@ -555,6 +573,9 @@
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferIn\TransferIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\ChangeOrderStatus\ChangeOrderStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\InventoryUnretireUtility\InventoryUnretireUtility.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\InventoryRetireUtility\InventoryRetireUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\CompleteQc\CompleteQc.ts" />
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferOut\TransferOut.ts" />
@@ -570,6 +591,7 @@
     <TypeScriptCompile Include="Source\Modules\Billing\Invoice\Invoice.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SubWorksheet\SubWorksheet.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Order\Worksheet.ts" />
+    <TypeScriptCompile Include="Source\Modules\Warehouse\PurchaseOrderStatus\PurchaseOrderStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\ReturnToVendor\ReturnToVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\ReceiveFromVendor\ReceiveFromVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\PurchaseOrder\PurchaseOrder.ts" />
@@ -599,7 +621,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\CustomerRevenueByMonthReport\CustomerRevenueByMonthReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RepairOrderStatusReport\RepairOrderStatusReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnReceiptReport\ReturnReceiptReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderSummaryReport\PurchaseOrderSummaryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesTaxUSAReport\SalesTaxUSAReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ProfitLossReport\ProfitLossReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\BillingAnalysisReport\BillingAnalysisReportController.ts" />
@@ -673,6 +695,7 @@
     <TypeScriptCompile Include="Source\Modules\Agent\Order\SearchInterface.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\Repair\Repair.ts" />
+    <Content Include="Source\Modules\Agent\Order\Order.css" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.js" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetBrowse.htm" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetForm.htm" />
@@ -726,6 +749,8 @@
     <Content Include="Source\Modules\Billing\Billing\BillingBrowse.htm" />
     <Content Include="Source\Modules\Billing\Billing\BillingForm.htm" />
     <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
+    <Content Include="Source\Modules\Settings\OrderSettings\ActivityType\ActivityTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\OrderSettings\ActivityType\ActivityTypeForm.htm" />
     <Content Include="Source\Modules\Settings\PresentationSettings\FormDesign\FormDesignBrowse.htm" />
     <Content Include="Source\Modules\Settings\PresentationSettings\PresentationLayer\PresentationLayerBrowse.htm" />
     <Content Include="Source\Modules\Settings\PresentationSettings\PresentationLayer\PresentationLayerForm.htm" />
@@ -1032,8 +1057,11 @@
     <TypeScriptCompile Include="Source\Modules\Settings\WidgetSettings\Widget\Widget.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\Dashboard\Dashboard.ts" />
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
+    <Content Include="Source\Validations\ActivityStatusValidation\ActivityStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
+    <Content Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\OrderStatusValidation\OrderStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\PresentationLayerValidation\PresentationLayerValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomerCreditValidation\CustomerCreditValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomFormValidation\CustomFormValidationBrowse.htm" />
@@ -1275,6 +1303,8 @@
     <Content Include="theme\images\icons\administrator\placeholder.png" />
     <Content Include="theme\images\icons\integration\placeholder.png" />
     <Content Include="theme\images\icons\utilities\placeholder.png" />
+    <Content Include="theme\images\intlinputflags\flags%402x.png" />
+    <Content Include="theme\images\intlinputflags\flags.png" />
     <Content Include="theme\images\no-image.jpg" />
     <Content Include="theme\images\qrcodesample.jpg" />
     <Content Include="theme\images\rentalworkslogo.png" />
@@ -1284,6 +1314,7 @@
       <SubType>Designer</SubType>
     </Content>
     <TypeScriptCompile Include="Source\Pages\OktaLogin\OktaLogin.ts" />
+    <TypeScriptCompile Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\BaseInventoryValidation\BaseInventoryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\CountryValidation\CountryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\ReceiptValidation\ReceiptValidationController.ts" />
@@ -1306,7 +1337,6 @@
     </Content>
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js.map" />
     <Content Include="tsconfig.json" />
-    <Content Include="Source\Modules\Agent\Quote\Quote.js.map" />
     <Content Include="Source\Modules\Settings\FiscalYear\FiscalYear\FiscalYear.js.map" />
     <Content Include="Source\Modules\Settings\FacilitySettings\Building\Building.js.map" />
     <Content Include="Source\Modules\Settings\FacilitySettings\FacilityCategory\FacilityCategory.js.map" />
@@ -1328,7 +1358,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
-    <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />
@@ -1541,6 +1570,14 @@
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwDeploymentDirectory)\web.config&quot; -pattern &quot;debug=&quot;&quot;true&quot;&quot;&quot; -replacement &quot;debug=&quot;&quot;false&quot;&quot;&quot;" ContinueOnError="false" IgnoreExitCode="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\bin" Condition="!Exists('$(FwDeploymentDirectory)\bin')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentDirectory)\bin&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries" Condition="!Exists('$(FwDeploymentDirectory)\Libraries')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css')" ContinueOnError="false" />
+    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css&quot; &quot;$(FwDeploymentDirectory)\Libraries\Fw\scripts\jquery\internationalphone\build\css&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\ckeditor" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\ckeditor')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\ckeditor&quot; &quot;$(FwDeploymentDirectory)\Libraries\ckeditor&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\codemirror" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\codemirror')" ContinueOnError="false" />

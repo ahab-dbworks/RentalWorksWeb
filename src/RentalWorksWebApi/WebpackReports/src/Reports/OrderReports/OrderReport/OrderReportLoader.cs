@@ -39,17 +39,38 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
         public bool? Bold { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "iszeroextendedaccessory", modeltype: FwDataTypes.Boolean)]
+        public bool? IsZeroExtendedAccessory { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public string QuantityOrdered { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
+        public string BillablePeriods { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price2", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Rate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price3", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Rate3 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price4", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Rate4 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price5", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Rate5 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercentDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discountpctsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string DiscountPercentSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
 
         //------------------------------------------------------------------------------------ 
@@ -60,6 +81,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string UnitExtended { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        //WEEKLY
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklygrossextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyGrossExtended { get; set; }
@@ -79,7 +101,62 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "weeklyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklytax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklytaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklyextendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyExtendedWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklyextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyExtendedWithTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
 
+        //AVERAGE WEEKLY
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklyextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string AverageWeeklyExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string AverageWeeklyExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        //MONTHLY
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlygrossextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyGrossExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlygrossextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyGrossExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlydiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlydiscountamtsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyDiscountAmountSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlytax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlytaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyextendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyExtendedWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string MonthlyExtendedWithTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        //PERIOD
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodgrossextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PeriodGrossExtended { get; set; }
@@ -97,9 +174,30 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string PeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
-        public string PeriodExtendedSubTotal{ get; set; }
+        public string PeriodExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodextendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodExtendedWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodExtendedWithTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
 
+
+
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string TaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string TaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
@@ -123,8 +221,11 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 //--------------------------------------------------------------------------------- 
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-            string[] totalFields = new string[] { "PeriodExtended" };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
+            string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal", "WeeklyTax", "WeeklyTaxSubTotal", "WeeklyExtendedWithTax", "WeeklyExtendedWithTaxSubTotal", 
+                                                 "AverageWeeklyExtended", "AverageWeeklyExtendedSubTotal",
+                                                 "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal","MonthlyTax", "MonthlyTaxSubTotal", "MonthlyExtendedWithTax", "MonthlyExtendedWithTaxSubTotal",
+                                                 "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal", "PeriodTax", "PeriodTaxSubTotal", "PeriodExtendedWithTax", "PeriodExtendedWithTaxSubTotal", };
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2"}, includeGroupColumnValueInFooter: true);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
@@ -149,7 +250,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                             property.SetValue(item, d.ToString("N", numberFormat));
                         }
                         else if (propType.Equals(FwDataTypes.Boolean))
-                        { 
+                        {
                             property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
                         }
                         else
@@ -176,9 +277,6 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
-        public string BillablePeriods { get; set; }
-        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class SalesOrderItemReportLoader : OrderItemReportLoader
@@ -199,9 +297,6 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
-        public string BillablePeriods { get; set; }
-        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class LaborOrderItemReportLoader : OrderItemReportLoader
@@ -214,9 +309,44 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
-        public string BillablePeriods { get; set; }
+    }
+    //------------------------------------------------------------------------------------ 
+    public class UsedSaleOrderItemReportLoader : OrderItemReportLoader
+    {
+        public UsedSaleOrderItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_USED_SALE;
+        }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+    //------------------------------------------------------------------------------------ 
+    public class LossAndDamageOrderItemReportLoader : OrderItemReportLoader
+    {
+        public LossAndDamageOrderItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_LOSS_AND_DAMAGE;
+        }
+
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldorderno", modeltype: FwDataTypes.Text)]
+        public string OriginalOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldorderdesc", modeltype: FwDataTypes.Text)]
+        public string OriginalOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumber{ get; set; }
+        //------------------------------------------------------------------------------------ 
+
     }
     //------------------------------------------------------------------------------------ 
 
@@ -263,6 +393,33 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locwebaddress", modeltype: FwDataTypes.Text)]
         public string OfficeLocationWebAddress { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
+        public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whadd1", modeltype: FwDataTypes.Text)]
+        public string WarehouseAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whadd2", modeltype: FwDataTypes.Text)]
+        public string WarehouseAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcitystatezip", modeltype: FwDataTypes.Text)]
+        public string WarehouseCityStateZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcountry", modeltype: FwDataTypes.Text)]
+        public string WarehouseCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcitystatezipcountry", modeltype: FwDataTypes.Text)]
+        public string WarehouseCityStateZipCodeCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whphone", modeltype: FwDataTypes.Text)]
+        public string WarehousePhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whfax", modeltype: FwDataTypes.Text)]
+        public string WarehouseFax { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealwithno", modeltype: FwDataTypes.Text)]
         public string DealAndDealNumber { get; set; }
@@ -777,6 +934,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         public List<LaborOrderItemReportLoader> LaborItems { get; set; } = new List<LaborOrderItemReportLoader>(new LaborOrderItemReportLoader[] { new LaborOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
+        public List<UsedSaleOrderItemReportLoader> UsedSaleItems { get; set; } = new List<UsedSaleOrderItemReportLoader>(new UsedSaleOrderItemReportLoader[] { new UsedSaleOrderItemReportLoader() });
+        //------------------------------------------------------------------------------------ 
+        public List<LossAndDamageOrderItemReportLoader> LossAndDamageItems { get; set; } = new List<LossAndDamageOrderItemReportLoader>(new LossAndDamageOrderItemReportLoader[] { new LossAndDamageOrderItemReportLoader() });
+        //------------------------------------------------------------------------------------ 
         public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>(new OrderDatesLogic[] { new OrderDatesLogic() });
@@ -829,7 +990,19 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     LaborItems.SetDependencies(AppConfig, UserSession);
                     taskLaborOrderItems = LaborItems.LoadItems<LaborOrderItemReportLoader>(request);
 
-                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems });
+                    //used sale items
+                    Task<List<UsedSaleOrderItemReportLoader>> taskUsedSaleOrderItems;
+                    UsedSaleOrderItemReportLoader UsedSaleItems = new UsedSaleOrderItemReportLoader();
+                    UsedSaleItems.SetDependencies(AppConfig, UserSession);
+                    taskUsedSaleOrderItems = UsedSaleItems.LoadItems<UsedSaleOrderItemReportLoader>(request);
+
+                    //loss and damage items
+                    Task<List<LossAndDamageOrderItemReportLoader>> taskLossAndDamageOrderItems;
+                    LossAndDamageOrderItemReportLoader LossAndDamageItems = new LossAndDamageOrderItemReportLoader();
+                    LossAndDamageItems.SetDependencies(AppConfig, UserSession);
+                    taskLossAndDamageOrderItems = LossAndDamageItems.LoadItems<LossAndDamageOrderItemReportLoader>(request);
+
+                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskUsedSaleOrderItems, taskLossAndDamageOrderItems });
 
                     Order = taskOrder.Result;
 
@@ -840,6 +1013,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         Order.SalesItems = taskSalesOrderItems.Result;
                         Order.MiscItems = taskMiscOrderItems.Result;
                         Order.LaborItems = taskLaborOrderItems.Result;
+                        Order.UsedSaleItems = taskUsedSaleOrderItems.Result;
+                        Order.LossAndDamageItems = taskLossAndDamageOrderItems.Result;
 
 
                         //activity dates and times

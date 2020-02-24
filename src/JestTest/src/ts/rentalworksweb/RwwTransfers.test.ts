@@ -69,6 +69,8 @@ export class TransfersTest extends BaseTest {
         await module.populateFormWithRecord(record.record);
         await module.saveRecord(true);
 
+        await ModuleBase.wait(2000);  // wait for the tabs to get their click events
+
         if (record.gridRecords) {
             if (module.grids) {
                 for (let grid of module.grids) {
@@ -443,8 +445,26 @@ export class TransfersTest extends BaseTest {
                 let module: ModuleBase = rentalInventoryModule;
                 await this.createModuleRecord(module, module.newRecordsToCreate[0], quantityRentalInventoryKey);
                 await this.createModuleRecord(module, module.newRecordsToCreate[1], barCodeRentalInventoryKey);
-                this.globalScopeRef[module.moduleName + "~" + quantityRentalInventoryKey].ICode = this.globalScopeRef[module.moduleName + "~" + quantityRentalInventoryKey].ICode.replace('_', '');
-                this.globalScopeRef[module.moduleName + "~" + barCodeRentalInventoryKey].ICode = this.globalScopeRef[module.moduleName + "~" + barCodeRentalInventoryKey].ICode.replace('_', '');
+
+                let iCode = this.globalScopeRef[module.moduleName + "~" + quantityRentalInventoryKey].ICode;
+                while (iCode.includes('_')) {
+                    iCode = iCode.replace('_', '');
+                }
+                if (iCode.endsWith('-')) {
+                    iCode = iCode.substring(0, iCode.length - 1);
+                }
+                this.globalScopeRef[module.moduleName + "~" + quantityRentalInventoryKey].ICode = iCode;
+
+
+                iCode = this.globalScopeRef[module.moduleName + "~" + barCodeRentalInventoryKey].ICode;
+                while (iCode.includes('_')) {
+                    iCode = iCode.replace('_', '');
+                }
+                if (iCode.endsWith('-')) {
+                    iCode = iCode.substring(0, iCode.length - 1);
+                }
+                this.globalScopeRef[module.moduleName + "~" + barCodeRentalInventoryKey].ICode = iCode;
+
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Create new Sales Inventory";
@@ -452,8 +472,26 @@ export class TransfersTest extends BaseTest {
                 let module: ModuleBase = salesInventoryModule;
                 await this.createModuleRecord(module, module.newRecordsToCreate[0], quantitySalesInventoryKey);
                 await this.createModuleRecord(module, module.newRecordsToCreate[1], barCodeSalesInventoryKey);
-                this.globalScopeRef[module.moduleName + "~" + quantitySalesInventoryKey].ICode = this.globalScopeRef[module.moduleName + "~" + quantitySalesInventoryKey].ICode.replace('_', '');
-                this.globalScopeRef[module.moduleName + "~" + barCodeSalesInventoryKey].ICode = this.globalScopeRef[module.moduleName + "~" + barCodeSalesInventoryKey].ICode.replace('_', '');
+
+                let iCode = this.globalScopeRef[module.moduleName + "~" + quantitySalesInventoryKey].ICode;
+                while (iCode.includes('_')) {
+                    iCode = iCode.replace('_', '');
+                }
+                if (iCode.endsWith('-')) {
+                    iCode = iCode.substring(0, iCode.length - 1);
+                }
+                this.globalScopeRef[module.moduleName + "~" + quantitySalesInventoryKey].ICode = iCode;
+
+
+                iCode = this.globalScopeRef[module.moduleName + "~" + barCodeSalesInventoryKey].ICode;
+                while (iCode.includes('_')) {
+                    iCode = iCode.replace('_', '');
+                }
+                if (iCode.endsWith('-')) {
+                    iCode = iCode.substring(0, iCode.length - 1);
+                }
+                this.globalScopeRef[module.moduleName + "~" + barCodeSalesInventoryKey].ICode = iCode;
+
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Test Inventory Integrity";

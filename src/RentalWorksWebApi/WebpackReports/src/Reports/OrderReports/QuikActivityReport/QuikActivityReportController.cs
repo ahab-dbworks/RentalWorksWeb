@@ -12,9 +12,9 @@ using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
-using WebApi.Modules.Utilities.QuikActivityType;
+//using WebApi.Modules.Utilities.QuikActivityType;
+using WebApi.Modules.Settings.ActivityType;
 using WebApi.Modules.Administrator.User;
-using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 
 namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
@@ -62,9 +62,8 @@ namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
         [FwControllerMethod(Id: "n4sPboI7Burl")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest(this.ModelState);
-            FwReportRenderResponse response = await DoRender(request);
-            return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/quikactivityreport/exportexcelxlsx
@@ -121,7 +120,8 @@ namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
         [FwControllerMethod(Id: "PxdhLjNonhav", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateQuikActivityTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<QuikActivityTypeLogic>(browseRequest);
+            //return await DoBrowseAsync<QuikActivityTypeLogic>(browseRequest);
+            return await DoBrowseAsync<ActivityTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/quikactivityreport/validatedepartment/browse 
@@ -139,5 +139,6 @@ namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
         {
             return await DoBrowseAsync<UserLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }

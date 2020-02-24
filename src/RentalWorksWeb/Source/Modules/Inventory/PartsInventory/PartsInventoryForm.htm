@@ -17,6 +17,7 @@
       <div data-type="tab" id="attributestab" class="tab" data-tabpageid="attributestabpage" data-caption="Attributes"></div>
       <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
       <div data-type="tab" id="purchasetab" class="tab" data-submodulename="PurchaseHistory" data-tabpageid="purchasetabpage" data-caption="Purchase History"></div>
+      <div data-type="tab" id="retiredhistorytab" class="tab" data-submodulename="RetiredHistory" data-tabpageid="retiredhistorytabpage" data-caption="Retired History"></div>
       <div data-type="tab" id="ordertab" data-submodulename="Order" class="tab" data-tabpageid="ordertabpage" data-caption="Orders"></div>
       <div data-type="tab" id="invoicetab" data-submodulename="Invoice" class="tab" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
       <div data-type="tab" id="transfertab" data-submodulename="TransferOrder" class="tab" data-tabpageid="transfertabpage" data-caption="Transfers"></div>
@@ -39,7 +40,7 @@
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" data-required="true" style="flex:1 1 200px;"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="PartsCategoryValidation" data-required="true" style="flex:1 1 200px;"></div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" style="flex:1 1 200px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="false" style="flex:1 1 200px;"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="UnitId" data-displayfield="Unit" data-validationname="UnitValidation" data-required="true" style="flex:0 1 200px;"></div>
@@ -114,6 +115,8 @@
       </div>
       <!-- PURCHASE HISTORY SUBMODULE-->
       <div data-type="tabpage" id="purchasetabpage" class="tabpage submodule rwSubModule" data-tabid="purchasetab"></div>
+      <!-- RETIRED HISTORY SUBMODULE-->
+      <div data-type="tabpage" id="retiredhistorytabpage" class="tabpage submodule rwSubModule" data-tabid="retiredhistorytab"></div>
       <!-- ORDER SUBMODULE-->
       <div data-type="tabpage" id="ordertabpage" class="tabpage submodule rwSubModule" data-tabid="ordertab"></div>
       <!-- INVOICE SUBMODULE-->

@@ -29,6 +29,7 @@ namespace WebApi.Modules.Warehouse.CheckIn
         public string Code;
         public string OrderId;
         public string OrderItemId;
+        public string VendorId;
         public int? Quantity;
         public bool? AddOrderToContract;
         public bool? SwapItem;
@@ -58,6 +59,7 @@ namespace WebApi.Modules.Warehouse.CheckIn
         public string Department;
         public string InventoryId;
         public string OrderItemId;
+        public string VendorId;
         public OrderInventoryStatusCheckIn InventoryStatus = new OrderInventoryStatusCheckIn();
         public bool ShowNewOrder;
         public bool ShowSwap;
@@ -166,6 +168,7 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 qry.AddParameter("@neworderaction", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddOrderToContract.GetValueOrDefault(false) ? RwConstants.CHECK_IN_NEW_ORDER_ACTION_ADD_NEW_ORDER : (request.SwapItem.GetValueOrDefault(false) ? RwConstants.CHECK_IN_NEW_ORDER_ACTION_SWAP_ITEM : "")));
                 qry.AddParameter("@moduletype", SqlDbType.NVarChar, ParameterDirection.Input, request.ModuleType);
                 qry.AddParameter("@checkinmode", SqlDbType.NVarChar, ParameterDirection.Input, request.ModuleType);
+                qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.VendorId);
                 qry.AddParameter("@itemorderid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@orderno", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -197,6 +200,7 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 response.DepartmentId = qry.GetParameter("@departmentid").ToString();
                 response.Department = qry.GetParameter("@department").ToString();
                 response.InventoryId = qry.GetParameter("@masterid").ToString();
+                response.VendorId = qry.GetParameter("@vendorid").ToString();
                 response.OrderItemId = qry.GetParameter("@masteritemid").ToString();
                 response.ShowNewOrder = qry.GetParameter("@allowneworder").ToString().Equals("T");
                 response.ShowSwap = qry.GetParameter("@allowswap").ToString().Equals("T");

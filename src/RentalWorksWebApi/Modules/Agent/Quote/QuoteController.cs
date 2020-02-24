@@ -40,7 +40,7 @@ namespace WebApi.Modules.Agent.Quote
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "jFkSBEur1dluU")]
-    public class QuoteController : AppDataController
+    public partial class QuoteController : AppDataController
     {
         public QuoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(QuoteLogic); }
         //------------------------------------------------------------------------------------
@@ -506,7 +506,28 @@ namespace WebApi.Modules.Agent.Quote
             }
         }
         //------------------------------------------------------------------------------------       
-
+        // GET api/v1/quote/A0000001/messages
+        [HttpGet("{id}/messages")]
+        [FwControllerMethod(Id: "JcL7Q8z6Z6lvJ", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<OrderMessagesResponse>> GetQuoteMessages([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                OrderMessagesRequest request = new OrderMessagesRequest();
+                request.OrderId = id;
+                OrderMessagesResponse response = await OrderFunc.GetOrderMessages(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
         // GET api/v1/quote
         [HttpGet]
         [FwControllerMethod(Id: "pGYcsCb0FxCEC", ActionType: FwControllerActionTypes.Browse)]

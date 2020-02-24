@@ -62,6 +62,16 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         [FwLogicProperty(Id: "AkWX42DcxB5q8")]
         public string AvailabilityState { get { return inventorySearch.AvailabilityState; } }
 
+        [FwLogicProperty(Id: "Ck2zYEVcS3MfD")]
+        public float? QuantityAvailableAllWarehouses { get { return inventorySearch.QuantityAvailableAllWarehouses; } }
+
+        [FwLogicProperty(Id: "i8wNFe1g1tnEu")]
+        public DateTime? ConflictDateAllWarehouses { get { return inventorySearch.ConflictDateAllWarehouses; } }
+
+        [FwLogicProperty(Id: "WnTDyuzwE4OH4")]
+        public string AvailabilityStateAllWarehouses { get { return inventorySearch.AvailabilityStateAllWarehouses; } }
+
+
         [FwLogicProperty(Id:"tvd6AqBMrgc4", IsReadOnly:true)]
         public decimal? TotalQuantityInSession { get { return inventorySearch.TotalQuantityInSession; } }
 

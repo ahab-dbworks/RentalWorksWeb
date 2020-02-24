@@ -88,6 +88,24 @@ class Vendor {
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'VendorId', uniqueids.VendorId);
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'VendorDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${uniqueids.VendorId}/document`;
+            },
+            gridSecurityId: 'LGV6fYIyFsgT',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'VendorId',
+            uniqueid1Name: 'VendorId',
+            getUniqueid1Value: () => uniqueids.VendorId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
         FwModule.loadForm(this.Module, $form);
         const $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
         $form.find('.purchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
@@ -183,7 +201,7 @@ class Vendor {
                 $tab.find('#person_panel').show();
                 break;
             default:
-                throw Error(type + ' is not a known type.');
+                throw new Error(`${type} is not a known type.`);
         }
     }
     //---------------------------------------------------------------------------------
@@ -399,6 +417,7 @@ class Vendor {
             <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
             <div data-type="tab" id="purchaseordertab" class="tab submodule" data-tabpageid="purchaseordertabpage" data-caption="Purchase Order"></div>
             <div data-type="tab" id="vendorinvoicetab" class="tab submodule" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
+            <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
             <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
           </div>
           <div class="tabpages">
@@ -471,12 +490,12 @@ class Vendor {
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contact Numbers">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Main" data-datafield="Phone" style="flex:1 1 100px;"></div>
-                        <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 100px;"></div>
+                        <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Main" data-datafield="Phone" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 125px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Phone Toll-Free" data-datafield="PhoneTollFree" style="flex:1 1 100px;"></div>
-                        <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Other" data-datafield="OtherPhone" style="flex:1 1 100px;"></div>
+                        <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Phone Toll-Free" data-datafield="PhoneTollFree" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Other" data-datafield="OtherPhone" style="flex:1 1 125px;"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PO Defaults">
@@ -697,6 +716,15 @@ class Vendor {
 
             <!-- VENDOR INVOICE TAB -->
             <div data-type="tabpage" id="vendorinvoicetabpage" class="tabpage vendorInvoiceSubModule rwSubModule" data-tabid="vendorinvoicetab">
+            </div>
+
+            <!-- DOCUMENTS TAB -->
+            <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+              <div class="flexpage">
+                <div class="flexrow">
+                  <div data-control="FwGrid" data-grid="VendorDocumentGrid"></div>
+                </div>
+              </div>
             </div>
 
             <!-- NOTES TAB -->

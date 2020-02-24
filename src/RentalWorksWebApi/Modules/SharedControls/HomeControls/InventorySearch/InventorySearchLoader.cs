@@ -72,8 +72,8 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         [FwSqlDataField(column: "qtyavailable", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityAvailable { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availisstale", modeltype: FwDataTypes.Boolean)]
-        public bool? QuantityAvailableIsStale { get; set; } = true;
+        //[FwSqlDataField(column: "availisstale", modeltype: FwDataTypes.Boolean)]
+        //public bool? QuantityAvailableIsStale { get; set; } = true;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availabilitystate", modeltype: FwDataTypes.Text)]
         public string AvailabilityState { get; set; } 
@@ -86,9 +86,9 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityAvailableAllWarehouses { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Boolean)]
-        public bool? QuantityAvailableIsStaleAllWarehouses { get; set; } = true;
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Boolean)]
+        //public bool? QuantityAvailableIsStaleAllWarehouses { get; set; } = true;
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
         public string AvailabilityStateAllWarehouses { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -145,6 +145,9 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         [FwSqlDataField(column: "imagewidth", modeltype: FwDataTypes.Integer)]
         public int? ImageWidth { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primaryflg", modeltype: FwDataTypes.Boolean)]
+        public bool? IsPrimary { get; set; } = true;
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isoption", modeltype: FwDataTypes.Boolean)]
         public bool? IsOption { get; set; } = true;
         //------------------------------------------------------------------------------------ 
@@ -197,7 +200,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
 
                             // this warehouse available
                             float qtyAvailable = 0;
-                            bool isStale = true;
+                            //bool isStale = true;
                             DateTime? conflictDate = null;
                             string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
 
@@ -207,18 +210,18 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                                 TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime, qty);
                                 qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
                                 conflictDate = minAvail.FirstConfict;
-                                isStale = minAvail.IsStale;
+                                //isStale = minAvail.IsStale;
                                 availabilityState = minAvail.AvailabilityState;
                             }
 
                             row[dtOut.GetColumnNo("QuantityAvailable")] = qtyAvailable;
                             row[dtOut.GetColumnNo("ConflictDate")] = conflictDate;
-                            row[dtOut.GetColumnNo("QuantityAvailableIsStale")] = isStale;
+                            //row[dtOut.GetColumnNo("QuantityAvailableIsStale")] = isStale;
                             row[dtOut.GetColumnNo("AvailabilityState")] = availabilityState;
 
                             // all warehouses available
                             float qtyAvailableAllWarehouses = 0;
-                            bool isStaleAllWarehouses = true;
+                            //bool isStaleAllWarehouses = true;
                             DateTime? conflictDateAllWarehouses = null;
                             string availabilityStateAllWarehouses = RwConstants.AVAILABILITY_STATE_STALE;
                             TInventoryWarehouseAvailability allWhAvailData = null;
@@ -227,13 +230,13 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                                 TInventoryWarehouseAvailabilityMinimum minAvail = allWhAvailData.GetMinimumAvailableQuantity(fromDateTime, toDateTime, qty);
                                 qtyAvailableAllWarehouses = minAvail.MinimumAvailable.OwnedAndConsigned;
                                 conflictDateAllWarehouses = minAvail.FirstConfict;
-                                isStaleAllWarehouses = minAvail.IsStale;
+                                //isStaleAllWarehouses = minAvail.IsStale;
                                 availabilityStateAllWarehouses = minAvail.AvailabilityState;
                             }
 
                             row[dtOut.GetColumnNo("QuantityAvailableAllWarehouses")] = qtyAvailableAllWarehouses;
                             row[dtOut.GetColumnNo("ConflictDateAllWarehouses")] = conflictDateAllWarehouses;
-                            row[dtOut.GetColumnNo("QuantityAvailableIsStaleAllWarehouses")] = isStaleAllWarehouses;
+                            //row[dtOut.GetColumnNo("QuantityAvailableIsStaleAllWarehouses")] = isStaleAllWarehouses;
                             row[dtOut.GetColumnNo("AvailabilityStateAllWarehouses")] = availabilityStateAllWarehouses;
 
                         }

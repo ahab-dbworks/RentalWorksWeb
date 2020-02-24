@@ -121,16 +121,18 @@ class RwMaster extends WebMaster {
                 caption: 'Utilities',
                 id: 'Utilities',
                 children: [
+                    Constants.Modules.Utilities.children.ChangeOrderStatus,
                     Constants.Modules.Utilities.children.Dashboard,
                     Constants.Modules.Utilities.children.DashboardSettings,
                     Constants.Modules.Utilities.children.InventoryPurchaseUtility,
+                    Constants.Modules.Utilities.children.InventoryRetireUtility,
                     Constants.Modules.Utilities.children.MigrateOrders,
                     Constants.Modules.Utilities.children.InvoiceProcessBatch,
                     Constants.Modules.Utilities.children.ReceiptProcessBatch,
                     Constants.Modules.Utilities.children.VendorInvoiceProcessBatch,
-                    Constants.Modules.Utilities.children.RefreshGLHistory,
                     Constants.Modules.Utilities.children.QuikActivityCalendar,
-                    Constants.Modules.Utilities.children.QuikSearch
+                    Constants.Modules.Utilities.children.QuikSearch,
+                    Constants.Modules.Utilities.children.RefreshGLHistory,
                 ]
             };
             this.navigation.push(menuUtilities);
@@ -376,6 +378,8 @@ class RwMaster extends WebMaster {
                 $confirmation.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
                     FwFormField.setValue($confirmation, 'div[data-datafield="WarehouseId"]', '', '');
                 });
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
                 // select button within location confirmation prompt
                 $select.on('click', async () => {
                     try {
@@ -389,12 +393,12 @@ class RwMaster extends WebMaster {
                             const promiseGetOfficeLocationInfo = await FwAjax.callWebApi<any, any>({
                                 httpMethod: 'GET',
                                 url: `${applicationConfig.apiurl}api/v1/account/officelocation?locationid=${locationid}&warehouseid=${warehouseid}&departmentid=${departmentid}`,
-                                $elementToBlock: $confirmation
+                                $elementToBlock: $realConfirm
                             });
                             const promiseGetDepartment = FwAjax.callWebApi<any, any>({
                                 httpMethod: 'GET',
                                 url: `${applicationConfig.apiurl}api/v1/department/${departmentid}`,
-                                $elementToBlock: $confirmation
+                                $elementToBlock: $realConfirm
                             });
 
                             await Promise.all([

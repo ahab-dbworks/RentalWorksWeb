@@ -322,6 +322,12 @@ Form tables
     margin-left:8px;
 }
 
+/*form alert messages*/
+.fwform .form-alert-container { display:flex;flex-direction:column; }
+.fwform .form-alert-container .form-alert { text-align:center;font-size:1.3em;flex-direction:row; }
+.fwform .form-alert-container .form-alert .close { position:relative;top:3px;right:3px;float:right;cursor:pointer; }
+
+/*popup*/
 .popup {
     background-color: white;
     box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22);
@@ -331,7 +337,7 @@ Form tables
     position: relative;
 }
 
-.close-modal {display: flex;position: absolute;top: 10px;right: 15px;cursor: pointer;}
+.close-modal { display:flex;position:absolute;top:10px;right:15px;cursor:pointer; }
 
 /*#region Search Interface*/
 #searchpopup {
@@ -475,7 +481,7 @@ Form tables
 #itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="Description"] {margin-right:5em;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="ItemImage"] { float: left; margin-left:7em;}
 
-#inventory .item-container .item-info .opentab {margin-left:auto;cursor:pointer;}
+#inventory .descriptionrow .opentab {margin-left:auto;cursor:pointer;}
 #inventory .item-container .toggleaccessories { font-weight: bold; color: #1E88E5; display: inline-block; cursor: pointer; }
 #inventory .item-container .toggleaccessories:hover { text-decoration: underline; }
 
@@ -498,8 +504,9 @@ Form tables
 
 .item-container .item-accessories .item-accessory-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;background-color:#EEEEEE;}
 .item-container .item-accessories .item-accessory-info .toggleaccessories { text-indent: 1em; }
+.item-accessory-info[data-isprimary="true"] [data-column="Quantity"] > * {display:none;}
 
-#previewHtml {height:100%;}
+#previewHtml {height: 100%;}
 #previewHtml div[data-browsedatafield="QuantityAvailable"] .fieldvalue {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
 #previewHtml div[data-browsedatafield="QuantityAvailable"][data-state="enough"] .fieldvalue {background-color:#009933;color:#ffffff;}
 #previewHtml div[data-browsedatafield="QuantityAvailable"][data-state="negative"] .fieldvalue {background-color:#f44336;color:#ffffff;}
@@ -635,3 +642,5 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 .selected-modules[data-type="checkboxlist"] {display:flex; flex-direction:column;flex-grow:1;}
 .selected-modules[data-type="checkboxlist"] .fwformfield-control {display:flex;flex-grow:1;flex-direction:column;}
 .selected-modules[data-type="checkboxlist"] ol.sortable {border: 1px solid darkgray;flex-grow:1;min-width:600px !important;}
+
+html.theme-material .fwbrowse[data-name="SuspendedSession"] .tablewrapper { overflow: auto; max-height: calc(100vh - 140px);}

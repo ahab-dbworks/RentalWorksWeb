@@ -17,7 +17,9 @@ export class RentalInventoryCatalogReport extends WebpackReport {
                     data.Report = 'Rental Inventory Catalog Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
-                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.PrintTime = moment().format('h:mm:ss A');
+                    data.PrintDate = moment().format('MM/DD/YYYY');
+                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

@@ -65,6 +65,13 @@ class Order extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Manifest', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.printManifest(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         FwMenu.addSubMenuItem(options.$groupOptions, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
             try {
                 this.search(options.$form);
@@ -183,6 +190,12 @@ class Order extends OrderBase {
         //    }
         //});
 
+        $form.on('change', 'div[data-datafield="manifestItems"], div[data-datafield="manifestFilter"], div[data-datafield="rentalValueSelector"], div[data-datafield="salesValueSelector"]', event => {
+            let $OrderManifestGrid = $form.find('div[data-name="OrderManifestGrid"]');
+
+            FwBrowse.search($OrderManifestGrid);
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -203,6 +216,24 @@ class Order extends OrderBase {
     loadForm(uniqueids) {
         const $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'OrderDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${uniqueids.OrderId}/document`;
+            },
+            gridSecurityId: 'O9wP1M9xrgEY',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'OrderId',
+            uniqueid1Name: 'OrderId',
+            getUniqueid1Value: () => uniqueids.OrderId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -210,17 +241,6 @@ class Order extends OrderBase {
     //---------------------------------------------------------------------------------------------
     renderGrids($form) {
         super.renderGrids($form);
-        // ----------
-        //const $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
-        //const $orderPickListGridControl = FwBrowse.loadGridFromTemplate('OrderPickListGrid');
-        //$orderPickListGrid.empty().append($orderPickListGridControl);
-        //$orderPickListGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-        //    };
-        //});
-        //FwBrowse.init($orderPickListGridControl);
-        //FwBrowse.renderRuntimeHtml($orderPickListGridControl);
 
         FwBrowse.renderGrid({
             nameGrid: 'OrderPickListGrid',
@@ -233,17 +253,6 @@ class Order extends OrderBase {
                 };
             }
         });
-        // ----------
-        //const $orderSnapshotGrid = $form.find('div[data-grid="OrderSnapshotGrid"]');
-        //const $orderSnapshotGridControl = FwBrowse.loadGridFromTemplate('OrderSnapshotGrid');
-        //$orderSnapshotGrid.empty().append($orderSnapshotGridControl);
-        //$orderSnapshotGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-        //    };
-        //});
-        //FwBrowse.init($orderSnapshotGridControl);
-        //FwBrowse.renderRuntimeHtml($orderSnapshotGridControl);
 
         FwBrowse.renderGrid({
             nameGrid: 'OrderSnapshotGrid',
@@ -267,38 +276,59 @@ class Order extends OrderBase {
                 };
             }
         });
-        // ----------
-        //const $orderItemGridLossDamage = $form.find('.lossdamagegrid div[data-grid="OrderItemGrid"]');
-        //const $orderItemGridLossDamageControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        //$orderItemGridLossDamage.empty().append($orderItemGridLossDamageControl);
-        //$orderItemGridLossDamage.addClass('F');
-        //$orderItemGridLossDamage.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
-        //$orderItemGridLossDamage.find('div[data-datafield="Description"]').attr('data-formreadonly', 'true');
-        //$orderItemGridLossDamage.find('div[data-datafield="ItemId"]').attr('data-formreadonly', 'true');
-        //$orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digits', '3');
-        //$orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digitsoptional', 'false');
 
-        //$orderItemGridLossDamageControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-        //        RecType: 'F'
-        //    };
-        //    request.totalfields = this.totalFields;
-        //});
-        //$orderItemGridLossDamageControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-        //    request.RecType = 'F';
-        //}
-        //);
-        //FwBrowse.addEventHandler($orderItemGridLossDamageControl, 'afterdatabindcallback', ($control, dt) => {
-        //    this.calculateOrderItemGridTotals($form, 'lossdamage', dt.Totals);
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderManifestGrid',
+            gridSecurityId: '8uhwXXJ95d3o',
+            moduleSecurityId: this.id,
+            $form: $form,
+            //getBaseApiUrl: () => `${this.apiurl}/manifest`,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                //const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                //const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                //FwMenu.addSubMenuItem($optionsgroup, 'View Snapshot', '', (e: JQuery.ClickEvent) => {
+                //    try {
+                //        OrderSnapshotGridController.viewSnapshotGrid(e);
+                //    } catch (ex) {
+                //        FwFunc.showError(ex);
+                //    }
+                //})
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                    RentalValue: FwFormField.getValueByDataField($form, 'rentalValueSelector'),
+                    SalesValue: FwFormField.getValueByDataField($form, 'salesValueSelector'),
+                    FilterBy: FwFormField.getValueByDataField($form, 'manifestFilter'),
+                    Mode: FwFormField.getValueByDataField($form, 'manifestItems')
+                };
+                request.totalfields = ['OrderValueTotal', 'OrderReplacementTotal', 'OwnedValueTotal', 'OwnedReplacementTotal', 'SubValueTotal', 'SubReplacementTotal', 'ShippingContainerTotal', 'ShippingItemTotal', 'PieceCountTotal', 'StandAloneItemTotal'];
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                var $barcodecells = $browse.find('div[data-browsedatafield="Barcode"]');
+                for (var i = 0; i < $barcodecells.length; i++) {
+                    let cell = jQuery($barcodecells[i]).parent();
+                    if (FwFormField.getValueByDataField($form, 'manifestItems') == 'SUMMARY') {
+                        jQuery(cell).hide();
+                    } else {
+                        jQuery(cell).show();
+                    }
+                }
 
-        //    let lossDamageItems = $form.find('.lossdamagegrid tbody').children();
-        //    lossDamageItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="LossAndDamage"]')) : FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
-        //});
-
-        //FwBrowse.init($orderItemGridLossDamageControl);
-        //FwBrowse.renderRuntimeHtml($orderItemGridLossDamageControl);
+                FwFormField.setValue($form, 'div[data-datafield="OrderValueTotal"]', dt.Totals.OrderValueTotal);
+                FwFormField.setValue($form, 'div[data-datafield="OrderReplacementTotal"]', dt.Totals.OrderReplacementTotal);
+                FwFormField.setValue($form, 'div[data-datafield="OwnedValueTotal"]', dt.Totals.OwnedValueTotal);
+                FwFormField.setValue($form, 'div[data-datafield="OwnedReplacementTotal"]', dt.Totals.OwnedReplacementTotal);
+                FwFormField.setValue($form, 'div[data-datafield="SubValueTotal"]', dt.Totals.SubValueTotal);
+                FwFormField.setValue($form, 'div[data-datafield="SubReplacementTotal"]', dt.Totals.SubReplacementTotal);
+                FwFormField.setValue($form, 'div[data-datafield="ShippingContainerTotal"]', dt.Totals.ShippingContainerTotal);
+                FwFormField.setValue($form, 'div[data-datafield="ShippingItemTotal"]', dt.Totals.ShippingItemTotal);
+                FwFormField.setValue($form, 'div[data-datafield="PieceCountTotal"]', dt.Totals.PieceCountTotal);
+                FwFormField.setValue($form, 'div[data-datafield="StandAloneItemTotal"]', dt.Totals.StandAloneItemTotal);
+            }
+        });
+        FwBrowse.addLegend($form.find('div[data-name="OrderManifestGrid"]'), 'Shipping Container', '#ffeb3b');
+        FwBrowse.addLegend($form.find('div[data-name="OrderManifestGrid"]'), 'Stand-Alone Item', '#2196f3');
 
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
@@ -391,6 +421,8 @@ class Order extends OrderBase {
         super.afterLoad($form, response);
         const lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
 
+        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        this.checkMessages($form, 'order', orderId);
         if (!FwFormField.getValueByDataField($form, 'CombineActivity')) {
             // show / hide tabs
             if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { lossDamageTab.hide(), FwFormField.disable($form.find('[data-datafield="Rental"]')); }
@@ -446,6 +478,12 @@ class Order extends OrderBase {
         } else {
             worksheetTab.hide();
         }
+
+        if (response.UnassignedSubs) {
+            $form.find('.unassignedsubs').show();
+        } else {
+            $form.find('.unassignedsubs').hide();
+        }
     }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -474,7 +512,7 @@ class Order extends OrderBase {
             <div class="field" data-caption="Description" data-datafield="Description" data-cellcolor="DescriptionColor" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="250px" data-visible="true">
-            <div class="field" data-caption="Deal" data-datafield="Deal" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Deal" data-datafield="Deal" data-cellcolor="UnassignedSubsColor" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
             <div class="field" data-caption="Deal No." data-datafield="DealNumber" data-browsedatatype="text" data-sort="off"></div>
@@ -489,7 +527,7 @@ class Order extends OrderBase {
             <div class="field" data-caption="PO No." data-datafield="PoNumber" data-cellcolor="PoNumberColor" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
-            <div class="field" data-caption="Total" data-datafield="Total" data-cellcolor="CurrencyColor" data-browsedatatype="number" data-digits="2" data-formatnumeric="true" data-sort="off"></div>
+            <div class="field" data-caption="Total" data-datafield="Total" data-cellcolor="CurrencyColor" data-browsedatatype="money" data-digits="2" data-formatnumeric="true" data-sort="off"></div>
           </div>
           <div class="column" data-width="180px" data-visible="true">
             <div class="field" data-caption="Agent" data-datafield="Agent" data-multiwordseparator="|" data-browsedatatype="text" data-sort="off"></div>
@@ -503,29 +541,31 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-        <div id="orderform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderController">
+        <div id="orderform" class="fwcontrol fwcontainer fwform orderform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderController">
           <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield OrderId" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="OrderId"></div>
           <div id="orderform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="Order"></div>
-              <div data-type="tab" id="rentaltab" class="rentaltab notcombinedtab tab" data-tabpageid="rentaltabpage" data-caption="Rental"></div>
-              <div data-type="tab" id="salestab" class="salestab notcombinedtab tab" data-tabpageid="salestabpage" data-caption="Sales"></div>
-              <div data-type="tab" id="misctab" class="misctab notcombinedtab tab" data-tabpageid="misctabpage" data-caption="Miscellaneous"></div>
-              <div data-type="tab" id="labortab" class="labortab notcombinedtab tab" data-tabpageid="labortabpage" data-caption="Labor"></div>
-              <div data-type="tab" id="usedsaletab" class="usedsaletab notcombinedtab tab" data-tabpageid="usedsaletabpage" data-caption="Used Sale"></div>
-              <div data-type="tab" id="lossdamagetab" class="lossdamagetab tab" data-tabpageid="lossdamagetabpage" data-caption="Loss &amp; Damage"></div>
-              <div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>
+              <div data-type="tab" id="rentaltab" class="rentaltab notcombinedtab tab" data-tabpageid="rentaltabpage" data-notOnNew="true" data-caption="Rental"></div>
+              <div data-type="tab" id="salestab" class="salestab notcombinedtab tab" data-tabpageid="salestabpage" data-notOnNew="true" data-caption="Sales"></div>
+              <div data-type="tab" id="misctab" class="misctab notcombinedtab tab" data-tabpageid="misctabpage" data-notOnNew="true" data-caption="Miscellaneous"></div>
+              <div data-type="tab" id="labortab" class="labortab notcombinedtab tab" data-tabpageid="labortabpage" data-notOnNew="true" data-caption="Labor"></div>
+              <div data-type="tab" id="usedsaletab" class="usedsaletab notcombinedtab tab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
+              <div data-type="tab" id="lossdamagetab" class="lossdamagetab tab" data-tabpageid="lossdamagetabpage" data-notOnNew="true" data-caption="Loss &amp; Damage"></div>
+              <div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>
               <div data-type="tab" id="subpurchaseordertab" class="tab submodule" data-tabpageid="subpurchaseordertabpage" data-caption="Sub POs"></div>
               <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
               <div data-type="tab" id="billingworksheettab" class="tab" data-tabpageid="billingworksheettabpage" data-caption="Billing Worksheet" style="display:none;"></div>
               <div data-type="tab" id="summarytab" class="profitlosstab tab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
+              <div data-type="tab" id="activitytab" class="tab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
               <div data-type="tab" id="picklisttab" class="tab submodule" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
               <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
               <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
-              <!--<div data-type="tab" id="manifesttab" class="tab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>-->
-              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>    
-              <div data-type="tab" id="repairtab" class="tab submodule" data-tabpageid="repairtabpage" data-caption="Repair"></div>    
+              <div data-type="tab" id="manifesttab" class="tab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>
+              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
+              <div data-type="tab" id="repairtab" class="tab submodule" data-tabpageid="repairtabpage" data-caption="Repair"></div>
+              <div data-type="tab" id="documentstab" class="documentstab tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notetab" class="notestab tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
               <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
               <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
@@ -573,6 +613,7 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Labor" data-datafield="DisableEditingLaborRate" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Used Sale" data-datafield="DisableEditingUsedSaleRate" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Loss and Damage" data-datafield="DisableEditingLossAndDamageRate" style="float:left;width:150px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Is Manual Sort" data-datafield="IsManualSort"></div>
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity">
@@ -614,29 +655,29 @@ class Order extends OrderBase {
                     <div class="flexcolumn" style="flex:1 1 300px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Schedule">
                         <div class="flexrow schedule-date-fields"><!-- removed class date-field -->
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick_date_validation" data-caption="Pick Date" data-datafield="PickDate" style="flex:1 1 115px;"></div>
-                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Pick Time" data-datafield="PickTime" style="flex:1 1 84px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation og-datetime" data-caption="Pick Date" data-dateactivitytype="PICK" data-datafield="PickDate" style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield og-datetime" data-caption="Pick Time" data-timeactivitytype="PICK" data-datafield="PickTime" style="flex:1 1 84px;"></div>
                         </div>
                         <div class="flexrow schedule-date-fields">
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick_date_validation" data-caption="From Date" data-datafield="EstimatedStartDate" style="flex:1 1 115px;"></div>
-                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="From Time" data-datafield="EstimatedStartTime" style="flex:1 1 84px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation og-datetime" data-caption="From Date" data-dateactivitytype="START" data-datafield="EstimatedStartDate" style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield og-datetime" data-caption="From Time" data-timeactivitytype="START" data-datafield="EstimatedStartTime" style="flex:1 1 84px;"></div>
                         </div>
                         <div class="flexrow schedule-date-fields">
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick_date_validation" data-caption="To Date" data-datafield="EstimatedStopDate" style="flex:1 1 115px;"></div>
-                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="To Time" data-datafield="EstimatedStopTime" style="flex:1 1 84px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation og-datetime" data-caption="To Date" data-dateactivitytype="STOP" data-datafield="EstimatedStopDate" style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield og-datetime" data-caption="To Time" data-timeactivitytype="STOP" data-datafield="EstimatedStopTime" style="flex:1 1 84px;"></div>
                         </div>
                         <div class="activity-dates" style="display:none;"></div>
-                        <div class="activity-dates-toggle"></div>
+                        <!--<div class="activity-dates-toggle"></div>-->
                       </div>
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Personnel">
+                      <div class="fwcontrol fwcontainer fwform-section itemsection" data-control="FwContainer" data-type="section" data-caption="Documents">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-enabled="true" data-required="true" data-validationname="UserValidation" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Cover Letter" data-datafield="CoverLetterId" data-displayfield="CoverLetter" data-enabled="true" data-validationname="CoverLetterValidation" style="flex:1 1 225px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Project Manager" data-datafield="ProjectManagerId" data-displayfield="ProjectManager" data-enabled="true" data-required="false" data-validationname="UserValidation" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Terms &#038; Conditions" data-datafield="TermsConditionsId" data-displayfield="TermsConditions" data-enabled="true" data-validationname="TermsConditionsValidation" style="flex:1 1 225px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Outside Sales Representative" data-datafield="OutsideSalesRepresentativeId" data-displayfield="OutsideSalesRepresentative" data-enabled="true" data-validationname="ContactValidation" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Presentation Layer" data-datafield="PresentationLayerId" data-displayfield="PresentationLayer" data-enabled="true" data-validationname="PresentationLayerValidation" style="flex:1 1 225px;"></div>
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Market">
@@ -650,17 +691,6 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Job" data-datafield="MarketSegmentJobId" data-displayfield="MarketSegmentJob" data-validationpeek="true" data-formbeforevalidate="beforeValidateMarketSegment" data-validationname="MarketSegmentJobValidation" style="flex:1 1 150px;"></div>
                         </div>
                       </div>
-                      <div class="fwcontrol fwcontainer fwform-section itemsection" data-control="FwContainer" data-type="section" data-caption="Documents">
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Cover Letter" data-datafield="CoverLetterId" data-displayfield="CoverLetter" data-enabled="true" data-validationname="CoverLetterValidation" style="flex:1 1 225px;"></div>
-                        </div>
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Terms &#038; Conditions" data-datafield="TermsConditionsId" data-displayfield="TermsConditions" data-enabled="true" data-validationname="TermsConditionsValidation" style="flex:1 1 225px;"></div>
-                        </div>
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Presentation Layer" data-datafield="PresentationLayerId" data-displayfield="PresentationLayer" data-enabled="true" data-validationname="PresentationLayerValidation" style="flex:1 1 225px;"></div>
-                        </div>
-                      </div>
                     </div>
                       
                     <!-- Status section -->
@@ -672,6 +702,7 @@ class Order extends OrderBase {
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As of" data-datafield="StatusDate" data-enabled="false" style="flex:1 1 100px;"></div>
                         </div>
+                        <div class="unassignedsubs">Unassigned Subs</div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PO">
                         <div class="flexrow">
@@ -685,6 +716,17 @@ class Order extends OrderBase {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="PO Amount" data-datafield="PoAmount" style="flex:1 1 100px;"></div>
+                        </div>
+                      </div>
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Personnel">
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-enabled="true" data-required="true" data-validationname="UserValidation" style="flex:1 1 150px;"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Project Manager" data-datafield="ProjectManagerId" data-displayfield="ProjectManager" data-enabled="true" data-required="false" data-validationname="UserValidation" style="flex:1 1 150px;"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Outside Sales Representative" data-datafield="OutsideSalesRepresentativeId" data-displayfield="OutsideSalesRepresentative" data-enabled="true" data-validationname="ContactValidation" style="flex:1 1 150px;"></div>
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Location">
@@ -896,6 +938,27 @@ class Order extends OrderBase {
               <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
                 <div class="flexrow">
                   <div class="rwGrid" data-control="FwGrid" data-grid="OrderContactGrid" data-securitycaption="Contacts"></div>
+                </div>
+              </div>
+
+              <!-- ACTIVITY TAB -->
+              <div data-type="tabpage" id="activitytabpage" class="tabpage" data-tabid="activitytab">
+                <div class="wideflexrow">
+                    <div class="flexcolumn">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Activities">
+                            <div class="rwGrid" data-control="FwGrid" data-grid="ActivityGrid" data-securitycaption="Activity"></div>
+                        </div>
+                    </div>
+                    <div class="flexcolumn" style="flex:0 0 0;">
+                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filter Activities">
+                            <div data-control="FwFormField" data-type="date" class="activity-filters fwcontrol fwformfield" data-caption="From" data-datafield="ActivityFromDate"></div>
+                            <div data-control="FwFormField" data-type="date" class="activity-filters fwcontrol fwformfield" data-caption="To" data-datafield="ActivityToDate"></div>
+                            <div data-control="FwFormField" data-type="multiselectvalidation" class="activity-filters fwcontrol fwformfield" data-caption="Activity" data-datafield="ActivityTypeId" data-validationname="ActivityTypeValidation"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="activity-filters fwcontrol fwformfield" data-caption="Show Shipping Activities" data-datafield="ShowShipping"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="activity-filters fwcontrol fwformfield" data-caption="Show Sub-PO Activities" data-datafield="ShowSubPo"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="activity-filters fwcontrol fwformfield" data-caption="Show Complete Activities" data-datafield="ShowComplete"></div>
+                        </div>
+                    </div>
                 </div>
               </div>
 
@@ -1184,19 +1247,19 @@ class Order extends OrderBase {
                   <div class="flexcolumn" style="flex:0 0 auto;">
                   <div class="flexcolumn summarySection" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="L&D Totals">
-                      <div class="flexrow">
+                      <div class="flexrow lossdamagetotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 175px;"></div>
                       </div>
-                      <div class="flexrow">
+                      <div class="flexrow lossdamagetotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 175px;"></div>
                       </div>
-                      <div class="flexrow">
+                      <div class="flexrow lossdamagetotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 175px;"></div>
                       </div>
-                      <div class="flexrow">
+                      <div class="flexrow lossdamagetotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 175px;"></div>
                       </div>
-                      <div class="flexrow">
+                      <div class="flexrow lossdamagetotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 175px;"></div>
                       </div>
                     </div>
@@ -1595,47 +1658,51 @@ class Order extends OrderBase {
               </div>
 
               <!-- MANIFEST TAB -->
-              <!-- NOT YET PROGRAMMED
               <div data-type="tabpage" id="manifesttabpage" class="tabpage rentalgrid notcombined" data-tabid="manifesttab" data-render="false">
                 <div class="wideflexrow">
                   <div class="flexcolumn" style="flex:0 1 175px;">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manifest Total">
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="CurrencyId" data-displayfield="CurrencyCode" style="flex:1 1 250px;"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Total" data-datafield="" data-framedatafield="ReplacementCostTotal" data-formreadonly="true" style="flex:1 1 125px;"></div>
-                      </div>
-                    </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Total">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Value" data-datafield="" data-framedatafield="ValueTotal" data-formreadonly="true" style="flex: 1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="OrderValueTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Replacement Cost" data-datafield="" data-framedatafield="ReplacementCostTotal" data-formreadonly="true" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="OrderReplacementTotal" data-enabled="false"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Owned Total">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Value" data-datafield="" data-framedatafield="ValueOwned" data-formreadonly="true" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="OwnedValueTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Replacement Cost" data-datafield="" data-framedatafield="ReplacementCostOwned" data-formreadonly="true" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="OwnedReplacementTotal" data-enabled="false"></div>
                       </div>
                     </div> 
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Rental Total">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Value" data-datafield="" data-framedatafield="ValueSubs" data-formreadonly="true" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="SubValueTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Replacement Cost" data-datafield="" data-framedatafield="ReplacementCostSubs" data-formreadonly="true" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="SubReplacementTotal" data-enabled="false"></div>
+                      </div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manifest Currency">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="" data-displayfield="CurrencyCode"></div>
                       </div>
                     </div>
                   </div>
                   <div class="flexcolumn" style="flex:1 1 450px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manifest Items">
                       <div class="wideflexrow">
-                        <div data-control="FwGrid" data-grid="" data-securitycaption="" style="border:1px solid #9e9e9e;min-height:500px;padding:10px;"></div>
+                        <div class="flexcolumn">
+                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="View Items" data-datafield="manifestItems"></div>
+                        </div>
+                        <div class="flexcolumn">
+                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Filter By" data-datafield="manifestFilter"></div>
+                        </div>
+                      </div>
+                      <div class="wideflexrow">
+                        <div data-control="FwGrid" data-grid="OrderManifestGrid" data-securitycaption=""></div>
                       </div>
                       <div class="wideflexrow">
                         <div class="flexcolumn">
@@ -1655,21 +1722,21 @@ class Order extends OrderBase {
                       </div>
                     </div>
                   </div>
-                  <div class="flexcolumn" style="flex:0 1 200px;padding-right:10px;"> 
+                  <div class="flexcolumn" style="flex:0 1 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Piece Count">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Shipping Containers" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="flex:1 1 70px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Shipping Containers" data-datafield="ShippingContainerTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Shipping Items" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="flex:1 1 70px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Shipping Items" data-datafield="ShippingItemTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Piece Count" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="flex:1 1 70px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Piece Count" data-datafield="PieceCountTotal" data-enabled="false"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Total Items">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Stand-Alone Items" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="flex:1 1 70px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Stand-Alone Items" data-datafield="StandAloneItemTotal" data-enabled="false"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Weight">
@@ -1677,16 +1744,15 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="weightSelector"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Pounds" data-datafield="" data-framedatafield="WeightPounds" data-formreadonly="true" style="flex:1 1 100px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Pounds" data-datafield="" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Ounces" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="flex:1 1 70px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Ounces" data-datafield="" data-enabled="false"></div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              -->
 
              <!-- SUB PURCHASE ORDER TAB -->
              <div data-type="tabpage" id="subpurchaseordertabpage" class="tabpage purchaseorder-submodule rwSubModule" data-tabid="subpurchaseordertab"></div>
@@ -1696,6 +1762,13 @@ class Order extends OrderBase {
 
              <!-- REPAIR TAB -->
               <div data-type="tabpage" id="repairtabpage" class="tabpage submodule repair-submodule rwSubModule" data-tabid="repairtab"></div>
+
+              <!-- DOCUMENTS TAB -->
+              <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+                <div class="wideflexrow">
+                  <div class="rwGrid" data-control="FwGrid" data-grid="OrderDocumentGrid"></div>
+                </div>
+              </div>
 
               <!-- NOTES TAB -->
               <div data-type="tabpage" id="notetabpage" class="tabpage" data-tabid="notetab">
@@ -1782,6 +1855,7 @@ class Order extends OrderBase {
         if ($form.attr('data-mode') !== 'NEW') {
             let sessionId, $lossAndDamageItemGridControl;
             const userWarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+            const userLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             const dealId = FwFormField.getValueByDataField($form, 'DealId');
             const HTML: Array<string> = [];
             HTML.push(
@@ -1832,8 +1906,8 @@ class Order extends OrderBase {
                 $browse.find('.fwbrowse-menu').hide();
 
                 $browse.data('ondatabind', function (request) {
-                    request.ActiveViewFields = OrderController.ActiveViewFields;
-                    request.pagesize = 15;
+                    request.ActiveViewFields = { Status: ["ALL"], LocationId: [userLocationId] };
+                    request.pagesize = 16;
                     request.orderby = 'OrderDate desc';
                     request.miscfields = {
                         LossAndDamage: true,

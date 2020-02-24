@@ -19,7 +19,7 @@ namespace WebApi.Modules.Agent.Project
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"k7bYJRoHkf9Jr")]
-    public class ProjectController : AppDataController
+    public partial class ProjectController : AppDataController
     {
         public ProjectController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProjectLogic); }
         //------------------------------------------------------------------------------------ 

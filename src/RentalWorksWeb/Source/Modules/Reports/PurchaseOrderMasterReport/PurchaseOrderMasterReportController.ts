@@ -1,6 +1,6 @@
 ﻿routes.push({
     pattern: /^reports\/purchaseordermasterreport/, action: function (match: RegExpExecArray) {
-        return PurchaseOrderReportController.getModuleScreen();
+        return PurchaseOrderMasterReportController.getModuleScreen();
     }
 });
 

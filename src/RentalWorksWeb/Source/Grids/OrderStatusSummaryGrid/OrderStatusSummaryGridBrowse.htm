@@ -1,38 +1,47 @@
-﻿<div data-name="OrderStatusSummaryGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Status Summary" data-rendermode="template" data-showsearch="false" data-controller="OrderStatusSummaryGridController">
+﻿<div data-name="OrderStatusSummaryGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Status Summary" data-rendermode="template" data-showsearch="false" data-controller="OrderStatusSummaryGridController" data-paging="true">
   <div class="column" data-width="0" data-visible="false">
-    <div class="field" data-isuniqueid="true" data-datafield="OrderId" data-browsedatatype="key"  data-formdatatype="key" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-isuniqueid="true" data-datafield="OrderId" data-browsedatatype="key" data-formdatatype="key" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="0" data-visible="false">
-    <div class="field" data-datafield="OrderBy" data-browsedatatype="text"  data-formdatatype="text" data-formreadonly="true" data-sort="asc"></div>
+    <div class="field" data-datafield="OrderBy" data-browsedatatype="text" data-formdatatype="text" data-formreadonly="true" data-sort="asc"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="I-Code" data-datafield="InventoryId" data-browsedisplayfield="ICodeDisplay" data-fullcellcolor="ICodeColor" data-validationpeek="true" data-datatype="validation" data-validationname="RentalInventoryValidation" data-sort="off" data-formreadonly="true" style="white-space: pre;"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-halfcellcolor="DescriptionColor"  data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-halfcellcolor="DescriptionColor" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Type" data-datafield="RecTypeDisplay" data-cellcolor="RecTypeColor" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Ordered" data-datafield="QuantityOrdered" data-cellcolor="QuantityOrderedColor" data-browsedatatype="number"  data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="Ordered" data-datafield="QuantityOrdered" data-cellcolor="QuantityOrderedColor" data-browsedatatype="number" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Staged" data-datafield="StagedQuantity" data-browsedatatype="number" data-cellcolor="StagedQuantityColor"  data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="Staged" data-datafield="StagedQuantity" data-browsedatatype="number" data-cellcolor="StagedQuantityColor" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Total Out" data-datafield="OutQuantity" data-browsedatatype="number" data-cellcolor="OutQuantityColor"  data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="Total Out" data-datafield="OutQuantity" data-browsedatatype="number" data-cellcolor="OutQuantityColor" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Total In" data-datafield="InQuantity" data-browsedatatype="number" data-cellcolor="InQuantityColor"  data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="Total In" data-datafield="InQuantity" data-browsedatatype="number" data-cellcolor="InQuantityColor" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="false">
+    <div class="field" data-caption="Received" data-datafield="QuantityReceived" data-browsedatatype="number" data-sort="off" data-formdatatype="text" data-formreadonly="true"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="false">
+    <div class="field" data-caption="Returned" data-datafield="QuantityReturned" data-browsedatatype="number" data-sort="off" data-formdatatype="text" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Still Out" data-datafield="StillOutQuantity" data-browsedatatype="number" data-cellcolor="StillOutQuantityColor"  data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="Still Out" data-datafield="StillOutQuantity" data-browsedatatype="number" data-cellcolor="StillOutQuantityColor" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Warehouse" data-datafield="OutWarehouseCode" data-browsedatatype="text"  data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="Warehouse" data-datafield="OutWarehouseCode" data-browsedatatype="text" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Return Warehouse" data-datafield="InWarehouseCode" data-browsedatatype="text"  data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="Return Warehouse" data-datafield="InWarehouseCode" data-browsedatatype="text" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="false">
+    <div class="field" data-caption="Rec Type" data-datafield="RecType" data-browsedatatype="text" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
 </div>

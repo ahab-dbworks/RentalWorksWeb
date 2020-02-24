@@ -83,7 +83,7 @@ class RwHome {
                             request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
                             request.ToDate = FwFormField.getValue($confirmation, '.todate');
                             request.OfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
-                            FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
+                            FwAppData.apiMethod(true, 'PUT', `api/v1/userwidget/${userWidgetId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                                 FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 FwAppData.apiMethod(true, 'GET', 'api/v1/dashboardsettings/' + response.UserId, null, FwServices.defaultTimeout, function onSuccess(widgetResponse) {
@@ -152,7 +152,7 @@ class RwHome {
         }
 
         jQuery($control).off('click', '#' + widgetData.userWidgetId + 'refresh').on('click', '#' + widgetData.userWidgetId + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/dashboard/loadwidgetbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     widgetcanvas.siblings('.officebar').text(response.locationCodes);
                     let titleArray = [];
@@ -243,7 +243,7 @@ class RwHome {
 
         jQuery($control).off('click', '#' + widgetData.userWidgetId + 'fullscreen').on('click', '#' + widgetData.userWidgetId + 'fullscreen', function () {
             try {
-                var $confirmation = FwConfirmation.renderConfirmation(widgetData.text, '');
+                var $confirmation: JQuery = FwConfirmation.renderConfirmation(widgetData.text, '');
                 var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
                 var html = [];
                 html.push('<div class="flexrow" style="max-width:unset"><div class="flexcolumn" style="flex:5 1 0;"><div data-chart="' + widgetData.apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + widgetData.apiname + 'fullscreen"></canvas><div class="fullscreenofficebar">' + widgetData.officeLocationCode + '</div></div></div><div class="flexcolumn fullscreen-fields">');
@@ -267,7 +267,7 @@ class RwHome {
                     let fullscreenToDate = FwFormField.getValue($confirmation, '.todate');
                     let fullscreenOfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
 
-                    FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${fullscreenDataPointCount}&locationId=${fullscreenOfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${fullscreenDateBehaviorId}&fromDate=${fullscreenFromDate}&toDate=${fullscreenToDate}&datefield=${fullscreenDateField}&stacked=${fullscreenStacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'GET', `api/v1/dashboard/loadwidgetbyname/${widgetData.apiname}?dataPoints=${fullscreenDataPointCount}&locationId=${fullscreenOfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${fullscreenDateBehaviorId}&fromDate=${fullscreenFromDate}&toDate=${fullscreenToDate}&datefield=${fullscreenDateField}&stacked=${fullscreenStacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                         try {
                             $confirmation.find('.fullscreenofficebar').text(response.locationCodes);
                             let titleArray = [];
@@ -299,7 +299,7 @@ class RwHome {
                                 if (instance.chart.canvas.id === widgetData.apiname + 'fullscreen') { instance.chart.destroy() }
                             })
 
-                            var chart = new Chart(widgetfullscreen, response);
+                            var chart = new Chart(<any>widgetfullscreen, response);
                             jQuery(widgetfullscreen).on('click', function (evt) {
                                 var activePoint = chart.getElementAtEvent(evt)[0];
                                 if (activePoint) {
@@ -359,7 +359,7 @@ class RwHome {
                 FwAppData.apiMethod(true, 'GET', 'api/v1/userwidget/' + widgetData.userWidgetId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     self.loadSettingsFields($confirmation, response);
                 }, null, null);
-                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/dashboard/loadwidgetbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         widgetfullscreen.siblings('.officebar').text(response.locationCodes);
                         let titleArray = [];
@@ -388,7 +388,7 @@ class RwHome {
                         response = self.formatAxis(response, widgetData.axisNumberFormatId);
                         response = self.formatData(response, widgetData.dataNumberFormatId);
 
-                        var chart = new Chart(widgetfullscreen, response);
+                        var chart = new Chart(<any>widgetfullscreen, response);
                         jQuery(widgetfullscreen).on('click', function (evt) {
                             var activePoint = chart.getElementAtEvent(evt)[0];
                             if (activePoint) {
@@ -443,7 +443,7 @@ class RwHome {
             }
         })
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/dashboard/loadwidgetbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}&stacked=${widgetData.stacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 widgetcanvas.siblings('.officebar').text(response.locationCodes);
                 let titleArray = [];
@@ -544,7 +544,7 @@ class RwHome {
         html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation apply-fullscreen" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior apply-fullscreen" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
+        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior apply-fullscreen" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" data-validationpeek="false" style="float:left;width:200px;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
         html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield apply-fullscreen" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
@@ -559,10 +559,10 @@ class RwHome {
         html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints apply-fullscreen" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat apply-fullscreen" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat apply-fullscreen" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" data-validationpeek="false" style="float:left;width:200px;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat apply-fullscreen" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat apply-fullscreen" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" data-validationpeek="false" style="float:left;width:200px;"></div>');
         html.push('</div>');
         html.push('</div>');
 

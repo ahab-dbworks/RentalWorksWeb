@@ -369,11 +369,11 @@ class FwFormFieldClass {
     //---------------------------------------------------------------------------------
     getValueByDataField($parent: JQuery, datafield: string) {
         var selector, value;
-        selector = 'div[data-datafield="' + datafield + '"]';
+        selector = `div[data-datafield="${datafield}"]`;
         try {
             value = this.getValue($parent, selector);
         } catch (ex) {
-            throw 'this.getValueByDataField: Unable to get value for datafield: ' + datafield;
+            throw new Error(`this.getValueByDataField: Unable to get value for datafield: ${datafield}`);
         }
         return value;
     }
@@ -407,7 +407,9 @@ class FwFormFieldClass {
         try {
             value = this.getText($parent, selector);
         } catch (ex) {
-            throw 'FwFormField.getTextByDataField: Unable to get value for datafield: ' + datafield;
+            //throw 'FwFormField.getTextByDataField: Unable to get value for datafield: ' + datafield;
+            //throw `FwFormField.getTextByDataField: Unable to get value for datafield: ${datafield}. ${ex}`;  
+            throw new Error(`FwFormField.getTextByDataField: Unable to get value for datafield: ${datafield}. ${ex}`);  // justin hoffman 02/10/2020 #1852 - bubbling up the exception for visibility
         }
         return value;
     }

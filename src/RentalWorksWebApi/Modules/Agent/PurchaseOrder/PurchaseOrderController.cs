@@ -23,7 +23,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "9a0xOMvBM7Uh9")]
-    public class PurchaseOrderController : AppDataController
+    public partial class PurchaseOrderController : AppDataController
     {
         public PurchaseOrderController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PurchaseOrderLogic); }
         //------------------------------------------------------------------------------------ 

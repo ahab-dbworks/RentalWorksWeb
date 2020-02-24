@@ -8,7 +8,6 @@
         var documenttypeid = dtRow[dt.ColumnIndex[$field.attr('data-documenttypeidfield')]];
         var uniqueid1 = dtRow[dt.ColumnIndex[$field.attr('data-uniqueid1field')]];
         var uniqueid2 = dtRow[dt.ColumnIndex[$field.attr('data-uniqueid2field')]];
-        var uniqueid3 = dtRow[dt.ColumnIndex[$field.attr('data-uniqueid3field')]];
         var filename = dtRow[dt.ColumnIndex[$field.attr('data-browsefilenamefield')]];
         var fileextension = dtRow[dt.ColumnIndex[$field.attr('data-browsefileextensionfield')]];
         var miscfield = dtRow[dt.ColumnIndex[$field.attr('data-miscfield')]];
@@ -16,7 +15,6 @@
         $field.attr('data-documenttypeid', documenttypeid);
         $field.attr('data-uniqueid1', uniqueid1);
         $field.attr('data-uniqueid2', uniqueid2);
-        $field.attr('data-uniqueid3', uniqueid3);
         $field.attr('data-filename', filename);
         $field.attr('data-fileextension', fileextension);
         $field.attr('data-miscfield', miscfield);
@@ -26,10 +24,17 @@
     }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
-        field.ismodified = typeof $field.attr('data-ismodified') === 'string' && $field.attr('data-ismodified') === 'true';
-        if (field.ismodified) {
-            field.filedataurl = $field.data('filedataurl');
-            field.filepath = $field.attr('data-filepath');
+        if ($field.attr('data-uniqueid1field') !== undefined && $field.attr('data-uniqueid1') !== undefined) {
+            field[$field.attr('data-uniqueid1field')] = $field.attr('data-uniqueid1');
+        }
+        if ($field.attr('data-uniqueid2field') !== undefined && $field.attr('data-uniqueid2') !== undefined) {
+            field[$field.attr('data-uniqueid2field')] = $field.attr('data-uniqueid2');
+        }
+        field.FileIsModified = typeof $field.attr('data-ismodified') === 'string' && $field.attr('data-ismodified') === 'true';
+        if (field.FileIsModified) {
+            field.FileDataUrl = $field.data('filedataurl');
+            field.FilePath = $field.attr('data-filepath');
+            field.Extension = typeof $field.attr('data-fileextension') === 'string' ? $field.attr('data-fileextension').toUpperCase() : '';
         }
     }
     //---------------------------------------------------------------------------------
@@ -47,7 +52,7 @@
         var $adiContainer;
         var appimageid = typeof $field.attr('data-originalvalue') === 'string' ? $field.attr('data-originalvalue') : '';
         var filename = typeof $field.attr('data-filename') === 'string' ? $field.attr('data-filename') : '';
-        var fileextension = typeof $field.attr('data-fileextension') === 'string' ? $field.attr('data-fileextension').toLowerCase() : '';
+        var fileextension = typeof $field.attr('data-fileextension') === 'string' ? $field.attr('data-fileextension').toUpperCase() : '';
         var webservicetype = '';
         if ($browse.attr('data-type') === 'Browse') {
             webservicetype = 'module';
@@ -55,25 +60,25 @@
             webservicetype = 'grid';
         }
         switch (fileextension) {
-            case 'pdf':
+            case 'PDF':
                 html.push('<div class="viewcell">');
                 html.push('  <div class="col1"><img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/fwimages/icons/16/fileextension-pdf.png" style="vertical-align:middle;cursor:pointer;" /><span class="fileextension" style="padding:0 0 0 5px;">' + fileextension + '</span></div>');
                 html.push('  <div class="col2"><i class="material-icons" title="E-mail Document">&#xE0BE;</i></div>'); //email
                 html.push('</div>');
                 break;
-            case 'doc': case 'docx': case 'txt': case 'rtf':
+            case 'DOC': case 'DOCX': case 'TXT': case 'RTF':
                 html.push('<div class="viewcell">');
                 html.push('  <div class="col1"><img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/fwimages/icons/16/fileextension-document.png" style="vertical-align:middle;cursor:pointer;" /><span class="fileextension" style="padding:0 0 0 5px;">' + fileextension + '</span></div>');
                 html.push('  <div class="col2"><i class="material-icons" title="E-mail Document">&#xE0BE;</i></div>'); //email
                 html.push('</div>');
                 break;
-            case 'xls': case 'xlsx': case 'csv':
+            case 'XLS': case 'XLSX': case 'CSV':
                 html.push('<div class="viewcell">');
                 html.push('  <div class="col1"><img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/fwimages/icons/16/fileextension-spreadsheet.png" style="vertical-align:middle;cursor:pointer;" /><span class="fileextension" style="padding:0 0 0 5px;">' + fileextension + '</span></div>');
                 html.push('  <div class="col2"><i class="material-icons" title="E-mail Document">&#xE0BE;</i></div>'); //email
                 html.push('</div>');
                 break;
-            case 'png': case 'jpg': case 'jpeg': case 'gif': case 'tif': case 'tiff': case 'bmp':
+            case 'PNG': case 'JPG': case 'JPEG': case 'GIF': case 'TIF': case 'TIFF': case 'BMP':
                 html.push('<div class="viewcell">');
                 html.push('  <div class="col1"><img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/fwimages/icons/16/fileextension-image.png" style="vertical-align:middle;cursor:pointer;" /><span class="fileextension" style="padding:0 0 0 5px;">' + fileextension + '</span></div>');
                 html.push('  <div class="col2"><i class="material-icons" title="E-mail Document">&#xE0BE;</i></div>'); //email
@@ -93,7 +98,7 @@
         if (html.length > 0) {
             $adiContainer.on('click', 'img', function (event) {
                 try {
-                    window.open('fwappdocument.ashx?operation=getappimage&appimageid=' + appimageid + "&filename=" + filename);
+                    window.open(`${applicationConfig.apiurl}api/v1/appimage/getimage?appimageid=${appimageid}`);
                     event.preventDefault();
                     return false;
                 } catch (ex) {

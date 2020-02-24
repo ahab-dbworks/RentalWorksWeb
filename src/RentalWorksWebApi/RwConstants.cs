@@ -57,7 +57,7 @@ namespace WebApi
         public const string ORDER_TYPE_PENDING_EXCHANGE = "PENDING";
 
         public const string ORDER_TYPE_DESCRIPTION_QUOTE = "QUOTE";
-        public const string ORDER_TYPE_DESCRIPTION_RESERVED = "RESERVED";
+        //public const string ORDER_TYPE_DESCRIPTION_RESERVED = "RESERVED";
         public const string ORDER_TYPE_DESCRIPTION_ORDER = "ORDER";
         public const string ORDER_TYPE_DESCRIPTION_PROJECT = "PROJECT";
         public const string ORDER_TYPE_DESCRIPTION_PURCHASE_ORDER = "PO";
@@ -122,10 +122,10 @@ namespace WebApi
         public const string QUOTE_ORDER_DATE_TYPE_ORDER_DATE = "ORDER_DATE";
         public const string QUOTE_ORDER_DATE_TYPE_ESTIMATED_START_DATE = "ESTIMATED_START_DATE";
 
-        public const string ACTIVITY_TYPE_OUT = "OUT";
-        public const string ACTIVITY_TYPE_IN = "IN";
-        public const string ACTIVITY_TYPE_LOADIN = "LOADIN";
         public const string ACTIVITY_TYPE_PICK = "PICK";
+        public const string ACTIVITY_TYPE_START = "START";
+        public const string ACTIVITY_TYPE_STOP = "STOP";
+        public const string ACTIVITY_TYPE_LOADIN = "LOADIN";
         public const string ACTIVITY_TYPE_PICKUP = "PICKUP";
         public const string ACTIVITY_TYPE_PREP = "PREP";
         public const string ACTIVITY_TYPE_RECEIVE = "RECEIVE";
@@ -457,7 +457,7 @@ namespace WebApi
         public const int AVAILABILITY_COLOR_HISTORICAL_DATE = 15132390;      //gray
         public const int AVAILABILITY_TEXT_COLOR_HISTORICAL_DATE = 0;        //black
         public const int AVAILABILITY_COLOR_LATE = 4227327;                  //orange
-        public const int AVAILABILITY_TEXT_COLOR_LATE = 0;                   //black
+        public const int AVAILABILITY_TEXT_COLOR_LATE = 16777215;  // white
         public const int AVAILABILITY_COLOR_LATE_BUT_RETURNING = 14914500;   //light purple #c493e3
         public const int AVAILABILITY_TEXT_COLOR_LATE_BUT_RETURNING = 16777215;  // white
 
@@ -591,6 +591,11 @@ namespace WebApi
         //PRESENTATION LAYER
         public const string PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED = "UD";
         public const int PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR = 16776960;   // aqua
+
+
+        // ACTIVITY
+        public const int USER_DEFINED_ACTIVITY_COLOR = 11447902;                    // teal
+
 
     }
 

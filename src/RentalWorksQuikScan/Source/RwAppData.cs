@@ -1805,22 +1805,6 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static List<dynamic> QSMasterItem(FwSqlConnection conn, string orderid, string masteritemid)
-        {
-            List<dynamic> result;
-            FwSqlCommand qry;
-
-            qry = new FwSqlCommand(conn);
-            qry.Add("select   *");
-            qry.Add("from     qsmasteritem(@orderid, @masteritemid)");
-            qry.Add("order by orderby");
-            qry.AddParameter("@orderid",        orderid);
-            qry.AddParameter("@masteritemid",   masteritemid);
-            result = qry.QueryToDynamicList2();
-
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
         public static dynamic IsQuantity(FwSqlConnection conn, string masterno)
         {
             dynamic result;
@@ -1850,84 +1834,6 @@ namespace RentalWorksQuikScan.Source
             {
                 throw new Exception("GetItem: masterno " + masterno + " was not found!");
             }
-
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
-        public static dynamic QSInsertMasterItem(FwSqlConnection conn, string orderid, string barcode, int qtyordered, string masteritemid, string webusersid)
-        {
-            dynamic result;
-            FwSqlCommand sp;
-
-            sp = new FwSqlCommand(conn, "dbo.qsinsertmasteritem");
-            sp.AddParameter("@orderid",      orderid);
-            sp.AddParameter("@barcode",      barcode);
-            sp.AddParameter("@qtyordered",   qtyordered);
-            sp.AddParameter("@webusersid",   webusersid);
-            sp.AddParameter("@masteritemid", SqlDbType.Char,    ParameterDirection.InputOutput, masteritemid);
-            sp.AddParameter("@errno",        SqlDbType.Int,     ParameterDirection.Output);
-            sp.AddParameter("@errmsg",       SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
-            result              = new ExpandoObject();
-            result.masteritemid = sp.GetParameter("@masteritemid").ToString();
-            result.errno        = sp.GetParameter("@errno").ToString();
-            result.errmsg       = sp.GetParameter("@errmsg").ToString();
-
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
-        public static dynamic QSDeleteMasterItem(FwSqlConnection conn, string orderid, string masteritemid, string rentalitemid, string webusersid)
-        {
-            dynamic result;
-            FwSqlCommand sp;
-
-            sp = new FwSqlCommand(conn, "dbo.qsdeletemasteritem");
-            sp.AddParameter("@orderid",      orderid);
-            sp.AddParameter("@masteritemid", masteritemid);
-            sp.AddParameter("@rentalitemid", rentalitemid);
-            sp.AddParameter("@webusersid",   webusersid);
-            sp.AddParameter("@errno",        SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@errmsg",       SqlDbType.VarChar,  ParameterDirection.Output);
-            sp.Execute();
-            result        = new ExpandoObject();
-            result.errno  = sp.GetParameter("@errno").ToString();
-            result.errmsg = sp.GetParameter("@errmsg").ToString();
-
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
-        public static dynamic QSSubmitQuote(FwSqlConnection conn, string orderid, string webusersid)
-        {
-            dynamic result;
-            FwSqlCommand sp;
-
-            sp = new FwSqlCommand(conn, "dbo.qssubmitquote");
-            sp.AddParameter("@orderid",      orderid);
-            sp.AddParameter("@webusersid",   webusersid);
-            sp.AddParameter("@errno",        SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@errmsg",       SqlDbType.VarChar,  ParameterDirection.Output);
-            sp.Execute();
-            result = new ExpandoObject();
-            result.errno  = sp.GetParameter("@errno").ToString();
-            result.errmsg = sp.GetParameter("@errmsg").ToString();
-
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
-        public static dynamic QSCancelQuote(FwSqlConnection conn, string orderid, string webusersid)
-        {
-            dynamic result;
-            FwSqlCommand sp;
-
-            sp = new FwSqlCommand(conn, "dbo.qscancelquote");
-            sp.AddParameter("@orderid",      orderid);
-            sp.AddParameter("@webusersid",   webusersid);
-            sp.AddParameter("@errno",        SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@errmsg",       SqlDbType.VarChar,  ParameterDirection.Output);
-            sp.Execute();
-            result = new ExpandoObject();
-            result.errno  = sp.GetParameter("@errno").ToString();
-            result.errmsg = sp.GetParameter("@errmsg").ToString();
 
             return result;
         }

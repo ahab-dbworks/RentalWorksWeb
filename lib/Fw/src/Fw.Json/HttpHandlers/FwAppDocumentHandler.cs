@@ -201,12 +201,25 @@ namespace Fw.Json.HttpHandlers
                 case "tiff":
                 case "bmp":
                 case "png":
-                    using (MemoryStream ms = new MemoryStream(image))
-                    using (Bitmap bitmap = new Bitmap(ms))
+                    MemoryStream ms = null;
+                    try
                     {
-                        height = bitmap.Height;
-                        width  = bitmap.Width;    
+                        ms = new MemoryStream(image);
+                        using (Bitmap bitmap = new Bitmap(ms))
+                        {
+                            ms = null;
+                            height = bitmap.Height;
+                            width = bitmap.Width;
+                        }
                     }
+                    finally
+                    {
+                        if (ms != null)
+                        {
+                            ms.Dispose();
+                        }
+                    }
+                    
                     thumbnail = FwGraphics.GetJpgThumbnail(image);
                     break;
             }

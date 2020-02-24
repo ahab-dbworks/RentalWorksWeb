@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.Inventory;
 using WebApi.Modules.Inventory.Asset;
+using WebApi.Modules.Inventory.Inventory;
 using WebApi.Modules.Inventory.Purchase;
 
 namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
@@ -68,6 +69,18 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         public int QuantityAdded { get; set; } = 0;
     }
 
+    public class CodeExistsRequest
+    {
+        public string Code { get; set; }
+        public string IgnoreId { get; set; }
+    }
+    public class CodeExistsResponse : TSpStatusResponse 
+    {
+        public bool Exists { get; set; }
+        public string DefinedIn { get; set; }
+        public string UniqueId { get; set; }
+    }
+
     public static class InventoryPurchaseUtilityFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -120,6 +133,25 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
             else
             {
                 response.success = await AppFunc.DeleteDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { request.SessionId });
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<CodeExistsResponse> CodeExists(FwApplicationConfig appConfig, FwUserSession userSession, CodeExistsRequest request)
+        {
+            CodeExistsResponse response = new CodeExistsResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "codeexists", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, request.Code);
+                qry.AddParameter("@ignoreid", SqlDbType.NVarChar, ParameterDirection.Input, request.IgnoreId);
+                qry.AddParameter("@doesexist", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@definedin", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@uniqueid", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.Exists = FwConvert.ToBoolean(qry.GetParameter("@doesexist").ToString());
+                response.DefinedIn = qry.GetParameter("@definedin").ToString();
+                response.UniqueId = qry.GetParameter("@uniqueid").ToString();
             }
             return response;
         }
@@ -313,7 +345,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                                 qtyRequest.UpdateCost = true;
                                 qtyRequest.CostPerItem = purchase.UnitCost;
                                 qtyRequest.UniqueId1 = purchase.PurchaseId;
-                                UpdateInventoryQuantityResponse qtyResponse = await AppFunc.UpdateInventoryQuantity(appConfig, userSession, qtyRequest, conn);
+                                UpdateInventoryQuantityResponse qtyResponse = await InventoryFunc.UpdateInventoryQuantity(appConfig, userSession, qtyRequest, conn);
 
                                 response.PurchaseId.Add(purchase.PurchaseId);
                                 response.ItemId.Add(item.ItemId);
@@ -359,7 +391,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                             qtyRequest.UpdateCost = true;
                             qtyRequest.CostPerItem = purchase.UnitCost;
                             qtyRequest.UniqueId1 = purchase.PurchaseId;
-                            UpdateInventoryQuantityResponse qtyResponse = await AppFunc.UpdateInventoryQuantity(appConfig, userSession, qtyRequest, conn);
+                            UpdateInventoryQuantityResponse qtyResponse = await InventoryFunc.UpdateInventoryQuantity(appConfig, userSession, qtyRequest, conn);
 
                             response.PurchaseId.Add(purchase.PurchaseId);
                             response.QuantityAdded += request.Quantity;

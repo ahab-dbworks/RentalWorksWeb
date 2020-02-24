@@ -114,6 +114,9 @@ namespace WebApi.Modules.Settings.Category
         [FwLogicProperty(Id:"4rCiqlISVIq6", IsReadOnly:true)]
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
 
+        [FwLogicProperty(Id: "7T93jVw52KUI7", IsReadOnly: true)]
+        public decimal? InventoryTypeOrderBy { get; set; }
+
         [FwLogicProperty(Id:"7722wgdcEViY")]
         public decimal? OrderBy { get { return inventoryCategory.OrderBy; } set { inventoryCategory.OrderBy = value; } }
 

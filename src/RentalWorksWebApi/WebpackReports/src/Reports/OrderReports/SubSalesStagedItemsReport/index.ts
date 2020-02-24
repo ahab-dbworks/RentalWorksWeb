@@ -4,7 +4,7 @@ import { Ajax } from '../../../../lib/FwReportLibrary/src/scripts/Ajax';
 import * as moment from 'moment';
 import '../../../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
+const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
 export class SubSalesStagedItemsReport extends WebpackReport {
@@ -14,7 +14,9 @@ export class SubSalesStagedItemsReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/subsalesstageditemsreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.PrintTime = moment().format('h:mm:ss A');
+                    data.PrintDate = moment().format('MM/DD/YYYY');
+                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                     data.Today = moment().format('LL');
                     data.Report = 'Sub-Sales Staged Items Report';
                     data.System = 'RENTALWORKS';

@@ -103,7 +103,6 @@ export class Country extends SettingsModule {
         this.defaultNewRecordToExpect = {
             Country: "",
             CountryCode: "",
-            IsUSA: false,
             Metric: false,
             Inactive: false,
         }
@@ -113,7 +112,6 @@ export class Country extends SettingsModule {
                 record: {
                     Country: "GlobalScope.TestToken~1.TestToken",
                     CountryCode: "GlobalScope.TestToken~1.ShortTestToken",
-                    IsUSA: true,
                 },
                 seekObject: {
                     Country: "GlobalScope.TestToken~1.TestToken",
@@ -138,7 +136,6 @@ export class Country extends SettingsModule {
         this.newRecordsToCreate[0].recordToExpect = {
             Country: this.newRecordsToCreate[0].record.Country.toUpperCase(),
             CountryCode: this.newRecordsToCreate[0].record.CountryCode.toUpperCase(),
-            IsUSA: true,
             Metric: false,
             Inactive: false,
         }
@@ -250,7 +247,7 @@ export class Department extends SettingsModule {
         super();
         this.moduleName = 'Department';
         this.moduleId = 'A6CC5F50-F9DE-4158-B627-6FDC1044C22A';
-        this.moduleCaption = 'Company Department';
+        this.moduleCaption = 'Department';
 
 
         this.defaultNewRecordToExpect = {
@@ -1236,7 +1233,7 @@ export class EventType extends SettingsModule {
                     seekObject: {
                         Description: "GlobalScope.TestToken~1.TestToken",
                     },
-                    attemptDuplicate: true,
+                    attemptDuplicate: false, //true,
                 },
             },
             {
@@ -3614,7 +3611,7 @@ export class OrderType extends SettingsModule {
                     seekObject: {
                         Description: "GlobalScope.TestToken~1.TestToken",
                     },
-                    attemptDuplicate: true,
+                    attemptDuplicate: false, //true,
                 },
             },
             {
@@ -4264,7 +4261,7 @@ export class POType extends SettingsModule {
                     seekObject: {
                         Description: "GlobalScope.TestToken~1.TestToken",
                     },
-                    attemptDuplicate: true,
+                    attemptDuplicate: false, //true,
                 },
             },
         ];
@@ -6240,6 +6237,52 @@ export class WorkWeek extends SettingsModule {
         this.moduleName = 'WorkWeek';
         this.moduleId = 'AF91AE34-ADED-4A5A-BD03-113ED817F575';
         this.moduleCaption = 'Work Week';
+    }
+    //---------------------------------------------------------------------------------------
+}
+//---------------------------------------------------------------------------------------
+export class ActivityType extends SettingsModule {
+    //---------------------------------------------------------------------------------------
+    constructor() {
+        super();
+        this.moduleName = 'ActivityType';
+        this.moduleId = 'dZaqY68fhRSXm';
+        this.moduleCaption = 'Activity Type';
+
+        this.defaultNewRecordToExpect = {
+            Description: "",
+            Rename: "",
+            Inactive: false
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    Rename: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    //Rename: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+                persistData: true,
+            },
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Rename: this.newRecordsToCreate[0].record.Rename,
+            Inactive: false
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }

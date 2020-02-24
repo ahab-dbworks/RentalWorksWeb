@@ -44,6 +44,7 @@ export { Receipt } from '../modules/Home';
 export { VendorInvoice } from '../modules/Home';
 
 //Settings
+export { ActivityType } from '../modules/Settings'
 export { AccountingSettings } from '../modules/Settings'
 export { GlAccount } from '../modules/Settings'
 export { GlDistribution } from '../modules/Settings'

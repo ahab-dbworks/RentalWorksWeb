@@ -27,6 +27,8 @@ namespace WebApi
 
 
         //AVAILABILITY
+        public static string AVAILABILITY_COLOR_NEEDRECALC { get; set; }
+        public static string AVAILABILITY_TEXT_COLOR_NEEDRECALC { get; set; }
         public static string AVAILABILITY_COLOR_RESERVED { get; set; }
         public static string AVAILABILITY_TEXT_COLOR_RESERVED { get; set; }
         public static string AVAILABILITY_COLOR_LATE { get; set; }
@@ -126,6 +128,10 @@ namespace WebApi
 
         //GLOBAL
         public static string NEGATIVE_VARIANCE_COLOR { get; set; }
+
+        // ACTIVITY
+        public static string USER_DEFINED_ACTIVITY_COLOR { get; set; }
+
 
         //---------------------------------------------------------------------------
         //this gets called one time at system startup
@@ -255,6 +261,8 @@ namespace WebApi
             PENDING_EXCHANGE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PENDING_EXCHANGE_COLOR);
 
 
+            AVAILABILITY_COLOR_NEEDRECALC = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
+            AVAILABILITY_TEXT_COLOR_NEEDRECALC = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEEDRECALC);
             AVAILABILITY_COLOR_RESERVED = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
             AVAILABILITY_TEXT_COLOR_RESERVED = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
             AVAILABILITY_TEXT_COLOR_LATE = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_LATE);
@@ -281,6 +289,9 @@ namespace WebApi
             CONTACT_TYPE_CREW_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTACT_TYPE_CREW_COLOR);
 
             PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR);
+
+
+            USER_DEFINED_ACTIVITY_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.USER_DEFINED_ACTIVITY_COLOR);
 
         }
         //---------------------------------------------------------------------------

@@ -163,6 +163,48 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
         public string BillingCycle { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "attention", modeltype: FwDataTypes.Text)]
+        public string RemitToAttention1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "attention2", modeltype: FwDataTypes.Text)]
+        public string RemitToAttention2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billadd1", modeltype: FwDataTypes.Text)]
+        public string RemitToAddress1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billadd2", modeltype: FwDataTypes.Text)]
+        public string RemitToAddress2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billcity", modeltype: FwDataTypes.Text)]
+        public string RemitToCity { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billstate", modeltype: FwDataTypes.Text)]
+        public string RemitToState { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billcountryid", modeltype: FwDataTypes.Text)]
+        public string RemitToCountryId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billcountry", modeltype: FwDataTypes.Text)]
+        public string RemitToCountry { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billemail", modeltype: FwDataTypes.Text)]
+        public string RemitToEmail { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billphone", modeltype: FwDataTypes.Text)]
+        public string RemitToPhone { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
+        public string Currency{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text)]
+        public string PaymentTypeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
+        public string PaymentType { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
         public string PaymentTermsId { get; set; }
         //------------------------------------------------------------------------------------
@@ -608,9 +650,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
         public string Location { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
-        public string CurrencyCode { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasrentalitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalItem { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -798,6 +837,18 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public bool? PeriodSubLaborTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
 
+        [FwSqlDataField(column: "misccomplete", modeltype: FwDataTypes.Boolean)]
+        public bool? MiscellaneousIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "submisccomplete", modeltype: FwDataTypes.Boolean)]
+        public bool? SubMiscellaneousIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborcomplete", modeltype: FwDataTypes.Boolean)]
+        public bool? LaborIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "sublaborcomplete", modeltype: FwDataTypes.Boolean)]
+        public bool? SubLaborIsComplete { get; set; }
+        //------------------------------------------------------------------------------------
 
 
 

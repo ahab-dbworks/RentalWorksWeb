@@ -7,20 +7,23 @@ class OrderItemGrid {
         let $grid = $tr.parents('[data-grid="OrderItemGrid"]');
         let inventoryType;
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
-            var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
-            var pickTime = FwFormField.getValueByDataField($form, 'PickTime');
-            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-            var fromTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
-            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-            var toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
+            var pickDate = FwFormField.getValue($form, 'div[data-dateactivitytype="PICK"]');
+            var pickTime = FwFormField.getValue($form, 'div[data-timeactivitytype="PICK"]');
+            var fromDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
+            var fromTime = FwFormField.getValue($form, 'div[data-timeactivitytype="START"]');
+            var toDate = FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]');
+            var toTime = FwFormField.getValue($form, 'div[data-timeactivitytype="STOP"]');
         };
+        const $td = $tr.find('[data-browsedatafield="InventoryId"]');
 
         if ($grid.hasClass('R')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'R' });
             inventoryType = 'Rental';
+            $td.attr('data-peekForm', 'RentalInventory');
         } else if ($grid.hasClass('S')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'S' });
             inventoryType = 'Sales';
+            $td.attr('data-peekForm', 'SalesInventory');
         } else if ($grid.hasClass('M')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'M' });
             inventoryType = 'Misc';
@@ -35,6 +38,7 @@ class OrderItemGrid {
             inventoryType = 'Combined';
         } else if ($grid.hasClass('P')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'P' });
+            $td.attr('data-peekForm', 'PartsInventory');
             inventoryType = 'Parts';
         } else if ($grid.hasClass('F')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'F' });
@@ -106,6 +110,12 @@ class OrderItemGrid {
                             };
                             $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodelabor`);
                             break;
+                        case 'P':
+                            request.uniqueids = {
+                                AvailFor: 'P'
+                            };
+                            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodeparts`);
+                            break;
                     }
                 }
                 break;
@@ -156,8 +166,49 @@ class OrderItemGrid {
                 const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
                 $availQty.attr('data-state', availabilityState);
                 $availQty.css('cursor', 'pointer');
-            });
+                if ($form.attr('data-controller') === 'PurchaseOrderController') {
+                    const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
+                    let peekForm;
+                    switch (recType) {
+                        case 'R':
+                            peekForm = 'RentalInventory';
+                            break;
+                        case 'S':
+                            peekForm = 'SalesInventory';
+                            break;
+                        case 'P':
+                            peekForm = 'PartsInventory';
+                            break;
+                    }
+                    const $td = $tr.find('[data-validationname="GeneralItemValidation"]');
+                    $td.attr('data-peekForm', peekForm);
+                }
 
+                //Option to open up Complete/Kit grid to add items
+                let itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+                const $browsecontextmenu = $tr.find('.browsecontextmenu');
+                const classList: any = ['C', 'CI', 'CO', 'K', 'KI', 'KO'];
+
+                $browsecontextmenu.data('contextmenuoptions', $tr => {
+                    if (classList.includes(itemClass)) {
+                        FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
+                            try {
+                                this.renderCompleteKitGridPopup($control, $tr, itemClass);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        });
+                    }
+                    //Insert line-item option
+                    FwContextMenu.addMenuItem($browsecontextmenu, `Insert Line Item`, () => {
+                        try {
+                            this.insertLineItem($control, $tr);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                });
+            });
 
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
                 // Lock Fields
@@ -176,6 +227,20 @@ class OrderItemGrid {
                     }
                 }
 
+                // Mute Fields
+                if ($tr.find('.order-item-mute').text() === 'true') {
+                    $tr.find('.field-to-mute').css({ 'background-color': '#ffccff' });
+                    $tr.find('.field-to-mute').parent('td').css({
+                        'border-top': '2px solid black',
+                        'border-bottom': '2px solid black'
+                    });
+                    $tr.find('.field-to-mute').attr('data-formreadonly', 'true');
+                    // disabled grids were rendering with different shade background color
+                    if ($control.attr('data-enabled') === 'false') {
+                        $tr.find('.field-to-mute').css('background-color', 'transparent');
+                    }
+                }
+
                 //enable editing price on misc items
                 const isMiscClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
                 if (isMiscClass === 'M') {
@@ -185,87 +250,102 @@ class OrderItemGrid {
 
             //availability calendar popup
             $generatedtr.find('div[data-browsedatafield="AvailableQuantity"]').on('click', e => {
-                let $popup = jQuery(`
-                <div>
-                    <div class="close-modal" style="background-color:white;top:.8em;right:.1em; padding-right:.5em; border-radius:.2em;justify-content:flex-end;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
-                    <div id="availabilityCalendarPopup" class="fwform fwcontrol fwcontainer" data-control="FwContainer" data-type="form" style="overflow:auto;max-height:90vh;max-width:90vw;background-color:white; margin-top:2em; border:2px solid gray;">
-                        <div class="flexrow" style="overflow:auto;">
-                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
-                                 <div class="flexrow inv-data-totals">
-                                     <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="InContainer" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="Staged" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="Out" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="InRepair" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
-                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="InTransit" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
-                                 </div>
-                              <div class="flexrow" style="overflow:auto;">
-                                <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
-                              </div>
-                              <div class="flexrow schedulerrow" style="display:block;">
-                                <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
-                                <div class="fwbrowse"><div class="legend"></div></div>
-                             </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`);
-                FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
-                $popup = FwPopup.renderPopup($popup, { ismodal: true });
-                FwPopup.showPopup($popup);
-                $form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
-
-                $popup.find('.close-modal').on('click', function (e) {
-                    FwPopup.detachPopup($popup);
-                });
-
-                const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                const warehouseText = FwFormField.getTextByDataField($form, 'WarehouseId');
-                FwFormField.setValue2($popup.find('.warehousefilter'), warehouseId, warehouseText);
-                const schddate = FwScheduler.getTodaysDate();
-
-                const $calendar = $popup.find('.calendar');
-                FwScheduler.renderRuntimeHtml($calendar);
-                FwScheduler.init($calendar);
                 const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
-                RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
-                FwScheduler.loadControl($calendar);
-                FwScheduler.navigate($calendar, schddate);
-                FwScheduler.refresh($calendar);
-                // sequence of these invocations is important so that events are properly stored on the control ^ v
-                const $scheduler = $popup.find('.realscheduler');
-                FwSchedulerDetailed.renderRuntimeHtml($scheduler);
-                FwSchedulerDetailed.init($scheduler);
-                RentalInventoryController.addCalSchedEvents($generatedtr, $scheduler, inventoryId);
-                FwSchedulerDetailed.loadControl($scheduler);
-                FwSchedulerDetailed.navigate($scheduler, schddate, 35);
-                FwSchedulerDetailed.refresh($scheduler);
+                if (inventoryId) {
+                    let $popup = jQuery(`
+                        <div>
+                            <div class="close-modal" style="background-color:white;top:.8em;right:.1em; padding-right:.5em; border-radius:.2em;justify-content:flex-end;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                            <div id="availabilityCalendarPopup" class="fwform fwcontrol fwcontainer" data-control="FwContainer" data-type="form" style="overflow:auto;max-height:90vh;max-width:90vw;background-color:white; margin-top:2em; border:2px solid gray;">
+                              <div class="flexrow" style="overflow:auto;">
+                                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
+                                  <div class="flexrow">
+                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-enabled="false" style="flex:0 1 100px;"></div>
+                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:0 1 500px;"></div>
+                                  </div>
+                                        <div class="flexrow inv-data-totals">
+                                            <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="InContainer" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="Staged" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="Out" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="InRepair" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="InTransit" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
+                                        </div>
+                                      <div class="flexrow" style="overflow:auto;">
+                                        <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
+                                      </div>
+                                      <div class="flexrow schedulerrow" style="display:block;">
+                                        <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
+                                        <div class="fwbrowse"><div class="legend"></div></div>
+                                     </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>`);
+                    FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
+                    $popup = FwPopup.renderPopup($popup, { ismodal: true });
+                    FwPopup.showPopup($popup);
+                    $form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
 
-                try {
-                    if ($scheduler.hasClass('legend-loaded') === false) {
-                        FwAppData.apiMethod(true, 'GET', 'api/v1/rentalinventory/availabilitylegend', null, FwServices.defaultTimeout,
-                            response => {
-                                for (let key in response) {
-                                    FwBrowse.addLegend($popup.find('.schedulerrow .fwbrowse'), key, response[key]);
-                                }
-                                $scheduler.addClass('legend-loaded');
-                            }, ex => {
-                                FwFunc.showError(ex);
-                            }, $scheduler);
-                    }
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
+                    $popup.find('.close-modal').on('click', function (e) {
+                        FwPopup.detachPopup($popup);
+                    });
 
-                $popup.on('change', '.warehousefilter', e => {
-                    const whFilter = FwFormField.getValue2($popup.find('.warehousefilter'));
-                    $generatedtr.data('warehousefilter', whFilter);
+                    const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                    const warehouseText = FwFormField.getTextByDataField($form, 'WarehouseId');
+                    FwFormField.setValue2($popup.find('.warehousefilter'), warehouseId, warehouseText);
+                    // fields on popup
+                    const iCode = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext');
+                    FwFormField.setValue2($popup.find('div[data-datafield="ICode"]'), iCode);
+                    const description = FwBrowse.getValueByDataField($control, $generatedtr, 'Description');
+                    FwFormField.setValue2($popup.find('div[data-datafield="Description"]'), description);
+
+
+                    const $calendar = $popup.find('.calendar');
+                    FwScheduler.renderRuntimeHtml($calendar);
+                    FwScheduler.init($calendar);
+                    RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
+                    FwScheduler.loadControl($calendar);
+                    const schddate = FwScheduler.getTodaysDate();
+                    FwScheduler.navigate($calendar, schddate);
                     FwScheduler.refresh($calendar);
+                    // sequence of these invocations is important so that events are properly stored on the control ^ v
+                    const $scheduler = $popup.find('.realscheduler');
+                    FwSchedulerDetailed.renderRuntimeHtml($scheduler);
+                    FwSchedulerDetailed.init($scheduler);
+                    RentalInventoryController.addCalSchedEvents($generatedtr, $scheduler, inventoryId);
+                    FwSchedulerDetailed.loadControl($scheduler);
+                    FwSchedulerDetailed.navigate($scheduler, schddate, 35);
                     FwSchedulerDetailed.refresh($scheduler);
-                });
+
+                    try {
+                        if ($scheduler.hasClass('legend-loaded') === false) {
+                            FwAppData.apiMethod(true, 'GET', 'api/v1/rentalinventory/availabilitylegend', null, FwServices.defaultTimeout,
+                                response => {
+                                    for (let key in response) {
+                                        FwBrowse.addLegend($popup.find('.schedulerrow .fwbrowse'), key, response[key]);
+                                    }
+                                    $scheduler.addClass('legend-loaded');
+                                }, ex => {
+                                    FwFunc.showError(ex);
+                                }, $scheduler);
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+
+                    $popup.on('change', '.warehousefilter', e => {
+                        const whFilter = FwFormField.getValue2($popup.find('.warehousefilter'));
+                        $generatedtr.data('warehousefilter', whFilter);
+                        FwScheduler.refresh($calendar);
+                        FwSchedulerDetailed.refresh($scheduler);
+                    });
+                } else {
+                    e.stopPropagation();
+                    FwNotification.renderNotification('WARNING', 'Save the row first.');
+                }
             });
 
             $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
@@ -280,17 +360,6 @@ class OrderItemGrid {
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
                 $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-
-                if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
-                    const discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
-                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
-                    const isRentalGrid = jQuery($control).parent('[data-grid="OrderItemGrid"]').hasClass('R');
-                    if (isRentalGrid === true) {
-                        const daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
-                        FwBrowse.setFieldValue($control, $generatedtr, 'DaysPerWeek', { value: daysPerWeek });
-                    }
-                }
 
                 if ($generatedtr.hasClass("newmode")) {
                     const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
@@ -857,13 +926,14 @@ class OrderItemGrid {
                 subWorksheetData.RecType = 'RS'
             }
             const $form = jQuery(event.currentTarget).closest('.fwform');
+
             subWorksheetData.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
             subWorksheetData.RateType = FwFormField.getValueByDataField($form, 'RateType');
             subWorksheetData.CurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
             subWorksheetData.CurrencyCode = FwFormField.getTextByDataField($form, 'CurrencyId');
-            subWorksheetData.EstimatedStartDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-            subWorksheetData.EstimatedStopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-            subWorksheetData.EstimatedStartTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
+            subWorksheetData.EstimatedStartDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
+            subWorksheetData.EstimatedStopDate = FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]');
+            subWorksheetData.EstimatedStartTime = FwFormField.getValue($form, 'div[data-timeactivitytype="START"]');
             const $subWorksheetForm = SubWorksheetController.openForm('EDIT', subWorksheetData);
             FwModule.openSubModuleTab($form, $subWorksheetForm);
             jQuery('.tab.submodule.active').find('.caption').html('Sub Worksheet');
@@ -972,6 +1042,52 @@ class OrderItemGrid {
         FwBrowse.search($templateBrowse);
     }
     //----------------------------------------------------------------------------------------------
+    async muteUnmute(event: any) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const mutedItems = [];
+        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+                let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+                let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+                let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
+
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                orderItem.Description = description;
+                orderItem.QuantityOrdered = quantityOrdered;
+                orderItem.RecType = recType;
+                orderItem.RowsRolledUp = rowsRolledUp;
+
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Mute"]').attr('data-originalvalue') === 'true') {
+                    orderItem.Mute = false;
+                } else {
+                    orderItem.Mute = true;
+                }
+                mutedItems.push(orderItem);
+            }
+            await muteUnmuteItems(mutedItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+
+        function muteUnmuteItems(orders): void {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+    }
+    //----------------------------------------------------------------------------------------------
     async lockUnlock(event: any) {
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
         const lockedItems = [];
@@ -1058,6 +1174,21 @@ class OrderItemGrid {
         await jQuery(document).trigger('click');
     }
     //----------------------------------------------------------------------------------------------
+    async restoreSystemSorting(event: any) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const $form = jQuery(event.currentTarget).closest('.fwform');
+
+        await restoreSorting(FwFormField.getValue2($form.find('[data-type="key"]')));
+        await jQuery(document).trigger('click');
+
+        function restoreSorting(orderId): void {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/cancelmanualsort/${orderId}`, null, FwServices.defaultTimeout,
+                response => {
+                    FwBrowse.search($browse);
+                }, ex => FwFunc.showError(ex), $browse);
+        };
+    }
+    //----------------------------------------------------------------------------------------------
     quikSearch(event) {
         const grid = jQuery(event.currentTarget).parents('[data-control="FwGrid"]');
         let gridInventoryType;
@@ -1130,6 +1261,182 @@ class OrderItemGrid {
                 }
                 break;
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    insertLineItem($control: JQuery, $tr: JQuery) {
+        const itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+        const types: any = ['C', 'K', 'I'];
+        let primaryItemId;
+        if (types.includes(itemClass)) {
+            primaryItemId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
+        } else {
+            primaryItemId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+        }
+
+        const request: any = {
+            OrderId: FwBrowse.getValueByDataField($control, $tr, 'OrderId'),
+            PrimaryItemId: primaryItemId,
+            BelowInventoryId: FwBrowse.getValueByDataField($control, $tr, 'OrderItemId')
+        };
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertlineitem`, request, FwServices.defaultTimeout,
+            response => {
+                const pageNo = parseInt($control.attr('data-pageno'));
+                const onDataBind = $control.data('ondatabind');
+                if (typeof onDataBind == 'function') {
+                    $control.data('ondatabind', request => {
+                        onDataBind(request);
+                        request.pageno = pageNo;
+                    });
+                }
+                FwBrowse.search($control);
+            }, ex => FwFunc.showError(ex), $control);
+    }
+    //----------------------------------------------------------------------------------------------
+    renderCompleteKitGridPopup($control: JQuery, $tr: JQuery, itemClass: string): void {
+        let HTML: Array<string> = [], $popupHtml, $popup;
+        let type;
+
+        switch (itemClass) {
+            case 'C':
+            case 'CI':
+            case 'CO':
+                type = 'Complete';
+                break;
+            case 'K':
+            case 'KI':
+            case 'KO':
+                type = 'Kit';
+                break;
+        }
+
+        HTML.push(
+            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form">
+                <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                  <div class="flexpage">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Update ${type} Options">
+                        <div class="wideflexrow">
+                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="ParentId" style="display:none;"></div>  
+                           <div data-control="FwGrid" data-grid="Inventory${type}Grid" data-securitycaption=""></div>
+                         </div>
+                        <div class="wideflexrow" style="flex-direction:row-reverse;">  
+                            <div class="fwformcontrol apply-options" data-type="button" data-enabled="true" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center; max-width:200px;">Apply</div> 
+                        </div>
+                    </div>
+                </div>
+            </div>`);
+        $popupHtml = HTML.join('');
+        $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
+        FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
+        FwPopup.showPopup($popup);
+
+        let packageId;
+        let parentOrderItemId;
+        const orderId = FwBrowse.getValueByDataField($control, $tr, 'OrderId');
+        const optionTypes: any = ['KI', 'KO', 'CI', 'CO'];
+        if (optionTypes.includes(itemClass)) {
+            const optionParentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+            let $parenttr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${optionParentId}"]`).parents('tr');
+            packageId = FwBrowse.getValueByDataField($control, $parenttr, 'ParentId');
+            parentOrderItemId = FwBrowse.getValueByDataField($control, $parenttr, 'OrderItemId');
+        } else {
+            //inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
+            packageId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+            parentOrderItemId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
+        }
+
+        FwFormField.setValueByDataField($popup.find('.fwform'), 'ParentId', packageId);
+
+        const $completeKitGrid = FwBrowse.renderGrid({
+            nameGrid: `Inventory${type}Grid`,
+            gridSecurityId: 'ABL0XJQpsQQo',
+            moduleSecurityId: 'RFgCJpybXoEb',
+            $form: $popup,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    //PackageId:  (itemClass === 'K' || itemClass === 'C') ? inventoryId: parentId,
+                    PackageId: packageId,
+                    WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
+                };
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.attr('data-hasaudithistory', 'false');
+            }
+        });
+
+        const fieldsToHide: any = ['ItemTrackedBy', 'IsOption', 'Charge'];
+        const $thead = $completeKitGrid.find('thead');
+        for (let i = 0; i < fieldsToHide.length; i++) {
+            $thead.find(`[data-browsedatafield="${fieldsToHide[i]}"]`).parent('td').hide();
+        }
+        FwBrowse.setAfterRenderRowCallback($completeKitGrid, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+            const defaultQuantity = 0;
+            const $field = $tr.find('[data-browsedatafield="DefaultQuantity"]');
+            $field.attr('data-browsedatatype', 'numericupdown');
+            $field.attr('data-allownegative', 'false');
+            $field.attr('data-originalvalue', defaultQuantity);
+            FwBrowse.setFieldViewMode($completeKitGrid, $tr, $field);
+
+            const isPrimary = FwBrowse.getValueByDataField($completeKitGrid, $tr, 'IsPrimary');
+            if (isPrimary == 'true') {
+                $field
+                    .hide()
+                    .parents('td')
+                    .css('background-color', 'rgb(245,245,245)');
+            }
+
+            $field.on('change', '.value', e => {
+                const quantity = jQuery(e.currentTarget).val();
+                $field.attr('data-originalvalue', Number(quantity));
+            });
+        });
+
+        FwBrowse.disableGrid($completeKitGrid);
+        FwBrowse.search($completeKitGrid);
+
+        // Close modal
+        $popup.find('.close-modal').one('click', e => {
+            FwPopup.destroyPopup($popup);
+            jQuery(document).find('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        });
+        //// Close modal if click outside
+        //jQuery(document).on('click', e => {
+        //    if (!jQuery(e.target).closest('.popup').length) {
+        //        FwPopup.destroyPopup($popup);
+        //    }
+        //});
+
+        $popup.on('click', '.apply-options', e => {
+            const $trs = $completeKitGrid.find(`tbody tr [data-browsedatafield="IsPrimary"][data-originalvalue="false"]`).parents('tr');
+            const request: any = {};
+            const $items: any = [];
+            for (let i = 0; i < $trs.length; i++) {
+                const qty = FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'DefaultQuantity')
+                if (qty != 0) {
+                    const item = {
+                        InventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'InventoryId'),
+                        Quantity: qty
+                    }
+                    $items.push(item);
+                }
+            }
+
+            request.OrderId = orderId;
+            request.ParentOrderItemId = parentOrderItemId;
+            request.Items = $items;
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem/insertoption", request, FwServices.defaultTimeout,
+                response => {
+                    $popup.find('.close-modal').click();
+                    FwBrowse.search($control);
+                },
+                ex => FwFunc.showError(ex), $control);
+        });
     }
 }
 

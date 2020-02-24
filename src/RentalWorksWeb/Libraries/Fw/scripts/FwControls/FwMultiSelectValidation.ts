@@ -446,16 +446,30 @@
     selectAll($control, $valuefield: JQuery, $searchfield: JQuery, $popup: JQuery, $browse: JQuery): void {
         let $selectedRows, $trs, $tr, uniqueIdValue, multiselectfield, selectedRowUniqueIds, $inputField;
         multiselectfield = $control.find('.multiselectitems');
+        const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
         $inputField = multiselectfield.find('span.addItem');
-        if (typeof $browse.data('selectedrows') === 'undefined') {
-            $browse.data('selectedrows', {});
-        }
-        if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
-            $browse.data('selectedrowsuniqueids', []);
-        }
-        selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
-        $selectedRows = $browse.data('selectedrows');
+        const $textField = $valuefield.siblings('.fwformfield-text');
+        //if (typeof $browse.data('selectedrows') === 'undefined') {
+        //    $browse.data('selectedrows', {});
+        //}
+
+        //if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
+        //    $browse.data('selectedrowsuniqueids', []);
+        //}
+        $selectedRows = {};
+        selectedRowUniqueIds = [];
+        const selectedRowText = [];
+        multiselectfield.find('.multiitem').remove();
+        //let selectedRowText: any = $textField.val();
+        //if (selectedRowText.length > 0) {
+        //    selectedRowText = selectedRowText.split($control.hasClass('email') ? ';' : multiSeparator);
+        //} else {
+        //    selectedRowText = [];
+        //}
+        //selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
+        //$selectedRows = $browse.data('selectedrows');
         $trs = $browse.find('tbody > tr');
+
         for (let i = 0; i < $trs.length; i++) {
             $tr = jQuery($trs[i]);
             uniqueIdValue = FwMultiSelectValidation.getUniqueIds($tr);
@@ -467,14 +481,28 @@
                     <span>${textValue}</span>
                     <i class="material-icons">clear</i>
                 </div>`);
+                if (selectedRowText.indexOf(textValue) == -1) {
+                    selectedRowText.push(textValue);
+                }
                 selectedRowUniqueIds.push(uniqueIdValue);
                 $selectedRows[uniqueIdValue] = $tr;
             }
         }
+        if ($control.hasClass('email')) {
+            $textField.val(selectedRowText.join(';'));
+        } else {
+            $textField.val(selectedRowText.join(multiSeparator));
+        }
+
+        $browse.data('selectedrows', $selectedRows);
+        $browse.data('selectedrowsuniqueids', selectedRowUniqueIds);
+
         $valuefield.val(selectedRowUniqueIds.join(',')).change();
         $searchfield.val('');
         multiselectfield.append($inputField);
         $inputField.text('');
+
+
         FwPopup.detachPopup($popup);
         FwMultiSelectValidation.clearSearchCriteria($browse);
         FwMultiSelectValidation.setCaret($control);
@@ -482,6 +510,7 @@
     //---------------------------------------------------------------------------------
     clear(validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         $browse.data('selectedrows', {});
+        $browse.data('selectedrowsuniqueids', []);
         jQuery($valuefield.siblings('.multiselectitems')).find('.multiitem').remove();
         $valuefield.val('').change();
         $searchfield.val('');

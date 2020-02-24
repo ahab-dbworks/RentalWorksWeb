@@ -7,11 +7,9 @@ namespace FwStandard.Reporting
 {
     public class FwReportEmailInfo
     {
-        [Required]
         [MaxLength(255)]
         public string from { get; set; }
-
-        [Required]
+        
         [MaxLength(255)]
         public string to { get; set; }
 
