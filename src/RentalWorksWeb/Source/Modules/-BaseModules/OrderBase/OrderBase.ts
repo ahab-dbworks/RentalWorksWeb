@@ -3063,11 +3063,11 @@ class OrderBase {
                         const html: Array<string> = [];
                         html.push(`<div class="form-alert-container">`);
                         for (let i = 0; i < messages.length; i++) {
-                            let backgroundColor = '#ffff33'; //yellow
+                            let alertClass = 'elevated'; //yellow
                             if (messages[i].PreventCheckOut === true) {
-                                backgroundColor = '#ff0000'; // red
+                                alertClass = 'severe'; // red
                             }
-                            html.push(`<div class="form-alert" style="background:${backgroundColor};"><div style="float:left;"></div><span>${messages[i].Message}</span><div class="close"><i class="material-icons">clear</i></div></div>`);
+                            html.push(`<div class="form-alert ${alertClass}"><div style="float:left;"></div><span>${messages[i].Message}</span><div class="close"><i class="material-icons">clear</i></div></div>`);
                         }
                         html.push(`</div>`);
                         $formBody.before(html.join(''));
