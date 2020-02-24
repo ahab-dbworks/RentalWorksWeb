@@ -267,14 +267,45 @@ class Project {
     }
     //-----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        const $projectContactGrid = $form.find('[data-name="ProjectContactGrid"]');
-        FwBrowse.search($projectContactGrid);
+        //const $projectContactGrid = $form.find('[data-name="ProjectContactGrid"]');
+        //FwBrowse.search($projectContactGrid);
 
-        const $poApproverGrid = $form.find('[data-name="POApproverGrid"]');
-        FwBrowse.search($poApproverGrid);
+        //const $poApproverGrid = $form.find('[data-name="POApproverGrid"]');
+        //FwBrowse.search($poApproverGrid);
 
-        const $projectNoteGrid = $form.find('[data-name="ProjectNoteGrid"]');
-        FwBrowse.search($projectNoteGrid);
+        //const $projectNoteGrid = $form.find('[data-name="ProjectNoteGrid"]');
+        //FwBrowse.search($projectNoteGrid);
+
+        //Click Event on tabs to load grids/browses
+        $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
+        $form.on('click', '[data-type="tab"]', e => {
+            const $tab = jQuery(e.currentTarget);
+            const tabname = $tab.attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
+            if ($tab.hasClass('audittab') == false) {
+                const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+                if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
+                    for (let i = 0; i < $gridControls.length; i++) {
+                        try {
+                            const $gridcontrol = jQuery($gridControls[i]);
+                            FwBrowse.search($gridcontrol);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    }
+                }
+
+                const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+                if (($tab.hasClass('tabGridsLoaded') === false) && $browseControls.length > 0) {
+                    for (let i = 0; i < $browseControls.length; i++) {
+                        const $browseControl = jQuery($browseControls[i]);
+                        FwBrowse.search($browseControl);
+                    }
+                }
+            }
+            $tab.addClass('tabGridsLoaded');
+        });
     }
     //-----------------------------------------------------------------------------------------------
     createQuote($form: any) {
