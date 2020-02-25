@@ -650,7 +650,7 @@ abstract class InventoryBase {
         if (theDate.length && theDate[0].Reservations.length) {
             const html: Array<string> = [];
             html.push(
-                `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Reservations" style="height:900px;">
+                `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Reservations" style="overflow:auto;max-height: calc(100vh - 140px);">
                   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                     <div class="tabpages">
                       <div class="formpage">
