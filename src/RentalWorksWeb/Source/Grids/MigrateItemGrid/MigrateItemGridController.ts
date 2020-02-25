@@ -7,12 +7,11 @@
         const $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
-            let quantityOutValue = +$tr.find('[data-browsedatafield="QuantityOut"]').attr('data-originalvalue');
-            let $grid = $tr.parents('[data-grid="MigrateItemGrid"]');
-            let sessionId = $grid.data('sessionId');
-
+            const quantityOutValue = +$tr.find('[data-browsedatafield="QuantityOut"]').attr('data-originalvalue');
             if (quantityOutValue !== 0) {
                 $quantityColumn.on('change', '.value', e => {
+                    const $grid = $tr.parents('[data-grid="MigrateItemGrid"]');
+                    const sessionId = $grid.data('sessionId');
                     let request: any = {},
                         code = $tr.find('[data-browsedatafield="BarCode"]').attr('data-originalvalue'),
                         orderItemId = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'),
@@ -31,7 +30,7 @@
                     if (quantity != 0) {
                         FwAppData.apiMethod(true, 'POST', "api/v1/migrate/updateitem", request, FwServices.defaultTimeout,
                             function onSuccess(response) {
-                                let errorMsg = $form.find('.error-msg:not(.qty)');
+                                const errorMsg = $form.find('.error-msg:not(.qty)');
                                 errorMsg.html('');
                                 if (response.success) {
                                     $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
