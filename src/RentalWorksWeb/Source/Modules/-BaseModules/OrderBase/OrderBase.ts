@@ -1722,7 +1722,8 @@ class OrderBase {
             request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
             request.CombineSubs = FwFormField.getValueByDataField($confirmation, 'CombineSubs');
             request.CopyDocuments = FwFormField.getValueByDataField($confirmation, 'CopyDocuments');
-
+            request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+            request.LocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             if (request.CopyRatesFromInventory == "T") {
                 request.CopyRatesFromInventory = "False"
             };
