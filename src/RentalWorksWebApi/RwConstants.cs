@@ -135,7 +135,7 @@ namespace WebApi
         public const string ACTIVITY_TYPE_REPAIRDUE = "REPAIRDUE";
 
 
-        public const string ITEMCLASS_GROUP_HEADING= "GH";
+        public const string ITEMCLASS_GROUP_HEADING = "GH";
         public const string ITEMCLASS_TEXT = "T";
         public const string ITEMCLASS_SUBTOTAL = "ST";
 
@@ -601,40 +601,42 @@ namespace WebApi
 
     public class QuoteOrderCopyRequest
     {
-        public string CopyToDealId;
-        public bool CopyRatesFromInventory;
-        public bool CopyDates;
-        public bool CopyLineItemNotes;
-        public bool CombineSubs;
-        public bool CopyDocuments;
+        public string CopyToDealId { get; set; }
+        public string LocationId { get; set; }
+        public string WarehouseId { get; set; }
+        public bool CopyRatesFromInventory { get; set; }
+        public bool CopyDates { get; set; }
+        public bool CopyLineItemNotes { get; set; }
+        public bool CombineSubs { get; set; }
+        public bool CopyDocuments { get; set; }
     }
 
     public class ApplyBottomLineDaysPerWeekRequest
     {
-        public string OrderId;
-        public string PurchaseOrderId;
-        public string RecType;
-        public bool? Subs;
-        public decimal DaysPerWeek;
+        public string OrderId { get; set; }
+        public string PurchaseOrderId { get; set; }
+        public string RecType { get; set; }
+        public bool? Subs { get; set; }
+        public decimal DaysPerWeek { get; set; }
     }
 
     public class ApplyBottomLineDiscountPercentRequest
     {
-        public string OrderId;
-        public string PurchaseOrderId;
-        public string RecType;
-        public bool? Subs;
-        public decimal DiscountPercent;
+        public string OrderId { get; set; }
+        public string PurchaseOrderId { get; set; }
+        public string RecType { get; set; }
+        public bool? Subs { get; set; }
+        public decimal DiscountPercent { get; set; }
     }
 
     public class ApplyBottomLineTotalRequest
     {
-        public string OrderId;
-        public string PurchaseOrderId;
-        public string RecType;
-        public bool? Subs;
-        public string TotalType;
-        public decimal Total;
-        public bool? IncludeTaxInTotal;
+        public string OrderId { get; set; }
+        public string PurchaseOrderId { get; set; }
+        public string RecType { get; set; }
+        public bool? Subs { get; set; }
+        public string TotalType { get; set; }
+        public decimal Total { get; set; }
+        public bool? IncludeTaxInTotal { get; set; }
     }
 }

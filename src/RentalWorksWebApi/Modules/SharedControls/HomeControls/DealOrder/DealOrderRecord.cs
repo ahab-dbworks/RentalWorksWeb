@@ -1059,6 +1059,8 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@fromorderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@newordertype", SqlDbType.NVarChar, ParameterDirection.Input, copyToType);
+                    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.LocationId);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.WarehouseId);
                     qry.AddParameter("@ratesfrominventory", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyRatesFromInventory);
                     qry.AddParameter("@combinesubs", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CombineSubs);
                     qry.AddParameter("@copydates", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyDates);
