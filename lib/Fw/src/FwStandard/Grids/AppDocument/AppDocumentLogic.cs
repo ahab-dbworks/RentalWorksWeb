@@ -102,24 +102,24 @@ namespace FwStandard.Grids.AppDocument
             }
         }
         //------------------------------------------------------------------------------------ 
-        protected override async Task AfterSaveAsync(AfterSaveEventArgs e)
-        {
-            await base.AfterSaveAsync(e);
+        //protected override async Task AfterSaveAsync(AfterSaveEventArgs e)
+        //{
+        //    await base.AfterSaveAsync(e);
             
-            // if the user uploaded a file, then save an appimage
-            if (this.FileDataUrl != null && this.FileDataUrl.Length > 0)
-            {
-                FwAppImageLogic appImageLogic = new FwAppImageLogic(this.AppConfig);
-                if (e.SaveMode == TDataRecordSaveMode.smUpdate)
-                {
-                    // delete any existing images
-                    await appImageLogic.DeleteAsync(this.appDocument.UniqueId1, this.appDocument.UniqueId2, "");
-                }
+        //    // if the user uploaded a file, then save an appimage
+        //    if (this.FileDataUrl != null && this.FileDataUrl.Length > 0)
+        //    {
+        //        FwAppImageLogic appImageLogic = new FwAppImageLogic(this.AppConfig);
+        //        if (e.SaveMode == TDataRecordSaveMode.smUpdate)
+        //        {
+        //            // delete any existing images
+        //            await appImageLogic.DeleteAsync(this.appDocument.UniqueId1, this.appDocument.UniqueId2, "");
+        //        }
 
-                // add the new image
-                await appImageLogic.AddAsync(appDocument.UniqueId1, appDocument.UniqueId2, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl);
-            }
-        }
+        //        // add the new image
+        //        await appImageLogic.AddAsync(appDocument.UniqueId1, appDocument.UniqueId2, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl);
+        //    }
+        //}
         //------------------------------------------------------------------------------------ 
         public void SetUniqueId1(string value)
         {

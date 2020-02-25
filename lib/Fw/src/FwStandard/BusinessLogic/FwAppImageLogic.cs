@@ -54,26 +54,20 @@ namespace FwStandard.BusinessLogic
                         qry.AddParameter("@orderby", orderby);
                     }
                     await qry.ExecuteAsync();
-                    FwAppImageModel appimage = null;
-                    if (qry.RowCount > 0)
+                    FwAppImageModel appimage = new FwAppImageModel();
+                    if ((thumbnail != null) && (thumbnail == "true"))
                     {
-                        appimage = new FwAppImageModel();
-                        if ((thumbnail != null) && (thumbnail == "true"))
-                        {
-                            image = qry.GetField("thumbnail").ToByteArray();
-                        }
-                        else
-                        {
-                            image = qry.GetField("image").ToByteArray();
-                        }
-                        appimage.Image = image;
-                        appimage.Description = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("description").ToString().Trim().ToLower());
-                        appimage.Extension = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("extension").ToString().Trim().ToLower());
-                        appimage.MimeType = FwMimeTypeTranslator.GetMimeTypeFromExtension(appimage.Extension);
-                        appimage.OrderBy = qry.GetField("orderby").ToInt32();
+                        image = qry.GetField("thumbnail").ToByteArray();
                     }
-                    
-                    
+                    else
+                    {
+                        image = qry.GetField("image").ToByteArray();
+                    }
+                    appimage.Image = image;
+                    appimage.Description = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("description").ToString().Trim().ToLower());
+                    appimage.Extension = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("extension").ToString().Trim().ToLower());
+                    appimage.MimeType = FwMimeTypeTranslator.GetMimeTypeFromExtension(appimage.Extension);
+                    appimage.OrderBy = qry.GetField("orderby").ToInt32();
                     return appimage;
                     //string filename = description + orderby + "." + extension;
                     //if (image != null)
@@ -143,27 +137,18 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        public async Task AddAsync(string uniqueid1, string uniqueid2, string uniqueid3, string description, string extension, string rectype, string dataurl)
+        public async Task AddAsync(string uniqueid1, string uniqueid2, string uniqueid3, string description, string extension, string rectype, string imagedataurl)
         {
             int height = 0;
             int width = 0;
-            
-            var dataUrlParts = dataurl.Split(new char[] { ',' });
-            if(dataUrlParts.Length != 2) throw new ArgumentException("Missing dataurl prefix.", "imagedataurl");
-            var dataUrlPrefix = dataUrlParts[0];
-            var base64Data = dataUrlParts[1];
-            byte[] image = Convert.FromBase64String(base64Data);
-            byte[] thumbnail = new byte[0];
-            if (dataUrlPrefix.StartsWith("data:image/"))
+            byte[] image = Convert.FromBase64String(imagedataurl);
+            using (MemoryStream stream = new MemoryStream(image))
             {
-                using (MemoryStream stream = new MemoryStream(image))
-                {
-                    Image sizingImage = Bitmap.FromStream(stream);
-                    width = sizingImage.Width;
-                    height = sizingImage.Height;
-                }
-                thumbnail = FwGraphics.GetJpgThumbnail(image);
+                Image sizingImage = Bitmap.FromStream(stream);
+                width = sizingImage.Width;
+                height = sizingImage.Height;
             }
+            byte[] thumbnail = FwGraphics.GetJpgThumbnail(image);
             FwDateTime datestamp = DateTime.UtcNow;
             using (FwSqlConnection conn = new FwSqlConnection(this._appConfig.DatabaseSettings.ConnectionString))
             {
@@ -207,24 +192,6 @@ namespace FwStandard.BusinessLogic
                     cmd.Add("delete appimage");
                     cmd.Add("where appimageid = @appimageid");
                     cmd.AddParameter("@appimageid", appimageid);
-                    await cmd.ExecuteNonQueryAsync();
-                }
-            }
-        }
-        //------------------------------------------------------------------------------------        
-        public async Task DeleteAsync(string uniqueid1, string uniqueid2, string uniqueid3)
-        {
-            using (FwSqlConnection conn = new FwSqlConnection(this._appConfig.DatabaseSettings.ConnectionString))
-            {
-                using (FwSqlCommand cmd = new FwSqlCommand(conn, this._appConfig.DatabaseSettings.QueryTimeout))
-                {
-                    cmd.Add("delete appimage");
-                    cmd.Add("where uniqueid1 = @uniqueid1");
-                    cmd.Add("  and uniqueid2 = @uniqueid2");
-                    cmd.Add("  and uniqueid3 = @uniqueid3");
-                    cmd.AddParameter("@uniqueid1", uniqueid1);
-                    cmd.AddParameter("@uniqueid2", uniqueid2);
-                    cmd.AddParameter("@uniqueid3", uniqueid3);
                     await cmd.ExecuteNonQueryAsync();
                 }
             }
