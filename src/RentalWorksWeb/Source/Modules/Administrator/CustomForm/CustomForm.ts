@@ -440,9 +440,13 @@ class CustomForm {
             let $this = jQuery($grids[i]);
             let gridName = $this.attr('data-grid');
             let $gridControl = FwBrowse.loadGridFromTemplate(gridName);
-            $this.empty().append($gridControl);
-            FwBrowse.init($gridControl);
-            FwBrowse.renderRuntimeHtml($gridControl);
+            if ($gridControl.length) {
+                $this.empty().append($gridControl);
+                FwBrowse.init($gridControl);
+                FwBrowse.renderRuntimeHtml($gridControl);
+            } else {
+                $this.text(`[${gridName}]`);
+            }
         }
 
         function disableControls() {

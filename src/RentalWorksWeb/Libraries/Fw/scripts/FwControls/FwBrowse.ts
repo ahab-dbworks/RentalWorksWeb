@@ -4176,7 +4176,7 @@ class FwBrowseClass {
             if (customGrids.length > 0) {
                 $control = jQuery(jQuery(`#tmpl-custom-${modulename}Browse`)[0].innerHTML);
             } else {
-                if (typeof window[modulename + 'Controller'] !== undefined && typeof window[modulename + 'Controller'].getBrowseTemplate === 'function') {
+                if (typeof window[modulename + 'Controller'] != 'undefined' && typeof window[modulename + 'Controller'].getBrowseTemplate === 'function') {
                     $control = window[modulename + 'Controller'].getBrowseTemplate();
                 } else {
                     $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
@@ -4184,7 +4184,7 @@ class FwBrowseClass {
 
             }
         } else {
-            if (typeof window[modulename + 'Controller'] !== undefined && typeof window[modulename + 'Controller'].getBrowseTemplate === 'function') {
+            if (typeof window[modulename + 'Controller'] != 'undefined' && typeof window[modulename + 'Controller'].getBrowseTemplate === 'function') {
                 $control = window[modulename + 'Controller'].getBrowseTemplate();
             } else {
                 $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
