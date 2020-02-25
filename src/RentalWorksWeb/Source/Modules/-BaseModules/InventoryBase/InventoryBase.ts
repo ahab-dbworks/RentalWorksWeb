@@ -540,6 +540,11 @@ abstract class InventoryBase {
 
         //Load Availability Calender when the tab is clicked
         $form.find('[data-type="tab"][data-caption="Availability Calendar"]').on('click', e => {
+
+            //enable warehouse filters (to bypass enabling inventory access in security tree)
+            const $warehouseFilters = $form.find('[data-datafield="WarehouseId"], [data-datafield="AllWarehouses"]');
+            FwFormField.enable($warehouseFilters);
+
             if ($form.attr('data-mode') !== 'NEW') {
                 let schddate;
                 const $calendar = $form.find('.calendar');
@@ -617,7 +622,7 @@ abstract class InventoryBase {
             const $realScheduler = $form.find('.realscheduler');
             FwSchedulerDetailed.refresh($realScheduler);
             FwScheduler.refresh($calendar);
-        })
+        });
     }
     //----------------------------------------------------------------------------------------------
     enablePricingFields($form) {
@@ -1134,7 +1139,7 @@ abstract class InventoryBase {
         } else {
             FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseCompletePricingGrid"]'));
             FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseKitPricingGrid"]'));
-        }
+        };
     }
     //----------------------------------------------------------------------------------------------
     calculateYearly() {
