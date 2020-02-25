@@ -1223,10 +1223,10 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom_line_discount" data-caption="Disc. %" data-rectype="RS" data-datafield="UsedSaleDiscountPercent" style="flex:1 1 175px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals lossOrderItemTotal bottom_line_total_tax" data-caption="Total" data-rectype="RS" data-datafield="UsedSaleTotal" style="flex:1 1 175px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals bottom_line_total_tax" data-caption="Total" data-rectype="RS" data-datafield="UsedSaleTotal" style="flex:1 1 175px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield lossTotalWithTax bottom_line_total_tax" data-caption="Include Tax in Total" data-rectype="RS" data-datafield="UsedSaleTotalIncludesTax" style="flex:1 1 175px;margin-top:10px;"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield bottom_line_total_tax" data-caption="Include Tax in Total" data-rectype="RS" data-datafield="UsedSaleTotalIncludesTax" style="flex:1 1 175px;margin-top:10px;"></div>
                       </div>
                     </div>
                   </div>

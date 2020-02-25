@@ -2469,6 +2469,19 @@ class OrderBase {
                 FwFormField.enable($form.find('div[data-datafield="LossAndDamageTotalIncludesTax"]'));
             }
         }
+        if (recType === 'RS') {
+            $orderItemGrid = $form.find('.usedsalegrid  [data-name="OrderItemGrid"]');
+            total = FwFormField.getValueByDataField($form, 'UsedSaleTotal');
+            includeTaxInTotal = FwFormField.getValueByDataField($form, 'UsedSaleTotalIncludesTax');
+            if (!isWithTaxCheckbox) {
+                FwFormField.setValueByDataField($form, 'UsedSaleDiscountPercent', '');
+            }
+            if (total === '0.00') {
+                FwFormField.disable($form.find('div[data-datafield="UsedSaleTotalIncludesTax"]'));
+            } else {
+                FwFormField.enable($form.find('div[data-datafield="UsedSaleTotalIncludesTax"]'));
+            }
+        }
         if (recType === '') {
             $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
             total = FwFormField.getValue($form, '.combinedOrderItemTotal:visible');
