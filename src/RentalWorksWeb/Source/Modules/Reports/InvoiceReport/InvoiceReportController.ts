@@ -17,7 +17,7 @@ const invoiceTemplate = `
             <div class="flexcolumn" style="max-width:300px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Invoice" data-savesetting="false" data-datafield="InvoiceId" data-displayfield="InvoiceNumber" data-validationname="InvoiceValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Invoice" data-savesetting="false" data-required="true" data-datafield="InvoiceId" data-displayfield="InvoiceNumber" data-validationname="InvoiceValidation" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
             </div>
