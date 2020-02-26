@@ -118,6 +118,7 @@ class SearchInterface {
                              <div class="fwmenu default"></div>
                              <div style="padding: 5px;text-align: right;">
                                <div data-type="button" class="fwformcontrol addToOrder">Add to ${buttonCaption}</div>
+                               <div data-type="button" class="fwformcontrol insertAtLine" style="display:none; margin: 16px 7px 0px 7px;"></div>
                              </div>
                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>
