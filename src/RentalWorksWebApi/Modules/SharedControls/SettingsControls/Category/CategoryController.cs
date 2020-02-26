@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Logic;
+using System;
 
 namespace WebApi.Modules.Settings.Category
 {
@@ -31,6 +33,28 @@ namespace WebApi.Modules.Settings.Category
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/category/sort
+        [HttpPost("sort")]
+        [FwControllerMethod(Id: "EJ2YcL4TzB8mi", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<SortItemsResponse>> SortCategoriesAsync([FromBody]SortCategoryRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await CategoryFunc.SortCategory(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+
+                //------------------------------------------------------------------------------------
+            }
+        }
+        //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------
         //// GET api/v1/category
         //[HttpGet]
