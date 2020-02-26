@@ -54,7 +54,7 @@ class InventorySequenceUtility {
         })
 
 
-        $form.find('[data-name="FloorGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+        $form.find('[data-name="CategoryGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
                 var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
@@ -77,7 +77,7 @@ class InventorySequenceUtility {
             }
         });
 
-        $form.find('[data-name="SpaceGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+        $form.find('[data-name="InventoryTypeGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 var spaceId
                     , floorId
@@ -113,44 +113,53 @@ class InventorySequenceUtility {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
-        $form.find('.itemid[data-displayfield="BarCode"] input').focus();
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         FwBrowse.renderGrid({
-            nameGrid: 'SpaceWarehouseRateGrid',
+            nameGrid: 'InventoryTypeGrid',
             gridSecurityId: '',
             moduleSecurityId: this.id,
             $form: $form,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasDelete = false;
-                options.hasEdit = true;
-            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    RateId: FwFormField.getValueByDataField($form, 'RateId')
+                    InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
                 };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             }
         });
-    }
-    //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        switch (datafield) {
-            case 'ItemId':
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'CategoryGrid',
+            gridSecurityId: 'pWsHOgp1o7Obw',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
                 request.uniqueids = {
-                    WarehouseId: warehouse.warehouseid
+                    CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateitem`);
-                break;
-            case 'InventoryId':
+            },
+            beforeSave: (request: any) => {
+                request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+            }
+        });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'SubCategoryGrid',
+            gridSecurityId: 'vHMa0l5PUysXo',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
                 request.uniqueids = {
-                    WarehouseId: warehouse.warehouseid,
-                    TrackedBy: 'QUANTITY',
+                    CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
-        }
+            },
+            beforeSave: (request: any) => {
+                request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
@@ -164,14 +173,14 @@ class InventorySequenceUtility {
                   <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Type" data-datafield="InventoryType"></div>
                 </div>
                 <div class="flexrow">
-                  <div class="flexcoumn">
-                    <div data-control="FwGrid" data-grid="" style="min-width:250px;max-width:700px;"></div>
+                  <div class="flexcolumn">
+                    <div data-control="FwGrid" data-grid="InventoryTypeGrid" style="min-width:240px;max-width:400px;"></div>
                   </div>
-                  <div class="flexcoumn">
-                    <div data-control="FwGrid" data-grid="" style="min-width:250px;max-width:700px;"></div>
+                  <div class="flexcolumn">
+                    <div data-control="FwGrid" data-grid="CategoryGrid" style="min-width:240px;max-width:400px;"></div>
                   </div>
-                  <div class="flexcoumn">
-                    <div data-control="FwGrid" data-grid="" style="min-width:250px;max-width:700px;"></div>
+                  <div class="flexcolumn">
+                    <div data-control="FwGrid" data-grid="SubCategoryGrid" style="min-width:240px;max-width:400px;"></div>
                   </div>
                 </div>
               </div>
