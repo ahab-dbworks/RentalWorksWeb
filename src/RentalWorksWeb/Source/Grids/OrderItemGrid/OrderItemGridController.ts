@@ -1202,6 +1202,7 @@ class OrderItemGrid {
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/cancelmanualsort/${orderId}`, null, FwServices.defaultTimeout,
                 response => {
                     FwBrowse.search($browse);
+                    $form.data('ismanualsort', false);
                 }, ex => FwFunc.showError(ex), $browse);
         };
     }
