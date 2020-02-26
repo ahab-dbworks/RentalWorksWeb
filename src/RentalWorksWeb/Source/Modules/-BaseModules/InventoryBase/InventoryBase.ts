@@ -204,8 +204,15 @@ abstract class InventoryBase {
                     const days = request.days ? request.days : 34;
                     const endOfMonth = moment(request.start.value).add(days, 'days').format('MM/DD/YYYY');
                     let warehouseId;
-                    const allWh = FwFormField.getValueByDataField($form, 'AllWarehouses');
-                    if (allWh) {
+                    let allWh;
+
+                    if ($form.is('tr')) {
+                        allWh = $form.data('allwarehousesfilter');
+                    } else {
+                        allWh = FwFormField.getValueByDataField($form, 'AllWarehouses');
+                    }
+
+                    if (allWh && allWh != 'F') {
                         warehouseId = '';
                     } else {
                         if ($form.is('tr')) {
@@ -296,8 +303,15 @@ abstract class InventoryBase {
                     const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                     const endOfMonth = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY');
                     let warehouseId;
-                    const allWh = FwFormField.getValueByDataField($form, 'AllWarehouses');
-                    if (allWh) {
+                    let allWh;
+
+                    if ($form.is('tr')) {
+                        allWh = $form.data('allwarehousesfilter');
+                    } else {
+                        allWh = FwFormField.getValueByDataField($form, 'AllWarehouses');
+                    }
+                   
+                    if (allWh && allWh != 'F') { //checkbox values return strings sometimes instead of booleans
                         warehouseId = '';
                     } else {
                         if ($form.is('tr')) {

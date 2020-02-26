@@ -264,6 +264,7 @@ class OrderItemGrid {
                                   </div>
                                         <div class="flexrow inv-data-totals">
                                             <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
+                                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="flex:0 1 150px; margin-top:.5em; margin-left: 1em;"></div>                                      
                                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
                                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
                                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
@@ -341,6 +342,22 @@ class OrderItemGrid {
                         $generatedtr.data('warehousefilter', whFilter);
                         FwScheduler.refresh($calendar);
                         FwSchedulerDetailed.refresh($scheduler);
+                    });
+
+                    //Toggle All Warehouses
+                    $popup.on('change', '[data-datafield="AllWarehouses"]', e => {
+                        const $this = jQuery(e.currentTarget);
+                        const allWh = FwFormField.getValue2($this);
+                        if (allWh == 'T') {
+                            FwFormField.disable($popup.find('[data-datafield="WarehouseId"]'));
+                        } else {
+                            FwFormField.enable($popup.find('[data-datafield="WarehouseId"]'));
+                        }
+                        $generatedtr.data('allwarehousesfilter', allWh);
+                        const $calendar = $popup.find('.calendar');
+                        const $realScheduler = $popup.find('.realscheduler');
+                        FwSchedulerDetailed.refresh($realScheduler);
+                        FwScheduler.refresh($calendar);
                     });
                 } else {
                     e.stopPropagation();
