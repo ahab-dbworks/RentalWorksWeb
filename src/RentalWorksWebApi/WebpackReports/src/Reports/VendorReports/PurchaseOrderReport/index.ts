@@ -47,12 +47,12 @@ export class PurchaseOrderReport extends WebpackReport {
                             } else {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
-                            if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
+                            if (data.TermsAndConditions !== null && data.TermsAndConditions !== '') {
                                 const termEl = document.getElementById('terms');
                                 termEl.innerHTML = data.TermsAndConditions;
                                 if (data.TermsAndConditionsNewPage) {
                                     const termsRow = document.getElementById('termsRow');
-                                    termsRow.style.cssText = "page-break-before:always;";
+                                    termsRow.style.cssText = "page-break-before:always;padding:20px 10px 0px 10px;font-size:1em;";
                                 }
                             }
                             this.onRenderReportCompleted();

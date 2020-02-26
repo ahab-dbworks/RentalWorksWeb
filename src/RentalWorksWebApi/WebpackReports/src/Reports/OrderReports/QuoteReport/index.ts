@@ -46,7 +46,6 @@ export class QuoteReport extends WebpackReport {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
                             if (data.TermsAndConditions !== null && data.TermsAndConditions !== '') {
-                            console.log('TermsAndConditions', data.TermsAndConditions === '')
                                 const termEl = document.getElementById('terms');
                                 termEl.innerHTML = data.TermsAndConditions;
                                 if (data.TermsAndConditionsNewPage) {
