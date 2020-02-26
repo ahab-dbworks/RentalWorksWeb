@@ -22,7 +22,8 @@ export class RunReportsTest extends BaseTest {
         }
         // ----------
 
-        const reportNames = ['ArAgingReport',
+        const reportNames = [
+            'ArAgingReport',
             'DailyReceiptsReport',
             'GlDistributionReport',
             'AgentBillingReport',
@@ -103,7 +104,8 @@ export class RunReportsTest extends BaseTest {
             'PurchaseOrderMasterReport',
             'SubItemStatusReport',
             'SubRentalBillingAnalysisReport',
-            'VendorInvoiceSummaryReport']
+            'VendorInvoiceSummaryReport'
+        ]
         // ----------
         //async function getReportNamesDynamic() {
         //    return await page.evaluate(() => {
@@ -116,6 +118,39 @@ export class RunReportsTest extends BaseTest {
         //    })
         //}
         // ----------
+
+        //---------------------------------------------------------------------------------------
+        async function populateValidationField(reportName: string, dataField: string, validationName: string, recordToSelect?: number) {
+            if (recordToSelect === undefined) {
+                recordToSelect = 1;
+            }
+            Logging.logInfo(`About to click validation button on ${dataField}`);
+            await page.click(`#${reportName} .fwformfield[data-datafield="${dataField}"] i.btnvalidate`);
+            var popUp;
+            try {
+                popUp = await page.waitForSelector('.advisory', { timeout: 750 });
+            } catch (error) { } // no error pop-up
+
+            if (popUp !== undefined) {
+                let errorMessage = await page.$eval('.advisory', el => el.textContent);
+                Logging.logError(`Error opening validation ${validationName}: ` + errorMessage);
+                const options = await page.$$('.advisory .fwconfirmation-button');
+                await options[0].click() // click "OK" option
+                    .then(() => {
+                        Logging.logInfo(`Clicked the "OK" button.`);
+                    })
+            }
+            else {
+                Logging.logInfo(`No errors found when clicking validation button`);
+                Logging.logInfo(`About to wait for the validation pop-up`);
+                await page.waitForSelector(`div[data-name="${validationName}"] tr.viewmode:nth-child(1)`);
+                Logging.logInfo(`validation pop-up found,  about to click ${recordToSelect} record`);
+                await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
+                Logging.logInfo(`validation record clicked, about to wait 750 milliseconds`);
+                await ModuleBase.wait(750);
+            }
+        }
+        //---------------------------------------------------------------------------------------
         async function runReport(reportName: string) {
             let closeUnexpectedErrors = false;
             let testError = null;
@@ -123,6 +158,25 @@ export class RunReportsTest extends BaseTest {
             const reportPanel = `#${reportName} .panel .panel-heading`;
             await page.waitForSelector(reportPanel, { visible: true });
             await page.click(reportPanel);
+
+            //justin hoffman 02/25/2020 - if any validation fields have data-savesetting=false, then auto-select the first entry in the validation to allow report to run
+            let noSaveFieldSelector = `#${reportName} [data-type="validation"][data-savesetting="false"]`;  // consider adding [data-required="true"] this this selector
+            const noSaveFields = await page.$$(noSaveFieldSelector);
+
+            if (noSaveFields.length > 0) {
+                for (let noSaveField of noSaveFields) {
+                    let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), noSaveField);
+                    if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
+                        styleAttributeValue = "";
+                    }
+                    if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only try to input a value if the field is visible
+                        let dataFieldName: string = await page.evaluate(el => el.getAttribute('data-datafield'), noSaveField);
+                        let validationName: string = await page.evaluate(el => el.getAttribute('data-validationname'), noSaveField);
+                        Logging.logInfo(`Found a no-save field: ${dataFieldName}   validation name: ${validationName}`);
+                        await populateValidationField(reportName, dataFieldName, validationName, 1);
+                    }
+                }
+            }
 
             Logging.logInfo(`About to click on report preview`);
             const reportMenu = `#${reportName} .fwform-menu .buttonbar`;
@@ -166,10 +220,14 @@ export class RunReportsTest extends BaseTest {
                 await pages[2].setViewport({ width: 1600, height: 1080 })
                 if (pages.length === 3) {
                     Logging.logInfo(`Waiting for ${reportName} to load`);
-                    await pages[2].waitForSelector('body', { visible: true, timeout: 10000 });
-                    const preview = await pages[2].$('.preview');
-                    await ModuleBase.wait(1000); // only for developer to be able to see the report
-                    if (preview) {
+
+                    var preview;
+                    try {
+                        preview = await pages[2].waitForSelector('.preview', { visible: true, timeout: 10000 });
+                        await ModuleBase.wait(1000); // only for developer to be able to see the report
+                    } catch (error) { } // preview not found
+
+                    if (preview !== undefined) {
                         Logging.logInfo(`${reportName} rendered`);
                     } else {
                         const html = await pages[2].$eval('html', el => el.textContent);
@@ -207,7 +265,7 @@ export class RunReportsTest extends BaseTest {
 describe('RunReportsTest', () => {
     try {
         new RunReportsTest().Run();
-    } catch(ex) {
+    } catch (ex) {
         fail(ex);
     }
 });
