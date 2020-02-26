@@ -230,8 +230,10 @@ export class RunReportsTest extends BaseTest {
                     if (preview !== undefined) {
                         Logging.logInfo(`${reportName} rendered`);
                     } else {
-                        const html = await pages[2].$eval('html', el => el.textContent);
-                        testError = html;
+                        //const html = await pages[2].$eval('html', el => el.textContent);
+                        let html: string = await pages[2].$eval('html', el => el.textContent);
+                        let htmls = html.match(/.{1,100}/g); // split into an array of 100-character-length strings.  Required in order for the full text to appear in the test report pdf
+                        testError = htmls;
                         Logging.logInfo(`${reportName} was not rendered`);
                         Logging.logInfo(`Error: ${html}`);
                     }
