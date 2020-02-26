@@ -3343,6 +3343,8 @@ class FwBrowseClass {
                             $gridMenu.find('.sorting').hide();
                             $gridMenu.find('.buttonbar').show();
                             $control.find('.btn-manualsort').show();
+                            const $form = $control.closest('.fwform');
+                            $form.data('ismanualsort', true);
                         } else {
                             FwNotification.renderNotification('ERROR', response.msg);
                         };

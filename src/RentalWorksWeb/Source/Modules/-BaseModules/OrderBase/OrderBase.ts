@@ -3643,6 +3643,9 @@ class OrderBase {
         //if (!FwFormField.getValueByDataField($form, 'IsManualSort')) {
         //    $form.find('.gridmenu .submenu-btn .caption:contains(Restore System Sorting)').parent('.submenu-btn').hide();
         //}
+
+        const isManualSort = FwFormField.getValueByDataField($form, 'IsManualSort');
+        $form.data('ismanualsort', isManualSort);
     }
     //----------------------------------------------------------------------------------------------
     billingPeriodEvents($form) {
