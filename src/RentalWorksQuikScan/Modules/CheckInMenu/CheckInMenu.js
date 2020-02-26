@@ -45,7 +45,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 checkInType:  RwConstants.checkInType.Normal
             };
 
-            checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
+            checkInItemScreen = CheckInController.getCheckInScreen({}, props);
             program.pushScreen(checkInItemScreen);
         })
         .on('click', '#cim-session', function() {
@@ -280,7 +280,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                                 }
                             };
 
-                            checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
+                            checkInItemScreen = CheckInController.getCheckInScreen({}, props);
                             program.pushScreen(checkInItemScreen);
                         });
                     }
@@ -371,7 +371,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                             }
                         };
 
-                        checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
+                        checkInItemScreen = CheckInController.getCheckInScreen({}, props);
                         program.pushScreen(checkInItemScreen);
                     });
                 }
@@ -507,7 +507,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 }
             };
 
-            checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
+            checkInItemScreen = CheckInController.getCheckInScreen({}, props);
             program.pushScreen(checkInItemScreen);
         }
     });
@@ -626,7 +626,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 }
             };
 
-            checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
+            checkInItemScreen = CheckInController.getCheckInScreen({}, props);
             program.pushScreen(checkInItemScreen);
         }
     });

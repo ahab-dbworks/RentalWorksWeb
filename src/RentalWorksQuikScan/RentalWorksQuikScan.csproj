@@ -176,7 +176,7 @@
     <Content Include="Modules\TimeLog\TimeLog.html" />
     <Content Include="Modules\CheckInMenu\CheckInMenu.css" />
     <Content Include="Modules\CheckIn\CheckIn.css" />
-    <Content Include="Modules\CheckIn\CheckIn.js" />
+    <TypeScriptCompile Include="Modules\CheckIn\CheckIn.ts" />
     <Content Include="Modules\CheckInMenu\CheckInMenu.js" />
     <Content Include="Modules\ContractSignature\ContractSignature.css" />
     <Content Include="Modules\ContractSignature\ContractSignature.js" />
@@ -225,7 +225,7 @@
     <Content Include="Modules\SelectPO\SelectPO.css" />
     <Content Include="Modules\SelectPO\SelectPO.js" />
     <Content Include="Modules\Staging\Staging.css" />
-    <Content Include="Modules\Staging\Staging.js" />
+    <TypeScriptCompile Include="Modules\Staging\Staging.ts" />
     <Content Include="Modules\Support\Support.css" />
     <Content Include="Modules\Support\Support.js" />
     <Content Include="Modules\TransferInMenu\TransferInMenu.css" />

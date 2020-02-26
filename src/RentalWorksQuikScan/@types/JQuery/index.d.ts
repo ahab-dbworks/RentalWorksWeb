@@ -11,3 +11,5 @@
     keyboard(options: any);
     getkeyboard();
 }
+
+declare var numberWithCommas: any;

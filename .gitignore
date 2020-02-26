@@ -28,10 +28,14 @@
 /src/RentalWorksQuikScan/scripts/Constants.js.map
 /src/RentalWorksQuikScan/Modules/AssignItems/AssignItems.js
 /src/RentalWorksQuikScan/Modules/AssignItems/AssignItems.js.map
+/src/RentalWorksQuikScan/Modules/CheckIn/CheckIn.js
+/src/RentalWorksQuikScan/Modules/CheckIn/CheckIn.js.map
 /src/RentalWorksQuikScan/Modules/QC/QC.js
 /src/RentalWorksQuikScan/Modules/QC/QC.js.map
 /src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js.map
 /src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js
+/src/RentalWorksQuikScan/Modules/Staging/Staging.js
+/src/RentalWorksQuikScan/Modules/Staging/Staging.js.map
 /src/RentalWorksQuikScan/scripts/_references.js
 /src/RentalWorksQuikScan/scripts/NearfieldRfidScanner.js
 /src/RentalWorksQuikScan/scripts/NearfieldRfidScanner.js.map

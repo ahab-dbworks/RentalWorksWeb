@@ -198,7 +198,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
                                 }
                             };
 
-                            checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
+                            checkInItemScreen = CheckInController.getCheckInScreen({}, props);
                             program.pushScreen(checkInItemScreen);
                         });
                     }
@@ -269,7 +269,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
                             }
                         };
 
-                        checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
+                        checkInItemScreen = CheckInController.getCheckInScreen({}, props);
                         program.pushScreen(checkInItemScreen);
                     });
                 }
@@ -382,7 +382,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
                 }
             };
 
-            checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
+            checkInItemScreen = CheckInController.getCheckInScreen({}, props);
             program.pushScreen(checkInItemScreen);
         }
     });

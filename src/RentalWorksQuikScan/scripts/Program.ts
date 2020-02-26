@@ -359,7 +359,7 @@ class Program extends FwApplication {
                         screen = RwHome.getHomeScreen({}, {});
                         break;
                     case 'staging':
-                        screen = RwOrderController.getStagingScreen({}, {
+                        screen = StagingController.getStagingScreen({}, {
                             moduleType: RwConstants.moduleTypes.Order,
                             activityType: RwConstants.activityTypes.Staging,
                             stagingType: RwConstants.stagingType.Normal
@@ -414,7 +414,7 @@ class Program extends FwApplication {
                         screen = RwOrderController.getPackageTruckMenuScreen({}, {});
                         break;
                     case 'order/packagetruck/staging':
-                        screen = RwOrderController.getStagingScreen({}, {
+                        screen = StagingController.getStagingScreen({}, {
                             moduleType: RwConstants.moduleTypes.Truck,
                             activityType: RwConstants.activityTypes.Staging
                         });
@@ -442,7 +442,7 @@ class Program extends FwApplication {
                         screen = QC.getQCScreen({}, {});
                         break;
                     case 'transferout':
-                        screen = RwOrderController.getStagingScreen({}, {
+                        screen = StagingController.getStagingScreen({}, {
                             moduleType: RwConstants.moduleTypes.Transfer,
                             activityType: RwConstants.activityTypes.Staging,
                             stagingType: RwConstants.stagingType.Normal

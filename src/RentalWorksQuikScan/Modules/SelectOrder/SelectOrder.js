@@ -180,7 +180,7 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
                             webSelectOrder: properties.webSelectOrder
                         });
                         if (properties.stagingType === RwConstants.stagingType.Normal) {
-                            stageItemScreen = RwOrderController.getStagingScreen(stageItemScreen_viewModel, stageItemScreen_properties);
+                            stageItemScreen = StagingController.getStagingScreen(stageItemScreen_viewModel, stageItemScreen_properties);
                         } else if (properties.stagingType === RwConstants.stagingType.RfidPortal) {
                             stageItemScreen = RFIDStaging.getModuleScreen(stageItemScreen_viewModel, stageItemScreen_properties);
                         }
@@ -188,7 +188,7 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
                         break;
                     case RwConstants.activityTypes.CheckIn:
                         if (typeof properties.suspendedInContracts === 'object') {
-                            suspendedContractsPopup = RwOrderController.getOrderSuspendedSessionPopup(properties.suspendedInContracts);
+                            suspendedContractsPopup = CheckInController.getOrderSuspendedSessionPopup(properties.suspendedInContracts);
                             suspendedContractsPopup.$popup.on('click', '.checkin-suspendedsession', function() {
                                 var requestSelectSession, $suspendedsession, sessionno;
                                 try {
@@ -211,7 +211,7 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
                                                     selectedsession: properties.selectedsession
                                                 });
                                                 if (properties.checkInType === RwConstants.checkInType.Normal) {
-                                                    checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
+                                                    checkInItemScreen = CheckInController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                                                 } else if (properties.checkInType === RwConstants.checkInType.RfidPortal) {
                                                     checkInItemScreen = RFIDCheckIn.getModuleScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                                                 }
@@ -246,9 +246,9 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
                                                     dealId:         properties.webSelectOrder.dealId, 
                                                     departmentId:   properties.webSelectOrder.departmentId
                                                 });
-                                                //checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
+                                                //checkInItemScreen = CheckInController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                                                 if (properties.checkInType === RwConstants.checkInType.Normal) {
-                                                    checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
+                                                    checkInItemScreen = CheckInController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                                                 } else if (properties.checkInType === RwConstants.checkInType.RfidPortal) {
                                                     checkInItemScreen = RFIDCheckIn.getModuleScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                                                 }
@@ -271,9 +271,9 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
                                 dealId:         properties.webSelectOrder.dealId, 
                                 departmentId:   properties.webSelectOrder.departmentId
                             });
-                            //checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
+                            //checkInItemScreen = CheckInController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                             if (properties.checkInType === RwConstants.checkInType.Normal) {
-                                checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
+                                checkInItemScreen = CheckInController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                             } else if (properties.checkInType === RwConstants.checkInType.RfidPortal) {
                                 checkInItemScreen = RFIDCheckIn.getModuleScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                             }
