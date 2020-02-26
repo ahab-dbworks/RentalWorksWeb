@@ -51,68 +51,111 @@ class InventorySequenceUtility {
     events($form) {
         $form.find('div[data-datafield="InventoryType"]').on('change', e => {
             const $this = jQuery(e.currentTarget)
-        })
-
-
-        $form.find('[data-name="CategoryGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-            try {
-                var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
-                var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
-
-                var $spaceGridControl: any;
-                $spaceGridControl = $form.find('[data-name="SpaceGrid"]');
-                $spaceGridControl.data('ondatabind', function (request) {
-                    request.uniqueids = {
-                        BuildingId: buildingId,
-                        FloorId: floorId
-                    }
-                })
-                $spaceGridControl.data('beforesave', function (request) {
-                    request.BuildingId = buildingId;
-                    request.FloorId = floorId;
-                });
-                FwBrowse.search($spaceGridControl);
-            } catch (ex) {
-                FwFunc.showError(ex);
+            const inventoryType = FwFormField.getValueByDataField($form, 'InventoryType');
+            let type;
+            switch (inventoryType) {
+                case 'R':
+                    type = 'Rental';
+                    break;
+                case 'S':
+                    type = 'Sales';
+                    break;
+                case 'L':
+                    type = 'Labor';
+                    break;
+                case 'M':
+                    type = 'Misc';
+                    break;
             }
+
+            const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
+            $inventoryTypeGrid.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    type: true,
+                }
+            })
+            FwBrowse.search($inventoryTypeGrid);
+
+            const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
+            $inventoryTypeGrid.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    type: true,
+                }
+            })
+            FwBrowse.search($categoryGrid);
+
+            const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
+            $inventoryTypeGrid.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    type: true,
+                }
+            })
+            FwBrowse.search($subCategoryGrid);
         });
+        // ----------
 
-        $form.find('[data-name="InventoryTypeGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-            try {
-                var spaceId
-                    , floorId
-                    , buildingId;
+        //$form.find('[data-name="CategoryGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+        //    try {
+        //        var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
+        //        var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
 
-                spaceId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
-                floorId = jQuery($tr.find('.column > .field')[1]).attr('data-originalvalue');
-                buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
-                var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        //        const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
 
-                var $spaceRateGridControl: any;
-                $spaceRateGridControl = $form.find('[data-name="SpaceRateGrid"]');
-                $spaceRateGridControl.data('ondatabind', function (request) {
-                    request.uniqueids = {
-                        SpaceId: spaceId,
-                        FloorId: floorId,
-                        BuildingId: buildingId,
-                        WarehouseId: warehouse.warehouseid
-                    }
-                })
-                $spaceRateGridControl.data('beforesave', function (request) {
-                    request.BuildingId = buildingId;
-                    request.FloorId = floorId;
-                    request.SpaceId = spaceId;
-                });
-                FwBrowse.search($spaceRateGridControl);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+        //        $spaceGridControl.data('ondatabind', function (request) {
+        //            request.uniqueids = {
+        //                BuildingId: buildingId,
+        //                FloorId: floorId
+        //            }
+        //        })
+        //        $spaceGridControl.data('beforesave', function (request) {
+        //            request.BuildingId = buildingId;
+        //            request.FloorId = floorId;
+        //        });
+        //        FwBrowse.search($spaceGridControl);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
 
+        //$form.find('[data-name="InventoryTypeGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+        //    try {
+        //        //var spaceId
+        //        //    , floorId
+        //        //    , buildingId;
 
+        //        //spaceId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+        //        //floorId = jQuery($tr.find('.column > .field')[1]).attr('data-originalvalue');
+        //        //buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
+        //        //var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+
+        //        const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
+        //        $inventoryTypeGrid.data('ondatabind', function (request) {
+        //            request.uniqueids = {
+        //                SpaceId: spaceId,
+        //                FloorId: floorId,
+        //                BuildingId: buildingId,
+        //                WarehouseId: warehouse.warehouseid
+        //            }
+        //        })
+        //        $inventoryTypeGrid.data('beforesave', function (request) {
+        //            request.BuildingId = buildingId;
+        //            request.FloorId = floorId;
+        //            request.SpaceId = spaceId;
+        //        });
+        //        FwBrowse.search($inventoryTypeGrid);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
+        const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
+        FwBrowse.search($inventoryTypeGrid);
+        const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
+        FwBrowse.search($categoryGrid);
+        const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
+        FwBrowse.search($subCategoryGrid);
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -124,6 +167,7 @@ class InventorySequenceUtility {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
+                    Rental: true,
                 };
             },
             beforeSave: (request: any) => {
@@ -139,6 +183,7 @@ class InventorySequenceUtility {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+                    Rental: true,
                 };
             },
             beforeSave: (request: any) => {
@@ -154,6 +199,7 @@ class InventorySequenceUtility {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+                    Rental: true,
                 };
             },
             beforeSave: (request: any) => {
