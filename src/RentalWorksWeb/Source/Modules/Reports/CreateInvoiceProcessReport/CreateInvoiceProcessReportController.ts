@@ -17,7 +17,7 @@ const createInvoiceProcessTemplate = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Batch Number">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Invoice Creation Batch Number" data-datafield="InvoiceCreationBatchId" data-displayfield="BatchNumber" data-validationname="InvoiceCreationBatchValidation" data-required="true" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Invoice Creation Batch Number" data-datafield="InvoiceCreationBatchId" data-displayfield="BatchNumber" data-validationname="InvoiceCreationBatchValidation" data-savesetting="false" data-required="true" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
             </div>
