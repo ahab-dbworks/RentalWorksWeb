@@ -89,9 +89,9 @@ class Alert {
             moduleSecurityId: this.id,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasEdit = false;
-                options.hasDelete = false;
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
