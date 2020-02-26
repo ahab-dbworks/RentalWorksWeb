@@ -208,8 +208,10 @@ abstract class InventoryBase {
 
                     if ($form.is('tr')) {
                         allWh = $form.data('allwarehousesfilter');
-                    } else {
+                    } else if ($form.find('[data-datafield="AllWarehouses"]').length > 0) {
                         allWh = FwFormField.getValueByDataField($form, 'AllWarehouses');
+                    } else {
+                        allWh = false;
                     }
 
                     if (allWh && allWh != 'F') {
@@ -307,10 +309,12 @@ abstract class InventoryBase {
 
                     if ($form.is('tr')) {
                         allWh = $form.data('allwarehousesfilter');
-                    } else {
+                    } else if ($form.find('[data-datafield="AllWarehouses"]').length > 0) {
                         allWh = FwFormField.getValueByDataField($form, 'AllWarehouses');
+                    } else {
+                        allWh = false;
                     }
-                   
+
                     if (allWh && allWh != 'F') { //checkbox values return strings sometimes instead of booleans
                         warehouseId = '';
                     } else {
