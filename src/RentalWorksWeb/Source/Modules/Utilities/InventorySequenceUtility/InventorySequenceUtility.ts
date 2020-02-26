@@ -161,17 +161,21 @@ class InventorySequenceUtility {
     renderGrids($form: any) {
         FwBrowse.renderGrid({
             nameGrid: 'InventoryTypeGrid',
-            gridSecurityId: '',
+            gridSecurityId: 'aFLFxVNukHJt',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
+                  //  InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
                     Rental: true,
                 };
             },
             beforeSave: (request: any) => {
-                request.InventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+             //   request.InventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             }
         });
         // ----------
@@ -180,14 +184,18 @@ class InventorySequenceUtility {
             gridSecurityId: 'pWsHOgp1o7Obw',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+                 //   CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
                     Rental: true,
                 };
             },
             beforeSave: (request: any) => {
-                request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+              //  request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
             }
         });
         // ----------
@@ -196,43 +204,47 @@ class InventorySequenceUtility {
             gridSecurityId: 'vHMa0l5PUysXo',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+               //     CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
                     Rental: true,
                 };
             },
             beforeSave: (request: any) => {
-                request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+             //   request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
             }
         });
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-       <div id="inventorysequenceutilityform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Inventory Sequence Utility" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="InventoryRetireUtilityController">
-          <div id="inventorysequenceutilityform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
-            <div class="tabs"></div>
-            <div class="tabpages">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Inventory Sequence Utility" style="max-width:700px">
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Type" data-datafield="InventoryType"></div>
-                </div>
-                <div class="flexrow">
-                  <div class="flexcolumn">
-                    <div data-control="FwGrid" data-grid="InventoryTypeGrid" style="min-width:240px;max-width:400px;"></div>
+            <div id="inventorysequenceutilityform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Inventory Sequence Utility" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="InventoryRetireUtilityController">
+              <div id="inventorysequenceutilityform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+                <div class="tabs"></div>
+                <div class="tabpages">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Inventory Sequence Utility" style="max-width:700px">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Type" data-datafield="InventoryType"></div>
+                    </div>
                   </div>
-                  <div class="flexcolumn">
-                    <div data-control="FwGrid" data-grid="CategoryGrid" style="min-width:240px;max-width:400px;"></div>
-                  </div>
-                  <div class="flexcolumn">
-                    <div data-control="FwGrid" data-grid="SubCategoryGrid" style="min-width:240px;max-width:400px;"></div>
+                  <div class="flexrow">
+                    <div class="flexcolumn">
+                      <div data-control="FwGrid" data-grid="InventoryTypeGrid" style="min-width:240px;max-width:400px;"></div>
+                    </div>
+                    <div class="flexcolumn">
+                      <div data-control="FwGrid" data-grid="CategoryGrid" style="min-width:240px;max-width:400px;"></div>
+                    </div>
+                    <div class="flexcolumn">
+                      <div data-control="FwGrid" data-grid="SubCategoryGrid" style="min-width:240px;max-width:400px;"></div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>`;
+            </div>`;
     }
     //----------------------------------------------------------------------------------------------
 }
