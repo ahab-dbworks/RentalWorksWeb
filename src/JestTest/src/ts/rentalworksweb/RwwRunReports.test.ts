@@ -77,7 +77,7 @@ export class RunReportsTest extends BaseTest {
             'RentalInventoryAttributesReport',
             'RentalInventoryAvailabilityReport',
             'RentalInventoryCatalogReport',
-            'RentalInventoryChangeReport',
+            //'RentalInventoryChangeReport',  //justin hoffman 02/26/2020 this report requires the data warehouse. not yet installed in the testing environment
             'RentalInventoryMasterReport',
             'RentalInventoryMovementReport',
             'RentalInventoryPurchaseHistoryReport',
@@ -89,7 +89,7 @@ export class RunReportsTest extends BaseTest {
             'RentalLostAndDamagedBillingHistoryReport',
             'RetiredRentalInventoryReport',
             'ReturnedToInventoryReport',
-            'ReturnOnAssetReport',
+            //'ReturnOnAssetReport',  //justin hoffman 02/26/2020 this report requires the data warehouse. not yet installed in the testing environment
             'UnretiredRentalInventoryReport',
             'ValueOfOutRentalInventoryReport',
             'RepairOrderStatusReport',
@@ -160,7 +160,7 @@ export class RunReportsTest extends BaseTest {
             await page.click(reportPanel);
 
             //justin hoffman 02/25/2020 - if any validation fields have data-savesetting=false, then auto-select the first entry in the validation to allow report to run
-            let noSaveFieldSelector = `#${reportName} [data-type="validation"][data-savesetting="false"]`;  // consider adding [data-required="true"] this this selector
+            let noSaveFieldSelector = `#${reportName} [data-type="validation"][data-savesetting="false"][data-required="true"]`;
             const noSaveFields = await page.$$(noSaveFieldSelector);
 
             if (noSaveFields.length > 0) {
