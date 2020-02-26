@@ -1461,15 +1461,16 @@ class SearchInterface {
         const $searchpopup = $popup.find('#searchpopup');
         const id = $popup.find('#itemsearch').data('parentformid');
         const type = $popup.find('#itemsearch').attr('data-moduletype');
+        let apiUrl: string = "addtoorder";
+        request.SessionId = id;
         if (type === 'Main') {
             newRecordInfo = $popup.find('#addToTab').data('newRecordInfo');
             request.OrderId = newRecordInfo.UniqueId;
-            request.SessionId = id;
         } else {
             request.OrderId = id;
-            request.SessionId = id;
         }
         if (type === "Complete" || type === "Kit" || type === "Container") {
+            apiUrl = "addtopackage";
             request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
         }
 
@@ -1480,7 +1481,7 @@ class SearchInterface {
 
         $popup.find('.addToOrder').css('cursor', 'wait');
         $popup.off('click', '.addToOrder');
-        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout,
+        FwAppData.apiMethod(true, 'POST', `api/v1/inventorysearch/${apiUrl}`, request, FwServices.defaultTimeout,
             response => {
                 FwPopup.destroyPopup($popup);
                 if (type === 'Main') {
