@@ -905,9 +905,13 @@ class RentalInventory extends InventoryBase {
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form: any): void {
         const threeWeekPricing = JSON.parse(sessionStorage.getItem('applicationOptions')).threeweekpricing;
-        const $rentalInventoryWarehousePricingGrid = $form.find('div[data-name="RentalInventoryWarehousePricingGrid"]');
 
+        const $rentalInventoryWarehousePricingGrid = $form.find('div[data-name="RentalInventoryWarehousePricingGrid"]');
         !threeWeekPricing.enabled ? jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
+        const $inventoryWarehouseCompletePricingGrid = $form.find('div[data-name="InventoryWarehouseCompletePricingGrid"]');
+        !threeWeekPricing.enabled ? jQuery($inventoryWarehouseCompletePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($inventoryWarehouseCompletePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
+        const $inventoryWarehouseKitPricingGrid = $form.find('div[data-name="InventoryWarehouseKitPricingGrid"]');
+        !threeWeekPricing.enabled ? jQuery($inventoryWarehouseKitPricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($inventoryWarehouseKitPricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
