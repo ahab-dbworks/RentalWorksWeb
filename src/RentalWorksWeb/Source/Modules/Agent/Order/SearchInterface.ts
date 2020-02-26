@@ -1286,16 +1286,16 @@ class SearchInterface {
                 if (!previewGridHasItems) {
                     FwNotification.renderNotification('WARNING', 'No items have been added.');
                 } else {
-                    this.addToOrder($popup, $form);
+                    this.addToOrder($popup, $form, 'Add');
                 }
             } else {
-                this.addToOrder($popup, $form);
+                this.addToOrder($popup, $form, 'Add');
             }
         });
 
         //insert at line
         $popup.on('click', '.insertAtLine', e => {
-            this.addToOrder($popup, $form);
+            this.addToOrder($popup, $form, 'Insert');
         });
 
         //Saves the user's inventory view setting
@@ -1456,7 +1456,7 @@ class SearchInterface {
         }
     }
     //----------------------------------------------------------------------------------------------
-    addToOrder($popup, $form) {
+    addToOrder($popup: JQuery, $form: JQuery, actionType: string) {
         let request: any = {};
         let newRecordInfo;
         const $searchpopup = $popup.find('#searchpopup');
@@ -1475,9 +1475,11 @@ class SearchInterface {
             request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
         }
 
-        const insertAtRowNumber = $popup.attr('data-insertatrownumber');
-        if (insertAtRowNumber != undefined) {
-            request.InsertAtIndex = insertAtRowNumber;
+        if (actionType === 'Insert') {
+            const insertAtRowNumber = $popup.attr('data-insertatrownumber');
+            if (insertAtRowNumber != undefined) {
+                request.InsertAtIndex = insertAtRowNumber;
+            }
         }
 
         $popup.find('.addToOrder').css('cursor', 'wait');
