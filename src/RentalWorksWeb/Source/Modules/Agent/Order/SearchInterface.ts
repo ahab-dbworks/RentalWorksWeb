@@ -49,6 +49,7 @@ class SearchInterface {
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Sort By" data-datafield="SortBy" style="flex: 0 1 255px;"></div>
                                 <div data-type="button" class="fwformcontrol addToOrder">Add to ${buttonCaption}</div>
+                                <div data-type="button" class="fwformcontrol insertAtLine" style="display:none; margin: 16px 7px 0px 7px;"></div>
                                 <div data-type="button" class="fwformcontrol refresh-availability" style="display:none;">Refresh Availability</div>
                               </div>
                               <div style="display:flex;flex: 0 0 auto;padding: .4em 0;">
@@ -124,7 +125,6 @@ class SearchInterface {
                            </div>`;
         $popup.find('#previewtabpage').append(jQuery(previewhtml));
 
-
         if (type === 'Main') {
             jQuery('title').html('QuikSearch');
             $popup.find('.addToOrder').hide();
@@ -132,6 +132,18 @@ class SearchInterface {
         }
 
         FwControl.renderRuntimeControls($popup.find('#searchpopup .fwcontrol'));
+
+        const $grid = $form.find('[data-name="OrderItemGrid"]:visible');
+        if ($form.data('ismanualsort') && $grid.length > 0) {
+            const $selectedtrs = $grid.find('tbody tr .tdselectrow input:checked').parents('tr');
+            if ($selectedtrs.length > 0) {
+                $popup.find('.insertAtLine').show();
+                const $firstRow = jQuery($selectedtrs[$selectedtrs.length - 1]);
+                const rowNumber = FwBrowse.getValueByDataField($grid, $firstRow, 'RowNumber');
+                $popup.find('.insertAtLine').text(`Insert at line ${rowNumber} of ${buttonCaption}`);
+                $popup.attr('data-insertatrownumber', rowNumber);
+            };
+        }
 
         FwFormField.loadItems($popup.find('div[data-datafield="Select"]'), [
             { value: '', text: 'All' },
@@ -1273,109 +1285,16 @@ class SearchInterface {
                 if (!previewGridHasItems) {
                     FwNotification.renderNotification('WARNING', 'No items have been added.');
                 } else {
-                    addToOrder();
+                    this.addToOrder($popup, $form);
                 }
             } else {
-                addToOrder();
+                this.addToOrder($popup, $form);
             }
+        });
 
-            function addToOrder() {
-                let request: any = {};
-                let newRecordInfo;
-                let apiUrl: string = "addtoorder";
-                request.SessionId = id;
-                const type = $popup.find('#itemsearch').attr('data-moduletype');
-                if (type === 'Main') {
-                    newRecordInfo = $popup.find('#addToTab').data('newRecordInfo');
-                    request.OrderId = newRecordInfo.UniqueId;
-                } else {
-                    request.OrderId = id;
-                }
-                if (type === "Complete" || type === "Kit" || type === "Container") {
-                    apiUrl = "addtopackage";
-                    request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                }
-                $popup.find('.addToOrder').css('cursor', 'wait');
-                $popup.off('click', '.addToOrder');
-                FwAppData.apiMethod(true, 'POST', `api/v1/inventorysearch/${apiUrl}`, request, FwServices.defaultTimeout,
-                    response => {
-                        //FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                        FwPopup.destroyPopup($popup);
-                        //let $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
-                        //    $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
-                        //    $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-                        //    $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
-                        //    $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-                        //let $transferItemGridRental = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
-                        //let $transferItemGridSales = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
-
-                        //if (type === "Complete") {
-                        //    let $completeGrid = $form.find('[data-name="InventoryCompleteGrid"]');
-                        //    FwBrowse.search($completeGrid);
-                        //}
-                        //if (type === "Kit") {
-                        //    let $kitGrid = $form.find('[data-name="InventoryKitGrid"]');
-                        //    FwBrowse.search($kitGrid);
-                        //}
-                        //if (type === "Container") {
-                        //    let $containerGrid = $form.find('[data-name="InventoryContainerItemGrid"]');
-                        //    FwBrowse.search($containerGrid);
-                        //}
-
-                        //if ($form.find('.combinedtab').css('display') != 'none') {
-                        //    FwBrowse.search($combinedGrid);
-                        //}
-
-                        //if ($form.find('.notcombinedtab').css('display') != 'none') {
-                        //    FwBrowse.search($orderItemGridRental);
-                        //    FwBrowse.search($orderItemGridMisc);
-                        //    FwBrowse.search($orderItemGridLabor);
-                        //    FwBrowse.search($orderItemGridSales);
-                        //    FwBrowse.search($transferItemGridRental);
-                        //    FwBrowse.search($transferItemGridSales);
-                        //}
-                        if (type === 'Main') {
-                            const uniqueIds: any = {};
-                            uniqueIds[newRecordInfo.UniqueIdField] = newRecordInfo.UniqueId;
-                            let caption = newRecordInfo.Caption;
-                            if (caption === 'PurchaseOrder') caption = 'Purchase Order';
-                            const $newForm = (<any>window)[newRecordInfo.Controller].loadForm(uniqueIds);
-                            FwModule.openModuleTab($newForm, caption, true, 'FORM', true);
-                        } else { //reloads grids on active tab
-                            $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
-                            const $activeGrid = $form.find('.active[data-type="tabpage"] [data-type="Grid"]');
-                            for (let i = 0; i < $activeGrid.length; i++) {
-                                const $gridcontrol = jQuery($activeGrid[i]);
-                                FwBrowse.search($gridcontrol);
-                            }
-                        }
-
-                        if (type === 'Order' || type === 'Quote') {
-                            let url = `api/v1/${type}/${id}`
-                        FwAppData.apiMethod(true, 'GET', url, request, FwServices.defaultTimeout,
-                            response => {
-                                if (response.HasLaborItem) {
-                                    FwFormField.setValueByDataField($form, 'Labor', true, null, true);
-                                    FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
-                                }
-                                if (response.HasMiscellaneousItem) {
-                                    FwFormField.setValueByDataField($form, 'Miscellaneous', true, null, true);
-                                    FwTabs.setTabColor($form.find('.misctab'), '#FFFF8d');
-                                }
-                                if (response.HasRentalItem) {
-                                    FwFormField.setValueByDataField($form, 'Rental', true, null, true);
-                                    FwTabs.setTabColor($form.find('.rentaltab'), '#FFFF8d');
-                                }
-                                if (response.HasSalesItem) {
-                                    FwFormField.setValueByDataField($form, 'Sales', true, null, true);
-                                    FwTabs.setTabColor($form.find('.salestab'), '#FFFF8d');
-                                }
-                            }
-                            , ex => FwFunc.showError(ex), $form);
-                        }
-
-                    }, ex => FwFunc.showError(ex), $searchpopup, (request.InventoryId ? null : id));
-            }
+        //insert at line
+        $popup.on('click', '.insertAtLine', e => {
+            this.addToOrder($popup, $form);
         });
 
         //Saves the user's inventory view setting
@@ -1534,6 +1453,77 @@ class SearchInterface {
                     }
                 })
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    addToOrder($popup, $form) {
+        let request: any = {};
+        let newRecordInfo;
+        const $searchpopup = $popup.find('#searchpopup');
+        const id = $popup.find('#itemsearch').data('parentformid');
+        const type = $popup.find('#itemsearch').attr('data-moduletype');
+        if (type === 'Main') {
+            newRecordInfo = $popup.find('#addToTab').data('newRecordInfo');
+            request.OrderId = newRecordInfo.UniqueId;
+            request.SessionId = id;
+        } else {
+            request.OrderId = id;
+            request.SessionId = id;
+        }
+        if (type === "Complete" || type === "Kit" || type === "Container") {
+            request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        }
+
+        const insertAtRowNumber = $popup.attr('data-insertatrownumber');
+        if (insertAtRowNumber != undefined) {
+            request.InsertAtIndex = insertAtRowNumber;
+        }
+
+        $popup.find('.addToOrder').css('cursor', 'wait');
+        $popup.off('click', '.addToOrder');
+        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout,
+            response => {
+                FwPopup.destroyPopup($popup);
+                if (type === 'Main') {
+                    const uniqueIds: any = {};
+                    uniqueIds[newRecordInfo.UniqueIdField] = newRecordInfo.UniqueId;
+                    let caption = newRecordInfo.Caption;
+                    if (caption === 'PurchaseOrder') caption = 'Purchase Order';
+                    const $newForm = (<any>window)[newRecordInfo.Controller].loadForm(uniqueIds);
+                    FwModule.openModuleTab($newForm, caption, true, 'FORM', true);
+                } else { //reloads grids on active tab
+                    $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
+                    const $activeGrid = $form.find('.active[data-type="tabpage"] [data-type="Grid"]');
+                    for (let i = 0; i < $activeGrid.length; i++) {
+                        const $gridcontrol = jQuery($activeGrid[i]);
+                        FwBrowse.search($gridcontrol);
+                    }
+                }
+
+                if (type === 'Order' || type === 'Quote') {
+                    let url = `api/v1/${type}/${id}`
+                    FwAppData.apiMethod(true, 'GET', url, request, FwServices.defaultTimeout,
+                        response => {
+                            if (response.HasLaborItem) {
+                                FwFormField.setValueByDataField($form, 'Labor', true, null, true);
+                                FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
+                            }
+                            if (response.HasMiscellaneousItem) {
+                                FwFormField.setValueByDataField($form, 'Miscellaneous', true, null, true);
+                                FwTabs.setTabColor($form.find('.misctab'), '#FFFF8d');
+                            }
+                            if (response.HasRentalItem) {
+                                FwFormField.setValueByDataField($form, 'Rental', true, null, true);
+                                FwTabs.setTabColor($form.find('.rentaltab'), '#FFFF8d');
+                            }
+                            if (response.HasSalesItem) {
+                                FwFormField.setValueByDataField($form, 'Sales', true, null, true);
+                                FwTabs.setTabColor($form.find('.salestab'), '#FFFF8d');
+                            }
+                        }
+                        , ex => FwFunc.showError(ex), $form);
+                }
+
+            }, ex => FwFunc.showError(ex), $searchpopup, (request.InventoryId ? null : id));
     }
     //----------------------------------------------------------------------------------------------
     updatePreviewTabQuantity($popup, id, initialLoad) {
