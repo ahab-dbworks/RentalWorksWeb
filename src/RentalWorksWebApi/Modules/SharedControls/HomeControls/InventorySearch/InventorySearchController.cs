@@ -55,11 +55,20 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public bool? ShowImages;
     }
     //------------------------------------------------------------------------------------ 
-    public class InventorySearchAddToRequest
+    public abstract class InventorySearchAddToRequest
     {
-        public string SessionId;
-        public string OrderId;
-        public string InventoryId;
+        public string SessionId { get; set; }
+    }
+    //------------------------------------------------------------------------------------ 
+    public class InventorySearchAddToOrderRequest: InventorySearchAddToRequest
+    {
+        public string OrderId { get; set; }
+        public int? InsertAtIndex { get; set; }
+    }
+    //------------------------------------------------------------------------------------ 
+    public class InventorySearchAddToCompleteKitContainerRequest: InventorySearchAddToRequest
+    {
+        public string InventoryId { get; set; }
     }
     //------------------------------------------------------------------------------------ 
 
@@ -143,16 +152,8 @@ namespace WebApi.Modules.HomeControls.InventorySearch
             }
             try
             {
-                //InventorySearchGetTotalRequest request = new InventorySearchGetTotalRequest();
-                //request.SessionId = sessionId;
-                //InventorySearchLogic l = new InventorySearchLogic();
-                //l.SetDependencies(this.AppConfig, this.UserSession);
-                //InventorySearchGetTotalResponse response = await l.GetTotalAsync(request);
-                //return new OkObjectResult(response);
-
                 InventorySearchGetTotalResponse response = await InventorySearchFunc.GetTotalAsync(AppConfig, UserSession, sessionId);
                 return new OkObjectResult(response);
-
             }
             catch (Exception ex)
             {
@@ -160,10 +161,10 @@ namespace WebApi.Modules.HomeControls.InventorySearch
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorysearch/addto 
-        [HttpPost("addto")]
+        // POST api/v1/inventorysearch/addtoorder 
+        [HttpPost("addtoorder")]
         [FwControllerMethod(Id:"bB1lEAjR2sZy")]
-        public async Task<ActionResult<bool>> AddTo([FromBody]InventorySearchAddToRequest request)
+        public async Task<ActionResult<bool>> AddToOrder([FromBody]InventorySearchAddToOrderRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -171,11 +172,27 @@ namespace WebApi.Modules.HomeControls.InventorySearch
             }
             try
             {
-                //InventorySearchLogic l = new InventorySearchLogic();
-                //l.SetDependencies(this.AppConfig, this.UserSession);
-                //bool b = await l.AddToAsync(processRequest);
-                //return new OkObjectResult(b);
-                bool b = await InventorySearchFunc.AddToAsync(AppConfig, UserSession, request);
+                bool b = await InventorySearchFunc.AddToOrderAsync(AppConfig, UserSession, request);
+                return new OkObjectResult(b);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorysearch/addtopackage 
+        [HttpPost("addtopackage")]
+        [FwControllerMethod(Id: "HvTKFTiLaGJr0")]
+        public async Task<ActionResult<bool>> AddToPackage([FromBody]InventorySearchAddToCompleteKitContainerRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                bool b = await InventorySearchFunc.AddToPackageAsync(AppConfig, UserSession, request);
                 return new OkObjectResult(b);
             }
             catch (Exception ex)

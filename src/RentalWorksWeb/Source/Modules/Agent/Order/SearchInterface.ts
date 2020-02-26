@@ -1282,21 +1282,22 @@ class SearchInterface {
             function addToOrder() {
                 let request: any = {};
                 let newRecordInfo;
+                let apiUrl: string = "addtoorder";
+                request.SessionId = id;
                 const type = $popup.find('#itemsearch').attr('data-moduletype');
                 if (type === 'Main') {
                     newRecordInfo = $popup.find('#addToTab').data('newRecordInfo');
                     request.OrderId = newRecordInfo.UniqueId;
-                    request.SessionId = id;
                 } else {
                     request.OrderId = id;
-                    request.SessionId = id;
                 }
                 if (type === "Complete" || type === "Kit" || type === "Container") {
+                    apiUrl = "addtopackage";
                     request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 }
                 $popup.find('.addToOrder').css('cursor', 'wait');
                 $popup.off('click', '.addToOrder');
-                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout,
+                FwAppData.apiMethod(true, 'POST', `api/v1/inventorysearch/${apiUrl}`, request, FwServices.defaultTimeout,
                     response => {
                         //FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
                         FwPopup.destroyPopup($popup);
