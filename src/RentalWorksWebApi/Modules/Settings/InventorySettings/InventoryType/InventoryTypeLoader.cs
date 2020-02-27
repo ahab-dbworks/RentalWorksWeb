@@ -52,6 +52,9 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryType
         [FwSqlDataField(column: "categorycount", modeltype: FwDataTypes.Integer)]
         public int? CategoryCount { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, precision: 5, scale: 1)]
+        public decimal? OrderBy { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------

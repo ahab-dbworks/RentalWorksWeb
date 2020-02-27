@@ -59,6 +59,9 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryType
         [FwLogicProperty(Id:"fI6ggQWY1QS6", IsReadOnly:true)]
         public int? CategoryCount { get; set; }
 
+        [FwLogicProperty(Id: "MqF5393KCjSXR")]
+        public decimal? OrderBy { get { return inventoryType.OrderBy; } set { inventoryType.OrderBy = value; } }
+
         [FwLogicProperty(Id:"SwsiiWPFjrH")]
         public bool? Inactive { get { return inventoryType.Inactive; } set { inventoryType.Inactive = value; } }
 
