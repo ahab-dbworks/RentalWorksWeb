@@ -69,19 +69,15 @@ namespace WebApi.Modules.HomeControls.Inventory
             set { }
         }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(calculatedColumnSql: "(select q.qty from masterwhqty q where q.masterid = t.masterid and q.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
-        [FwSqlDataField(calculatedColumnSql: "mw.qty", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "q.qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(calculatedColumnSql: "(select m.manifestvalue from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
         [FwSqlDataField(calculatedColumnSql: "mw.manifestvalue", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(calculatedColumnSql: "(select m.aisleloc from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Text)]
         [FwSqlDataField(calculatedColumnSql: "mw.aisleloc", modeltype: FwDataTypes.Text)]
         public string AisleLocation { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(calculatedColumnSql: "(select m.shelfloc from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Text)]
         [FwSqlDataField(calculatedColumnSql: "mw.shelfloc", modeltype: FwDataTypes.Text)]
         public string ShelfLocation { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -100,23 +96,27 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "mw.replacementcost", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "ml.taxable", modeltype: FwDataTypes.Boolean)]
+        public bool? Taxable { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            //OverrideFromClause = " from inventoryview [t] with (nolock) " +
-            //    " left outer join masterwh mw with (nolock) on (t.masterid = mw.masterid and mw.warehouseid = @warehouseid)" +
-            //    " left outer join masterwhqty q with (nolock) on (t.masterid = q.masterid and q.warehouseid = @warehouseid)";
-
-
             OverrideFromClause = " from inventoryview [t] with (nolock) " +
-                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.dailyrate, mw.weeklyrate, mw.monthlyrate, mw.price, mw.replacementcost, q.qty" +
+                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.dailyrate, mw.weeklyrate, mw.monthlyrate, mw.price, mw.replacementcost" +
                   "              from  masterwh mw with(nolock)" +
-                  "                            join masterwhqty q with(nolock) on(q.masterid = mw.masterid and q.warehouseid = mw.warehouseid)" +
-                  "                  where mw.masterid = t.masterid" +
-                  "                  and   mw.warehouseid = @warehouseid) mw";
-
+                  "              where mw.masterid    = t.masterid" +
+                  "              and   mw.warehouseid = @warehouseid) mw" +
+                  " outer apply(select top 1 q.qty" +
+                  "              from  masterwhqty q with(nolock) " +
+                  "              where q.masterid    = t.masterid" +
+                  "              and   q.warehouseid = @warehouseid) q" +
+                  " outer apply(select top 1 ml.taxable" +
+                  "              from  masterlocation ml with(nolock)" +
+                  "              where ml.masterid   = t.masterid" +
+                  "              and   ml.locationid = @locationid) ml";
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
@@ -143,6 +143,13 @@ namespace WebApi.Modules.HomeControls.Inventory
                 warehouseId = "xxx~~xxx";
             }
             select.AddParameter("@warehouseid", warehouseId);
+
+            string locationId = GetUniqueIdAsString("LocationId", request);
+            if (string.IsNullOrEmpty(locationId))
+            {
+                locationId = "xxx~~xxx";
+            }
+            select.AddParameter("@locationid", locationId);
 
             AddActiveViewFieldToSelect("Classification", "class", select, request);
         }
