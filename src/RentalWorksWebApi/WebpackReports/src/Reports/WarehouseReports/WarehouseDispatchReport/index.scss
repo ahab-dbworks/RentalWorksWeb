@@ -1,23 +1,50 @@
-﻿tbody {
-    tr[data-rowtype="detail"]:nth-child(odd) {
-        background-color: #DCDCDC;
-    }
+﻿//Warehouse Dispatch Report
+tbody {
+  tr[data-rowtype="detail"]:nth-child(4n-1) {
+    background-color: #DCDCDC;
+  }
 
-    td:after {
-        content: attr(data-value);
-    }
+  tr[data-rowtype="detail"]:nth-child(4n) {
+    background-color: #DCDCDC;
+  }
 
-    td {
-        padding: 3px;
-    }
+  td:after {
+    content: attr(data-value);
+  }
+
+  td {
+    padding: 3px;
+  }
 }
 
 thead {
-    th {
-        border-top: 2px solid #000000;
-        border-bottom: 2px solid #000000;
-        font-weight: bold;
-        padding: 5px;
-        white-space: nowrap;
-    }
+  th {
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
+  }
+
+  tr:nth-child(odd) {
+    border-top: 2px solid #000000;
+  }
+
+  tr:nth-child(even) {
+    border-bottom: 2px solid #000000;
+  }
+}
+
+@media screen {
+  body {
+    margin: 10px 5px 10px 10px;
+  }
+}
+
+@media print {
+  body {
+    margin: 10px 5px 10px 0px;
+  }
+}
+
+@page {
+  size: landscape;
 }

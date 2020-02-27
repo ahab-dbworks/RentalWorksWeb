@@ -21,8 +21,10 @@
         <th>Order Type</th>
         <th>Activity</th>
         <th>Order Status</th>
+        <th class="">Item Qty.</th>
+      </tr>
+      <tr>
         <th>Assigned To</th>
-        <th class="number">Item Qty.</th>
         <th>Ship Type</th>
         <th>Carrier</th>
         <th>Ship Via</th>
@@ -44,9 +46,12 @@
         <td data-value="{{OrderTypeDescription}}"></td>
         <td data-value="{{ActivityType}}"></td>
         <td data-value="{{OrderStatus}}"></td>
+        <td class="" data-value="{{TotalQuantity}}"></td>
+        {{/ifEquals}}
+      </tr>
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "detail"}}
         <td data-value="{{AssignedToUserName}}"></td>
-        <td class="number" data-value="{{TotalQuantity}}"></td>
-        <td data-value="{{Carrier}}"></td>
         <td data-value="{{Carrier}}"></td>
         <td data-value="{{ShipVia}}"></td>
         <td data-value="{{OutgoingLocation}}"></td>
