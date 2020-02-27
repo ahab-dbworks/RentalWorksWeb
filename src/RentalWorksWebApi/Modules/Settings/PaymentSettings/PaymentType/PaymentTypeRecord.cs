@@ -11,7 +11,7 @@ namespace WebApi.Data.Settings.PaymentSettings.PaymentType
         [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string PaymentTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
+        [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text, maxlength: 50, required: true)]
         public string PaymentType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "short", modeltype: FwDataTypes.Text, maxlength: 11, required: true)]
