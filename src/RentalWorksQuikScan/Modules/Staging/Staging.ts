@@ -1,8 +1,9 @@
 class StagingControllerClass {
     //----------------------------------------------------------------------------------------------
     getStagingScreen(viewModel, properties) {
-        var combinedViewModel, screen, applicationOptions, pageTitle, pageSubTitle;
-        applicationOptions = program.getApplicationOptions();
+        var pageTitle = '';
+        let pageSubTitle = '';
+        //const applicationOptions = program.getApplicationOptions();
         switch (properties.moduleType) {
             case RwConstants.moduleTypes.Order:
                  switch(properties.activityType) {
@@ -23,10 +24,7 @@ class StagingControllerClass {
                 pageTitle = RwLanguages.translate('Package Truck');
                 break;
         }
-        //pageTitle    = RwOrderController.getPageTitle(properties);
-        pageSubTitle = '';
-        //pageSubTitle = '<div class="title">' + RwLanguages.translate('Order No') + ': ' + properties.webSelectOrder.orderNo + '<br/>' + properties.webSelectOrder.orderDesc + '</div>';
-        combinedViewModel = jQuery.extend({
+        const combinedViewModel = jQuery.extend({
             captionPageTitle:         pageTitle
           , captionPageSubTitle:      pageSubTitle
           , htmlScanBarcode:          RwPartialController.getScanBarcodeHtml({
@@ -69,66 +67,8 @@ class StagingControllerClass {
         }, viewModel);
 
         combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-staging').html(), combinedViewModel, {});
-        screen       = {};
+        const screen: any = {};
         screen.$view = FwMobileMasterController.getMasterView(combinedViewModel, properties);
-        //screen.$view.find('#staging-pendingList-pnlApplyAllQtyItems').toggle(false);
-
-        //screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function () { //back
-        //    try {
-        //        screen.getCurrentPage().back();
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
-
-        //screen.$btnclose = FwMobileMasterController.addFormControl(screen, 'Close', 'left', '&#xE5CB;', false, function () { //back
-        //    try {
-        //        screen.getCurrentPage().back();
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
-
-        //screen.$btnnewsession = FwMobileMasterController.addFormControl(screen, 'New Session', 'right', '&#xE5CC;', false, function () { //continue
-        //    try {
-        //        var request = {
-        //            orderid: screen.getOrderId()
-        //        };
-        //        RwServices.callMethod('Staging', 'CreateSuspendedSession', request, function (response) {
-        //            try {
-        //                screen.setContractId(response.contractid);
-        //                screen.setSessionNo(response.sessionno);
-        //                screen.pages.staging.forward();
-        //            } catch (ex) {
-        //                FwFunc.showError(ex);
-        //            }
-        //        });
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
-
-        //screen.$btnmeters = FwMobileMasterController.addFormControl(screen, 'Set Meters', 'right', '&#xE5CC;', false, function () { //continue
-        //    try {
-        //        var masterid = screen.pages.selectserialno.getMasterId();
-        //        var masteritemid = screen.pages.selectserialno.getMasterItemId();
-        //        var description = screen.pages.selectserialno.getDescription();
-        //        var masterno = screen.pages.selectserialno.getMasterNo();
-        //        screen.pages.serialmeters.forward(masterid, masteritemid, description, masterno);
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
-
-        //screen.$btnfinishmeters = FwMobileMasterController.addFormControl(screen, 'Finish', 'right', '&#xE5CC;', false, function () { //continue
-        //    try {
-        //        screen.pagehistory.pop();
-        //        screen.pagehistory.pop();
-        //        screen.getCurrentPage().show();
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
 
         screen.$modulecontrol = screen.$view.find('.modulecontrol');
         screen.$modulecontrol.fwmobilemodulecontrol({
@@ -446,73 +386,6 @@ class StagingControllerClass {
         screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabrfid');
         screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabstaged');
 
-        //screen.$tabpending = FwMobileMasterController.tabcontrols.addtab('Pending', true).hide();
-        //screen.$tabpending.on('click', function () {
-        //    try {
-        //        var request;
-        //        jQuery('#staging-stagedList').hide();
-        //        jQuery('#staging-scan').hide();
-        //        jQuery('#staging-rfid').hide();
-        //        jQuery('#staging-pendingList').show();
-        //        jQuery('#staging-scan').attr('data-mode', 'PENDING');
-        //        RwRFID.unregisterEvents();
-        //        request = {
-        //            orderid: screen.getOrderId(),
-        //            contractid: ''
-        //        };
-        //        //RwServices.order.getStagingPendingItems(request, screen.getStagingPendingItemsCallback);
-        //        RwServices.callMethod('Staging', 'GetPendingItems', request, screen.getStagingPendingItemsCallback);
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
-
-        //screen.$tabrfid = FwMobileMasterController.tabcontrols.addtab('RFID', false).hide();
-        //screen.$tabrfid.on('click', function () {
-        //    try {
-        //        var request;
-        //        jQuery('#staging-stagedList').hide();
-        //        jQuery('#staging-pendingList').hide();
-        //        jQuery('#staging-scan').hide();
-        //        jQuery('#staging-rfid').show();
-        //        jQuery('#staging-scan').attr('data-mode', 'RFID');
-        //        RwRFID.registerEvents(screen.rfidscan);
-        //        request = {
-        //            rfidmode: 'STAGING',
-        //            sessionid: screen.getOrderId(),
-        //            portal: device.uuid
-        //        };
-        //        RwServices.order.getRFIDStatus(request, function (response) {
-        //            screen.$view.find('.rfid-rfidstatus .exceptions .statusitem-value').html(response.exceptions.length);
-        //            screen.$view.find('.rfid-rfidstatus .pending .statusitem-value').html(response.pending.length);
-        //            (response.exceptions.length > 0) ? screen.$view.find('.btnexception').show() : screen.$view.find('.btnexception').hide();
-        //            (response.pending.length > 0) ? screen.$view.find('.btnpending').show() : screen.$view.find('.btnpending').show();
-        //        });
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
-
-        //screen.$tabstaged = FwMobileMasterController.tabcontrols.addtab('Staged', false).hide();
-        //screen.$tabstaged.on('click', function () {
-        //    try {
-        //        jQuery('#staging-pendingList').hide();
-        //        jQuery('#staging-scan').hide();
-        //        jQuery('#staging-rfid').hide();
-        //        jQuery('#staging-stagedList').show();
-        //        jQuery('#staging-scan').attr('data-mode', 'STAGEDLIST');
-        //        RwRFID.unregisterEvents();
-        //        request = {
-        //            orderid: screen.getOrderId(),
-        //            contractid: screen.getContractId()
-        //        };
-        //        //RwServices.order.getStagingStagedItems(request, screen.getStagingStagedItemsCallback);
-        //        RwServices.callMethod('Staging', 'GetStagedItems', request, screen.getStagingStagedItemsCallback);
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
-
         var searchModes = [];
         switch(properties.moduleType) {
             case 'Order':
@@ -738,7 +611,7 @@ class StagingControllerClass {
                 return html;
             },
             beforeSearch: function () {
-                //screen.showScanBarcodeScreen(true);
+                
             },
             afterLoad: function (plugin, response) {
                 var searchOption = plugin.getSearchOption();
@@ -1053,15 +926,6 @@ class StagingControllerClass {
                 screen.pages.staging.getElement().removeClass('page-slidein').hide();
                 screen.pages.selectserialno.getElement().hide();
                 screen.pages.serialmeters.getElement().hide();
-                //screen.$btnback.hide();
-                //screen.$btnclose.hide();
-                //screen.$btnnewsession.hide();
-                //screen.$btnmeters.hide();
-                //screen.$btnfinishmeters.hide();
-                //screen.$btncreatecontract.hide();
-                //screen.$tabpending.hide();
-                //screen.$tabstaged.hide();
-                //jQuery('#master-header-row4').hide();
                 screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabpending');
                 screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabrfid');
                 screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabstaged');
@@ -1127,7 +991,6 @@ class StagingControllerClass {
                         };
                         RwServices.callMethod('Staging', 'GetSearchResults', request, function (response) {
                             if (response.searchresults.TotalRows > 0) {
-                                //screen.$btnback.show();
                                 screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#search-btnhome');
                             }
                         }, true);
@@ -1159,7 +1022,6 @@ class StagingControllerClass {
                     screen.pages.reset();
                     screen.$modulecontrol.fwmobilemodulecontrol('changeState', this.name);
                     FwMobileMasterController.setTitle('Select Suspended Session...');
-                    //screen.$btnback.show();
                     screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#ordersuspendedsessions-back');
                     screen.$search.find('.option[data-value="sessionno"]').click();
                     screen.$view.find('.page-search').addClass('page-slidein').show();
@@ -1187,9 +1049,6 @@ class StagingControllerClass {
                     screen.$modulecontrol.fwmobilemodulecontrol('changeState', this.name);
                     FwMobileMasterController.setTitle('Select Suspended Session...');
                     screen.$view.find('.page-ordersuspendedsessions').addClass('page-slidein').show();
-                    //screen.$btnback.show();
-                    //screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#ordersuspendedsessions-back');
-                    //screen.$btnnewsession.show();
                     screen.$ordersuspendedsessions.fwmobilesearch('search');
                 },
                 forward: function() {
@@ -1217,10 +1076,6 @@ class StagingControllerClass {
                         FwMobileMasterController.setTitle(screen.getOrderNo() + ' - ' + screen.getOrderDesc());
                     }
                     screen.pages.staging.getElement().addClass('page-slidein').show();
-                    //jQuery('#master-header-row4').show();
-                    //screen.$btnclose.show();
-                    //screen.$btncreatecontract.show();
-                    //screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#staging-close');
                     jQuery('.tab.active').click();
                     jQuery(window).on('scroll', function() {
                         screen.evalWindowPosition();
@@ -1236,10 +1091,6 @@ class StagingControllerClass {
                 forward: function() {
                     screen.pagehistory.push(screen.pages.staging);
                     screen.pages.staging.show();
-                    //screen.$tabpending.show();
-                    //screen.$tabstaged.show();
-                    //screen.$modulemodeselector.fwmobilemoduletabs('showTab', '#tabpending');
-                    //screen.$modulemodeselector.fwmobilemoduletabs('showTab', '#tabstaged');
                     screen.promptResponsiblePerson();
                 },
                 back: function () {
@@ -1265,8 +1116,6 @@ class StagingControllerClass {
                     FwMobileMasterController.setTitle('Select Serial No(s)...');
                     var $pageselectserialno = screen.pages.selectserialno.getElement();
                     $pageselectserialno.addClass('page-slidein').show();
-                    //screen.$btnback.show();
-                   // screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#selectserialno-back');
                     if (typeof masteritemid === 'undefined') {
                         masteritemid = screen.pages.selectserialno.getMasterItemId();
                     }
@@ -1359,7 +1208,6 @@ class StagingControllerClass {
                 },
                 funcserialfrm: function(masteritemid) {
                     var $pageselectserialno = screen.pages.selectserialno.getElement();
-                    //$pageselectserialno.find('.info').empty();
                     var request = {
                         orderid:      screen.getOrderId(),
                         contractid:   screen.getContractId(),
@@ -1373,14 +1221,11 @@ class StagingControllerClass {
                                 screen.pages.selectserialno.setMasterNo(response.funcserialfrm.masterno);
                                 screen.pages.selectserialno.setDescription(response.funcserialfrm.description);
                                 if (response.funcserialfrm.metered === 'T') {
-                                    //screen.$btnmeters.show();
                                     screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#selectserialno-setmeters');
                                 }
                                 var html = [];
                                 html.push('<div class="row1">');
                                 html.push('  <div class="masterno">' + RwLanguages.translate('I-Code') + ': ' + response.funcserialfrm.masterno + '</div><div class="description">' + response.funcserialfrm.description + '</div>');
-                                //html.push('  <div class="fsffield masterno"><div class="caption">' + RwLanguages.translate('I-Code') + ':</div><div class="value">' + response.funcserialfrm.masterno + '</div></div>');
-                                //html.push('  <div class="fsffield description">' + response.funcserialfrm.description + '</div>');
                                 html.push('</div>');
                                 html.push('<div class="row2">');
                                 html.push('  <div class="fsffield qtyremainingoutwsuspend"><div class="caption">' + RwLanguages.translate('Remaining') + ':</div><div class="value">' + response.funcserialfrm.qtyremainingoutwsuspend + '</div></div>');
@@ -1415,8 +1260,6 @@ class StagingControllerClass {
                     FwMobileMasterController.setTitle('Enter Meter Data...');
                     var $pageselectserialno = screen.pages.serialmeters.getElement();
                     $pageselectserialno.addClass('page-slidein').show();
-                    //screen.$btnback.show();
-                    //screen.$btnfinishmeters.show();
                 },
                 forward: function(masterid, masteritemid, description, masterno) {
                     var $pageserialmeters = screen.pages.serialmeters.getElement();
@@ -1537,7 +1380,6 @@ class StagingControllerClass {
         screen.insertSerialSession = function(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid, funcOnSuccess, funcOnError) {
             var request = {
                 contractid:             screen.getContractId(), // mv 2016-12-13 this causes the serial item to immediately go into the OUT status rather than on suspended contract like I was expecting. RentalWorks is passing a blank for this.
-                //contractid:             '',
                 orderid:                screen.getOrderId(),
                 masteritemid:           masteritemid,
                 rentalitemid:           rentalitemid,
@@ -1563,16 +1405,12 @@ class StagingControllerClass {
         screen.toggleRfid = function () {
             if (screen.pagehistory.length > 0 && screen.getCurrentPage().name === 'staging') {
                 if (RwRFID.isConnected) {
-                    //screen.$tabrfid.show().click();
                     screen.$modulemodeselector.fwmobilemoduletabs('showTab', '#tabrfid');
-                    //screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabrfid');
                     var requestRFIDClear = {
                         sessionid: screen.getOrderId()
                     };
                     RwServices.order.rfidClearSession(requestRFIDClear, function(response) {});
                 } else {
-                    //screen.$tabrfid.hide();
-                    //screen.$tabpending.click();
                     screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabrfid');
                     screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
                 }
@@ -1600,19 +1438,12 @@ class StagingControllerClass {
                 .data('consignoragreementid', responseStageItem.request.consignoragreementid)
             ;
 
-            // user may have staged or unstaged something, so refresh the current tab
-            //if (screen.$tabpending.hasClass('active')) {
-            //    // refresh the pending list
-            //    screen.$tabpending.click();
-            //} else if (screen.$tabstaged.hasClass('active')) {
-            //    // refresh the staged list
-            //    screen.$tabstaged.click();
-            //}
+            // refresh the pending list if the Pending Tab is active
             if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabpending')) {
-                // refresh the pending list
                 screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
-            } else if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabstaged')) {
-                // refresh the staged list
+            } 
+            // refresh the staged list if the Staged Tab list is active
+            else if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabstaged')) {
                 screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
             }
 
@@ -1726,7 +1557,6 @@ class StagingControllerClass {
                         '" data-masteritemid="' + dt.Rows[i][colIndex.masteritemid] + 
                         '" data-scannablemasterid="' + dt.Rows[i][colIndex.scannablemasterid] + 
                         '" data-masterid="' + dt.Rows[i][colIndex.masterid] + 
-                        //'" data-vendorid="' + dt.Rows[i][colIndex.vendorid] + 
                         '" data-trackedby="' + dt.Rows[i][colIndex.trackedby] + 
                         '" data-description="' + dt.Rows[i][colIndex.description] + 
                         '" data-masterno="' + dt.Rows[i][colIndex.masterno] + 
@@ -1782,7 +1612,6 @@ class StagingControllerClass {
                 }
                 ul.push(screen.getRowCountItem(dt.Rows.length));
                 jQuery('#staging-pendingList-ul').html(ul.join(''));
-                //screen.$view.find('#staging-pendingList-pnlApplyAllQtyItems').toggle((sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') && showapplyallqtyitems);
                 if ((sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') && showapplyallqtyitems) {
                     screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#applyallqtyitems');
                 } else {
@@ -1898,9 +1727,6 @@ class StagingControllerClass {
                 }
                 ul.push(screen.getRowCountItem(dt.Rows.length));
                 jQuery('#staging-stagedList-ul').html(ul.join('')) ;
-
-                //screen.$btncreatecontract.toggle((applicationConfig.designMode) || (dt.Rows.length > 0));
-
                 jQuery('#staging-stagedList-pnlCreateContract')
                     .toggle((applicationConfig.designMode) || ((sessionStorage.users_enablecreatecontract === 'T') && (dt.Rows.length > 0)));
             } catch(ex) {
@@ -1920,11 +1746,6 @@ class StagingControllerClass {
                 .data('consignoragreementid', responseStageItem.request.consignoragreementid)
             ;
         
-            //if (screen.$tabpending.hasClass('active')) {
-            //    screen.$tabpending.click();
-            //    jQuery('#staging-pendingList-ul > li.lineitemcount').remove();
-            //    jQuery('#staging-pendingList-ul').append(screen.getRowCountItem(jQuery('#staging-pendingList-ul > li').length));
-            //}
             if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabpending')) {
                 screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
                 jQuery('#staging-pendingList-ul > li.lineitemcount').remove();
@@ -1976,12 +1797,6 @@ class StagingControllerClass {
                         screen.showPopupQty();
                     } else {
                         screen.hidePopupQty();
-                        //screen.showPopupQty();
-                        //setTimeout(
-                        //    function() {
-                        //        screen.hidePopupQty();
-                        //    }
-                        //  , 3000);
                     }
                 }
             } else {
@@ -2168,7 +1983,6 @@ class StagingControllerClass {
                     if (!screen.isBarcodeFieldDisabled()) {
                         screen.disableBarcodeField();
                         var code = RwAppData.stripBarcode((<string>jQuery(this).val()).toUpperCase());
-                        //if ((code.length > 0) && (screen.$view.find('#staging-scan').attr('data-mode') == 'SCAN')) {
                         if (code.length > 0) {
                             var requestStageItem = {
                                 orderid:               screen.getOrderId(),
@@ -2194,11 +2008,6 @@ class StagingControllerClass {
                                 consignoragreementid:  '',
                                 playStatus:            true
                             };
-                            //RwServices.order.pdastageitem(requestStageItem, function (responseStageItem) {
-                            //    screen.enableBarcodeField();
-                            //    properties.responseStageItem = responseStageItem;
-                            //    screen.pdastageitemCallback(responseStageItem);
-                            //});
 
                             // trying to prevent duplicate scans
                             FwAppData.jsonPost(true, 'services.ashx?path=/order/pdastageitem', requestStageItem, null,
@@ -2333,26 +2142,12 @@ class StagingControllerClass {
                                 responseStageItem.unstageqty = requestStageItem.qty;
                                 properties.responseStageItem = responseStageItem;
                                 screen.unstageItemCallback(responseStageItem);
-                                //screen.$tabstaged.click();
                                 screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
                             });
                         } catch(ex) {
                             FwFunc.showError(ex);
                         }
                     });
-                    //if ($this.attr('data-trackedby') === 'SERIALNO') {
-                    //    FwContextMenu.addMenuItem($contextmenu, 'Enter Meter Data', function() {
-                    //        try {
-                    //            var masterid     = $this.attr('data-masterid');
-                    //            var masteritemid = $this.attr('data-masteritemid');
-                    //            var description  = $this.attr('data-description');
-                    //            var masterno     = $this.attr('data-masterno');
-                    //            screen.pages.serialmeters.forward(masterid, masteritemid, description, masterno);
-                    //        } catch(ex) {
-                    //            FwFunc.showError(ex);
-                    //        }
-                    //    });
-                    //}
                 } catch(ex) {
                     FwFunc.showError(ex);
                 }
@@ -2493,7 +2288,6 @@ class StagingControllerClass {
                 FwPopup.destroyPopup(screen.$popupQty);
             }
             screen.$popupQty = FwPopup.renderPopup($popupcontent, {ismodal:false});
-            //screen.$popupQty.find('#staging-popupQty-description').hide();
             screen.$popupQty.find('#staging-popupQty-messages').hide();
             screen.$popupQty.find('#staging-popupQty-fields').hide();
             screen.$popupQty.find('#staging-popupQty-pnlAddToOrder').hide();
