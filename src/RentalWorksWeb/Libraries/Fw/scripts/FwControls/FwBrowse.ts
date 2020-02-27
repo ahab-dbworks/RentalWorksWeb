@@ -2842,21 +2842,21 @@ class FwBrowseClass {
         let $tr;
 
         if ($control.data('trtemplate') != undefined) {
-            $tr = $control.data('trtemplate').clone();    
+            $tr = $control.data('trtemplate').clone();
         } else {
             $tr = jQuery('<tr>');
             const $theadtds = $table.find('> thead > tr.fieldnames > td.column');
             for (let i = 0; i < $theadtds.length; i++) {
                 let $theadtd = $theadtds.eq(i);
                 let $td = $theadtd.clone().empty();
-            //$td.css({ 'min-width': width });
-            $tr.append($td);
-            var $theadfields = $theadtd.children('.field');
-            $theadfields.each(function (index, element) {
-                var $theadfield, $field, $field_newmode, formdatatype;
-                $theadfield = jQuery(element);
-                $field = $theadfield.clone().empty();
-                $td.append($field);
+                //$td.css({ 'min-width': width });
+                $tr.append($td);
+                var $theadfields = $theadtd.children('.field');
+                $theadfields.each(function (index, element) {
+                    var $theadfield, $field, $field_newmode, formdatatype;
+                    $theadfield = jQuery(element);
+                    $field = $theadfield.clone().empty();
+                    $td.append($field);
                 });
             }
 
@@ -3345,6 +3345,12 @@ class FwBrowseClass {
                             $control.find('.btn-manualsort').show();
                             const $form = $control.closest('.fwform');
                             $form.data('ismanualsort', true);
+
+                            if (typeof $control.data('onafterrowsort') === 'function') {
+                                const $tr = jQuery($trs[0]);
+                                $control.data('onafterrowsort')($control, $tr);
+                            }
+
                         } else {
                             FwNotification.renderNotification('ERROR', response.msg);
                         };
@@ -3459,7 +3465,7 @@ class FwBrowseClass {
             let formdatafield = (typeof $field.attr('data-formdatafield') === 'string') ? $field.attr('data-formdatafield') : '';
             let formdatatype = (typeof $field.attr('data-formdatatype') === 'string') ? $field.attr('data-formdatatype') : '';
             let originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-            
+
 
             let field: any = {};
             if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
@@ -3507,7 +3513,7 @@ class FwBrowseClass {
                     FieldValue: field.value
                 }
                 fields._Custom.push(field);
-            } 
+            }
             else if (formdatatype === 'appdocumentimage') {
                 const uniqueId1Field = (typeof $field.attr('data-uniqueid1field') === 'string') ? $field.attr('data-uniqueid1field') : '';
                 const uniqueId2Field = (typeof $field.attr('data-uniqueid2field') === 'string') ? $field.attr('data-uniqueid2field') : '';
