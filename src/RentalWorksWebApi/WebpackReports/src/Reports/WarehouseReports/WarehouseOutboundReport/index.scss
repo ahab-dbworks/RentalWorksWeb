@@ -1,7 +1,4 @@
-﻿body {
-  margin:15px;
-}
-tbody {
+﻿tbody {
   tr[data-rowtype="detail"]:nth-child(4n-1) {
     background-color: #DCDCDC;
   }
@@ -33,4 +30,20 @@ thead {
   tr:nth-child(even) {
     border-bottom: 2px solid #000000;
   }
+}
+
+@media screen {
+  body {
+    margin: 10px 5px 10px 10px;
+  }
+}
+
+@media print {
+  body {
+    margin: 10px 5px 10px 0px;
+  }
+}
+
+@page {
+  size: landscape;
 }
