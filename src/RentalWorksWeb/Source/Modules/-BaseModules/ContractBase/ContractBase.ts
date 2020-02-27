@@ -277,7 +277,7 @@ abstract class ContractBase {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ContractId: FwFormField.getValueByDataField($form, this.uniqueIdFieldName),
-                    RecType: 'R'
+                    RecType: 'R, RS'
                 };
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
