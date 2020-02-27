@@ -84,7 +84,7 @@ set pdfFileName="%testpath%\RentalWorks %friendlyname% Test Report (%version%).p
 set emailSubject="RentalWorks %friendlyname% Results (%version%)"
 if exist %htmlFileName% (del %htmlFileName%)
 if exist %pdfFileName% (del %pdfFileName%)
-call jest --config=jest.rentalworksweb%testnumber%.config.js "%testname%"
+call jest --config=jest.rentalworksweb%testnumber%.config.js "%testname%" --detectOpenHandles
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%pdfFileName% %htmlFileName%
 if exist %htmlFileName% (del %htmlFileName%)
 rem IF "%DwRegressionTestEmail%"=="" start %pdfFileName%
