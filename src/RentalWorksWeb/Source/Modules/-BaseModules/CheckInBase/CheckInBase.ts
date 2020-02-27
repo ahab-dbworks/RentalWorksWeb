@@ -136,6 +136,11 @@ abstract class CheckInBase implements IModule {
                 request.uniqueids = {
                     ContractId: FwFormField.getValueByDataField($form, 'ContractId')
                 };
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                if (this.Module === 'TransferIn') {
+                    $browse.attr('data-caption', 'Transferred In Items');
+                }
             }
         });
 
