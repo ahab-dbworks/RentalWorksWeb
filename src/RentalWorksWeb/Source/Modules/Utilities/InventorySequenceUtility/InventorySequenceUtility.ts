@@ -49,8 +49,13 @@ class InventorySequenceUtility {
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
-        // ----------
-        $form.find('div[data-datafield="InventoryType"]').on('change', e => {
+        const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
+        const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
+
+        // InventoryType Grid
+        // ---------- 
+        const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
+        $inventoryTypeGrid.on('change', e => {
             const inventoryType = FwFormField.getValueByDataField($form, 'InventoryType');
             let type;
             switch (inventoryType) {
@@ -68,21 +73,18 @@ class InventorySequenceUtility {
                     break;
             }
 
-            const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
             $inventoryTypeGrid.data('ondatabind', function (request) {
                 request.uniqueids[type] = true;
                 request.pagesize = 20;
             })
             FwBrowse.search($inventoryTypeGrid);
 
-            const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
             $categoryGrid.data('ondatabind', function (request) {
                 request.uniqueids[type] = true;
                 request.pagesize = 20;
             })
             FwBrowse.search($categoryGrid);
 
-            const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
             $subCategoryGrid.data('ondatabind', function (request) {
                 request.uniqueids[type] = true;
                 request.pagesize = 20;
@@ -90,11 +92,10 @@ class InventorySequenceUtility {
             FwBrowse.search($subCategoryGrid);
         });
         // ----------
-        $form.find('[data-name="InventoryTypeGrid"]').data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
+        $inventoryTypeGrid.data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
             try {
                 const inventoryTypeId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
                 // Category
-                const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
                 $categoryGrid.data('ondatabind', function (request) {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
@@ -106,7 +107,6 @@ class InventorySequenceUtility {
                 });
                 FwBrowse.search($categoryGrid);
                 // Sub-Category
-                const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
                 $subCategoryGrid.data('ondatabind', function (request) {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
@@ -121,12 +121,20 @@ class InventorySequenceUtility {
                 FwFunc.showError(ex);
             }
         });
-        // ----------
-        $form.find('[data-name="CategoryGrid"]').data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
+        $inventoryTypeGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                const inventoryTypeId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+                let here;
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        // Category Grid
+        // ---------- 
+        $categoryGrid.data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
             try {
                 const categoryId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
 
-                const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
                 $subCategoryGrid.data('ondatabind', function (request) {
                     request.uniqueids = {
                         CategoryId: categoryId,
@@ -137,6 +145,15 @@ class InventorySequenceUtility {
                     request.CategoryId = categoryId;
                 });
                 FwBrowse.search($subCategoryGrid);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        // ----------
+        $categoryGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                const categoryId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+                let here;
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -159,6 +176,7 @@ class InventorySequenceUtility {
             moduleSecurityId: this.id,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasEdit = false;
                 options.hasNew = false;
                 options.hasDelete = false;
             },
@@ -180,6 +198,7 @@ class InventorySequenceUtility {
             moduleSecurityId: this.id,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasEdit = false;
                 options.hasNew = false;
                 options.hasDelete = false;
             },
@@ -201,6 +220,7 @@ class InventorySequenceUtility {
             moduleSecurityId: this.id,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasEdit = false;
                 options.hasNew = false;
                 options.hasDelete = false;
             },
@@ -236,7 +256,7 @@ class InventorySequenceUtility {
                       <div data-control="FwGrid" data-grid="CategoryGrid" style="min-width:240px;max-width:400px;"></div>
                     </div>
                     <div class="flexcolumn" style="flex:0 1 365px;">
-                      <div id="subcategorygrid" data-control="FwGrid" data-grid="SubCategoryGrid" data-securitycaption="Sub Category Grid" style="min-width:240px;max-width:400px;"></div>
+                      <div data-control="FwGrid" data-grid="SubCategoryGrid" style="min-width:240px;max-width:400px;"></div>
                     </div>
                   </div>
                 </div>
