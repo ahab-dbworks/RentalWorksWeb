@@ -70,7 +70,7 @@ class OrderItemGrid {
         }
     }
 
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
             //case 'ItemId':
             //    let inventoryId = $tr.find('.field[data-browsedatafield="InventoryId"] input').val();
@@ -117,6 +117,8 @@ class OrderItemGrid {
                             $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodeparts`);
                             break;
                     }
+
+                    request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
                 }
                 break;
             case 'UnitId':
@@ -409,7 +411,7 @@ class OrderItemGrid {
                 const rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
                 FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
 
-                const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable');
+                const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
                 FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable});
 
                 if ($generatedtr.hasClass("newmode")) {
