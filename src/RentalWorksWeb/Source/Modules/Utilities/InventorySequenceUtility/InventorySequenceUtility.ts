@@ -94,28 +94,24 @@ class InventorySequenceUtility {
         });
         // ----------
 
-        //$form.find('[data-name="CategoryGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-        //    try {
-        //        var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
-        //        var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+        $form.find('[data-name="CategoryGrid"]').data('onchange', ($control: JQuery, $tr: JQuery) => {
+            try {
+                const categoryId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
 
-        //        const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
-
-        //        $spaceGridControl.data('ondatabind', function (request) {
-        //            request.uniqueids = {
-        //                BuildingId: buildingId,
-        //                FloorId: floorId
-        //            }
-        //        })
-        //        $spaceGridControl.data('beforesave', function (request) {
-        //            request.BuildingId = buildingId;
-        //            request.FloorId = floorId;
-        //        });
-        //        FwBrowse.search($spaceGridControl);
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
+                const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
+                $subCategoryGrid.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        CategoryId: categoryId,
+                    }
+                })
+                $subCategoryGrid.data('beforesave', function (request) {
+                    request.CategoryId = categoryId;
+                });
+                FwBrowse.search($subCategoryGrid);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
 
         //$form.find('[data-name="InventoryTypeGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
         //    try {
@@ -173,6 +169,7 @@ class InventorySequenceUtility {
                   //  InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
                     Rental: true,
                 };
+                request.pagesize = 20;
             },
             beforeSave: (request: any) => {
              //   request.InventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
@@ -193,6 +190,7 @@ class InventorySequenceUtility {
                  //   CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
                     Rental: true,
                 };
+                request.pagesize = 20;
             },
             beforeSave: (request: any) => {
               //  request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
@@ -213,6 +211,7 @@ class InventorySequenceUtility {
                //     CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
                     Rental: true,
                 };
+                request.pagesize = 20;
             },
             beforeSave: (request: any) => {
              //   request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
@@ -222,7 +221,7 @@ class InventorySequenceUtility {
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-            <div id="inventorysequenceutilityform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Inventory Sequence Utility" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="InventoryRetireUtilityController">
+            <div id="inventorysequenceutilityform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Inventory Sequence Utility" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="InventorySequenceUtilityController">
               <div id="inventorysequenceutilityform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div class="tabs"></div>
                 <div class="tabpages">
@@ -232,14 +231,14 @@ class InventorySequenceUtility {
                     </div>
                   </div>
                   <div class="flexrow">
-                    <div class="flexcolumn">
+                    <div class="flexcolumn" style="flex:0 1 355px;">
                       <div data-control="FwGrid" data-grid="InventoryTypeGrid" style="min-width:240px;max-width:400px;"></div>
                     </div>
-                    <div class="flexcolumn">
+                    <div class="flexcolumn" style="flex:0 1 355px;">
                       <div data-control="FwGrid" data-grid="CategoryGrid" style="min-width:240px;max-width:400px;"></div>
                     </div>
-                    <div class="flexcolumn">
-                      <div data-control="FwGrid" data-grid="SubCategoryGrid" style="min-width:240px;max-width:400px;"></div>
+                    <div class="flexcolumn" style="flex:0 1 355px;">
+                      <div id="subcategorygrid" data-control="FwGrid" data-grid="SubCategoryGrid" data-securitycaption="Sub Category Grid" style="min-width:240px;max-width:400px;"></div>
                     </div>
                   </div>
                 </div>
