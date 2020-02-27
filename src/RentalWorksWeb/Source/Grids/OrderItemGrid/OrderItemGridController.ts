@@ -409,6 +409,9 @@ class OrderItemGrid {
                 const rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
                 FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
 
+                const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable');
+                FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable});
+
                 if ($generatedtr.hasClass("newmode")) {
                     const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
                     const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
