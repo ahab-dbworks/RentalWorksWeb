@@ -9,7 +9,6 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryType
     {
 
         /* TODO:
-        orderby
         inventoryappreportdesignerid
         rentalitemappreportdesignerid
         orderbypicklist
@@ -72,6 +71,9 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryType
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean)]
         public bool? GroupProfitLoss { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, precision: 5, scale: 1)]
+        public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
