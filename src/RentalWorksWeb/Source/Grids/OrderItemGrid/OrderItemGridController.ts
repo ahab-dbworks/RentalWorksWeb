@@ -372,17 +372,47 @@ class OrderItemGrid {
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
             });
 
-            $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-                $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-                $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-                $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
-                $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', $tr => {
+                const recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
+                const rateType = FwFormField.getValueByDataField($form, 'RateType');
+                const description = FwBrowse.getValueByDataField($control, $tr, 'Description');
+                FwBrowse.setFieldValue($control, $generatedtr, 'Description', { value: description, text: description });
+                FwBrowse.setFieldValue($control, $generatedtr, 'QuantityOrdered', { value: '1', text: '1' });
+                FwBrowse.setFieldValue($control, $generatedtr, 'ItemId', { value: '', text: '' });
+                //$generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+                //$generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+                //$generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
+                //$generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+                let rateFieldName;
+                switch (recType) {
+                    case 'S':
+                        rateFieldName = 'Price';
+                        break;
+                    case 'R':
+                    case 'M':
+                    case 'L':
+                        if (rateType == 'DAILY') {
+                            rateFieldName = 'DailyRate';
+                        } else if (rateType == 'WEEKLY') {
+                            rateFieldName = 'WeeklyRate';
+                        } else if (rateType == '3WEEK') {
+                            rateFieldName = 'WeeklyRate';
+                        } else if (rateType == 'MONTHLY') {
+                            rateFieldName = 'MonthlyRate';
+                        } 
+                        break;
+                    case 'RS':
+                        rateFieldName = 'ReplacementCost';
+                        break;
+
+                }
+                const rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
 
                 if ($generatedtr.hasClass("newmode")) {
                     const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
                     const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                     FwAppData.apiMethod(true, 'GET', `api/v1/pricing/${inventoryId}/${warehouseId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        const rateType = $form.find('[data-datafield="RateType"] input').val();
                         switch (rateType) {
                             case 'DAILY':
                                 $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
@@ -466,12 +496,11 @@ class OrderItemGrid {
                 const warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
                 $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
-
+                const rateType = FwFormField.getValueByDataField($form, 'RateType');
                 if ($generatedtr.hasClass("newmode")) {
                     const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
                     FwAppData.apiMethod(true, 'GET', `api/v1/pricing/${inventoryId}/${warehouseId}`, null, FwServices.defaultTimeout,
                         response => {
-                            const rateType = FwFormField.getValueByDataField($form, 'RateType');
                             switch (rateType) {
                                 case 'DAILY':
                                     FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response[0].DailyRate });
