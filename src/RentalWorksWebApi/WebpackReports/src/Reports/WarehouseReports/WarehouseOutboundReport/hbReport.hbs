@@ -23,12 +23,14 @@
         <th>Order No.</th>
         <th>Order Status</th>
         <th>Deal</th>
+      </tr>
+      <tr>
         <th>Activity Status</th>
         <th>Assigned To</th>
-        <th class="number">Staged</th>
-        <th class="number">Items</th>
-        <th class="number">Remaining</th>
-        <th class="number">%</th>
+        <th class="">Staged</th>
+        <th class="">Items</th>
+        <th class="">Remaining</th>
+        <th class="">%</th>
         <th>Load Date</th>
         <th>Outgoing Address</th>
       </tr>
@@ -37,7 +39,7 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "Warehouseheader"}}
-        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
+        <td colspan="8" class="header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{PickDate}}"></td>
@@ -48,12 +50,16 @@
         <td data-value="{{OrderNumber}}"></td>
         <td data-value="{{OrderStatus}}"></td>
         <td data-value="{{Deal}}"></td>
+        {{/ifEquals}}
+      </tr>
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "detail"}}
         <td data-value="{{ActivityStatusDescription}}"></td>
         <td data-value="{{AssignedToUserName}}"></td>
-        <td class="number" data-value="{{TotalQuantity}}"></td>
-        <td class="number" data-value="{{CompleteQuantity}}"></td>
-        <td class="number" data-value="{{RemainingQuantity}}"></td>
-        <td class="number" data-value="{{CompletePercent}}"></td>
+        <td class="" data-value="{{TotalQuantity}}"></td>
+        <td class="" data-value="{{CompleteQuantity}}"></td>
+        <td class="" data-value="{{RemainingQuantity}}"></td>
+        <td class="" data-value="{{CompletePercent}}"></td>
         <td data-value="{{LoadInDateTime}}"></td>
         <td data-value="{{OutgoingLocation}}"></td>
         {{/ifEquals}}
