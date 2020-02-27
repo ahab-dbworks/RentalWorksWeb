@@ -49,8 +49,8 @@ class InventorySequenceUtility {
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
+        // ----------
         $form.find('div[data-datafield="InventoryType"]').on('change', e => {
-            const $this = jQuery(e.currentTarget)
             const inventoryType = FwFormField.getValueByDataField($form, 'InventoryType');
             let type;
             switch (inventoryType) {
@@ -70,31 +70,59 @@ class InventorySequenceUtility {
 
             const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
             $inventoryTypeGrid.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    type: true,
-                }
+                request.uniqueids[type] = true;
+                request.pagesize = 20;
             })
             FwBrowse.search($inventoryTypeGrid);
 
             const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
-            $inventoryTypeGrid.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    type: true,
-                }
+            $categoryGrid.data('ondatabind', function (request) {
+                request.uniqueids[type] = true;
+                request.pagesize = 20;
             })
             FwBrowse.search($categoryGrid);
 
             const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
-            $inventoryTypeGrid.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    type: true,
-                }
+            $subCategoryGrid.data('ondatabind', function (request) {
+                request.uniqueids[type] = true;
+                request.pagesize = 20;
             })
             FwBrowse.search($subCategoryGrid);
         });
         // ----------
-
-        $form.find('[data-name="CategoryGrid"]').data('onchange', ($control: JQuery, $tr: JQuery) => {
+        $form.find('[data-name="InventoryTypeGrid"]').data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
+            try {
+                const inventoryTypeId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+                // Category
+                const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
+                $categoryGrid.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    }
+                    request.pagesize = 20;
+                })
+                $categoryGrid.data('beforesave', function (request) {
+                    request.InventoryTypeId = inventoryTypeId;
+                });
+                FwBrowse.search($categoryGrid);
+                // Sub-Category
+                const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
+                $subCategoryGrid.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    }
+                    request.pagesize = 20;
+                })
+                $subCategoryGrid.data('beforesave', function (request) {
+                    request.InventoryTypeId = inventoryTypeId;
+                });
+                FwBrowse.search($subCategoryGrid);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        // ----------
+        $form.find('[data-name="CategoryGrid"]').data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
             try {
                 const categoryId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
 
@@ -103,6 +131,7 @@ class InventorySequenceUtility {
                     request.uniqueids = {
                         CategoryId: categoryId,
                     }
+                    request.pagesize = 20;
                 })
                 $subCategoryGrid.data('beforesave', function (request) {
                     request.CategoryId = categoryId;
@@ -112,37 +141,6 @@ class InventorySequenceUtility {
                 FwFunc.showError(ex);
             }
         });
-
-        //$form.find('[data-name="InventoryTypeGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-        //    try {
-        //        //var spaceId
-        //        //    , floorId
-        //        //    , buildingId;
-
-        //        //spaceId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
-        //        //floorId = jQuery($tr.find('.column > .field')[1]).attr('data-originalvalue');
-        //        //buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
-        //        //var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-
-        //        const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
-        //        $inventoryTypeGrid.data('ondatabind', function (request) {
-        //            request.uniqueids = {
-        //                SpaceId: spaceId,
-        //                FloorId: floorId,
-        //                BuildingId: buildingId,
-        //                WarehouseId: warehouse.warehouseid
-        //            }
-        //        })
-        //        $inventoryTypeGrid.data('beforesave', function (request) {
-        //            request.BuildingId = buildingId;
-        //            request.FloorId = floorId;
-        //            request.SpaceId = spaceId;
-        //        });
-        //        FwBrowse.search($inventoryTypeGrid);
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
@@ -166,13 +164,13 @@ class InventorySequenceUtility {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                  //  InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
+                    //  InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
                     Rental: true,
                 };
                 request.pagesize = 20;
             },
             beforeSave: (request: any) => {
-             //   request.InventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+                //   request.InventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             }
         });
         // ----------
@@ -187,13 +185,13 @@ class InventorySequenceUtility {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                 //   CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+                    //   CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
                     Rental: true,
                 };
                 request.pagesize = 20;
             },
             beforeSave: (request: any) => {
-              //  request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+                //  request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
             }
         });
         // ----------
@@ -208,13 +206,13 @@ class InventorySequenceUtility {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-               //     CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+                    //     CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
                     Rental: true,
                 };
                 request.pagesize = 20;
             },
             beforeSave: (request: any) => {
-             //   request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+                //   request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
             }
         });
     }
@@ -231,13 +229,13 @@ class InventorySequenceUtility {
                     </div>
                   </div>
                   <div class="flexrow">
-                    <div class="flexcolumn" style="flex:0 1 355px;">
+                    <div class="flexcolumn" style="flex:0 1 365px;">
                       <div data-control="FwGrid" data-grid="InventoryTypeGrid" style="min-width:240px;max-width:400px;"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:0 1 355px;">
+                    <div class="flexcolumn" style="flex:0 1 365px;">
                       <div data-control="FwGrid" data-grid="CategoryGrid" style="min-width:240px;max-width:400px;"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:0 1 355px;">
+                    <div class="flexcolumn" style="flex:0 1 365px;">
                       <div id="subcategorygrid" data-control="FwGrid" data-grid="SubCategoryGrid" data-securitycaption="Sub Category Grid" style="min-width:240px;max-width:400px;"></div>
                     </div>
                   </div>

@@ -17,8 +17,8 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryType
         public static async Task<SortItemsResponse> SortInventoryType(FwApplicationConfig appConfig, FwUserSession userSession, SortInventoryTypeRequest request)
         {
             SortItemsRequest r2 = new SortItemsRequest();
-            r2.TableName = "inventorytype";
-            r2.IdFieldNames.Add("inventorytypeid");
+            r2.TableName = "inventorydepartment";
+            r2.IdFieldNames.Add("inventorydepartmentid");
             r2.RowNumberFieldName = "orderby";
             r2.StartAtIndex = request.StartAtIndex;
             r2.RowNumberDigits = 6;
