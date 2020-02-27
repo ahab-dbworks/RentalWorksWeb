@@ -85,6 +85,21 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "mw.shelfloc", modeltype: FwDataTypes.Text)]
         public string ShelfLocation { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.dailyrate", modeltype: FwDataTypes.Decimal)]
+        public decimal? DailyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.weeklyrate", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.monthlyrate", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.price", modeltype: FwDataTypes.Decimal)]
+        public decimal? Price { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.replacementcost", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -96,7 +111,7 @@ namespace WebApi.Modules.HomeControls.Inventory
 
 
             OverrideFromClause = " from inventoryview [t] with (nolock) " +
-                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, q.qty" +
+                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.dailyrate, mw.weeklyrate, mw.monthlyrate, mw.price, mw.replacementcost, q.qty" +
                   "              from  masterwh mw with(nolock)" +
                   "                            join masterwhqty q with(nolock) on(q.masterid = mw.masterid and q.warehouseid = mw.warehouseid)" +
                   "                  where mw.masterid = t.masterid" +
