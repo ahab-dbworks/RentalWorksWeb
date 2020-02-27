@@ -134,16 +134,20 @@ class SearchInterface {
 
         FwControl.renderRuntimeControls($popup.find('#searchpopup .fwcontrol'));
 
-        const $grid = $form.find('[data-name="OrderItemGrid"]:visible');
-        if ($form.data('ismanualsort') && $grid.length > 0) {
-            const $selectedtrs = $grid.find('tbody tr .tdselectrow input:checked').parents('tr');
-            if ($selectedtrs.length > 0) {
-                $popup.find('.insertAtLine').show();
-                const $firstRow = jQuery($selectedtrs[$selectedtrs.length - 1]);
-                const rowNumber = FwBrowse.getValueByDataField($grid, $firstRow, 'RowNumber');
-                $popup.find('.insertAtLine').text(`Insert at line ${rowNumber} of ${buttonCaption}`);
-                $popup.attr('data-insertatrownumber', rowNumber);
-            };
+        if ($form) {
+            const $grid = $form.find('[data-name="OrderItemGrid"]:visible');
+            if ($grid.length > 0) { 
+                if ($form.data('ismanualsort') ) {
+                    const $selectedtrs = $grid.find('tbody tr .tdselectrow input:checked').parents('tr');
+                    if ($selectedtrs.length > 0) {
+                        $popup.find('.insertAtLine').show();
+                        const $firstRow = jQuery($selectedtrs[$selectedtrs.length - 1]);
+                        const rowNumber = FwBrowse.getValueByDataField($grid, $firstRow, 'RowNumber');
+                        $popup.find('.insertAtLine').text(`Insert at line ${rowNumber} of ${buttonCaption}`);
+                        $popup.attr('data-insertatrownumber', rowNumber);
+                    };
+                }
+            }
         }
 
         FwFormField.loadItems($popup.find('div[data-datafield="Select"]'), [
