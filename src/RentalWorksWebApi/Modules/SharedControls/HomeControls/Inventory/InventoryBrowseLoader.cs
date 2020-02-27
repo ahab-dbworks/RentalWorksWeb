@@ -69,6 +69,9 @@ namespace WebApi.Modules.HomeControls.Inventory
             set { }
         }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "q.qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
