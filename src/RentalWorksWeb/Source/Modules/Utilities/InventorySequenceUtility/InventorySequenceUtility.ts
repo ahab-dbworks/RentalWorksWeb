@@ -114,12 +114,29 @@ class InventorySequenceUtility {
         // InventoryType Grid
         // ---------- 
         $inventoryTypeGrid.data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
+            const inventoryType = FwFormField.getValueByDataField($form, 'InventoryType');
+            let type;
+            switch (inventoryType) {
+                case 'R':
+                    type = 'Rental';
+                    break;
+                case 'S':
+                    type = 'Sales';
+                    break;
+                case 'L':
+                    type = 'Labor';
+                    break;
+                case 'M':
+                    type = 'Misc';
+                    break;
+            }
             try {
                 const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
                 $categoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
                     }
+                    request.uniqueids[type] = true;
                     request.pagesize = 20;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
@@ -133,6 +150,7 @@ class InventorySequenceUtility {
                             request.uniqueids = {
                                 CategoryId: categoryId,
                             }
+                            request.uniqueids[type] = true;
                             request.pagesize = 20;
                             request.searchfieldoperators = ["<>"];
                             request.searchfields = ["Inactive"];
@@ -145,12 +163,29 @@ class InventorySequenceUtility {
             }
         });
         $inventoryTypeGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            const inventoryType = FwFormField.getValueByDataField($form, 'InventoryType');
+            let type;
+            switch (inventoryType) {
+                case 'R':
+                    type = 'Rental';
+                    break;
+                case 'S':
+                    type = 'Sales';
+                    break;
+                case 'L':
+                    type = 'Labor';
+                    break;
+                case 'M':
+                    type = 'Misc';
+                    break;
+            }
             try {
                 const inventoryTypeId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
                 $categoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
                     }
+                    request.uniqueids[type] = true;
                     request.pagesize = 20;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
@@ -164,6 +199,7 @@ class InventorySequenceUtility {
                             request.uniqueids = {
                                 CategoryId: categoryId,
                             }
+                            request.uniqueids[type] = true;
                             request.pagesize = 20;
                             request.searchfieldoperators = ["<>"];
                             request.searchfields = ["Inactive"];
@@ -178,6 +214,22 @@ class InventorySequenceUtility {
         // Category Grid
         // ---------- 
         $categoryGrid.data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
+            const inventoryType = FwFormField.getValueByDataField($form, 'InventoryType');
+            let type;
+            switch (inventoryType) {
+                case 'R':
+                    type = 'Rental';
+                    break;
+                case 'S':
+                    type = 'Sales';
+                    break;
+                case 'L':
+                    type = 'Labor';
+                    break;
+                case 'M':
+                    type = 'Misc';
+                    break;
+            }
             try {
                 const categoryId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
 
@@ -185,6 +237,7 @@ class InventorySequenceUtility {
                     request.uniqueids = {
                         CategoryId: categoryId,
                     }
+                    request.uniqueids[type] = true;
                     request.pagesize = 20;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
@@ -197,12 +250,29 @@ class InventorySequenceUtility {
         });
         // ----------
         $categoryGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            const inventoryType = FwFormField.getValueByDataField($form, 'InventoryType');
+            let type;
+            switch (inventoryType) {
+                case 'R':
+                    type = 'Rental';
+                    break;
+                case 'S':
+                    type = 'Sales';
+                    break;
+                case 'L':
+                    type = 'Labor';
+                    break;
+                case 'M':
+                    type = 'Misc';
+                    break;
+            }
             try {
                 const categoryId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
                 $subCategoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         CategoryId: categoryId,
                     }
+                    request.uniqueids[type] = true;
                     request.pagesize = 20;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
