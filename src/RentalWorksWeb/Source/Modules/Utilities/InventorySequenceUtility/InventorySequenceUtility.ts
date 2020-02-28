@@ -141,8 +141,10 @@ class InventorySequenceUtility {
                 });
                 FwBrowse.search($categoryGrid)
                     .then(() => {
-                        const categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
-
+                        let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                        if (categoryId === undefined || categoryId === 'undefined' || categoryId === '') {
+                            categoryId = 'NONE';
+                        }
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
