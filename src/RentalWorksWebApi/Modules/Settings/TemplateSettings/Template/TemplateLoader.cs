@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.TemplateSettings.Template
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        public string Location { get; set; }
+        public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

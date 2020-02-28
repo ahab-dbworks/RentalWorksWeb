@@ -39,6 +39,9 @@ namespace WebApi.Modules.Settings.TemplateSettings.Template
         [FwLogicProperty(Id: "x1LAc7QekCIOK")]
         public string OfficeLocationId { get { return template.OfficeLocationId; } set { template.OfficeLocationId = value; } }
 
+        [FwLogicProperty(Id: "x1LAc7QekCIOK", IsReadOnly: true)]
+        public string OfficeLocation { get; set; }
+
         [FwLogicProperty(Id:"LNLBhYWa4Qr5")]
         public string WarehouseId { get { return template.WarehouseId; } set { template.WarehouseId = value; } }
 
