@@ -45,7 +45,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertype/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"FNlE3pAUrgB6", ActionType: FwControllerActionTypes.View)]
+        [FwControllerMethod(Id:"FNlE3pAUrgB6", ActionType: FwControllerActionTypes.View, ValidateSecurityGroup: false)]
         public async Task<ActionResult<OrderTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderTypeLogic>(id);
