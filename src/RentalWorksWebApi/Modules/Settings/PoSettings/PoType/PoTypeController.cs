@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/potype/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"pPdPDv1bllMz4", ActionType: FwControllerActionTypes.View)]
+        [FwControllerMethod(Id:"pPdPDv1bllMz4", ActionType: FwControllerActionTypes.View, ValidateSecurityGroup: false)]
         public async Task<ActionResult<PoTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PoTypeLogic>(id);
