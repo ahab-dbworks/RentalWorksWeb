@@ -49,62 +49,71 @@
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
         // ----------
-        const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridRentalControl.find('.column').attr('data-visible', 'false');
-        $orderItemGridRentalControl.find('.template').parent().attr('data-visible', 'true');
-        $orderItemGridRental.empty().append($orderItemGridRentalControl);
-        $orderItemGridRentalControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
-                RecType: 'R'
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderItemGrid',
+            gridSelector: '.rentalgrid div[data-grid="OrderItemGrid"]',
+            gridSecurityId: 'RFgCJpybXoEb',
+            moduleSecurityId: this.id,
+            $form: $form,
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.find('.column').attr('data-visible', 'false');
+                $browse.find('.template').parent().attr('data-visible', 'true');
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
+                    RecType: 'R'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
+                request.RecType = 'R';
+            }
         });
-        $orderItemGridRentalControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
-            request.RecType = 'R';
-        }
-        );
-        FwBrowse.init($orderItemGridRentalControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
         // ----------
-        const $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridSalesControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridSalesControl.find('.column').attr('data-visible', 'false');
-        $orderItemGridSalesControl.find('.template').parent().attr('data-visible', 'true');
-        $orderItemGridSales.empty().append($orderItemGridSalesControl);
-        $orderItemGridSalesControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
-                RecType: 'S'
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderItemGrid',
+            gridSelector: '.salesgrid div[data-grid="OrderItemGrid"]',
+            gridSecurityId: 'RFgCJpybXoEb',
+            moduleSecurityId: this.id,
+            $form: $form,
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.find('.column').attr('data-visible', 'false');
+                $browse.find('.template').parent().attr('data-visible', 'true');
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
+                    RecType: 'S'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
+                request.RecType = 'S';
+            }
         });
-        $orderItemGridSalesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
-            request.RecType = 'S';
-        });
-        FwBrowse.init($orderItemGridSalesControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
         // ----------
-        const $orderItemGridFacilities = $form.find('.facilitiesgrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridFacilitiesControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridFacilitiesControl.find('.column').attr('data-visible', 'false');
-        $orderItemGridFacilitiesControl.find('.template').parent().attr('data-visible', 'true');
-        $orderItemGridFacilities.empty().append($orderItemGridFacilitiesControl);
-        $orderItemGridFacilitiesControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
-                RecType: 'SP'
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderItemGrid',
+            gridSelector: '.facilitiesgrid div[data-grid="OrderItemGrid"]',
+            gridSecurityId: 'RFgCJpybXoEb',
+            moduleSecurityId: this.id,
+            $form: $form,
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.find('.column').attr('data-visible', 'false');
+                $browse.find('.template').parent().attr('data-visible', 'true');
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
+                    RecType: 'SP'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
+                request.RecType = 'SP';
+            }
         });
-        $orderItemGridFacilitiesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
-            request.RecType = 'SP';
-        }
-        );
-        FwBrowse.init($orderItemGridFacilitiesControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridFacilitiesControl);
-
         //var $orderItemGridTransportation;
         //var $orderItemGridTransportationControl;
         //$orderItemGridTransportation = $form.find('.transportationgrid div[data-grid="OrderItemGrid"]');
@@ -123,44 +132,52 @@
         //FwBrowse.init($orderItemGridTransportationControl);
         //FwBrowse.renderRuntimeHtml($orderItemGridTransportationControl);
         // ----------
-        const $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridLaborControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
-        $orderItemGridLaborControl.find('.column').attr('data-visible', 'false');
-        $orderItemGridLaborControl.find('.template').parent().attr('data-visible', 'true');
-        $orderItemGridLabor.empty().append($orderItemGridLaborControl);
-        $orderItemGridLaborControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
-                RecType: 'L'
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderItemGrid',
+            gridSelector: '.laborgrid div[data-grid="OrderItemGrid"]',
+            gridSecurityId: 'RFgCJpybXoEb',
+            moduleSecurityId: this.id,
+            $form: $form,
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
+                $browse.find('.column').attr('data-visible', 'false');
+                $browse.find('.template').parent().attr('data-visible', 'true');
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
+                    RecType: 'L'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
+                request.RecType = 'L';
+            }
         });
-        $orderItemGridLaborControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
-            request.RecType = 'L';
-        });
-        FwBrowse.init($orderItemGridLaborControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
         // ----------
-        const $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridMiscControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridMiscControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
-        $orderItemGridMiscControl.find('.column').attr('data-visible', 'false');
-        $orderItemGridMiscControl.find('.template').parent().attr('data-visible', 'true');
-        $orderItemGridMisc.empty().append($orderItemGridMiscControl);
-        $orderItemGridMiscControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
-                RecType: 'M'
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderItemGrid',
+            gridSelector: '.miscgrid div[data-grid="OrderItemGrid"]',
+            gridSecurityId: 'RFgCJpybXoEb',
+            moduleSecurityId: this.id,
+            $form: $form,
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
+                $browse.find('.column').attr('data-visible', 'false');
+                $browse.find('.template').parent().attr('data-visible', 'true');
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
+                    RecType: 'M'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
+                request.RecType = 'M';
+            }
         });
-        $orderItemGridMiscControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
-            request.RecType = 'M';
-        }
-        );
-        FwBrowse.init($orderItemGridMiscControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
+       
         // ----------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
