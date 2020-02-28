@@ -58,6 +58,12 @@ namespace WebApi.Modules.Settings.TemplateSettings.Template
         [FwSqlDataField(column: "linecount", modeltype: FwDataTypes.Integer)]
         public int? Lines { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string Location { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
