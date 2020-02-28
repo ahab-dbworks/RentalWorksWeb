@@ -51,11 +51,10 @@ class InventorySequenceUtility {
     events($form) {
         const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
         const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
-
-        // InventoryType Grid
-        // ---------- 
         const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
-        $inventoryTypeGrid.on('change', e => {
+
+        // ---------- 
+        $form.find('div[data-datafield="InventoryType"]').on('change', e => {
             const inventoryType = FwFormField.getValueByDataField($form, 'InventoryType');
             let type;
             switch (inventoryType) {
@@ -73,47 +72,48 @@ class InventorySequenceUtility {
                     break;
             }
 
-            $inventoryTypeGrid.data('ondatabind', function (request) {
+            $inventoryTypeGrid.data('ondatabind', request => {
                 request.uniqueids[type] = true;
                 request.pagesize = 20;
             })
             FwBrowse.search($inventoryTypeGrid);
 
-            $categoryGrid.data('ondatabind', function (request) {
+            $categoryGrid.data('ondatabind', request => {
                 request.uniqueids[type] = true;
                 request.pagesize = 20;
             })
             FwBrowse.search($categoryGrid);
 
-            $subCategoryGrid.data('ondatabind', function (request) {
+            $subCategoryGrid.data('ondatabind', request => {
                 request.uniqueids[type] = true;
                 request.pagesize = 20;
             })
             FwBrowse.search($subCategoryGrid);
         });
-        // ----------
+        // InventoryType Grid
+        // ---------- 
         $inventoryTypeGrid.data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
             try {
                 const inventoryTypeId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
                 // Category
-                $categoryGrid.data('ondatabind', function (request) {
+                $categoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
                     }
                     request.pagesize = 20;
                 })
-                $categoryGrid.data('beforesave', function (request) {
+                $categoryGrid.data('beforesave', request => {
                     request.InventoryTypeId = inventoryTypeId;
                 });
                 FwBrowse.search($categoryGrid);
                 // Sub-Category
-                $subCategoryGrid.data('ondatabind', function (request) {
+                $subCategoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
                     }
                     request.pagesize = 20;
                 })
-                $subCategoryGrid.data('beforesave', function (request) {
+                $subCategoryGrid.data('beforesave', request => {
                     request.InventoryTypeId = inventoryTypeId;
                 });
                 FwBrowse.search($subCategoryGrid);
@@ -135,13 +135,13 @@ class InventorySequenceUtility {
             try {
                 const categoryId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
 
-                $subCategoryGrid.data('ondatabind', function (request) {
+                $subCategoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         CategoryId: categoryId,
                     }
                     request.pagesize = 20;
                 })
-                $subCategoryGrid.data('beforesave', function (request) {
+                $subCategoryGrid.data('beforesave', request => {
                     request.CategoryId = categoryId;
                 });
                 FwBrowse.search($subCategoryGrid);
@@ -162,11 +162,30 @@ class InventorySequenceUtility {
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
-        FwBrowse.search($inventoryTypeGrid);
         const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
-        FwBrowse.search($categoryGrid);
         const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
-        FwBrowse.search($subCategoryGrid);
+        FwBrowse.search($inventoryTypeGrid)
+            .then(() => {
+                const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                $categoryGrid.data('ondatabind', request => {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    }
+                    request.pagesize = 20;
+                })
+                FwBrowse.search($categoryGrid)
+                    .then(() => {
+                        const categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+
+                        $subCategoryGrid.data('ondatabind', request => {
+                            request.uniqueids = {
+                                CategoryId: categoryId,
+                            }
+                            request.pagesize = 20;
+                        })
+                        FwBrowse.search($subCategoryGrid);
+                    })
+            })
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -248,15 +267,15 @@ class InventorySequenceUtility {
                       <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Type" data-datafield="InventoryType"></div>
                     </div>
                   </div>
-                  <div class="flexrow">
-                    <div class="flexcolumn" style="flex:0 1 365px;">
-                      <div data-control="FwGrid" data-grid="InventoryTypeGrid" style="min-width:240px;max-width:400px;"></div>
+                  <div class="flexrow" style="max-width:1300px;">
+                    <div class="flexcolumn" style="flex:0 1 425px;">
+                      <div data-control="FwGrid" data-grid="InventoryTypeGrid"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:0 1 365px;">
-                      <div data-control="FwGrid" data-grid="CategoryGrid" style="min-width:240px;max-width:400px;"></div>
+                    <div class="flexcolumn" style="flex:0 1 425px;">
+                      <div data-control="FwGrid" data-grid="CategoryGrid"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:0 1 365px;">
-                      <div data-control="FwGrid" data-grid="SubCategoryGrid" style="min-width:240px;max-width:400px;"></div>
+                    <div class="flexcolumn" style="flex:0 1 425px;">
+                      <div data-control="FwGrid" data-grid="SubCategoryGrid"></div>
                     </div>
                   </div>
                 </div>
