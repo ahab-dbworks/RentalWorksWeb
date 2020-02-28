@@ -393,6 +393,7 @@ class OrderItemGrid {
                     case 'R':
                     case 'M':
                     case 'L':
+                    case 'P':
                         if (rateType == 'DAILY') {
                             rateFieldName = 'DailyRate';
                         } else if (rateType == 'WEEKLY') {
@@ -401,7 +402,7 @@ class OrderItemGrid {
                             rateFieldName = 'WeeklyRate';
                         } else if (rateType == 'MONTHLY') {
                             rateFieldName = 'MonthlyRate';
-                        } 
+                        }
                         break;
                     case 'RS':
                         rateFieldName = 'ReplacementCost';
