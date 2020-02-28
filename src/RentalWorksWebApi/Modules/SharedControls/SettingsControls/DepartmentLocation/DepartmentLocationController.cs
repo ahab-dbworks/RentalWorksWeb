@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.DepartmentLocation
         //------------------------------------------------------------------------------------ 
         // GET api/v1/departmentlocation/A0000001~A0000002   (departmentid~locationid)
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"Tdmb4BtnZFk1", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id:"Tdmb4BtnZFk1", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<DepartmentLocationLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DepartmentLocationLogic>(id);
