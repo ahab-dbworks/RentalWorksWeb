@@ -55,16 +55,36 @@
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <tbody data-rowtype="{{RowType}}">
-            <tr data-isbold="{{Bold}}">
-                <td data-itemclass="{{ItemClass}}">{{ICode}}</td>
-                <td data-itemclass="{{ItemClass}}">{{OrderDescription}}</td>
-                <td class="number">{{QuantityOrdered}}</td>
-                <td class="number">{{StageQuantity}}</td>
-                <td class="number">{{OutQuantity}}</td>
-                <td class="number">{{InQuantity}}</td>
-                <td class="number">{{StillOutQuantity}}</td>
-                <td class="number">{{WarehouseIcode}}</td>
-            </tr>
+          <tr data-isbold="{{Bold}}">
+            <!-- I-code -->
+            {{#ifCond Itemclass '===' "CI"}}
+            <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{ICode}}</td><!-- Complete Accessory -->
+            {{else}}
+            {{#ifCond Itemclass '===' "KI"}}
+            <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{ICode}}</td><!-- Kit Accessory -->
+            {{else}}
+            <td data-itemclass="{{Itemclass}}">{{ICode}}</td><!-- Item -->
+            {{/ifCond}}
+            {{/ifCond}}
+
+            <!-- Description -->
+            {{#ifCond Itemclass '===' "CI"}}
+            <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{OrderDescription}}</td><!-- Complete Accessory -->
+            {{else}}
+            {{#ifCond Itemclass '===' "KI"}}
+            <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{OrderDescription}}</td><!-- Kit Accessory -->
+            {{else}}
+            <td data-itemclass="{{Itemclass}}">{{OrderDescription}}</td><!-- Item -->
+            {{/ifCond}}
+            {{/ifCond}}
+
+            <td class="number">{{QuantityOrdered}}</td>
+            <td class="number">{{StageQuantity}}</td>
+            <td class="number">{{OutQuantity}}</td>
+            <td class="number">{{InQuantity}}</td>
+            <td class="number">{{StillOutQuantity}}</td>
+            <td class="number">{{WarehouseIcode}}</td>
+          </tr>
         </tbody>
         {{/ifEquals}}
         {{/each}}
