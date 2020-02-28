@@ -9,9 +9,11 @@ namespace WebApi.Modules.Settings.Category
     {
         //------------------------------------------------------------------------------------
         protected CategoryRecord inventoryCategory = new CategoryRecord();
+        protected CategoryLoader genericCategoryLoader = new CategoryLoader();
         public CategoryLogic() : base()
         {
             dataRecords.Add(inventoryCategory);
+            dataLoader = genericCategoryLoader;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"nCPLXQbA735Q", IsPrimaryKey:true)]

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Logic;
+using System;
 
 namespace WebApi.Modules.Settings.InventorySettings.InventoryType
 {
@@ -70,6 +72,27 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryType
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<InventoryTypeLogic>(id);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/inventorytype/sort
+        [HttpPost("sort")]
+        [FwControllerMethod(Id: "hNnPwcBb32JST", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<SortItemsResponse>> SortInventoryTypesAsync([FromBody]SortInventoryTypeRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await InventoryTypeFunc.SortInventoryType(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+
+                //------------------------------------------------------------------------------------
+            }
         }
         //------------------------------------------------------------------------------------
     }

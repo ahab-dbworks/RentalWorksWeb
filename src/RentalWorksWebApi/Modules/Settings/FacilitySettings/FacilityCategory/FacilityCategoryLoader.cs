@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.FacilityCategory
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
+            //select.Parse();
             select.AddWhere("(rectype='SP')");
             addFilterToSelect("FacilityTypeId", "inventorydepartmentid", select, request);
         }

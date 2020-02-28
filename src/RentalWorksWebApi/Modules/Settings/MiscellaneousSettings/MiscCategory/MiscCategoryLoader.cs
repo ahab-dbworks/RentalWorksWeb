@@ -19,7 +19,7 @@ namespace WebApi.Modules.Settings.MiscellaneousSettings.MiscCategory
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
+            //select.Parse();
             select.AddWhere("(rectype='M')");
             addFilterToSelect("MiscTypeId", "inventorydepartmentid", select, request);
         }
