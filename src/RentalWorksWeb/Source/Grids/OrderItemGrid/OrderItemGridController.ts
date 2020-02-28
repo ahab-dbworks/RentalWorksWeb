@@ -387,13 +387,13 @@ class OrderItemGrid {
                 //$generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 let rateFieldName;
                 switch (recType) {
+                    case 'P':
                     case 'S':
                         rateFieldName = 'Price';
                         break;
                     case 'R':
                     case 'M':
                     case 'L':
-                    case 'P':
                         if (rateType == 'DAILY') {
                             rateFieldName = 'DailyRate';
                         } else if (rateType == 'WEEKLY') {
