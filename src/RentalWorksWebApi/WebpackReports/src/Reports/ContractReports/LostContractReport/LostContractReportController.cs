@@ -9,14 +9,12 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Data;
+using WebApi.Modules.Reports.ContractReports.ContractReport;
 using WebApi.Modules.Warehouse.Contract;
 
 namespace WebApi.Modules.Reports.ContractReports.LostContractReport
 {
-    public class LostContractReportRequest : AppReportRequest
-    {
-        public string ContractId { get; set; }
-    }
+    public class LostContractReportRequest : ContractReportRequest { }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "F6uNUdehIUVSB")]

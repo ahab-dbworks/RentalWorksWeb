@@ -9,17 +9,16 @@ const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
 export class LostContractReport extends WebpackReport {
-    contract: LostContract = null;
+    contract: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<LostContract>(`${apiUrl}/api/v1/lostcontractreport/runreport`, authorizationHeader, parameters)
-                        .then((response: LostContract) => {
+                    Ajax.post<any>(`${apiUrl}/api/v1/lostcontractreport/runreport`, authorizationHeader, parameters)
+                        .then((response: any) => {
                             const data: any = response;
-                            data.Items = DataTable.toObjectList(response.Items);
                             data.PrintTime = moment().format('h:mm:ss A');
                             data.PrintDate = moment().format('MM/DD/YYYY');
                             data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
@@ -28,6 +27,9 @@ export class LostContractReport extends WebpackReport {
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }
+
+                            console.log(data, 'DATA');
+
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
                                 document.getElementById('pageFooter').innerHTML = this.footerHtml;
@@ -61,78 +63,10 @@ export class LostContractReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: LostContract): string {
+    renderFooterHtml(model: any): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
 }
 
 (<any>window).report = new LostContractReport();
-
-class LostContract {
-    _Custom = new Array<CustomField>();
-    RowType: string;
-    ContractId: string;
-    ContractNumber: string;
-    ContractDate: string;
-    ContractTime: string;
-    ContractDateAndTime: string;
-    ContractType: string;
-    HasPendingExchange: true;
-    InputByUserId: string;
-    BillingDate: string;
-    Warehouse: string;
-    WarehouseAddress1: string;
-    WarehouseAddress2: string;
-    WarehouseCityStateZipCode: string;
-    WarehouseCityStateZipCodeCountry: string;
-    WarehousePhone: string;
-    WarehouseFax: string;
-    DealId: string;
-    Deal: string;
-    DealNumber: string;
-    DealNumberAndDeal: string;
-    OrderId: string;
-    OrderNumber: string;
-    OrderDate: string;
-    OrderPoNumber: string;
-    OrderType: string;
-    OrderDescription: string;
-    OrderNumberAndDescription: string;
-    ContainerBarCode: string;
-    UsageDates: string;
-    BillingDates: true;
-    BillingCycle: string;
-    OrderLocation: string;
-    PaymentTerms: string;
-    Agent: string;
-    AgentPhoneAndExtension: string;
-    AgentFax: string;
-    Department: string;
-    Vendor: string;
-    VendorAddress1: string;
-    VendorAddress2: string;
-    VendorCity: string;
-    VendorState: string;
-    VendorZipCode: string;
-    VendorPhone: string;
-    VendorFax: string;
-    VendorContact: string;
-    PurchaseOrderId: string;
-    PurchaseOrderNumber: string;
-    DeliveryContact: string;
-    DeliveryLocation: string;
-    DeliveryAddress1: string;
-    DeliveryAddress2: string;
-    DeliveryCityStateZipCode: string;
-    DeliveryCountry: string;
-    DeliveryContactPhone: string;
-    TermsAndConditionsId: string;
-    TermsAndConditionsFileName: string;
-    TermsAndConditionsNewPage: true;
-    ResponsiblePersonId: string;
-    ResponsiblePerson: string;
-    Items: any;
-    PrintTime: string;
-}
-
