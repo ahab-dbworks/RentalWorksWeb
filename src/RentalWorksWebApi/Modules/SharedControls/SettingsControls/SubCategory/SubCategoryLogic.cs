@@ -41,6 +41,8 @@ namespace WebApi.Modules.Settings.SubCategory
 
         [FwLogicProperty(Id:"nwVtlMfd7Pse")]
         public string DateStamp { get { return subCategory.DateStamp; } set { subCategory.DateStamp = value; } }
+        [FwLogicProperty(Id: "Q4EFFVrBFwXvJ")]
+        public bool? Inactive { get { return subCategory.Inactive; } set { subCategory.Inactive = value; } }
 
         //------------------------------------------------------------------------------------
     }

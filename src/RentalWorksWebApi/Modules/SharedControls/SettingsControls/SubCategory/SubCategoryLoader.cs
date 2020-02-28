@@ -42,6 +42,9 @@ namespace WebApi.Modules.Settings.SubCategory
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool? Inactive { get; set; }
+        //------------------------------------------------------------------------------------
         protected void addRecTypeToSelect(string filterFieldName, FwSqlSelect select, BrowseRequest request = null)
         {
             if ((request != null) && (request.uniqueids != null))

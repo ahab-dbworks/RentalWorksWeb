@@ -76,6 +76,9 @@ class InventorySequenceUtility {
             $inventoryTypeGrid.data('ondatabind', request => {
                 request.uniqueids[type] = true;
                 request.pagesize = 20;
+                request.searchfieldoperators = ["<>"];
+                request.searchfields = ["Inactive"];
+                request.searchfieldvalues = ["T"];
             });
             FwBrowse.search($inventoryTypeGrid)
                 .then(() => {
@@ -86,6 +89,9 @@ class InventorySequenceUtility {
                         }
                         request.uniqueids[type] = true;
                         request.pagesize = 20;
+                        request.searchfieldoperators = ["<>"];
+                        request.searchfields = ["Inactive"];
+                        request.searchfieldvalues = ["T"];
                     });
                     FwBrowse.search($categoryGrid)
                         .then(() => {
@@ -97,6 +103,9 @@ class InventorySequenceUtility {
                                 }
                                 request.uniqueids[type] = true;
                                 request.pagesize = 20;
+                                request.searchfieldoperators = ["<>"];
+                                request.searchfields = ["Inactive"];
+                                request.searchfieldvalues = ["T"];
                             });
                             FwBrowse.search($subCategoryGrid);
                         });
@@ -112,6 +121,9 @@ class InventorySequenceUtility {
                         InventoryTypeId: inventoryTypeId,
                     }
                     request.pagesize = 20;
+                    request.searchfieldoperators = ["<>"];
+                    request.searchfields = ["Inactive"];
+                    request.searchfieldvalues = ["T"];
                 });
                 FwBrowse.search($categoryGrid)
                     .then(() => {
@@ -122,6 +134,9 @@ class InventorySequenceUtility {
                                 CategoryId: categoryId,
                             }
                             request.pagesize = 20;
+                            request.searchfieldoperators = ["<>"];
+                            request.searchfields = ["Inactive"];
+                            request.searchfieldvalues = ["T"];
                         });
                         FwBrowse.search($subCategoryGrid);
                     });
@@ -137,7 +152,10 @@ class InventorySequenceUtility {
                         InventoryTypeId: inventoryTypeId,
                     }
                     request.pagesize = 20;
-                })
+                    request.searchfieldoperators = ["<>"];
+                    request.searchfields = ["Inactive"];
+                    request.searchfieldvalues = ["T"];
+                });
                 FwBrowse.search($categoryGrid)
                     .then(() => {
                         const categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
@@ -147,7 +165,10 @@ class InventorySequenceUtility {
                                 CategoryId: categoryId,
                             }
                             request.pagesize = 20;
-                        })
+                            request.searchfieldoperators = ["<>"];
+                            request.searchfields = ["Inactive"];
+                            request.searchfieldvalues = ["T"];
+                        });
                         FwBrowse.search($subCategoryGrid);
                     })
             } catch (ex) {
@@ -165,7 +186,10 @@ class InventorySequenceUtility {
                         CategoryId: categoryId,
                     }
                     request.pagesize = 20;
-                })
+                    request.searchfieldoperators = ["<>"];
+                    request.searchfields = ["Inactive"];
+                    request.searchfieldvalues = ["T"];
+                });
                 FwBrowse.search($subCategoryGrid);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -180,7 +204,10 @@ class InventorySequenceUtility {
                         CategoryId: categoryId,
                     }
                     request.pagesize = 20;
-                })
+                    request.searchfieldoperators = ["<>"];
+                    request.searchfields = ["Inactive"];
+                    request.searchfieldvalues = ["T"];
+                });
                 FwBrowse.search($subCategoryGrid);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -198,9 +225,13 @@ class InventorySequenceUtility {
                 $categoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
+                        Rental: true,
                     }
                     request.pagesize = 20;
-                })
+                    request.searchfieldoperators = ["<>"];
+                    request.searchfields = ["Inactive"];
+                    request.searchfieldvalues = ["T"];
+                });
                 FwBrowse.search($categoryGrid)
                     .then(() => {
                         const categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
@@ -208,12 +239,16 @@ class InventorySequenceUtility {
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
+                                Rental: true,
                             }
                             request.pagesize = 20;
-                        })
+                            request.searchfieldoperators = ["<>"];
+                            request.searchfields = ["Inactive"];
+                            request.searchfieldvalues = ["T"];
+                        });
                         FwBrowse.search($subCategoryGrid);
-                    })
-            })
+                    });
+            });
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -231,6 +266,9 @@ class InventorySequenceUtility {
                 request.uniqueids = {
                     Rental: true,
                 };
+                request.searchfieldoperators = ["<>"];
+                request.searchfields = ["Inactive"];
+                request.searchfieldvalues = ["T"];
                 request.pagesize = 20;
             },
             beforeSave: (request: any) => {
@@ -251,10 +289,7 @@ class InventorySequenceUtility {
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
-                request.uniqueids = {
-                    Rental: true,
-                };
-                request.pagesize = 20;
+                // defined in afterLoad
             },
             beforeSave: (request: any) => {
             },
@@ -274,15 +309,12 @@ class InventorySequenceUtility {
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
-                request.uniqueids = {
-                    Rental: true,
-                };
-                request.pagesize = 20;
+                // defined in afterLoad
             },
             beforeSave: (request: any) => {
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-              $browse.attr('data-tableheight', '800px')
+                $browse.attr('data-tableheight', '800px')
             }
         });
     }
