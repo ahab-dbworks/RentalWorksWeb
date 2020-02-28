@@ -81,7 +81,7 @@ class InventorySequenceUtility {
                             $subCategoryGrid.data('ondatabind', request => {
                                 request.uniqueids = {
                                     CategoryId: categoryId,
-                                    RecType: FwFormField.getValueByDataField($form, 'RecType'),
+                                    //RecType: FwFormField.getValueByDataField($form, 'RecType'),
                                 }
                                 request.pagesize = 9999;
                                 request.searchfieldoperators = ["<>"];
@@ -113,7 +113,7 @@ class InventorySequenceUtility {
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
-                                RecType: FwFormField.getValueByDataField($form, 'RecType'),
+                                //RecType: FwFormField.getValueByDataField($form, 'RecType'),
                             }
                             request.pagesize = 9999;
                             request.searchfieldoperators = ["<>"];
@@ -146,7 +146,7 @@ class InventorySequenceUtility {
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
-                                RecType: FwFormField.getValueByDataField($form, 'RecType'),
+                                //RecType: FwFormField.getValueByDataField($form, 'RecType'),
                             }
                             request.pagesize = 9999;
                             request.searchfieldoperators = ["<>"];
@@ -167,7 +167,7 @@ class InventorySequenceUtility {
                 $subCategoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         CategoryId: categoryId,
-                        RecType: FwFormField.getValueByDataField($form, 'RecType'),
+                        //RecType: FwFormField.getValueByDataField($form, 'RecType'),
                     }
                     request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
@@ -186,7 +186,7 @@ class InventorySequenceUtility {
                 $subCategoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         CategoryId: categoryId,
-                        RecType: FwFormField.getValueByDataField($form, 'RecType'),
+                        //RecType: FwFormField.getValueByDataField($form, 'RecType'),
                     }
                     request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
@@ -224,7 +224,7 @@ class InventorySequenceUtility {
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
-                                RecType: FwFormField.getValueByDataField($form, 'RecType'),
+                                //RecType: FwFormField.getValueByDataField($form, 'RecType'),
                             }
                             request.pagesize = 9999;
                             request.searchfieldoperators = ["<>"];

@@ -178,6 +178,7 @@ namespace WebApi.Modules.Settings.Category
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(rectype='R')");
+            addFilterToSelect("RecType", "rectype", select, request);
             addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
         }
         //------------------------------------------------------------------------------------

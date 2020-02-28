@@ -90,6 +90,14 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryType
                 {
                     recType = RwConstants.RECTYPE_PARTS;
                 }
+                else if (GetUniqueIdAsBoolean("Labor", request).GetValueOrDefault(false))
+                {
+                    recType = RwConstants.RECTYPE_LABOR;
+                }
+                else if (GetUniqueIdAsBoolean("Misc", request).GetValueOrDefault(false))
+                {
+                    recType = RwConstants.RECTYPE_MISCELLANEOUS;
+                }
             }
             select.AddParameter("@rectype", recType);
 
