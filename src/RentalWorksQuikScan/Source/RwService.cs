@@ -206,7 +206,6 @@ namespace RentalWorksQuikScan.Source
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "vendorid");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "meter");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "location");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "spaceid");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "addcontainertoorder");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "overridereservation");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "stageconsigned");
