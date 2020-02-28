@@ -1,6 +1,9 @@
+using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using FwStandard.Data;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Threading.Tasks;
 
 namespace FwCore.Modules.Administrator.Group
 {
@@ -44,6 +47,18 @@ namespace FwCore.Modules.Administrator.Group
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        protected override async Task AfterSaveAsync(AfterSaveDataRecordEventArgs e)
+        {
+            string groupIndex = $"{this.GroupId},true";
+            FwAmGroupTree groupTree = null;
+            if (FwAppManager.Tree.GroupTrees.TryGetValue(groupIndex, out groupTree) && groupTree != null)
+            {
+                FwAppManager.Tree.GroupTrees.TryRemove(groupIndex, out groupTree);
+                await FwAppManager.Tree.GetGroupsTreeAsync(this.GroupId, true);
+            }
+            await base.AfterSaveAsync(e);
+        }
+        //------------------------------------------------------------------------------------
     }
 }

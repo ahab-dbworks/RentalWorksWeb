@@ -10,9 +10,16 @@ namespace FwStandard.AppManager
 {
     public class FwAmGroupTree
     {
+        public const int EXPIRATION_MINUTES = 5;
         public string GroupsId { get; set; } = string.Empty;
         public FwAmSecurityTreeNode RootNode { get; set; } = null;
         public DateTime DateStamp { get; set; } = DateTime.MinValue;
+        public DateTime Expiration { get; set; } = DateTime.MinValue;
+
+        public FwAmGroupTree()
+        {
+            this.Renew();
+        }
         //---------------------------------------------------------------------------------------------
         protected List<FwAmSqlGroupNode> GetSqlGroupNodes()
         {
@@ -35,6 +42,11 @@ namespace FwStandard.AppManager
                     await cmd.ExecuteNonQueryAsync();
                 }
             }
+        }
+        //---------------------------------------------------------------------------------------------
+        public void Renew()
+        {
+            this.Expiration = DateTime.Now.AddMinutes(EXPIRATION_MINUTES);
         }
         //---------------------------------------------------------------------------------------------
     }

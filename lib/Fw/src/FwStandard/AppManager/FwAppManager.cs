@@ -2,6 +2,7 @@
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -24,7 +25,7 @@ namespace FwStandard.AppManager
         [JsonIgnore]
         public static FwAppManager Tree { get; set; } = null;
         //--------------------------------------------------------------------------------------------- 
-        public Dictionary<string, FwAmGroupTree> GroupTrees { get; private set; } = new Dictionary<string, FwAmGroupTree>();
+        public ConcurrentDictionary<string, FwAmGroupTree> GroupTrees { get; private set; } = new ConcurrentDictionary<string, FwAmGroupTree>();
         //--------------------------------------------------------------------------------------------- 
         [JsonProperty("applications")]
         public FwAmSecurityTreeNode System { get; set; }
@@ -867,78 +868,90 @@ namespace FwStandard.AppManager
             // use the datestamp to determine whether or not to use the cached group tree
             using (FwSqlConnection conn = new FwSqlConnection(_sqlServerOptions.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, _sqlServerOptions.QueryTimeout);
-                qry.Add("select top 1 datestamp, hidenewmenuoptionsbydefault, security");
-                qry.Add("from groups with (nolock)");
-                qry.Add("where groupsid = @groupsid");
-                qry.AddParameter("@groupsid", groupsid);
-                await qry.ExecuteAsync();
-                if (qry.RowCount > 0)
+                string groupIndex =  $"{groupsid},{applyParentVisibility.ToString().ToLower()}";
+                if (this.GroupTrees.TryGetValue(groupIndex, out groupTree) && groupTree != null && groupTree.Expiration < DateTime.Now)
                 {
-                    datestamp = qry.GetField("datestamp").ToDateTime();
-                    hidenewmenuoptionsbydefault = qry.GetField("hidenewmenuoptionsbydefault").ToBoolean();
-                    appmanagerJson = qry.GetField("security").ToString().TrimEnd();
-
-                    if (GroupTrees.ContainsKey(groupsid))
+                    FwSqlCommand qry1 = new FwSqlCommand(conn, _sqlServerOptions.QueryTimeout);
+                    qry1.Add("select top 1 datestamp");
+                    qry1.Add("from groups with (nolock)");
+                    qry1.Add("where groupsid = @groupsid");
+                    qry1.AddParameter("@groupsid", groupsid);
+                    await qry1.ExecuteAsync();
+                    datestamp = qry1.GetField("datestamp").ToDateTime();
+                    if (groupTree.DateStamp == datestamp)
                     {
-                        groupTree = GroupTrees[groupsid + applyParentVisibility.ToString()];
-                        if (groupTree.DateStamp != datestamp)
-                        {
-                            groupTree = null;
-                        }
+                        groupTree.Renew();
                     }
-
-                    if (groupTree == null)
+                    else
                     {
-                        // do a deep copy of jsonApplicationTree by serialization, so groupTree doesn't share reference types with jsonApplicationTree
-                        jsonApplicationTree = JsonConvert.SerializeObject(FwAppManager.Tree.System);
-                        groupTree = new FwAmGroupTree();
-                        groupTree.GroupsId = groupsid;
-                        groupTree.DateStamp = datestamp;
-                        groupTree.RootNode = JsonConvert.DeserializeObject<FwAmSecurityTreeNode>(jsonApplicationTree);
-                        groupTree.RootNode.Id = "System";
-                        groupTree.RootNode.NodeType = "System";
-                        groupTree.RootNode.Caption = "Security Tree";
-                        //groupTree.RootNode.Properties["visible"] = "T";
-                        GroupTrees[groupsid + applyParentVisibility.ToString()] = groupTree;
+                        this.GroupTrees.TryRemove(groupIndex, out groupTree);
+                        groupTree = null;
+                    }
+                }
+                if (groupTree == null)
+                {
+                    FwSqlCommand qry2 = new FwSqlCommand(conn, _sqlServerOptions.QueryTimeout);
+                    qry2.Add("select top 1 datestamp, hidenewmenuoptionsbydefault, security");
+                    qry2.Add("from groups with (nolock)");
+                    qry2.Add("where groupsid = @groupsid");
+                    qry2.AddParameter("@groupsid", groupsid);
+                    await qry2.ExecuteAsync();
+                    datestamp = qry2.GetField("datestamp").ToDateTime();
+                    hidenewmenuoptionsbydefault = qry2.GetField("hidenewmenuoptionsbydefault").ToBoolean();
+                    appmanagerJson = qry2.GetField("security").ToString().TrimEnd();
 
-                        groupTree.RootNode.InitGroupSecurityTree(hidenewmenuoptionsbydefault);
-                        if (!string.IsNullOrEmpty(appmanagerJson))
+                    // do a deep copy of jsonApplicationTree by serialization, so groupTree doesn't share reference types with jsonApplicationTree
+                    jsonApplicationTree = JsonConvert.SerializeObject(FwAppManager.Tree.System);
+                    groupTree = new FwAmGroupTree();
+                    groupTree.GroupsId = groupsid;
+                    groupTree.DateStamp = datestamp;
+                    groupTree.RootNode = JsonConvert.DeserializeObject<FwAmSecurityTreeNode>(jsonApplicationTree);
+                    groupTree.RootNode.Id = "System";
+                    groupTree.RootNode.NodeType = "System";
+                    groupTree.RootNode.Caption = "Security Tree";
+                    //groupTree.RootNode.Properties["visible"] = "T";
+                    GroupTrees.AddOrUpdate(groupIndex, groupTree, (key, existingValue) =>
+                    {
+                        existingValue = groupTree;
+                        return groupTree;
+                    });
+
+                    groupTree.RootNode.InitGroupSecurityTree(hidenewmenuoptionsbydefault);
+                    if (!string.IsNullOrEmpty(appmanagerJson))
+                    {
+                        securityNodes = Newtonsoft.Json.JsonConvert.DeserializeObject<List<FwAmSqlGroupNode>>(appmanagerJson);
+                        for (int secnodeNo = 0; secnodeNo < securityNodes.Count; secnodeNo++)
                         {
-                            securityNodes = Newtonsoft.Json.JsonConvert.DeserializeObject<List<FwAmSqlGroupNode>>(appmanagerJson);
-                            for (int secnodeNo = 0; secnodeNo < securityNodes.Count; secnodeNo++)
+                            FwAmSqlGroupNode secnode = securityNodes[secnodeNo];
+                            groupTreeNode = groupTree.RootNode.FindById(secnode.id);
+                            if (groupTreeNode != null)
                             {
-                                FwAmSqlGroupNode secnode = securityNodes[secnodeNo];
-                                groupTreeNode = groupTree.RootNode.FindById(secnode.id);
-                                if (groupTreeNode != null)
+                                // deep copy the sql security node properties to the new groupTreeNode properties
+                                var secnodePropertiesJson = JsonConvert.SerializeObject(secnode.properties);
+                                var secnodeProperties = JsonConvert.DeserializeObject<Dictionary<string, string>>(secnodePropertiesJson);
+                                foreach (var item in secnodeProperties)
                                 {
-                                    // deep copy the sql security node properties to the new groupTreeNode properties
-                                    var secnodePropertiesJson = JsonConvert.SerializeObject(secnode.properties);
-                                    var secnodeProperties = JsonConvert.DeserializeObject<Dictionary<string, string>>(secnodePropertiesJson);
-                                    foreach (var item in secnodeProperties)
+                                    groupTreeNode.Properties[item.Key] = item.Value;
+                                }
+                                if (FwAppManager.Tree.ModulesById.ContainsKey(groupTreeNode.Id))
+                                {
+                                    foreach (var subModuleNodeItem in FwAppManager.Tree.ModulesById[groupTreeNode.Id].SubModules)
                                     {
-                                        groupTreeNode.Properties[item.Key] = item.Value;
-                                    }
-                                    if (FwAppManager.Tree.ModulesById.ContainsKey(groupTreeNode.Id))
-                                    {
-                                        foreach (var subModuleNodeItem in FwAppManager.Tree.ModulesById[groupTreeNode.Id].SubModules)
-                                        {
-                                            var subModuleNode = subModuleNodeItem.Value;
-                                        }
+                                        var subModuleNode = subModuleNodeItem.Value;
                                     }
                                 }
                             }
                         }
-                        groupTree.RootNode.Children = groupTree.RootNode.Children.OrderBy(c => c.Caption).ToList();
-
-                        // fix the visible properties on the nodes based on the parent visibility
-                        if (applyParentVisibility)
-                        {
-                            await ApplyParentVisbilityToGroupTree(groupTree);
-                        }
-
-
                     }
+                    groupTree.RootNode.Children = groupTree.RootNode.Children.OrderBy(c => c.Caption).ToList();
+
+                    // fix the visible properties on the nodes based on the parent visibility
+                    if (applyParentVisibility)
+                    {
+                        await ApplyParentVisbilityToGroupTree(groupTree);
+                    }
+
+
                 }
             }
 
@@ -1023,7 +1036,7 @@ namespace FwStandard.AppManager
                 for (var rowno = 0; rowno < groupResults.Count; rowno++)
                 {
                     string groupsid = groupResults[rowno].groupsid;
-                    await FwAppManager.Tree.GetGroupsTreeAsync(groupsid, false);
+                    await FwAppManager.Tree.GetGroupsTreeAsync(groupsid, true);
                 }
             }
         }
