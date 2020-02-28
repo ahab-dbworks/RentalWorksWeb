@@ -54,7 +54,7 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------ 
         // GET api/v1/order/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "TbaR3uXNguGT", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "TbaR3uXNguGT", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

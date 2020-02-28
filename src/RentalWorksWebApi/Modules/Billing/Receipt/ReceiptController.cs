@@ -32,7 +32,7 @@ namespace WebApi.Modules.Billing.Receipt
         //------------------------------------------------------------------------------------ 
         // GET api/v1/receipt/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "5dkaEowIuuvj3", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "5dkaEowIuuvj3", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

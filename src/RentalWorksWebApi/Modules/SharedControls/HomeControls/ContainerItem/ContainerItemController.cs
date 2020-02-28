@@ -27,7 +27,7 @@ namespace WebApi.Modules.HomeControls.ContainerItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/containeritem/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "28ypADGp8lJRl", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "28ypADGp8lJRl", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

@@ -30,7 +30,7 @@ namespace WebApi.Modules.HomeControls.CompanyContact
         //------------------------------------------------------------------------------------ 
         // GET api/v1/companycontact/legend
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "2h1Al5QkdiMuk", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "2h1Al5QkdiMuk", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

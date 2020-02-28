@@ -37,7 +37,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchaseorder/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "RuAxro4XLWdOW", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "RuAxro4XLWdOW", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

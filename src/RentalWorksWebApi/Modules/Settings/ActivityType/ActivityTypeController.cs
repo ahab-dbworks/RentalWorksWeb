@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.ActivityType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/activitytype/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "SimkgFK38JhXq", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "SimkgFK38JhXq", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

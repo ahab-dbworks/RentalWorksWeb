@@ -58,7 +58,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------ 
         // GET api/v1/quote/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "bV65XBHFpqRzf", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "bV65XBHFpqRzf", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

@@ -31,7 +31,7 @@ namespace WebApi.Modules.Inventory.Asset
         //------------------------------------------------------------------------------------ 
         // GET api/v1/item/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "g02Y2myXv8pqI", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "g02Y2myXv8pqI", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             InventoryStatusLogic s = new InventoryStatusLogic();

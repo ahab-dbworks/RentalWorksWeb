@@ -44,7 +44,7 @@ namespace WebApi.Modules.Agent.Contact
         //------------------------------------------------------------------------------------ 
         // GET api/v1/contact/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "wfyh5bTW7cCuO", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "wfyh5bTW7cCuO", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

@@ -83,7 +83,7 @@ namespace WebApi.Modules.Billing.BillingWorksheet
         //------------------------------------------------------------------------------------ 
         // GET api/v1/invoice/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "vgVJlEENk5rgB", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "vgVJlEENk5rgB", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

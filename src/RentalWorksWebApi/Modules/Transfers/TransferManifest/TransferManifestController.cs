@@ -30,7 +30,7 @@ namespace WebApi.Modules.Transfers.TransferManifest
         //------------------------------------------------------------------------------------
         // GET api/v1/contract/legend
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "MQclt0CnbwnS", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "MQclt0CnbwnS", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

@@ -34,7 +34,7 @@ namespace WebApi.Modules.HomeControls.ExchangeItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/exchangeitem/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "y9uKxecOus6LK", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "y9uKxecOus6LK", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();

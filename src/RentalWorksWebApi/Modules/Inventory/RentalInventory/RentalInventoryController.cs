@@ -36,7 +36,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/rentalinventory/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "LmaQ1Su1L3Wm", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "LmaQ1Su1L3Wm", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
