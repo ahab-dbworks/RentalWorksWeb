@@ -168,3 +168,18 @@
 .staging .page-serialmeters .row2 .psmfield {overflow:hidden;}
 .staging .page-serialmeters .row2 .psmfield .caption {float:left;padding:0 10px 0 40px;line-height:44px;height:44px;font-size:14px;font-weight:bold;color:#212121;}
 .staging .page-serialmeters .row2 .psmfield .value {float:right;padding:0;width:130px;line-height:44px;height:44px;text-align:center;box-sizing:border-box;cursor:pointer;background-color:#F44336;font-weight: bold;}
+
+#staging #staging-orderlocation {display:none;}
+#staging #staging-orderlocation .orderlocations {background-color: #212121;padding:5px;}
+#staging #staging-orderlocation .orderlocations .location {padding: 0 0 12px 0;cursor:pointer;}
+#staging #staging-orderlocation .orderlocations .location.selected {background-color: rgba(33, 150, 243, 0.5);}
+#staging #staging-orderlocation .orderlocations .location.selected .row1 {background-color: rgba(33, 150, 243, 0.5);}
+#staging #staging-orderlocation .orderlocations .zeroitems {text-align:center;padding:10px 0;}
+#staging #staging-orderlocation .orderlocations .location .row1 {font-size:12px;font-weight: bold;padding: 2px 5px;background-color: #424242;}
+#staging #staging-orderlocation .orderlocations .location .row2,
+#staging #staging-orderlocation .orderlocations .location .row3 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
+#staging #staging-orderlocation .orderlocations .location .col1 {flex: 1 1 0;}
+#staging #staging-orderlocation .orderlocations .location .col2 {flex: 1 1 0;}
+#staging #staging-orderlocation .orderlocations .location .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
+#staging #staging-orderlocation .orderlocations .location .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
+#staging #staging-orderlocation .orderlocations .location .value {flex: 1 1 0;font-size:.625em;}

@@ -153,3 +153,18 @@
 
 #checkIn-serial .zeroitems {text-align:center;padding:10px;background-color:#bdbdbd;color:#212121;}
 #checkIn .aisleshelf {position:fixed;bottom:0;left:0;right:0;/*height:50px;*/background-color:rgba(90,90,90,1);border-top:1px solid #000000;text-align:center;display:none;}
+
+#checkIn-orderlocation {display:none;}
+#checkIn #checkIn-orderlocation .orderlocations {background-color: #212121;padding:5px;}
+#checkIn #checkIn-orderlocation .orderlocations .location {padding: 0 0 12px 0;cursor:pointer;}
+#checkIn #checkIn-orderlocation .orderlocations .location.selected {background-color: rgba(33, 150, 243, 0.5);}
+#checkIn #checkIn-orderlocation .orderlocations .location.selected .row1 {background-color: rgba(33, 150, 243, 0.5);}
+#checkIn #checkIn-orderlocation .orderlocations .zeroitems {text-align:center;padding:10px 0;}
+#checkIn #checkIn-orderlocation .orderlocations .location .row1 {font-size:12px;font-weight: bold;padding: 2px 5px;background-color: #424242;}
+#checkIn #checkIn-orderlocation .orderlocations .location .row2,
+#checkIn #checkIn-orderlocation .orderlocations .location .row3 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
+#checkIn #checkIn-orderlocation .orderlocations .location .col1 {flex: 1 1 0;}
+#checkIn #checkIn-orderlocation .orderlocations .location .col2 {flex: 1 1 0;}
+#checkIn #checkIn-orderlocation .orderlocations .location .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
+#checkIn #checkIn-orderlocation .orderlocations .location .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
+#checkIn #checkIn-orderlocation .orderlocations .location .value {flex: 1 1 0;font-size:.625em;}

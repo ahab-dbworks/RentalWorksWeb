@@ -13,6 +13,12 @@ namespace RentalWorksQuikScan.Modules
     {
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
+        public void LoadModuleProperties(dynamic request, dynamic response, dynamic session)
+        {
+            response.syscontrol = LoadSysControlValues();
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
         public static void GetSearchResults(dynamic request, dynamic response, dynamic session)
         {
             string searchmode = request.searchmode;
@@ -719,6 +725,73 @@ namespace RentalWorksQuikScan.Modules
                 qryUpdateContract.AddParameter("@contractId",          result.contractId);
                 qryUpdateContract.ExecuteNonQuery();
             }
+
+            return result;
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public void SearchLocations(dynamic request, dynamic response, dynamic session)
+        {
+            response.locations = CheckIn.SearchOrderLocations(orderid:     request.orderid,
+                                                              searchvalue: request.searchvalue);
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static dynamic SearchOrderLocations(string orderid, string searchvalue)
+        {
+            dynamic result               = new ExpandoObject();
+            FwSqlCommand qry             = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            string includefacilitiestype = "F";
+            dynamic applicationoptions   = FwSqlData.GetApplicationOptions(FwSqlConnection.RentalWorks);
+            string[] searchvalues        = searchvalue.Split(' ');
+
+            if (applicationoptions.facilities.enabled)
+            {
+                dynamic controlresult = LoadSysControlValues();
+
+                if ((controlresult.itemsinrooms == "T") && (controlresult.facilitytypeincurrentlocation == "T"))
+                {
+                    includefacilitiestype = "T";
+                }
+            }
+
+            qry.Add("select *");
+            qry.Add("  from dbo.funcorderspacelocation(@orderid, @includefacilitiestype)");
+            qry.Add(" where orderid = orderid");
+
+            if (searchvalues.Length == 1)
+            {
+                qry.Add("   and location like '%' + @searchvalue + '%'");
+                qry.AddParameter("@searchvalue", searchvalues[0]);
+            }
+            else
+            {
+                qry.Add("   and (");
+                for (int i = 0; i < searchvalues.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        qry.Add(" or ");
+                    }
+                    qry.Add("(location like '%' + @searchvalue" + i + " + '%')");
+                    qry.AddParameter("@searchvalue" + i, searchvalues[i]);
+                }
+                qry.Add(")");
+            }
+
+            qry.AddParameter("@orderid",               orderid);
+            qry.AddParameter("@includefacilitiestype", includefacilitiestype);
+            result = qry.QueryToDynamicList2();
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static dynamic LoadSysControlValues()
+        {
+            FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("select top 1 itemsinrooms, facilitytypeincurrentlocation");
+            qry.Add("  from syscontrol with (nolock)");
+            qry.Add(" where controlid = '1'");
+            dynamic result = qry.QueryToDynamicObject2();
 
             return result;
         }

@@ -280,7 +280,9 @@ namespace RentalWorksQuikScan.Modules
                                                                       contractid:           request.containeroutcontractid, 
                                                                       ignoresuspendedin:    false, 
                                                                       consignorid:          string.Empty, 
-                                                                      consignoragreementid: string.Empty);
+                                                                      consignoragreementid: string.Empty,
+                                                                      spacetypeid:          string.Empty,
+                                                                      facilitiestypeid:     string.Empty);
                     }
                     else if (request.mode == "checkin")
                     {
@@ -308,7 +310,10 @@ namespace RentalWorksQuikScan.Modules
                                                                           orderId:                dtPendingList.GetValue(rowno, "orderid").ToString(),
                                                                           dealId:                 request.dealid,
                                                                           departmentId:           request.departmentid,
-                                                                          trackedby:              "");
+                                                                          trackedby:              "",
+                                                                          spaceid:                "",
+                                                                          spacetypeid:            "",
+                                                                          facilitiestypeid:       "");
                     }
                 }
             }

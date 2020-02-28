@@ -186,7 +186,7 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebCheckInItem(FwSqlConnection conn, string usersId, ModuleType moduleType, CheckInMode checkInMode, string code, string masterItemId, decimal qty, string newOrderAction, string containeritemid, string containeroutcontractid, string aisle, string shelf, string parentid, string vendorId, bool disablemultiorder, string contractId, string orderId, string dealId, string departmentId, string trackedby)
+        public static dynamic WebCheckInItem(FwSqlConnection conn, string usersId, ModuleType moduleType, CheckInMode checkInMode, string code, string masterItemId, decimal qty, string newOrderAction, string containeritemid, string containeroutcontractid, string aisle, string shelf, string parentid, string vendorId, bool disablemultiorder, string contractId, string orderId, string dealId, string departmentId, string trackedby, string spaceid, string spacetypeid, string facilitiestypeid)
         {
             dynamic result;
             FwSqlCommand sp;
@@ -204,6 +204,9 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@shelf",                    shelf);
             sp.AddParameter("@parentid",                 parentid);
             sp.AddParameter("@disablemultiorder",        FwConvert.LogicalToCharacter(disablemultiorder));
+            sp.AddParameter("@spaceid",                  spaceid);
+            sp.AddParameter("@spacetypeid",              spacetypeid);
+            sp.AddParameter("@facilitiestypeid",         facilitiestypeid);
             sp.AddParameter("@vendorid",                 vendorId);
             sp.AddParameter("@vendor",                   SqlDbType.Char,       ParameterDirection.Output);
             sp.AddParameter("@incontractid",             SqlDbType.NVarChar,   ParameterDirection.InputOutput, contractId);
@@ -619,7 +622,7 @@ namespace RentalWorksQuikScan.Source
         public static dynamic PdaStageItem(FwSqlConnection conn, string orderid, string code, string masteritemid, string usersid, decimal qty, bool additemtoorder, 
             bool addcompletetoorder, bool releasefromrepair, bool unstage, string vendorid, decimal meter, string location, string spaceid, bool addcontainertoorder, 
             bool overridereservation, bool stageconsigned, bool transferrepair, bool removefromcontainer, string contractid, bool ignoresuspendedin, string consignorid, 
-            string consignoragreementid)
+            string consignoragreementid, string spacetypeid, string facilitiestypeid)
         {
             dynamic result;
             FwSqlCommand sp;
@@ -636,6 +639,8 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@meter",                   meter);                                                                    //mv 08/09/2015 CAS-16066-F6P9
             sp.AddParameter("@location",                location);                                                                 //mv 08/09/2015 CAS-16066-F6P9
             sp.AddParameter("@spaceid",                 spaceid);                                                                  //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@spacetypeid",             spacetypeid);
+            sp.AddParameter("@facilitiestypeid",        facilitiestypeid);
             sp.AddParameter("@addcontainertoorder",     FwConvert.LogicalToCharacter(addcontainertoorder));                        //mv 08/09/2015 CAS-16066-F6P9
             sp.AddParameter("@overridereservation",     FwConvert.LogicalToCharacter(overridereservation));                        //mv 08/09/2015 CAS-16066-F6P9
             sp.AddParameter("@stageconsigned",          FwConvert.LogicalToCharacter(stageconsigned));                             //mv 08/09/2015 CAS-16066-F6P9
@@ -2391,7 +2396,9 @@ namespace RentalWorksQuikScan.Source
                                                contractid: result.container.outcontractid,
                                                ignoresuspendedin: false,
                                                consignorid: string.Empty,
-                                               consignoragreementid: string.Empty);
+                                               consignoragreementid: string.Empty,
+                                               spacetypeid: string.Empty,
+                                               facilitiestypeid: string.Empty);
                     }
                 }
                 else

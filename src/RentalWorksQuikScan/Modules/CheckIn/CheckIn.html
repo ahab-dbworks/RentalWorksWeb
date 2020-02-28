@@ -1,54 +1,64 @@
 ﻿<div id="checkIn" class="view">
-  <div id="checkincontroller"></div>
-  <div id="checkinmodeselector"></div>
+  <div id="checkin-primary">
+    <div id="checkincontroller"></div>
+    <div id="checkinmodeselector"></div>
 
-  {{{htmlScanBarcode}}}
+    {{{htmlScanBarcode}}}
 
-  <div id="checkIn-pendingList">
-    <div id="pendingsearch"></div>
-  </div>
-
-  <div id="checkIn-sessionInList">
-    <div id="sessioninsearch"></div>
-  </div>
-
-  <div id="checkIn-rfid">
-    <div class="rfidfilter">
-      <div class="rfidfilter-caption">Filter:</div>
-      <div id="rfidfilter-all" class="option active">All</div>
-      <div id="rfidfilter-processed" class="option">Processed</div>
-      <div id="rfidfilter-exceptions" class="option">Exceptions</div>
+    <div id="checkIn-pendingList">
+      <div id="pendingsearch"></div>
     </div>
-    <div class="rfidpanel">
-      <div class="rfid-items"></div>
+
+    <div id="checkIn-sessionInList">
+      <div id="sessioninsearch"></div>
+    </div>
+
+    <div id="checkIn-rfid">
+      <div class="rfidfilter">
+        <div class="rfidfilter-caption">Filter:</div>
+        <div id="rfidfilter-all" class="option active">All</div>
+        <div id="rfidfilter-processed" class="option">Processed</div>
+        <div id="rfidfilter-exceptions" class="option">Exceptions</div>
+      </div>
+      <div class="rfidpanel">
+        <div class="rfid-items"></div>
+      </div>
+    </div>
+
+    <div id="checkIn-orderpriority">
+      <div id="orderprioritycontroller"></div>
+      <div id="orderprioritytitle">Order Priority</div>
+      <div id="orderpriority"></div>
+    </div>
+
+    <div id="checkIn-serial">
+      <div id="serialcontroller"></div>
+      <div id="serial"></div>
+    </div>
+
+    <div id="checkIn-extraitems">
+      <div id="extraitemscontroller"></div>
+      <div class="extraitemlist-title">Extra Items</div>
+      <div id="extraitemssearch"></div>
+    </div>
+
+    <div id="checkIn-bottomSpacer" class="bottomspacer">&nbsp;</div>
+
+    <div class="aisleshelf">
+      <div class="aisleshelf-value">
+        <div class="item aisle"><div class="caption">Aisle:</div><div class="value"></div></div>
+        <div class="item shelf"><div class="caption">Shelf:</div><div class="value"></div></div>
+        <div class="aisleshelfbutton btnclear">Clear</div>
+      </div>
     </div>
   </div>
 
-  <div id="checkIn-orderpriority">
-    <div id="orderprioritycontroller"></div>
-    <div id="orderprioritytitle">Order Priority</div>
-    <div id="orderpriority"></div>
-  </div>
-
-  <div id="checkIn-serial">
-    <div id="serialcontroller"></div>
-    <div id="serial"></div>
-  </div>
-
-  <div id="checkIn-extraitems">
-    <div id="extraitemscontroller"></div>
-    <div class="extraitemlist-title">Extra Items</div>
-    <div id="extraitemssearch"></div>
-  </div>
-
-  <div id="checkIn-bottomSpacer" class="bottomspacer">&nbsp;</div>
-
-  <div class="aisleshelf">
-    <div class="aisleshelf-value">
-      <div class="item aisle"><div class="caption">Aisle:</div><div class="value"></div></div>
-      <div class="item shelf"><div class="caption">Shelf:</div><div class="value"></div></div>
-      <div class="aisleshelfbutton btnclear">Clear</div>
+  <div id="checkIn-orderlocation">
+    <div id="orderlocationcontroller"></div>
+    <div class="fwmobilecontrol-control">
+      <input class="fwmobilecontrol-value" type="text" placeholder="Search Order Location" />
     </div>
+    <div class="orderlocations"></div>
   </div>
 
 </div>

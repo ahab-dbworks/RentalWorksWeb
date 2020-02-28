@@ -137,7 +137,7 @@ namespace RentalWorksQuikScan.Source
             }
             if (checkinitem)
             {
-                response.webCheckInItem = RwAppData.WebCheckInItem(conn, usersid, moduleType, checkInMode, code, masteritemid, qty, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, disablemultiorder, contractid, orderid, dealid, departmentid, "");
+                response.webCheckInItem = RwAppData.WebCheckInItem(conn, usersid, moduleType, checkInMode, code, masteritemid, qty, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, disablemultiorder, contractid, orderid, dealid, departmentid, "", "", "", "");
             }
             if (!string.IsNullOrEmpty(containeritemid) && (!string.IsNullOrEmpty(response.webCheckInItem.masterItemId)))
             {
@@ -231,7 +231,7 @@ namespace RentalWorksQuikScan.Source
                                                            vendorid:             request.vendorid, 
                                                            meter:                request.meter, 
                                                            location:             request.location, 
-                                                           spaceid:              request.spaceid, 
+                                                           spaceid:              (request.locationdata != null) ? request.locationdata.spaceid : "",
                                                            addcontainertoorder:  request.addcontainertoorder, 
                                                            overridereservation:  request.overridereservation, 
                                                            stageconsigned:       request.stageconsigned, 
@@ -240,7 +240,9 @@ namespace RentalWorksQuikScan.Source
                                                            contractid:           request.contractid, 
                                                            ignoresuspendedin:    request.ignoresuspendedin, 
                                                            consignorid:          request.consignorid, 
-                                                           consignoragreementid: request.consignoragreementid);
+                                                           consignoragreementid: request.consignoragreementid,
+                                                           spacetypeid:          (request.locationdata != null) ? request.locationdata.spacetypeid : "",
+                                                           facilitiestypeid:     (request.locationdata != null) ? request.locationdata.facilitiestypeid : "");
             if (!string.IsNullOrEmpty(request.masteritemid))
             {
                 masteritemid = request.masteritemid;
@@ -529,7 +531,9 @@ namespace RentalWorksQuikScan.Source
                                            contractid:           contractid, // this will move item to contract, so only pass a contractid for containers
                                            ignoresuspendedin:    false, 
                                            consignorid:          consignorid, 
-                                           consignoragreementid: consignoragreementid);
+                                           consignoragreementid: consignoragreementid,
+                                           spacetypeid:          string.Empty,
+                                           facilitiestypeid:     string.Empty);
                 }
             }
             response.getStagingPendingItems = RwAppData.GetStagingPendingItems(conn:        FwSqlConnection.RentalWorks,
@@ -640,7 +644,9 @@ namespace RentalWorksQuikScan.Source
                                                                   contractid:           string.Empty,
                                                                   ignoresuspendedin:    false, 
                                                                   consignorid:          string.Empty, 
-                                                                  consignoragreementid: string.Empty);
+                                                                  consignoragreementid: string.Empty,
+                                                                  spacetypeid:          string.Empty,
+                                                                  facilitiestypeid:     string.Empty);
                     response.process = new ExpandoObject();
                     response.process.status = webstageitemresponse.status;
                     response.process.msg    = webstageitemresponse.msg;
@@ -694,7 +700,10 @@ namespace RentalWorksQuikScan.Source
                                                               orderId:                itemstatus.orderid,
                                                               dealId:                 itemstatus.dealid,
                                                               departmentId:           itemstatus.departmentid,
-                                                              trackedby:              "");
+                                                              trackedby:              "",
+                                                              spaceid:                "",
+                                                              spacetypeid:            "",
+                                                              facilitiestypeid:       "");
 
                     FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
                     qry.Add("update scannedtag");

@@ -1,78 +1,88 @@
 ﻿<div id="staging" class="view staging">
-  <div class="modulecontrol"></div>
-  <div class="modulemodeselector"></div>
-  <!---------------------------------------------------------------------------------------
-  Main Screen
-  ----------------------------------------------------------------------------------------->
+  <div id="staging-primary">
+    <div class="modulecontrol"></div>
+    <div class="modulemodeselector"></div>
+    <!---------------------------------------------------------------------------------------
+    Main Screen
+    ----------------------------------------------------------------------------------------->
 
-  <div class="page page-stagingmenu" style="display:none;">
-    <div class="mi btnOrderSearch">
-      <div class="label">Select Order</div>
-      <i class="material-icons">&#xE5CC;</i><!--chevron_right-->
-    </div>
-    <div class="mi btnSuspendedSessions">
-      <div class="label">Suspended Sessions</div>
-      <i class="material-icons">&#xE5CC;</i><!--chevron_right-->
-    </div>
-  </div>
-
-  <div class="page page-search" style="display:none;">
-    <div class="search"></div>
-  </div>
-
-  <div class="page page-ordersuspendedsessions" style="display:none;">
-    <div class="ordersuspendedsessions"></div>
-  </div>
-
-  <div class="page page-staging" style="display:none;">
-
-    {{{htmlScanBarcode}}}
-
-    <div id="staging-scan" data-mode="SCAN"></div>
-
-    <div id="staging-rfid" style="display:none;">
-      <div class="rfidpanel panel">
-        <div class="rfid-placeholder">0 tags scanned.</div>
-        <div class="rfid-items"></div>
+    <div class="page page-stagingmenu" style="display:none;">
+      <div class="mi btnOrderSearch">
+        <div class="label">Select Order</div>
+        <i class="material-icons">&#xE5CC;</i><!--chevron_right-->
       </div>
-      <div class="rfid-bottom">
-        <div class="rfid-rfidstatus">
-          <div class="statusitem processed">
-            <div class="statusitem-caption">Processed:</div><div class="statusitem-value">0</div>
-          </div>
-          <div class="statusitem exceptions">
-            <div class="statusitem-caption">Exceptions:</div><div class="statusitem-value">0</div>
-          </div>
-          <div class="statusitem pending">
-            <div class="statusitem-caption">Pending:</div><div class="statusitem-value">0</div>
-          </div>
-        </div>
-        <div class="rfid-rfidbuttons">
-          <div class="rfidbutton btnclear" style="display:none;">Clear</div>
-          <div class="rfidbutton btnexception" style="display:none;">Exceptions</div>
-          <div class="rfidbutton btnpending" style="display:none;">Pending</div>
-          <div class="rfidbutton btnstaging" style="display:none;">Staging</div>
-        </div>
+      <div class="mi btnSuspendedSessions">
+        <div class="label">Suspended Sessions</div>
+        <i class="material-icons">&#xE5CC;</i><!--chevron_right-->
       </div>
     </div>
 
-    <div id="staging-pendingList" class="panel">
-      <ul id="staging-pendingList-ul"></ul>
+    <div class="page page-search" style="display:none;">
+      <div class="search"></div>
     </div>
 
-    <div id="staging-stagedList" class="panel" style="display:none;">
-      <ul id="staging-stagedList-ul"></ul>
+    <div class="page page-ordersuspendedsessions" style="display:none;">
+      <div class="ordersuspendedsessions"></div>
+    </div>
+
+    <div class="page page-staging" style="display:none;">
+
+      {{{htmlScanBarcode}}}
+
+      <div id="staging-scan" data-mode="SCAN"></div>
+
+      <div id="staging-rfid" style="display:none;">
+        <div class="rfidpanel panel">
+          <div class="rfid-placeholder">0 tags scanned.</div>
+          <div class="rfid-items"></div>
+        </div>
+        <div class="rfid-bottom">
+          <div class="rfid-rfidstatus">
+            <div class="statusitem processed">
+              <div class="statusitem-caption">Processed:</div><div class="statusitem-value">0</div>
+            </div>
+            <div class="statusitem exceptions">
+              <div class="statusitem-caption">Exceptions:</div><div class="statusitem-value">0</div>
+            </div>
+            <div class="statusitem pending">
+              <div class="statusitem-caption">Pending:</div><div class="statusitem-value">0</div>
+            </div>
+          </div>
+          <div class="rfid-rfidbuttons">
+            <div class="rfidbutton btnclear" style="display:none;">Clear</div>
+            <div class="rfidbutton btnexception" style="display:none;">Exceptions</div>
+            <div class="rfidbutton btnpending" style="display:none;">Pending</div>
+            <div class="rfidbutton btnstaging" style="display:none;">Staging</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="staging-pendingList" class="panel">
+        <ul id="staging-pendingList-ul"></ul>
+      </div>
+
+      <div id="staging-stagedList" class="panel" style="display:none;">
+        <ul id="staging-stagedList-ul"></ul>
+      </div>
+    </div>
+
+    <div class="page page-selectserialno" style="display:none;">
+      <div class="info"></div>
+      <div class="items"></div>
+    </div>
+
+    <div class="page page-serialmeters" style="display:none;">
+      <div class="info"></div>
+      <div class="items"></div>
     </div>
   </div>
 
-  <div class="page page-selectserialno" style="display:none;">
-    <div class="info"></div>
-    <div class="items"></div>
-  </div>
-
-  <div class="page page-serialmeters" style="display:none;">
-    <div class="info"></div>
-    <div class="items"></div>
+  <div id="staging-orderlocation">
+    <div id="orderlocationcontroller"></div>
+    <div class="fwmobilecontrol-control">
+      <input class="fwmobilecontrol-value" type="text" placeholder="Search Order Location" />
+    </div>
+    <div class="orderlocations"></div>
   </div>
 
 </div>

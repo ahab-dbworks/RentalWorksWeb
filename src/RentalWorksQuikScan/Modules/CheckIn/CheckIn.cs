@@ -13,6 +13,12 @@ namespace RentalWorksQuikScan.Modules
     {
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
+        public void LoadModuleProperties(dynamic request, dynamic response, dynamic session)
+        {
+            response.syscontrol = LoadSysControlValues();
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
         public static void CheckInItem(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "CheckInItem";
@@ -20,7 +26,7 @@ namespace RentalWorksQuikScan.Modules
             RwAppData.CheckInMode checkInMode;
             dynamic webGetItemStatus;
             FwJsonDataTable dtSuspendedInContracts;
-            string usersid, orderid, code, dealid, departmentid, masteritemid, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, contractid, trackedby;
+            string usersid, orderid, code, dealid, departmentid, masteritemid, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, contractid, trackedby, spaceid, spacetypeid, facilitiestypeid;
             FwSqlConnection conn;
             decimal qty;
             bool checkinitem = true, disablemultiorder = false;
@@ -63,6 +69,9 @@ namespace RentalWorksQuikScan.Modules
             dealid                 = request.dealId;
             departmentid           = request.departmentId;
             trackedby              = request.trackedby;
+            spaceid                = (request.locationdata != null) ? request.locationdata.spaceid : "";
+            spacetypeid            = (request.locationdata != null) ? request.locationdata.spacetypeid : "";
+            facilitiestypeid       = (request.locationdata != null) ? request.locationdata.facilitiestypeid : "";
             moduleType             = (RwAppData.ModuleType) Enum.Parse(typeof(RwAppData.ModuleType),  request.moduleType);
             checkInMode            = (RwAppData.CheckInMode)Enum.Parse(typeof(RwAppData.CheckInMode), request.checkInMode);
             if (string.IsNullOrEmpty(contractid))
@@ -81,7 +90,7 @@ namespace RentalWorksQuikScan.Modules
             }
             if (checkinitem)
             {
-                response.webCheckInItem = RwAppData.WebCheckInItem(conn, usersid, moduleType, checkInMode, code, masteritemid, qty, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, disablemultiorder, contractid, orderid, dealid, departmentid, trackedby);
+                response.webCheckInItem = RwAppData.WebCheckInItem(conn, usersid, moduleType, checkInMode, code, masteritemid, qty, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, disablemultiorder, contractid, orderid, dealid, departmentid, trackedby, spaceid, spacetypeid, facilitiestypeid);
             }
             if (!string.IsNullOrEmpty(containeritemid) && (!string.IsNullOrEmpty(response.webCheckInItem.masterItemId)))
             {
@@ -273,7 +282,10 @@ namespace RentalWorksQuikScan.Modules
                                                               orderId:                itemstatus.orderid,
                                                               dealId:                 itemstatus.dealid,
                                                               departmentId:           itemstatus.departmentid,
-                                                              trackedby:              itemstatus.trackedby);
+                                                              trackedby:              itemstatus.trackedby,
+                                                              spaceid:                "",
+                                                              spacetypeid:            "",
+                                                              facilitiestypeid:       "");
 
                     FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
                     qry.Add("update scannedtag");
@@ -838,6 +850,73 @@ namespace RentalWorksQuikScan.Modules
                                                     warehouseid:  userLocation.warehouseId,
                                                     contractid:   request.contractid,
                                                     masterid:     request.masterid);
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public void SearchLocations(dynamic request, dynamic response, dynamic session)
+        {
+            response.locations = CheckIn.SearchOrderLocations(orderid:     request.orderid,
+                                                              searchvalue: request.searchvalue);
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static dynamic SearchOrderLocations(string orderid, string searchvalue)
+        {
+            dynamic result               = new ExpandoObject();
+            FwSqlCommand qry             = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            string includefacilitiestype = "F";
+            dynamic applicationoptions   = FwSqlData.GetApplicationOptions(FwSqlConnection.RentalWorks);
+            string[] searchvalues        = searchvalue.Split(' ');
+
+            if (applicationoptions.facilities.enabled)
+            {
+                dynamic controlresult = LoadSysControlValues();
+
+                if ((controlresult.itemsinrooms == "T") && (controlresult.facilitytypeincurrentlocation == "T"))
+                {
+                    includefacilitiestype = "T";
+                }
+            }
+
+            qry.Add("select *");
+            qry.Add("  from dbo.funcorderspacelocation(@orderid, @includefacilitiestype)");
+            qry.Add(" where orderid = orderid");
+
+            if (searchvalues.Length == 1)
+            {
+                qry.Add("   and location like '%' + @searchvalue + '%'");
+                qry.AddParameter("@searchvalue", searchvalues[0]);
+            }
+            else
+            {
+                qry.Add("   and (");
+                for (int i = 0; i < searchvalues.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        qry.Add(" or ");
+                    }
+                    qry.Add("(location like '%' + @searchvalue" + i + " + '%')");
+                    qry.AddParameter("@searchvalue" + i, searchvalues[i]);
+                }
+                qry.Add(")");
+            }
+
+            qry.AddParameter("@orderid",               orderid);
+            qry.AddParameter("@includefacilitiestype", includefacilitiestype);
+            result = qry.QueryToDynamicList2();
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static dynamic LoadSysControlValues()
+        {
+            FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("select top 1 itemsinrooms, facilitytypeincurrentlocation");
+            qry.Add("  from syscontrol with (nolock)");
+            qry.Add(" where controlid = '1'");
+            dynamic result = qry.QueryToDynamicObject2();
+
+            return result;
         }
         //----------------------------------------------------------------------------------------------------
         public static dynamic FuncSerialFrm(FwSqlConnection conn, string orderid, string warehouseid, string contractid, string masterid)

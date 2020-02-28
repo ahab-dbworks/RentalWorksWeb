@@ -3,6 +3,7 @@ class StagingControllerClass {
     getStagingScreen(viewModel, properties) {
         var pageTitle = '';
         let pageSubTitle = '';
+        var locationdata = null, moduleproperties = null;
         //const applicationOptions = program.getApplicationOptions();
         switch (properties.moduleType) {
             case RwConstants.moduleTypes.Order:
@@ -69,6 +70,9 @@ class StagingControllerClass {
         combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-staging').html(), combinedViewModel, {});
         const screen: any = {};
         screen.$view = FwMobileMasterController.getMasterView(combinedViewModel, properties);
+
+        const $primarywindow = screen.$view.find('#staging-primary');
+        const $orderlocation = screen.$view.find('#staging-orderlocation');
 
         screen.$modulecontrol = screen.$view.find('.modulecontrol');
         screen.$modulecontrol.fwmobilemodulecontrol({
@@ -170,6 +174,14 @@ class StagingControllerClass {
                                 } catch(ex) {
                                     FwFunc.showError(ex);
                                 }
+                            }
+                        },
+                        {
+                            id:      'selectorderlocation',
+                            caption: 'Select Order Location',
+                            buttonclick: function() {
+                                $primarywindow.hide();
+                                $orderlocation.showscreen();
                             }
                         }
                     ]
@@ -857,6 +869,14 @@ class StagingControllerClass {
             }
         };
 
+        screen._locationdata = function(locationData?: object) {
+            if (locationData) {
+                locationdata = locationData;
+            } else {
+                return locationdata;
+            }
+        };
+
         screen.orderid = '';
         screen.setOrderId = function (orderid) {
             screen.orderid = orderid;
@@ -1084,6 +1104,7 @@ class StagingControllerClass {
                         screen.evalWindowPosition();
                     });
                     screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
+                    screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#selectorderlocation');
                     screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
                     program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData');
                     screen.toggleRfid();
@@ -1617,6 +1638,8 @@ class StagingControllerClass {
                 } else {
                     screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
                 }
+                var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
+                screen.$modulecontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
             } catch(ex) {
                 FwFunc.showError(ex);
             }
@@ -1996,7 +2019,7 @@ class StagingControllerClass {
                                 vendorid:              '',
                                 meter:                 0,
                                 location:              '',
-                                spaceid:               '',
+                                locationdata:          screen._locationdata(),
                                 addcontainertoorder:   false,
                                 overridereservation:   false,
                                 stageconsigned:        false,
@@ -2047,7 +2070,7 @@ class StagingControllerClass {
                                 vendorid:              '',
                                 meter:                 0,
                                 location:              '',
-                                spaceid:               '',
+                                locationdata:          screen._locationdata(),
                                 addcontainertoorder:   false,
                                 overridereservation:   false,
                                 stageconsigned:        false,
@@ -2086,7 +2109,7 @@ class StagingControllerClass {
                             vendorid:              '',
                             meter:                 0,
                             location:              '',
-                            spaceid:               '',
+                            locationdata:          screen._locationdata(),
                             addcontainertoorder:   false,
                             overridereservation:   false,
                             stageconsigned:        false,
@@ -2126,7 +2149,7 @@ class StagingControllerClass {
                                 vendorid:              $this.attr('data-vendorid'),
                                 meter:                 0,
                                 location:              '',
-                                spaceid:               '',
+                                locationdata:          screen._locationdata(),
                                 addcontainertoorder:   false,
                                 overridereservation:   false,
                                 stageconsigned:        false,
@@ -2311,7 +2334,7 @@ class StagingControllerClass {
                             vendorid:              '',
                             meter:                 0,
                             location:              '',
-                            spaceid:               '',
+                            locationdata:          screen._locationdata(),
                             addcontainertoorder:   false,
                             overridereservation:   false,
                             stageconsigned:        false,
@@ -2369,7 +2392,7 @@ class StagingControllerClass {
                                 vendorid:              '',
                                 meter:                 0,
                                 location:              '',
-                                spaceid:               '',
+                                locationdata:          screen._locationdata(),
                                 addcontainertoorder:   false,
                                 overridereservation:   false,
                                 stageconsigned:        false,
@@ -2413,7 +2436,7 @@ class StagingControllerClass {
                                 vendorid:              jQuery('#staging-popupQty').data('vendorid'),
                                 meter:                 0,
                                 location:              '',
-                                spaceid:               '',
+                                locationdata:          screen._locationdata(),
                                 addcontainertoorder:   false,
                                 overridereservation:   false,
                                 stageconsigned:        false,
@@ -2457,7 +2480,7 @@ class StagingControllerClass {
                             vendorid:              '',
                             meter:                 0,
                             location:              '',
-                            spaceid:               '',
+                            locationdata:          screen._locationdata(),
                             addcontainertoorder:   false,
                             overridereservation:   false,
                             stageconsigned:        (typeof jQuery('#staging-popupQty').data('stageconsigned') === 'boolean') ? jQuery('#staging-popupQty').data('stageconsigned') : false,
@@ -2498,7 +2521,7 @@ class StagingControllerClass {
                             vendorid:              '',
                             meter:                 0,
                             location:              '',
-                            spaceid:               '',
+                            locationdata:          screen._locationdata(),
                             addcontainertoorder:   false,
                             overridereservation:   false,
                             stageconsigned:        (typeof jQuery('#staging-popupQty').data('stageconsigned') === 'boolean') ? jQuery('#staging-popupQty').data('stageconsigned') : false,
@@ -2575,7 +2598,7 @@ class StagingControllerClass {
                             vendorid:              '',
                             meter:                 0,
                             location:              '',
-                            spaceid:               '',
+                            locationdata:          screen._locationdata(),
                             addcontainertoorder:   false,
                             overridereservation:   true,
                             stageconsigned:        (typeof jQuery('#staging-popupQty').data('stageconsigned') === 'boolean') ? jQuery('#staging-popupQty').data('stageconsigned') : false,
@@ -2616,7 +2639,7 @@ class StagingControllerClass {
                             vendorid:              '',
                             meter:                 0,
                             location:              '',
-                            spaceid:               '',
+                            locationdata:          screen._locationdata(),
                             addcontainertoorder:   false,
                             overridereservation:   false,
                             stageconsigned:        true,
@@ -2657,7 +2680,7 @@ class StagingControllerClass {
                             vendorid:              '',
                             meter:                 0,
                             location:              '',
-                            spaceid:               '',
+                            locationdata:          screen._locationdata(),
                             addcontainertoorder:   false,
                             overridereservation:   false,
                             stageconsigned:        false,
@@ -2698,7 +2721,7 @@ class StagingControllerClass {
                             vendorid:              '',
                             meter:                 0,
                             location:              '',
-                            spaceid:               '',
+                            locationdata:          screen._locationdata(),
                             addcontainertoorder:   true,
                             overridereservation:   false,
                             stageconsigned:        false,
@@ -2853,7 +2876,101 @@ class StagingControllerClass {
                 }
             });
         };
-    
+
+        $orderlocation.find('#orderlocationcontroller').fwmobilemodulecontrol({
+            buttons: [
+                {
+                    caption:     'Back',
+                    orientation: 'left',
+                    icon:        '&#xE5CB;', //chevron_left
+                    state:       0,
+                    buttonclick: function () {
+                        $orderlocation.hide();
+                        $primarywindow.show();
+                    }
+                },
+                {
+                    caption:     'Select Location',
+                    orientation: 'right',
+                    icon:        '&#xE5CC;', //chevron_right
+                    state:       0,
+                    buttonclick: function () {
+                        var locationdata = $orderlocation.find('.location.selected').data('recorddata');
+                        if (locationdata != null) {
+                            screen._locationdata(locationdata);
+                            $orderlocation.hide();
+                            $primarywindow.show();
+                        } else {
+                            FwNotification.renderNotification('ERROR', 'Select a location.')
+                        }
+                    }
+                }
+            ]
+        });
+        $orderlocation.showscreen = function () {
+            $orderlocation.show();
+            $orderlocation.searchlocation('');
+        };
+        $orderlocation.searchlocation = function (searchvalue) {
+            var request = {
+                orderid:     screen.getOrderId(),
+                searchvalue: searchvalue
+            };
+            RwServices.callMethod("Staging", "SearchLocations", request, function(response) {
+                $orderlocation.find('.orderlocations').empty();
+                if (response.locations.length > 0) {
+                    for (var item of response.locations) {
+                        var html = [];
+                        html.push('<div class="location">');
+                        html.push(`  <div class="row1"><div class="title">${item.location}</div></div>`);
+                        html.push('  <div class="row2">');
+                        html.push('    <div class="col1">');
+                        html.push('      <div class="datafield masterno">');
+                        html.push('        <div class="caption">Building:</div>');
+                        html.push(`        <div class="value">${item.building}</div>`);
+                        html.push('      </div>');
+                        html.push('    </div>');
+                        html.push('    <div class="col2">');
+                        html.push('      <div class="datafield rate">');
+                        html.push('        <div class="caption">Floor:</div>');
+                        html.push(`        <div class="value">${item.floor}</div>`);
+                        html.push('      </div>');
+                        html.push('    </div>');
+                        html.push('  </div>');
+                        html.push('  <div class="row3">');
+                        html.push('    <div class="col1">');
+                        html.push('      <div class="datafield masterno">');
+                        html.push('        <div class="caption">Space:</div>');
+                        html.push(`        <div class="value">${item.space}</div>`);
+                        html.push('      </div>');
+                        html.push('    </div>');
+                        html.push('  </div>');
+                        html.push('</div>');
+                        var $item = jQuery(html.join(''));
+                        $item.data('recorddata', item);
+
+                        $orderlocation.find('.orderlocations').append($item);
+                    }
+                } else {
+                    var $zeroitems = jQuery('<div class="zeroitems">0 Locations Found</div>');
+                    $orderlocation.find('.orderlocations').append($zeroitems);
+                }
+            });
+        };
+        $orderlocation
+            .on('change', '.fwmobilecontrol-value', function () {
+                var value = jQuery(this).val();
+                if (value != '') {
+                    $orderlocation.searchlocation(value);
+                }
+            })
+            .on('click', '.location', function () {
+                var $this = jQuery(this);
+                $this.siblings().removeClass('selected');
+                $this.addClass('selected');
+            })
+        ;
+
         screen.load = function() {
             program.setScanTarget('');
             program.setScanTargetLpNearfield('');
@@ -2889,6 +3006,10 @@ class StagingControllerClass {
                     screen.toggleRfid();
                 });
             }
+
+            RwServices.callMethod("Staging", "LoadModuleProperties", {}, function(response) {
+                moduleproperties = response;
+            });
 
             screen.setIsSuspendedSessionsEnabled(sessionStorage.getItem('stagingSuspendedSessionsEnabled') === 'true');
             if (screen.getIsSuspendedSessionsEnabled()) {
