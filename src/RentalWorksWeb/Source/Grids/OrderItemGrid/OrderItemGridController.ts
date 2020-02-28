@@ -117,7 +117,7 @@ class OrderItemGrid {
                             $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodeparts`);
                             break;
                     }
-
+                    request.uniqueids.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                     request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
                 }
                 break;
