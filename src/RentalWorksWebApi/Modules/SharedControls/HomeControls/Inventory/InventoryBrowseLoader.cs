@@ -90,6 +90,15 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "mw.weeklyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyRate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.week2rate", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week2Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.week3rate", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week3Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.week4rate", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week4Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "mw.monthlyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -108,7 +117,7 @@ namespace WebApi.Modules.HomeControls.Inventory
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             OverrideFromClause = " from inventoryview [t] with (nolock) " +
-                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.dailyrate, mw.weeklyrate, mw.monthlyrate, mw.price, mw.replacementcost" +
+                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.dailyrate, mw.weeklyrate, mw.week2rate, mw.week3rate, mw.week4rate, mw.monthlyrate, mw.price, mw.replacementcost" +
                   "              from  masterwh mw with(nolock)" +
                   "              where mw.masterid    = t.masterid" +
                   "              and   mw.warehouseid = @warehouseid) mw" +

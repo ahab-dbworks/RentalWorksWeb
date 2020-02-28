@@ -372,6 +372,28 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwLogicProperty(Id: "En3Gom0JH00QP")]
         public bool? IsFixedAsset { get { return master.IsFixedAsset; } set { master.IsFixedAsset = value; } }
 
+
+
+        // for cusomizing browse 
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "Wx00gon6g1PRz", IsReadOnly: true)]
+        public decimal? Quantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "opnMUgKpYMzex", IsReadOnly: true)]
+        public string AisleLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "J5c7Y3Wgwxk6U", IsReadOnly: true)]
+        public string ShelfLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "9oDsRRThCPEmw", IsReadOnly: true)]
+        public bool? Taxable { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
+
+
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
