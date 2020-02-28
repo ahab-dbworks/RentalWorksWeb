@@ -1,11 +1,13 @@
-﻿using FwStandard.SqlServer;
+﻿using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
 namespace WebApi.Modules.Settings.Category
 {
     [FwSqlTable("categoryview")]
-    public abstract class CategoryLoader: AppDataLoadRecord
+    public /*abstract */class CategoryLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
@@ -170,5 +172,16 @@ namespace WebApi.Modules.Settings.Category
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
+
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            //select.AddWhere("(rectype='R')");
+            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
+        }
+        //------------------------------------------------------------------------------------
+
+
     }
 }

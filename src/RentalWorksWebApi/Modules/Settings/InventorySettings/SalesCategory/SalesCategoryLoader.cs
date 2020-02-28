@@ -21,7 +21,7 @@ namespace WebApi.Modules.Settings.InventorySettings.SalesCategory
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
+            //select.Parse();
             select.AddWhere("(rectype='" + RwConstants.INVENTORY_AVAILABLE_FOR_SALE + "')");
             addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
         }

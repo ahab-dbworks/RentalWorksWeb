@@ -52,13 +52,14 @@ class InventorySequenceUtility {
         const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
         const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
         const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
+        const recType = FwFormField.getValueByDataField($form, 'InventoryType');
 
         // ---------- 
         // Type Toggle selector
         $form.find('div[data-datafield="InventoryType"]').on('change', e => {
             $inventoryTypeGrid.data('ondatabind', request => {
                 request.uniqueids[this.getInventoryType($form)] = true;
-                request.pagesize = 20;
+                request.pagesize = 9999;
                 request.searchfieldoperators = ["<>"];
                 request.searchfields = ["Inactive"];
                 request.searchfieldvalues = ["T"];
@@ -69,9 +70,10 @@ class InventorySequenceUtility {
                     $categoryGrid.data('ondatabind', request => {
                         request.uniqueids = {
                             InventoryTypeId: inventoryTypeId,
+                            RecType: recType,
                         }
-                        request.uniqueids[this.getInventoryType($form)] = true;
-                        request.pagesize = 20;
+                        //request.uniqueids[this.getInventoryType($form)] = true;
+                        request.pagesize = 9999;
                         request.searchfieldoperators = ["<>"];
                         request.searchfields = ["Inactive"];
                         request.searchfieldvalues = ["T"];
@@ -82,9 +84,10 @@ class InventorySequenceUtility {
                             $subCategoryGrid.data('ondatabind', request => {
                                 request.uniqueids = {
                                     CategoryId: categoryId,
+                                    //RecType: recType,
                                 }
-                                request.uniqueids[this.getInventoryType($form)] = true;
-                                request.pagesize = 20;
+                                //request.uniqueids[this.getInventoryType($form)] = true;
+                                request.pagesize = 9999;
                                 request.searchfieldoperators = ["<>"];
                                 request.searchfields = ["Inactive"];
                                 request.searchfieldvalues = ["T"];
@@ -101,9 +104,10 @@ class InventorySequenceUtility {
                 $categoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
+                        RecType: recType,
                     }
-                    request.uniqueids[this.getInventoryType($form)] = true;
-                    request.pagesize = 20;
+                    //request.uniqueids[this.getInventoryType($form)] = true;
+                    request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
@@ -114,9 +118,10 @@ class InventorySequenceUtility {
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
+                                RecType: recType,
                             }
-                            request.uniqueids[this.getInventoryType($form)] = true;
-                            request.pagesize = 20;
+                            //request.uniqueids[this.getInventoryType($form)] = true;
+                            request.pagesize = 9999;
                             request.searchfieldoperators = ["<>"];
                             request.searchfields = ["Inactive"];
                             request.searchfieldvalues = ["T"];
@@ -133,10 +138,11 @@ class InventorySequenceUtility {
                 $categoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
+                        RecType: recType,
                     }
 
-                    request.uniqueids[this.getInventoryType($form)] = true;
-                    request.pagesize = 20;
+                    //request.uniqueids[this.getInventoryType($form)] = true;
+                    request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
@@ -148,9 +154,10 @@ class InventorySequenceUtility {
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
+                                RecType: recType,
                             }
-                            request.uniqueids[this.getInventoryType($form)] = true;
-                            request.pagesize = 20;
+                            //request.uniqueids[this.getInventoryType($form)] = true;
+                            request.pagesize = 9999;
                             request.searchfieldoperators = ["<>"];
                             request.searchfields = ["Inactive"];
                             request.searchfieldvalues = ["T"];
@@ -169,9 +176,10 @@ class InventorySequenceUtility {
                 $subCategoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         CategoryId: categoryId,
+                        RecType: recType,
                     }
-                    request.uniqueids[this.getInventoryType($form)] = true;
-                    request.pagesize = 20;
+                    //request.uniqueids[this.getInventoryType($form)] = true;
+                    request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
@@ -188,9 +196,10 @@ class InventorySequenceUtility {
                 $subCategoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         CategoryId: categoryId,
+                        RecType: recType,
                     }
-                    request.uniqueids[this.getInventoryType($form)] = true;
-                    request.pagesize = 20;
+                    //request.uniqueids[this.getInventoryType($form)] = true;
+                    request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
@@ -212,9 +221,9 @@ class InventorySequenceUtility {
                 $categoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
-                        Rental: true,
+                        //Rental: true,
                     }
-                    request.pagesize = 20;
+                    request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
@@ -226,9 +235,9 @@ class InventorySequenceUtility {
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
-                                Rental: true,
+                                //Rental: true,
                             }
-                            request.pagesize = 20;
+                            request.pagesize = 9999;
                             request.searchfieldoperators = ["<>"];
                             request.searchfields = ["Inactive"];
                             request.searchfieldvalues = ["T"];
@@ -251,12 +260,12 @@ class InventorySequenceUtility {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    Rental: true,
+                    //Rental: true,
                 };
                 request.searchfieldoperators = ["<>"];
                 request.searchfields = ["Inactive"];
                 request.searchfieldvalues = ["T"];
-                request.pagesize = 20;
+                request.pagesize = 9999;
             },
             beforeSave: (request: any) => {
             },
