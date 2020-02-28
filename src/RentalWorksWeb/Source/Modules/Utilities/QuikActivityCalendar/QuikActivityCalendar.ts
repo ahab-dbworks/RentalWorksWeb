@@ -91,9 +91,12 @@ class QuikActivityCalendar {
         const $calendar = $form.find('.calendar');
         let activityTypes = '';
 
-        let $popup = jQuery(`
+        let $content = jQuery(`
                 <div id="quikActivityPopup" class="fwform fwcontrol fwcontainer"  data-control="FwContainer" data-type="form" style="max-height:90vh;max-width:90vw;background-color:white; padding:10px; border:2px solid gray;">
-                    <div class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                    <div style="display:flex; justify-content:flex-end;">
+                        <div class="pop-out" style="cursor:pointer; margin-right:1.5em;"><i class="material-icons" title="Pop Out">open_in_new</i><div class="btn-text" style="float:right;">Pop-Out</div></div>
+                        <div class="close-modal" style="position:static;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                    </div>
                     <div class="flexcolumn">
                       <div class="flexrow" style="max-width:inherit;">
                          <div class="fwcontrol fwcontainer fwform-section activities-header" data-control="FwContainer" data-type="section" data-caption="Activities">
@@ -109,8 +112,8 @@ class QuikActivityCalendar {
                       </div>
                     </div>
                 </div>`);
-        FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
-        $popup = FwPopup.renderPopup($popup, { ismodal: true });
+        FwControl.renderRuntimeControls($content.find('.fwcontrol'));
+        const $popup = FwPopup.renderPopup($content, { ismodal: true });
 
         FwBrowse.renderGrid({
             nameGrid: 'QuikActivityGrid',
@@ -143,8 +146,19 @@ class QuikActivityCalendar {
 
         $form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
 
-        $popup.find('.close-modal').on('click', function (e) {
+        $popup.on('click', '.close-modal', e => {
             FwPopup.detachPopup($popup);
+        });
+
+        //pop-out button
+        $popup.on('click', '.pop-out', e => {
+            const $this = jQuery(e.currentTarget);
+            const popupWait = FwOverlay.showPleaseWaitOverlay($content, null);
+            setTimeout(() => {
+                FwModule.openSubModuleTab($form, $popup);
+                FwOverlay.hideOverlay(popupWait);
+                FwPopup.destroyPopup($this.closest('.fwpopup'));
+            });
         });
 
         $popup.find('[data-datafield="Summary"]').on('change', e => {
