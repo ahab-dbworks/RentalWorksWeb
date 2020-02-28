@@ -37,7 +37,7 @@ class InventorySequenceUtility {
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
-        FwFormField.loadItems($form.find('div[data-datafield="InventoryType"]'), [
+        FwFormField.loadItems($form.find('div[data-datafield="RecType"]'), [
             { value: 'R', caption: 'Rental', checked: 'checked' },
             { value: 'S', caption: 'Sales' },
             { value: 'L', caption: 'Labor' },
@@ -52,11 +52,9 @@ class InventorySequenceUtility {
         const $inventoryTypeGrid = $form.find('[data-name="InventoryTypeGrid"]');
         const $categoryGrid = $form.find('[data-name="CategoryGrid"]');
         const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
-        const recType = FwFormField.getValueByDataField($form, 'InventoryType');
-
         // ---------- 
         // Type Toggle selector
-        $form.find('div[data-datafield="InventoryType"]').on('change', e => {
+        $form.find('div[data-datafield="RecType"]').on('change', e => {
             $inventoryTypeGrid.data('ondatabind', request => {
                 request.uniqueids[this.getInventoryType($form)] = true;
                 request.pagesize = 9999;
@@ -70,9 +68,8 @@ class InventorySequenceUtility {
                     $categoryGrid.data('ondatabind', request => {
                         request.uniqueids = {
                             InventoryTypeId: inventoryTypeId,
-                            RecType: recType,
+                            RecType: FwFormField.getValueByDataField($form, 'RecType'),
                         }
-                        //request.uniqueids[this.getInventoryType($form)] = true;
                         request.pagesize = 9999;
                         request.searchfieldoperators = ["<>"];
                         request.searchfields = ["Inactive"];
@@ -84,9 +81,8 @@ class InventorySequenceUtility {
                             $subCategoryGrid.data('ondatabind', request => {
                                 request.uniqueids = {
                                     CategoryId: categoryId,
-                                    //RecType: recType,
+                                    RecType: FwFormField.getValueByDataField($form, 'RecType'),
                                 }
-                                //request.uniqueids[this.getInventoryType($form)] = true;
                                 request.pagesize = 9999;
                                 request.searchfieldoperators = ["<>"];
                                 request.searchfields = ["Inactive"];
@@ -104,9 +100,8 @@ class InventorySequenceUtility {
                 $categoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
-                        RecType: recType,
+                        RecType: FwFormField.getValueByDataField($form, 'RecType'),
                     }
-                    //request.uniqueids[this.getInventoryType($form)] = true;
                     request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
@@ -118,9 +113,8 @@ class InventorySequenceUtility {
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
-                                RecType: recType,
+                                RecType: FwFormField.getValueByDataField($form, 'RecType'),
                             }
-                            //request.uniqueids[this.getInventoryType($form)] = true;
                             request.pagesize = 9999;
                             request.searchfieldoperators = ["<>"];
                             request.searchfields = ["Inactive"];
@@ -138,10 +132,8 @@ class InventorySequenceUtility {
                 $categoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
-                        RecType: recType,
+                        RecType: FwFormField.getValueByDataField($form, 'RecType'),
                     }
-
-                    //request.uniqueids[this.getInventoryType($form)] = true;
                     request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
@@ -154,9 +146,8 @@ class InventorySequenceUtility {
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
-                                RecType: recType,
+                                RecType: FwFormField.getValueByDataField($form, 'RecType'),
                             }
-                            //request.uniqueids[this.getInventoryType($form)] = true;
                             request.pagesize = 9999;
                             request.searchfieldoperators = ["<>"];
                             request.searchfields = ["Inactive"];
@@ -176,9 +167,8 @@ class InventorySequenceUtility {
                 $subCategoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         CategoryId: categoryId,
-                        RecType: recType,
+                        RecType: FwFormField.getValueByDataField($form, 'RecType'),
                     }
-                    //request.uniqueids[this.getInventoryType($form)] = true;
                     request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
@@ -196,9 +186,8 @@ class InventorySequenceUtility {
                 $subCategoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         CategoryId: categoryId,
-                        RecType: recType,
+                        RecType: FwFormField.getValueByDataField($form, 'RecType'),
                     }
-                    //request.uniqueids[this.getInventoryType($form)] = true;
                     request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
                     request.searchfields = ["Inactive"];
@@ -221,7 +210,7 @@ class InventorySequenceUtility {
                 $categoryGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
-                        //Rental: true,
+                        RecType: FwFormField.getValueByDataField($form, 'RecType'),
                     }
                     request.pagesize = 9999;
                     request.searchfieldoperators = ["<>"];
@@ -235,7 +224,7 @@ class InventorySequenceUtility {
                         $subCategoryGrid.data('ondatabind', request => {
                             request.uniqueids = {
                                 CategoryId: categoryId,
-                                //Rental: true,
+                                RecType: FwFormField.getValueByDataField($form, 'RecType'),
                             }
                             request.pagesize = 9999;
                             request.searchfieldoperators = ["<>"];
@@ -260,7 +249,7 @@ class InventorySequenceUtility {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    //Rental: true,
+                    Rental: true,
                 };
                 request.searchfieldoperators = ["<>"];
                 request.searchfields = ["Inactive"];
@@ -316,9 +305,9 @@ class InventorySequenceUtility {
     }
     //----------------------------------------------------------------------------------------------
     getInventoryType($form): string {
-        const inventoryType = FwFormField.getValueByDataField($form, 'InventoryType');
+        const recType = FwFormField.getValueByDataField($form, 'RecType');
         let type;
-        switch (inventoryType) {
+        switch (recType) {
             case 'R':
                 type = 'Rental';
                 break;
@@ -343,17 +332,17 @@ class InventorySequenceUtility {
                 <div class="tabpages">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Inventory Sequence Utility" style="max-width:700px">
                     <div class="flexrow">
-                      <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Type" data-datafield="InventoryType"></div>
+                      <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Type" data-datafield="RecType"></div>
                     </div>
                   </div>
-                  <div class="flexrow" style="max-width:1300px;">
-                    <div class="flexcolumn" style="flex:0 1 425px;">
+                  <div class="flexrow" style="max-width:1600px;">
+                    <div class="flexcolumn" style="flex:0 1 525px;">
                       <div data-control="FwGrid" data-grid="InventoryTypeGrid"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:0 1 425px;">
+                    <div class="flexcolumn" style="flex:0 1 525px;">
                       <div data-control="FwGrid" data-grid="CategoryGrid"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:0 1 425px;">
+                    <div class="flexcolumn" style="flex:0 1 525px;">
                       <div data-control="FwGrid" data-grid="SubCategoryGrid"></div>
                     </div>
                   </div>
