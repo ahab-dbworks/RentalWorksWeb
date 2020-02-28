@@ -1,80 +1,92 @@
 ﻿ <!--Order Status Detail Report-->
-<div class="rpt-flexrow" style="margin:5px 0px 30px 4px;">
-    <div class="rpt-flexcolumn" style="padding-bottom:5px;">
-        {{#if Logosrc}}
-        <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
-        {{else}}
-        <div></div>
-        {{/if}}
-        <span class="header-left" style="font-weight:600">{{Company}}</span>
-        <span class="header-left">{{Department}}</span>
-        <span class="header-left">{{Warehouse}}</span>
-        <span class="header-left">{{OfficeLocationAddress1}}</span>
-        <span class="header-left">{{OfficeLocationAddress2}}</span>
-        <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;width:1216px;">
+    <div class="rpt-flexcolumn" style="flex:0 0 30%;padding-bottom:5px;">
+      {{#if Logosrc}}
+      <div style="height:100px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+      {{else}}
+      <div></div>
+      {{/if}}
+      <span class="header-left" style="font-weight:600">{{Company}}</span>
+      <span class="header-left">{{OfficeLocationAddress1}}</span>
+      <span class="header-left">{{OfficeLocationAddress2}}</span>
+      <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
+      <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
     </div>
-    <div class="rpt-flexcolumn">
-        <span class="sub-title blue">{{Department}}</span>
-        <span class="title blue" style="font-size: 22px;">{{Report}}</span>
-        <br />
-        <span class="sub-title blue"><span style="font-weight:600;">Order: </span>{{Order}}</span>
+    <div class="rpt-flexcolumn" style="flex:0 0 40%;">
+      <span class="sub-title" style="font-size:20px;">{{Department}}</span>
+      <span class="title blue">{{Report}}</span>
+      <span class="" style="margin-top:10px;font-size:18px;text-align:center;">Order: {{Description}}</span>
+      <span class="" style="margin-top:5px;font-size:18px;text-align:center;">Deal: {{Deal}}</span>
     </div>
-    <div class="rpt-flexcolumn">
-        <span class="header-right blue" style="font-size:16px;"><span style="background-color:#FFF;color:black;padding:2px;">{{System}}</span></span>
-
+    <!-- Order Number & Date -->
+    <div class="rpt-flexcolumn" style="flex:0 0 30%;">
+      <table>
+        <tr>
+          <td style="width:50%;font-size:18px;font-weight:700;text-align:right;">No:</td>
+          <td style="width:50%;background-color:#e3f2fd;color:#027cc5;border:2px solid #212121;padding:5px 10px;font-size:26px;text-align:center;">{{Order}}</td>
+        </tr>
+        <tr>
+          <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
+          <td style="width:50%;font-size:18px;text-align:center;">{{PrintDate}}</td>
+        </tr>
+      </table>
     </div>
-</div>
-<div class="rpt-flexrow" style="margin-top:25px;">
+  </div>
+<div class="rpt-flexrow">
     <table>
         {{#each Items}}
         {{#ifEquals RowType "RecTypeDisplayheader"}}
-        <thead data-rowtype="{{RowType}}">
-            <tr>
-                <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
-            </tr>
-            <tr>
-                <td></td>
-                <th>I-Code</th>
-                <th>Description</th>
-                <th>Bar Code No.</th>
-                <th class="number">Qty</th>
-                <th class="number">Vendor</th>
-                <th>Out</th>
-                <th>Out WH</th>
-                <th>In</th>
-                <th>In WH</th>
-            </tr>
-        </thead>
+      <thead data-rowtype="{{RowType}}">
+        <tr><td>&nbsp;</td></tr><!-- spacer row -->
+        <tr>
+          <td colspan="9" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+        </tr>
+        <tr>
+          <th style="min-width:80px;">I-Code</th>
+          <th style="min-width:325px;">Description</th>
+          <th style="min-width:75px;">Bar Code No.</th>
+          <th style="min-width:75px;padding-right:15px;" class="number">Qty</th>
+          <th style="min-width:225px;">Vendor</th>
+          <th style="min-width:75px;">Out</th>
+          <th style="min-width:90px;">Out WH</th>
+          <th style="min-width:75px;">In</th>
+          <th style="min-width:90px;">In WH</th>
+        </tr>
+      </thead>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <tbody data-rowtype="{{RowType}}">
-            <tr data-isbold="{{Bold}}">
-                <td></td>
-                <td>{{ICode}}</td>
-                <td>{{Description}}</td>
-                <td class="number">{{BarCodeSerialRfid}}</td>
-                <td class="number">{{Quantity}}</td>
-                <td class="number">{{Vendor}}</td>
-                <td>{{OutDateTime}}</td>
-                <td>{{OutWarehouseCode}}</td>
-                <td>{{InDateTime}}</td>
-                <td>{{InWarehouseCode}}</td>
-            </tr>
+          <tr data-isbold="{{Bold}}">
+            <!-- I-code -->
+            {{#ifCond ItemClass '===' "CI"}}
+            <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{ICode}}</td><!-- Complete Accessory -->
+            {{else}}
+            {{#ifCond ItemClass '===' "KI"}}
+            <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{ICode}}</td><!-- Kit Accessory -->
+            {{else}}
+            <td data-itemclass="{{ItemClass}}">{{ICode}}</td><!-- Item -->
+            {{/ifCond}}
+            {{/ifCond}}
+
+            <!-- Description -->
+            {{#ifCond ItemClass '===' "CI"}}
+            <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{Description}}</td><!-- Complete Accessory -->
+            {{else}}
+            {{#ifCond ItemClass '===' "KI"}}
+            <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{Description}}</td><!-- Kit Accessory -->
+            {{else}}
+            <td data-itemclass="{{ItemClass}}">{{Description}}</td><!-- Item -->
+            {{/ifCond}}
+            {{/ifCond}}
+            <td>{{BarCodeSerialRfid}}</td>
+            <td class="number" style="padding-right:15px;">{{Quantity}}</td>
+            <td>{{Vendor}}</td>
+            <td style="text-align:center;">{{OutDateTime}}</td>
+            <td>{{OutWarehouseCode}}</td>
+            <td style="text-align:center;">{{InDateTime}}</td>
+            <td>{{InWarehouseCode}}</td>
+          </tr>
         </tbody>
-        {{/ifEquals}}
-        <!--{{#ifEquals RowType "RecTypeDisplayfooter"}}
-        <tr>
-            <td colspan="4"></td>
-            <td class="display-footer">{{RecTypeDisplay}}&nbsp;</td>
-            <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
-        </tr>
-        {{/ifEquals}}-->
-        {{#ifEquals RowType "grandtotal"}}
-        <tr>
-            <td colspan="4"></td>
-            <td class="display-footer">GRAND TOTAL:&nbsp;</td>
-            <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
-        </tr>
         {{/ifEquals}}
         {{/each}}
     </table>

@@ -1,4 +1,4 @@
-﻿/*Order Report*/
+﻿/*Order Status Detail Report*/
 tbody {
     td:after {
         content: attr(data-value);
@@ -31,24 +31,24 @@ tbody[data-rowtype="detail"]:nth-child(even) {
 
 .header-center {
     align-self: center;
-    font-size: 15px;
+    font-size: 13px;
     margin-top: 5px;
 }
 
 .header-right {
     align-self: flex-end;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .header-left {
     align-self: flex-start;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 body {
-    font-size: 15px;
+    font-size: 13px;
     margin: 0;
-    padding: 0;
+    padding: 15px;
 }
 
 thead {
@@ -75,4 +75,9 @@ span {
 .qrcode {
     height: 75px;
     width: 100px;
+}
+
+@page {
+    size: landscape;
+    //margin: 10px 10px 10px 10px; // Adds margin on the pdf
 }
