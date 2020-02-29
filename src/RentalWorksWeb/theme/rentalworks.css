@@ -323,7 +323,7 @@ Form tables
 }
 
 /*form alert messages checkMessages() in OrderBase and StagingCheckoutBase*/
-.fwform .form-alert-container { display:flex;flex-direction:column; }
+.fwform .form-alert-container { display:flex;flex-direction:column;border-bottom: 1px solid #9e9e9e; }
 .fwform .form-alert-container .form-alert { text-align:center;font-size:1em;flex-direction:row; }
 .fwform .form-alert-container .form-alert.elevated { background-color:#ffff99 } /*yellow*/
 .fwform .form-alert-container .form-alert.severe { background-color:#d02a2a;color:white; } /*red*/
