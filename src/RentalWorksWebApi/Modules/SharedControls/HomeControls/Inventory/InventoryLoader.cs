@@ -22,6 +22,9 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
         public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
