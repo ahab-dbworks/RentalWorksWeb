@@ -85,6 +85,15 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "lastcontractsuspend", modeltype: FwDataTypes.Boolean)]
         public bool? IsSuspend { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasedate", modeltype: FwDataTypes.Date)]
+        public string PurchaseDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedate", modeltype: FwDataTypes.Date)]
+        public string ReceiveDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pocost", modeltype: FwDataTypes.Decimal)]
+        public decimal? PurchaseCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

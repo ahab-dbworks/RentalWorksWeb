@@ -265,7 +265,7 @@ namespace WebApi.Modules.Inventory.Asset
         public string PurchasePoNumber { get; set; }
 
         [FwLogicProperty(Id: "ccshcsduC566", IsReadOnly: true)]
-        public decimal? PoCost { get; set; }
+        public decimal? PurchaseCost { get; set; }
 
         [FwLogicProperty(Id: "pgQowWhNAEm1", IsReadOnly: true)]
         public decimal? InvoiceCost { get; set; }

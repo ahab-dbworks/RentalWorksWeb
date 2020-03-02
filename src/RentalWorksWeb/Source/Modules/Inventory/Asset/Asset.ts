@@ -427,6 +427,12 @@ class RwAsset {
             <div class="field" data-caption="Warehouse" data-datafield="Warehouse" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="100px" data-visible="true">
+            <div class="field" data-caption="Purchased" data-datafield="PurchaseDate" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" max-width="100px" data-visible="true">
+            <div class="field" data-caption="Received" data-datafield="ReceiveDate" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" max-width="100px" data-visible="true">
             <div class="field" data-caption="Tracked By" data-datafield="TrackedBy" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" data-width="0" data-visible="true">
@@ -648,7 +654,7 @@ class RwAsset {
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Purchase Date" data-datafield="PurchaseDate" data-enabled="false" style="flex:1 1 100px;"></div>
                             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Receive Date" data-datafield="ReceiveDate" data-enabled="false" style="flex:1 1 100px;"></div>
-                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="PoCost" data-enabled="false" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="PurchaseCost" data-enabled="false" style="flex:1 1 75px;"></div>
                           </div>
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="PurchaseVendorId" data-enabled="false" data-displayfield="PurchaseVendor" data-validationname="VendorValidation" style="flex:1 1 300px;"></div>

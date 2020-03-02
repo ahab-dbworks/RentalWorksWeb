@@ -177,17 +177,8 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "purchasepoid", modeltype: FwDataTypes.Text)]
         public string PurchasePoId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "purchasedate", modeltype: FwDataTypes.Date)]
-        public string PurchaseDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "receivedate", modeltype: FwDataTypes.Date)]
-        public string ReceiveDate { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasepono", modeltype: FwDataTypes.Text)]
         public string PurchasePoNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pocost", modeltype: FwDataTypes.Decimal)]
-        public decimal? PoCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invcost", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceCost { get; set; }
