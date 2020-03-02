@@ -1,4 +1,4 @@
-//routes.push({ pattern: /^module\/sound$/, action: function (match: RegExpExecArray) { return SoundController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/sound$/, action: function (match: RegExpExecArray) { return SoundController.getModuleScreen(); } });
 
 class Sound {
     Module: string = 'Sound';
@@ -50,46 +50,12 @@ class Sound {
             FwFormField.disable($form.find('.ifnew'));
         }
 
-        //var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        //let mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        //let settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule')
-        //let modules = mainModules.concat(settingsModules);
-        //var allModules = [];
-        //for (var i = 0; i < modules.length; i++) {
-        //    var moduleNav = modules[i].properties.controller.slice(0, -10);
-        //    var moduleCaption = modules[i].properties.caption;
-        //    if (moduleCaption === "Designer") {
-        //        continue;
-        //    }
-        //    var moduleController = modules[i].properties.controller;
-        //    if (window[moduleController].hasOwnProperty('apiurl')) {
-        //        var moduleUrl = window[moduleController].apiurl;
-        //        allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
-        //    }
-        //};
-
-        ////Sort modules
-        //function compare(a, b) {
-        //    if (a.text < b.text)
-        //        return -1;
-        //    if (a.text > b.text)
-        //        return 1;
-        //    return 0;
-        //}
-        //allModules.sort(compare);
-
-        //$moduleSelect = $form.find('.modules');
-        //FwFormField.loadItems($moduleSelect, allModules);
-
-        //$form.find('[data-datafield="SystemRule"]').attr('data-required', false);
         this.events($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="SoundId"] input').val(uniqueids.SoundId);
         FwModule.loadForm(this.Module, $form);
 
@@ -101,12 +67,10 @@ class Sound {
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        let sound, soundFileName;
-
         // Sound Preview
         $form.find('.sound-play-button').on('click', e => {
-            soundFileName = FwFormField.getValueByDataField($form, 'FileName');
-            sound = new Audio(soundFileName);
+            const soundFileName = FwFormField.getValueByDataField($form, 'FileName');
+            const sound = new Audio(soundFileName);
             sound.play();
         });
     };
