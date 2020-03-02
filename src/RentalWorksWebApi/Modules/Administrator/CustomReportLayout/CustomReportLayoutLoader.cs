@@ -24,6 +24,9 @@ namespace WebApi.Modules.Administrator.CustomReportLayout
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
+        public string Category { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "html", modeltype: FwDataTypes.Text)]
         public string Html { get; set; }
         //------------------------------------------------------------------------------------ 

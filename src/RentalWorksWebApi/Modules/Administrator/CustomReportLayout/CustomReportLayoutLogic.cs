@@ -33,6 +33,9 @@ namespace WebApi.Modules.Administrator.CustomReportLayout
         [FwLogicProperty(Id:"uaeGQnhd8KAnX", IsRecordTitle:true)]
         public string Description { get { return customReportLayout.Description; } set { customReportLayout.Description= value; } }
 
+        [FwLogicProperty(Id: "UNhtofKyijKjj")]
+        public string Category { get { return customReportLayout.Category; } set { customReportLayout.Category = value; } }
+
         [FwLogicProperty(Id:"tjhXQPdX2TXn6")]
         public string Html { get { return customReportLayout.Html; } set { customReportLayout.Html = value; } }
 
