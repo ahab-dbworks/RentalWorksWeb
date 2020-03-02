@@ -1215,6 +1215,12 @@
     <Content Include="theme\audio\arpeggio.mp3" />
     <Content Include="theme\audio\errorBeep1.wav" />
     <Content Include="theme\audio\jubilation.mp3" />
+    <Content Include="theme\audio\lvdock_error.wav" />
+    <Content Include="theme\audio\lvdock_sucess.wav" />
+    <Content Include="theme\audio\toad_swap.wav" />
+    <Content Include="theme\audio\pipe_error.wav" />
+    <Content Include="theme\audio\pause_warning.wav" />
+    <Content Include="theme\audio\coin_success.wav" />
     <Content Include="theme\audio\successBeep1.mp3" />
     <Content Include="theme\images\icons\128\assetdisposition.001.png" />
     <Content Include="theme\images\icons\128\assetsetlocation.001.png" />
