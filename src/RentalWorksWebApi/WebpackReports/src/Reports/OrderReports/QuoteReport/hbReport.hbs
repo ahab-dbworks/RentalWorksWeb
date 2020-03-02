@@ -112,15 +112,21 @@
         <td class="">{{IssuedToAddress2}}</td>
       </tr>
       {{/ifCond}}
+      {{#ifCond IssuedToCity '!==' ""}}
       <tr>
         <td class="">{{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}</td>
       </tr>
+      {{/ifCond}}
+      {{#ifCond IssuedToPhone '!==' ""}}
       <tr>
         <td class=""><span style="color:#000000;font-weight:700;">Phone: </span>{{IssuedToPhone}}</td>
       </tr>
+      {{/ifCond}}
+      {{#ifCond IssuedToFax '!==' ""}}
       <tr>
         <td class=""><span style="color:#000000;font-weight:700;">Fax: </span><span style="padding-left:20px;">{{IssuedToFax}}</span></td>
       </tr>
+      {{/ifCond}}
     </table>
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 321px;margin:0px 10px;">
