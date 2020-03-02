@@ -83,6 +83,13 @@ class PurchaseOrder implements IModule {
                 FwFunc.showError(ex);
             }
         });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Toggle Close', 'rmIBsGJIEjAZ', (e: JQuery.ClickEvent) => {
+            try {
+                this.toggleClosePurchaseOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         FwMenu.addSubMenuItem(options.$groupOptions, 'Void', 'u5eAwyixomSFN', (e: JQuery.ClickEvent) => {
             try {
                 this.voidPO(options.$form);
@@ -1541,6 +1548,15 @@ class PurchaseOrder implements IModule {
             $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
         }
 
+        const $toggleCloseOption = $form.find('.submenu-btn .caption:contains(Toggle Close)');
+        if (status === 'CLOSED') {
+            $toggleCloseOption.text('Re-Open Purchase Order');
+        } else if (status === 'COMPLETE') {
+            $toggleCloseOption.text('Close Purchase Order');
+        } else {
+            $toggleCloseOption.parents('.submenu-btn').hide();
+        }
+
         const $scheduleDateFields = $form.find('.activity-unchecked');
         const isRental = FwFormField.getValueByDataField($form, 'Rental');
         const isSales = FwFormField.getValueByDataField($form, 'Sales');
@@ -2632,6 +2648,30 @@ class PurchaseOrder implements IModule {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
                 break;
         }
+    }
+    //----------------------------------------------------------------------------------------------	
+    toggleClosePurchaseOrder($form) {
+        let $confirmation, $yes;
+        const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        const purchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+        const purchaseOrderStatus = FwFormField.getValueByDataField($form, 'Status');
+        const confirmationText = purchaseOrderStatus === 'CLOSED' ? 'Re-Open Purchase Order' : 'Close Purchase Order';
+        $confirmation = FwConfirmation.renderConfirmation(confirmationText, '<div style="white-space:pre;">\n' +
+            confirmationText + ' ' + purchaseOrderNumber + '?</div>');
+        $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+        FwConfirmation.addButton($confirmation, 'No');
+        $yes.on('click', () => {
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/toggleclose/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    FwNotification.renderNotification('SUCCESS', purchaseOrderStatus === 'CLOSED' ? 'Purchase Order Re-Opened' : 'Purchase Order Closed');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, $form);
+        });
     }
 }
 //----------------------------------------------------------------------------------------------

@@ -140,6 +140,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
     {
     }
 
+    public class PurchaseOrderToggleCloseResponse : TSpStatusResponse
+    {
+    }
 
 
     public class NextVendorInvoiceDefaultDatesResponse : TSpStatusResponse
@@ -383,6 +386,23 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 //response.success = (response.status == 0);
                 //response.msg = qry.GetParameter("@msg").ToString();
                 response.success = true;
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<PurchaseOrderToggleCloseResponse> ToggleClose(FwApplicationConfig appConfig, FwUserSession userSession, string purchaseOrderId)
+        {
+            PurchaseOrderToggleCloseResponse response = new PurchaseOrderToggleCloseResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "toggleclosepoweb", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
             }
             return response;
         }

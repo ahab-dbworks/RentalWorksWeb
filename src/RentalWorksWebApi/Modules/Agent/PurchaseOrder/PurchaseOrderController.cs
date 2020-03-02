@@ -222,6 +222,26 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 return GetApiExceptionResult(ex);
             }
         }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/purchaseorder/toggleclose/A0000001
+        [HttpPost("toggleclose/{id}")]
+        [FwControllerMethod(Id: "rmIBsGJIEjAZ", ActionType: FwControllerActionTypes.Option, Caption: "Toggle Close")]
+        public async Task<ActionResult<PurchaseOrderLogic>> ToggleClose([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PurchaseOrderToggleCloseResponse response = await PurchaseOrderFunc.ToggleClose(AppConfig, UserSession, id);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
         //------------------------------------------------------------------------------------       
         // GET api/v1/purchaseorder/nextvendorinvoicedefaultdates/A0000001
         [HttpGet("nextvendorinvoicedefaultdates/{PurchaseOrderId}")]
