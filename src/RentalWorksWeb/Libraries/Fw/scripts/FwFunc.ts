@@ -159,22 +159,16 @@
     static getMaxZ(selector: string): number {
         var maxZIndex = 1;
         var $elements = jQuery(selector);
-
+        if ($elements.length > 10000) {
+            $elements = $elements.filter('.fwcontextmenu,.fwoverlay,.fwpopup,.fwconfirmation');
+        }
         for (var i = 0; i < $elements.length; i++) {
-            const z = parseInt(jQuery($elements[i]).css("z-index"), 10);
-            //return z = parseInt($elements[i].css("z-index"), 10)) ?1 : z;
+            const z: number = +jQuery($elements[i]).css("z-index");
             if (z > maxZIndex) {
                 maxZIndex = z;
             }
         }
         return maxZIndex;
-
-        //return 9999;
-        //return Math.max.apply(null, jQuery(selector).map(function () {
-        //    let z;
-        //    // mv 2018-05-29 - I bumped the starting value from 0 to 1 because the checkbox has an ::after element with z-index 1 that it doesn't seem to find.
-        //    return isNaN(z = parseInt(jQuery(this).css("z-index"), 10)) ? 1 : z;
-        //}));
     }
     //---------------------------------------------------------------------------------
     static round(num: number, decimalplaces: number): number {

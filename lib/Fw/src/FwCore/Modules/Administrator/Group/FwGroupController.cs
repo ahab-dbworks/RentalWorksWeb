@@ -20,7 +20,7 @@ namespace FwCore.Modules.Administrator.Group
         {
             try
             {
-                FwAmGroupTree groupTree = await FwAppManager.Tree.GetGroupsTreeAsync(id, false);
+                FwAmGroupTree groupTree = await FwAppManager.Tree.GetGroupsTreeAsync(id, false, true);
                 return new OkObjectResult(groupTree.RootNode);
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace FwCore.Modules.Administrator.Group
         {
             try
             {
-                var fromGroupsTree = await FwAppManager.Tree.GetGroupsTreeAsync(request.FromGroupId, false);
+                var fromGroupsTree = await FwAppManager.Tree.GetGroupsTreeAsync(request.FromGroupId, false, true);
                 var groupIds = request.ToGroupIds.Split(new char[] { ',' });
                 for (int i = 0; i < groupIds.Length; i++)
                 {
@@ -50,12 +50,37 @@ namespace FwCore.Modules.Administrator.Group
                     var fromNode = fromGroupsTree.RootNode.FindById(request.SecurityId);
                     var fromNodeJson = JsonConvert.SerializeObject(fromNode);
                     var toNode = toGroupsTree.RootNode.FindById(request.SecurityId);
-                    for(int j = 0; j < toNode.Parent.Children.Count; j++)
+                    if (toNode == null)
                     {
-                        if (toNode.Parent.Children[j].Id == request.SecurityId)
+                        throw new ArgumentException($"Unable to find node: ${request.SecurityId}", "request.SecurityId");
+                    }
+                    if (toNode.Parent == null)
+                    {
+                        if (toGroupsTree.RootNode.Id == request.SecurityId)
                         {
-                            toNode.Parent.Children[j] = JsonConvert.DeserializeObject<FwAmSecurityTreeNode>(fromNodeJson);
-                            break;
+                            toGroupsTree.RootNode = JsonConvert.DeserializeObject<FwAmSecurityTreeNode>(fromNodeJson);
+                        }
+                        else
+                        {
+                            for (int j = 0; j < toGroupsTree.RootNode.Children.Count; j++)
+                            {
+                                if (toGroupsTree.RootNode.Children[j].Id == request.SecurityId)
+                                {
+                                    toGroupsTree.RootNode.Children[j] = JsonConvert.DeserializeObject<FwAmSecurityTreeNode>(fromNodeJson);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int j = 0; j < toNode.Parent.Children.Count; j++)
+                        {
+                            if (toNode.Parent.Children[j].Id == request.SecurityId)
+                            {
+                                toNode.Parent.Children[j] = JsonConvert.DeserializeObject<FwAmSecurityTreeNode>(fromNodeJson);
+                                break;
+                            }
                         }
                     }
                     await toGroupsTree.SaveToDatabaseAsync(this.AppConfig);

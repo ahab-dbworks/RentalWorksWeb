@@ -138,27 +138,28 @@ class FwApplicationTreeClass {
     }
     //---------------------------------------------------------------------------------
     getSecurityNodesRecursive(securitynodes: IDbSecurityNode[], node: IGroupSecurityNode, hidenewmenuoptionsbydefault: boolean) {
-        var includenode, newNode: IDbSecurityNode, childno, visible, editable;
-
-        visible = ((typeof node.properties.visible === 'string') &&
-            ((hidenewmenuoptionsbydefault !== true) && (node.properties.visible === 'F')) || ((hidenewmenuoptionsbydefault === true) && (node.properties.visible === 'T'))) ? node.properties.visible : null;
-        editable = ((typeof node.properties.editable === 'string') && (node.properties.editable === 'F')) ? node.properties.editable : null;
-        includenode = (visible !== null) || (editable !== null);
+        const visible = (node.properties.visible !== undefined) ? node.properties.visible : null;
+        //const visible = ((typeof node.properties.visible === 'string') &&
+        //    ((hidenewmenuoptionsbydefault !== true) && (node.properties.visible === 'F')) || ((hidenewmenuoptionsbydefault === true) && (node.properties.visible === 'T'))) ? node.properties.visible : null;
+        //const editable = ((typeof node.properties.editable === 'string') && (node.properties.editable === 'F')) ? node.properties.editable : null;
+        const includenode = (visible !== null && ((hidenewmenuoptionsbydefault && node.properties.visible === 'T') || (!hidenewmenuoptionsbydefault && node.properties.visible === 'F')));// || (editable !== null);
         if (includenode) {
-            newNode = {
+            const newNode: IDbSecurityNode = {
                 id: node.id,
                 properties: {
                     visible: (visible !== null) ? visible : 'F'
                 }
             };
-            if (editable !== null) {
-                newNode.properties['visible'].editable = editable;
-            }
+            //if (editable !== null) {
+            //    newNode.properties['visible'].editable = editable;
+            //}
             securitynodes.push(newNode);
         }
-        if (node.hasOwnProperty('children')) {
-            for (childno = 0; childno < node.children.length; childno++) {
-                FwApplicationTree.getSecurityNodesRecursive(securitynodes, node.children[childno], hidenewmenuoptionsbydefault);
+        if (visible === null || node.properties.visible === 'T') {
+            if (node.hasOwnProperty('children')) {
+                for (let childno = 0; childno < node.children.length; childno++) {
+                    FwApplicationTree.getSecurityNodesRecursive(securitynodes, node.children[childno], hidenewmenuoptionsbydefault);
+                }
             }
         }
 

@@ -84,9 +84,9 @@
 
             $editgrouptree_children = jQuery('<ul class="grouptree"></ul>');
             $editgrouptree.empty()
-                //.append('<div class="title">Edit Group Tree</div>')
                 .append($editgrouptree_children);
-            this.renderNode('edit', $form, $editgrouptree_children, applicationtree);
+            const hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'HideNewMenuOptionsByDefault'));
+            this.renderNode('edit', $form, $editgrouptree_children, applicationtree, hidenewmenuoptionsbydefault);
 
             var $searchbar = $form.find('.searchbar');
             searchbarHtml.push('<form id="groupsearch">')
@@ -139,7 +139,8 @@
             $previewgrouptree_children = jQuery('<ul class="grouptree"></ul>');
             $previewgrouptree.empty().append('<div class="title">Preview Group Tree</div>', $previewgrouptree_children);
             applicationtree = $previewgrouptree.data('applicationtree');
-            this.renderNode('preview', $form, $previewgrouptree_children, applicationtree);
+            const hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'HideNewMenuOptionsByDefault'));
+            this.renderNode('preview', $form, $previewgrouptree_children, applicationtree, hidenewmenuoptionsbydefault);
             var $previewSubModules = jQuery('.previewgrouptree li[data-property-id="712A2E4B-4387-4D55-9B35-0C2DCBD9B284"]');
             if ($previewSubModules.find('> .childrencontainer > ul.children > li').length === 0) {
                 $previewSubModules.remove();
@@ -150,7 +151,7 @@
             }
         }
 
-        renderNode(mode, $form: JQuery, $container: JQuery, node: IGroupSecurityNode) {
+        renderNode(mode, $form: JQuery, $container: JQuery, node: IGroupSecurityNode, hidenewmenuoptionsbydefault) {
             var me = this;
             var hidenewmenuoptionsbydefault, haschildren, $node: JQuery, $content, $iconexpander, $icon, $iconvisible, $iconeditable,
                 $caption, nodedescription, $childrencontainer, $children;
@@ -159,9 +160,9 @@
             if (node.nodetype === 'System') {
                $waitOverlay = FwOverlay.showPleaseWaitOverlay($form.find('.securitytabpage'), FwAppData.generateUUID());
             }
-            hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'HideNewMenuOptionsByDefault'));
             haschildren = (node.children.length > 0);
             $node = jQuery('<li class="node">');
+
             switch (node.nodetype) {
                 case 'ModuleActions':
                     if ((node.children.length === 0) ||
@@ -227,21 +228,6 @@
                     break;
             }
             $node.append($iconexpander);
-            if (haschildren) {
-                $iconexpander.on('click', function () {
-                    var showchildren;
-                    try {
-                        showchildren = ($node.attr('data-expanded') === 'F');
-                        jQuery(this).closest('.content').siblings('.childrencontainer').toggle(showchildren);
-                        $node.attr('data-expanded', showchildren ? 'T' : 'F');
-                        //if ($node.attr('data-nodetype') === 'Module') {
-                        //    $node.find('li.node:not([data-nodetype="Control"],[data-nodetype="ModuleAction"],[data-nodetype="ModuleOptions"],[data-nodetype="ControlAction"],[data-nodetype="ControlOptions"])').attr('data-expanded', showchildren);
-                        //}
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            }
 
             $icon = jQuery('<i class="material-icons nodetypeicon"></i>');
             $node.append($icon);
@@ -257,149 +243,33 @@
                     
                     $iconvisible = jQuery('<i class="material-icons iconvisible"></i>');
                     $content.append($iconvisible);
-                    $iconvisible.on('click', function () {
-                        try {
-                            let $li = jQuery(this).closest('li');
-                            let visible = ($li.attr('data-property-visible') === 'T');
-                            $li.attr('data-property-visible', visible ? 'F' : 'T');
-                            if (!visible) {
-                                let $parents = $li.parents('li.node');
-                                for (let i = 0; i < $parents.length; i++) {
-                                    let $parent = $parents.eq(i);
-                                    if (typeof $parent.attr('data-property-visible') !== 'undefined') {
-                                        $parent.attr('data-property-visible', 'T');
-                                    }
-                                }
-                            }
-                            let $li_children = $li.find('li[data-property-visible]');
-                            // mv this is the code that prompts you if you want to toggle all children on or off.  I'm finding it more pestering than useful lately, so I have disabled it for now
-                            //if ($li_children.length > 0) {
-                            //    let $confirmation = FwConfirmation.renderConfirmation('Confirm...', 'Also toggle (' + (visible ? 'Off' : 'On') + ') all the children of this node?');
-                            //    let $btnYes = FwConfirmation.addButton($confirmation, 'Yes', true);
-                            //    $btnYes.on('click', function () {
-                            //        $li_children.attr('data-property-visible', visible ? 'F' : 'T');
-                            //        me.updateSecurityField($form);
-                            //    });
-                            //    let $btnNo = FwConfirmation.addButton($confirmation, 'No', true);
-                            //    $btnNo.on('click', function () {
-                            //        me.updateSecurityField($form);
-                            //    });
-                            //} else {
-                            //    me.updateSecurityField($form);
-                            //}
-                            $li_children.attr('data-property-visible', visible ? 'F' : 'T');
-                            me.updateSecurityField($form);
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
                 } 
             }
 
-            if ((mode === 'edit') && (typeof $node.attr('data-property-editable') === 'string')) {
-                $iconeditable = jQuery('<div class="iconeditable">');
-                $content.append($iconeditable);
-                $iconeditable.on('click', function () {
-                    var $li, visible, editable;
-                    try {
-                        $li = jQuery(this).closest('li');
-                        visible = ($li.attr('data-property-visible') === 'T');
-                        if (visible) {
-                            editable = ($li.attr('data-property-editable') === 'T');
-                            $li.attr('data-property-editable', (!editable) ? 'T' : 'F');
-                            this.updateSecurityField($form);
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            }
+            //if ((mode === 'edit') && (typeof $node.attr('data-property-editable') === 'string')) {
+            //    $iconeditable = jQuery('<div class="iconeditable">');
+            //    $content.append($iconeditable);
+            //    $iconeditable.on('click', function () {
+            //        var $li, visible, editable;
+            //        try {
+            //            $li = jQuery(this).closest('li');
+            //            visible = ($li.attr('data-property-visible') === 'T');
+            //            if (visible) {
+            //                editable = ($li.attr('data-property-editable') === 'T');
+            //                $li.attr('data-property-editable', (!editable) ? 'T' : 'F');
+            //                this.updateSecurityField($form);
+            //            }
+            //        } catch (ex) {
+            //            FwFunc.showError(ex);
+            //        }
+            //    });
+            //}
 
             const caption = this.getCaptionFromConstantsFile(node);
 
             if (node.nodetype !== 'ControllerMethod') {
-                const $contextmenuicon = jQuery(`<i class="material-icons" style="cursor:pointer;color:#607d8b;font-size:1.5em;">more_vert</i>`);
+                const $contextmenuicon = jQuery(`<i class="material-icons contextmenu" style="cursor:pointer;color:#607d8b;font-size:1.5em;">more_vert</i>`);
                 $content.append($contextmenuicon);
-                $contextmenuicon.on('click', async (event: JQuery.ClickEvent) => {
-                    try {
-                        var $contextmenu = FwContextMenu.render(null, 'bottomleft', $contextmenu, event);
-                        FwContextMenu.addMenuItem($contextmenu, 'Copy to Groups...', async (event: JQuery.ClickEvent) => {
-                            if ($form.attr('data-modified') === 'true') {
-                                FwFunc.showMessage('You need to Save this Group before you can copy nodes to another Group.');
-                                return;
-                            }
-                            let requestLookupGroup: FwAjaxRequest<any>;
-                            try {
-                                var $confirmation = FwConfirmation.renderConfirmation(`Copy node \'${caption}\' to...`, '');
-                            
-                                var $btnCopy = FwConfirmation.addButton($confirmation, 'Copy', false);
-                                $btnCopy.on('click', async (event: JQuery.ClickEvent) => {
-                                    let requestCopySecurityNode: FwAjaxRequest<any>;
-                                    try {
-                                        const $groups = $content.find('.available-groups');
-                                        var selectedItems: string = FwFormField_checkboxlist.getValue2($groups);
-                                        //console.log(selectedItems);
-                                        requestCopySecurityNode = new FwAjaxRequest<any>();
-                                        requestCopySecurityNode.httpMethod = "POST";
-                                        requestCopySecurityNode.url = encodeURI(applicationConfig.apiurl + 'api/v1/group/copysecuritynode');
-                                        requestCopySecurityNode.addAuthorizationHeader = true;
-                                        requestCopySecurityNode.$elementToBlock = $content;
-                                        requestCopySecurityNode.data = {
-                                            FromGroupId: FwFormField.getValueByDataField($form, 'GroupId'),
-                                            ToGroupIds: selectedItems,
-                                            SecurityId: node.id
-                                        };
-                                        const response = await FwAjax.callWebApi<any, any>(requestCopySecurityNode);
-                                        FwConfirmation.destroyConfirmation($confirmation);
-                                    } catch (ex) {
-                                        FwFunc.showWebApiError(requestCopySecurityNode.xmlHttpRequest.status, ex, requestCopySecurityNode.xmlHttpRequest.responseText, requestCopySecurityNode.url);
-                                    }
-                                });
-                                var $btnCancel = FwConfirmation.addButton($confirmation, 'Cancel', false);
-                                $btnCancel.on('click', (event: JQuery.ClickEvent) => {
-                                    try {
-                                        FwConfirmation.destroyConfirmation($confirmation);
-                                    } catch (ex) {
-                                        FwFunc.showError(ex);
-                                    }
-                                });
-                            
-                                let html = 
-`<div class="flexrow">
-    <div class="flexcolumn">
-        <div data-datafield="groups" data-control="FwFormField" data-returncsv="true" data-type="checkboxlist" data-share="true" data-listtype="standard" data-showcheckboxes="true" class="fwcontrol fwformfield available-groups" data-caption="Available Groups" data-sortable="false" data-orderby="false"></div>
-    </div>
-</div>
-`;
-                                const $content = jQuery(html);
-                                FwConfirmation.addJqueryControl($confirmation, $content);
-                                $content.find('.fwformfield[data-datafield="groups"] .fwformfield-control ol')
-                                    .css({
-                                        minHeight: 'auto',
-                                        minWidth: 'auto'
-                                    });
-
-                                const $availableGroups = $content.find('.available-groups');
-                                requestLookupGroup = new FwAjaxRequest<any>();
-                                requestLookupGroup.httpMethod = "GET";
-                                requestLookupGroup.url = encodeURI(applicationConfig.apiurl + 'api/v1/group/lookupgroup');
-                                requestLookupGroup.addAuthorizationHeader = true;
-                                requestLookupGroup.$elementToBlock = $content;
-                                const response = await FwAjax.callWebApi<any, any>(requestLookupGroup);
-                                const availableGroups = [];
-                                for (let i = 0; i < response.Items.length; i++) {
-                                    const group = response.Items[i];
-                                    availableGroups.push({text: group.Name, value: group.GroupId});
-                                }
-                                FwFormField.loadItems($availableGroups, availableGroups, true);
-                            } catch (ex) {
-                                FwFunc.showWebApiError(requestLookupGroup.xmlHttpRequest.status, ex, requestLookupGroup.xmlHttpRequest.responseText, requestLookupGroup.url);
-                            }
-                        });
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
             }
 
             $caption = jQuery('<div class="caption">');
@@ -488,13 +358,154 @@
                     const nodeChild = node.children[i];
                     if (((mode === 'edit') || (typeof nodeChild.properties.visible === 'undefined') || (nodeChild.properties.visible === 'T')) &&
                         (nodeChild.id !== 'AdministratorControls' && nodeChild.id !== 'HomeControls' && nodeChild.id !== 'SharedControls' && nodeChild.id !== 'UtilitiesControls')) {
-                        this.renderNode(mode, $form, $children, nodeChild);
+                        this.renderNode(mode, $form, $children, nodeChild, hidenewmenuoptionsbydefault);
                     }
                 }
             }
             if (node.nodetype === 'System') {
+                $node.on('click', '.iconexpander', function (event: JQuery.ClickEvent) {
+                    try {
+                        const $iconExpander = jQuery(event.target);
+                        const $node = $iconExpander.closest('.node');
+                        const showchildren = ($node.attr('data-expanded') === 'F');
+                        $iconExpander.closest('.content').siblings('.childrencontainer').toggle(showchildren);
+                        $node.attr('data-expanded', showchildren ? 'T' : 'F');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+
+                $node.on('click', '.contextmenu', async (event: JQuery.ClickEvent) => {
+                    try {
+                        const $iconContextMenu = jQuery(event.target);
+                        const $node = $iconContextMenu.closest('.node');
+                        const nodeId = $node.attr('data-property-id');
+                        const nodeCaption = $node.attr('data-property-caption');
+                        
+                        const $contextmenu = FwContextMenu.render(null, 'bottomleft', $node, event);
+                        FwContextMenu.addMenuItem($contextmenu, 'Copy to Groups...', async (event: JQuery.ClickEvent) => {
+                            if ($form.attr('data-modified') === 'true') {
+                                FwFunc.showMessage('You need to Save this Group before you can copy nodes to another Group.');
+                                return;
+                            }
+                            let requestLookupGroup: FwAjaxRequest<any>;
+                            try {
+                                var $confirmation = FwConfirmation.renderConfirmation(`Copy node \'${nodeCaption}\' to...`, '');
+                            
+                                var $btnCopy = FwConfirmation.addButton($confirmation, 'Copy', false);
+                                $btnCopy.on('click', async (event: JQuery.ClickEvent) => {
+                                    let requestCopySecurityNode: FwAjaxRequest<any>;
+                                    try {
+                                        const $groups = $content.find('.available-groups');
+                                        var selectedItems: string = FwFormField_checkboxlist.getValue2($groups);
+                                        //console.log(selectedItems);
+                                        requestCopySecurityNode = new FwAjaxRequest<any>();
+                                        requestCopySecurityNode.httpMethod = "POST";
+                                        requestCopySecurityNode.url = encodeURI(applicationConfig.apiurl + 'api/v1/group/copysecuritynode');
+                                        requestCopySecurityNode.addAuthorizationHeader = true;
+                                        requestCopySecurityNode.$elementToBlock = $content;
+                                        requestCopySecurityNode.data = {
+                                            FromGroupId: FwFormField.getValueByDataField($form, 'GroupId'),
+                                            ToGroupIds: selectedItems,
+                                            SecurityId: nodeId
+                                        };
+                                        const response = await FwAjax.callWebApi<any, any>(requestCopySecurityNode);
+                                        FwConfirmation.destroyConfirmation($confirmation);
+                                    } catch (ex) {
+                                        FwFunc.showWebApiError(requestCopySecurityNode.xmlHttpRequest.status, ex, requestCopySecurityNode.xmlHttpRequest.responseText, requestCopySecurityNode.url);
+                                    }
+                                });
+                                var $btnCancel = FwConfirmation.addButton($confirmation, 'Cancel', false);
+                                $btnCancel.on('click', (event: JQuery.ClickEvent) => {
+                                    try {
+                                        FwConfirmation.destroyConfirmation($confirmation);
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                            
+                                let html = 
+    `<div class="flexrow">
+    <div class="flexcolumn">
+        <div data-datafield="groups" data-control="FwFormField" data-returncsv="true" data-type="checkboxlist" data-share="true" data-listtype="standard" data-showcheckboxes="true" class="fwcontrol fwformfield available-groups" data-caption="Available Groups" data-sortable="false" data-orderby="false"></div>
+    </div>
+    </div>
+    `;
+                                const $content = jQuery(html);
+                                FwConfirmation.addJqueryControl($confirmation, $content);
+                                $content.find('.fwformfield[data-datafield="groups"] .fwformfield-control ol')
+                                    .css({
+                                        minHeight: 'auto',
+                                        minWidth: 'auto'
+                                    });
+
+                                const $availableGroups = $content.find('.available-groups');
+                                requestLookupGroup = new FwAjaxRequest<any>();
+                                requestLookupGroup.httpMethod = "GET";
+                                requestLookupGroup.url = encodeURI(applicationConfig.apiurl + 'api/v1/group/lookupgroup');
+                                requestLookupGroup.addAuthorizationHeader = true;
+                                requestLookupGroup.$elementToBlock = $content;
+                                const response = await FwAjax.callWebApi<any, any>(requestLookupGroup);
+                                const availableGroups = [];
+                                const fromGroupId = FwFormField.getValueByDataField($form, 'GroupId');
+                                for (let i = 0; i < response.Items.length; i++) {
+                                    const group = response.Items[i];
+                                    if (fromGroupId !== group.GroupId) {
+                                        availableGroups.push({text: group.Name, value: group.GroupId});
+                                    }
+                                }
+                                FwFormField.loadItems($availableGroups, availableGroups, true);
+                            } catch (ex) {
+                                FwFunc.showWebApiError(requestLookupGroup.xmlHttpRequest.status, ex, requestLookupGroup.xmlHttpRequest.responseText, requestLookupGroup.url);
+                            }
+                        });
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+
+                $node.on('click', '.iconvisible', function (event: JQuery.ClickEvent) {
+                    try {
+                        const $icon = jQuery(event.target);
+                        let $li = $icon.closest('li');
+                        let visible = ($li.attr('data-property-visible') === 'T');
+                        $li.attr('data-property-visible', visible ? 'F' : 'T');
+                        if (!visible) {
+                            let $parents = $li.parents('li.node');
+                            for (let i = 0; i < $parents.length; i++) {
+                                let $parent = $parents.eq(i);
+                                if (typeof $parent.attr('data-property-visible') !== 'undefined') {
+                                    $parent.attr('data-property-visible', 'T');
+                                }
+                            }
+                        }
+                        let $li_children = $li.find('li[data-property-visible]');
+                        // mv this is the code that prompts you if you want to toggle all children on or off.  I'm finding it more pestering than useful lately, so I have disabled it for now
+                        //if ($li_children.length > 0) {
+                        //    let $confirmation = FwConfirmation.renderConfirmation('Confirm...', 'Also toggle (' + (visible ? 'Off' : 'On') + ') all the children of this node?');
+                        //    let $btnYes = FwConfirmation.addButton($confirmation, 'Yes', true);
+                        //    $btnYes.on('click', function () {
+                        //        $li_children.attr('data-property-visible', visible ? 'F' : 'T');
+                        //        me.updateSecurityField($form);
+                        //    });
+                        //    let $btnNo = FwConfirmation.addButton($confirmation, 'No', true);
+                        //    $btnNo.on('click', function () {
+                        //        me.updateSecurityField($form);
+                        //    });
+                        //} else {
+                        //    me.updateSecurityField($form);
+                        //}
+                        $li_children.attr('data-property-visible', visible ? 'F' : 'T');
+                        me.updateSecurityField($form);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+
                 FwOverlay.hideOverlay($waitOverlay);
-                $node.children('.iconexpander').click();
+                setTimeout(() => {
+                    $node.children('.iconexpander').click();
+                }, 100);
             }
         }
 

@@ -409,6 +409,7 @@ namespace FwStandard.AppManager
                     if (categoryNode == null)
                     {
                         categoryNode = new FwAmSecurityTreeNode(categoryId.ToString(), currentCategory, FwAmSecurityTreeNodeTypes.Category);
+                        categoryNode.Parent = nodeSystem;
                         categoryNode.Properties["visible"] = "T";
                         //this.Nodes[module.Category] = categoryNode;
                         if (i == 0)
@@ -855,8 +856,9 @@ namespace FwStandard.AppManager
         /// </summary>
         /// <param name="groupsid">the group id to fetch</param>
         /// <param name="applyParentVisibility">when true, if a parent is set to visible 'F', then all children will get set to visible 'F'.  This allows efficient checks on node visibility.</param>
+        /// <param name="noCache">Forces the system to check if the cached security tree is out of date from the database.</param>
         /// <returns></returns>
-        public async Task<FwAmGroupTree> GetGroupsTreeAsync(string groupsid, bool applyParentVisibility)
+        public async Task<FwAmGroupTree> GetGroupsTreeAsync(string groupsid, bool applyParentVisibility, bool noCache = false)
         {
             bool hidenewmenuoptionsbydefault;
             string jsonApplicationTree, appmanagerJson;
@@ -869,7 +871,7 @@ namespace FwStandard.AppManager
             using (FwSqlConnection conn = new FwSqlConnection(_sqlServerOptions.ConnectionString))
             {
                 string groupIndex =  $"{groupsid},{applyParentVisibility.ToString().ToLower()}";
-                if (this.GroupTrees.TryGetValue(groupIndex, out groupTree) && groupTree != null && groupTree.Expiration < DateTime.Now)
+                if (this.GroupTrees.TryGetValue(groupIndex, out groupTree) && groupTree != null && (noCache || groupTree.Expiration < DateTime.Now))
                 {
                     FwSqlCommand qry1 = new FwSqlCommand(conn, _sqlServerOptions.QueryTimeout);
                     qry1.Add("select top 1 datestamp");
