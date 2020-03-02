@@ -3,7 +3,7 @@ using FwStandard.SqlServer.Attributes;
 
 namespace WebApi.Modules.Inventory.Repair
 {
-    [FwSqlTable("repairview")]
+    [FwSqlTable("repairwebview")]
     public class RepairLoader : RepairBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
