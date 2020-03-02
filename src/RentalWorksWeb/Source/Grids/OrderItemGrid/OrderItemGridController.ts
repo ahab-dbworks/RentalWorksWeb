@@ -409,8 +409,11 @@ class OrderItemGrid {
                         break;
 
                 }
-                const rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
-                FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
+
+                if (rateFieldName) {
+                    const rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                    FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
+                }
 
                 const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
                 FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable});
