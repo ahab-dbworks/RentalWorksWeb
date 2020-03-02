@@ -398,6 +398,10 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public bool? Mute { get { return orderItemDetail.Mute; } set { orderItemDetail.Mute = value; } }
         //------------------------------------------------------------------------------------ 
 
+        [FwLogicProperty(Id: "96Cwvp7kDHafd", IsReadOnly: true)]
+        public bool? AvailabilityByHour { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
 
         //[FwLogicProperty(Id:"RT2U3nU2HIK0", IsReadOnly:true)]

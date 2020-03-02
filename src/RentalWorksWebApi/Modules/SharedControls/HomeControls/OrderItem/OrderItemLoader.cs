@@ -18,6 +18,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
         private bool _shortagesOnly = false;
         private bool _hasSubTotal = false;
         private string _orderType = string.Empty;
+        private DateTime? _orderAvailFromDateTime = null;
+        private DateTime? _orderAvailToDateTime = null;
         private bool _noAvailabilityCheck = false;
 
         //------------------------------------------------------------------------------------ 
@@ -420,6 +422,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mute", modeltype: FwDataTypes.Boolean)]
         public bool? Mute { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availbyhour", modeltype: FwDataTypes.Boolean)]
+        public bool? AvailabilityByHour { get; set; }
         //------------------------------------------------------------------------------------ 
 
 
@@ -885,10 +890,29 @@ namespace WebApi.Modules.HomeControls.OrderItem
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qryOrderType = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
-                qryOrderType.Add("select ordertype from dealorder with (nolock) where orderid = @orderid");
+                qryOrderType.Add("select ordertype, pickdate, picktime, estrentfrom, estfromtime, estrentto, esttotime from dealorder with (nolock) where orderid = @orderid");
                 qryOrderType.AddParameter("@orderid", orderId);
                 FwJsonDataTable dt = qryOrderType.QueryToFwJsonTableAsync().Result;
-                _orderType = dt.Rows[0][0].ToString();
+                _orderType = dt.Rows[0][dt.GetColumnNo("ordertype")].ToString();
+                DateTime orderPickDate = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("pickdate")].ToString());
+                DateTime orderPickTime = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("picktime")].ToString());
+                DateTime orderFromDate = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("estrentfrom")].ToString());
+                DateTime orderFromTime = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("estfromtime")].ToString());
+                DateTime orderToDate = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("estrentto")].ToString());
+                DateTime orderToTime = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("esttotime")].ToString());
+
+                _orderAvailFromDateTime = null;
+                _orderAvailToDateTime = null;
+                if (orderPickDate != DateTime.MinValue)
+                {
+                    _orderAvailFromDateTime = orderPickDate.AddHours(orderPickTime.Hour);
+                }
+                else
+                {
+                    _orderAvailFromDateTime = orderFromDate.AddHours(orderFromTime.Hour);
+                }
+                _orderAvailToDateTime = orderToDate.AddHours(orderToTime.Hour);
+
             }
 
             string tableName = "orderitemdetailwebview";
@@ -1003,9 +1027,34 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         {
                             string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
                             string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                            DateTime fromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());   // not accurate
-                            DateTime toDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());       // not accurate
-                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                            DateTime itemPickDate = FwConvert.ToDateTime(row[dt.GetColumnNo("PickDate")].ToString());
+                            DateTime itemPickTime = FwConvert.ToDateTime(row[dt.GetColumnNo("PickTime")].ToString());
+                            DateTime itemFromDate = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());
+                            DateTime itemFromTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromTime")].ToString());
+                            DateTime itemToDate = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());
+                            DateTime itemToTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToTime")].ToString());
+                            bool itemAvailabilityByHour = FwConvert.ToBoolean(row[dt.GetColumnNo("AvailabilityByHour")].ToString());
+
+
+                            DateTime itemAvailFromDateTime = _orderAvailFromDateTime.GetValueOrDefault(DateTime.MinValue);
+                            DateTime itemAvailToDateTime = _orderAvailToDateTime.GetValueOrDefault(DateTime.MinValue);
+                            if ((itemPickDate != DateTime.MinValue) && (itemPickDate <= itemFromDate))
+                            {
+                                itemAvailFromDateTime = itemPickDate.AddHours(itemPickTime.Hour);
+                            }
+                            else
+                            {
+                                itemAvailFromDateTime = itemFromDate.AddHours(itemFromTime.Hour);
+                            }
+                            itemAvailToDateTime = itemToDate.AddHours(itemToTime.Hour);
+
+                            if (!itemAvailabilityByHour)
+                            {
+                                itemAvailFromDateTime = itemAvailFromDateTime.Date;
+                                itemAvailToDateTime = itemAvailToDateTime.Date;
+                            }
+
+                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, itemAvailFromDateTime, itemAvailToDateTime));
                         }
 
                         availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false).Result;
@@ -1015,8 +1064,33 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     {
                         string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
                         string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                        DateTime availFromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());  // not accurate
-                        DateTime availToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());      // not accurate
+
+                        DateTime itemPickDate = FwConvert.ToDateTime(row[dt.GetColumnNo("PickDate")].ToString());
+                        DateTime itemPickTime = FwConvert.ToDateTime(row[dt.GetColumnNo("PickTime")].ToString());
+                        DateTime itemFromDate = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());
+                        DateTime itemFromTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromTime")].ToString());
+                        DateTime itemToDate = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());
+                        DateTime itemToTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToTime")].ToString());
+                        bool itemAvailabilityByHour = FwConvert.ToBoolean(row[dt.GetColumnNo("AvailabilityByHour")].ToString());
+
+                        DateTime itemAvailFromDateTime = _orderAvailFromDateTime.GetValueOrDefault(DateTime.MinValue);
+                        DateTime itemAvailToDateTime = _orderAvailToDateTime.GetValueOrDefault(DateTime.MinValue);
+                        if ((itemPickDate != DateTime.MinValue) && (itemPickDate <= itemFromDate))
+                        {
+                            itemAvailFromDateTime = itemPickDate.AddHours(itemPickTime.Hour);
+                        }
+                        else
+                        {
+                            itemAvailFromDateTime = itemFromDate.AddHours(itemFromTime.Hour);
+                        }
+                        itemAvailToDateTime = itemToDate.AddHours(itemToTime.Hour);
+
+                        if (!itemAvailabilityByHour)
+                        {
+                            itemAvailFromDateTime = itemAvailFromDateTime.Date;
+                            itemAvailToDateTime = itemAvailToDateTime.Date;
+                        }
+
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
                         TInventoryWarehouseAvailability availData = null;
 
@@ -1030,7 +1104,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         {
                             if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
                             {
-                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
+                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(itemAvailFromDateTime, itemAvailToDateTime);
 
                                 qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
                                 conflictDate = minAvail.FirstConfict;
