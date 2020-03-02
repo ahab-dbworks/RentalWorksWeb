@@ -29,7 +29,7 @@ import {
 } from './modules/AllModules';
 import { SettingsModule } from '../shared/SettingsModule';
 
-export class MediumRegressionTest extends BaseTest {
+export class MediumRegressionBaseTest extends BaseTest {
     //---------------------------------------------------------------------------------------
 
     async MediumRegressionOnModule(module: ModuleBase) {
@@ -963,6 +963,7 @@ export class MediumRegressionTest extends BaseTest {
         this.DoLogin();  // uses new login account
     }
     //---------------------------------------------------------------------------------------
+/*
     async PerformTests() {
         //prerequisites
 
@@ -1190,13 +1191,8 @@ export class MediumRegressionTest extends BaseTest {
 
 
     }
+
+*/
+
     //---------------------------------------------------------------------------------------
 }
-
-describe('MediumRegressionTest', () => {
-    try {
-        new MediumRegressionTest().Run();
-    } catch(ex) {
-        fail(ex);
-    }
-});

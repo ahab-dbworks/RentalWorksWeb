@@ -41,7 +41,12 @@ cd %testrootpath%
 call :getversion
 call :runtest "LoginLogout" "Login Logout"
 call :runtest "RwwShallowRegression" "Shallow Regression"
-call :runtest "RwwMediumRegression" "Medium Regression"
+call :runtest "RwwMediumRegressionHome" "Medium Regression - Home"
+call :runtest "RwwMediumRegressionSettings01" "Medium Regression - Settings 01"
+call :runtest "RwwMediumRegressionSettings02" "Medium Regression - Settings 02"
+call :runtest "RwwMediumRegressionSettings03" "Medium Regression - Settings 03"
+call :runtest "RwwMediumRegressionSettings04" "Medium Regression - Settings 04"
+call :runtest "RwwMediumRegressionAdmin" "Medium Regression - Administrator"
 call :runtest "RwwInventoryIntegrity" "Inventory Integrity"
 call :runtest "RwwTransfers" "Transferring Inventory"
 call :runtest "RwwRunReports" "Reports"
@@ -84,7 +89,7 @@ set pdfFileName="%testpath%\RentalWorks %friendlyname% Test Report (%version%).p
 set emailSubject="RentalWorks %friendlyname% Results (%version%)"
 if exist %htmlFileName% (del %htmlFileName%)
 if exist %pdfFileName% (del %pdfFileName%)
-call jest --config=jest.rentalworksweb%testnumber%.config.js "%testname%" --detectOpenHandles
+call jest --config=jest.rentalworksweb%testnumber%.config.js "%testname%"
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%pdfFileName% %htmlFileName%
 if exist %htmlFileName% (del %htmlFileName%)
 rem IF "%DwRegressionTestEmail%"=="" start %pdfFileName%
