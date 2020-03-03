@@ -1006,7 +1006,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     bool loadAvail = true;
 
                     string recType = GetUniqueIdAsString("RecType", e.Request) ?? "";
-                    if ((recType != RwConstants.RECTYPE_RENTAL) && (recType != RwConstants.RECTYPE_SALE) && (recType != RwConstants.RECTYPE_PARTS))
+                    if ((recType != RwConstants.RECTYPE_RENTAL) && (recType != RwConstants.RECTYPE_SALE) && (recType != RwConstants.RECTYPE_USED_SALE) && (recType != RwConstants.RECTYPE_PARTS))
                     {
                         loadAvail = false;
                     }
