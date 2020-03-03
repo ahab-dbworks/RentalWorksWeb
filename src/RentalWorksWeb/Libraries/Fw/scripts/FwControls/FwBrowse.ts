@@ -3801,38 +3801,73 @@ class FwBrowseClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    deleteRecord($control: JQuery, $tr: JQuery, refreshAfterDelete: boolean) {
+    async deleteRecord($control: JQuery, $tr: JQuery, refreshAfterDelete: boolean) {
         let me = this;
         this.autoSave($control, $tr);
         let miscfields = {};
         let name = $control.attr('data-name');
         let $form = $control.closest('.fwform');
         let rowuniqueids = this.getRowFormUniqueIds($control, $tr);
-        var request: any = {
+        const request = new FwAjaxRequest<any>();
+        request.data = {
             module: name,
             ids: rowuniqueids,
             miscfields: miscfields
         };
         if ($form.length > 0) {
             let formuniqueids = ($form.length > 0) ? FwModule.getFormUniqueIds($form) : [];
-            request.miscfields = jQuery.extend({}, miscfields, formuniqueids);
+            request.data.miscfields = jQuery.extend({}, miscfields, formuniqueids);
         }
-        FwServices.grid.method(request, name, 'Delete', $control, function (response) {
+
+        var controller: any = window[name + 'Controller'];
+        if (typeof controller === 'undefined') {
+            throw name + 'Controller is not defined.'
+        }
+        let url = '';
+        if (typeof $control.data('getapiurl') === 'function') {
+            url = $control.data('getapiurl')('DELETE');
+        }
+        if (url.length === 0 && typeof controller.apiurl !== 'undefined' || typeof $control.data('getbaseapiurl') === 'function') {
+            if (typeof $control.data('getbaseapiurl') !== 'undefined') {
+                url = $control.data('getbaseapiurl')();
+            }
+            else if (typeof controller.apiurl !== 'undefined' && controller.apiurl.length > 0) {
+                url = controller.apiurl;
+            }
+            else {
+                throw `No apiurl defined for Grid: ${name}`;
+            }
+            var ids: any = [];
+            for (var key in request.data.ids) {
+                ids.push(request.data.ids[key].value);
+            }
+            ids = ids.join('~');
+            if (ids.length === 0) {
+                throw 'primary key id(s) cannot be blank';
+            }
+            url += '/' + ids;
+        }
+        request.url = applicationConfig.apiurl + url;
+        request.httpMethod = 'DELETE';
+        
+        const response = await FwAjax.callWebApi<any, any>(request)
+        if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
             //perform after delete
             if (($control.attr('data-type') === 'Grid') && (typeof $control.data('afterdelete') === 'function')) {
                 $control.data('afterdelete')($control, $tr);
             }
             else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                let controller = $control.attr('data-controller');
-                if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                if (typeof window[controller]['afterDelete'] === 'function') {
-                    window[controller]['afterDelete']($control, $tr);
+                if (controller.afterDelete === 'function') {
+                    controller.afterDelete($control, $tr);
                 }
             }
             if (refreshAfterDelete) {
                 me.search($control);
             }
-        });
+        }
+        else {
+            FwFunc.showError(response);
+        }
     }
     //---------------------------------------------------------------------------------
     addLegend($control: JQuery, caption: string, color: string) {
