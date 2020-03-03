@@ -39,17 +39,30 @@ set testpath=%testpath%\%testnumber%
 cd %testrootpath%
 
 call :getversion
-call :runtest "LoginLogout" "Login Logout"
-call :runtest "RwwShallowRegression" "Shallow Regression"
-call :runtest "RwwMediumRegressionHome" "Medium Regression - Home"
-call :runtest "RwwMediumRegressionSettings01" "Medium Regression - Settings 01"
-call :runtest "RwwMediumRegressionSettings02" "Medium Regression - Settings 02"
-call :runtest "RwwMediumRegressionSettings03" "Medium Regression - Settings 03"
-call :runtest "RwwMediumRegressionSettings04" "Medium Regression - Settings 04"
-call :runtest "RwwMediumRegressionAdmin" "Medium Regression - Administrator"
-call :runtest "RwwInventoryIntegrity" "Inventory Integrity"
-call :runtest "RwwTransfers" "Transferring Inventory"
-call :runtest "RwwRunReports" "Reports"
+if %testnumber%==0  (call :runtest "LoginLogout" "Login_Logout")
+if %testnumber%==1  (call :runtest "LoginLogout" "Login_Logout")
+if %testnumber%==0  (call :runtest "RwwShallowRegression" "Shallow_Regression")
+if %testnumber%==2  (call :runtest "RwwShallowRegression" "Shallow_Regression")
+if %testnumber%==0  (call :runtest "RwwMediumRegressionHome" "Medium_Regression_Home")
+if %testnumber%==3  (call :runtest "RwwMediumRegressionHome" "Medium_Regression_Home")
+if %testnumber%==0  (call :runtest "RwwMediumRegressionAdmin" "Medium_Regression_Administrator")
+if %testnumber%==4  (call :runtest "RwwMediumRegressionAdmin" "Medium_Regression_Administrator")
+if %testnumber%==0  (call :runtest "RwwMediumRegressionSettings01" "Medium_Regression_Settings_01")
+if %testnumber%==5  (call :runtest "RwwMediumRegressionSettings01" "Medium_Regression_Settings_01")
+if %testnumber%==0  (call :runtest "RwwMediumRegressionSettings02" "Medium_Regression_Settings_02")
+if %testnumber%==6  (call :runtest "RwwMediumRegressionSettings02" "Medium_Regression_Settings_02")
+if %testnumber%==0  (call :runtest "RwwMediumRegressionSettings03" "Medium_Regression_Settings_03")
+if %testnumber%==7  (call :runtest "RwwMediumRegressionSettings03" "Medium_Regression_Settings_03")
+if %testnumber%==0  (call :runtest "RwwMediumRegressionSettings04" "Medium_Regression_Settings_04")
+if %testnumber%==8  (call :runtest "RwwMediumRegressionSettings04" "Medium_Regression_Settings_04")
+if %testnumber%==0  (call :runtest "RwwMediumRegressionSettings05" "Medium_Regression_Settings_05")
+if %testnumber%==9  (call :runtest "RwwMediumRegressionSettings05" "Medium_Regression_Settings_05")
+if %testnumber%==0  (call :runtest "RwwInventoryIntegrity" "Inventory_Integrity")
+if %testnumber%==10 (call :runtest "RwwInventoryIntegrity" "Inventory_Integrity")
+if %testnumber%==0  (call :runtest "RwwTransfers" "Transferring_Inventory")
+if %testnumber%==11 (call :runtest "RwwTransfers" "Transferring_Inventory")
+if %testnumber%==0  (call :runtest "RwwRunReports" "Reports")
+if %testnumber%==12 (call :runtest "RwwRunReports" "Reports")
 
 set "file=%testrootpath%\jest.rentalworksweb%testnumber%.config.js"
 if exist %file% (del %file%)
@@ -62,6 +75,7 @@ set testname=%1
 set friendlyname=%2
 set testname=%testname:"=%
 set friendlyname=%friendlyname:"=%
+set friendlyname=%friendlyname:_= %
 if not exist %testpath%\rwwlogo.png (copy rwwlogo.png %testpath%\rwwlogo.png)
 if exist %testrootpath%\jest.rentalworksweb%testnumber%.config.js (del %testrootpath%\jest.rentalworksweb%testnumber%.config.js)
 setlocal ENABLEDELAYEDEXPANSION
@@ -85,15 +99,18 @@ for /L %%i in (1,1,%count%) do (
    call echo !newline!>>%file%
    )
 set htmlFileName="%testpath%\test-report.html"
-set pdfFileName="%testpath%\RentalWorks %friendlyname% Test Report (%version%).pdf"
+set pdfFileNameOnly=RentalWorks %friendlyname% Test Report (%version%).pdf
+set pdfFileName="%testpath%\%pdfFileNameOnly%"
 set emailSubject="RentalWorks %friendlyname% Results (%version%)"
 if exist %htmlFileName% (del %htmlFileName%)
 if exist %pdfFileName% (del %pdfFileName%)
 call jest --config=jest.rentalworksweb%testnumber%.config.js "%testname%"
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%pdfFileName% %htmlFileName%
+copy %pdfFileName% %testrootpath%\output
 if exist %htmlFileName% (del %htmlFileName%)
-rem IF "%DwRegressionTestEmail%"=="" start %pdfFileName%
+rem IF "%DwRegressionTestEmail%"=="" start "%pdfFileName%"
 IF not "%DwRegressionTestEmail%"=="" call powershell.exe -file %DwRentalWorksWebPath%\src\JestTest\emailtestresults.ps1 -subject %emailSubject% -attachment %pdfFileName%
+if exist "%testrootpath%\output\%pdfFileNameOnly%" rmdir %testrootpath%\output\%testnumber% /S /Q
 exit /b
 
 
