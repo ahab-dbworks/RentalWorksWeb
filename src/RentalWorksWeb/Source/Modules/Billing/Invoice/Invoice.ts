@@ -921,7 +921,7 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
         //Click Event on tabs to load grids/browses
-        $form.on('click', '[data-type="tab"]', e => {
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');
             const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;

@@ -131,7 +131,7 @@ class PurchaseOrder implements IModule {
             }
         });
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/officelocation/${location.locationid}`, null, FwServices.defaultTimeout, response => {
+        FwAppData.apiMethod(true, 'GET', `${this.apiurl}/officelocation/${location.locationid}`, null, FwServices.defaultTimeout, response => {
             this.DefaultPurchasePoType = response.DefaultPurchasePoType;
             this.DefaultPurchasePoTypeId = response.DefaultPurchasePoTypeId;
         }, null, null);
@@ -164,6 +164,10 @@ class PurchaseOrder implements IModule {
         FwFormField.disable($form.find('[data-datafield="SubLabor"]'));
         FwFormField.disable($form.find('[data-datafield="SubMiscellaneous"]'));
         FwFormField.disable($form.find('[data-datafield="SubVehicle"]'));
+        FwTabs.hideTab($form.find('.vendorinvoicetab'));
+        FwTabs.hideTab($form.find('.contracttab'));
+        FwTabs.hideTab($form.find('.emailhistorytab'));
+        FwTabs.hideTab($form.find('.activitytab'));
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
@@ -197,8 +201,12 @@ class PurchaseOrder implements IModule {
             FwFormField.setValue($form, 'div[data-datafield="PoTypeId"]', this.DefaultPurchasePoTypeId, this.DefaultPurchasePoType);
         };
 
-        const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
-        $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+        let nodeEmailHistory = FwApplicationTree.getNodeById(FwApplicationTree.tree, '3XHEm3Q8WSD8z');
+        if (nodeEmailHistory !== undefined && nodeEmailHistory.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.emailhistorytab'));
+            const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+            $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+        }
 
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
@@ -371,17 +379,6 @@ class PurchaseOrder implements IModule {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         // ----------
-        //const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
-        //const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusHistoryGrid');
-        //$orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
-        //$orderStatusHistoryGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-        //    };
-        //});
-        //FwBrowse.init($orderStatusHistoryGridControl);
-        //FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderStatusHistoryGrid',
             gridSecurityId: 'lATsdnAx7B4s',
@@ -394,37 +391,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
-        //const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        //$orderItemGridRentalControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        //$orderItemGridRentalControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        //$orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        //$orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-formreadonly', 'true');
-
-        //$orderItemGridRental.empty().append($orderItemGridRentalControl);
-        //$orderItemGridRental.addClass('R');
-        //$orderItemGridRental.addClass('purchase');
-
-        //$orderItemGridRentalControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-        //        RecType: 'R'
-        //    };
-        //});
-        //$orderItemGridRentalControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        //    request.RecType = 'R';
-        //});
-
-        //FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'rental');
-        //    const rentalItems = $form.find('.rentalgrid tbody').children();
-        //    rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
-        //});
-
-        //FwBrowse.init($orderItemGridRentalControl);
-        //FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.rentalgrid div[data-grid="OrderItemGrid"]',
@@ -503,34 +469,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
-        //const $orderItemGridSalesControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        //$orderItemGridSalesControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        //$orderItemGridSalesControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        //$orderItemGridSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        //$orderItemGridSales.empty().append($orderItemGridSalesControl);
-        //$orderItemGridSales.addClass('S');
-        //$orderItemGridSales.addClass('purchase');
-
-        //$orderItemGridSalesControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-        //        RecType: 'S'
-        //    };
-        //});
-        //$orderItemGridSalesControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        //    request.RecType = 'S';
-        //});
-        //FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'sales');
-        //    const salesItems = $form.find('.salesgrid tbody').children();
-        //    salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
-        //});
-
-        //FwBrowse.init($orderItemGridSalesControl);
-        //FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.salesgrid div[data-grid="OrderItemGrid"]',
@@ -608,34 +546,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $orderItemGridPart = $form.find('.partsgrid div[data-grid="OrderItemGrid"]');
-        //const $orderItemGridPartControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        //$orderItemGridPartControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        //$orderItemGridPartControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        //$orderItemGridPartControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        //$orderItemGridPart.empty().append($orderItemGridPartControl);
-        //$orderItemGridPart.addClass('P');
-        //$orderItemGridPart.addClass('purchase');
-
-        //$orderItemGridPartControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-        //        RecType: 'P'
-        //    };
-        //});
-        //$orderItemGridPartControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        //    request.RecType = 'P';
-        //});
-        //FwBrowse.addEventHandler($orderItemGridPartControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'part');
-        //    const partItems = $form.find('.partsgrid tbody').children();
-        //    partItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Parts"]')) : FwFormField.enable($form.find('[data-datafield="Parts"]'));
-        //});
-
-        //FwBrowse.init($orderItemGridPartControl);
-        //FwBrowse.renderRuntimeHtml($orderItemGridPartControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.partsgrid div[data-grid="OrderItemGrid"]',
@@ -713,35 +623,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
-        //const $orderItemGridLaborControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        //$orderItemGridLaborControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        //$orderItemGridLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
-        //$orderItemGridLaborControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        //$orderItemGridLaborControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        //$orderItemGridLabor.empty().append($orderItemGridLaborControl);
-        //$orderItemGridLabor.addClass('L');
-        //$orderItemGridLabor.addClass('purchase');
-
-        //$orderItemGridLaborControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-        //        RecType: 'L'
-        //    };
-        //});
-        //$orderItemGridLaborControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        //    request.RecType = 'L';
-        //});
-        //FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'labor');
-        //    const laborItems = $form.find('.laborgrid tbody').children();
-        //    laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
-        //});
-
-        //FwBrowse.init($orderItemGridLaborControl);
-        //FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.laborgrid div[data-grid="OrderItemGrid"]',
@@ -820,35 +701,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
-        //const $orderItemGridMiscControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        //$orderItemGridMiscControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
-        //$orderItemGridMiscControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        //$orderItemGridMiscControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        //$orderItemGridMiscControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        //$orderItemGridMisc.empty().append($orderItemGridMiscControl);
-        //$orderItemGridMisc.addClass('M');
-        //$orderItemGridMisc.addClass('purchase');
-
-        //$orderItemGridMiscControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-        //        RecType: 'M'
-        //    };
-        //});
-        //$orderItemGridMiscControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        //    request.RecType = 'M';
-        //});
-        //FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'misc');
-        //    const miscItems = $form.find('.miscgrid tbody').children();
-        //    miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
-        //});
-
-        //FwBrowse.init($orderItemGridMiscControl);
-        //FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.miscgrid div[data-grid="OrderItemGrid"]',
@@ -927,37 +779,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $orderItemGridSubRent = $form.find('.subrentalgrid div[data-grid="OrderItemGrid"]');
-        //const $orderItemGridSubRentControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        //$orderItemGridSubRentControl.find('.suborder').attr('data-visible', 'true');
-        //$orderItemGridSubRentControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        //$orderItemGridSubRentControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        //$orderItemGridSubRentControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        //$orderItemGridSubRent.empty().append($orderItemGridSubRentControl);
-        //$orderItemGridSubRent.addClass('R');
-        //$orderItemGridSubRent.addClass('sub');
-
-        //$orderItemGridSubRentControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-        //        RecType: 'R',
-        //        Subs: true
-        //    };
-        //});
-        //$orderItemGridSubRentControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        //    request.RecType = 'R';
-        //    request.Subs = true;
-        //});
-        //FwBrowse.addEventHandler($orderItemGridSubRentControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'subrental');
-        //    const subrentItems = $form.find('.subrentalgrid tbody').children();
-        //    subrentItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubRent"]')) : FwFormField.enable($form.find('[data-datafield="SubRent"]'));
-        //});
-
-        //FwBrowse.init($orderItemGridSubRentControl);
-        //FwBrowse.renderRuntimeHtml($orderItemGridSubRentControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.subrentalgrid div[data-grid="OrderItemGrid"]',
@@ -1037,37 +858,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $oderItemGridSubSales = $form.find('.subsalesgrid div[data-grid="OrderItemGrid"]');
-        //const $oderItemGridSubSalesControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        //$oderItemGridSubSalesControl.find('.suborder').attr('data-visible', 'true');
-        //$oderItemGridSubSalesControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        //$oderItemGridSubSalesControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        //$oderItemGridSubSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        //$oderItemGridSubSales.empty().append($oderItemGridSubSalesControl);
-        //$oderItemGridSubSales.addClass('S');
-        //$oderItemGridSubSales.addClass('sub');
-
-        //$oderItemGridSubSalesControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-        //        RecType: 'S',
-        //        Subs: true
-        //    };
-        //});
-        //$oderItemGridSubSalesControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        //    request.RecType = 'S';
-        //    request.Subs = true;
-        //});
-        //FwBrowse.addEventHandler($oderItemGridSubSalesControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'subsales');
-        //    const subsalesItems = $form.find('.subsalesgrid tbody').children();
-        //    subsalesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubSale"]')) : FwFormField.enable($form.find('[data-datafield="SubSale"]'));
-        //});
-
-        //FwBrowse.init($oderItemGridSubSalesControl);
-        //FwBrowse.renderRuntimeHtml($oderItemGridSubSalesControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.subsalesgrid div[data-grid="OrderItemGrid"]',
@@ -1147,38 +937,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $orderItemGridSubLabor = $form.find('.sublaborgrid div[data-grid="OrderItemGrid"]');
-        //const $orderItemGridSubLaborControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        //$orderItemGridSubLaborControl.find('.suborder').attr('data-visible', 'true');
-        //$orderItemGridSubLaborControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        //$orderItemGridSubLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
-        //$orderItemGridSubLaborControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        //$orderItemGridSubLaborControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        //$orderItemGridSubLabor.empty().append($orderItemGridSubLaborControl);
-        //$orderItemGridSubLabor.addClass('L');
-        //$orderItemGridSubLabor.addClass('sub');
-
-        //$orderItemGridSubLaborControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-        //        RecType: 'L',
-        //        Subs: true
-        //    };
-        //});
-        //$orderItemGridSubLaborControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        //    request.RecType = 'L';
-        //    request.Subs = true;
-        //});
-        //FwBrowse.addEventHandler($orderItemGridSubLaborControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'sublabor');
-        //    const sublaborItems = $form.find('.sublaborgrid tbody').children();
-        //    sublaborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubLabor"]')) : FwFormField.enable($form.find('[data-datafield="SubLabor"]'));
-        //});
-
-        //FwBrowse.init($orderItemGridSubLaborControl);
-        //FwBrowse.renderRuntimeHtml($orderItemGridSubLaborControl);
-        // ----------
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.sublaborgrid div[data-grid="OrderItemGrid"]',
@@ -1251,38 +1009,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        //const $orderItemGridSubMisc = $form.find('.submiscgrid div[data-grid="OrderItemGrid"]');
-        //const $orderItemGridSubMiscControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        //$orderItemGridSubMiscControl.find('.suborder').attr('data-visible', 'true');
-        //$orderItemGridSubMiscControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        //$orderItemGridSubMiscControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
-        //$orderItemGridSubMiscControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        //$orderItemGridSubMiscControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        //$orderItemGridSubMisc.empty().append($orderItemGridSubMiscControl);
-        //$orderItemGridSubMisc.addClass('M');
-        //$orderItemGridSubMisc.addClass('sub');
-
-        //$orderItemGridSubMiscControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-        //        RecType: 'R',
-        //        Subs: true
-        //    };
-        //});
-        //$orderItemGridSubMiscControl.data('beforesave', request => {
-        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        //    request.RecType = 'R';
-        //    request.Subs = true;
-        //});
-        //FwBrowse.addEventHandler($orderItemGridSubMiscControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'submisc');
-        //    const submiscItems = $form.find('.submiscgrid tbody').children();
-        //    submiscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubMisc"]')) : FwFormField.enable($form.find('[data-datafield="SubMisc"]'));
-        //});
-
-        //FwBrowse.init($orderItemGridSubMiscControl);
-        //FwBrowse.renderRuntimeHtml($orderItemGridSubMiscControl);
-        // ----------
         FwBrowse.renderGrid({
             nameGrid: 'OrderContactGrid',
             gridSecurityId: 'B9CzDEmYe1Zf',
@@ -1303,7 +1029,6 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.submiscgrid div[data-grid="OrderItemGrid"]',
@@ -1391,20 +1116,24 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        FwBrowse.renderGrid({
-            nameGrid: 'ActivityGrid',
-            gridSecurityId: 'hb52dbhX1mNLZ',
-            moduleSecurityId: this.id,
-            $form: $form,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
-                };
-            },
-            beforeSave: (request: any) => {
-                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-            },
-        });
+        let nodeActivity = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'hb52dbhX1mNLZ');
+        if (nodeActivity !== undefined && nodeActivity.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.activitytab'));
+            FwBrowse.renderGrid({
+                nameGrid: 'ActivityGrid',
+                gridSecurityId: 'hb52dbhX1mNLZ',
+                moduleSecurityId: this.id,
+                $form: $form,
+                onDataBind: (request: any) => {
+                    request.uniqueids = {
+                        OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                    };
+                },
+                beforeSave: (request: any) => {
+                    request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                },
+            });
+        }
         // ----------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
@@ -1590,7 +1319,7 @@ class PurchaseOrder implements IModule {
 
         //Click Event on tabs to load grids/browses
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
-        $form.on('click', '[data-type="tab"]', e => {
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const $tab = jQuery(e.currentTarget);
             const tabname = $tab.attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
@@ -1685,22 +1414,31 @@ class PurchaseOrder implements IModule {
         });
         this.disableCheckboxesOnLoad($form);
 
-        const $vendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
-        $form.find('.vendorinvoice').empty().append($vendorInvoiceBrowse);
-        $form.find('.contractSubModule').empty().append(this.openContractBrowse($form));
+        let nodeVendorInvoice = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Fq9aOe0yWfY');
+        if (nodeVendorInvoice !== undefined && nodeVendorInvoice.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.vendorinvoicetab'));
+            const $vendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
+            $form.find('.vendorinvoice').empty().append($vendorInvoiceBrowse);
 
-        //replace default click event on "New" button in Vendor Invoice sub-module to default PO
-        $vendorInvoiceBrowse.find('div.btn[data-type="NewMenuBarButton"]').off().on('click', function () {
-            if ($form.attr('data-mode') !== 'NEW') {
-                const $vendorInvoiceForm = VendorInvoiceController.openForm('NEW');
-                const poNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-                const poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-                FwFormField.setValueByDataField($vendorInvoiceForm, 'PurchaseOrderId', poId, poNumber, true);
-                FwModule.openSubModuleTab($vendorInvoiceBrowse, $vendorInvoiceForm);
-            } else {
-                FwNotification.renderNotification('WARNING', 'Save the record first.')
-            }
-        });
+            //replace default click event on "New" button in Vendor Invoice sub-module to default PO
+            $vendorInvoiceBrowse.find('div.btn[data-type="NewMenuBarButton"]').off().on('click', function () {
+                if ($form.attr('data-mode') !== 'NEW') {
+                    const $vendorInvoiceForm = VendorInvoiceController.openForm('NEW');
+                    const poNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+                    const poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+                    FwFormField.setValueByDataField($vendorInvoiceForm, 'PurchaseOrderId', poId, poNumber, true);
+                    FwModule.openSubModuleTab($vendorInvoiceBrowse, $vendorInvoiceForm);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Save the record first.')
+                }
+            });
+        }
+        
+        let nodeContract = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Z8MlDQp7xOqu');
+        if (nodeContract !== undefined && nodeContract.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.contracttab'));
+            $form.find('.contractSubModule').empty().append(this.openContractBrowse($form));
+        }
     };
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {

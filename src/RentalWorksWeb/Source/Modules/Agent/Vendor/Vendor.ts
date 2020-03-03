@@ -38,6 +38,9 @@ class Vendor {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
+        FwTabs.hideTab($form.find('.purchaseordertab'));
+        FwTabs.hideTab($form.find('.vendorinvoicetab'));
+
         this.events($form);
 
         if (mode == 'NEW') {
@@ -107,10 +110,23 @@ class Vendor {
         });
 
         FwModule.loadForm(this.Module, $form);
-        const $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
-        $form.find('.purchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
-        const $submoduleVendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
-        $form.find('.vendorInvoiceSubModule').append($submoduleVendorInvoiceBrowse);
+
+        let nodePurchaseOrder = FwApplicationTree.getNodeById(FwApplicationTree.tree, '9a0xOMvBM7Uh9');
+        if (nodePurchaseOrder !== undefined && nodePurchaseOrder.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.purchaseordertab'));
+            const $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
+            $form.find('.purchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
+        }
+        
+        
+        let nodeVendorInvoice = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Fq9aOe0yWfY');
+        if (nodeVendorInvoice !== undefined && nodeVendorInvoice.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.vendorinvoicetab'));
+            const $submoduleVendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
+            $form.find('.vendorInvoiceSubModule').append($submoduleVendorInvoiceBrowse);
+        }
+        
+        
         return $form;
     }
     //---------------------------------------------------------------------------------
@@ -158,7 +174,7 @@ class Vendor {
 
         //Click Event on tabs to load grids/browses
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
-        $form.on('click', '[data-type="tab"]', e => {
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const $tab = jQuery(e.currentTarget);
             const tabname = $tab.attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
@@ -441,15 +457,15 @@ class Vendor {
         <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="VendorId"></div>
         <div id="vendorform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
           <div class="tabs">
-            <div data-type="tab" id="vendortab" class="tab" data-tabpageid="vendortabpage" data-caption="Vendor"></div>
-            <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
-            <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
-            <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
-            <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
-            <div data-type="tab" id="purchaseordertab" class="tab submodule" data-tabpageid="purchaseordertabpage" data-caption="Purchase Order"></div>
-            <div data-type="tab" id="vendorinvoicetab" class="tab submodule" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
-            <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
-            <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
+            <div data-type="tab" id="vendortab" class="tab vendortab" data-tabpageid="vendortabpage" data-caption="Vendor"></div>
+            <div data-type="tab" id="billingtab" class="tab billingtab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
+            <div data-type="tab" id="taxtab" class="tab taxtab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
+            <div data-type="tab" id="shippingtab" class="tab shippingtab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
+            <div data-type="tab" id="contactstab" class="tab contactstab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
+            <div data-type="tab" id="purchaseordertab" class="tab submodule purchaseordertab" data-tabpageid="purchaseordertabpage" data-caption="Purchase Order"></div>
+            <div data-type="tab" id="vendorinvoicetab" class="tab submodule vendorinvoicetab" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
+            <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
+            <div data-type="tab" id="notestab" class="tab notestab" data-tabpageid="notestabpage" data-caption="Notes"></div>
           </div>
           <div class="tabpages">
             <div data-type="tabpage" id="vendortabpage" class="tabpage" data-tabid="vendortab">

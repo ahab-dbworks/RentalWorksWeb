@@ -1037,20 +1037,23 @@ class OrderBase {
         });
 
         // ----------
-        FwBrowse.renderGrid({
-            nameGrid: 'ActivityGrid',
-            gridSecurityId: 'hb52dbhX1mNLZ',
-            moduleSecurityId: this.id,
-            $form: $form,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
-                };
-            },
-            beforeSave: (request: any) => {
-                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-            },
-        });
+        let nodeActivity = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'hb52dbhX1mNLZ');
+        if (nodeActivity !== undefined && nodeActivity.properties.visible === 'T') {
+            FwBrowse.renderGrid({
+                nameGrid: 'ActivityGrid',
+                gridSecurityId: 'hb52dbhX1mNLZ',
+                moduleSecurityId: this.id,
+                $form: $form,
+                onDataBind: (request: any) => {
+                    request.uniqueids = {
+                        OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                    };
+                },
+                beforeSave: (request: any) => {
+                    request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                },
+            });
+        }
         // ----------
         const itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
         if ($form.attr('data-mode') === 'NEW') {
@@ -1129,7 +1132,7 @@ class OrderBase {
         const department = JSON.parse(sessionStorage.getItem('department'));;
         const location = JSON.parse(sessionStorage.getItem('location'));;
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/departmentlocation/${department.departmentid}~${location.locationid}`, null, FwServices.defaultTimeout, response => {
+        FwAppData.apiMethod(true, 'GET', `${this.apiurl}/department/${department.departmentid}/location/${location.locationid}`, null, FwServices.defaultTimeout, response => {
             this.DefaultOrderType = response.DefaultOrderType;
             this.DefaultOrderTypeId = response.DefaultOrderTypeId;
 
@@ -1139,13 +1142,13 @@ class OrderBase {
                 LocationId: location.locationid
             }
 
-            FwAppData.apiMethod(true, 'GET', `api/v1/ordertype/${this.DefaultOrderTypeId}`, null, FwServices.defaultTimeout, response => {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/ordertype/${this.DefaultOrderTypeId}`, null, FwServices.defaultTimeout, response => {
                 this.DefaultFromTime = response.DefaultFromTime;
                 this.DefaultToTime = response.DefaultToTime;
                 this.DefaultPickTime = response.DefaultPickTime;
             }, ex => FwFunc.showError(ex), $browse);
 
-            FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/ordertypelocation/browse`, request, FwServices.defaultTimeout,
                 response => {
                     if (response.Rows.length > 0) {
                         this.DefaultTermsConditionsId = response.Rows[0][response.ColumnIndex.TermsConditionsId];
@@ -1165,6 +1168,7 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = jQuery(this.getFormTemplate());
+        FwTabs.hideTab($form.find('.emailhistorytab'));
         this.loadFormMenu($form);
         $form = FwModule.openForm($form, mode);
 
@@ -1231,8 +1235,12 @@ class OrderBase {
             FwFormField.setValueByDataField($form, 'RateType', office.ratetype, office.ratetype);
         }
 
-        let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
-        $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+        let nodeEmailHistory = FwApplicationTree.getNodeById(FwApplicationTree.tree, '3XHEm3Q8WSD8z');
+        if (nodeEmailHistory !== undefined && nodeEmailHistory.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.emailhistorytab'));
+            let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+            $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+        }
 
         FwFormField.loadItems($form.find('div[data-datafield="totalTypeSubRental"]'), [
             { value: 'W', caption: 'Weekly' },
@@ -3520,7 +3528,7 @@ class OrderBase {
         }
 
         //Click Event on tabs to load grids/browses
-        $form.on('click', '[data-type="tab"]', e => {
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const $tab = jQuery(e.currentTarget);
             const tabPageId = $tab.attr('data-tabpageid');
 

@@ -17,6 +17,7 @@ using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Settings.CurrencySettings.Currency;
 using WebApi.Modules.Settings.TaxSettings.TaxOption;
+using WebApi.Modules.Settings.InventorySettings.InventoryStatus;
 
 namespace WebApi.Modules.Inventory.Repair
 {
@@ -302,5 +303,14 @@ namespace WebApi.Modules.Inventory.Repair
         {
             return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------
+        // GET api/v1/repair/inventorystatus
+        [HttpGet("inventorystatus")]
+        [FwControllerMethod(Id: "XFzRtWE9367b", ActionType: FwControllerActionTypes.View)]
+        public async Task<ActionResult<IEnumerable<InventoryStatusLogic>>> InventoryStatus_GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        {
+            return await DoGetAsync<InventoryStatusLogic>(pageno, pagesize, sort, typeof(InventoryStatusLogic));
+        }
+        //------------------------------------------------------------------------------------
     }
 }

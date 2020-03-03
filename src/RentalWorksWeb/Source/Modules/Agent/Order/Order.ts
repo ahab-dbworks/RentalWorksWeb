@@ -163,16 +163,47 @@ class Order extends OrderBase {
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = super.openForm(mode, parentModuleInfo);
 
+        FwTabs.hideTab($form.find('.activitytab'));
+        FwTabs.hideTab($form.find('.picklisttab'));
+        FwTabs.hideTab($form.find('.contracttab'));
+        FwTabs.hideTab($form.find('.repairtab'));
+        FwTabs.hideTab($form.find('.purchaseordertab'));
+        FwTabs.hideTab($form.find('.invoicetab'));
+
         if (mode === 'NEW') {
             $form.find('[data-type="tab"][data-caption="Loss & Damage"]').hide();
             FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
         }
+        
+        let nodeContract = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Z8MlDQp7xOqu');
+        if (nodeContract !== undefined && nodeContract.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.contracttab'));
+            $form.find('.contract-submodule').append(this.openSubModuleBrowse($form, 'Contract'));
+        }
 
-        $form.find('.contract-submodule').append(this.openSubModuleBrowse($form, 'Contract'));
-        $form.find('.picklist-submodule').append(this.openSubModuleBrowse($form, 'PickList'));
-        $form.find('.repair-submodule').append(this.openSubModuleBrowse($form, 'Repair'));
-        $form.find('.purchaseorder-submodule').append(this.openSubModuleBrowse($form, 'PurchaseOrder'));
-        $form.find('.invoice-submodule').append(this.openSubModuleBrowse($form, 'Invoice'));
+        let nodePickList = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'bggVQOivrIgi');
+        if (nodePickList !== undefined && nodePickList.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.picklisttab'));
+            $form.find('.picklist-submodule').append(this.openSubModuleBrowse($form, 'PickList'));
+        }
+
+        let nodeRepair = FwApplicationTree.getNodeById(FwApplicationTree.tree, 't4gfyzLkSZhyc');
+        if (nodeRepair !== undefined && nodeRepair.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.repairtab'));
+            $form.find('.repair-submodule').append(this.openSubModuleBrowse($form, 'Repair'));
+        }
+
+        let nodePurchaseOrder = FwApplicationTree.getNodeById(FwApplicationTree.tree, '9a0xOMvBM7Uh9');
+        if (nodePurchaseOrder !== undefined && nodePurchaseOrder.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.purchaseordertab'));
+            $form.find('.purchaseorder-submodule').append(this.openSubModuleBrowse($form, 'PurchaseOrder'));
+        }
+
+        let nodeInvoice = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'cZ9Z8aGEiDDw');
+        if (nodeInvoice !== undefined && nodeInvoice.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.invoicetab'));
+            $form.find('.invoice-submodule').append(this.openSubModuleBrowse($form, 'Invoice'));
+        }
 
         const $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
 
@@ -216,6 +247,11 @@ class Order extends OrderBase {
     loadForm(uniqueids) {
         const $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
+
+        let nodeActivity = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'hb52dbhX1mNLZ');
+        if (nodeActivity !== undefined && nodeActivity.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.activitytab'));
+        }
 
         // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
         FwAppDocumentGrid.renderGrid({
@@ -545,30 +581,30 @@ class Order extends OrderBase {
           <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield OrderId" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="OrderId"></div>
           <div id="orderform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
-              <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="Order"></div>
-              <div data-type="tab" id="rentaltab" class="rentaltab notcombinedtab tab" data-tabpageid="rentaltabpage" data-notOnNew="true" data-caption="Rental"></div>
-              <div data-type="tab" id="salestab" class="salestab notcombinedtab tab" data-tabpageid="salestabpage" data-notOnNew="true" data-caption="Sales"></div>
-              <div data-type="tab" id="misctab" class="misctab notcombinedtab tab" data-tabpageid="misctabpage" data-notOnNew="true" data-caption="Miscellaneous"></div>
-              <div data-type="tab" id="labortab" class="labortab notcombinedtab tab" data-tabpageid="labortabpage" data-notOnNew="true" data-caption="Labor"></div>
-              <div data-type="tab" id="usedsaletab" class="usedsaletab notcombinedtab tab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
-              <div data-type="tab" id="lossdamagetab" class="lossdamagetab tab" data-tabpageid="lossdamagetabpage" data-notOnNew="true" data-caption="Loss &amp; Damage"></div>
-              <div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>
-              <div data-type="tab" id="subpurchaseordertab" class="tab submodule" data-tabpageid="subpurchaseordertabpage" data-caption="Sub POs"></div>
-              <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
-              <div data-type="tab" id="billingworksheettab" class="tab" data-tabpageid="billingworksheettabpage" data-caption="Billing Worksheet" style="display:none;"></div>
-              <div data-type="tab" id="summarytab" class="profitlosstab tab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
-              <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
-              <div data-type="tab" id="activitytab" class="tab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
-              <div data-type="tab" id="picklisttab" class="tab submodule" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
-              <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
-              <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
-              <div data-type="tab" id="manifesttab" class="tab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>
-              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
-              <div data-type="tab" id="repairtab" class="tab submodule" data-tabpageid="repairtabpage" data-caption="Repair"></div>
-              <div data-type="tab" id="documentstab" class="documentstab tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
-              <div data-type="tab" id="notetab" class="notestab tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
-              <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
-              <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
+              <div data-type="tab" id="generaltab" class="tab generaltab" data-tabpageid="generaltabpage" data-caption="Order"></div>
+              <div data-type="tab" id="rentaltab" class="tab rentaltab notcombinedtab" data-tabpageid="rentaltabpage" data-notOnNew="true" data-caption="Rental"></div>
+              <div data-type="tab" id="salestab" class="tab salestab notcombinedtab" data-tabpageid="salestabpage" data-notOnNew="true" data-caption="Sales"></div>
+              <div data-type="tab" id="misctab" class="tab misctab notcombinedtab" data-tabpageid="misctabpage" data-notOnNew="true" data-caption="Miscellaneous"></div>
+              <div data-type="tab" id="labortab" class="tab labortab notcombinedtab" data-tabpageid="labortabpage" data-notOnNew="true" data-caption="Labor"></div>
+              <div data-type="tab" id="usedsaletab" class="tab usedsaletab notcombinedtab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
+              <div data-type="tab" id="lossdamagetab" class="tab lossdamagetab" data-tabpageid="lossdamagetabpage" data-notOnNew="true" data-caption="Loss &amp; Damage"></div>
+              <div data-type="tab" id="alltab" class="tab combinedtab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>
+              <div data-type="tab" id="subpurchaseordertab" class="tab submodule subpurchaseordertab" data-tabpageid="subpurchaseordertabpage" data-caption="Sub POs"></div>
+              <div data-type="tab" id="billingtab" class="tab billingtab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
+              <div data-type="tab" id="billingworksheettab" class="tab billingworksheettab" data-tabpageid="billingworksheettabpage" data-caption="Billing Worksheet" style="display:none;"></div>
+              <div data-type="tab" id="summarytab" class="tab profitlosstab summarytab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
+              <div data-type="tab" id="contactstab" class="tab contactstab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
+              <div data-type="tab" id="activitytab" class="tab activitytab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
+              <div data-type="tab" id="picklisttab" class="tab submodule picklisttab" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
+              <div data-type="tab" id="contracttab" class="tab submodule contracttab" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
+              <div data-type="tab" id="delivershiptab" class="tab delivershiptab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
+              <div data-type="tab" id="manifesttab" class="tab manifesttab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>
+              <div data-type="tab" id="invoicetab" class="tab submodule invoicetab" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
+              <div data-type="tab" id="repairtab" class="tab submodule repairtab" data-tabpageid="repairtabpage" data-caption="Repair"></div>
+              <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
+              <div data-type="tab" id="notetab" class="tab notestab" data-tabpageid="notetabpage" data-caption="Notes"></div>
+              <div data-type="tab" id="historytab" class="tab historytab" data-tabpageid="historytabpage" data-caption="History"></div>
+              <div data-type="tab" id="emailhistorytab" class="tab emailhistorytab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
             </div>
             <div class="tabpages">
               <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">

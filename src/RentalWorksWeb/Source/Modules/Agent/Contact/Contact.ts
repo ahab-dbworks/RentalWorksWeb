@@ -51,6 +51,8 @@ class Contact {
     openForm(mode: string) {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
+        FwTabs.hideTab($form.find('.ordertab'));
+        FwTabs.hideTab($form.find('.quotetab'));
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
@@ -113,8 +115,17 @@ class Contact {
 
         FwModule.loadForm(this.Module, $form);
 
-        $form.find('.orderSubModule').append(this.openOrderBrowse($form));
-        $form.find('.quoteSubModule').append(this.openQuoteBrowse($form));
+        const nodeOrder = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'U8Zlahz3ke9i');
+        if (nodeOrder !== undefined && nodeOrder.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.ordertab'));
+            $form.find('.orderSubModule').append(this.openOrderBrowse($form));
+        }
+        
+        const nodeQuote = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'jFkSBEur1dluU');
+        if (nodeQuote !== undefined && nodeQuote.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.quotetab'));
+            $form.find('.quoteSubModule').append(this.openQuoteBrowse($form));
+        }
 
         return $form;
     }
@@ -149,20 +160,6 @@ class Contact {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
         // Contact Note Grid
-        //const $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
-        //const $contactNoteGridControl = FwBrowse.loadGridFromTemplate('ContactNoteGrid');
-        //$contactNoteGrid.empty().append($contactNoteGridControl);
-        //$contactNoteGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        ContactId: FwFormField.getValueByDataField($form, 'ContactId')
-        //    };
-        //})
-        //$contactNoteGridControl.data('beforesave', request => {
-        //    request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
-        //});
-        //FwBrowse.init($contactNoteGridControl);
-        //FwBrowse.renderRuntimeHtml($contactNoteGridControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'ContactNoteGrid',
             gridSecurityId: 'mkJ1Ry8nqSnw',
@@ -179,20 +176,6 @@ class Contact {
         });
 
         // Personal Event Grid
-        //const $contactPersonalEventGrid = $form.find('div[data-grid="ContactPersonalEventGrid"]');
-        //const $contactPersonalEventGridControl = FwBrowse.loadGridFromTemplate('ContactPersonalEventGrid');
-        //$contactPersonalEventGrid.empty().append($contactPersonalEventGridControl);
-        //$contactPersonalEventGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        ContactId: FwFormField.getValueByDataField($form, 'ContactId')
-        //    };
-        //})
-        //$contactPersonalEventGridControl.data('beforesave', request => {
-        //    request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
-        //});
-        //FwBrowse.init($contactPersonalEventGridControl);
-        //FwBrowse.renderRuntimeHtml($contactPersonalEventGridControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'ContactPersonalEventGrid',
             gridSecurityId: '35was7r004gg',
@@ -207,21 +190,6 @@ class Contact {
                 request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
             }
         });
-
-        ////Company Contact grid
-        //const $companyContactGrid = $form.find('div[data-grid="ContactCompanyGrid"]');
-        //const $companyContactGridControl = FwBrowse.loadGridFromTemplate('ContactCompanyGrid');
-        //$companyContactGrid.empty().append($companyContactGridControl);
-        //$companyContactGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        ContactId: FwFormField.getValueByDataField($form, 'ContactId')
-        //    };
-        //})
-        //$companyContactGridControl.data('beforesave', request => {
-        //    request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
-        //});
-        //FwBrowse.init($companyContactGridControl);
-        //FwBrowse.renderRuntimeHtml($companyContactGridControl);
 
         //Company Contact grid
         FwBrowse.renderGrid({
@@ -249,7 +217,7 @@ class Contact {
     addLegend($form: any) {
         const $companyContactGrid = $form.find('[data-name="ContactCompanyGrid"]');
         try {
-            FwAppData.apiMethod(true, 'GET', `api/v1/companycontact/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/companycontact/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 for (var key in response) {
                     FwBrowse.addLegend($companyContactGrid, key, response[key]);
                 }
@@ -287,7 +255,7 @@ class Contact {
         });
 
         //On click events for Quote/Order tabs
-        $form.on('click', '.sub-module-tab', e => {
+        $form.on('click', '.submodule', e => {
             const tabPageId = jQuery(e.currentTarget).attr('data-tabpageid');
             const $subModuleBrowse = $form.find(`#${tabPageId} .fwbrowse`);
             FwBrowse.search($subModuleBrowse);
@@ -295,7 +263,7 @@ class Contact {
 
         //Click Event on tabs to load grids/browses
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
-        $form.on('click', '[data-type="tab"]', e => {
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const $tab = jQuery(e.currentTarget);
             const tabname = $tab.attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
@@ -394,15 +362,15 @@ class Contact {
           </div>
           <div id="contactform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs">
             <div class="tabs">
-              <div data-type="tab" id="contacttab" class="tab" data-tabpageid="contacttabpage" data-caption="Contact"></div>
-              <div data-type="tab" id="companytab" class="tab" data-tabpageid="companytabpage" data-caption="Company"></div>
-              <div data-type="tab" id="profiletab" class="tab" data-tabpageid="profiletabpage" data-caption="Profile"></div>
-              <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
-              <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
-              <!-- <div data-type="tab" id="documenttab" class="tab" data-tabpageid="documenttabpage" data-caption="Document"></div> -->
-              <div data-type="tab" id="accesstab" class="tab" data-tabpageid="accesstabpage" data-caption="Web Access"></div>
-              <div data-type="tab" id="quotetab" class="tab sub-module-tab" data-tabpageid="quotetabpage" data-caption="Quote"></div>
-              <div data-type="tab" id="ordertab" class="tab sub-module-tab" data-tabpageid="ordertabpage" data-caption="Order"></div>
+              <div data-type="tab" id="contacttab" class="tab contacttab" data-tabpageid="contacttabpage" data-caption="Contact"></div>
+              <div data-type="tab" id="companytab" class="tab companytab" data-tabpageid="companytabpage" data-caption="Company"></div>
+              <div data-type="tab" id="profiletab" class="tab profiletab" data-tabpageid="profiletabpage" data-caption="Profile"></div>
+              <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
+              <div data-type="tab" id="notestab" class="tab notestab" data-tabpageid="notestabpage" data-caption="Notes"></div>
+              <!-- <div data-type="tab" id="documenttab" class="tab documenttab" data-tabpageid="documenttabpage" data-caption="Document"></div> -->
+              <div data-type="tab" id="accesstab" class="tab accesstab" data-tabpageid="accesstabpage" data-caption="Web Access"></div>
+              <div data-type="tab" id="quotetab" class="tab submodule quotetab" data-tabpageid="quotetabpage" data-caption="Quote"></div>
+              <div data-type="tab" id="ordertab" class="tab submodule ordertab" data-tabpageid="ordertabpage" data-caption="Order"></div>
             </div>
             <div class="tabpages">
               <!-- CONTACT TAB -->

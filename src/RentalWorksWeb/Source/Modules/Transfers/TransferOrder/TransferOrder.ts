@@ -528,7 +528,7 @@ class TransferOrder {
         isSales ? salesTab.show() : salesTab.hide();
 
         //Load grids and browses upon clicking their tab
-        $form.on('click', '[data-type="tab"]', e => {
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');
             const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;

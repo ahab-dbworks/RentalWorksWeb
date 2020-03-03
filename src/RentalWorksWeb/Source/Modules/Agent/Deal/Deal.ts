@@ -40,6 +40,12 @@ class Deal {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
+        FwTabs.hideTab($form.find('.quotetab'));
+        FwTabs.hideTab($form.find('.ordertab'));
+        FwTabs.hideTab($form.find('.contracttab'));
+        FwTabs.hideTab($form.find('.invoicetab'));
+        FwTabs.hideTab($form.find('.receipttab'));
+        FwTabs.hideTab($form.find('.creditstab'));
         FwFormField.disable($form.find('.CompanyResaleGrid'));
         this.events($form);
 
@@ -129,54 +135,69 @@ class Deal {
         }
 
         // SUBMODULES
-        const $submoduleQuoteBrowse = this.openQuoteBrowse($form);
-        $form.find('.quote').append($submoduleQuoteBrowse);
-        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            if ($form.attr('data-mode') !== 'NEW') {
-                const quoteFormData: any = {};
-                const $browse = jQuery(this).closest('.fwbrowse');
-                const controller = $browse.attr('data-controller');
-                quoteFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
-                quoteFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
-                quoteFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
-                quoteFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
-                quoteFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
-                quoteFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
-                if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
-                if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-                const $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
-                FwModule.openSubModuleTab($browse, $quoteForm);
-            } else {
-                FwNotification.renderNotification('WARNING', 'Save the record first.')
-            }
-        });
 
-        const $submoduleOrderBrowse = this.openOrderBrowse($form);
-        $form.find('.order').append($submoduleOrderBrowse);
-        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            if ($form.attr('data-mode') !== 'NEW') {
-                const orderFormData: any = {};
-                const $browse = jQuery(this).closest('.fwbrowse');
-                const controller = $browse.attr('data-controller');
-                orderFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
-                orderFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
-                orderFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
-                orderFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
-                orderFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
-                orderFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
-                if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
-                if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-                const $orderForm = window[controller]['openForm']('NEW', orderFormData);
-                FwModule.openSubModuleTab($browse, $orderForm);
-            } else {
-                FwNotification.renderNotification('WARNING', 'Save the record first.')
-            }
-        });
+        let nodeQuote = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'jFkSBEur1dluU');
+        if (nodeQuote !== undefined && nodeQuote.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.quotetab'));
+            const $submoduleQuoteBrowse = this.openQuoteBrowse($form);
+            $form.find('.quote').append($submoduleQuoteBrowse);
+            $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+            $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                if ($form.attr('data-mode') !== 'NEW') {
+                    const quoteFormData: any = {};
+                    const $browse = jQuery(this).closest('.fwbrowse');
+                    const controller = $browse.attr('data-controller');
+                    quoteFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                    quoteFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
+                    quoteFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
+                    quoteFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
+                    quoteFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
+                    quoteFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
+                    if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                    if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+                    const $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
+                    FwModule.openSubModuleTab($browse, $quoteForm);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Save the record first.')
+                }
+            });
+        }
+
+        let nodeOrder = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'U8Zlahz3ke9i');
+        if (nodeOrder !== undefined && nodeQuote.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.ordertab'));
+            const $submoduleOrderBrowse = this.openOrderBrowse($form);
+            $form.find('.order').append($submoduleOrderBrowse);
+            $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+            $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                if ($form.attr('data-mode') !== 'NEW') {
+                    const orderFormData: any = {};
+                    const $browse = jQuery(this).closest('.fwbrowse');
+                    const controller = $browse.attr('data-controller');
+                    orderFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                    orderFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
+                    orderFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
+                    orderFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
+                    orderFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
+                    orderFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
+                    if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                    if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+                    const $orderForm = window[controller]['openForm']('NEW', orderFormData);
+                    FwModule.openSubModuleTab($browse, $orderForm);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Save the record first.')
+                }
+            });
+        }
+
         // Deal Credit submodule
-        const $submoduleDealCreditBrowse = this.openDealCreditBrowse($form);
-        $form.find('.credits-page').append($submoduleDealCreditBrowse);
+        let nodeDealCredit = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'OCkLGwclipEA');
+        if (nodeDealCredit !== undefined && nodeDealCredit.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.creditstab'));
+            const $submoduleDealCreditBrowse = this.openDealCreditBrowse($form);
+            $form.find('.credits-page').append($submoduleDealCreditBrowse);
+        }
+
         //$defaultrate = $form.find('.defaultrate');
         //FwFormField.loadItems($defaultrate, [
         //    { value: 'DAILY', text: 'Daily Rate' }
@@ -230,11 +251,27 @@ class Deal {
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
 
+        // Contract submodule
+        let nodeContract = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Z8MlDQp7xOqu');
+        if (nodeContract !== undefined && nodeContract.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.contracttab'));
+            $form.find('.contractSubModule').append(this.openContractBrowse($form));
+        }
 
-        $form.find('.contractSubModule').append(this.openContractBrowse($form));
-        $form.find('.invoiceSubModule').append(this.openInvoiceBrowse($form));
-        $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
+        // Invoice submodule
+        let nodeInvoice = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'cZ9Z8aGEiDDw');
+        if (nodeInvoice !== undefined && nodeInvoice.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.invoicetab'));
+            $form.find('.invoiceSubModule').append(this.openInvoiceBrowse($form));
+        }
 
+        // Receipt submodule
+        let nodeReceipt = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'q4PPGLusbFw');
+        if (nodeReceipt !== undefined && nodeReceipt.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.receipttab'));
+            $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
+        }
+        
         return $form;
     }
     //---------------------------------------------------------------------------------------------
@@ -453,7 +490,7 @@ class Deal {
         });
 
         //Click Event on tabs to load grids/browses
-        $form.on('click', '[data-type="tab"]', e => {
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');
             const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
@@ -1076,12 +1113,12 @@ class Deal {
               <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
               <div data-type="tab" id="optionstab" class="tab" data-tabpageid="optionstabpage" data-caption="Options"></div>
               <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
-              <div data-type="tab" id="quotetab" class="tab submodule" data-tabpageid="quotetabpage" data-caption="Quotes"></div>
-              <div data-type="tab" id="ordertab" class="tab submodule" data-tabpageid="ordertabpage" data-caption="Orders"></div>              
-              <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
-              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
-              <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
-              <div data-type="tab" id="creditstab" class="tab submodule" data-tabpageid="creditstabpage" data-caption="Credits"></div>
+              <div data-type="tab" id="quotetab" class="tab submodule quotetab" data-tabpageid="quotetabpage" data-caption="Quotes"></div>
+              <div data-type="tab" id="ordertab" class="tab submodule ordertab" data-tabpageid="ordertabpage" data-caption="Orders"></div>              
+              <div data-type="tab" id="contracttab" class="tab submodule contracttab" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
+              <div data-type="tab" id="invoicetab" class="tab submodule invoicetab" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
+              <div data-type="tab" id="receipttab" class="tab submodule receipttab" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
+              <div data-type="tab" id="creditstab" class="tab submodule creditstab" data-tabpageid="creditstabpage" data-caption="Credits"></div>
               <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>

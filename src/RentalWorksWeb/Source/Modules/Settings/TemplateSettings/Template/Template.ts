@@ -240,7 +240,7 @@
 
         //Click Event on tabs to load grids/browses
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
-        $form.on('click', '[data-type="tab"]', e => {
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const $tab = jQuery(e.currentTarget);
             const tabname = $tab.attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab

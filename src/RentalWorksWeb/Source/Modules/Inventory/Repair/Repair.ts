@@ -103,7 +103,7 @@ class Repair {
             request.activeviewfields = this.ActiveViewFields;
         });
 
-        FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `${this.apiurl}/inventorystatus`, null, FwServices.defaultTimeout, function onSuccess(response) {
             const out = response.filter(item => item.StatusType === 'OUT');
             const intransit = response.filter(item => item.StatusType === 'INTRANSIT');
 
@@ -148,7 +148,7 @@ class Repair {
                     $yes.text('Voiding...');
                     $yes.off('click');
 
-                    FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'POST', `${this.apiurl}/void/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                         FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
                         FwConfirmation.destroyConfirmation($confirmation);
                         FwBrowse.databind($browse);
@@ -1018,7 +1018,7 @@ class Repair {
             const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success) {
                     FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Estimated');
                     FwConfirmation.destroyConfirmation($confirmation);
@@ -1052,7 +1052,7 @@ class Repair {
             const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
             const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
             const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success) {
                     FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Cancelled');
                     FwConfirmation.destroyConfirmation($confirmation);
@@ -1127,7 +1127,7 @@ class Repair {
             const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/repair/complete/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/complete/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success) {
                     FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Completed');
                     FwConfirmation.destroyConfirmation($confirmation);
@@ -1185,7 +1185,7 @@ class Repair {
             const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             const repairId = FwFormField.getValueByDataField($form, 'RepairId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${repairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/void/${repairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success) {
                     FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
                     FwConfirmation.destroyConfirmation($confirmation);
@@ -1278,7 +1278,7 @@ class Repair {
                 const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
                 const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
                 const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-                FwAppData.apiMethod(true, 'POST', `api/v1/repair/releaseitems/${RepairId}/${releasedQuantityConfirmation}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/releaseitems/${RepairId}/${releasedQuantityConfirmation}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Items Successfully Released');
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwModule.refreshForm($form);

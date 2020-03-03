@@ -7,31 +7,31 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Modules.Agent.Quote;
-using WebApi;
-using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
-using WebApi.Modules.Agent.Deal;
-using WebApi.Modules.Settings.RateType;
-using WebApi.Modules.Settings.OrderSettings.OrderType;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Agent.Contact;
-using WebApi.Modules.Settings.OrderSettings.MarketType;
-using WebApi.Modules.Settings.OrderSettings.MarketSegment;
-using WebApi.Modules.Settings.MarketSegmentJob;
+using WebApi.Modules.Agent.Deal;
+using WebApi.Modules.Agent.Quote;
+using WebApi.Modules.Agent.Vendor;
+using WebApi.Modules.Settings.AddressSettings.Country;
+using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
+using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.CurrencySettings.Currency;
+using WebApi.Modules.Settings.DepartmentLocation;
 using WebApi.Modules.Settings.DocumentSettings.CoverLetter;
 using WebApi.Modules.Settings.DocumentSettings.TermsConditions;
-using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
+using WebApi.Modules.Settings.MarketSegmentJob;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Settings.OrderSettings.DiscountReason;
+using WebApi.Modules.Settings.OrderSettings.MarketSegment;
+using WebApi.Modules.Settings.OrderSettings.MarketType;
+using WebApi.Modules.Settings.OrderSettings.OrderType;
 using WebApi.Modules.Settings.PaymentSettings.PaymentTerms;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;
-using WebApi.Modules.Settings.CurrencySettings.Currency;
-using WebApi.Modules.Settings.TaxSettings.TaxOption;
-using WebApi.Modules.Settings.OrderSettings.DiscountReason;
-using WebApi.Modules.Settings.AddressSettings.Country;
-using WebApi.Modules.Agent.Vendor;
+using WebApi.Modules.Settings.RateType;
 using WebApi.Modules.Settings.ShipViaSettings.ShipVia;
-using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Settings.TaxSettings.TaxOption;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -822,6 +822,30 @@ namespace WebApi.Modules.Agent.Order
         public async Task<ActionResult<FwJsonDataTable>> ValidateBillToCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<CountryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/order/department/{departmentid}/location/{locationid}
+        [HttpGet("department/{departmentid}/location/{locationid}")]
+        [FwControllerMethod(Id: "eJ5FTKoL04UY", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<DepartmentLocationLogic>> DepartmentLocation_GetOneAsync([FromRoute]string departmentid, [FromRoute]string locationid)
+        {
+            return await DoGetAsync<DepartmentLocationLogic>($"{departmentid}~{locationid}", typeof(DepartmentLocationLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/order/ordertype/A0000001 
+        [HttpGet("ordertype/{ordertypeid}")]
+        [FwControllerMethod(Id: "Vd0qk8YeseP8", ActionType: FwControllerActionTypes.View)]
+        public async Task<ActionResult<OrderTypeLogic>> OrderType_GetOneAsync([FromRoute]string ordertypeid)
+        {
+            return await DoGetAsync<OrderTypeLogic>(ordertypeid, typeof(OrderTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/order/ordertypelocation/browse 
+        [HttpPost("ordertypelocation/browse")]
+        [FwControllerMethod(Id: "ISu3pJ6XJNTd", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> OrderTypeLocation_BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
     }

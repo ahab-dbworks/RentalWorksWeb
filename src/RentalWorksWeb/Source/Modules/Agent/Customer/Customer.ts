@@ -40,6 +40,15 @@ class Customer {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
+        FwTabs.hideTab($form.find('.dealtab'));
+        FwTabs.hideTab($form.find('.quotetab'));
+        FwTabs.hideTab($form.find('.ordertab'));
+        FwTabs.hideTab($form.find('.customercredittab'));
+        FwTabs.hideTab($form.find('.contracttab'));
+        FwTabs.hideTab($form.find('.invoicetab'));
+        FwTabs.hideTab($form.find('.customercredittab'));
+        FwTabs.hideTab($form.find('.receipttab'));
+
         // example: setting validation getapiurl functions
         //FwFormField.getDataField($form, 'OfficeLocationId').data('getapiurl', () => 'api/v1/customer/lookup/officelocations');
 
@@ -75,81 +84,108 @@ class Customer {
             { value: 'CUSTOMER', caption: 'Customer', checked: true },
             { value: 'OTHER', caption: 'Other' }
         ]);
+
         // SUBMODULES
         // Deal  submodule
-        const $submoduleDealBrowse = this.openDealBrowse($form);
-        $form.find('.deal-page').append($submoduleDealBrowse);
-        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            if ($form.attr('data-mode') !== 'NEW') {
-                const dealFormData: any = {};
-                dealFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-                dealFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
-                dealFormData.Address1 = FwFormField.getValueByDataField($form, 'Address1');
-                dealFormData.Address2 = FwFormField.getValueByDataField($form, 'Address2');
-                dealFormData.City = FwFormField.getValueByDataField($form, 'City');
-                dealFormData.State = FwFormField.getValueByDataField($form, 'State');
-                dealFormData.ZipCode = FwFormField.getValueByDataField($form, 'ZipCode');
-                dealFormData.CountryId = FwFormField.getValueByDataField($form, 'CountryId');
-                dealFormData.Country = FwFormField.getTextByDataField($form, 'CountryId');
-                dealFormData.Phone = FwFormField.getValueByDataField($form, 'Phone');
-                dealFormData.Fax = FwFormField.getValueByDataField($form, 'Fax');
-                dealFormData.PhoneTollFree = FwFormField.getValueByDataField($form, 'PhoneTollFree');
-                dealFormData.OtherPhone = FwFormField.getValueByDataField($form, 'OtherPhone');
+        let nodeDeal = FwApplicationTree.getNodeById(FwApplicationTree.tree, '8WdRib388fFF');
+        if (nodeDeal !== undefined && nodeDeal.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.dealtab'));
+            const $submoduleDealBrowse = this.openDealBrowse($form);
+            $form.find('.deal-page').append($submoduleDealBrowse);
+            $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+            $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                if ($form.attr('data-mode') !== 'NEW') {
+                    const dealFormData: any = {};
+                    dealFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                    dealFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+                    dealFormData.Address1 = FwFormField.getValueByDataField($form, 'Address1');
+                    dealFormData.Address2 = FwFormField.getValueByDataField($form, 'Address2');
+                    dealFormData.City = FwFormField.getValueByDataField($form, 'City');
+                    dealFormData.State = FwFormField.getValueByDataField($form, 'State');
+                    dealFormData.ZipCode = FwFormField.getValueByDataField($form, 'ZipCode');
+                    dealFormData.CountryId = FwFormField.getValueByDataField($form, 'CountryId');
+                    dealFormData.Country = FwFormField.getTextByDataField($form, 'CountryId');
+                    dealFormData.Phone = FwFormField.getValueByDataField($form, 'Phone');
+                    dealFormData.Fax = FwFormField.getValueByDataField($form, 'Fax');
+                    dealFormData.PhoneTollFree = FwFormField.getValueByDataField($form, 'PhoneTollFree');
+                    dealFormData.OtherPhone = FwFormField.getValueByDataField($form, 'OtherPhone');
 
-                const $browse = jQuery(this).closest('.fwbrowse');
-                const controller = $browse.attr('data-controller');
-                if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
-                if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-                const $dealForm = window[controller]['openForm']('NEW', dealFormData);
-                FwModule.openSubModuleTab($browse, $dealForm);
-            } else {
-                FwNotification.renderNotification('WARNING', 'Save the record first.')
-            }
-        });
+                    const $browse = jQuery(this).closest('.fwbrowse');
+                    const controller = $browse.attr('data-controller');
+                    if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                    if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+                    const $dealForm = window[controller]['openForm']('NEW', dealFormData);
+                    FwModule.openSubModuleTab($browse, $dealForm);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Save the record first.')
+                }
+            });
+        }
+        
         // Quote submodule
-        const $submoduleQuoteBrowse = this.openQuoteBrowse($form);
-        $form.find('.quote-page').append($submoduleQuoteBrowse);
-        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            if ($form.attr('data-mode') !== 'NEW') {
-                const quoteFormData: any = {};
-                quoteFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-                quoteFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+        let nodeQuote = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'jFkSBEur1dluU');
+        if (nodeQuote !== undefined && nodeQuote.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.quotetab'));
+            const $submoduleQuoteBrowse = this.openQuoteBrowse($form);
+            $form.find('.quote-page').append($submoduleQuoteBrowse);
+            $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+            $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                if ($form.attr('data-mode') !== 'NEW') {
+                    const quoteFormData: any = {};
+                    quoteFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                    quoteFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
 
-                const $browse = jQuery(this).closest('.fwbrowse');
-                const controller = $browse.attr('data-controller');
-                if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
-                if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-                const $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
-                FwModule.openSubModuleTab($browse, $quoteForm);
-            } else {
-                FwNotification.renderNotification('WARNING', 'Save the record first.')
-            }
-        });
+                    const $browse = jQuery(this).closest('.fwbrowse');
+                    const controller = $browse.attr('data-controller');
+                    if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                    if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+                    const $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
+                    FwModule.openSubModuleTab($browse, $quoteForm);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Save the record first.')
+                }
+            });
+        }
+
         // Order submodule 
-        const $submoduleOrderBrowse = this.openOrderBrowse($form);
-        $form.find('.order-page').append($submoduleOrderBrowse);
-        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            if ($form.attr('data-mode') !== 'NEW') {
-                const orderFormData: any = {};
-                orderFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-                orderFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+        let nodeOrder = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'U8Zlahz3ke9i');
+        if (nodeOrder !== undefined && nodeOrder.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.ordertab'));
+            const $submoduleOrderBrowse = this.openOrderBrowse($form);
+            $form.find('.order-page').append($submoduleOrderBrowse);
+            $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+            $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                if ($form.attr('data-mode') !== 'NEW') {
+                    const orderFormData: any = {};
+                    orderFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                    orderFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
 
-                const $browse = jQuery(this).closest('.fwbrowse');
-                const controller = $browse.attr('data-controller');
-                if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
-                if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-                const $orderForm = window[controller]['openForm']('NEW', orderFormData);
-                FwModule.openSubModuleTab($browse, $orderForm);
-            } else {
-                FwNotification.renderNotification('WARNING', 'Save the record first.')
-            }
-        });
+                    const $browse = jQuery(this).closest('.fwbrowse');
+                    const controller = $browse.attr('data-controller');
+                    if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                    if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+                    const $orderForm = window[controller]['openForm']('NEW', orderFormData);
+                    FwModule.openSubModuleTab($browse, $orderForm);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Save the record first.')
+                }
+            });
+        }
+
         // Customer Credit submodule
-        const $submoduleCustomerCreditBrowse = this.openCustomerCreditBrowse($form);
-        $form.find('.credits-page').append($submoduleCustomerCreditBrowse);
+        const nodeCustomerCredit = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'DCPFcfKgUGnuC');
+        if (nodeCustomerCredit !== undefined && nodeCustomerCredit.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.customercredittab'));
+            const $submoduleCustomerCreditBrowse = this.openCustomerCreditBrowse($form);
+            $form.find('.credits-page').append($submoduleCustomerCreditBrowse);
+        }
+
+        // Invoice Module
+        const nodeInvoice = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'cZ9Z8aGEiDDw');
+        if (nodeInvoice !== undefined && nodeInvoice.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.invoicetab'));
+        }
+        
 
         $form.find('[data-datafield="UseDiscountTemplate"] .fwformfield-value').on('change', function () {
             const $this = jQuery(this);
@@ -223,9 +259,23 @@ class Customer {
 
         FwModule.loadForm(this.Module, $form);
 
-        $form.find('.contractSubModule').append(this.openContractBrowse($form));
-        $form.find('.invoiceSubModule').append(this.openInvoiceBrowse($form));
-        $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
+        const nodeContract = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Z8MlDQp7xOqu');
+        if (nodeContract !== undefined && nodeContract.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.contracttab'));
+            $form.find('.contractSubModule').append(this.openContractBrowse($form));
+        }
+
+        const nodeCustomerCredit = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'InSfo1f2lbFV');
+        if (nodeCustomerCredit !== undefined && nodeCustomerCredit.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.customercredittab'));
+            $form.find('.invoiceSubModule').append(this.openInvoiceBrowse($form));
+        }
+
+        const nodeReceipt = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'q4PPGLusbFw');
+        if (nodeReceipt !== undefined && nodeReceipt.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.receipttab'));
+            $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
+        }
 
         return $form;
     }
@@ -273,22 +323,6 @@ class Customer {
     renderGrids($form: any) {
         // ----------
         //Company Resale Grid
-        //var nameCustomerResaleGrid: string = 'CompanyResaleGrid';
-        //var $companyResaleGrid: any = $companyResaleGrid = $form.find('div[data-grid="' + nameCustomerResaleGrid + '"]');
-        //var $companyResaleGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerResaleGrid);
-
-        //$companyResaleGrid.empty().append($companyResaleGridControl);
-        //$companyResaleGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
-        //    };
-        //});
-        //$companyResaleGridControl.data('beforesave', function (request) {
-        //    request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId')
-        //});
-        //FwBrowse.init($companyResaleGridControl);
-        //FwBrowse.renderRuntimeHtml($companyResaleGridControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'CompanyResaleGrid',
             gridSecurityId: 'k48X9sulRpmb',
@@ -305,18 +339,6 @@ class Customer {
         });
         // ----------
         // Customer Note Grid
-        //var nameCustomerNoteGrid: string = 'CustomerNoteGrid';
-        //var $customerNoteGrid: any = $customerNoteGrid = $form.find('div[data-grid="' + nameCustomerNoteGrid + '"]');
-        //var $customerNoteGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerNoteGrid);
-        //$customerNoteGrid.empty().append($customerNoteGridControl);
-        //$customerNoteGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
-        //    }
-        //});
-        //FwBrowse.init($customerNoteGridControl);
-        //FwBrowse.renderRuntimeHtml($customerNoteGridControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'CustomerNoteGrid',
             gridSecurityId: '6AHfzr9WBEW9',
@@ -335,21 +357,6 @@ class Customer {
 
         // ----------
         // Tax Option Grid
-        //var nameCompanyTaxGrid: string = 'CompanyTaxOptionGrid'
-        //var $companyTaxGrid: any = $companyTaxGrid = $form.find('div[data-grid="' + nameCompanyTaxGrid + '"]');
-        //var $companyTaxControl: any = FwBrowse.loadGridFromTemplate(nameCompanyTaxGrid);
-        //$companyTaxGrid.empty().append($companyTaxControl);
-        //$companyTaxControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
-        //    }
-        //});
-        //$companyTaxControl.data('beforesave', function (request) {
-        //    request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
-        //});
-        //FwBrowse.init($companyTaxControl);
-        //FwBrowse.renderRuntimeHtml($companyTaxControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'CompanyTaxOptionGrid',
             gridSecurityId: 'B9CzDEmYe1Zf',
@@ -370,21 +377,6 @@ class Customer {
         });
         // ----------
         // Company Contact Grid
-        //var nameCompanyContactGrid: string = 'CompanyContactGrid'
-        //var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
-        //var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
-        //$companyContactGrid.empty().append($companyContactControl);
-        //$companyContactControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
-        //    }
-        //});
-        //$companyContactControl.data('beforesave', function (request) {
-        //    request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
-        //});
-        //FwBrowse.init($companyContactControl);
-        //FwBrowse.renderRuntimeHtml($companyContactControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'CompanyContactGrid',
             gridSecurityId: 'gQHuhVDA5Do2',
@@ -424,7 +416,7 @@ class Customer {
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
 
         //Click Event on tabs to load grids/browses
-        $form.on('click', '[data-type="tab"]', e => {
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');
             const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
@@ -587,13 +579,13 @@ class Customer {
               <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
               <div data-type="tab" id="optionstab" class="tab" data-tabpageid="optionstabpage" data-caption="Options"></div>
               <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
-              <div data-type="tab" id="dealtab" class="tab submodule" data-tabpageid="dealtabpage" data-caption="Deals"></div>
-              <div data-type="tab" id="quotetab" class="tab submodule" data-tabpageid="quotetabpage" data-caption="Quotes"></div>
-              <div data-type="tab" id="ordertab" class="tab submodule" data-tabpageid="ordertabpage" data-caption="Orders"></div>
-              <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
-              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
-              <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
-              <div data-type="tab" id="creditstab" class="tab submodule" data-tabpageid="creditstabpage" data-caption="Credits"></div>
+              <div data-type="tab" id="dealtab" class="tab submodule dealtab" data-tabpageid="dealtabpage" data-caption="Deals"></div>
+              <div data-type="tab" id="quotetab" class="tab submodule quotetab" data-tabpageid="quotetabpage" data-caption="Quotes"></div>
+              <div data-type="tab" id="ordertab" class="tab submodule ordertab" data-tabpageid="ordertabpage" data-caption="Orders"></div>
+              <div data-type="tab" id="contracttab" class="tab submodule contracttab" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
+              <div data-type="tab" id="invoicetab" class="tab submodule invoicetab" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
+              <div data-type="tab" id="receipttab" class="tab submodule receipttab" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
+              <div data-type="tab" id="creditstab" class="tab submodule creditstab" data-tabpageid="creditstabpage" data-caption="Credits"></div>
               <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>

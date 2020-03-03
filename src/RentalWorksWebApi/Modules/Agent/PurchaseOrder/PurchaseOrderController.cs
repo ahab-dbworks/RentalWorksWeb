@@ -17,6 +17,7 @@ using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
 using WebApi.Modules.Settings.CurrencySettings.Currency;
 using WebApi.Modules.Settings.TaxSettings.TaxOption;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -337,6 +338,14 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public async Task<ActionResult<FwJsonDataTable>> ValidateTaxOptionBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // GET api/v1/purchaseorder/officerlocation/A0000001
+        [HttpGet("officelocation/{id}")]
+        [FwControllerMethod(Id: "PptuuQ1Cl3M3", ActionType: FwControllerActionTypes.View)]
+        public async Task<ActionResult<OfficeLocationLogic>> OfficeLocation_GetOneAsync([FromRoute]string id)
+        {
+            return await DoGetAsync<OfficeLocationLogic>(id, typeof(OfficeLocationLogic));
         }
         //------------------------------------------------------------------------------------
     }

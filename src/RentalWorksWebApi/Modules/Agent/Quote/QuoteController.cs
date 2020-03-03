@@ -34,6 +34,7 @@ using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Settings.ShipViaSettings.ShipVia;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Settings.DepartmentLocation;
 
 namespace WebApi.Modules.Agent.Quote
 {
@@ -851,5 +852,30 @@ namespace WebApi.Modules.Agent.Quote
         {
             return await DoBrowseAsync<CountryLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/quote/department/{departmentid}/location/{locationid}
+        [HttpGet("department/{departmentid}/location/{locationid}")]
+        [FwControllerMethod(Id: "rvwq76pjuVK5", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<DepartmentLocationLogic>> DepartmentLocation_GetOneAsync([FromRoute]string departmentid, [FromRoute]string locationid)
+        {
+            return await DoGetAsync<DepartmentLocationLogic>($"{departmentid}~{locationid}", typeof(DepartmentLocationLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/quote/ordertype/A0000001 
+        [HttpGet("ordertype/{ordertypeid}")]
+        [FwControllerMethod(Id: "kpFVlTkTsrd9", ActionType: FwControllerActionTypes.View)]
+        public async Task<ActionResult<OrderTypeLogic>> OrderType_GetOneAsync([FromRoute]string ordertypeid)
+        {
+            return await DoGetAsync<OrderTypeLogic>(ordertypeid, typeof(OrderTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/quote/ordertypelocation/browse 
+        [HttpPost("ordertypelocation/browse")]
+        [FwControllerMethod(Id: "PEULonYOfAeS", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> OrderTypeLocation_BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

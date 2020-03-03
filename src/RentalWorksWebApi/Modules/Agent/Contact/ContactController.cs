@@ -151,5 +151,20 @@ namespace WebApi.Modules.Agent.Contact
         {
             return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/contact/companycontact/legend
+        [HttpGet("companycontact/legend")]
+        [FwControllerMethod(Id: "vLEnNEJc5EcY", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<Dictionary<string, string>>> CompanyContact_GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Lead", RwGlobals.COMPANY_TYPE_LEAD_COLOR);
+            legend.Add("Prospect", RwGlobals.COMPANY_TYPE_PROSPECT_COLOR);
+            legend.Add("Customer", RwGlobals.COMPANY_TYPE_CUSTOMER_COLOR);
+            legend.Add("Deal", RwGlobals.COMPANY_TYPE_DEAL_COLOR);
+            legend.Add("Vendor", RwGlobals.COMPANY_TYPE_VENDOR_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
     }
 }

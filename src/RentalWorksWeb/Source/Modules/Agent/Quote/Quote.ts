@@ -160,6 +160,7 @@ class Quote extends OrderBase {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = super.openForm(mode, parentModuleInfo);
+        FwTabs.hideTab($form.find('.activitytab'));
         let userType = sessionStorage.getItem('userType');
 
         if (mode === 'NEW') {
@@ -182,6 +183,11 @@ class Quote extends OrderBase {
         const $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="QuoteId"] input').val(uniqueids.QuoteId);
 
+        let nodeActivity = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'hb52dbhX1mNLZ');
+        if (nodeActivity !== undefined && nodeActivity.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.activitytab'));
+        }
+        
         // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
         FwAppDocumentGrid.renderGrid({
             $form: $form,
@@ -278,23 +284,23 @@ class Quote extends OrderBase {
           <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="QuoteId"></div>
           <div id="quoteform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
-              <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="Quote"></div>
-              <div data-type="tab" id="rentaltab" class="rentaltab notcombinedtab tab" data-tabpageid="rentaltabpage" data-notOnNew="true" data-caption="Rental"></div>
-              <div data-type="tab" id="salestab" class="salestab notcombinedtab tab" data-tabpageid="salestabpage" data-notOnNew="true" data-caption="Sales"></div>
-              <div data-type="tab" id="labortab" class="labortab notcombinedtab tab" data-tabpageid="labortabpage" data-notOnNew="true" data-caption="Labor"></div>
-              <div data-type="tab" id="misctab" class="misctab notcombinedtab tab" data-tabpageid="misctabpage" data-notOnNew="true" data-caption="Miscellaneous"></div>
-              <div data-type="tab" id="usedsaletab" class="usedsaletab notcombinedtab tab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
-              <div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>
-              <div data-type="tab" id="billingtab" class="billingtab tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
-              <div data-type="tab" id="profitlosstab" class="profitlosstab tab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
-              <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div> 
-              <div data-type="tab" id="activitytab" class="tab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
-              <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
-              <!--<div data-type="tab" id="manifesttab" class="tab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>-->
-              <div data-type="tab" id="doucumentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
+              <div data-type="tab" id="generaltab" class="tab generaltab " data-tabpageid="generaltabpage" data-caption="Quote"></div>
+              <div data-type="tab" id="rentaltab" class="tab rentaltab notcombinedtab " data-tabpageid="rentaltabpage" data-notOnNew="true" data-caption="Rental"></div>
+              <div data-type="tab" id="salestab" class="tab salestab notcombinedtab" data-tabpageid="salestabpage" data-notOnNew="true" data-caption="Sales"></div>
+              <div data-type="tab" id="labortab" class="tab labortab notcombinedtab" data-tabpageid="labortabpage" data-notOnNew="true" data-caption="Labor"></div>
+              <div data-type="tab" id="misctab" class="tab misctab notcombinedtab" data-tabpageid="misctabpage" data-notOnNew="true" data-caption="Miscellaneous"></div>
+              <div data-type="tab" id="usedsaletab" class="tab usedsaletab notcombinedtab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
+              <div data-type="tab" id="alltab" class="tab combinedtab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>
+              <div data-type="tab" id="billingtab" class="tab billingtab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
+              <div data-type="tab" id="profitlosstab" class="tab profitlosstab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
+              <div data-type="tab" id="contactstab" class="tab contactstab" data-tabpageid="contactstabpage" data-caption="Contacts"></div> 
+              <div data-type="tab" id="activitytab" class="tab activitytab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
+              <div data-type="tab" id="delivershiptab" class="tab delivershiptab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
+              <!--<div data-type="tab" id="manifesttab" class="tab manifesttab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>-->
+              <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notetab" class="tab notestab" data-tabpageid="notetabpage" data-caption="Notes"></div>
-              <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
-              <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
+              <div data-type="tab" id="historytab" class="tab historytab" data-tabpageid="historytabpage" data-caption="History"></div>
+              <div data-type="tab" id="emailhistorytab" class="tab emailhistorytab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
             </div>
             <div class="tabpages">
               <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">

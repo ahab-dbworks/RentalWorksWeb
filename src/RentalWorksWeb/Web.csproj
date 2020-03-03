@@ -701,7 +701,6 @@
     <TypeScriptCompile Include="Source\Modules\Agent\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\Repair\Repair.ts" />
     <Content Include="Source\Modules\Agent\Order\Order.css" />
-    <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.js" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetBrowse.htm" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettingsBrowse.htm" />
@@ -1364,7 +1363,6 @@
     <Content Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridController.js.map" />
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.js.map" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js.map" />
-    <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

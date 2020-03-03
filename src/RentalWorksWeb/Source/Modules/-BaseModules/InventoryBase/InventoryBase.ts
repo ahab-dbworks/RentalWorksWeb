@@ -1090,7 +1090,7 @@ abstract class InventoryBase {
         }
 
         //Click Event on tabs to load grids/browses
-        $form.on('click', '[data-type="tab"]', e => {
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const $tab = jQuery(e.currentTarget);
             const tabPageId = $tab.attr('data-tabpageid');
             if ($tab.hasClass('audittab') == false) {
