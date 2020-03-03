@@ -24,19 +24,10 @@
                 const request: any = {
                     ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
                     OrderItemId: $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'),
-                    Code: $tr.find('[data-browsedatafield="InventoryId"]').attr('data-originalvalue'),
+                    Code: $tr.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext'),
                     Quantity: quantity,
                     ModuleType: 'O',
                     VendorId: $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'),
-                };
-
-                let orderItemIdComment, codeComment;
-                if (orderItemIdComment) {
-                    request.OrderItemIdComment = orderItemIdComment;
-                };
-
-                if (codeComment) {
-                    request.CodeComment = codeComment;
                 };
 
                 if (quantity != 0) {
