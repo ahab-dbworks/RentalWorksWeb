@@ -3,15 +3,12 @@
     apiurl: string = 'api/v1/checkinquantityitem';
 
     generateRow($control, $generatedtr) {
-        let $form, $quantityColumn;
-        $form = $control.closest('.fwform'),
-            $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
+        const $form = $control.closest('.fwform');
+        const $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
-            let allowQuantityVal = $tr.find('[data-browsedatafield="AllowQuantity"]').attr('data-originalvalue');
-            let $grid = $tr.parents('[data-grid="CheckInQuantityItemsGrid"]');
-        
             //Hides Quantity increment/decrement controls if allowQuantityVal is false
+            const allowQuantityVal = $tr.find('[data-browsedatafield="AllowQuantity"]').attr('data-originalvalue');
             if (allowQuantityVal == "false") {
                 $quantityColumn
                     .hide()
@@ -20,24 +17,18 @@
             }
 
             $quantityColumn.on('change', '.value', e => {
-                let request: any = {},
-                    contractId = FwFormField.getValueByDataField($form, 'ContractId'),
-                    orderItemId = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'),
-                    code = $tr.find('[data-browsedatafield="ICode"]').attr('data-originalvalue'),
-                    vendorId = $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'),
-                    orderItemIdComment,
-                    codeComment,
-                    newValue = jQuery(e.currentTarget).val(),
-                    oldValue = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue'),
-                    quantity = Number(newValue) - Number(oldValue);
+                let orderItemIdComment, codeComment;
+                const newValue = jQuery(e.currentTarget).val();
+                const oldValue = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+                const quantity = Number(newValue) - Number(oldValue);
 
-                request = {
-                    ContractId: contractId,
-                    OrderItemId: orderItemId,
-                    Code: code,
+                const request: any = {
+                    ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                    OrderItemId: $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'),
+                    Code: $tr.find('[data-browsedatafield="InventoryId"]').attr('data-originalvalue'),
                     Quantity: quantity,
                     ModuleType: 'O',
-                    VendorId: vendorId,
+                    VendorId: $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'),
                 };
 
                 if (orderItemIdComment) {
@@ -53,6 +44,7 @@
                         function onSuccess(response) {
                             if (response.success) {
                                 $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
+                                const $grid = $tr.parents('[data-grid="CheckInQuantityItemsGrid"]');
                                 FwBrowse.setFieldValue($grid, $tr, 'QuantityOut', { value: response.InventoryStatus.QuantityOut });
                             } else {
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
