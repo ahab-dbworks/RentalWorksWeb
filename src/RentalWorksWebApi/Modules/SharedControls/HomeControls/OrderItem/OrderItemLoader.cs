@@ -893,26 +893,28 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 qryOrderType.Add("select ordertype, pickdate, picktime, estrentfrom, estfromtime, estrentto, esttotime from dealorder with (nolock) where orderid = @orderid");
                 qryOrderType.AddParameter("@orderid", orderId);
                 FwJsonDataTable dt = qryOrderType.QueryToFwJsonTableAsync().Result;
-                _orderType = dt.Rows[0][dt.GetColumnNo("ordertype")].ToString();
-                DateTime orderPickDate = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("pickdate")].ToString());
-                DateTime orderPickTime = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("picktime")].ToString());
-                DateTime orderFromDate = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("estrentfrom")].ToString());
-                DateTime orderFromTime = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("estfromtime")].ToString());
-                DateTime orderToDate = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("estrentto")].ToString());
-                DateTime orderToTime = FwConvert.ToDateTime(dt.Rows[0][dt.GetColumnNo("esttotime")].ToString());
-
-                _orderAvailFromDateTime = null;
-                _orderAvailToDateTime = null;
-                if (orderPickDate != DateTime.MinValue)
+                if (dt.Rows.Count > 0 && dt.Columns.Count > 0)
                 {
-                    _orderAvailFromDateTime = orderPickDate.AddHours(orderPickTime.Hour);
-                }
-                else
-                {
-                    _orderAvailFromDateTime = orderFromDate.AddHours(orderFromTime.Hour);
-                }
-                _orderAvailToDateTime = orderToDate.AddHours(orderToTime.Hour);
+                    _orderType = dt.GetValue(0, "ordertype").ToString();
+                    DateTime orderPickDate = dt.GetValue(0, "pickdate").ToDateTime();
+                    DateTime orderPickTime = dt.GetValue(0, "picktime").ToDateTime();
+                    DateTime orderFromDate = dt.GetValue(0, "estrentfrom").ToDateTime();
+                    DateTime orderFromTime = dt.GetValue(0, "estfromtime").ToDateTime();
+                    DateTime orderToDate   = dt.GetValue(0, "estrentto").ToDateTime();
+                    DateTime orderToTime   = dt.GetValue(0, "esttotime").ToDateTime();
 
+                    _orderAvailFromDateTime = null;
+                    _orderAvailToDateTime = null;
+                    if (orderPickDate != DateTime.MinValue)
+                    {
+                        _orderAvailFromDateTime = orderPickDate.AddHours(orderPickTime.Hour);
+                    }
+                    else
+                    {
+                        _orderAvailFromDateTime = orderFromDate.AddHours(orderFromTime.Hour);
+                    }
+                    _orderAvailToDateTime = orderToDate.AddHours(orderToTime.Hour);
+                }
             }
 
             string tableName = "orderitemdetailwebview";
