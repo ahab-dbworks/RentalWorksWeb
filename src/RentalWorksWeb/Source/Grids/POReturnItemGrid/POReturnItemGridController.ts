@@ -16,7 +16,7 @@
                     .parents('td')
                     .css('background-color', 'rgb(245,245,245)');
             }
-            $quantityColumn.on('change', '.fieldvalue', e => {
+            $quantityColumn.on('change', '.value', e => {
                 let request: any = {},
                     contractId = $tr.find('[data-browsedatafield="ContractId"]').attr('data-originalvalue'),
                     itemId = $tr.find('[data-browsedatafield="PurchaseOrderItemId"]').attr('data-originalvalue'),
