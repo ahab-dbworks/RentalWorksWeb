@@ -72,9 +72,14 @@ class FwAjaxClass {
                 }
                 options.xmlHttpRequest.onload = () => {
                     if (typeof FwAjax.requests[options.requestId] !== 'undefined') {
-                        if (options.xmlHttpRequest.status == 200) {
+                        if (options.xmlHttpRequest.status !== 500) {
                             this.hideLoader(options);
-                            return resolve(JSON.parse(options.xmlHttpRequest.response));
+                            if (options.xmlHttpRequest.status === 200) {
+                                return resolve(JSON.parse(options.xmlHttpRequest.response));
+                            }
+                            else {
+                                return resolve(options.xmlHttpRequest.response);
+                            }
                         }
                         else {
                             this.hideLoader(options);
