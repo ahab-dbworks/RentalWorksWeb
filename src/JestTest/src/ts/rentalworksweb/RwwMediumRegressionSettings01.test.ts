@@ -1,7 +1,7 @@
 import {
     AccountingSettings, GlAccount, GlDistribution, Country, State, BillingCycle, Department, ContactEvent, ContactTitle, MailList, Currency,
     CreditStatus, CustomerCategory, CustomerStatus, CustomerType, DealClassification, DealType, DealStatus, ProductionType, ScheduleType, DiscountTemplate,
-    DocumentType, , EventCategory, PersonnelType, PhotographyType, Building, FacilityType, FacilityRate, FacilityScheduleStatus,
+    DocumentType, EventCategory, PersonnelType, PhotographyType, Building, FacilityType, FacilityRate, FacilityScheduleStatus,
     FacilityStatus, FacilityCategory, SpaceType, FiscalYear, DefaultSettings, 
     InventorySettings, Warehouse, User,
 } from './modules/AllModules';
