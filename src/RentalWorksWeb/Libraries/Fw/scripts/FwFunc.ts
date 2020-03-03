@@ -160,7 +160,7 @@
         var maxZIndex = 1;
         var $elements = jQuery(selector);
         if ($elements.length > 10000) {
-            $elements = $elements.filter('.fwcontextmenu,.fwoverlay,.fwpopup,.fwconfirmation');
+            $elements = $elements.filter('.fwcontextmenu,.fwoverlay,.fwpopup,.fwconfirmation,.submenu');
         }
         for (var i = 0; i < $elements.length; i++) {
             const z: number = +jQuery($elements[i]).css("z-index");
