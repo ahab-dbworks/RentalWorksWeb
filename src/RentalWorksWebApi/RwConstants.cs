@@ -581,7 +581,7 @@ namespace WebApi
         public const string RESOURCE_STATUS_TYPE_VEHICLE = "V";
 
         //SOUNDS
-        public const string DEFAULT_SOUND_FILE_NAME = "./THEME/AUDIO/APPOINTED.MP3";
+        public const string DEFAULT_SOUND_FILE_NAME = "./THEME/AUDIO/TONE.MP3";
 
 
         //BAR CODE STYLE
