@@ -956,9 +956,9 @@ namespace FwStandard.SqlServer
             return reader;
         }
         //------------------------------------------------------------------------------------
-        public bool Next(SqlDataReader reader)
+        public async Task<bool> NextAsync(SqlDataReader reader)
         {
-            this.eof = (!reader.Read());
+            this.eof = (!await reader.ReadAsync());
             if (!this.eof)
             {
                 this.SetFields(reader);
@@ -1196,7 +1196,7 @@ namespace FwStandard.SqlServer
                         dt.Totals.Add(totalFields[i], 0);
                     }
 
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         this.RowCount++;
                         if (readerColumns == null)
@@ -1617,7 +1617,7 @@ namespace FwStandard.SqlServer
                         if (!eof)
                         {
                             this.RowCount++;
-                            this.Next(reader);
+                            await this.NextAsync(reader);
                         }
                         while (await reader.ReadAsync())
                         {
