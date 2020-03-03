@@ -17,7 +17,6 @@
             }
 
             $quantityColumn.on('change', '.value', e => {
-                let orderItemIdComment, codeComment;
                 const newValue = jQuery(e.currentTarget).val();
                 const oldValue = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
                 const quantity = Number(newValue) - Number(oldValue);
@@ -31,6 +30,7 @@
                     VendorId: $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'),
                 };
 
+                let orderItemIdComment, codeComment;
                 if (orderItemIdComment) {
                     request.OrderItemIdComment = orderItemIdComment;
                 };
