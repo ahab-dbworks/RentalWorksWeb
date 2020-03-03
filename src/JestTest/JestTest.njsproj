@@ -67,8 +67,9 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Settings.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionAdmin.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionSettings04.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionSettings03.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionSettings05.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionSettings04.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionSettings02.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionSettings01.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome.test.ts" />
