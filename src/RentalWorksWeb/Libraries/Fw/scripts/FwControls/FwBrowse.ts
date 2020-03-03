@@ -1314,14 +1314,14 @@ class FwBrowseClass {
                         }
                         html.push('>');
                         if ($theadfield.attr('data-browsedatatype') === 'date') {
-                            html.push('<input class="value" type="text"/>');
+                            html.push(`<input class="value" type="search" name="${'a'+Math.random()}"/>`);
                             html.push('<i class="material-icons btndate" style="position:absolute; right:0px; top:5px;">&#xE8DF;</i>');
                             html.push('<span class="searchclear" title="clear" style="right:20px;"><i class="material-icons">clear</i></span>');
                         } else {
                             if (applicationConfig.allCaps && $control.attr('data-allcaps') !== 'false') {
-                                html.push('<input type="text" style="text-transform:uppercase" />');
+                                html.push(`<input type="text" style="text-transform:uppercase" name="${'a'+Math.random()}" />`);
                             } else {
-                                html.push('<input type="text" />');
+                                html.push(`<input type="text" name="${'a'+Math.random()}" />`);
                             }
                             html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
                         }
