@@ -19,7 +19,7 @@ namespace WebApi.Modules.Administrator.CustomReportLayout
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
+        [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string Category { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "html", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: -1, required: true)]
