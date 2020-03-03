@@ -99,34 +99,39 @@
       <tr>
         <td class="" style="font-weight:700;">{{IssuedToCompany}}</td>
       </tr>
-      {{#ifCond IssuedToAttention1 '!==' ""}}
+      {{#if IssuedToAttention1}}
       <tr>
         <td class="">{{IssuedToAttention1}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
       <tr>
         <td class="">{{IssuedToAddress1}}</td>
       </tr>
-      {{#ifCond IssuedToAddress2 '!==' ""}}
+      {{#if IssuedToAddress2}}
       <tr>
         <td class="">{{IssuedToAddress2}}</td>
       </tr>
-      {{/ifCond}}
-      {{#ifCond IssuedToCity '!==' ""}}
+      {{/if}}
+      {{#if IssuedToCity}}
       <tr>
         <td class="">{{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}</td>
       </tr>
-      {{/ifCond}}
-      {{#ifCond IssuedToPhone '!==' ""}}
+      {{/if}}
+    </table>
+    <!-- Ordered By -->
+    <table style="border-top:2px solid #027cc5;">
       <tr>
-        <td class=""><span style="color:#000000;font-weight:700;">Phone: </span>{{IssuedToPhone}}</td>
+        <td class="shaded-block" style="width:100px;">Quoted For: </td>
+        <td class="meta-content">{{OrderedBy}}</td>
       </tr>
-      {{/ifCond}}
-      {{#ifCond IssuedToFax '!==' ""}}
       <tr>
-        <td class=""><span style="color:#000000;font-weight:700;">Fax: </span><span style="padding-left:20px;">{{IssuedToFax}}</span></td>
+        <td class="shaded-block" style="width:100px;">Email: </td>
+        <td class="meta-content">{{OrderedByEmail}}</td>
       </tr>
-      {{/ifCond}}
+      <tr>
+        <td class="shaded-block" style="width:100px;">Phone: </td>
+        <td class="meta-content">{{OrderedByPhoneAndExtension}}</td>
+      </tr>
     </table>
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 321px;margin:0px 10px;">

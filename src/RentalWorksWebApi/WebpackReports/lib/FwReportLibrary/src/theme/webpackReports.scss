@@ -76,14 +76,14 @@ body {
 // Print time footer on all reports
 .rpt-footer {
     align-self: flex-start;
-    font-size: .6em;
+    font-size: .7em;
     font-weight: bold;
     padding-top: 12px;
     margin: 0 0 0 3px;
 }
 
 .meta-header {
-    background-color: #F2F2F2;
+    background-color: #e3f2fd;
     font-weight: 600;
     border-bottom: .2em solid #027cc5;
     border-top: .2em solid #027cc5;
@@ -91,8 +91,8 @@ body {
 }
 
 .meta-section {
-    border-top: .5px solid #027cc5;
-    padding: 2px;
+    //border-top: .5px solid #000000;
+    //padding: 2px;
     display: flex;
 }
 
@@ -107,11 +107,11 @@ body {
     align-self: flex-start;
     font-size: 1em;
     /*padding: 2px 7px 0px 7px;*/
-    color: #027cc5;
+    color: #000000;
 }
 
 .shaded-block {
-    background-color: #F2F2F2;
+    background-color: #e3f2fd;
     font-weight: 600;
     vertical-align: top;
 }
@@ -205,4 +205,9 @@ body {
             -webkit-print-color-adjust: exact; // Allows background shading to render in pdf
         }
     }
+
+  .rpt-footer {
+    font-size:.9em;
+  }
+
 }
