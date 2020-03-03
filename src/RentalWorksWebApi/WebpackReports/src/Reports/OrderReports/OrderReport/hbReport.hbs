@@ -778,7 +778,7 @@
     {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td colspan="5"></td>
-      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">LOSS & DAMAGE Sub-Total</td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">LOST & DAMAGED Sub-Total</td>
       <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;" data-value="{{PeriodExtended}}"></td>
     </tr>
     <tr>
@@ -789,7 +789,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="5"></td>
-      <td class="display-footer" style="background-color:#e3f2fd">LOSS & DAMAGE Total</td>
+      <td class="display-footer" style="background-color:#e3f2fd">LOST & DAMAGED Total</td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -955,7 +955,7 @@
     {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td colspan="5"></td>
-      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">{{RecTypeDisplay}} Sub-Total</td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">SALES Sub-Total</td>
       <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;" data-value="{{PeriodExtended}}"></td>
     </tr>
     <tr>
@@ -966,7 +966,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="5"></td>
-      <td class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}} Total</td>
+      <td class="display-footer" style="background-color:#e3f2fd">SALES Total</td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -1132,7 +1132,7 @@
     {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td colspan="4"></td>
-      <td colspan="2" class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">{{RecTypeDisplay}} Sub-Total</td>
+      <td colspan="2" class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">MISCELLANEOUS Sub-Total</td>
       <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;" data-value="{{PeriodExtended}}"></td>
     </tr>
     <tr>
@@ -1143,7 +1143,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="4"></td>
-      <td colspan="2" class="display-footer" style="background-color:#e3f2fd">{{RecTypeDisplay}} Total</td>
+      <td colspan="2" class="display-footer" style="background-color:#e3f2fd">MISCELLANEOUS Total</td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
