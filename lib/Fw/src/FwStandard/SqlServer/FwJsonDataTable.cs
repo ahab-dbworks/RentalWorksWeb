@@ -188,15 +188,25 @@ namespace FwStandard.SqlServer
                             }
                             else if (col.DataType == FwDataTypes.Date)
                             {
-                                worksheet.Cells[rowno + 2, worksheetcol].Style.Numberformat.Format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
-                                worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDateTime();
-                                if (worksheet.Cells[rowno + 2, worksheetcol].Value == null)
+                                if (this.GetValue(rowno, colno).FieldValue == null)
                                 {
                                     worksheet.Cells[rowno + 2, worksheetcol].Value = string.Empty;
                                 }
+                                else
+                                {
+                                    worksheet.Cells[rowno + 2, worksheetcol].Style.Numberformat.Format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+                                    worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDateTime();
+                                }
+                                //worksheet.Cells[rowno + 2, worksheetcol].Style.Numberformat.Format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+                                //worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDateTime();
+                                //if (worksheet.Cells[rowno + 2, worksheetcol].Value == null)
+                                //{
+                                //    worksheet.Cells[rowno + 2, worksheetcol].Value = string.Empty;
+                                //}
 
                                 worksheetcol++;
                             }
+
                             else
                             {
                                 worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToString();
