@@ -230,7 +230,7 @@ namespace RentalWorksQuikScan.Modules
                 {
                     if (i > 0)
                     {
-                        qry.Add(" or ");
+                        qry.Add(" and ");
                     }
                     qry.Add("(master like '%' + @searchvalue" + i + " + '%')");
                     qry.AddParameter("@searchvalue" + i, searchvalues[i]);
