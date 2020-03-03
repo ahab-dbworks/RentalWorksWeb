@@ -173,7 +173,7 @@ class ReturnToVendor {
 
                     $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
                     FwBrowse.search($pOReturnItemGridControl);
-                }, null, null);
+                }, null, $form);
             }
         });
     };
