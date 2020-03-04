@@ -73,6 +73,40 @@ class Sound {
             const sound = new Audio(soundFileName);
             sound.play();
         });
+        function dataURItoBlob(dataURI) {
+            var byteString = atob(dataURI.split(',')[1]);
+
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+            var ab = new ArrayBuffer(byteString.length);
+            var ia = new Uint8Array(ab);
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+
+            var bb = new Blob([ab], { "type": mimeString });
+            return bb;
+        }
+        //$form.find('#rll').on('change', e => {
+        //    const $this = jQuery(e.currentTarget);
+        //    const folder: any = $this[0];
+        //    if (folder.files) {
+        //        const file = folder.files;
+        //        const url = URL.createObjectURL(file[0]);
+        //       $form.find('#rlly').attr("src", URL.createObjectURL(file[0]));
+        //        $form.find('#rlly').load(url);
+        //        $form.find('#rllly').load(url);
+        //        let audio: any = document.getElementById('rllly');
+        //        audio.load();
+            
+        //        let here;
+
+        //    }
+        //    //var files = e.target.files;
+        //    //$("#rlly").attr("src", URL.createObjectURL(files[0]));
+        //    //document.getElementById("rllly").load();
+
+        //});
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
