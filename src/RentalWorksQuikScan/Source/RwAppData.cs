@@ -1088,50 +1088,60 @@ namespace RentalWorksQuikScan.Source
             return RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetStagingPendingItems(FwSqlConnection conn, string orderId, string warehouseId, string contractId)
+        public static dynamic GetStagingPendingItems(FwSqlConnection conn, string orderId, string warehouseId, string contractId, string searchMode, string searchValue, int pageNo, int pageSize)
         {
             dynamic result;
-            FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
-            qry.AddColumn("orderid",            false);
-            qry.AddColumn("masterid",           false);
-            qry.AddColumn("parentid",           false);
-            qry.AddColumn("masteritemid",       false);
-            qry.AddColumn("exceptionflg",       false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.AddColumn("someout",            false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.AddColumn("masterno",           false);
-            qry.AddColumn("description",        false);
-            qry.AddColumn("vendor",             false);
-            //qry.AddColumn("vendorid",           false);
-            qry.AddColumn("qtyordered",         false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtystagedandout",    false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtyout",             false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtysub",             false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtysubstagedandout", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtysubout",          false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("missingflg",         false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.AddColumn("missingqty",         false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("trackedby",          false);
-            qry.AddColumn("rectype",            false);
-            qry.AddColumn("itemclass",          false);
-            qry.AddColumn("itemorder",          false);
-            qry.AddColumn("orderby",            false);
-            qry.AddColumn("optioncolor",        false);
-            qry.AddColumn("warehouseid",        false);
-            qry.AddColumn("whcode",             false);
-            qry.AddColumn("scannablemasterid",  false);
-            qry.Add("select *");
-            qry.Add("from dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)");
-            qry.Add("where exceptionflg = 'T'");
-            qry.Add("  and (qtyordered > 0 or qtystagedandout > 0)");
-            qry.Add("  and ((itemclass = 'C') or (itemclass = 'K') or (itemclass = 'S') or (itemclass = 'N') or missingflg = 'T')");
-            qry.Add("order by orderby");
-            qry.AddParameter("@orderid", orderId);
-            qry.AddParameter("@warehouseid", warehouseId);
-            qry.AddParameter("@contractid", contractId);
-            result = new ExpandoObject();
-            result = qry.QueryToFwJsonTable(true);
-            return result;
+
+            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            {
+                FwSqlSelect select = new FwSqlSelect();
+                select.PageNo = pageNo;
+                select.PageSize = pageSize;
+                qry.AddColumn("orderid",            false);
+                qry.AddColumn("masterid",           false);
+                qry.AddColumn("parentid",           false);
+                qry.AddColumn("masteritemid",       false);
+                qry.AddColumn("exceptionflg",       false, FwJsonDataTableColumn.DataTypes.Boolean);
+                qry.AddColumn("someout",            false, FwJsonDataTableColumn.DataTypes.Boolean);
+                qry.AddColumn("masterno",           false);
+                qry.AddColumn("description",        false);
+                qry.AddColumn("vendor",             false);
+                //qry.AddColumn("vendorid",           false);
+                qry.AddColumn("qtyordered",         false, FwJsonDataTableColumn.DataTypes.Decimal);
+                qry.AddColumn("qtystagedandout",    false, FwJsonDataTableColumn.DataTypes.Decimal);
+                qry.AddColumn("qtyout",             false, FwJsonDataTableColumn.DataTypes.Decimal);
+                qry.AddColumn("qtysub",             false, FwJsonDataTableColumn.DataTypes.Decimal);
+                qry.AddColumn("qtysubstagedandout", false, FwJsonDataTableColumn.DataTypes.Decimal);
+                qry.AddColumn("qtysubout",          false, FwJsonDataTableColumn.DataTypes.Decimal);
+                qry.AddColumn("missingflg",         false, FwJsonDataTableColumn.DataTypes.Boolean);
+                qry.AddColumn("missingqty",         false, FwJsonDataTableColumn.DataTypes.Decimal);
+                qry.AddColumn("trackedby",          false);
+                qry.AddColumn("rectype",            false);
+                qry.AddColumn("itemclass",          false);
+                qry.AddColumn("itemorder",          false);
+                qry.AddColumn("orderby",            false);
+                qry.AddColumn("optioncolor",        false);
+                qry.AddColumn("warehouseid",        false);
+                qry.AddColumn("whcode",             false);
+                qry.AddColumn("scannablemasterid",  false);
+                select.Add("select *");
+                select.Add("from dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)");
+                select.Add("where exceptionflg = 'T'");
+                select.Add("  and (qtyordered > 0 or qtystagedandout > 0)");
+                select.Add("  and ((itemclass = 'C') or (itemclass = 'K') or (itemclass = 'S') or (itemclass = 'N') or missingflg = 'T')");
+                if (searchMode == "description")
+                {
+                    select.Add("  and description like @searchvalue");
+                    select.AddParameter("@searchvalue", "%" + searchValue + "%");
+                }
+                select.Add("order by orderby");
+                select.AddParameter("@orderid", orderId);
+                select.AddParameter("@warehouseid", warehouseId);
+                select.AddParameter("@contractid", contractId);
+                result = new ExpandoObject();
+                result = qry.QueryToFwJsonTable(select, true);
+                return result;
+            }
         }
         //----------------------------------------------------------------------------------------------------
         public static dynamic FuncCheckoutException(FwSqlConnection conn, string orderId, string warehouseId, string contractId, string masterItemId)

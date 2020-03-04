@@ -324,10 +324,26 @@ namespace RentalWorksQuikScan.Modules
             session.userLocation = RwAppData.GetUserLocation(conn: FwSqlConnection.RentalWorks
                                                            , usersId: session.security.webUser.usersid);
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "Your user account requires a warehouse to peform this action.", session.userLocation.warehouseId);
+            string searchMode = string.Empty;
+            string searchValue = string.Empty;
+            int pageNo = 0;
+            int pageSize = 0;
+            if (FwValidate.IsPropertyDefined(request, "pageno"))
+            {
+                pageNo = request.pageno;
+            }
+            if (FwValidate.IsPropertyDefined(request, "pagesize"))
+            {
+                pageSize = request.pagesize;
+            }
             response.getStagingPendingItems = RwAppData.GetStagingPendingItems(conn:        FwSqlConnection.RentalWorks,
                                                                                orderId:     request.orderid,
                                                                                warehouseId: session.userLocation.warehouseId,
-                                                                               contractId:  request.contractid);
+                                                                               contractId:  request.contractid,
+                                                                               searchMode:  searchMode,
+                                                                               searchValue: searchValue,
+                                                                               pageNo:      pageNo,
+                                                                               pageSize:    pageSize);
         }
         //----------------------------------------------------------------------------------------------------
         public static FwJsonDataTable funcstaged(FwSqlConnection conn, string orderid, string warehouseid, bool summary)

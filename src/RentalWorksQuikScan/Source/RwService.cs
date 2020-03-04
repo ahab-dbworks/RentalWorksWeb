@@ -490,7 +490,11 @@ namespace RentalWorksQuikScan.Source
             dtPendingList = RwAppData.GetStagingPendingItems(conn:        FwSqlConnection.RentalWorks
                                                            , orderId:     orderid
                                                            , warehouseId: warehouseid
-                                                           , contractId:  string.Empty); //mv 08/10/2015 I think we don't want to pass the contract so it shows everything from the order
+                                                           , contractId:  string.Empty
+                                                           , searchMode:  string.Empty
+                                                           , searchValue: string.Empty
+                                                           , pageNo:      0
+                                                           , pageSize:    0); //mv 08/10/2015 I think we don't want to pass the contract so it shows everything from the order
             //ordMasterNo            = dtPendingList.ColumnIndex["masterno"];
             ordMasterItemId         = dtPendingList.ColumnIndex["masteritemid"];
             ordMissingQty           = dtPendingList.ColumnIndex["missingqty"];
@@ -538,7 +542,11 @@ namespace RentalWorksQuikScan.Source
             response.getStagingPendingItems = RwAppData.GetStagingPendingItems(conn:        FwSqlConnection.RentalWorks,
                                                                                orderId:     orderid,
                                                                                warehouseId: warehouseid,
-                                                                               contractId:  string.Empty);
+                                                                               contractId:  string.Empty,
+                                                                               searchMode:  string.Empty,
+                                                                               searchValue: string.Empty,
+                                                                               pageNo:      0,
+                                                                               pageSize:    0);
         }
         //---------------------------------------------------------------------------------------------
         public static void LoadRFIDPending(dynamic request, dynamic response, dynamic session)
