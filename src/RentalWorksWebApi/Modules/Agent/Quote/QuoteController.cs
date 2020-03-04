@@ -35,6 +35,7 @@ using WebApi.Modules.Settings.ShipViaSettings.ShipVia;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Settings.DepartmentLocation;
+using WebApi.Modules.Settings.OrderTypeLocation;
 
 namespace WebApi.Modules.Agent.Quote
 {
@@ -874,7 +875,7 @@ namespace WebApi.Modules.Agent.Quote
         [FwControllerMethod(Id: "PEULonYOfAeS", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> OrderTypeLocation_BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest);
+            return await DoBrowseAsync<OrderTypeLocationLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }

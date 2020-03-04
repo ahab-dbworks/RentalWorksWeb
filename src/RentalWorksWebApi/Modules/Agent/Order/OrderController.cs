@@ -25,6 +25,7 @@ using WebApi.Modules.Settings.OrderSettings.DiscountReason;
 using WebApi.Modules.Settings.OrderSettings.MarketSegment;
 using WebApi.Modules.Settings.OrderSettings.MarketType;
 using WebApi.Modules.Settings.OrderSettings.OrderType;
+using WebApi.Modules.Settings.OrderTypeLocation;
 using WebApi.Modules.Settings.PaymentSettings.PaymentTerms;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;
 using WebApi.Modules.Settings.RateType;
@@ -845,7 +846,7 @@ namespace WebApi.Modules.Agent.Order
         [FwControllerMethod(Id: "ISu3pJ6XJNTd", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> OrderTypeLocation_BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest);
+            return await DoBrowseAsync<OrderTypeLocationLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------
     }
