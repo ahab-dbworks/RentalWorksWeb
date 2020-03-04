@@ -300,7 +300,7 @@ namespace RentalWorksQuikScan.Source
             session.userLocation   = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, usersid);
             warehouseid  = session.userLocation.warehouseId;
             response.unstageItem           = RwAppData.AdvancedMoveMasterItemId(FwSqlConnection.RentalWorks, contractid, vendorid, masteritemid, qty, usersid, 4);
-            response.getStagingStagedItems = Staging.funccheckedout(FwSqlConnection.RentalWorks, contractid);
+            response.getStagingStagedItems = Staging.funccheckedout(FwSqlConnection.RentalWorks, contractid, string.Empty, string.Empty, 0, 0);
         }
         //---------------------------------------------------------------------------------------------
         //public static void GetPhyItemInfo(dynamic request, dynamic response, dynamic session)

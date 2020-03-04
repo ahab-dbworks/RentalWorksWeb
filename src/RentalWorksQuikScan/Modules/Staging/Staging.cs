@@ -346,61 +346,73 @@ namespace RentalWorksQuikScan.Modules
                                                                                pageSize:    pageSize);
         }
         //----------------------------------------------------------------------------------------------------
-        public static FwJsonDataTable funcstaged(FwSqlConnection conn, string orderid, string warehouseid, bool summary)
+        public static FwJsonDataTable funcstaged(FwSqlConnection conn, string orderid, string warehouseid, bool summary, string searchMode, string searchValue, int pageNo, int pageSize)
         {
-            dynamic result;
-            FwSqlCommand qry;
-
-            qry = new FwSqlCommand(conn);
-            qry.AddColumn("rectype", false);
-            qry.AddColumn("masteritemid", false);
-            qry.AddColumn("description", false);
-            qry.AddColumn("masterid", false);
-            qry.AddColumn("masterno", false);
-            qry.AddColumn("barcode", false);
-            qry.AddColumn("quantity", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("vendorid", false);
-            qry.AddColumn("vendor", false);
-            qry.AddColumn("itemclass", false);
-            qry.AddColumn("trackedby", false);
-            qry.Add("select *");
-            qry.Add("from dbo.funcstaged(@orderid, @summary)");
-            qry.Add("where warehouseid = @warehouseid");
-            qry.Add("order by orderby");
-            qry.AddParameter("@orderid", orderid);
-            qry.AddParameter("@summary", FwConvert.LogicalToCharacter(summary));
-            qry.AddParameter("@warehouseid", warehouseid);
-            result = new ExpandoObject();
-            result = qry.QueryToFwJsonTable(true);
-
-            return result;
+            using (var qry = new FwSqlCommand(conn))
+            {
+                qry.AddColumn("rectype", false);
+                qry.AddColumn("masteritemid", false);
+                qry.AddColumn("description", false);
+                qry.AddColumn("masterid", false);
+                qry.AddColumn("masterno", false);
+                qry.AddColumn("barcode", false);
+                qry.AddColumn("quantity", false, FwJsonDataTableColumn.DataTypes.Decimal);
+                qry.AddColumn("vendorid", false);
+                qry.AddColumn("vendor", false);
+                qry.AddColumn("itemclass", false);
+                qry.AddColumn("trackedby", false);
+                var select = new FwSqlSelect();
+                select.PageNo = pageNo;
+                select.PageSize = pageSize;
+                select.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby");
+                select.Add("from dbo.funcstaged(@orderid, @summary)");
+                select.Add("where warehouseid = @warehouseid");
+                if (searchMode == "description")
+                {
+                    select.AddWhere("description like @searchvalue");
+                    select.AddParameter("@searchvalue", "%" + searchValue + "%");
+                }
+                select.Add("order by orderby");
+                select.AddParameter("@orderid", orderid);
+                select.AddParameter("@summary", FwConvert.LogicalToCharacter(summary));
+                select.AddParameter("@warehouseid", warehouseid);
+                dynamic result = new ExpandoObject();
+                result = qry.QueryToFwJsonTable(select, false);
+                return result;
+            }
         }
         //----------------------------------------------------------------------------------------------------
-        public static FwJsonDataTable funccheckedout(FwSqlConnection conn, string contractid)
+        public static FwJsonDataTable funccheckedout(FwSqlConnection conn, string contractid, string searchMode, string searchValue, int pageNo, int pageSize)
         {
-            dynamic result;
-            FwSqlCommand qry;
-
-            qry = new FwSqlCommand(conn);
-            qry.AddColumn("rectype", false);
-            qry.AddColumn("masteritemid", false);
-            qry.AddColumn("description", false);
-            qry.AddColumn("masterid", false);
-            qry.AddColumn("masterno", false);
-            qry.AddColumn("barcode", false);
-            qry.AddColumn("quantity", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("vendorid", false);
-            qry.AddColumn("vendor", false);
-            qry.AddColumn("itemclass", false);
-            qry.AddColumn("trackedby", false);
-            qry.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby");
-            qry.Add("from dbo.funccheckedout(@contractid)");
-            qry.Add("order by orderby");
-            qry.AddParameter("@contractid", contractid);
-            result = new ExpandoObject();
-            result = qry.QueryToFwJsonTable();
-
-            return result;
+            using (var qry = new FwSqlCommand(conn))
+            {
+                qry.AddColumn("rectype", false);
+                qry.AddColumn("masteritemid", false);
+                qry.AddColumn("description", false);
+                qry.AddColumn("masterid", false);
+                qry.AddColumn("masterno", false);
+                qry.AddColumn("barcode", false);
+                qry.AddColumn("quantity", false, FwJsonDataTableColumn.DataTypes.Decimal);
+                qry.AddColumn("vendorid", false);
+                qry.AddColumn("vendor", false);
+                qry.AddColumn("itemclass", false);
+                qry.AddColumn("trackedby", false);
+                var select = new FwSqlSelect();
+                select.PageNo = pageNo;
+                select.PageSize = pageSize;
+                select.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby");
+                select.Add("from dbo.funccheckedout(@contractid)");
+                if (searchMode == "description")
+                {
+                    select.AddWhere("description like @searchvalue");
+                    select.AddParameter("@searchvalue", "%" + searchValue + "%");
+                }
+                select.Add("order by orderby");
+                select.AddParameter("@contractid", contractid);
+                dynamic result = new ExpandoObject();
+                result = qry.QueryToFwJsonTable(select, false);
+                return result;
+            }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters = "orderid,contractid")]
@@ -414,13 +426,26 @@ namespace RentalWorksQuikScan.Modules
             //FwValidate.TestIsNullOrEmpty(METHOD_NAME, "Your user account requires a warehouse to peform this action.", session.userLocation.warehouseId);
             //FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
 
+            string searchMode = string.Empty;
+            string searchValue = string.Empty;
+            int pageNo = 0;
+            int pageSize = 0;
+            if (FwValidate.IsPropertyDefined(request, "pageno"))
+            {
+                pageNo = request.pageno;
+            }
+            if (FwValidate.IsPropertyDefined(request, "pagesize"))
+            {
+                pageSize = request.pagesize;
+            }
+
             if (string.IsNullOrEmpty(request.contractid))
             {
-                response.getStagingStagedItems = Staging.funcstaged(FwSqlConnection.RentalWorks, request.orderid, warehouseid, false);
+                response.getStagingStagedItems = Staging.funcstaged(FwSqlConnection.RentalWorks, request.orderid, warehouseid, false, searchMode, searchValue, pageNo, pageSize);
             }
             else
             {
-                response.getStagingStagedItems = Staging.funccheckedout(FwSqlConnection.RentalWorks, request.contractid);
+                response.getStagingStagedItems = Staging.funccheckedout(FwSqlConnection.RentalWorks, request.contractid, searchMode, searchValue, pageNo, pageSize);
             }
 
             // mv 2016-12-13 Changed the Staged list to show both the staged items and the items on the contract
