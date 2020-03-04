@@ -27,19 +27,12 @@
         <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
         <td style="width:50%;font-size:18px;text-align:center;">{{OrderDate}}</td>
       </tr>
-      {{#ifCond OutDeliveryRequiredByDateTime '!==' ""}}
-      <tr>
-        <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;"></td>
-        <td style="width:50%;font-size:18px;text-align:center;padding-top:10px;"><span style="color:black;font-size:18px;font-weight:700;text-align:right;">Required By: </span>{{OutDeliveryRequiredByDateTime}}</td>
-      </tr>
-      {{/ifCond}}
     </table>
   </div>
 </div>
-
 <div class="rpt-flexrow" style="margin-top:15px;">
+  <!-- Issued To -->
   <div class="rpt-flexcolumn" style="flex:0 0 400px;margin-right:10px;">
-    <!-- Issued To -->
     <table id="issuedTo">
       <tr>
         <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Issued To</th>
@@ -61,30 +54,28 @@
       <tr>
         <td class=""><span style="color:#000000;font-weight:700;">Phone: </span>{{IssuedToPhone}}</td>
       </tr>
-      <tr>
-        <td class=""><span style="color:#000000;font-weight:700;">Fax: </span><span style="padding-left:20px;">{{IssuedToFax}}</span></td>
-      </tr>
     </table>
   </div>
+  <!-- Ordered From -->
   <div class="rpt-flexcolumn" style="flex:0 0 332px;border-top: 2px solid #027cc5;margin:0px 10px;">
-    <!-- Ordered From -->
     <table>
       <tr>
         <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Ordered From:</td>
         <td class="">{{OrderedBy}}</td>
       </tr>
       <tr>
-        <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Phone:</td>
-        <td class="">{{OrderedByPhone}}</td>
-      </tr>
-      <tr>
         <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Email:</td>
         <td class="">{{OrderedByEmail}}</td>
       </tr>
+      <tr>
+        <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Phone:</td>
+        <td class="">{{OrderedByPhone}}</td>
+      </tr>
     </table>
   </div>
+  <!-- Receive from Vendor -->
   <div class="rpt-flexcolumn" style="flex:0 0 332px;margin-left:10px;">
-    <!-- Receive from Vendor -->
+    {{#ifNotEquals OrderTypeDescription "MISCELLANEOUS"}}
     <table id="outgoing">
       <tr>
         <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Receive from Vendor ({{OutDeliveryType}})</th>
@@ -92,37 +83,31 @@
       <tr>
         <td class=""><span style="font-weight:700;">Location: </span>{{OutDeliveryLocation}}</td>
       </tr>
-      {{#ifCond OutDeliveryAttention '!==' ""}}
+      {{#if OutDeliveryAttention}}
       <tr>
         <td class=""><span style="font-weight:700;">Attention: </span>{{OutDeliveryAttention}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
       <tr>
-        <td class="">{{OutDeliveryAddress1}}</td>
+        <td class="">{{OutDeliveryAddress1}}{{#if OutDeliveryAddress2}},&nbsp;{{OutDeliveryAddress2}}{{/if}}</td>
       </tr>
-      {{#ifCond OutDeliveryAddress2 '!==' ""}}
-      <tr>
-        <td class="">{{OutDeliveryAddress2}}</td>
-      </tr>
-      {{/ifCond}}
-      {{#ifCond OutDeliveryCity '!==' ""}}
+      {{#if OutDeliveryCity}}
       <tr>
         <td class="">{{OutDeliveryCity}}, {{OutDeliveryState}} {{OutDeliveryZipCode}} {{OutDeliveryCountry}}</td>
       </tr>
-      {{/ifCond}}
-      {{#ifCond OutDeliveryRequiredByDateTime '!==' ""}}
+      {{/if}}
+      {{#if OutDeliveryRequiredByDateTime}}
       <tr>
         <td class=""><span style="font-weight:700;">Required By: </span>{{OutDeliveryRequiredByDateTime}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
     </table>
+    {{/ifNotEquals}}
   </div>
 </div>
-
-<!-- Ordered By  -->
 <div class="rpt-flexrow" style="margin-top:25px;">
+  <!-- Description, Billing Period, Usage Period, etc -->
   <div class="rpt-flexcolumn" style="flex:0 0 400px;border-top: 2px solid #027cc5;padding:1px;margin-right:10px;">
-    <!-- Description, Billing Period, Usage Period, etc -->
     <table>
       {{#ifEquals OrderTypeDescription "INVENTORY"}}
       <tr>
@@ -150,26 +135,27 @@
       </tr>
     </table>
   </div>
+  <!-- Ordered By -->
   <div class="rpt-flexcolumn" style="flex:0 0 332px;padding:1px;border-top: 2px solid #027cc5;margin:0px 10px;">
-    <!-- Ordered By -->
     <table>
       <tr>
         <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Ordered By:</td>
         <td class="">{{Agent}}</td>
       </tr>
       <tr>
-        <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Phone:</td>
-        <td class="">{{AgentPhone}}</td>
-      </tr>
-      <tr>
         <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Email:</td>
         <td class="">{{AgentEmail}}</td>
       </tr>
+      <tr>
+        <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Phone:</td>
+        <td class="">{{AgentPhone}}</td>
+      </tr>
     </table>
   </div>
+  <!-- Return to Vendor -->
   <div class="rpt-flexcolumn" style="flex:0 0 332px;padding:1px;margin-left:10px;">
-    <!-- Return to Vendor -->
     {{#ifNotEquals OrderTypeDescription "INVENTORY"}}
+    {{#ifNotEquals OrderTypeDescription "MISCELLANEOUS"}}
     <table id="incoming">
       <tr>
         <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Return to Vendor ({{InDeliveryType}})</th>
@@ -177,35 +163,30 @@
       <tr>
         <td class=""><span style="font-weight:700;">Location: </span>{{InDeliveryLocation}}</td>
       </tr>
-      {{#ifCond InDeliveryAttention '!==' ""}}
+      {{#if InDeliveryAttention}}
       <tr>
         <td class=""><span style="font-weight:700;">Attention: </span>{{InDeliveryAttention}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
       <tr>
-        <td class="">{{InDeliveryAddress1}}</td>
+        <td class="">{{InDeliveryAddress1}}{{#if InDeliveryAddress2}},&nbsp;{{InDeliveryAddress2}}{{/if}}</td>
       </tr>
-      {{#ifCond InDeliveryAddress2 '!==' ""}}
-      <tr>
-        <td class="">{{InDeliveryAddress2}}</td>
-      </tr>
-      {{/ifCond}}
-      {{#ifCond InDeliveryCity '!==' ""}}
+      {{#if InDeliveryCity}}
       <tr>
         <td class="">{{InDeliveryCity}}, {{InDeliveryState}} {{InDeliveryZipCode}} {{InDeliveryCountry}}</td>
       </tr>
-      {{/ifCond}}
-      {{#ifCond InDeliveryRequiredByDateTime '!==' ""}}
+      {{/if}}
+      {{#if InDeliveryRequiredByDateTime}}
       <tr>
         <td class=""><span style="font-weight:700;">Required By: </span>{{InDeliveryRequiredByDateTime}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
     </table>
+    {{/ifNotEquals}}
     {{/ifNotEquals}}
   </div>
 </div>
-
-<!-- Activity Items -->
+<!-- Rental Items -->
 <div class="rpt-flexrow" style="margin-top:25px;">
   <table style="table-layout:fixed;">
     {{#each RentalItems}}
@@ -376,7 +357,6 @@
     {{/each}}
   </table>
 </div>
-
 <!-- Sales Activity -->
 <div class="rpt-flexrow">
   <table style="table-layout:fixed;">
@@ -541,7 +521,6 @@
     {{/each}}
   </table>
 </div>
-
 <!-- Misc Activity -->
 <div class="rpt-flexrow">
   <table style="table-layout:fixed;">
@@ -706,7 +685,6 @@
     {{/each}}
   </table>
 </div>
-
 <!-- Labor Activity -->
 <div class="rpt-flexrow">
   <table style="table-layout:fixed;">
@@ -871,7 +849,6 @@
     {{/each}}
   </table>
 </div>
-
 <!-- Facilities Activity -->
 <div class="rpt-flexrow">
   <table style="table-layout:fixed;">
@@ -1036,7 +1013,6 @@
     {{/each}}
   </table>
 </div>
-
 <div class="rpt-flexrow" style="margin-top:25px;">
   {{#each Items}}
   {{#ifEquals RowType "grandtotal"}}
@@ -1050,5 +1026,4 @@
   {{/ifEquals}}
   {{/each}}
 </div>
-
 <div id="termsRow" style="padding:20px 10px 0px 10px;font-size:1em;" class="rpt-flexrow" colspan="7"><span id="terms"></span></div>
