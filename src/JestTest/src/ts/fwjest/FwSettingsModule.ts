@@ -14,7 +14,7 @@ export class FwSettingsModule extends FwModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 600;
     waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 800;
     waitAfterClickingToOpenRecordToCheckForErrors: number = 300;
-    waitForButtonToGetEvents: number = 2500;
+    waitForButtonToGetEvents: number = 4000;
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
