@@ -461,6 +461,7 @@ class QuikActivityCalendar {
                         <div class="pop-out" style="cursor:pointer; margin-right:1.5em;"><i class="material-icons" title="Pop Out">open_in_new</i><div class="btn-text" style="float:right;">Pop-Out</div></div>
                         <div class="close-modal" style="position:static;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
                     </div>
+                    <div class="fwform-menu"></div>
                     <div class="flexcolumn">
                       <div class="flexrow" style="max-width:inherit;">
                          <div class="fwcontrol fwcontainer fwform-section activities-header" data-control="FwContainer" data-type="section" data-caption="Activities">
@@ -498,11 +499,14 @@ class QuikActivityCalendar {
                 FwControl.renderRuntimeControls($popoutContent.find('.fwcontrol'));
                 FwModule.openSubModuleTab($form, $popoutContent);
                 $popoutContent.find('.popup-buttons').remove();
-                $popoutContent.css('border', 'none');
+                $popoutContent.css({ 'border': 'none', 'max-width': 'none', 'padding': '0px' });
                 const myActivity = FwFormField.getValueByDataField($popup, 'MyActivity');
                 const completeActivity = FwFormField.getValueByDataField($popup, 'CompleteActivity');
                 FwFormField.setValueByDataField($popoutContent, 'MyActivity', myActivity === 'T' ? true : false);
                 FwFormField.setValueByDataField($popoutContent, 'CompleteActivity', completeActivity === 'T' ? true : false);
+                const $menu = FwMenu.getMenuControl('default');
+                $popoutContent.find('.fwform-menu').append($menu);
+                FwMenu.addSubMenu($menu);
                 this.quikActivityCalendarInit($form, $popoutContent); //attaches events to new popuptab 
                 const activityHeader = $popup.find('.activities-header .fwform-section-title').text();
                 const tabid = $popoutContent.closest('.tabpage').attr('data-tabid');
