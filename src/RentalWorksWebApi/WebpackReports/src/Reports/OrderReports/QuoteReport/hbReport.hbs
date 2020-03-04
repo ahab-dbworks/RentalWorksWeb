@@ -30,9 +30,10 @@
     </table>
   </div>
 </div>
-<!-- Agent / Order / Dates -->
+
 <div class="rpt-flexrow">
-  <div class="rpt-flexcolumn" style="flex:0 0 422px;border-top: 2px solid #027cc5;padding:1px;margin-right:10px;">
+  <!-- Quote details -->
+  <div class="rpt-flexcolumn" style="flex:0 0 422px;border-top: 2px solid #027cc5;margin-right:10px;">
     <table>
       <tr>
         <td style="width:90px;background-color:#e3f2fd;font-weight:700;">Description:</td>
@@ -52,7 +53,8 @@
       </tr>
     </table>
   </div>
-  <div class="rpt-flexcolumn" style="flex:0 0 321px;border-top: 2px solid #027cc5;padding:1px;margin:0px 10px;">
+  <!-- Agent details -->
+  <div class="rpt-flexcolumn" style="flex:0 0 321px;border-top: 2px solid #027cc5;margin:0px 10px;">
     <table>
       <tr>
         <td style="width:55px;background-color:#e3f2fd;font-weight:700;">Agent:</td>
@@ -68,16 +70,21 @@
       </tr>
     </table>
   </div>
-  <div class="rpt-flexcolumn" style="flex:0 0 321px;border-top: 2px solid #027cc5;padding:1px;margin-left:10px;">
+  <!-- Billing Dates, Usage Dates, Terms, Billing Cycle-->
+  <div class="rpt-flexcolumn" style="flex:0 0 321px;border-top: 2px solid #027cc5;margin-left:10px;">
     <table>
+      {{#ifCond BillingDates '!==' "N/A"}}
       <tr>
         <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Billing Period:</td>
         <td class="">{{BillingDates}}</td>
       </tr>
+      {{/ifCond}}
+      {{#ifCond UsageDates '!==' "N/A"}}
       <tr>
         <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Usage Period:</td>
         <td class="">{{UsageDates}}</td>
       </tr>
+      {{/ifCond}}
       <tr>
         <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Terms:</td>
         <td class="">{{PaymentTerms}}</td>
@@ -118,20 +125,26 @@
       </tr>
       {{/if}}
     </table>
-    <!-- Ordered By -->
+    <!-- Quoted For -->
     <table style="border-top:2px solid #027cc5;">
+      {{#if OrderedBy}}
       <tr>
         <td class="shaded-block" style="width:100px;">Quoted For: </td>
         <td class="meta-content">{{OrderedBy}}</td>
       </tr>
+      {{/if}}
+      {{#if OrderedByEmail}}
       <tr>
         <td class="shaded-block" style="width:100px;">Email: </td>
         <td class="meta-content">{{OrderedByEmail}}</td>
       </tr>
+      {{/if}}
+      {{#if OrderedByPhoneAndExtension}}
       <tr>
         <td class="shaded-block" style="width:100px;">Phone: </td>
         <td class="meta-content">{{OrderedByPhoneAndExtension}}</td>
       </tr>
+      {{/if}}
     </table>
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 321px;margin:0px 10px;">
@@ -202,11 +215,12 @@
   </div>
 </div>
 <!-- Rental Items -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each RentalItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!-- spacer row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
@@ -553,18 +567,18 @@
     {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td colspan="5"></td>
-      <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">USED SALE Sub-Total</td>
+      <td colspan="2" class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;">USED SALE Sub-Total</td>
       <td class="" style="text-align:right;font-weight:700;border-top: 1.5px solid black;" data-value="{{PeriodExtended}}"></td>
     </tr>
     <tr>
       <td colspan="5"></td>
-      <td class="tax" style="text-align:right;font-weight:700;">Tax ({{TaxRate1}}%)</td>
+      <td colspan="2" class="tax" style="text-align:right;font-weight:700;">Tax ({{TaxRate1}}%)</td>
       <td class="tax" style="text-align:right;font-weight:700;" data-value="{{PeriodTax}}"></td>
     </tr>
     {{/ifNotEquals}}
     <tr>
       <td colspan="5"></td>
-      <td class="display-footer" style="background-color:#e3f2fd">USED SALE Total</td>
+      <td colspan="2" class="display-footer" style="background-color:#e3f2fd">USED SALE Total</td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
