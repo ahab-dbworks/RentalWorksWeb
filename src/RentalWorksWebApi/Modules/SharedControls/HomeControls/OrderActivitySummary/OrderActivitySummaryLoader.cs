@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
-namespace WebApi.Modules.Agent.OrderActivitySummary
+namespace WebApi.Modules.HomeControls.OrderActivitySummary
 {
     public class OrderActivitySummaryLoader : AppDataLoadRecord
     {
