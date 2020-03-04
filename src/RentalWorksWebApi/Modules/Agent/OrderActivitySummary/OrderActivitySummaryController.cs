@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.HomeControls.OrderActivitySummary
+namespace WebApi.Modules.Agent.OrderActivitySummary
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "agent-v1")]

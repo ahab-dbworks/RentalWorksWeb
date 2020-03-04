@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.HomeControls.OrderActivitySummary
+namespace WebApi.Modules.Agent.OrderActivitySummary
 {
     [FwLogic(Id: "aNR1hwNW4eD66")]
     public class OrderActivitySummaryLogic : AppBusinessLogic
