@@ -909,11 +909,13 @@ abstract class StagingCheckoutBase {
                         FwFunc.playSuccessSound();
                         this.addItemFieldValues($form, response);
                         debouncedRefreshGrid();
+                        FwFormField.setValueByDataField($form, 'Code', '');
                         $form.find('[data-datafield="Code"] input').select();
                     } if (response.status === 107) {
                         FwFunc.playSuccessSound();
                         this.addItemFieldValues($form, response);
-                        FwFormField.setValueByDataField($form, 'Quantity', 0)
+                        FwFormField.setValueByDataField($form, 'Quantity', 0);
+                        FwFormField.setValueByDataField($form, 'Code', '');
                         $form.find('div[data-datafield="Quantity"] input').select();
                     } if (response.ShowAddItemToOrder === true) {
                         FwFunc.playErrorSound();
@@ -965,7 +967,8 @@ abstract class StagingCheckoutBase {
                             FwFunc.playSuccessSound();
                             this.addItemFieldValues($form, response);
                             debouncedRefreshGrid();
-                            FwFormField.setValueByDataField($form, 'Quantity', 0)
+                            FwFormField.setValueByDataField($form, 'Quantity', 0);
+                            FwFormField.setValueByDataField($form, 'Code', '');
                             $form.find('[data-datafield="Code"] input').select();
                         } if (response.ShowAddItemToOrder === true) {
                             FwFunc.playErrorSound();
@@ -1251,6 +1254,7 @@ abstract class StagingCheckoutBase {
                 FwFunc.showError(ex);
             }
         }, null, $form);
+        FwFormField.setValueByDataField($form, 'Code', '');
         $form.find('[data-datafield="Code"] input').select();
     }
     //----------------------------------------------------------------------------------------------
@@ -1280,6 +1284,7 @@ abstract class StagingCheckoutBase {
                 FwFunc.showError(ex);
             }
         }, null, $form);
+        FwFormField.setValueByDataField($form, 'Code', '');
         $form.find('[data-datafield="Code"] input').select();
     }
     //----------------------------------------------------------------------------------------------
@@ -1330,7 +1335,7 @@ abstract class StagingCheckoutBase {
                         }
                         html.push(`</div>`);
                         $formBody.before(html.join(''));
-                       
+
                         // close button - currently hidden in this module
                         //$form.find('div.form-alert i').on('click', e => {
                         //    jQuery(e.currentTarget).parents('.form-alert').remove();
