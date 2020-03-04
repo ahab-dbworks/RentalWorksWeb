@@ -596,9 +596,12 @@ abstract class InventoryBase {
                     FwFunc.showError(ex);
                 }
 
-                $form.on('change', '.warehousefilter', e => {
-                    FwScheduler.refresh($calendar);
-                    FwSchedulerDetailed.refresh($realScheduler);
+                $form.find('.warehousefilter').on('change keyup', e => {
+                    e.stopImmediatePropagation();
+                    if (e.type != 'keyup') { //overriding event that sets form as modified in fwmodule
+                        FwScheduler.refresh($calendar);
+                        FwSchedulerDetailed.refresh($realScheduler);
+                    }
                 });
             } else {
                 e.stopImmediatePropagation();
@@ -629,6 +632,7 @@ abstract class InventoryBase {
 
         //Toggle All Warehouses
         $form.find(`[data-datafield="AllWarehouses"]`).on('change', e => {
+            e.stopImmediatePropagation();
             const $this = jQuery(e.currentTarget);
             if (FwFormField.getValue2($this)) {
                 FwFormField.disable($form.find('[data-datafield="WarehouseId"]'));
