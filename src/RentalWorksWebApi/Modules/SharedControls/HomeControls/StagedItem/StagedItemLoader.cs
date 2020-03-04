@@ -164,7 +164,7 @@ namespace WebApi.Modules.HomeControls.StagedItem
             string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
             string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
             bool orderByItemOrder = false;
-            bool summary = false; // hard-coded for now
+            //bool summary = false; // hard-coded for now
             if (request != null)
             {
                 if (request.orderby.Equals("ItemOrder"))
@@ -176,11 +176,11 @@ namespace WebApi.Modules.HomeControls.StagedItem
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getstagedscanned", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getstagedscanned2", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
-                    qry.AddParameter("@summary", SqlDbType.NVarChar, ParameterDirection.Input, summary);
+                    //qry.AddParameter("@summary", SqlDbType.NVarChar, ParameterDirection.Input, summary);
                     if (orderByItemOrder)
                     {
                         qry.AddParameter("@orderby", SqlDbType.NVarChar, ParameterDirection.Input, "itemorder");
