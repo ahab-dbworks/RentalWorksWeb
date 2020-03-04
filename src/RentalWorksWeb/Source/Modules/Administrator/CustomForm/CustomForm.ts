@@ -950,38 +950,45 @@ class CustomForm {
                                     break;
                                 case 'data-datafield':
                                 case 'data-browsedatafield':
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
-                                    jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                                    const $field = jQuery($customFormClone).find(`div[data-index="${index}"]`);
+                                    if ($field.length > 0) {
+                                        //jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
+                                        $field.attr('data-datafield', value);
+                                        $field.attr('data-browsedatafield', value);
+                                        jQuery(originalHtml).attr('data-datafield', value);
+                                        jQuery(originalHtml).attr('data-browsedatafield', value);
+                                        //jQuery(originalHtml).attr(`${attribute}`, `${value}`);
 
-                                    isCustomField = $form.find(`option[value="${value}"]`).attr('data-iscustomfield');
-                                    if (isCustomField === "true") {
-                                        //update caption and datatypes
-                                        let datatype = $form.find(`option[value="${value}"]`).attr('data-type');
-                                        switch (datatype) {
-                                            case 'integer':
-                                                datatype = "number";
-                                                break;
-                                            case 'float':
-                                                datatype = "decimal";
-                                                break;
-                                            case 'date':
-                                                datatype = "date";
-                                                break;
-                                            case 'true/false':
-                                                datatype = "checkbox";
-                                                break;
-                                            default:
-                                                datatype = "text";
-                                                break;
+                                        isCustomField = $form.find(`option[value="${value}"]`).attr('data-iscustomfield');
+                                        if (isCustomField === "true") {
+                                            //update caption and datatypes
+                                            let datatype = $form.find(`option[value="${value}"]`).attr('data-type');
+                                            switch (datatype) {
+                                                case 'integer':
+                                                    datatype = "number";
+                                                    break;
+                                                case 'float':
+                                                    datatype = "decimal";
+                                                    break;
+                                                case 'date':
+                                                    datatype = "date";
+                                                    break;
+                                                case 'true/false':
+                                                    datatype = "checkbox";
+                                                    break;
+                                                default:
+                                                    datatype = "text";
+                                                    break;
+                                            }
+                                            jQuery(originalHtml).attr('data-customfield', 'true');
+                                            jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
+                                            jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
+                                            jQuery(originalHtml).attr(`data-caption`, `${value}`);
+                                            $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
+                                            jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-datatype`, datatype);
+                                            jQuery(originalHtml).attr(`data-datatype`, datatype);
+                                            $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(datatype);
                                         }
-                                        jQuery(originalHtml).attr('data-customfield', 'true');
-                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
-                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
-                                        jQuery(originalHtml).attr(`data-caption`, `${value}`);
-                                        $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
-                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-datatype`, datatype);
-                                        jQuery(originalHtml).attr(`data-datatype`, datatype);
-                                        $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(datatype);
                                     }
                                     break;
                                 default:
