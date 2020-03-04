@@ -92,7 +92,7 @@ class QuikActivityCalendar {
         let activityTypes = '';
 
         let $popup = FwPopup.renderPopup(this.quikActivityCalendarPopupContent(), { ismodal: true });
-
+        FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
         FwBrowse.renderGrid({
             nameGrid: 'QuikActivityGrid',
             gridSecurityId: 'yhYOLhLE92IT',
@@ -116,125 +116,12 @@ class QuikActivityCalendar {
         const $quikActivityGrid = $popup.find('div[data-grid="QuikActivityGrid"]');
         const $quikActivityGridControl = $popup.find('div[data-name="QuikActivityGrid"]');
 
-        FwFormField.loadItems($popup.find('div[data-datafield="Summary"]'), [
-            { value: 'true', caption: 'Summary', selected: true },
-            { value: 'false', caption: 'Detail' }
-        ]);
-        FwFormField.setValueByDataField($popup, 'Summary', 'true');
-
-        //$form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
+        $form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
         this.quikActivityCalendarInit($form, $popup);
         $popup.on('click', '.close-modal', e => {
             FwPopup.detachPopup($popup);
         });
-
-
  
-        //const $quikActivityGridControl = $popup.find('[data-name="QuikActivityGrid"]');
-        //let $content = jQuery(`
-        //        <div id="quikActivityPopup" class="fwform fwcontrol fwcontainer" data-caption="QuikActivity Calendar Browse" data-control="FwContainer" data-type="form" style="max-height:90vh;max-width:90vw;background-color:white; padding:10px; border:2px solid gray;">
-        //            <div class="popup-buttons" style="display:flex; justify-content:flex-end;">
-        //                <div class="pop-out" style="cursor:pointer; margin-right:1.5em;"><i class="material-icons" title="Pop Out">open_in_new</i><div class="btn-text" style="float:right;">Pop-Out</div></div>
-        //                <div class="close-modal" style="position:static;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
-        //            </div>
-        //            <div class="flexcolumn">
-        //              <div class="flexrow" style="max-width:inherit;">
-        //                 <div class="fwcontrol fwcontainer fwform-section activities-header" data-control="FwContainer" data-type="section" data-caption="Activities">
-        //                    <div class="flexrow">
-        //                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="Summary" style="flex:1 1 600px"></div>
-        //                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="My Activities only" data-datafield="MyActivity" style="margin:.5em;"></div>
-        //                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Complete Activities" data-datafield="CompleteActivity" style="margin:.5em;"></div>
-        //                    </div>                        
-        //                 </div>
-        //              </div>
-        //              <div class="flexrow" style="max-width:inherit;">
-        //                <div data-control="FwGrid" data-grid="QuikActivityGrid" data-securitycaption="QuikActivity" style="overflow:auto;max-height:80vh;"></div>
-        //              </div>
-        //            </div>
-        //        </div>`);
-        //FwControl.renderRuntimeControls($content.find('.fwcontrol'));
-        //let $popup = FwPopup.renderPopup($content, { ismodal: true });
-
-        //FwBrowse.renderGrid({
-        //    nameGrid: 'QuikActivityGrid',
-        //    gridSecurityId: 'yhYOLhLE92IT',
-        //    moduleSecurityId: this.id,
-        //    $form: $popup,
-        //    afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-        //        const isSummary = FwFormField.getValueByDataField($popup, 'Summary');
-        //        const $detailColumns = $quikActivityGrid
-        //            .find('[data-browsedatafield="InventoryId"], [data-browsedatafield="Description"]')
-        //            .parents('.column');
-        //        const detailReadOnlyColumns = $quikActivityGrid.find('[data-browsedatafield="ActivityStatusId"], [data-browsedatafield="AssignedToUserId"]');
-        //        if (isSummary == 'true') {
-        //            $detailColumns.hide();
-        //            detailReadOnlyColumns.attr('data-formreadonly', 'false');
-        //        } else {
-        //            $detailColumns.show();
-        //            detailReadOnlyColumns.attr('data-formreadonly', 'true');
-        //        }
-        //    }
-        //});
-        //const $quikActivityGrid = $popup.find('div[data-grid="QuikActivityGrid"]');
-        //const $quikActivityGridControl = $popup.find('div[data-name="QuikActivityGrid"]');
-
-        //FwFormField.loadItems($popup.find('div[data-datafield="Summary"]'), [
-        //    { value: 'true', caption: 'Summary', selected: true },
-        //    { value: 'false', caption: 'Detail' }
-        //]);
-        //FwFormField.setValueByDataField($popup, 'Summary', 'true');
-
-        //$form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
-
-        //$popup.on('click', '.close-modal', e => {
-        //    FwPopup.detachPopup($popup);
-        //});
-
-        ////pop-out button
-        //$popup.on('click', '.pop-out', e => {
-        //    const $this = jQuery(e.currentTarget);
-        //    const popupWait = FwOverlay.showPleaseWaitOverlay($content, null);
-        //    setTimeout(() => {
-        //        const $clone = $popup.find('#quikActivityPopup').clone();
-        //        FwModule.openSubModuleTab($form, $clone);
-        //        FwOverlay.hideOverlay(popupWait);
-        //        FwPopup.detachPopup($popup);
-        //        //$popup = $clone;
-        //        //$popup = jQuery('#quikActivityPopup');
-        //        //$popup.find('.popup-buttons').remove();
-        //        //const activityHeader = $popup.find('.activities-header .fwform-section-title').text();
-        //        //const tabid = $popup.closest('.tabpage').attr('data-tabid');
-        //        //jQuery(`#${tabid} .caption`).text(activityHeader);
-        //    });
-        //});
-
-        //$popup.find('[data-datafield="Summary"]').on('change', e => {
-        //    const isSummary = FwFormField.getValueByDataField($popup, 'Summary');
-        //    const $quikActivityGridControl = $quikActivityGrid.find('[data-type="Grid"]');
-        //    const onDataBind = $quikActivityGridControl.data('ondatabind');
-        //    if (typeof onDataBind == 'function') {
-        //        $quikActivityGridControl.data('ondatabind', request => {
-        //            onDataBind(request);
-        //            request.uniqueids.Summary = isSummary;
-        //        });
-        //    }
-        //    FwBrowse.search($quikActivityGridControl);
-        //});
-
-        //$popup.find('[data-datafield="MyActivity"], [data-datafield="CompleteActivity"]').on('change', e => {
-        //    const myActivity = FwFormField.getValueByDataField($popup, 'MyActivity');
-        //    const completeActivity = FwFormField.getValueByDataField($popup, 'CompleteActivity');
-        //    const onDataBind = $quikActivityGridControl.data('ondatabind');
-        //    if (typeof onDataBind == 'function') {
-        //        $quikActivityGridControl.data('ondatabind', request => {
-        //            onDataBind(request);
-        //            request.uniqueids.AssignedToUserId = myActivity == 'T' ? JSON.parse(sessionStorage.getItem('userid')).usersid : '';
-        //            request.uniqueids.IncludeCompleted = completeActivity == 'T' ? true : false;
-        //        });
-        //    }
-        //    FwBrowse.search($quikActivityGridControl);
-        //});
-
         $calendar
             .data('ongetevents', request => {
                 const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
@@ -589,46 +476,48 @@ class QuikActivityCalendar {
                       </div>
                     </div>
                 </div>`);
-        FwControl.renderRuntimeControls($content.find('.fwcontrol'));
         return $content;
     }
     //----------------------------------------------------------------------------------------------
     quikActivityCalendarInit($form: JQuery, $popup: JQuery) {
-        const $quikActivityGrid = $popup.find('div[data-grid="QuikActivityGrid"]');
-        const $quikActivityGridControl = $popup.find('div[data-name="QuikActivityGrid"]');
+        if ($popup.attr('data-poppedouttab') != 'true') {
+            FwFormField.loadItems($popup.find('div[data-datafield="Summary"]'), [
+                { value: 'true', caption: 'Summary', selected: true },
+                { value: 'false', caption: 'Detail' }
+            ]);
+            FwFormField.setValueByDataField($popup, 'Summary', 'true');
+        }
 
         //pop-out button
         $popup.on('click', '.pop-out', e => {
-            const $this = jQuery(e.currentTarget);
-            //const popupWait = FwOverlay.showPleaseWaitOverlay($popup, null);
-            const $clone = $popup.find('#quikActivityPopup').clone();
-            //$clone.attr('data-poppedout', 'true');
+            const $quikActivityGridControl = $popup.find('div[data-name="QuikActivityGrid"]');
+            const $gridClone = $quikActivityGridControl.clone();
             const griddatabind = $quikActivityGridControl.data('ondatabind');
             setTimeout(() => {
-                FwModule.openSubModuleTab($form, $clone);
-                $clone.find('.popup-buttons').remove();
-                this.quikActivityCalendarInit($form, $clone);
+                const $popoutContent = this.quikActivityCalendarPopupContent();
+                FwControl.renderRuntimeControls($popoutContent.find('.fwcontrol'));
+                FwModule.openSubModuleTab($form, $popoutContent);
+                $popoutContent.find('.popup-buttons').remove();
+                $popoutContent.css('border', 'none');
+                const myActivity = FwFormField.getValueByDataField($popup, 'MyActivity');
+                const completeActivity = FwFormField.getValueByDataField($popup, 'CompleteActivity');
+                FwFormField.setValueByDataField($popoutContent, 'MyActivity', myActivity === 'T' ? true : false);
+                FwFormField.setValueByDataField($popoutContent, 'CompleteActivity', completeActivity === 'T' ? true : false);
+                this.quikActivityCalendarInit($form, $popoutContent); //attaches events to new popuptab 
                 const activityHeader = $popup.find('.activities-header .fwform-section-title').text();
-                const tabid = $clone.closest('.tabpage').attr('data-tabid');
+                const tabid = $popoutContent.closest('.tabpage').attr('data-tabid');
                 jQuery(`#${tabid} .caption`).text(activityHeader);
-                $clone.find('[data-name="QuikActivityGrid"]').data('ondatabind', griddatabind);
-                //const activityHeader = $popup.find('.activities-header .fwform-section-title').text();
-                //const tabid = $popup.closest('.tabpage').attr('data-tabid');
-                //jQuery(`#${tabid} .caption`).text(activityHeader);
-                //this.quikActivityCalendarInit($form, $clone);
-                //FwOverlay.hideOverlay(popupWait);
-                //$popup = $form.find('[data-poppedout="true"]');
-                //$popup.find('.popup-buttons').remove();
-                //const activityHeader = $popup.find('.activities-header .fwform-section-title').text();
-                //const tabid = $popup.closest('.tabpage').attr('data-tabid');
-                //jQuery(`#${tabid} .caption`).text(activityHeader);
+                const $popOutGrid = $popoutContent.find('[data-grid="QuikActivityGrid"]');
+                $popOutGrid.empty().append($gridClone);
+                $gridClone.data('ondatabind', griddatabind);
+                FwBrowse.search($gridClone);
                 FwPopup.detachPopup($popup);
             });
         });
 
-        $popup.find('[data-datafield="Summary"]').on('change', e => {
+        $popup.on('change', '[data-datafield="Summary"]', e => {
             const isSummary = FwFormField.getValueByDataField($popup, 'Summary');
-            const $quikActivityGridControl = $quikActivityGrid.find('[data-type="Grid"]');
+            const $quikActivityGridControl = $popup.find('div[data-name="QuikActivityGrid"]');
             const onDataBind = $quikActivityGridControl.data('ondatabind');
             if (typeof onDataBind == 'function') {
                 $quikActivityGridControl.data('ondatabind', request => {
@@ -639,9 +528,10 @@ class QuikActivityCalendar {
             FwBrowse.search($quikActivityGridControl);
         });
 
-        $popup.find('[data-datafield="MyActivity"], [data-datafield="CompleteActivity"]').on('change', e => {
+        $popup.on('change', '[data-datafield="MyActivity"], [data-datafield="CompleteActivity"]', e => {
             const myActivity = FwFormField.getValueByDataField($popup, 'MyActivity');
             const completeActivity = FwFormField.getValueByDataField($popup, 'CompleteActivity');
+            const $quikActivityGridControl = $popup.find('div[data-name="QuikActivityGrid"]');
             const onDataBind = $quikActivityGridControl.data('ondatabind');
             if (typeof onDataBind == 'function') {
                 $quikActivityGridControl.data('ondatabind', request => {
