@@ -59,18 +59,24 @@
   <!-- Ordered From -->
   <div class="rpt-flexcolumn" style="flex:0 0 332px;border-top: 2px solid #027cc5;margin:0px 10px;">
     <table>
+      {{#if OrderedBy}}
       <tr>
         <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Ordered From:</td>
         <td class="">{{OrderedBy}}</td>
       </tr>
+      {{/if}}
+      {{#if OrderedByEmail}}
       <tr>
         <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Email:</td>
         <td class="">{{OrderedByEmail}}</td>
       </tr>
+      {{/if}}
+      {{#if OrderedByPhone}}
       <tr>
         <td style="width:110px;background-color:#e3f2fd;font-weight:700;">Phone:</td>
         <td class="">{{OrderedByPhone}}</td>
       </tr>
+      {{/if}}
     </table>
   </div>
   <!-- Receive from Vendor -->
@@ -116,14 +122,18 @@
       </tr>
       {{/ifEquals}}
       {{#ifNotEquals OrderTypeDescription "INVENTORY"}}
+      {{#ifCond BillingDates '!==' "N/A"}}
       <tr>
         <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Billing Period:</td>
         <td class="">{{BillingDates}}</td>
       </tr>
+      {{/ifCond}}
+      {{#ifCond UsageDates '!==' "N/A"}}
       <tr>
         <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Usage Period:</td>
         <td class="">{{UsageDates}}</td>
       </tr>
+      {{/ifCond}}
       {{/ifNotEquals}}
       <tr>
         <td style="width:105px;background-color:#e3f2fd;font-weight:700;">Terms:</td>
