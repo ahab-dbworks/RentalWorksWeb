@@ -1,6 +1,7 @@
+import { TestUtils } from '../shared/TestUtils';
 import {
-    Contract, PickList, Container, Manifest, TransferOrder, TransferReceipt,
-    Invoice, Receipt, VendorInvoice,
+    //home
+    Asset, PartsInventory, PhysicalInventory, RentalInventory, RepairOrder, SalesInventory,
     DefaultSettings, 
     InventorySettings, 
     Warehouse,
@@ -21,22 +22,40 @@ export class MediumRegressionHomeTest extends MediumRegressionBaseTest {
         }
         this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
-        //Home - Warehouse
-        this.MediumRegressionOnModule(new Contract());
-        this.MediumRegressionOnModule(new PickList());
+        describe('Setup new Rental I-Codes', () => {
+            //---------------------------------------------------------------------------------------
+            let testName: string = 'Create new Rental I-Code using i-Code mask, if any';
+            test(testName, async () => {
 
-        //Home - Container
-        this.MediumRegressionOnModule(new Container());
+                let iCodeMask: string = this.globalScopeRef["InventorySettings~1"].ICodeMask;  // ie. "aaaaa-"  or "aaaaa-aa"
+                iCodeMask = iCodeMask.toUpperCase();
+                let newICode: string = TestUtils.randomAlphanumeric((iCodeMask.split("A").length - 1)); // count the A's
+                iCodeMask = iCodeMask.trim();
+                let maskedICode: string = newICode;
 
-        //Home - Transfer
-        this.MediumRegressionOnModule(new Manifest());
-        this.MediumRegressionOnModule(new TransferOrder());
-        this.MediumRegressionOnModule(new TransferReceipt());
+                if ((iCodeMask.includes("-")) && (!iCodeMask.endsWith("-"))) {
+                    let hyphenIndex: number = iCodeMask.indexOf("-");
+                    let iCodeStart: string = newICode.toUpperCase().substr(0, hyphenIndex);
+                    let iCodeEnd: string = newICode.toUpperCase().substr(hyphenIndex);
+                    maskedICode = iCodeStart + '-' + iCodeEnd;
+                }
 
-        //Home - Billing
-        this.MediumRegressionOnModule(new Invoice());
-        this.MediumRegressionOnModule(new Receipt());
-        this.MediumRegressionOnModule(new VendorInvoice());
+                let newICodeObject: any = {};
+                newICodeObject.newICode = newICode.toUpperCase();
+                newICodeObject.maskedICode = maskedICode.toUpperCase();
+                this.globalScopeRef["RentalInventory~NEWICODE"] = newICodeObject;
+
+                expect(1).toBe(1);
+            }, this.testTimeout);
+        });
+
+        //Home - Inventory
+        this.MediumRegressionOnModule(new Asset());
+        this.MediumRegressionOnModule(new PartsInventory());
+        this.MediumRegressionOnModule(new PhysicalInventory());
+        this.MediumRegressionOnModule(new RentalInventory());
+        //this.MediumRegressionOnModule(new RepairOrder());    // this module cannot be tested because we cannot search on a unique field. also the bar code validation allows all statuses, so we can't be sure that a record we pick there will be allowable in repair
+        this.MediumRegressionOnModule(new SalesInventory());
 
     }
     //---------------------------------------------------------------------------------------
