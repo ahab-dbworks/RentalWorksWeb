@@ -1289,6 +1289,7 @@ abstract class StagingCheckoutBase {
     }
     //----------------------------------------------------------------------------------------------
     resetForm($form) {
+        $form.find('.form-alert-container').remove(); // banner alerts
         $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
