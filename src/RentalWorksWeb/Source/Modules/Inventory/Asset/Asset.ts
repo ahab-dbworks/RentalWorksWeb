@@ -427,10 +427,10 @@ class RwAsset {
             <div class="field" data-caption="Warehouse" data-datafield="Warehouse" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="100px" data-visible="true">
-            <div class="field" data-caption="Purchased" data-datafield="PurchaseDate" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Purchased" data-datafield="PurchaseDate" data-browsedatatype="date" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="100px" data-visible="true">
-            <div class="field" data-caption="Received" data-datafield="ReceiveDate" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Received" data-datafield="ReceiveDate" data-browsedatatype="date" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="100px" data-visible="true">
             <div class="field" data-caption="Tracked By" data-datafield="TrackedBy" data-browsedatatype="text" data-sort="off"></div>

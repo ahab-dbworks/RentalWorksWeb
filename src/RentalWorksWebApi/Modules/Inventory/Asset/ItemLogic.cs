@@ -261,6 +261,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "N8Ief0IoPt7t", IsReadOnly: true)]
         public string ReceiveDate { get; set; }
 
+        [FwLogicProperty(Id: "HjJ6p1t3l198P", IsReadOnly: true)]
+        public string ReceiveContractDate { get; set; }
+
         [FwLogicProperty(Id: "Qdhm7s0FHeLv", IsReadOnly: true)]
         public string PurchasePoNumber { get; set; }
 

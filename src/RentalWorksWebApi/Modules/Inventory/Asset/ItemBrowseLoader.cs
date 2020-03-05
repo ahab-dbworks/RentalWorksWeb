@@ -91,6 +91,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "receivedate", modeltype: FwDataTypes.Date)]
         public string ReceiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivecontractdate", modeltype: FwDataTypes.Date)]
+        public string ReceiveContractDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pocost", modeltype: FwDataTypes.Decimal)]
         public decimal? PurchaseCost { get; set; }
         //------------------------------------------------------------------------------------ 
