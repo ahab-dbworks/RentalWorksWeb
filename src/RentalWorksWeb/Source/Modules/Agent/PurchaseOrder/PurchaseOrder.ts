@@ -167,7 +167,13 @@ class PurchaseOrder implements IModule {
         FwTabs.hideTab($form.find('.vendorinvoicetab'));
         FwTabs.hideTab($form.find('.contracttab'));
         FwTabs.hideTab($form.find('.emailhistorytab'));
-        FwTabs.hideTab($form.find('.activitytab'));
+
+        let nodeActivity = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'hb52dbhX1mNLZ');
+        if (nodeActivity !== undefined && nodeActivity.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.activitytab'));
+        } else {
+            FwTabs.hideTab($form.find('.activitytab'));
+        }
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
@@ -1116,24 +1122,20 @@ class PurchaseOrder implements IModule {
             }
         });
         // ----------
-        let nodeActivity = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'hb52dbhX1mNLZ');
-        if (nodeActivity !== undefined && nodeActivity.properties.visible === 'T') {
-            FwTabs.showTab($form.find('.activitytab'));
-            FwBrowse.renderGrid({
-                nameGrid: 'ActivityGrid',
-                gridSecurityId: 'hb52dbhX1mNLZ',
-                moduleSecurityId: this.id,
-                $form: $form,
-                onDataBind: (request: any) => {
-                    request.uniqueids = {
-                        OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
-                    };
-                },
-                beforeSave: (request: any) => {
-                    request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-                },
-            });
-        }
+        FwBrowse.renderGrid({
+            nameGrid: 'ActivityGrid',
+            gridSecurityId: 'hb52dbhX1mNLZ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+            },
+        });
         // ----------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
