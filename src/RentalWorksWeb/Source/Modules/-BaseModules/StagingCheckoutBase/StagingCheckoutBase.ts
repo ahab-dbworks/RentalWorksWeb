@@ -903,7 +903,7 @@ abstract class StagingCheckoutBase {
                     Code: code,
                     WarehouseId: warehouse.warehouseid
                 }
-
+                this.showAddItemToOrder = false;
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                     if (response.success === true && response.status != 107) {
                         FwFunc.playSuccessSound();
