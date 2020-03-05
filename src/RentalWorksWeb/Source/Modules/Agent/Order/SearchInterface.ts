@@ -10,14 +10,14 @@ class SearchInterface {
         html.push('          <div data-type="tab" id="itemsearchtab" class="tab" data-tabpageid="itemsearchtabpage" data-caption="Search"></div>');
         html.push('          <div data-type="tab" id="previewtab"    class="tab" data-tabpageid="previewtabpage"    data-caption="Preview"></div>');
         if (type === 'Main') {
-        html.push('          <div data-type="tab" id="addtotab"      class="tab" data-tabpageid="addtotabpage"      data-caption="Add To"></div>');
+            html.push('          <div data-type="tab" id="addtotab"      class="tab" data-tabpageid="addtotabpage"      data-caption="Add To"></div>');
         }
         html.push('    </div>');
         html.push('    <div class="tabpages">');
         html.push('      <div data-type="tabpage" id="itemsearchtabpage" class="tabpage" data-tabid="itemsearchtab"></div>');
         html.push('      <div data-type="tabpage" id="previewtabpage"    class="tabpage" data-tabid="previewtab"></div>');
         if (type === 'Main') {
-        html.push('      <div data-type="tabpage" id="addtotabpage"      class="tabpage" data-tabid="addtotab"></div>');
+            html.push('      <div data-type="tabpage" id="addtotabpage"      class="tabpage" data-tabid="addtotab"></div>');
         }
         html.push('    </div>');
         html.push('  </div>');
@@ -151,16 +151,16 @@ class SearchInterface {
         }
 
         FwFormField.loadItems($popup.find('div[data-datafield="Select"]'), [
-            { value: '', text: 'All' },
+            { value: '',    text: 'All' },
             { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
-            { value: 'CK', text: 'Complete/Kit' },
-            { value: 'N',  text: 'Container' },
-            { value: 'I',  text: 'Item' },
-            { value: 'A',  text: 'Accessory' }
+            { value: 'CK',  text: 'Complete/Kit' },
+            { value: 'N',   text: 'Container' },
+            { value: 'I',   text: 'Item' },
+            { value: 'A',   text: 'Accessory' }
         ], true);
 
         FwFormField.loadItems($popup.find('div[data-datafield="SortBy"]'), [
-            { value: 'INVENTORY', text: 'Type / Category / Sub-Category', selected: true },
+            { value: 'INVENTORY',   text: 'Type / Category / Sub-Category', selected: true },
             { value: 'ICODE',       text: 'I-Code' },
             { value: 'DESCRIPTION', text: 'Description' },
             { value: 'PARTNO',      text: 'Part No.' }
@@ -188,21 +188,21 @@ class SearchInterface {
         FwFormField.loadItems($popup.find('div[data-datafield="InventoryType"]'), inventoryTypes);
 
         this.DefaultColumns = [
-            { value: 'Description', text: 'Description', selected: 'T' },
-            { value: 'Tags', text: 'Tags', selected: 'T' },
-            { value: 'Quantity', text: 'Quantity', selected: 'T' },
-            { value: 'Type', text: 'Type', selected: 'F' },
-            { value: 'Category', text: 'Category', selected: 'F' },
-            { value: 'SubCategory', text: 'Sub Category', selected: 'F' },
-            { value: 'ICode', text: 'I-Code', selected: 'F' },
-            { value: 'PartNumber', text: 'Part Number', selected: 'F' },
-            { value: 'Available', text: 'Available Quantity', selected: 'T' },
-            { value: 'ConflictDate', text: 'Conflict Date', selected: 'T' },
-            { value: 'AllWh', text: 'Available Quantity (All Warehouses)', selected: 'T' },
-            { value: 'In', text: 'In Quantity', selected: 'T' },
-            { value: 'QC', text: 'QC Required Quantity', selected: 'T' },
-            { value: 'Rate', text: 'Rate', selected: 'T' },
-            { value: 'Note', text: 'Note', selected: 'F' }
+            { value: 'Description',  text: 'Description',                         selected: 'T' },
+            { value: 'Tags',         text: 'Tags',                                selected: 'T' },
+            { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
+            { value: 'Type',         text: 'Type',                                selected: 'F' },
+            { value: 'Category',     text: 'Category',                            selected: 'F' },
+            { value: 'SubCategory',  text: 'Sub Category',                        selected: 'F' },
+            { value: 'ICode',        text: 'I-Code',                              selected: 'F' },
+            { value: 'PartNumber',   text: 'Part Number',                         selected: 'F' },
+            { value: 'Available',    text: 'Available Quantity',                  selected: 'T' },
+            { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
+            { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
+            { value: 'In',           text: 'In Quantity',                         selected: 'T' },
+            { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
+            { value: 'Rate',         text: 'Rate',                                selected: 'T' },
+            { value: 'Note',         text: 'Note',                                selected: 'F' }
         ];
 
         let startDate;
@@ -213,10 +213,10 @@ class SearchInterface {
                 const department = JSON.parse(sessionStorage.getItem('department')); 
                 const location = JSON.parse(sessionStorage.getItem('location')); 
                 const today = FwFunc.getDate();
-                const addToTypes = [{ value: 'Quote', caption: 'Quote', checked: 'T' },
-                { value: 'Order', caption: 'Order' },
-                { value: 'Purchase', caption: 'Purchase' },
-                { value: 'Transfer', caption: 'Transfer' }];
+                const addToTypes = [{ value: 'Quote',    caption: 'Quote', checked: 'T' },
+                                    { value: 'Order',    caption: 'Order' },
+                                    { value: 'Purchase', caption: 'Purchase' },
+                                    { value: 'Transfer', caption: 'Transfer' }];
                 FwFormField.loadItems($popup.find('div[data-datafield="AddToType"]'), addToTypes);
                 FwFormField.setValueByDataField($popup, 'DepartmentId', department.departmentid, department.department);
                 FwFormField.setValueByDataField($popup, 'RateType', location.ratetype, location.ratetype);
@@ -271,19 +271,19 @@ class SearchInterface {
 
         //Render preview grid
         FwBrowse.renderGrid({
-            nameGrid: 'SearchPreviewGrid',
-            gridSecurityId: 'JLDAuUcvHEx1',
+            nameGrid:         'SearchPreviewGrid',
+            gridSecurityId:   'JLDAuUcvHEx1',
             moduleSecurityId: this.id,
-            $form: $popup,
+            $form:            $popup,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
             },
             onDataBind: (request: any) => {
-                request.SessionId = id;
+                request.SessionId        = id;
                 request.ShowAvailability = true;
-                request.FromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-                request.ToDate = FwFormField.getValueByDataField($popup, 'ToDate');
-                request.ShowImages = true;
+                request.FromDate         = FwFormField.getValueByDataField($popup, 'FromDate');
+                request.ToDate           = FwFormField.getValueByDataField($popup, 'ToDate');
+                request.ShowImages       = true;
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.updatePreviewTabQuantity($popup, id, false);
@@ -425,74 +425,73 @@ class SearchInterface {
                 let addToType = FwFormField.getValue2($addToTab.find('[data-datafield="AddToType"]'));
                 let apiurl;
                 let controller;
-                const request: any = {};
-                request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+                const request: any       = {};
+                request.WarehouseId      = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
                 request.OfficeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
-                request.Description = FwFormField.getValue2($addToTab.find('[data-datafield="Description"]'));
-                request.DepartmentId = FwFormField.getValue2($addToTab.find('[data-datafield="DepartmentId"]'));
+                request.Description      = FwFormField.getValue2($addToTab.find('[data-datafield="Description"]'));
+                request.DepartmentId     = FwFormField.getValue2($addToTab.find('[data-datafield="DepartmentId"]'));
                 switch (addToType) {
                     case 'Quote':
-                        controller = 'QuoteController';
-                        request.DealId = FwFormField.getValue2($addToTab.find('[data-datafield="DealId"]'));
-                        request.RateType = FwFormField.getValue2($addToTab.find('[data-datafield="RateType"]'));
-                        request.OrderTypeId = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
-                        request.PickDate = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
-                        request.PickTime = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
+                        controller                 = 'QuoteController';
+                        request.DealId             = FwFormField.getValue2($addToTab.find('[data-datafield="DealId"]'));
+                        request.RateType           = FwFormField.getValue2($addToTab.find('[data-datafield="RateType"]'));
+                        request.OrderTypeId        = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
+                        request.PickDate           = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
+                        request.PickTime           = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
                         request.EstimatedStartDate = FwFormField.getValue2($addToTab.find('[data-datafield="FromDate"]'));
                         request.EstimatedStartTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
-                        request.EstimatedStopDate = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
-                        request.EstimatedStopTime = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
+                        request.EstimatedStopDate  = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
+                        request.EstimatedStopTime  = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
                         break;
                     case 'Order':
-                        controller = 'OrderController';
-                        request.DealId = FwFormField.getValue2($addToTab.find('[data-datafield="DealId"]'));
-                        request.RateType = FwFormField.getValue2($addToTab.find('[data-datafield="RateType"]'));
-                        request.OrderTypeId = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
-                        request.PickDate = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
-                        request.PickTime = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
+                        controller                 = 'OrderController';
+                        request.DealId             = FwFormField.getValue2($addToTab.find('[data-datafield="DealId"]'));
+                        request.RateType           = FwFormField.getValue2($addToTab.find('[data-datafield="RateType"]'));
+                        request.OrderTypeId        = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
+                        request.PickDate           = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
+                        request.PickTime           = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
                         request.EstimatedStartDate = FwFormField.getValue2($addToTab.find('[data-datafield="FromDate"]'));
                         request.EstimatedStartTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
-                        request.EstimatedStopDate = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
-                        request.EstimatedStopTime = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
+                        request.EstimatedStopDate  = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
+                        request.EstimatedStopTime  = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
                         break;
                     case 'Purchase':
-                        addToType = PurchaseOrderController.Module;
-                        controller = 'PurchaseOrderController';
-                        request.VendorId = FwFormField.getValue2($addToTab.find('[data-datafield="VendorId"]'));
-                        request.RateType = FwFormField.getValue2($addToTab.find('[data-datafield="RateType"]'));
-                        request.PoTypeId = FwFormField.getValue2($addToTab.find('[data-datafield="PoTypeId"]'));
-                        request.PickDate = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
-                        request.PickTime = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
+                        addToType                  = PurchaseOrderController.Module;
+                        controller                 = 'PurchaseOrderController';
+                        request.VendorId           = FwFormField.getValue2($addToTab.find('[data-datafield="VendorId"]'));
+                        request.RateType           = FwFormField.getValue2($addToTab.find('[data-datafield="RateType"]'));
+                        request.PoTypeId           = FwFormField.getValue2($addToTab.find('[data-datafield="PoTypeId"]'));
+                        request.PickDate           = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
+                        request.PickTime           = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
                         request.EstimatedStartDate = FwFormField.getValue2($addToTab.find('[data-datafield="FromDate"]'));
                         request.EstimatedStartTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
-                        request.EstimatedStopDate = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
-                        request.EstimatedStopTime = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
+                        request.EstimatedStopDate  = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
+                        request.EstimatedStopTime  = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
                         break;
                     case 'Transfer':
-                        controller = 'TransferOrderController';
-                        request.ToWarehouseId = FwFormField.getValue2($addToTab.find('[data-datafield="ToWarehouseId"]'));
+                        controller              = 'TransferOrderController';
+                        request.ToWarehouseId   = FwFormField.getValue2($addToTab.find('[data-datafield="ToWarehouseId"]'));
                         request.FromWarehouseId = FwFormField.getValue2($addToTab.find('[data-datafield="FromWarehouseId"]'));
-                        request.PickDate = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
-                        request.PickTime = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
-                        request.ShipDate = FwFormField.getValue2($addToTab.find('[data-datafield="ShipDate"]'));
-                        request.ShipTime = FwFormField.getValue2($addToTab.find('[data-datafield="ShipTime"]'));
-                        request.RequiredDate = FwFormField.getValue2($addToTab.find('[data-datafield="RequiredDate"]'));
-                        request.RequiredTime = FwFormField.getValue2($addToTab.find('[data-datafield="RequiredTime"]'));
+                        request.PickDate        = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
+                        request.PickTime        = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
+                        request.ShipDate        = FwFormField.getValue2($addToTab.find('[data-datafield="ShipDate"]'));
+                        request.ShipTime        = FwFormField.getValue2($addToTab.find('[data-datafield="ShipTime"]'));
+                        request.RequiredDate    = FwFormField.getValue2($addToTab.find('[data-datafield="RequiredDate"]'));
+                        request.RequiredTime    = FwFormField.getValue2($addToTab.find('[data-datafield="RequiredTime"]'));
                         break;
                 }
                 apiurl = (<any>window)[controller].apiurl;
                 FwAppData.apiMethod(true, 'POST', apiurl, request, FwServices.defaultTimeout,
                     response => {
                         const newRecordInfo: any = {
-                            "Controller": controller
-                            , "UniqueIdField": `${addToType}Id`
-                            , "UniqueId": response[`${addToType}Id`]
-                            , "Caption": addToType
+                            "Controller":    controller,
+                            "UniqueIdField": `${addToType}Id`,
+                            "UniqueId":      response[`${addToType}Id`],
+                            "Caption":       addToType
                         }
                         $popup.find('#addToTab').data('newRecordInfo', newRecordInfo);
                         $popup.find('.addToOrder').click();
-                    },
-                    ex => FwFunc.showError(ex), $searchpopup);
+                    }, ex => FwFunc.showError(ex), $searchpopup);
             }
         });
     }
@@ -576,9 +575,9 @@ class SearchInterface {
         }
 
         inventoryTypeRequest.searchfieldoperators = ["<>"];
-        inventoryTypeRequest.searchfields = ["Inactive"];
-        inventoryTypeRequest.searchfieldvalues = ["T"];
-        inventoryTypeRequest.orderby = "InventoryTypeOrderBy,OrderBy";
+        inventoryTypeRequest.searchfields         = ["Inactive"];
+        inventoryTypeRequest.searchfieldvalues    = ["T"];
+        inventoryTypeRequest.orderby              = "InventoryTypeOrderBy,OrderBy";
 
         FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, inventoryTypeRequest, FwServices.defaultTimeout, function onSuccess(response) {
             let inventoryTypeIndex,
@@ -616,31 +615,31 @@ class SearchInterface {
     }
     //----------------------------------------------------------------------------------------------
     renderInventory($popup, response) {
-        let $inventoryContainer       = $popup.find('#inventory');
-        let descriptionIndex          = response.ColumnIndex.Description,
-            quantityAvailable         = response.ColumnIndex.QuantityAvailable,
-            quantityAvailableAllWh    = response.ColumnIndex.QuantityAvailableAllWarehouses,
-            conflictDate              = response.ColumnIndex.ConflictDate,
-            quantityIn                = response.ColumnIndex.QuantityIn,
-            quantityQcRequired        = response.ColumnIndex.QuantityQcRequired,
-            quantity                  = response.ColumnIndex.Quantity,
-            dailyRate                 = response.ColumnIndex.DailyRate,
-            priceIndex                = response.ColumnIndex.Price,
-            inventoryId               = response.ColumnIndex.InventoryId,
-            thumbnail                 = response.ColumnIndex.Thumbnail,
-            appImageId                = response.ColumnIndex.ImageId,
-            classificationIndex       = response.ColumnIndex.Classification,
-            classificationColor       = response.ColumnIndex.ClassificationColor,
-            classificationDescription = response.ColumnIndex.ClassificationDescription,
-            typeIndex                 = response.ColumnIndex.InventoryType,
-            categoryIndex             = response.ColumnIndex.Category,
-            subCategoryIndex          = response.ColumnIndex.SubCategory,
-            availabilityStateIndex    = response.ColumnIndex.AvailabilityState,
+        let $inventoryContainer         = $popup.find('#inventory');
+        let descriptionIndex            = response.ColumnIndex.Description,
+            quantityAvailable           = response.ColumnIndex.QuantityAvailable,
+            quantityAvailableAllWh      = response.ColumnIndex.QuantityAvailableAllWarehouses,
+            conflictDate                = response.ColumnIndex.ConflictDate,
+            quantityIn                  = response.ColumnIndex.QuantityIn,
+            quantityQcRequired          = response.ColumnIndex.QuantityQcRequired,
+            quantity                    = response.ColumnIndex.Quantity,
+            dailyRate                   = response.ColumnIndex.DailyRate,
+            priceIndex                  = response.ColumnIndex.Price,
+            inventoryId                 = response.ColumnIndex.InventoryId,
+            thumbnail                   = response.ColumnIndex.Thumbnail,
+            appImageId                  = response.ColumnIndex.ImageId,
+            classificationIndex         = response.ColumnIndex.Classification,
+            classificationColor         = response.ColumnIndex.ClassificationColor,
+            classificationDescription   = response.ColumnIndex.ClassificationDescription,
+            typeIndex                   = response.ColumnIndex.InventoryType,
+            categoryIndex               = response.ColumnIndex.Category,
+            subCategoryIndex            = response.ColumnIndex.SubCategory,
+            availabilityStateIndex      = response.ColumnIndex.AvailabilityState,
             availabilityStateIndexAllWh = response.ColumnIndex.AvailabilityStateAllWarehouses,
-            qtyIsStaleIndex           = response.ColumnIndex.QuantityAvailableIsStale,
-            icode                     = response.ColumnIndex.ICode,
-            partNumber                = response.ColumnIndex.ManufacturerPartNumber,
-            note                      = response.ColumnIndex.Note;
+            qtyIsStaleIndex             = response.ColumnIndex.QuantityAvailableIsStale,
+            icode                       = response.ColumnIndex.ICode,
+            partNumber                  = response.ColumnIndex.ManufacturerPartNumber,
+            note                        = response.ColumnIndex.Note;
 
         $inventoryContainer.empty();
         $popup.find('.refresh-availability').hide();
@@ -661,8 +660,7 @@ class SearchInterface {
                 rate = Number(response.Rows[i][dailyRate]).toFixed(2);
             }
 
-            let conflictdate   = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
-
+            let conflictdate = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
 
             let itemhtml = `<div class="item-container" data-classification="${response.Rows[i][classificationIndex]}">
                               <div class="item-info" data-inventoryid="${response.Rows[i][inventoryId]}">
@@ -762,19 +760,19 @@ class SearchInterface {
         $popup.find('#itemlist').attr('data-view', 'GRID');
 
         FwFormField.loadItems($popup.find('div[data-datafield="DefaultSelect"]'), [
-            { value: '', text: 'All' },
+            { value: '',    text: 'All' },
             { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
-            { value: 'CK', text: 'Complete/Kit' },
-            { value: 'N', text: 'Container' },
-            { value: 'I', text: 'Item' },
-            { value: 'A', text: 'Accessory' }
+            { value: 'CK',  text: 'Complete/Kit' },
+            { value: 'N',   text: 'Container' },
+            { value: 'I',   text: 'Item' },
+            { value: 'A',   text: 'Accessory' }
         ], true);
 
         FwFormField.loadItems($popup.find('div[data-datafield="DefaultSortBy"]'), [
-            { value: 'INVENTORY', text: 'Type / Category / Sub-Category', selected: true },
-            { value: 'ICODE', text: 'I-Code' },
+            { value: 'INVENTORY',   text: 'Type / Category / Sub-Category', selected: true },
+            { value: 'ICODE',       text: 'I-Code' },
             { value: 'DESCRIPTION', text: 'Description' },
-            { value: 'PARTNO', text: 'Part No.' }
+            { value: 'PARTNO',      text: 'Part No.' }
         ], true);
 
         //this.saveViewSettings($popup);
@@ -855,19 +853,19 @@ class SearchInterface {
         $popup.find('#itemsearch').data('columnstohide', columnsToHide);
 
         FwFormField.loadItems($popup.find('div[data-datafield="DefaultSelect"]'), [
-            { value: '', text: 'All' },
+            { value: '',    text: 'All' },
             { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
-            { value: 'CK', text: 'Complete/Kit' },
-            { value: 'N', text: 'Container' },
-            { value: 'I', text: 'Item' },
-            { value: 'A', text: 'Accessory' }
+            { value: 'CK',  text: 'Complete/Kit' },
+            { value: 'N',   text: 'Container' },
+            { value: 'I',   text: 'Item' },
+            { value: 'A',   text: 'Accessory' }
         ], true);
 
         FwFormField.loadItems($popup.find('div[data-datafield="DefaultSortBy"]'), [
-            { value: 'INVENTORY', text: 'Type / Category / Sub-Category', selected: true },
-            { value: 'ICODE', text: 'I-Code' },
+            { value: 'INVENTORY',   text: 'Type / Category / Sub-Category', selected: true },
+            { value: 'ICODE',       text: 'I-Code' },
             { value: 'DESCRIPTION', text: 'Description' },
-            { value: 'PARTNO', text: 'Part No.' }
+            { value: 'PARTNO',      text: 'Part No.' }
         ], true);
 
         FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', response.DisableAccessoryAutoExpand);
@@ -1174,9 +1172,9 @@ class SearchInterface {
                     SessionId:   id,
                     InventoryId: inventoryId,
                     WarehouseId: warehouseId,
-                    Quantity: quantity,
-                    FromDate: pickDate != "" ? pickDate : fromDate,
-                    ToDate: toDate
+                    Quantity:    quantity,
+                    FromDate:    pickDate != "" ? pickDate : fromDate,
+                    ToDate:      toDate
                 }
 
                 if (quantity > 0) {
@@ -1215,13 +1213,13 @@ class SearchInterface {
                 jQuery(e.currentTarget).select();
             })
             .on('change', '.item-accessory-info [data-column="Quantity"] input', e => {
-                const element = jQuery(e.currentTarget);
-                let quantity = element.val();
-                const item = element.parents('.item-accessory-info');
+                const element     = jQuery(e.currentTarget);
+                let quantity      = element.val();
+                const item        = element.parents('.item-accessory-info');
                 const inventoryId = element.parents('.item-accessory-info').attr('data-inventoryid');
-                const fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-                const toDate = FwFormField.getValueByDataField($popup, 'ToDate');
-                const pickDate = FwFormField.getValueByDataField($popup, 'PickDate');
+                const fromDate    = FwFormField.getValueByDataField($popup, 'FromDate');
+                const toDate      = FwFormField.getValueByDataField($popup, 'ToDate');
+                const pickDate    = FwFormField.getValueByDataField($popup, 'PickDate');
                 let accRequest: any = {
                     SessionId:   id,
                     InventoryId: inventoryId,
@@ -1503,7 +1501,7 @@ class SearchInterface {
                     const $activeGrid = $form.find('.active[data-type="tabpage"] [data-type="Grid"]');
                     for (let i = 0; i < $activeGrid.length; i++) {
                         const $gridcontrol = jQuery($activeGrid[i]);
-                        FwBrowse.search($gridcontrol);
+                        FwBrowse.databind($gridcontrol);
                     }
                 }
 
@@ -1527,10 +1525,8 @@ class SearchInterface {
                                 FwFormField.setValueByDataField($form, 'Sales', true, null, true);
                                 FwTabs.setTabColor($form.find('.salestab'), '#FFFF8d');
                             }
-                        }
-                        , ex => FwFunc.showError(ex), $form);
+                        }, ex => FwFunc.showError(ex), $form);
                 }
-
             }, ex => FwFunc.showError(ex), $searchpopup, (request.InventoryId ? null : id));
     }
     //----------------------------------------------------------------------------------------------
@@ -1547,8 +1543,8 @@ class SearchInterface {
             }, ex => FwFunc.showError(ex), null);
     }
     //----------------------------------------------------------------------------------------------
-     //getInventory($popup, refreshAvailability) {
-     getInventory($popup) {
+    //getInventory($popup, refreshAvailability) {
+    getInventory($popup) {
         var self         = this;
         let $searchpopup = $popup.find('#searchpopup');
         let parentFormId = $popup.find('#itemsearch').data('parentformid');
@@ -1570,12 +1566,12 @@ class SearchInterface {
             SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
             SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox') || undefined,
             //RefreshAvailability:           refreshAvailability
-         }
+        }
 
-         let type = $popup.find('#itemsearch').attr('data-moduletype');
-         if (type === 'PurchaseOrder') {
-             request.ShowAvailability = false;
-         }
+        let type = $popup.find('#itemsearch').attr('data-moduletype');
+        if (type === 'PurchaseOrder') {
+            request.ShowAvailability = false;
+        }
 
         FwAppData.apiMethod(true, 'POST', 'api/v1/inventorysearch/search', request, FwServices.defaultTimeout, function onSuccess(response) {
             self.renderInventory($popup, response);
@@ -1606,7 +1602,7 @@ class SearchInterface {
     refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e) {
         let accessoryContainer;
         let $el = jQuery(e.currentTarget);
-      
+
         let request: any = {
             SessionId:        id,
             OrderId:          id,
@@ -1670,33 +1666,35 @@ class SearchInterface {
 
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout,
             response => {
-            const descriptionIndex               = response.ColumnIndex.Description;
-            const qtyIndex                       = response.ColumnIndex.Quantity;
-            const qtyInIndex                     = response.ColumnIndex.QuantityIn;
-            const qtyAvailIndex                  = response.ColumnIndex.QuantityAvailable;
-            const qtyAvailableAllWhIndex         = response.ColumnIndex.QuantityAvailableAllWarehouses;
-            const conflictIndex                  = response.ColumnIndex.ConflictDate;
-            const inventoryIdIndex               = response.ColumnIndex.InventoryId;
-            const classificationIndex            = response.ColumnIndex.Classification;
-            const classificationColorIndex       = response.ColumnIndex.ClassificationColor;
-            const classificationDescriptionIndex = response.ColumnIndex.ClassificationDescription;
-            const quantityColorIndex             = response.ColumnIndex.QuantityColor;
-            const qtyIsStaleIndex                = response.ColumnIndex.QuantityAvailableIsStale;
-            const thumbnail                      = response.ColumnIndex.Thumbnail;
-            const appImageId                     = response.ColumnIndex.ImageId;
-            const availabilityStateIndex         = response.ColumnIndex.AvailabilityState;
+            const descriptionIndex                 = response.ColumnIndex.Description;
+            const qtyIndex                         = response.ColumnIndex.Quantity;
+            const qtyInIndex                       = response.ColumnIndex.QuantityIn;
+            const qtyAvailIndex                    = response.ColumnIndex.QuantityAvailable;
+            const qtyAvailableAllWhIndex           = response.ColumnIndex.QuantityAvailableAllWarehouses;
+            const conflictIndex                    = response.ColumnIndex.ConflictDate;
+            const inventoryIdIndex                 = response.ColumnIndex.InventoryId;
+            const classificationIndex              = response.ColumnIndex.Classification;
+            const classificationColorIndex         = response.ColumnIndex.ClassificationColor;
+            const classificationDescriptionIndex   = response.ColumnIndex.ClassificationDescription;
+            const quantityColorIndex               = response.ColumnIndex.QuantityColor;
+            const qtyIsStaleIndex                  = response.ColumnIndex.QuantityAvailableIsStale;
+            const thumbnail                        = response.ColumnIndex.Thumbnail;
+            const appImageId                       = response.ColumnIndex.ImageId;
+            const availabilityStateIndex           = response.ColumnIndex.AvailabilityState;
             const availabilityStateIndexAllWhIndex = response.ColumnIndex.AvailabilityStateAllWarehouses;
-            const isOptionIndex                  = response.ColumnIndex.IsOption;
-            const defaultQuantityIndex           = response.ColumnIndex.DefaultQuantity;
-            const icodeIndex                     = response.ColumnIndex.ICode;
-            const partNumberIndex                = response.ColumnIndex.ManufacturerPartNumber;
-            const note                           = response.ColumnIndex.Note;
-            const isPrimaryIndex                = response.ColumnIndex.IsPrimary;
-                if (isAccessory) {
-                    accessoryContainer.find(`.item-accessory-info`).remove();
-                } else {
-                    $el.parents('.item-container').find('.item-accessories .item-accessory-info, .item-accessories .nested-accessories').remove();
-                }
+            const isOptionIndex                    = response.ColumnIndex.IsOption;
+            const defaultQuantityIndex             = response.ColumnIndex.DefaultQuantity;
+            const icodeIndex                       = response.ColumnIndex.ICode;
+            const partNumberIndex                  = response.ColumnIndex.ManufacturerPartNumber;
+            const note                             = response.ColumnIndex.Note;
+            const isPrimaryIndex                   = response.ColumnIndex.IsPrimary;
+
+            if (isAccessory) {
+                accessoryContainer.find(`.item-accessory-info`).remove();
+            } else {
+                $el.parents('.item-container').find('.item-accessories .item-accessory-info, .item-accessories .nested-accessories').remove();
+            }
+
             for (var i = 0; i < response.Rows.length; i++) {
                 let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
                 let imageId        = response.Rows[i][appImageId] ? response.Rows[i][appImageId] : '';
@@ -1791,10 +1789,10 @@ class SearchInterface {
                 }
             }
 
-                //open accessories that were visible before they were refreshed
-                if (showAccessoriesInventoryId != undefined) {
-                    accessoryContainer.find(`[data-inventoryid="${showAccessoriesInventoryId}"]`).find('.toggleaccessories').click();
-                }
+            //open accessories that were visible before they were refreshed
+            if (showAccessoriesInventoryId != undefined) {
+                accessoryContainer.find(`[data-inventoryid="${showAccessoriesInventoryId}"]`).find('.toggleaccessories').click();
+            }
 
             //let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
             //if (typeof obj != 'undefined') {
