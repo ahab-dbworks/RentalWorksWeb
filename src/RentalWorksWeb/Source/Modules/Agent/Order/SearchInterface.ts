@@ -494,6 +494,14 @@ class SearchInterface {
                     }, ex => FwFunc.showError(ex), $searchpopup);
             }
         });
+
+        //synchronizes date fields on Add To tab
+        $popup.on('change', '[data-datafield="PickDate"], [data-datafield="FromDate"], [data-datafield="ToDate"]', e => {
+            const $this = jQuery(e.currentTarget);
+            const datafield = $this.attr('data-datafield');
+            const value = FwFormField.getValue2($this);
+            FwFormField.setValueByDataField($popup, datafield, value);
+        });
     }
     //----------------------------------------------------------------------------------------------
     disableAddToModules($popup: JQuery) {
