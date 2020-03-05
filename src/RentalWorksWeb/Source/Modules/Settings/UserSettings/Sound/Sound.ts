@@ -88,25 +88,29 @@ class Sound {
         //    return bb;
         //}
         $form.find('#soundInput').on('change', e => {
+
+            // if NEW vs EDIT
             const $this = jQuery(e.currentTarget);
             const folder: any = $this[0];
             if (folder.files) {
                 $form.find('#soundSrc').attr("src", '');
                 const file: any = folder.files[0];
-                if (file.type === 'audio/mp3' || file.type === 'audio/wav' || file.type === 'audio/ogg') {
-                    const url = URL.createObjectURL(file);
-                    $form.find('#soundSrc').attr("src", url);
-                    const audioElement: any = document.getElementById('audio');
-                    audioElement.load();
+                if (file) { //possible must handle clear out file and leave blank?
+                    if (file.type === 'audio/mp3' || file.type === 'audio/wav' || file.type === 'audio/ogg') {
+                        const url = URL.createObjectURL(file);
+                        $form.find('#soundSrc').attr("src", url);
+                        const audioElement: any = document.getElementById('audio');
+                        audioElement.load();
+                        FwFormField.setValueByDataField($form, 'FileName', file.name);
+                        FwFormField.setValueByDataField($form, 'Blob', file);
 
-                    FwFormField.setValueByDataField($form, 'Blob', file);
-
-                    const formData = new FormData();
-                    formData.append('fname', 'blob');
-                    formData.append('data', file);
-                } else {
-                    $form.find('#soundInput').val('');
-                    FwNotification.renderNotification('WARNING', 'Only MP3, WAV or OGG file types supported.')
+                        const formData = new FormData();
+                        formData.append('fname', 'blob');
+                        formData.append('data', file);
+                    } else {
+                        $form.find('#soundInput').val('');
+                        FwNotification.renderNotification('WARNING', 'Only MP3, WAV or OGG file types supported.')
+                    }
                 }
             }
         });
