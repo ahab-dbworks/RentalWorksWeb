@@ -73,6 +73,7 @@ export class FwModuleBase {
     waitAfterClickingToOpenBrowseToAllowOtherQueries: number = 0;
     waitAfterClickingToOpenFormToAllowOtherQueries: number = 0;
     waitAfterHittingEnterToSearch: number = 400;
+    waitBeforeClickingTab: number = 200;
     waitForErrorAfterClickingTab: number = 300;
     waitAfterEachValidationFieldIsPopulated: number = 500;
     waitBeforeClickingSave: number = 0;
@@ -470,6 +471,7 @@ export class FwModuleBase {
                         styleAttributeValue = "";
                     }
                     if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only try to click on the tab if it is visible
+                        FwModuleBase.wait(this.waitBeforeClickingTab);
                         await tab.click(); // click the tab
 
                         // wait 300 milliseconds, then check for a Please Wait dialog
@@ -724,6 +726,8 @@ export class FwModuleBase {
                 //FwLogging.logInfo(`Found ${key} field on tab ${tabId}`);
                 const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
                 if (!tabIsActive) {
+                    FwLogging.logInfo(`About to click tab ${tabId} in populateFormWithRecord.  Waiting for tab to get events.`);
+                    FwModuleBase.wait(this.waitBeforeClickingTab);
                     FwLogging.logInfo(`Clicking tab ${tabId} in populateFormWithRecord`);
                     await page.click(`#${tabId}`);
                 }

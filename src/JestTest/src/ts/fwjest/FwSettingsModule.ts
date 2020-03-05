@@ -13,6 +13,7 @@ export class FwClickRecordResponse {
 export class FwSettingsModule extends FwModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 600;
     waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 800;
+    waitBeforeClickingToOpenRecord: number = 300;
     waitAfterClickingToOpenRecordToCheckForErrors: number = 300;
     waitForButtonToGetEvents: number = 4000;
     //---------------------------------------------------------------------------------------
@@ -215,6 +216,7 @@ export class FwSettingsModule extends FwModuleBase {
                 }
             }
             if (recordToClick != null) {
+                await FwModuleBase.wait(this.waitBeforeClickingToOpenRecord); // wait for the record header to get it's click events before trying to open
                 await recordToClick.click(); // click the row
                 clickRecordResponse.clicked = true;
                 //await ModuleBase.wait(1000); // let the form render or collapse  // #stresstest s/b 1500+

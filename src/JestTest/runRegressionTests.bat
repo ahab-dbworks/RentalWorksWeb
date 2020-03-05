@@ -66,7 +66,7 @@ for /L %%i in (%starttest%,1,%endtest%) do (
    echo %%i
    echo Running test number %%i
    start %DwRentalWorksWebPath%\src\JestTest\runRegressionTest %%i
-   timeout 2
+   timeout 20
 )
 
 rem wait here until all pdf files exist
