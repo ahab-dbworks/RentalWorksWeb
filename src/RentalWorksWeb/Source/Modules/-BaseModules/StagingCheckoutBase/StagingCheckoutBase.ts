@@ -915,7 +915,7 @@ abstract class StagingCheckoutBase {
                         FwFunc.playSuccessSound();
                         this.addItemFieldValues($form, response);
                         FwFormField.setValueByDataField($form, 'Quantity', 0);
-                        FwFormField.setValueByDataField($form, 'Code', '');
+                        //FwFormField.setValueByDataField($form, 'Code', '');
                         $form.find('div[data-datafield="Quantity"] input').select();
                     } if (response.ShowAddItemToOrder === true) {
                         FwFunc.playErrorSound();
