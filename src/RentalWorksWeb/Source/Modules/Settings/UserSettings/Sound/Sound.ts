@@ -73,6 +73,43 @@ class Sound {
             const sound = new Audio(soundFileName);
             sound.play();
         });
+        //function dataURItoBlob(dataURI) {
+        //    var byteString = atob(dataURI.split(',')[1]);
+
+        //    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+        //    var ab = new ArrayBuffer(byteString.length);
+        //    var ia = new Uint8Array(ab);
+        //    for (var i = 0; i < byteString.length; i++) {
+        //        ia[i] = byteString.charCodeAt(i);
+        //    }
+
+        //    var bb = new Blob([ab], { "type": mimeString });
+        //    return bb;
+        //}
+        $form.find('#soundInput').on('change', e => {
+            const $this = jQuery(e.currentTarget);
+            const folder: any = $this[0];
+            if (folder.files) {
+                $form.find('#soundSrc').attr("src", '');
+                const file: any = folder.files[0];
+                if (file.type === 'audio/mp3' || file.type === 'audio/wav' || file.type === 'audio/ogg') {
+                    const url = URL.createObjectURL(file);
+                    $form.find('#soundSrc').attr("src", url);
+                    const audioElement: any = document.getElementById('audio');
+                    audioElement.load();
+
+                    FwFormField.setValueByDataField($form, 'Blob', file);
+
+                    const formData = new FormData();
+                    formData.append('fname', 'blob');
+                    formData.append('data', file);
+                } else {
+                    $form.find('#soundInput').val('');
+                    FwNotification.renderNotification('WARNING', 'Only MP3, WAV or OGG file types supported.')
+                }
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {

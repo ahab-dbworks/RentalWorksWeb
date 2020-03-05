@@ -19,17 +19,20 @@
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="File Name" data-datafield="FileName" data-allcaps="false" style="float:left;width:455px;"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="System Sound" data-datafield="SystemSound" data-required="false" data-enabled="false" style="float:left;width:110px;display:none;"></div>
               </div>
-              <div class="flexrow">
+              <!--sound input-->
+              <div class="flexrow" style="margin: 25px 0 0 6px;">
                 <div class="flexcolumn">
-                  <input type="file" id="soundInput" single />
-                </div>
-                <div class="flexcolumn">
-                  <audio id="audio" controls style="width:400px;">
-                    <source src="" id="soundSrc" />
-                  </audio>
-                </div>
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Blob" data-datafield="Blob" data-allcaps="false" style="float:left;width:455px;display:none;"></div>
+                  <div class="flexrow">
+                    <input type="file" id="soundInput" single />
+                  </div>
+                  <div class="flexrow">
+                    <audio id="audio" controls style="width:400px;">
+                      <source src="" id="soundSrc" />
+                    </audio>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Blob" data-datafield="Blob" data-allcaps="false" style="float:left;width:455px;display:none;"></div>
+                  </div>
                 </div>
               </div>
             </div>
