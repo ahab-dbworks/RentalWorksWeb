@@ -75,7 +75,7 @@ echo -----------------------------------------------
 echo Checking for test results
 set pdfsfound=T
 for /L %%i in (%starttest%,1,%endtest%) do (
-   if not exist "%%i - *.pdf" (
+   if not exist "%%i -*(%version%).pdf" (
       echo test %%i still running
 	  set pdfsfound=F
    )
