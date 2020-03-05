@@ -148,8 +148,11 @@ rem delete any downloaded files that should not be here
 cd %workingdirectory%\RentalWorksWebApi 
 if exist appsettings.json (del appsettings.json)
 
-rem recycle the Application Pool (before updating API)
-%systemroot%\system32\inetsrv\appcmd recycle apppool /apppool.name:"%apppoolname%"
+rem rem recycle the Application Pool (before updating API)
+rem %systemroot%\system32\inetsrv\appcmd recycle apppool /apppool.name:"%apppoolname%"
+
+rem stop the Application Pool before updating API, restart it again after applying the new API files
+%systemroot%\system32\inetsrv\appcmd stop apppool /apppool.name:"%apppoolname%"
 
 rem delete all except directories that start with "." and appsettings.json
 cd %apipath%
@@ -159,6 +162,9 @@ rem delete all files except appsettings.json
 forfiles /p %apipath% /c "cmd /c if not @isdir==TRUE if not @file==\"appsettings.json\" del @file"
 rem copy all files from the downloaded api directoy to the target api directory
 xcopy %workingdirectory%\RentalWorksWebApi\*.* %apipath% /e
+
+rem start the Application Pool after updating API
+%systemroot%\system32\inetsrv\appcmd start apppool /apppool.name:"%apppoolname%"
 
 
 rem --------------------------------------------------------------------------
@@ -191,5 +197,5 @@ if exist ts\ (rmdir ts /S /Q)
 rem grant "modify" permissions for the IIS User to the temp\downloads directory for users to be able to make Excel files
 icacls %apipath%\wwwroot\temp\downloads /grant IIS_IUSRS:M
 
-rem recycle the Application Pool (after updating API)
-%systemroot%\system32\inetsrv\appcmd recycle apppool /apppool.name:"%apppoolname%"
+rem rem recycle the Application Pool (after updating API)
+rem %systemroot%\system32\inetsrv\appcmd recycle apppool /apppool.name:"%apppoolname%"
