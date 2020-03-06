@@ -71,7 +71,7 @@ class PartsInventory extends InventoryBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
-                options.hasEdit = false;
+                options.hasEdit = true;
             },
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
@@ -115,7 +115,7 @@ class PartsInventory extends InventoryBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
-                options.hasEdit = false;
+                options.hasEdit = true;
             },
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {

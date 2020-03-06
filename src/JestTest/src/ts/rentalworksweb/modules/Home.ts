@@ -3247,6 +3247,7 @@ export class PickList extends HomeModule {
 
         let itemsGrid: GridBase = new GridBase("Items Grid", "PickListItemGrid");
         itemsGrid.canNew = false;
+        itemsGrid.canEdit = false;
         itemsGrid.canDelete = false;
 
         this.grids.push(itemsGrid);
