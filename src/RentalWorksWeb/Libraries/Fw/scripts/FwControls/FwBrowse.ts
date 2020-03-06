@@ -1829,9 +1829,9 @@ class FwBrowseClass {
             });
         }
 
-
+        options.$browse.attr('data-hasedit', 'false');
         if (typeof options.hasEdit === 'boolean' && options.hasEdit && nodeGridEdit !== null && nodeGridEdit.properties.visible === 'T') {
-            options.$browse.data('hasedit', true);
+            options.$browse.attr('data-hasedit', 'true');
         }
         FwGridMenu.addCaption(options.$menu, options.$browse.attr('data-caption'));
         if (typeof options.hasNew === 'boolean' && options.hasNew && nodeGridEdit !== null && nodeGridEdit.properties.visible === 'T') {
@@ -3101,95 +3101,97 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     setRowEditMode($control: JQuery, $tr: JQuery): void {
-        const rowIndex = $tr.index();
+        const hasEdit: boolean = ($control.attr('data-hasedit') !== undefined) ? $control.attr('data-hasedit') === 'true' : true;
+        if (hasEdit) {
+            const rowIndex = $tr.index();
+            if ($control.attr('data-multisave') == 'true') {
+                $tr = $control.find('tbody tr').eq(rowIndex);
+                $control.attr('data-mode', 'EDIT');
+                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                    $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
+                    $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
+                    //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+                    //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
 
-        if ($control.attr('data-multisave') == 'true') {
-            $tr = $control.find('tbody tr').eq(rowIndex);
-            $control.attr('data-mode', 'EDIT');
-            if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
-                $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
-                //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
-                //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
-
-                const controller = $control.attr('data-controller');
-                if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
-                if (typeof <any>window[controller]['beforeRowEditMode'] === 'function') {
-                    <any>window[controller]['beforeRowEditMode']($control, $tr);
-                }
-            }
-
-            $tr.find('> td > .field').each((index, element) => {
-                const $field = jQuery(element);
-                if ($field.attr('data-formreadonly') === 'true') {
-                    this.setFieldViewMode($control, $tr, $field);
-                } else {
-                    this.setFieldEditMode($control, $tr, $field);
-                }
-            });
-
-            this.addMultiSaveAndCancelButtonToRow($control, $tr);
-
-            if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                const controller = $control.attr('data-controller');
-                if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
-                if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
-                    <any>window[controller]['afterRowEditMode']($control, $tr);
-                }
-            }
-
-            if (typeof $control.data('selectedfield') === 'string') {
-                const fieldName = $control.data('selectedfield');
-                $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
-                $control.data('selectedfield', []);
-            }
-            else {
-                $tr.find('td.column:visible div.editablefield input.text').select();
-            }
-        } else {
-            this.beforeNewOrEditRow($control, $tr)
-                .then(() => {
-                    $tr = $control.find('tbody tr').eq(rowIndex);
-                    $control.attr('data-mode', 'EDIT');
-                    if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                        $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
-                        $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
-                        //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
-                        //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
-
-                        const controller = $control.attr('data-controller');
-                        if (typeof <any>window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                        if (typeof <any>window[controller]['beforeRowEditMode'] === 'function') {
-                            <any>window[controller]['beforeRowEditMode']($control, $tr);
-                        }
+                    const controller = $control.attr('data-controller');
+                    if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
+                    if (typeof <any>window[controller]['beforeRowEditMode'] === 'function') {
+                        <any>window[controller]['beforeRowEditMode']($control, $tr);
                     }
+                }
 
-                    $tr.find('> td > .field').each((index, element) => {
-                        const $field = jQuery(element);
-                        if ($field.attr('data-formreadonly') === 'true') {
-                            this.setFieldViewMode($control, $tr, $field);
-                        } else {
-                            this.setFieldEditMode($control, $tr, $field);
-                        }
-                    });
-
-                    //$control.attr('data-multisave') == 'true' ? me.addMultiSaveAndCancelButtonToRow($control, $tr) : me.addSaveAndCancelButtonToRow($control, $tr);
-                    this.addSaveAndCancelButtonToRow($control, $tr);
-
-                    if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                        const controller = $control.attr('data-controller');
-                        if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
-                        if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
-                            <any>window[controller]['afterRowEditMode']($control, $tr);
-                        }
-                    }
-
-                    if (typeof $control.data('selectedfield') === 'string') {
-                        const fieldName = $control.data('selectedfield');
-                        $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
-                        $control.data('selectedfield', []);
+                $tr.find('> td > .field').each((index, element) => {
+                    const $field = jQuery(element);
+                    if ($field.attr('data-formreadonly') === 'true') {
+                        this.setFieldViewMode($control, $tr, $field);
+                    } else {
+                        this.setFieldEditMode($control, $tr, $field);
                     }
                 });
+
+                this.addMultiSaveAndCancelButtonToRow($control, $tr);
+
+                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                    const controller = $control.attr('data-controller');
+                    if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
+                    if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
+                        <any>window[controller]['afterRowEditMode']($control, $tr);
+                    }
+                }
+
+                if (typeof $control.data('selectedfield') === 'string') {
+                    const fieldName = $control.data('selectedfield');
+                    $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
+                    $control.data('selectedfield', []);
+                }
+                else {
+                    $tr.find('td.column:visible div.editablefield input.text').select();
+                }
+            } else {
+                this.beforeNewOrEditRow($control, $tr)
+                    .then(() => {
+                        $tr = $control.find('tbody tr').eq(rowIndex);
+                        $control.attr('data-mode', 'EDIT');
+                        if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                            $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
+                            $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
+                            //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+                            //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+
+                            const controller = $control.attr('data-controller');
+                            if (typeof <any>window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                            if (typeof <any>window[controller]['beforeRowEditMode'] === 'function') {
+                                <any>window[controller]['beforeRowEditMode']($control, $tr);
+                            }
+                        }
+
+                        $tr.find('> td > .field').each((index, element) => {
+                            const $field = jQuery(element);
+                            if ($field.attr('data-formreadonly') === 'true') {
+                                this.setFieldViewMode($control, $tr, $field);
+                            } else {
+                                this.setFieldEditMode($control, $tr, $field);
+                            }
+                        });
+
+                        //$control.attr('data-multisave') == 'true' ? me.addMultiSaveAndCancelButtonToRow($control, $tr) : me.addSaveAndCancelButtonToRow($control, $tr);
+                        this.addSaveAndCancelButtonToRow($control, $tr);
+
+                        if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                            const controller = $control.attr('data-controller');
+                            if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
+                            if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
+                                <any>window[controller]['afterRowEditMode']($control, $tr);
+                            }
+                        }
+
+                        if (typeof $control.data('selectedfield') === 'string') {
+                            const fieldName = $control.data('selectedfield');
+                            $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
+                            $control.data('selectedfield', []);
+                        }
+                    });
+            }
         }
     }
     //---------------------------------------------------------------------------------
