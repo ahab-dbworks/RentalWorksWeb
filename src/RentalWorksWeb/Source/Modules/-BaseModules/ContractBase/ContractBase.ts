@@ -225,12 +225,68 @@ abstract class ContractBase {
     //----------------------------------------------------------------------------------------------
     voidContract($form: JQuery): void {
         try {
-            const request: any = {};
-            request.ContractId = FwFormField.getValueByDataField($form, this.uniqueIdFieldName);
-            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/voidcontract`, request, FwServices.defaultTimeout, response => {
-                let $confirmation = FwConfirmation.renderConfirmation('Error', response.msg);
-                FwConfirmation.addButton($confirmation, 'OK', true);
-            }, ex => FwFunc.showError(ex), $form);
+            const $confirmation = FwConfirmation.renderConfirmation('Void Entire Contract', '');
+            const $voidItems = FwConfirmation.addButton($confirmation, 'Void Items', false);
+            FwConfirmation.addButton($confirmation, 'Cancel', true);
+            const html = [];
+            const contractType = FwFormField.getValueByDataField($form, 'ContractType');
+            if (contractType === 'OUT') {
+                html.push('<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unstage items after voiding" data-datafield="ReturnToInventory"></div>');
+            }
+            html.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Reason" data-datafield="Reason" style="width:600px;"></div>');
+            FwConfirmation.addControls($confirmation, html.join(''));
+
+            $voidItems.on('click', e => {
+                const request: any = {};
+                const contractId = FwFormField.getValueByDataField($form, this.uniqueIdFieldName);
+                request.uniqueids = {
+                    ContractId: contractId
+                }
+                FwAppData.apiMethod(true, 'POST', `api/v1/contractitemdetail/browse`, request, FwServices.defaultTimeout, response => {
+                    const orderIdColumnIndex = response.ColumnIndex.OrderId;
+                    const orderItemIdColumnIndex = response.ColumnIndex.OrderItemId;
+                    const vendorIndex = response.ColumnIndex.VendorId;
+                    const barcodeColumnIndex = response.ColumnIndex.Barcode;
+                    const quantityColumnIndex = response.ColumnIndex.Quantity;
+                    const isVoidColumnIndex = response.ColumnIndex.IsVoid;
+                    const items = [];
+                    for (let i = 0; i < response.Rows.length; i++) {
+                        if (!response.Rows[i][isVoidColumnIndex]) {
+                            const item = {
+                                OrderId: response.Rows[i][orderIdColumnIndex],
+                                OrderItemId: response.Rows[i][orderItemIdColumnIndex],
+                                VendorId: response.Rows[i][vendorIndex],
+                                BarCode: response.Rows[i][barcodeColumnIndex],
+                                Quantity: response.Rows[i][quantityColumnIndex]
+                            }
+                            items.push(item);
+                        }
+                    }
+
+                    const voiditemsrequest: any = {
+                        Items: items,
+                        ContractId: contractId,
+                        Reason: FwFormField.getValueByDataField($confirmation, 'Reason')
+                    };
+
+                    if (contractType === 'OUT') {
+                        let returnToInventory = FwFormField.getValueByDataField($confirmation, 'ReturnToInventory');
+                        returnToInventory = returnToInventory === 'T' ? true : false;
+                        request.ReturnToInventory = returnToInventory;
+                    }
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/contractitemdetail/voiditems`, voiditemsrequest, FwServices.defaultTimeout,
+                        response => {
+                            if (!response.success) {
+                                FwNotification.renderNotification('ERROR', response.msg);
+                            }
+                            FwModule.refreshForm($form);
+                            FwConfirmation.destroyConfirmation($confirmation);
+                        },
+                        ex => FwFunc.showError(ex), $confirmation.find('.fwconfirmationbox'));
+
+                }, ex => FwFunc.showError(ex), $form);
+            }); 
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -346,7 +402,7 @@ abstract class ContractBase {
             if ($selectedCheckBoxes.length > 0) {
                 if ($selectedCheckBoxes.length === 1) { isSingleRow = true }
                 const $confirmation = FwConfirmation.renderConfirmation('Void Items', '');
-                const $select = FwConfirmation.addButton($confirmation, 'OK', false);
+                const $select = FwConfirmation.addButton($confirmation, 'Void Items', false);
                 FwConfirmation.addButton($confirmation, 'Cancel', true);
                 const html = [];
                 const contractType = FwFormField.getValueByDataField($form, 'ContractType');
