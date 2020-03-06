@@ -1,7 +1,7 @@
 {
     "dataSource": "issues",
     "ignoreIssuesWith": [
-        "wontfix",
+        "non-issue",
         "duplicate"
     ],
     "groupBy": {
