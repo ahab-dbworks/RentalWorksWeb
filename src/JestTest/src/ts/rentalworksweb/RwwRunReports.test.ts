@@ -1,5 +1,5 @@
 import { BaseTest } from '../shared/BaseTest';
-import { ModuleBase, OpenRecordResponse } from '../shared/ModuleBase';
+import { ModuleBase } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
 import { User } from './modules/AllModules';
 
@@ -13,6 +13,7 @@ export class RunReportsTest extends BaseTest {
     }
     //---------------------------------------------------------------------------------------
     async PerformTests() {
+        this.testTimeout = 300000; // 5 minutes
         // ----------
         async function goToReportsPage() {
             Logging.logInfo(`About to click on report icon`);
@@ -240,6 +241,7 @@ export class RunReportsTest extends BaseTest {
                     }
                     Logging.logInfo(`About to close ${reportName}`);
                     await pages[2].close();
+                    await ModuleBase.wait(1500); // wait to allow more time for the tab to close before starting the next report
                 }
             }
             expect(testError).toBeNull();
