@@ -988,7 +988,7 @@ class Repair {
 
             $yes = FwConfirmation.addButton($confirmation, 'Cancel Estimate', false);
             $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
+            $yes.focus();
             $yes.on('click', cancelEstimate);
         } else {
             html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
@@ -1001,10 +1001,10 @@ class Repair {
 
             $yes = FwConfirmation.addButton($confirmation, 'Estimate', false);
             $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
+            $yes.focus();
             $yes.on('click', makeEstimate);
         }
-        $yes.focus();
+        
         // ----------
         function makeEstimate() {
             $form.data('hasEstimated', true);
@@ -1101,7 +1101,7 @@ class Repair {
             FwConfirmation.addControls($confirmation, html.join(''));
             $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
             $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
+            $yes.focus();
             $yes.on('click', makeComplete);
         } else {
             html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
@@ -1113,10 +1113,9 @@ class Repair {
             FwConfirmation.addControls($confirmation, html.join(''));
             $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
             $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
+            $yes.focus();
             $yes.on('click', makeComplete);
         }
-        $yes.focus();
         // ----------
         function makeComplete() {
             FwFormField.disable($confirmation.find('.fwformfield'));
