@@ -13,6 +13,8 @@ using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Agent.Order;
 using System.Collections.Generic;
+using WebApi.Modules.HomeControls.BillingMessage;
+using WebApi.Modules.Warehouse.Contract;
 
 namespace WebApi.Modules.Billing.Billing
 {
@@ -34,7 +36,6 @@ namespace WebApi.Modules.Billing.Billing
             }
             try
             {
-
                 PopulateBillingResponse response = await BillingFunc.Populate(AppConfig, UserSession, request);
                 return response;
             }
@@ -101,7 +102,6 @@ namespace WebApi.Modules.Billing.Billing
             }
             try
             {
-
                 CreateInvoicesResponse response = await BillingFunc.CreateInvoices(AppConfig, UserSession, request);
                 return response;
             }
@@ -157,6 +157,23 @@ namespace WebApi.Modules.Billing.Billing
         public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/billing/billingmessage/browse 
+        [HttpPost("billingmessage/browse")]
+        [FwControllerMethod(Id: "oUxoh1MAIyUm", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> BillingMessage_BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<BillingMessageLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // GET api/v1/billing/contract/legend
+        [HttpGet("contract/legend")]
+        [FwControllerMethod(Id: "e9n2Jt5URsFJ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<Dictionary<string, string>>> Contract_GetLegendAsync()
+        {
+            ContractLogic contract = (ContractLogic)CreateBusinessLogic(typeof(ContractLogic), this.AppConfig, this.UserSession);
+            return new OkObjectResult(await contract.GetLegend());
         }
         //------------------------------------------------------------------------------------ 
     }

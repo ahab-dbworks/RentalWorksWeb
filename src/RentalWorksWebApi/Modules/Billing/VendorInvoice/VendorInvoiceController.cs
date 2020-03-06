@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Settings.TaxSettings.TaxOption;
+using WebApi.Modules.Utilities.GLDistribution;
 
 namespace WebApi.Modules.Billing.VendorInvoice
 {
@@ -112,5 +113,14 @@ namespace WebApi.Modules.Billing.VendorInvoice
         {
             return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/invoice/gldistribution/browse 
+        [HttpPost("gldistribution/browse")]
+        [FwControllerMethod(Id: "VKsYwE1DN0Gq", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> GLDistribution_BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GLDistributionLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

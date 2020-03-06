@@ -12,6 +12,7 @@ using WebApi.Modules.HomeControls.DealCredit;
 using WebApi.Modules.HomeControls.CustomerCredit;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;
+using WebApi.Modules.Utilities.GLDistribution;
 
 namespace WebApi.Modules.Billing.Receipt
 {
@@ -158,5 +159,14 @@ namespace WebApi.Modules.Billing.Receipt
         {
             return await DoBrowseAsync<PaymentTypeLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/receipt/gldistribution/browse 
+        [HttpPost("gldistribution/browse")]
+        [FwControllerMethod(Id: "NaUcjbEO3bEX", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> GLDistribution_BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GLDistributionLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

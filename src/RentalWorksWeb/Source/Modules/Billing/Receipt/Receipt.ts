@@ -259,6 +259,7 @@ class Receipt {
             nameGrid: 'GlDistributionGrid',
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
+            getBaseApiUrl: () => `${this.apiurl}/gldistribution`,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;

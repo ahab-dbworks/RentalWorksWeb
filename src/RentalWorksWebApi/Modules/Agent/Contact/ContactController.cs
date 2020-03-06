@@ -20,6 +20,8 @@ namespace WebApi.Modules.Agent.Contact
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"9ykTwUXTet46")]
+    //[FwModuleDependency(Id: "U8Zlahz3ke9i", Name: "Agent>Order", Description: "Required to have Orders tab.")]
+    //[FwModuleDependency(Id: "jFkSBEur1dluU", Name: "Agent>Quote", Description: "Required to have Quotes tab.")]
     public partial class ContactController : AppDataController
     {
         public ContactController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContactLogic); }

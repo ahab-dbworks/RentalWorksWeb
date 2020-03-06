@@ -159,9 +159,13 @@ class Invoice {
     openForm(mode, parentModuleInfo?: any) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+        FwTabs.hideTab($form.find('.emailhistorytab'));
 
-        const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
-        $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+        if (FwApplicationTree.isVisibleInSecurityTree('3XHEm3Q8WSD8z')) {
+            const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+            $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+            FwTabs.showTab($form.find('.emailhistorytab'));
+        }
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
@@ -547,6 +551,7 @@ class Invoice {
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
             $form: $form,
+            getBaseApiUrl: () => `${this.apiurl}/gldistribution`,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;

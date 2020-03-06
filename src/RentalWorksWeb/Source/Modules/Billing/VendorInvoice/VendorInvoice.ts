@@ -187,6 +187,7 @@ class VendorInvoice {
             nameGrid: 'GlDistributionGrid',
             gridSecurityId: '5xgHiF8dduf',
             moduleSecurityId: this.id,
+            getBaseApiUrl: () => `${this.apiurl}/gldistribution`,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
@@ -356,27 +357,34 @@ class VendorInvoice {
             FwModule.setFormReadOnly($form);
         }
 
-        FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
-        const $vendorInvoiceItemGridControl = $form.find('[data-name="VendorInvoiceItemGrid"]');
-        FwBrowse.search($vendorInvoiceItemGridControl);
+        //Click Event on tabs to load grids/browses
+        $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
+            const $tab = jQuery(e.currentTarget);
+            const tabname = $tab.attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
+            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    try {
+                        const $gridcontrol = jQuery($gridControls[i]);
+                        FwBrowse.search($gridcontrol);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }
+            }
 
-        const $glDistributionGridControl = $form.find('[data-name="GlDistributionGrid"]');
-        FwBrowse.search($glDistributionGridControl);
-
-        const $vendorInvoicePaymentGridControl = $form.find('[data-name="VendorInvoicePaymentGrid"]');
-        FwBrowse.search($vendorInvoicePaymentGridControl);
-
-        const $vendorInvoiceNoteGridControl = $form.find('[data-name="VendorInvoiceNoteGrid"]');
-        FwBrowse.search($vendorInvoiceNoteGridControl);
-
-        const $vendorInvoiceHistoryGridControl = $form.find('[data-name="VendorInvoiceStatusHistoryGrid"]');
-        FwBrowse.search($vendorInvoiceHistoryGridControl);
-
-        const $exportBatchGridControl = $form.find('[data-name="VendorInvoiceExportBatchGrid"]');
-        FwBrowse.search($exportBatchGridControl);
-
-        const $additionalItemsGridControl = $form.find('[data-name="AdditionalItemsGrid"]');
-        FwBrowse.search($additionalItemsGridControl);
+            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if (($tab.hasClass('tabGridsLoaded') === false) && $browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    const $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
+                }
+            }
+            $tab.addClass('tabGridsLoaded');
+        });
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form: JQuery) {

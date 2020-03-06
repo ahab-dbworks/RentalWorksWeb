@@ -42,6 +42,21 @@ class Billing {
         return screen;
     };
     //----------------------------------------------------------------------------------------------
+    //getSecurityDependencies() {
+    //    var dependencies: SecurityDependency[] = [];
+    //    dependencies.push({
+    //        id: 'Va6jzxcGVll8',
+    //        name: 'Agent>Order',
+    //        description: 'Required to view Orders.'
+    //    });
+    //    dependencies.push({
+    //        id: 'QHbwnxEN2Ud9',
+    //        name: 'Billing>Invoice',
+    //        description: 'Required to Create Invoices.'
+    //    });
+    //    return dependencies;
+    //}
+    //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
             case 'OfficeLocationId':
@@ -151,7 +166,7 @@ class Billing {
                     , CombinePeriods: FwFormField.getValueByDataField($popup, 'CombinePeriods')
                     , IncludeTotals: FwFormField.getValueByDataField($popup, 'IncludeTotals')
                 };
-                FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, response => {
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/populate`, request, FwServices.defaultTimeout, response => {
                     //load browse with sessionId
                     const max = 9999;
                     $browse.data('ondatabind', request => {
@@ -175,7 +190,7 @@ class Billing {
                         msgRequest.uniqueids = {
                             SessionId: this.SessionId
                         }
-                        FwAppData.apiMethod(true, 'POST', `api/v1/billingmessage/browse`, msgRequest, FwServices.defaultTimeout, response => {
+                        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/billingmessage/browse`, msgRequest, FwServices.defaultTimeout, response => {
                             FwBrowse.search($billingMessageBrowse);
                         }, ex => FwFunc.showError(ex), $browse);
                     } else {
@@ -205,8 +220,12 @@ class Billing {
 
                     const orderNumber = $this.find('[data-browsedatafield="OrderNumber"]').attr('data-originalvalue');
                     const orderDescription = $this.find('[data-browsedatafield="OrderDescription"]').attr('data-originalvalue');
-                    const $orderForm = OrderController.loadForm(orderInfo);
-                    FwModule.openModuleTab($orderForm, `${orderNumber} ${orderDescription}`, true, 'FORM', true);
+                    if (FwApplicationTree.isVisibleInSecurityTree('Va6jzxcGVll8')) {
+                        const $orderForm = OrderController.loadForm(orderInfo);
+                        FwModule.openModuleTab($orderForm, `${orderNumber} ${orderDescription}`, true, 'FORM', true);
+                    } else {
+                        FwFunc.showMessage('Viewing Orders is disabled for your security group.');
+                    }
                 }
             })
             .off('keydown', 'tbody tr')
@@ -220,10 +239,14 @@ class Billing {
                             const orderId = $this.find('[data-browsedatafield="OrderId"]').attr('data-originalvalue');
                             if (typeof orderId !== 'undefined') {
                                 const orderInfo: any = { OrderId: orderId };
-                                const $orderForm = OrderController.loadForm(orderInfo);
-                                const orderNumber = $this.find('[data-browsedatafield="OrderNumber"]').attr('data-originalvalue');
-                                const orderDescription = $this.find('[data-browsedatafield="OrderDescription"]').attr('data-originalvalue');
-                                FwModule.openModuleTab($orderForm, `${orderNumber} ${orderDescription}`, true, 'FORM', true);
+                                if (FwApplicationTree.isVisibleInSecurityTree('Va6jzxcGVll8')) {
+                                    const $orderForm = OrderController.loadForm(orderInfo);
+                                    const orderNumber = $this.find('[data-browsedatafield="OrderNumber"]').attr('data-originalvalue');
+                                    const orderDescription = $this.find('[data-browsedatafield="OrderDescription"]').attr('data-originalvalue');
+                                    FwModule.openModuleTab($orderForm, `${orderNumber} ${orderDescription}`, true, 'FORM', true);
+                                } else {
+                                    FwFunc.showMessage('Viewing Orders is disabled for your security group.');
+                                }
                             }
                             break;
                         case 37: //Left Arrow Key
@@ -258,57 +281,59 @@ class Billing {
     //----------------------------------------------------------------------------------------------
     createInvoicesEvents($browse) {
         //Adds "Create Invoices" button to the menu bar 
-        $browse.find('.buttonbar').append(`<div class="createInvoices btn" style="display:flex; padding:0 10px; cursor:pointer;"><i class="material-icons">add</i><div class="btn-text">Create Invoices</div></div>`);
+        if (FwApplicationTree.isVisibleInSecurityTree('QHbwnxEN2Ud9')) {
+            $browse.find('.buttonbar').append(`<div class="createInvoices btn" style="display:flex; padding:0 10px; cursor:pointer;"><i class="material-icons">add</i><div class="btn-text">Create Invoices</div></div>`);
 
-        $browse.on('click', '.createInvoices', e => {
-            let $selectedCheckBoxes;
-            let ids: any = [];
-            let request: any = {};
-            $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
-            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                let $this = jQuery($selectedCheckBoxes[i]);
-                let id;
-                id = $this.closest('tr').find('div[data-browsedatafield="BillingId"]').attr('data-originalvalue');
-                ids.push(id);
-            }
-
-            request = {
-                SessionId: this.SessionId,
-                BillingIds: ids
-            }
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/billing/createinvoices`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success === true) {
-                    //Open new invoice browse tab
-                    let $invoiceBrowse = InvoiceController.openBrowse();
-                    //set data-newtab to false to prevent "+" button from being added
-                    $invoiceBrowse.attr('data-newtab', 'false');
-                    $invoiceBrowse.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            InvoiceCreationBatchId: response.InvoiceCreationBatchId
-                        }
-                        request.pagesize = 999;
-                    });
-                    FwModule.openModuleTab($invoiceBrowse, 'Invoice', true, 'BROWSE', true);
-                    FwBrowse.search($invoiceBrowse);
-
-                    //clear browse and add click event to billing tab to open up the search when clicked
-                    let $billingBrowseTab = FwTabs.getTabByElement($browse);
-                    $browse.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            SessionId: ''
-                        }
-                    });
-                    FwBrowse.search($browse);
-                    $billingBrowseTab.off('click');
-                    $billingBrowseTab.on('click', e => {
-                        $browse.find('.openBrowseFilter').click();
-                    });
-                } else {
-                    FwNotification.renderNotification('ERROR', response.msg);
+            $browse.on('click', '.createInvoices', e => {
+                let $selectedCheckBoxes;
+                let ids: any = [];
+                let request: any = {};
+                $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                    let $this = jQuery($selectedCheckBoxes[i]);
+                    let id;
+                    id = $this.closest('tr').find('div[data-browsedatafield="BillingId"]').attr('data-originalvalue');
+                    ids.push(id);
                 }
-            }, null, $browse, this.SessionId);
-        });
+
+                request = {
+                    SessionId: this.SessionId,
+                    BillingIds: ids
+                }
+
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/createinvoices`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success === true) {
+                        //Open new invoice browse tab
+                        let $invoiceBrowse = InvoiceController.openBrowse();
+                        //set data-newtab to false to prevent "+" button from being added
+                        $invoiceBrowse.attr('data-newtab', 'false');
+                        $invoiceBrowse.data('ondatabind', function (request) {
+                            request.uniqueids = {
+                                InvoiceCreationBatchId: response.InvoiceCreationBatchId
+                            }
+                            request.pagesize = 999;
+                        });
+                        FwModule.openModuleTab($invoiceBrowse, 'Invoice', true, 'BROWSE', true);
+                        FwBrowse.search($invoiceBrowse);
+
+                        //clear browse and add click event to billing tab to open up the search when clicked
+                        let $billingBrowseTab = FwTabs.getTabByElement($browse);
+                        $browse.data('ondatabind', function (request) {
+                            request.uniqueids = {
+                                SessionId: ''
+                            }
+                        });
+                        FwBrowse.search($browse);
+                        $billingBrowseTab.off('click');
+                        $billingBrowseTab.on('click', e => {
+                            $browse.find('.openBrowseFilter').click();
+                        });
+                    } else {
+                        FwNotification.renderNotification('ERROR', response.msg);
+                    }
+                }, null, $browse, this.SessionId);
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {

@@ -17,6 +17,8 @@ using WebApi.Modules.Settings.PaymentSettings.PaymentTerms;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;
 using WebApi.Modules.Settings.CurrencySettings.Currency;
 using WebApi.Modules.Settings.TaxSettings.TaxOption;
+using WebApi.Modules.Utilities.GLDistribution;
+using WebApi.Modules.Administrator.EmailHistory;
 
 namespace WebApi.Modules.Billing.Invoice
 {
@@ -313,5 +315,14 @@ namespace WebApi.Modules.Billing.Invoice
         {
             return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/invoice/gldistribution/browse 
+        [HttpPost("gldistribution/browse")]
+        [FwControllerMethod(Id: "U2oLOFpTQzgm", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> GLDistribution_BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GLDistributionLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }
