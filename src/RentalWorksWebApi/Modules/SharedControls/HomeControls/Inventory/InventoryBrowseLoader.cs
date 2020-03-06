@@ -102,6 +102,12 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "mw.monthlyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.defaultcost", modeltype: FwDataTypes.Decimal)]
+        public decimal? DefaultCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.cost", modeltype: FwDataTypes.Decimal)]
+        public decimal? AverageCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "mw.price", modeltype: FwDataTypes.Decimal)]
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -117,7 +123,7 @@ namespace WebApi.Modules.HomeControls.Inventory
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             OverrideFromClause = " from inventoryview [t] with (nolock) " +
-                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.dailyrate, mw.weeklyrate, mw.week2rate, mw.week3rate, mw.week4rate, mw.monthlyrate, mw.price, mw.replacementcost" +
+                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.dailyrate, mw.weeklyrate, mw.week2rate, mw.week3rate, mw.week4rate, mw.monthlyrate, mw.defaultcost, mw.cost, mw.price, mw.replacementcost" +
                   "              from  masterwh mw with(nolock)" +
                   "              where mw.masterid    = t.masterid" +
                   "              and   mw.warehouseid = @warehouseid) mw" +

@@ -385,10 +385,12 @@ class OrderItemGrid {
                 //$generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
                 //$generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
                 //$generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+                let costFieldName;
                 let rateFieldName;
                 switch (recType) {
                     case 'P':
                     case 'S':
+                        costFieldName = 'DefaultCost';
                         rateFieldName = 'Price';
                         break;
                     case 'R':
@@ -405,9 +407,15 @@ class OrderItemGrid {
                         }
                         break;
                     case 'RS':
+                        costFieldName = 'UnitValue';
                         rateFieldName = 'ReplacementCost';
                         break;
 
+                }
+
+                if (costFieldName) {
+                    const cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
+                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost, text: cost });
                 }
 
                 if (rateFieldName) {
@@ -419,28 +427,28 @@ class OrderItemGrid {
                 FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable});
 
                 if ($generatedtr.hasClass("newmode")) {
-                    const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
+                    //const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
                     const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                    FwAppData.apiMethod(true, 'GET', `api/v1/pricing/${inventoryId}/${warehouseId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        switch (rateType) {
-                            case 'DAILY':
-                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
-                                break;
-                            case 'WEEKLY':
-                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].WeeklyRate);
-                                break;
-                            case 'MONTHLY':
-                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].MonthlyRate);
-                                break;
-                        }
-                    }, null, $form);
+                    //FwAppData.apiMethod(true, 'GET', `api/v1/pricing/${inventoryId}/${warehouseId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    //    switch (rateType) {
+                    //        case 'DAILY':
+                    //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
+                    //            break;
+                    //        case 'WEEKLY':
+                    //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].WeeklyRate);
+                    //            break;
+                    //        case 'MONTHLY':
+                    //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].MonthlyRate);
+                    //            break;
+                    //    }
+                    //}, null, $form);
 
-                    const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-                    FwAppData.apiMethod(true, 'GET', `api/v1/taxable/${inventoryId}/${officeLocationId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        if (response[0].Taxable) {
-                            $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
-                        }
-                    }, null, $form);
+                    //const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                    //FwAppData.apiMethod(true, 'GET', `api/v1/taxable/${inventoryId}/${officeLocationId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    //    if (response[0].Taxable) {
+                    //        $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
+                    //    }
+                    //}, null, $form);
                     $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
                     $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
                     $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);

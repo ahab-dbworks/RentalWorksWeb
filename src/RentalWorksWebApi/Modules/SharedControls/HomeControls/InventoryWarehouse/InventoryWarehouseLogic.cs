@@ -144,6 +144,7 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouse
 
         [FwLogicProperty(Id: "IGu61XAFP8WiH")]
         public decimal? UnitValue { get { return masterWarehouse.UnitValue; } set { masterWarehouse.UnitValue = value; } }
+
         [FwLogicProperty(Id: "dqjGqmmSwBFqn")]
         public decimal? ReplacementCost { get { return masterWarehouse.ReplacementCost; } set { masterWarehouse.ReplacementCost = value; } }
 
