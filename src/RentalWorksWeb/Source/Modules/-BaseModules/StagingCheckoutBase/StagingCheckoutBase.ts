@@ -1275,6 +1275,7 @@ abstract class StagingCheckoutBase {
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
             try {
                 this.refreshGridForScanning($form);
+                this.addItemFieldValues($form, response);
                 $form.find('.error-msg:not(.qty)').html('');
                 $form.find('div.AddItemToOrder').html('');
                 FwFunc.playSuccessSound();
