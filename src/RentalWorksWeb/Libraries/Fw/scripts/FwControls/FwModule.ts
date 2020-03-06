@@ -454,12 +454,18 @@ class FwModule {
                             });
                             $formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
                             $formTabControl.find('#' + auditTabIds.tabid)
-                                .addClass('audittab')
-                                .on('click', e => {
-                                    if ($form.attr('data-mode') !== 'NEW') {
-                                        FwBrowse.search($auditControl);
-                                    };
-                                });
+                                .addClass('audittab');
+                                // MV 2020-03-05 disabling the click event here, because most modules are auto loading grids on a tab, causing this to run twice
+                                //.on('click', (e: JQuery.ClickEvent) => {
+                                //    const $tab = jQuery(e.currentTarget);
+                                //    setTimeout(() => {
+                                //        if (!$tab.hasClass('tabGridsLoaded')) {
+                                //            if ($form.attr('data-mode') !== 'NEW') {
+                                //                FwBrowse.search($auditControl);
+                                //            };
+                                //        }
+                                //    }, 50);
+                                //});
                         }
                     }
                 }
