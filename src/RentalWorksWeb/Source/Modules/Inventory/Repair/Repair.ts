@@ -740,7 +740,7 @@ class Repair {
                       <div class="flexrow">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Create Estimate">
                           <div class="flexrow">
-                            <div class="fwformcontrol estimate" data-type="button" style="margin:16px 0 0 0;flex:0 1 75px">Estimate</div>
+                            <div class="fwformcontrol estimate" data-type="button" style="margin:16px 0 0 5px;flex:0 1 75px">Estimate</div>
                           </div>
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="EstimateDate" data-enabled="false"        style="flex:1 1 125px;"></div>
@@ -751,7 +751,7 @@ class Repair {
                       <div class="flexrow">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Complete Repair">
                           <div class="flexrow">
-                            <div class="fwformcontrol complete" data-type="button" style="margin:16px 0 0 0;flex:0 1 75px;">Complete</div>
+                            <div class="fwformcontrol complete" data-type="button" style="margin:16px 0 0 5px;flex:0 1 75px;">Complete</div>
                           </div>
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="CompleteDate" data-enabled="false"        style="flex:1 1 125px;"></div>

@@ -895,6 +895,7 @@ abstract class StagingCheckoutBase {
             if (e.which == 9 || e.which == 13) {
                 errorMsg.html('');
                 $form.find('div.AddItemToOrder').html('');
+                this.showAddItemToOrder = false;
                 const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                 const code = FwFormField.getValueByDataField($form, 'Code');
@@ -903,7 +904,6 @@ abstract class StagingCheckoutBase {
                     Code: code,
                     WarehouseId: warehouse.warehouseid
                 }
-                this.showAddItemToOrder = false;
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                     if (response.success === true && response.status != 107) {
                         FwFunc.playSuccessSound();
