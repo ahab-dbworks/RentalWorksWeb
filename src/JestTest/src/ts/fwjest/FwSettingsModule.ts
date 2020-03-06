@@ -14,6 +14,7 @@ export class FwSettingsModule extends FwModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 600;
     waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 800;
     waitBeforeClickingToOpenRecord: number = 300;
+    waitBeforeClickingToCloseRecord: number = 600;
     waitAfterClickingToOpenRecordToCheckForErrors: number = 300;
     waitForButtonToGetEvents: number = 4000;
     //---------------------------------------------------------------------------------------
@@ -425,6 +426,9 @@ export class FwSettingsModule extends FwModuleBase {
     //---------------------------------------------------------------------------------------
     async closeRecord(index?: number): Promise<void> {
         // need to check to see if the record is open first
+
+        await FwModuleBase.wait(this.waitBeforeClickingToCloseRecord); 
+
         await this.clickRecord(index);
         FwLogging.logInfo(`Record closed.`);
     }

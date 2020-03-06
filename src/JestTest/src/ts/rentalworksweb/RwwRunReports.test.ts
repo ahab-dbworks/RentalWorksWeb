@@ -125,6 +125,7 @@ export class RunReportsTest extends BaseTest {
                 recordToSelect = 1;
             }
             Logging.logInfo(`About to click validation button on ${dataField}`);
+            await ModuleBase.wait(1000);
             await page.click(`#${reportName} .fwformfield[data-datafield="${dataField}"] i.btnvalidate`);
             var popUp;
             try {
