@@ -102,6 +102,23 @@ class RwAsset {
         FwFormField.setValueByDataField($form, 'ItemId', uniqueids.ItemId);
         FwModule.loadForm(this.Module, $form);
 
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'AssetDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${uniqueids.ItemId}/document`;
+            },
+            gridSecurityId: 'pasdUk6LtsQB',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'ItemId',
+            uniqueid1Name: 'ItemId',
+            getUniqueid1Value: () => uniqueids.ItemId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
         $form.find('.repairOrderSubModule').append(this.openRepairOrderBrowse($form));
         $form.find('.orderSubModule').append(this.openOrderBrowse($form));
         $form.find('.transferSubModule').append(this.openTransferBrowse($form));
@@ -467,6 +484,7 @@ class RwAsset {
               <div data-type="tab" id="transfertab" class="tab submodule" data-tabpageid="transfertabpage" data-caption="Transfers"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="retiredhistorytab" class="tab submodule" data-submodulename="RetiredHistory" data-tabpageid="retiredhistorytabpage" data-caption="Retired History"></div>
+              <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -726,6 +744,16 @@ class RwAsset {
               </div>
               <!-- RETIRED HISTORY SUBMODULE-->
               <div data-type="tabpage" id="retiredhistorytabpage" class="tabpage submodule rwSubModule retiredSubModule" data-tabid="retiredhistorytab"></div>
+              
+              <!-- DOCUMENTS TAB -->
+              <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+                <div class="flexpage">
+                  <div class="flexrow">
+                    <div data-control="FwGrid" data-grid="AssetDocumentGrid"></div>
+                  </div>
+                </div>
+              </div>
+
               <!-- Notes tab -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
                 <div class="flexpage">

@@ -363,7 +363,6 @@ class Contact {
               <div data-type="tab" id="profiletab" class="tab profiletab" data-tabpageid="profiletabpage" data-caption="Profile"></div>
               <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notestab" class="tab notestab" data-tabpageid="notestabpage" data-caption="Notes"></div>
-              <!-- <div data-type="tab" id="documenttab" class="tab documenttab" data-tabpageid="documenttabpage" data-caption="Document"></div> -->
               <div data-type="tab" id="accesstab" class="tab accesstab" data-tabpageid="accesstabpage" data-caption="Web Access"></div>
               <div data-type="tab" id="quotetab" class="tab submodule quotetab" data-tabpageid="quotetabpage" data-caption="Quote"></div>
               <div data-type="tab" id="ordertab" class="tab submodule ordertab" data-tabpageid="ordertabpage" data-caption="Order"></div>

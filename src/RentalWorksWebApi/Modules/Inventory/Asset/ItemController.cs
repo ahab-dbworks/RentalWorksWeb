@@ -17,7 +17,7 @@ namespace WebApi.Modules.Inventory.Asset
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "kSugPLvkuNsH")]
-    public class ItemController : AppDataController
+    public partial class ItemController : AppDataController
     {
         public ItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ItemLogic); }
         //------------------------------------------------------------------------------------ 

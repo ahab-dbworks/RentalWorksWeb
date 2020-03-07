@@ -15,11 +15,12 @@ namespace WebApi.Modules.AccountServices.Jwt
     [FwController(Id: "fcyBsC5j7s1l")]
     public class JwtController : FwJwtController
     {
+        //---------------------------------------------------------------------------------------------
         public JwtController(IOptions<FwApplicationConfig> appConfig, ILoggerFactory loggerFactory): base(appConfig, loggerFactory)
         {
 
         }
-
+        //---------------------------------------------------------------------------------------------
         [HttpPost]
         [FwControllerMethod(Id:"v3gVmSi29OUI", AllowAnonymous:true)]
         public async Task<ActionResult<JwtResponseModel>> Post([FromBody] FwApplicationUser user)
@@ -41,5 +42,6 @@ namespace WebApi.Modules.AccountServices.Jwt
             request.appConfig = this._appConfig;
             return await FwJwtLogic.OktaVerifySession(request);
         }
+        //---------------------------------------------------------------------------------------------
     }
 }
