@@ -13,7 +13,7 @@ export class RunReportsTest extends BaseTest {
     }
     //---------------------------------------------------------------------------------------
     async PerformTests() {
-        this.testTimeout = 300000; // 5 minutes
+        //this.testTimeout = 300000; // 5 minutes
         // ----------
         async function goToReportsPage() {
             Logging.logInfo(`About to click on report icon`);
@@ -157,7 +157,8 @@ export class RunReportsTest extends BaseTest {
             let closeUnexpectedErrors = false;
             let testError = null;
             Logging.logInfo(`About to click on ${reportName}`);
-            const reportPanel = `#${reportName} .panel .panel-heading`;
+            //const reportPanel = `#${reportName} .panel .panel-heading`;
+            const reportPanel = `#${reportName} .panel-heading`;
             await page.waitForSelector(reportPanel, { visible: true });
             await page.click(reportPanel);
 
@@ -224,8 +225,10 @@ export class RunReportsTest extends BaseTest {
                     Logging.logInfo(`Waiting for ${reportName} to load`);
 
                     var preview;
+                    var footer;
                     try {
-                        preview = await pages[2].waitForSelector('.preview', { visible: true, timeout: 10000 });
+                        preview = await pages[2].waitForSelector('.preview', { visible: true, timeout: 300000 });
+                        footer = await pages[2].waitForSelector('#pageFooter', { visible: true, timeout: 300000 });
                         await ModuleBase.wait(1000); // only for developer to be able to see the report
                     } catch (error) { } // preview not found
 
@@ -241,7 +244,7 @@ export class RunReportsTest extends BaseTest {
                     }
                     Logging.logInfo(`About to close ${reportName}`);
                     await pages[2].close();
-                    await ModuleBase.wait(1500); // wait to allow more time for the tab to close before starting the next report
+                    //await ModuleBase.wait(1500); // wait to allow more time for the tab to close before starting the next report
                 }
             }
             expect(testError).toBeNull();

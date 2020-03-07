@@ -16,7 +16,9 @@ export class FwSettingsModule extends FwModuleBase {
     waitBeforeClickingToOpenRecord: number = 300;
     waitBeforeClickingToCloseRecord: number = 600;
     waitAfterClickingToOpenRecordToCheckForErrors: number = 300;
-    waitForButtonToGetEvents: number = 6000;  // kinda crazy, but it needs a long time to assign events to everything
+    waitForNewButtonToGetEvents: number = 2000;     
+    waitForCancelButtonToGetEvents: number = 2000;  
+    waitForDeleteButtonToGetEvents: number = 6000;  
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
@@ -389,7 +391,7 @@ export class FwSettingsModule extends FwModuleBase {
         //let newButtonSelector = `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
 
         await page.waitForSelector(this.getNewButtonSelector(), { visible: true, timeout: 10000 });
-        await FwModuleBase.wait(this.waitForButtonToGetEvents); // let the events get associated to the new button
+        await FwModuleBase.wait(this.waitForNewButtonToGetEvents); // let the events get associated to the new button
         await page.click(this.getNewButtonSelector(), { clickCount: count });
 
         let formSelector = `.fwform`;
@@ -445,7 +447,7 @@ export class FwSettingsModule extends FwModuleBase {
 
         if (cancelButtonFound) {
             FwLogging.logInfo(`new record "cancel" button found`);
-            FwModuleBase.wait(this.waitForButtonToGetEvents);  // wait for the cancel button to get its events
+            FwModuleBase.wait(this.waitForCancelButtonToGetEvents);  // wait for the cancel button to get its events
             await page.click(cancelSelector);
             FwLogging.logInfo(`Record closed without saving.`);
         }
@@ -480,7 +482,7 @@ export class FwSettingsModule extends FwModuleBase {
 
             let deleteButtonSelector = `div .panel-record[id="${clickRecordResponse.recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
             await page.waitForSelector(deleteButtonSelector, { visible: true });
-            FwModuleBase.wait(this.waitForButtonToGetEvents); // wait for the button to get its events
+            FwModuleBase.wait(this.waitForDeleteButtonToGetEvents); // wait for the button to get its events
             await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
 
             await page.waitFor(() => document.querySelector('.advisory'));
