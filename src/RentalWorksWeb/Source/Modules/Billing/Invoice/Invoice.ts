@@ -159,7 +159,7 @@ class Invoice {
     openForm(mode, parentModuleInfo?: any) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-        FwTabs.hideTab($form.find('.emailhistorytab'));
+        //FwTabs.hideTab($form.find('.emailhistorytab'));
 
         if (FwApplicationTree.isVisibleInSecurityTree('3XHEm3Q8WSD8z')) {
             const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);

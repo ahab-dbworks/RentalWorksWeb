@@ -163,12 +163,12 @@ class Order extends OrderBase {
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = super.openForm(mode, parentModuleInfo);
 
-        FwTabs.hideTab($form.find('.activitytab'));
-        FwTabs.hideTab($form.find('.picklisttab'));
-        FwTabs.hideTab($form.find('.contracttab'));
-        FwTabs.hideTab($form.find('.repairtab'));
-        FwTabs.hideTab($form.find('.purchaseordertab'));
-        FwTabs.hideTab($form.find('.invoicetab'));
+        //FwTabs.hideTab($form.find('.activitytab'));
+        //FwTabs.hideTab($form.find('.picklisttab'));
+        //FwTabs.hideTab($form.find('.contracttab'));
+        //FwTabs.hideTab($form.find('.repairtab'));
+        //FwTabs.hideTab($form.find('.purchaseordertab'));
+        //FwTabs.hideTab($form.find('.invoicetab'));
 
         if (mode === 'NEW') {
             $form.find('[data-type="tab"][data-caption="Loss & Damage"]').hide();

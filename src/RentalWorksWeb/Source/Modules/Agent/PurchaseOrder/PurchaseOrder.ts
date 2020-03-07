@@ -164,15 +164,15 @@ class PurchaseOrder implements IModule {
         FwFormField.disable($form.find('[data-datafield="SubLabor"]'));
         FwFormField.disable($form.find('[data-datafield="SubMiscellaneous"]'));
         FwFormField.disable($form.find('[data-datafield="SubVehicle"]'));
-        FwTabs.hideTab($form.find('.vendorinvoicetab'));
-        FwTabs.hideTab($form.find('.contracttab'));
-        FwTabs.hideTab($form.find('.emailhistorytab'));
+        //FwTabs.hideTab($form.find('.vendorinvoicetab'));
+        //FwTabs.hideTab($form.find('.contracttab'));
+        //FwTabs.hideTab($form.find('.emailhistorytab'));
 
         let nodeActivity = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'hb52dbhX1mNLZ');
         if (nodeActivity !== undefined && nodeActivity.properties.visible === 'T') {
             FwTabs.showTab($form.find('.activitytab'));
         } else {
-            FwTabs.hideTab($form.find('.activitytab'));
+            //FwTabs.hideTab($form.find('.activitytab'));
         }
 
         if (mode === 'NEW') {

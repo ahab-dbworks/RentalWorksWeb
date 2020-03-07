@@ -1168,7 +1168,7 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = jQuery(this.getFormTemplate());
-        FwTabs.hideTab($form.find('.emailhistorytab'));
+        //FwTabs.hideTab($form.find('.emailhistorytab'));
         this.loadFormMenu($form);
         $form = FwModule.openForm($form, mode);
 

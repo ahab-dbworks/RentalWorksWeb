@@ -38,8 +38,8 @@ class Vendor {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        FwTabs.hideTab($form.find('.purchaseordertab'));
-        FwTabs.hideTab($form.find('.vendorinvoicetab'));
+        //FwTabs.hideTab($form.find('.purchaseordertab'));
+        //FwTabs.hideTab($form.find('.vendorinvoicetab'));
 
         this.events($form);
 

@@ -40,14 +40,14 @@ class Customer {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        FwTabs.hideTab($form.find('.dealtab'));
-        FwTabs.hideTab($form.find('.quotetab'));
-        FwTabs.hideTab($form.find('.ordertab'));
-        FwTabs.hideTab($form.find('.customercredittab'));
-        FwTabs.hideTab($form.find('.contracttab'));
-        FwTabs.hideTab($form.find('.invoicetab'));
-        FwTabs.hideTab($form.find('.customercredittab'));
-        FwTabs.hideTab($form.find('.receipttab'));
+        //FwTabs.hideTab($form.find('.dealtab'));
+        //FwTabs.hideTab($form.find('.quotetab'));
+        //FwTabs.hideTab($form.find('.ordertab'));
+        //FwTabs.hideTab($form.find('.customercredittab'));
+        //FwTabs.hideTab($form.find('.contracttab'));
+        //FwTabs.hideTab($form.find('.invoicetab'));
+        //FwTabs.hideTab($form.find('.customercredittab'));
+        //FwTabs.hideTab($form.find('.receipttab'));
 
         // example: setting validation getapiurl functions
         //FwFormField.getDataField($form, 'OfficeLocationId').data('getapiurl', () => 'api/v1/customer/lookup/officelocations');

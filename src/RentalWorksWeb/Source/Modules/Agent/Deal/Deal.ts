@@ -40,12 +40,12 @@ class Deal {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        FwTabs.hideTab($form.find('.quotetab'));
-        FwTabs.hideTab($form.find('.ordertab'));
-        FwTabs.hideTab($form.find('.contracttab'));
-        FwTabs.hideTab($form.find('.invoicetab'));
-        FwTabs.hideTab($form.find('.receipttab'));
-        FwTabs.hideTab($form.find('.creditstab'));
+        //FwTabs.hideTab($form.find('.quotetab'));
+        //FwTabs.hideTab($form.find('.ordertab'));
+        //FwTabs.hideTab($form.find('.contracttab'));
+        //FwTabs.hideTab($form.find('.invoicetab'));
+        //FwTabs.hideTab($form.find('.receipttab'));
+        //FwTabs.hideTab($form.find('.creditstab'));
         FwFormField.disable($form.find('.CompanyResaleGrid'));
         this.events($form);
 

@@ -160,7 +160,7 @@ class Quote extends OrderBase {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = super.openForm(mode, parentModuleInfo);
-        FwTabs.hideTab($form.find('.activitytab'));
+        //FwTabs.hideTab($form.find('.activitytab'));
         let userType = sessionStorage.getItem('userType');
 
         if (mode === 'NEW') {

@@ -51,8 +51,8 @@ class Contact {
     openForm(mode: string) {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
-        FwTabs.hideTab($form.find('.ordertab'));
-        FwTabs.hideTab($form.find('.quotetab'));
+        //FwTabs.hideTab($form.find('.ordertab'));
+        //FwTabs.hideTab($form.find('.quotetab'));
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
