@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OrderTypeFields;
-using static FwStandard.Data.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.OrderSettings.OrderType
 {
@@ -72,6 +71,9 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
         [FwLogicProperty(Id:"jpC5QlAPHP31")]
         public bool? CombineActivityTabs { get { return orderType.CombineActivityTabs; } set { orderType.CombineActivityTabs = value; } }
+
+        [FwLogicProperty(Id: "fwPSBW0fcJ5TN")]
+        public bool? DefaultManualSort { get { return orderType.DefaultManualSort; } set { orderType.DefaultManualSort = value; } }
 
 
 

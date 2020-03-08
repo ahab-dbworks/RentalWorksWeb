@@ -1,4 +1,3 @@
-using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
@@ -211,6 +210,9 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string LossAndDamageOrderTypeFieldsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultmanualsort", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? DefaultManualSort { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Inactive { get; set; }

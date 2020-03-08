@@ -17,6 +17,7 @@ using WebApi.Modules.HomeControls.Tax;
 using WebApi.Modules.Settings.OrderTypeDateType;
 using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
 using WebApi;
+using WebApi.Modules.Settings.OrderSettings.OrderType;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -1162,7 +1163,7 @@ namespace WebApi.Modules.Agent.Order
         public decimal? UsedSaleExtendedTotal { get; set; }
         [FwLogicProperty(Id: "Nv6r2tREyvp1p", IsReadOnly: true)]
         public decimal? LossAndDamageExtendedTotal { get; set; }
-        
+
 
         [FwLogicProperty(Id: "a4M3WLLCuQor", IsReadOnly: true)]
         public bool? HasNotes { get; set; }
@@ -1179,12 +1180,12 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------
 
 
-        [FwLogicProperty(Id: "JLEETIIuUH1li")]
-        public bool? IsManualSort { get; set; }
-        
+        [FwLogicProperty(Id: "JLEETIIuUH1li", IsReadOnly: true)]  // input value supplied from page is ignored, overridden in BeforeSaves
+        public bool? IsManualSort { get { return dealOrderDetail.IsManualSort; } set { dealOrderDetail.IsManualSort = value; } }
 
 
-    [FwLogicProperty(Id: "HmfP8Yd1BuDm", IsRecordTitle: true, IsReadOnly: true)]
+
+        [FwLogicProperty(Id: "HmfP8Yd1BuDm", IsRecordTitle: true, IsReadOnly: true)]
         public string QuoteOrderTitle { get; set; }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "Ax3fGfGLJouY", IsReadOnly: true)]
@@ -1357,6 +1358,15 @@ namespace WebApi.Modules.Agent.Order
                     }
                 }
 
+                if (!string.IsNullOrEmpty(OrderTypeId))
+                {
+                    OrderTypeLogic orderType = new OrderTypeLogic();
+                    orderType.SetDependencies(AppConfig, UserSession);
+                    orderType.OrderTypeId = OrderTypeId;
+                    bool b = orderType.LoadAsync<OrderTypeLogic>().Result;
+                    IsManualSort = orderType.DefaultManualSort;
+                }
+
                 if (string.IsNullOrEmpty(AgentId))
                 {
                     AgentId = UserSession.UsersId;
@@ -1381,6 +1391,7 @@ namespace WebApi.Modules.Agent.Order
                     InDeliveryId = orig.InDeliveryId;
                     BillToAddressId = orig.BillToAddressId;
                     TaxId = orig.TaxId;
+                    IsManualSort = orig.IsManualSort;
                 }
             }
         }
