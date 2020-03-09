@@ -569,12 +569,12 @@ class OrderItemGrid {
                     switch (columnChanged) {
                         case 'MarkupPercent':
                             FwBrowse.setFieldValue($control, $generatedtr, 'MarginPercent', { value: response.MarginPercent });
-                            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response.Price });
+                            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response.Price.toString() });
                             calculateExtended('Extended');
                             break;
                         case 'MarginPercent':
                             FwBrowse.setFieldValue($control, $generatedtr, 'MarkupPercent', { value: response.MarginPercent });
-                            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response.Price });
+                            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response.Price.toString() });
                             calculateExtended('Extended');
                             break;
                         case 'Price':
