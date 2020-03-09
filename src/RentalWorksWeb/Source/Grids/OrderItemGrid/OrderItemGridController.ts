@@ -963,7 +963,7 @@ class OrderItemGrid {
             FwAppData.apiMethod(true, 'POST', `api/v1/order/copyorderitems`, request, FwServices.defaultTimeout,
                 response => {
                     jQuery(document).trigger('click');
-                    FwBrowse.search($grid);
+                    FwBrowse.databind($grid);
                 },
                 ex => FwFunc.showError(ex), $grid);
         } else {
@@ -1097,7 +1097,7 @@ class OrderItemGrid {
 
             FwAppData.apiMethod(true, 'POST', `api/v1/order/copytemplate`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 $popup.find('.close-modal').click();
-                FwBrowse.search($grid);
+                FwBrowse.databind($grid);
             }, null, $templatePopup);
 
         });
@@ -1353,7 +1353,7 @@ class OrderItemGrid {
                         request.pageno = pageNo;
                     });
                 }
-                FwBrowse.search($control);
+                FwBrowse.databind($control);
             }, ex => FwFunc.showError(ex), $control);
     }
     //----------------------------------------------------------------------------------------------
@@ -1497,7 +1497,7 @@ class OrderItemGrid {
             FwAppData.apiMethod(true, 'POST', "api/v1/orderitem/insertoption", request, FwServices.defaultTimeout,
                 response => {
                     $popup.find('.close-modal').click();
-                    FwBrowse.search($control);
+                    FwBrowse.databind($control);
                 },
                 ex => FwFunc.showError(ex), $control);
         });
