@@ -21,7 +21,12 @@ thead {
     border-top: 2px solid black;
 }
 
-@page {
-    size: landscape;
-    margin: 10px 10px 35px 10px; // Adds margin on the pdf
+@media print {
+    @page {
+        size: landscape;
+        margin: 10px 10px 35px 10px; // Adds margin on the pdf
+    }
+    thead {
+        display: table-row-group;
+    }
 }
