@@ -2,7 +2,7 @@ using WebApi.Logic;
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 
-namespace WebApi.Modules.AdministratorControls.CustomReportLayoutUser
+namespace WebApi.Modules.SharedControls.CustomReportLayoutUser
 {
     [FwLogic(Id: "TmTQgoMDJ69p")]
     public class CustomReportLayoutUserLogic : AppBusinessLogic

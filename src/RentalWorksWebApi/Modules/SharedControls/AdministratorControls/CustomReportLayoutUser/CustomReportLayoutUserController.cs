@@ -6,10 +6,9 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Modules.AdministratorControls.CustomReportLayoutUser;
 using WebApi.Modules.Administrator.User;
 
-namespace WebApi.Modules.Administrator.CustomReportLayoutUser
+namespace WebApi.Modules.SharedControls.CustomReportLayoutUser
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
