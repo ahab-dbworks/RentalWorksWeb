@@ -227,6 +227,23 @@ class Order extends OrderBase {
             FwBrowse.search($OrderManifestGrid);
         });
 
+        $form.on('change', 'div[data-datafield="weightSelector"]', e => {
+            let totals = jQuery(e.currentTarget).data('totals');
+            if (FwFormField.getValueByDataField($form, 'weightSelector') === 'IMPERIAL') {
+                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGreater"]', totals.TotalExtendedWeightLbs);
+                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLesser"]', totals.TotalExtendedWeightOz);
+
+                $form.find('div[data-datafield="ExtendedWeightTotalGreater"] .fwformfield-caption').html('Pounds');
+                $form.find('div[data-datafield="ExtendedWeightTotalLesser"] .fwformfield-caption').html('Ounces');
+            } else {
+                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGreater"]', totals.TotalExtendedWeightKg);
+                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLesser"]', totals.TotalExtendedWeightGr);
+
+                $form.find('div[data-datafield="ExtendedWeightTotalGreater"] .fwformfield-caption').html('Kilograms');
+                $form.find('div[data-datafield="ExtendedWeightTotalLesser"] .fwformfield-caption').html('Grams');
+            }
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -338,7 +355,7 @@ class Order extends OrderBase {
                     FilterBy: FwFormField.getValueByDataField($form, 'manifestFilter'),
                     Mode: FwFormField.getValueByDataField($form, 'manifestItems')
                 };
-                request.totalfields = ['OrderValueTotal', 'OrderReplacementTotal', 'OwnedValueTotal', 'OwnedReplacementTotal', 'SubValueTotal', 'SubReplacementTotal', 'ShippingContainerTotal', 'ShippingItemTotal', 'PieceCountTotal', 'StandAloneItemTotal'];
+                request.totalfields = ['OrderValueTotal', 'OrderReplacementTotal', 'OwnedValueTotal', 'OwnedReplacementTotal', 'SubValueTotal', 'SubReplacementTotal', 'ShippingContainerTotal', 'ShippingItemTotal', 'PieceCountTotal', 'StandAloneItemTotal', 'TotalExtendedWeightLbs', 'TotalExtendedWeightOz', 'TotalExtendedWeightKg', 'TotalExtendedWeightGr'];
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 var $barcodecells = $browse.find('div[data-browsedatafield="Barcode"]');
@@ -361,6 +378,8 @@ class Order extends OrderBase {
                 FwFormField.setValue($form, 'div[data-datafield="ShippingItemTotal"]', dt.Totals.ShippingItemTotal);
                 FwFormField.setValue($form, 'div[data-datafield="PieceCountTotal"]', dt.Totals.PieceCountTotal);
                 FwFormField.setValue($form, 'div[data-datafield="StandAloneItemTotal"]', dt.Totals.StandAloneItemTotal);
+
+                $form.find('div[data-datafield="weightSelector"]').data('totals', {'TotalExtendedWeightLbs': dt.Totals.TotalExtendedWeightLbs, 'TotalExtendedWeightOz': dt.Totals.TotalExtendedWeightOz, 'TotalExtendedWeightKg': dt.Totals.TotalExtendedWeightKg, 'TotalExtendedWeightGr': dt.Totals.TotalExtendedWeightGr}).change();
             }
         });
         FwBrowse.addLegend($form.find('div[data-name="OrderManifestGrid"]'), 'Shipping Container', '#ffeb3b');
@@ -1721,40 +1740,29 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="SubReplacementTotal" data-enabled="false"></div>
                       </div>
                     </div>
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manifest Currency">
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="" data-displayfield="CurrencyCode"></div>
-                      </div>
-                    </div>
                   </div>
                   <div class="flexcolumn" style="flex:1 1 450px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manifest Items">
                       <div class="wideflexrow">
                         <div class="flexcolumn">
-                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="View Items" data-datafield="manifestItems"></div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="View Items" data-datafield="manifestItems"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Rental Valuation" data-datafield="rentalValueSelector"></div>
+                          </div>
                         </div>
                         <div class="flexcolumn">
-                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Filter By" data-datafield="manifestFilter"></div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Filter By" data-datafield="manifestFilter"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Sales Valuation" data-datafield="salesValueSelector"></div>
+                          </div>
                         </div>
                       </div>
                       <div class="wideflexrow">
                         <div data-control="FwGrid" data-grid="OrderManifestGrid" data-securitycaption=""></div>
-                      </div>
-                      <div class="wideflexrow">
-                        <div class="flexcolumn">
-                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Valuation">
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="rentalValueSelector"></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flexcolumn">
-                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Valuation">
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="salesValueSelector"></div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -1764,7 +1772,7 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Shipping Containers" data-datafield="ShippingContainerTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Shipping Items" data-datafield="ShippingItemTotal" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Stand-Alone Items" data-datafield="StandAloneItemTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Piece Count" data-datafield="PieceCountTotal" data-enabled="false"></div>
@@ -1772,7 +1780,7 @@ class Order extends OrderBase {
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Total Items">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Stand-Alone Items" data-datafield="StandAloneItemTotal" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Shipping Items" data-datafield="ShippingItemTotal" data-enabled="false"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Weight">
@@ -1780,10 +1788,10 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="weightSelector"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Pounds" data-datafield="" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Pounds" data-datafield="ExtendedWeightTotalGreater" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Ounces" data-datafield="" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Ounces" data-datafield="ExtendedWeightTotalLesser" data-enabled="false"></div>
                       </div>
                     </div>
                   </div>

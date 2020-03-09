@@ -86,6 +86,14 @@ namespace WebApi.Modules.Agent.OrderManifest
         public decimal? PieceCountTotal { get; set; }
         [FwLogicProperty(Id: "qMMbcj6NMkqN", IsReadOnly: true)]
         public decimal? StandAloneItemTotal { get; set; }
+        [FwLogicProperty(Id: "5OCDudsxkMJy", IsReadOnly: true)]
+        public decimal? TotalExtendedWeightLbs { get; set; }
+        [FwLogicProperty(Id: "OWIjOCCeknqC", IsReadOnly: true)]
+        public decimal? TotalExtendedWeightOz { get; set; }
+        [FwLogicProperty(Id: "8VsYFMuWuneo", IsReadOnly: true)]
+        public decimal? TotalExtendedWeightKg { get; set; }
+        [FwLogicProperty(Id: "WuBss6unVNfn", IsReadOnly: true)]
+        public decimal? TotalExtendedWeightGr { get; set; }
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{ 

@@ -125,6 +125,18 @@ namespace WebApi.Modules.Agent.OrderManifest
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "standaloneitemtotal", modeltype: FwDataTypes.Decimal)]
         public decimal? StandAloneItemTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalextweightlbs", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalExtendedWeightLbs { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalextweightoz", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalExtendedWeightOz { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalextweightkg", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalExtendedWeightKg { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalextweightgr", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalExtendedWeightGr { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string ShippingContainerColor
