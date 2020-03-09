@@ -802,6 +802,28 @@ namespace FwStandard.AppManager
                             break;
                     }
                 }
+                List<string> sortPriority = new List<string>() { "ModuleActions", "ControlActions", "ModuleOptions", "ControlOptions", "Controls", "ModuleApiMethods" };
+                moduleNode.Children.Sort((x, y) =>
+                {
+                    int xPriority = sortPriority.IndexOf(x.NodeType);
+                    int yPriority = sortPriority.IndexOf(y.NodeType);
+                    if (xPriority < 0)
+                    {
+                        throw new Exception($"NodeType: {x.NodeType} needs to be added to the sorting logic in FwAppManager");
+                    }
+                    else if (yPriority < 0)
+                    {
+                        throw new Exception($"NodeType: {y.NodeType} needs to be added to the sorting logic in FwAppManager");
+                    }
+                    else if (xPriority < yPriority)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return 1;
+                    }
+                });
             }
 
             List<Type> branchTypes = this.GetBranchTypes();
