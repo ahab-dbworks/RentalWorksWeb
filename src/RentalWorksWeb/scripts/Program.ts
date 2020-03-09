@@ -4,7 +4,7 @@ class Program extends FwApplication {
     //---------------------------------------------------------------------------------
     constructor() {
         super();
-        FwApplicationTree.currentApplicationId = '0A5F2584-D239-480F-8312-7C2B552A30BA';
+        //FwApplicationTree.currentApplicationId = '0A5F2584-D239-480F-8312-7C2B552A30BA';
     }
 }
 //---------------------------------------------------------------------------------
