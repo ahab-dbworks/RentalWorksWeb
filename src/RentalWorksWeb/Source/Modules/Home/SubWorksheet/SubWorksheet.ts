@@ -281,10 +281,10 @@ class SubWorksheet {
                     this.renderPOGrid($form);
 
                     const $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
-                    $subPurchaseOrderItemGridControl.find('.tablewrapper thead tr td div[data-headercontent="Vendor"]').css('background-color', '#ffece6');
-                 //   $subPurchaseOrderItemGridControl.find('.tablewrapper thead tr td div[data-headercontent="DealOrder"]').css('background-color', '#ffd666');
+                    // $subPurchaseOrderItemGridControl.find('.tablewrapper thead tr td div[data-headercontent="Vendor"]').css('background-color', '#ffece6');
+                    // $subPurchaseOrderItemGridControl.find('.tablewrapper thead tr td div[data-headercontent="DealOrder"]').css('border-left', '1px solid black');
 
-                   //$subPurchaseOrderItemGridControl.find('.menucaption').html('<div class="menucaption">Items<span style="margin:0 0 0 200px;">Legend:</span><span style="margin: 0 0 0 5px;background-color:#5aa6e9;display: inline-block;">Vendor</span><span style="margin: 0 0 0 5px;background-color: lightgrey;display: inline-block;">Deal/Order</span></div>')
+                    //$subPurchaseOrderItemGridControl.find('.menucaption').html('<div class="menucaption">Items<span style="margin:0 0 0 200px;">Legend:</span><span style="margin: 0 0 0 5px;background-color:#5aa6e9;display: inline-block;">Vendor</span><span style="margin: 0 0 0 5px;background-color: lightgrey;display: inline-block;">Deal/Order</span></div>')
                     $subPurchaseOrderItemGridControl.data('ondatabind', request => {
                         request.uniqueids = gridUniqueIds;
                         request.totalfields = this.gridTotalFields;
@@ -340,8 +340,8 @@ class SubWorksheet {
                         this.renderPOGrid($form);
 
                         const $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
-                        $subPurchaseOrderItemGridControl.find('.tablewrapper thead tr td div[data-headercontent="Vendor"]').css('background-color', '#ffece6');
-                       // $subPurchaseOrderItemGridControl.find('.tablewrapper thead tr td div[data-headercontent="DealOrder"]').css('background-color', '#ffd666');
+                        //$subPurchaseOrderItemGridControl.find('.tablewrapper thead tr td div[data-headercontent="Vendor"]').css('background-color', '#ffece6');
+                        // $subPurchaseOrderItemGridControl.find('.tablewrapper thead tr td div[data-headercontent="DealOrder"]').css('background-color', '#ffd666');
                         $subPurchaseOrderItemGridControl.data('ondatabind', request => {
                             request.uniqueids = gridUniqueIds
                             request.totalfields = this.gridTotalFields;
