@@ -823,5 +823,56 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
+    public class OrderItemMarkupMargin
+    {
+        public string FieldToCalculate;
+        public Decimal? Price;
+        public Decimal? Cost;
+        public Decimal? MarkupPercent;
+        public Decimal? MarginPercent;
+        public void CalculateMarkupMargin()
+        {
+            if (FieldToCalculate == "MarkupPercent")
+            {
+                CalculateMarkup();
+            }
+            else if (FieldToCalculate == "MarginPercent")
+            {
+                CalculateMargin();
+            } 
+            else if (FieldToCalculate == "Price")
+            {
+                CalculateMarkup();
+                CalculateMargin();
+            }
+        }
+
+        public void CalculateMarkup()
+        {
+            if (Cost == 0)
+            {
+                MarkupPercent = 0;
+            }
+            else if (Price != null)
+            {
+                MarkupPercent = (Price - Cost) / Cost;
+            }
+        }
+
+        public void CalculateMargin()
+        {
+            if (Price == 0)
+            {
+                MarginPercent = 0;
+            }
+            else if (Cost != null)
+            {
+                MarginPercent = (Price - Cost) / Price;
+            }
+        }
+
+
+    }
+    //------------------------------------------------------------------------------------ 
 }
 

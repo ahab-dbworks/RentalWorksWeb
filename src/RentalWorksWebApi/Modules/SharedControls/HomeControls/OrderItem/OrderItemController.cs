@@ -253,6 +253,28 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/orderitem/calculatemarkupmargin
+        [HttpGet("calculatemarkupmargin")]
+        [FwControllerMethod(Id: "DnKoLBqmce2C")]
+        public IActionResult CalculateMarkupMargin(string FieldToCalculate, Decimal? MarkupPercent, Decimal? MarginPercent, Decimal? Price, Decimal? Cost)
+        {
+            try
+            {
+                OrderItemMarkupMargin e = new OrderItemMarkupMargin();
+                e.FieldToCalculate = FieldToCalculate;
+                e.MarkupPercent = MarkupPercent;
+                e.MarginPercent = MarginPercent;
+                e.Price = Price;
+                e.Cost = Cost;
+                e.CalculateMarkupMargin();
+                return new OkObjectResult(e);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/sort
         [HttpPost("sort")]
         [FwControllerMethod(Id: "4enRLJuJAEjeO", ActionType: FwControllerActionTypes.Option)]
