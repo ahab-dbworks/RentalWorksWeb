@@ -855,7 +855,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
             else if (Price != null)
             {
-                MarkupPercent = (Price - Cost) / Cost;
+                MarkupPercent = 100 * ((Price - Cost) / Cost);
             }
         }
 
@@ -867,7 +867,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
             else if (Cost != null)
             {
-                MarginPercent = (Price - Cost) / Price;
+                MarginPercent = 100 * ((Price - Cost) / Price);
             }
         }
 

@@ -469,6 +469,7 @@ class OrderItemGrid {
                 calculateExtended('Extended');
             });
             $generatedtr.find('div[data-browsedatafield="Price"]').on('change', 'input.value', function ($tr) {
+                calculateMarkupMargin('Price');
                 calculateExtended('Extended');
             });
             $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', function ($tr) {
@@ -508,10 +509,6 @@ class OrderItemGrid {
 
             $generatedtr.find('div[data-browsedatafield="MarginPercent"]').on('change', 'input.value', $tr => {
                 calculateMarkupMargin('MarginPercent');
-            });
-
-            $generatedtr.find('div[data-browsedatafield="Price"]').on('change', 'input.value', $tr => {
-                calculateMarkupMargin('Price');
             });
         }
         if ($form.attr('data-controller') === 'TemplateController') {
@@ -561,15 +558,30 @@ class OrderItemGrid {
             } else if (columnChanged == "Price") {
                 fieldToCalculate = "Price";
             }
-            markupPercent = +FwBrowse.getValueByDataField($control, $generatedtr, 'MarkupPercent');
-            marginPercent = +FwBrowse.getValueByDataField($control, $generatedtr, 'MarginPercent');
+            markupPercent = +(FwBrowse.getValueByDataField($control, $generatedtr, 'MarkupPercent').replace('%','').trim());
+            marginPercent = +(FwBrowse.getValueByDataField($control, $generatedtr, 'MarginPercent').replace('%','').trim());
             price = +FwBrowse.getValueByDataField($control, $generatedtr, 'Price');
-            cost = +FwBrowse.getValueByDataField($control, $generatedtr, 'PeriodExtended');
+            cost = +FwBrowse.getValueByDataField($control, $generatedtr, 'UnitCost');
             apiurl += `FieldToCalculate=${fieldToCalculate}&MarkupPercent=${markupPercent}&MarginPercent=${marginPercent}&Price=${price}&Cost=${cost}`;
 
             FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout,
                 response => {
-                    console.log(response);
+                    switch (columnChanged) {
+                        case 'MarkupPercent':
+                            FwBrowse.setFieldValue($control, $generatedtr, 'MarginPercent', { value: response.MarginPercent });
+                            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response.Price });
+                            calculateExtended('Extended');
+                            break;
+                        case 'MarginPercent':
+                            FwBrowse.setFieldValue($control, $generatedtr, 'MarkupPercent', { value: response.MarginPercent });
+                            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response.Price });
+                            calculateExtended('Extended');
+                            break;
+                        case 'Price':
+                            FwBrowse.setFieldValue($control, $generatedtr, 'MarkupPercent', { value: response.MarkupPercent });
+                            FwBrowse.setFieldValue($control, $generatedtr, 'MarginPercent', { value: response.MarginPercent });
+                            break;
+                    }
                 }, ex => FwFunc.showError(ex), null);
         }
 
