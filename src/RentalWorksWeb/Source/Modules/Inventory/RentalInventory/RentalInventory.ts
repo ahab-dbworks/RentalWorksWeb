@@ -24,21 +24,6 @@ class RentalInventory extends InventoryBase {
         const maxPageSize = 20;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
-        // ----------
-        //const $inventoryLocationTaxGrid: any = $form.find('div[data-grid="InventoryLocationTaxGrid"]');
-        //const $inventoryLocationTaxGridControl: any = FwBrowse.loadGridFromTemplate('InventoryLocationTaxGrid');
-        //$inventoryLocationTaxGrid.empty().append($inventoryLocationTaxGridControl);
-        //$inventoryLocationTaxGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$inventoryLocationTaxGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventoryLocationTaxGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryLocationTaxGridControl);
-
         //Inventory Location Tax grid
         FwBrowse.renderGrid({
             nameGrid: 'InventoryLocationTaxGrid',
@@ -59,24 +44,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $rentalInventoryWarehouseGrid = $form.find('div[data-grid="RentalInventoryWarehouseGrid"]');
-        //const $rentalInventoryWarehouseGridControl = FwBrowse.loadGridFromTemplate('RentalInventoryWarehouseGrid');
-        //$rentalInventoryWarehouseGrid.empty().append($rentalInventoryWarehouseGridControl);
-        //$rentalInventoryWarehouseGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //    request.miscfields = {
-        //        UserWarehouseId: warehouse.warehouseid
-        //    };
-        //    request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
-        //});
-        //$rentalInventoryWarehouseGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($rentalInventoryWarehouseGridControl);
-        //FwBrowse.renderRuntimeHtml($rentalInventoryWarehouseGridControl);
 
         //Rental Inventory Warehouse Grid
         FwBrowse.renderGrid({
@@ -101,23 +68,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const containerWarehouseGrid = $form.find('div[data-grid="ContainerWarehouseGrid"]');
-        //const containerWarehouseGridControl = FwBrowse.loadGridFromTemplate('ContainerWarehouseGrid');
-        //containerWarehouseGrid.empty().append(containerWarehouseGridControl);
-        //containerWarehouseGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //    request.miscfields = {
-        //        UserWarehouseId: warehouse.warehouseid
-        //    };
-        //});
-        //containerWarehouseGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init(containerWarehouseGridControl);
-        //FwBrowse.renderRuntimeHtml(containerWarehouseGridControl);
 
         //Container Warehouse Grid
         FwBrowse.renderGrid({
@@ -141,24 +91,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $rentalInventoryWarehousePricingGrid: any = $form.find('div[data-grid="RentalInventoryWarehousePricingGrid"]');
-        //const $rentalInventoryWarehouseGridPricingControl: any = FwBrowse.loadGridFromTemplate('RentalInventoryWarehousePricingGrid');
-        //$rentalInventoryWarehousePricingGrid.empty().append($rentalInventoryWarehouseGridPricingControl);
-        //$rentalInventoryWarehouseGridPricingControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //    request.miscfields = {
-        //        UserWarehouseId: warehouse.warehouseid
-        //    };
-        //    request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
-        //});
-        //$rentalInventoryWarehouseGridPricingControl.data('beforesave', request => {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($rentalInventoryWarehouseGridPricingControl);
-        //FwBrowse.renderRuntimeHtml($rentalInventoryWarehouseGridPricingControl);
 
         //Rental Inventory Warehouse Pricing Grid
         FwBrowse.renderGrid({
@@ -229,20 +161,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
-        //const $inventoryAvailabilityGridControl = FwBrowse.loadGridFromTemplate('InventoryAvailabilityGrid');
-        //$inventoryAvailabilityGrid.empty().append($inventoryAvailabilityGridControl);
-        //$inventoryAvailabilityGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$inventoryAvailabilityGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventoryAvailabilityGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryAvailabilityGridControl);
 
         //Inventory Availability Grid
         FwBrowse.renderGrid({
@@ -263,20 +181,6 @@ class RentalInventory extends InventoryBase {
             //    request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             //}
         });
-        // ----------
-        //const $inventoryConsignmentGrid = $form.find('div[data-grid="InventoryConsignmentGrid"]');
-        //const $inventoryConsignmentGridControl = FwBrowse.loadGridFromTemplate('InventoryConsignmentGrid');
-        //$inventoryConsignmentGrid.empty().append($inventoryConsignmentGridControl);
-        //$inventoryConsignmentGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$inventoryConsignmentGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventoryConsignmentGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryConsignmentGridControl);
 
         //Inventory Consignment Grid
         FwBrowse.renderGrid({
@@ -298,20 +202,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
-        //const $inventoryCompleteKitGridControl = FwBrowse.loadGridFromTemplate('InventoryCompleteKitGrid');
-        //$inventoryCompleteKitGrid.empty().append($inventoryCompleteKitGridControl);
-        //$inventoryCompleteKitGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$inventoryCompleteKitGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventoryCompleteKitGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryCompleteKitGridControl);
 
         //Inventory Complete/Kit Grid
         FwBrowse.renderGrid({
@@ -329,21 +219,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $inventorySubstituteGrid = $form.find('div[data-grid="InventorySubstituteGrid"]');
-        //const $inventorySubstituteGridControl = FwBrowse.loadGridFromTemplate('InventorySubstituteGrid');
-        //$inventorySubstituteGrid.empty().append($inventorySubstituteGridControl);
-        //$inventorySubstituteGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(),
-        //        WarehouseId: warehouse.warehouseid
-        //    };
-        //});
-        //$inventorySubstituteGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventorySubstituteGridControl);
-        //FwBrowse.renderRuntimeHtml($inventorySubstituteGridControl);
 
         //Inventory Substitute Grid
         FwBrowse.renderGrid({
@@ -361,20 +236,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $inventoryCompatibilityGrid = $form.find('div[data-grid="InventoryCompatibilityGrid"]');
-        //const $inventoryCompatibilityGridControl = FwBrowse.loadGridFromTemplate('InventoryCompatibilityGrid');
-        //$inventoryCompatibilityGrid.empty().append($inventoryCompatibilityGridControl);
-        //$inventoryCompatibilityGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$inventoryCompatibilityGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventoryCompatibilityGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryCompatibilityGridControl);
 
         //Inventory Compatibility Grid
         FwBrowse.renderGrid({
@@ -391,20 +252,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $inventoryQcGrid = $form.find('div[data-grid="InventoryQcGrid"]');
-        //const $inventoryQcGridControl = FwBrowse.loadGridFromTemplate('InventoryQcGrid');
-        //$inventoryQcGrid.empty().append($inventoryQcGridControl);
-        //$inventoryQcGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$inventoryQcGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventoryQcGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryQcGridControl);
 
         //Inventory QC Grid
         FwBrowse.renderGrid({
@@ -425,20 +272,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
-        //const $inventoryAttributeValueGridControl = FwBrowse.loadGridFromTemplate('InventoryAttributeValueGrid');
-        //$inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
-        //$inventoryAttributeValueGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$inventoryAttributeValueGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventoryAttributeValueGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
 
         //Inventory Attribute Value Grid
         FwBrowse.renderGrid({
@@ -456,20 +289,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $inventoryVendorGrid = $form.find('div[data-grid="InventoryVendorGrid"]');
-        //const $inventoryVendorGridControl = FwBrowse.loadGridFromTemplate('InventoryVendorGrid');
-        //$inventoryVendorGrid.empty().append($inventoryVendorGridControl);
-        //$inventoryVendorGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$inventoryVendorGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventoryVendorGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryVendorGridControl);
 
         //Inventory Vendor Grid
         FwBrowse.renderGrid({
@@ -486,20 +305,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $inventoryPrepGrid = $form.find('div[data-grid="InventoryPrepGrid"]');
-        //const $inventoryPrepGridControl = FwBrowse.loadGridFromTemplate('InventoryPrepGrid');
-        //$inventoryPrepGrid.empty().append($inventoryPrepGridControl);
-        //$inventoryPrepGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$inventoryPrepGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventoryPrepGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
 
         //Inventory Prep Grid
         FwBrowse.renderGrid({
@@ -516,22 +321,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $inventoryContainerItemGrid = $form.find('div[data-grid="InventoryContainerItemGrid"]');
-        //const $inventoryContainerItemGridControl = FwBrowse.loadGridFromTemplate('InventoryContainerItemGrid');
-        //$inventoryContainerItemGrid.empty().append($inventoryContainerItemGridControl);
-        //$inventoryContainerItemGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //    request.pagesize = maxPageSize;
-        //});
-        //$inventoryContainerItemGridControl.data('beforesave', function (request) {
-        //    request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
-        //    request.ContainerId = $form.find('div.fwformfield[data-datafield="ContainerId"] input').val();
-        //});
-        //FwBrowse.init($inventoryContainerItemGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryContainerItemGridControl);
 
         //Inventory Container Item Grid
         FwBrowse.renderGrid({
@@ -562,38 +351,6 @@ class RentalInventory extends InventoryBase {
                 request.ContainerId = FwFormField.getValueByDataField($form, 'ContainerId');
             }
         });
-        // ----------
-        //const $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
-        //const $inventoryCompleteGridControl = FwBrowse.loadGridFromTemplate('InventoryCompleteGrid');
-        //$inventoryCompleteGrid.empty().append($inventoryCompleteGridControl);
-        //$inventoryCompleteGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(),
-        //        WarehouseId: warehouse.warehouseid
-        //    };
-        //});
-        //$inventoryCompleteGridControl.data('beforesave', function (request) {
-        //    request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //$inventoryCompleteGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
-        //    let primaryRowIndex;
-        //    if (primaryRowIndex === undefined) {
-        //        const orderByIndex = dt.ColumnIndex.OrderBy;
-        //        const inventoryIdIndex = dt.ColumnIndex.InventoryId
-        //        for (let i = 0; i < dt.Rows.length; i++) {
-        //            if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-        //                primaryRowIndex = i
-        //            }
-        //        }
-        //    }
-        //    if (rowIndex === primaryRowIndex) {
-        //        return true;
-        //    } else {
-        //        return false;
-        //    }
-        //});
-        //FwBrowse.init($inventoryCompleteGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
 
         //Inventory Complete Grid
         const $inventoryCompleteGrid = FwBrowse.renderGrid({
@@ -641,20 +398,6 @@ class RentalInventory extends InventoryBase {
                 return false;
             }
         });
-        // ----------
-        //const $inventoryWarehouseStagingGrid = $form.find('div[data-grid="InventoryWarehouseStagingGrid"]');
-        //const $inventoryWarehouseStagingGridControl = FwBrowse.loadGridFromTemplate('InventoryWarehouseStagingGrid');
-        //$inventoryWarehouseStagingGrid.empty().append($inventoryWarehouseStagingGridControl);
-        //$inventoryWarehouseStagingGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$inventoryWarehouseStagingGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($inventoryWarehouseStagingGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryWarehouseStagingGridControl);
 
         //Inventory Warehouse Staging Grid
         FwBrowse.renderGrid({
@@ -676,39 +419,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $inventoryKitGrid = $form.find('div[data-grid="InventoryKitGrid"]');
-        //const $inventoryKitGridControl = FwBrowse.loadGridFromTemplate('InventoryKitGrid');
-        //$inventoryKitGrid.empty().append($inventoryKitGridControl);
-        //$inventoryKitGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(),
-        //        WarehouseId: warehouse.warehouseid
-        //    };
-        //});
-        //$inventoryKitGridControl.data('beforesave', function (request) {
-        //    request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //$inventoryKitGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
-        //    let primaryRowIndex;
-        //    if (primaryRowIndex === undefined) {
-        //        const orderByIndex = dt.ColumnIndex.OrderBy;
-        //        const inventoryIdIndex = dt.ColumnIndex.InventoryId
-        //        for (let i = 0; i < dt.Rows.length; i++) {
-        //            if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-        //                primaryRowIndex = i
-        //            }
-        //        }
-        //    }
-        //    if (rowIndex === primaryRowIndex) {
-        //        return true;
-        //    } else {
-        //        return false;
-        //    }
-        //});
-        //FwBrowse.init($inventoryKitGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
-
 
         //Inventory Kit Grid
         const $inventoryKitGrid = FwBrowse.renderGrid({
@@ -758,20 +468,6 @@ class RentalInventory extends InventoryBase {
                 return false;
             }
         });
-        // ----------
-        //const $wardrobeInventoryColorGrid = $form.find('div[data-grid="WardrobeInventoryColorGrid"]');
-        //const $wardrobeInventoryColorGridControl = FwBrowse.loadGridFromTemplate('WardrobeInventoryColorGrid');
-        //$wardrobeInventoryColorGrid.empty().append($wardrobeInventoryColorGridControl);
-        //$wardrobeInventoryColorGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$wardrobeInventoryColorGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($wardrobeInventoryColorGridControl);
-        //FwBrowse.renderRuntimeHtml($wardrobeInventoryColorGridControl);
 
         //Wardrobe Inventory Color Grid
         FwBrowse.renderGrid({
@@ -788,20 +484,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $wardrobeInventoryMaterialGrid = $form.find('div[data-grid="WardrobeInventoryMaterialGrid"]');
-        //const $wardrobeInventoryMaterialGridControl = FwBrowse.loadGridFromTemplate('WardrobeInventoryMaterialGrid');
-        //$wardrobeInventoryMaterialGrid.empty().append($wardrobeInventoryMaterialGridControl);
-        //$wardrobeInventoryMaterialGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$wardrobeInventoryMaterialGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($wardrobeInventoryMaterialGridControl);
-        //FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
 
         //Wardrobe Inventory Material Grid
         FwBrowse.renderGrid({
@@ -818,17 +500,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $purchaseVendorGrid = $form.find('div[data-grid="PurchaseVendorGrid"]');
-        //const $purchaseVendorGridControl = FwBrowse.loadGridFromTemplate('PurchaseVendorGrid');
-        //$purchaseVendorGrid.empty().append($purchaseVendorGridControl);
-        //$purchaseVendorGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //FwBrowse.init($purchaseVendorGridControl);
-        //FwBrowse.renderRuntimeHtml($purchaseVendorGridControl);
 
         //Purchase Vendor Grid
         FwBrowse.renderGrid({
@@ -845,21 +516,6 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-        // ----------
-        //const $akaGrid = $form.find('div[data-grid="AlternativeDescriptionGrid"]');
-        //const $akaGridControl = FwBrowse.loadGridFromTemplate('AlternativeDescriptionGrid');
-        //$akaGrid.empty().append($akaGridControl);
-        //$akaGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-        //    };
-        //});
-        //$akaGridControl.data('beforesave', function (request) {
-        //    request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId')
-        //    , request.IsPrimary = false
-        //});
-        //FwBrowse.renderRuntimeHtml($akaGridControl);
-        //FwBrowse.init($akaGridControl);
 
         //Alternative Description Grid
         FwBrowse.renderGrid({
@@ -929,7 +585,6 @@ class RentalInventory extends InventoryBase {
         const $rentalInventoryWarehousePricingGrid = $form.find('[data-name="RentalInventoryWarehousePricingGrid"]');
         FwBrowse.search($rentalInventoryWarehousePricingGrid);
 
-
         this.afterLoadSetClassification($form);
 
         const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
@@ -974,6 +629,8 @@ class RentalInventory extends InventoryBase {
 
         //enable version and effective date fields upon loading if "Enable Software Tracking" is checked
         if (FwFormField.getValueByDataField($form, 'TrackSoftware')) FwFormField.enable($form.find('.track-software'));
+        if (FwFormField.getValueByDataField($form, 'ManifestShippingContainer')) FwFormField.disable($form.find('div[data-datafield="ManifestStandAloneItem"]'));
+        if (FwFormField.getValueByDataField($form, 'ManifestStandAloneItem')) FwFormField.disable($form.find('div[data-datafield="ManifestShippingContainer"]'));
 
         this.dynamicColumns($form);
 
@@ -1170,13 +827,29 @@ class RentalInventory extends InventoryBase {
     events($form) {
         super.events($form);
 
-        $form.find('[data-datafield="TrackSoftware"]').on('change', e => {
-            if (FwFormField.getValue2(jQuery(e.currentTarget))) {
-                FwFormField.enable($form.find('.track-software'));
-            } else {
-                FwFormField.disable($form.find('.track-software'));
-            }
-        });
+        $form
+            .on('change', '[data-datafield="TrackSoftware"]', e => {
+                if (FwFormField.getValue2(jQuery(e.currentTarget))) {
+                    FwFormField.enable($form.find('.track-software'));
+                } else {
+                    FwFormField.disable($form.find('.track-software'));
+                }
+            })
+            .on('change', 'div[data-datafield="ManifestShippingContainer"]', e => {
+                if (FwFormField.getValue2(jQuery(e.currentTarget))) {
+                    FwFormField.disable($form.find('div[data-datafield="ManifestStandAloneItem"]'));
+                } else {
+                    FwFormField.enable($form.find('div[data-datafield="ManifestStandAloneItem"]'));
+                }
+            })
+            .on('change', 'div[data-datafield="ManifestStandAloneItem"]', e => {
+                if (FwFormField.getValue2(jQuery(e.currentTarget))) {
+                    FwFormField.disable($form.find('div[data-datafield="ManifestShippingContainer"]'));
+                } else {
+                    FwFormField.enable($form.find('div[data-datafield="ManifestShippingContainer"]'));
+                }
+            })
+        ;
     }
     //----------------------------------------------------------------------------------------------
 }
