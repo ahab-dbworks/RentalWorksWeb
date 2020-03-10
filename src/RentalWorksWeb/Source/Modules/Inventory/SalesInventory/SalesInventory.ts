@@ -755,15 +755,13 @@ class SalesInventory extends InventoryBase {
         this.afterLoadSetClassification($form);
 
         const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
-        const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
-
+        let trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
         if (classificationValue === 'I' || classificationValue === 'A') {
-            if (trackedByValue !== 'QUANTITY') {
+            if (trackedBy !== 'QUANTITY') {
                 $form.find('.tab.asset').show();
             }
         }
 
-        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
         let textToReplace: string = 'TRACKEDBYTYPE';
         $form.find('[data-datafield="TrackedBy"]').on('change', e => {
             let newTrackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
@@ -773,6 +771,7 @@ class SalesInventory extends InventoryBase {
                 textToReplace = newTrackedBy;
                 $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
                 $confirmTrackedByField.show();
+                trackedBy = newTrackedBy;
             } else {
                 $confirmTrackedByField.hide();
                 FwFormField.setValue2($confirmTrackedByField, '');

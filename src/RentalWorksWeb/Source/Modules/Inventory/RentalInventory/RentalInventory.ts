@@ -634,7 +634,7 @@ class RentalInventory extends InventoryBase {
 
         this.dynamicColumns($form);
 
-        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+        let trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
         let textToReplace: string = 'TRACKEDBYTYPE';
         $form.find('[data-datafield="TrackedBy"]').on('change', e => {
             let newTrackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
@@ -644,6 +644,7 @@ class RentalInventory extends InventoryBase {
                 textToReplace = newTrackedBy;
                 $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
                 $confirmTrackedByField.show();
+                trackedBy = newTrackedBy;
             } else {
                 $confirmTrackedByField.hide();
                 FwFormField.setValue2($confirmTrackedByField, '');
