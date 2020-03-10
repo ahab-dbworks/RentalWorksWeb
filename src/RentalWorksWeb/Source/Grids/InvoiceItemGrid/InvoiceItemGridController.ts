@@ -1,7 +1,7 @@
 ﻿class InvoiceItemGrid {
     Module: string = 'InvoiceItemGrid';
     apiurl: string = 'api/v1/invoiceitem';
-
+    //----------------------------------------------------------------------------------------------
     onRowNewMode($control: JQuery, $tr: JQuery) {
         const $form = $control.closest('.fwform');
         const $grid = $tr.parents('[data-grid="InvoiceItemGrid"]');
@@ -14,12 +14,14 @@
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'P' });
         }
     }
-
+    //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-        if (invoiceId != '') {
-            request.uniqueids = {
-                InvoiceId: invoiceId
+        if ($form.attr('data-controller') !== 'BillingWorksheetController') {
+            var invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            if (invoiceId != '') {
+                request.uniqueids = {
+                    InvoiceId: invoiceId
+                }
             }
         }
         switch (datafield) {
@@ -51,33 +53,9 @@
                 break;
         }
     }
-
-    //beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
-    //    const recType = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
-    //    if (recType !== null) {
-    //        switch (recType) {
-    //            case 'R':
-    //                request.uniqueIds = {
-    //                    AvailFor: 'R'
-    //                };
-    //                break;
-    //            case 'S':
-    //                request.uniqueIds = {
-    //                    AvailFor: 'S'
-    //                };
-    //                break;
-    //            case 'P':
-    //                request.uniqueIds = {
-    //                    AvailFor: 'P'
-    //                };
-    //                break;
-    //        }
-    //    }
-    //};
-
+    //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
         const $form = $control.closest('.fwform');
-
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             //// Bold Row
@@ -105,14 +83,13 @@
             }
         });
 
-
         //$generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
         //    $generatedtr.find('.field[data-browsedatafield="InventoryId"] input').val($tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue'));
         //    $generatedtr.find('.field[data-browsedatafield="InventoryId"] input.text').val($tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
         //    $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         //    $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
         //});
-
+        //----------------------------------------------------------------------------------------------
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', $tr => {
             //const rowQty = $tr.find('.field[data-browsedatafield="Quantity"]').attr('data-originalvalue');
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
@@ -120,7 +97,6 @@
             $generatedtr.find('.field[data-browsedatafield="Quantity"] input').val("1");
             //}
         });
-
 
         if ($generatedtr.hasClass("newmode")) { }
 
@@ -158,7 +134,7 @@
         //        }
         //    });
         //}
-
+        //----------------------------------------------------------------------------------------------
         function calculateExtended(type, field?) {
             let rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended,
                 monthlyExtended, unitDiscountAmount, weeklyDiscountAmount, monthlyDiscountAmount, periodDiscountAmount;
@@ -265,16 +241,10 @@
             }
         }
     };
-
     //----------------------------------------------------------------------------------------------
     toggleOrderItemView($form: any, event: any, module) {
         // Toggle between Detail and Summary view in all InvoiceItemGrid
-        let $element, $invoiceItemGrid, recType, isSummary, orderId, isSubGrid;
         let request: any = {};
-        $element = jQuery(event.currentTarget);
-        recType = $element.closest('[data-grid="InvoiceItemGrid"]').attr('class');
-        isSubGrid = $element.closest('[data-grid="InvoiceItemGrid"]').attr('data-issubgrid');
-        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
 
         //if (recType === 'R') {
         //    $invoiceItemGrid = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
@@ -292,8 +262,9 @@
         //    $invoiceItemGrid = $form.find('.combinedgrid div[data-grid="InvoiceItemGrid"]');
         //}
 
-        $invoiceItemGrid = $element.closest('[data-name="InvoiceItemGrid"]');
-
+        const $element = jQuery(event.currentTarget);
+        const $invoiceItemGrid = $element.closest('[data-name="InvoiceItemGrid"]');
+        let isSummary;
         if ($invoiceItemGrid.data('isSummary') === false) {
             isSummary = true;
             $invoiceItemGrid.data('isSummary', true);
@@ -305,6 +276,8 @@
             $element.children().text('Summary View')
         }
 
+        const recType = $element.closest('[data-grid="InvoiceItemGrid"]').attr('class');
+        const orderId = FwFormField.getValueByDataField($form, `${module}Id`);
         $invoiceItemGrid.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: orderId,
@@ -314,6 +287,7 @@
             request.pagesize = 9999;
             request.orderby = "RowNumber,RecTypeDisplay"
 
+            const isSubGrid = $element.closest('[data-grid="InvoiceItemGrid"]').attr('data-issubgrid');
             if (isSubGrid === "true") {
                 request.uniqueids.Subs = true;
             }
@@ -328,16 +302,5 @@
         FwBrowse.search($invoiceItemGrid);
     };
 }
-//----------------------------------------------------------------------------------------------
-//FwApplicationTree.clickEvents[Constants.Grids.InvoiceItemGrid.menuItems.ToggleOrderItemView.id] = function (event: JQuery.ClickEvent) {
-//    try {
-//        let $form = jQuery(this).closest('.fwform');
-//        let module = $form.attr('data-controller').replace('Controller', '');
-//        InvoiceItemGridController.toggleOrderItemView($form, event, module);
-//    }
-//    catch (ex) {
-//        FwFunc.showError(ex);
-//    }
-//};
 //----------------------------------------------------------------------------------------------
 var InvoiceItemGridController = new InvoiceItemGrid();
