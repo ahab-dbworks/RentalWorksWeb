@@ -235,15 +235,15 @@ class Order extends OrderBase {
         ]);
         //Toggle Buttons - Manifest tab - Rental Valuation
         FwFormField.loadItems($form.find('div[data-datafield="rentalValueSelector"]'), [
-            { value: 'UNIT VALUE',       caption: 'Unit Value', checked: 'checked' },
-            { value: 'REPLACEMENT COST', caption: 'Replacement Cost' }
-        ]);
+            { value: 'UNIT VALUE',       text: 'Unit Value', selected: 'checked' },
+            { value: 'REPLACEMENT COST', text: 'Replacement Cost' }
+        ], true);
         //Toggle Buttons - Manifest tab - Sales Valuation
         FwFormField.loadItems($form.find('div[data-datafield="salesValueSelector"]'), [
-            { value: 'SELL PRICE',   caption: 'Sell Price', checked: 'checked' },
-            { value: 'DEFAULT COST', caption: 'Default Cost' },
-            { value: 'AVERAGE COST', caption: 'Average Cost' }
-        ]);
+            { value: 'SELL PRICE',   text: 'Sell Price', selected: 'checked' },
+            { value: 'DEFAULT COST', text: 'Default Cost' },
+            { value: 'AVERAGE COST', text: 'Average Cost' }
+        ], true);
         //Toggle Buttons - Manifest tab - Weight Type
         FwFormField.loadItems($form.find('div[data-datafield="weightSelector"]'), [
             { value: 'IMPERIAL', caption: 'Imperial', checked: 'checked' },
@@ -1750,13 +1750,21 @@ class Order extends OrderBase {
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="OwnedReplacementTotal" data-enabled="false"></div>
                       </div>
-                    </div> 
+                    </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Rental Total">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="SubValueTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="SubReplacementTotal" data-enabled="false"></div>
+                      </div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Valuation">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="rentalValueSelector"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="salesValueSelector"></div>
                       </div>
                     </div>
                   </div>
@@ -1767,16 +1775,10 @@ class Order extends OrderBase {
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="View Items" data-datafield="manifestItems"></div>
                           </div>
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Rental Valuation" data-datafield="rentalValueSelector"></div>
-                          </div>
                         </div>
                         <div class="flexcolumn">
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Filter By" data-datafield="manifestFilter"></div>
-                          </div>
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Sales Valuation" data-datafield="salesValueSelector"></div>
                           </div>
                         </div>
                       </div>
