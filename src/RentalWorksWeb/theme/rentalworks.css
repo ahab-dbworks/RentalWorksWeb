@@ -648,6 +648,6 @@ html.theme-material .fwbrowse[data-name="SuspendedSession"] .tablewrapper { over
 
 /*SubPurchaseOrderItemGrid coloring for Vendor related columns*/
 html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table thead tr td div[data-headercontent="Vendor"] { border-bottom: 2px solid #ffd666; }
-html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr:last-child td div[data-headercontent="Vendor"] { border-bottom: 2px solid #ffd666; }
+html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr:last-child td div[data-headercontent="Vendor"] { border-bottom: 2px solid #ffd666 !important; }
 html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr td div[data-browsedatafield="VendorRate"] { border-left: 2px solid #ffd666; }
 html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr td div[data-mappedfield="VendorPeriodExtended"] { border-right: 2px solid #ffd666; }
