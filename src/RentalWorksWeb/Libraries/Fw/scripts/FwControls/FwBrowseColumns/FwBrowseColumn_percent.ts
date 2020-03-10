@@ -101,7 +101,7 @@ class FwBrowseColumn_percentClass implements IFwBrowseColumn {
             radixPoint: ".",
             placeholder: "0",
             autoGroup: (((typeof $field.attr('data-formatnumeric') !== 'undefined') && ($field.attr('data-formatnumeric') == 'true')) ? true : false),
-            suffix: " %",
+            //suffix: " %",
             allowPlus: !1,
             allowMinus: true,
         });
