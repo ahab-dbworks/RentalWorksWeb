@@ -95,6 +95,12 @@ namespace WebApi.Modules.Reports.MultiLocationReports.TransferReport
         [FwSqlDataField(column: "qtyin", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityIn { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdate", modeltype: FwDataTypes.Date)]
+        public string OutDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "indate", modeltype: FwDataTypes.Date)]
+        public string InDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(TransferReportRequest request)
         {
             useWithNoLock = false;

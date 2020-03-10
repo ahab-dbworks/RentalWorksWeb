@@ -20,8 +20,8 @@
         <th>Transfer No.</th>
         <th>Date</th>
         <th>Description</th>
-        <th>From</th>
-        <th>To</th>
+        <th>Out Date</th>
+        <th>In Date</th>
         <th class="number">Total Qty</th>
         <th class="number">Staged</th>
         <th class="number">Out</th>
@@ -45,8 +45,8 @@
         <td data-value="{{TransferNumber}}"></td>
         <td data-value="{{TransferDate}}"></td>
         <td data-value="{{TransferDescription}}"></td>
-        <td data-value="{{FromWarehouseCode}}"></td>
-        <td data-value="{{ToWarehouseCode}}"></td>
+        <td data-value="{{OutDate}}"></td>
+        <td data-value="{{InDate}}"></td>
         <td class="number" data-value="{{QuantityOrdered}}"></td>
         <td class="number" data-value="{{QuantityStaged}}"></td>
         <td class="number" data-value="{{QuantityOut}}"></td>
@@ -131,6 +131,8 @@
         <th>No.</th>
         <th>Date</th>
         <th>Description</th>
+        <th>Out Date</th>
+        <th>In Date</th>
         <th class="number">Total Qty</th>
         <th class="number">Staged</th>
         <th class="number">Out</th>
@@ -142,6 +144,8 @@
       <td data-value="{{TransferNumber}}"></td>
       <td data-value="{{TransferDate}}"></td>
       <td data-value="{{TransferDescription}}"></td>
+      <td data-value="{{OutDate}}"></td>
+      <td data-value="{{InDate}}"></td>
       <td class="number" data-value="{{QuantityOrdered}}"></td>
       <td class="number" data-value="{{QuantityStaged}}"></td>
       <td class="number" data-value="{{QuantityOut}}"></td>
@@ -153,6 +157,8 @@
         <th class="no-border"></th>
         <th>I-Code</th>
         <th>Description</th>
+        <th>Out Date</th>
+        <th>In Date</th>
         <th class="number">Total Qty</th>
         <th class="number">Staged</th>
         <th class="number">Out</th>
@@ -166,6 +172,8 @@
         <td class="no-border"></td>
         <td class="nowrap" data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
+        <td data-value="{{OutDate}}"></td>
+        <td data-value="{{InDate}}"></td>
         <td class="number" data-value="{{QuantityOrdered}}"></td>
         <td class="number" data-value="{{QuantityStaged}}"></td>
         <td class="number" data-value="{{QuantityOut}}"></td>
@@ -175,7 +183,7 @@
     {{/ifEquals}}
     {{#ifEquals RowType "Departmentfooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="3" class="total-name">{{Department}}:&nbsp;</td>
+      <td colspan="5" class="total-name">{{Department}}:&nbsp;</td>
       <td class="total-val" data-value="{{QuantityOrdered}}"></td>
       <td class="total-val" data-value="{{QuantityStaged}}"></td>
       <td class="total-val" data-value="{{QuantityOut}}"></td>
@@ -184,7 +192,7 @@
     {{/ifEquals}}
     {{#ifEquals RowType "FromWarehousefooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="3" class="total-name">{{FromWarehouse}}:&nbsp;</td>
+      <td colspan="5" class="total-name">{{FromWarehouse}}:&nbsp;</td>
       <td class="total-val" data-value="{{QuantityOrdered}}"></td>
       <td class="total-val" data-value="{{QuantityStaged}}"></td>
       <td class="total-val" data-value="{{QuantityOut}}"></td>
@@ -193,7 +201,7 @@
     {{/ifEquals}}
     {{#ifEquals RowType "ToWarehousefooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="3" class="total-name">{{ToWarehouse}}:&nbsp;</td>
+      <td colspan="5" class="total-name">{{ToWarehouse}}:&nbsp;</td>
       <td class="total-val" data-value="{{QuantityOrdered}}"></td>
       <td class="total-val" data-value="{{QuantityStaged}}"></td>
       <td class="total-val" data-value="{{QuantityOut}}"></td>
@@ -202,19 +210,19 @@
     {{/ifEquals}}
     {{#ifEquals RowType "TransferNumberfooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="3" class="total-name">{{TransferNumber}}:&nbsp;</td>
+      <td colspan="5" class="total-name">{{TransferNumber}}:&nbsp;</td>
       <td class="total-val" data-value="{{QuantityOrdered}}"></td>
       <td class="total-val" data-value="{{QuantityStaged}}"></td>
       <td class="total-val" data-value="{{QuantityOut}}"></td>
       <td class="total-val" data-value="{{QuantityIn}}"></td>
     </tr>
     <tr data-rowtype="{{RowType}}">
-      <td colspan="3" style="padding-bottom:15px;" class="total-name"></td>
+      <td colspan="5" style="padding-bottom:15px;" class="total-name"></td>
     </tr>
     {{/ifEquals}}
     {{#ifEquals RowType "grandtotal"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
+      <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
       <td class="total-val" data-value="{{QuantityOrdered}}"></td>
       <td class="total-val" data-value="{{QuantityStaged}}"></td>
       <td class="total-val" data-value="{{QuantityOut}}"></td>
