@@ -15,7 +15,7 @@
             $browsecontextmenu.data('contextmenuoptions', $tr => {
                 FwContextMenu.addMenuItem($browsecontextmenu, `Unstage Item`, () => {
                     try {
-                        $tr.find('.tdselectrow input').prop('checked', true);
+                        $control.data('selectedcheckbox', $tr.find('.tdselectrow input'));
                         (<any>window)[controller].unstageItems($form, event);
                     } catch (ex) {
                         FwFunc.showError(ex);

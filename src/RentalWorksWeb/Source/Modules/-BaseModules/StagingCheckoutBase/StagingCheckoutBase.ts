@@ -564,6 +564,7 @@ abstract class StagingCheckoutBase {
                     this.addItemFieldValues($form, response);
                     FwFormField.setValueByDataField($form, 'Code', '');
                     $form.find('[data-datafield="Code"] input').select();
+
                 }
                 else {
                     errorMessages.push(response.msg);  // gather all errors into the errorMessages array
@@ -583,12 +584,14 @@ abstract class StagingCheckoutBase {
     async unstageItems($form: JQuery, event): Promise<any> {
         const $element = jQuery(event.currentTarget);
         const $grid = jQuery($element.closest('[data-type="Grid"]'));
-        const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
+        let $selectedCheckBoxes = $grid.data('selectedcheckbox') || $grid.find('tbody .cbselectrow:checked');
+
         const errorMsg = $form.find('.error-msg:not(.qty)');
 
         if ($selectedCheckBoxes.length !== 0) {
             await this.unstageSelectedItems($form, $selectedCheckBoxes).then(errorMessages => {
                 FwBrowse.search($grid);
+                $grid.removeData('selectedcheckbox');
                 // Determine tabs to render
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
