@@ -35,7 +35,7 @@ class FwBrowseColumn_percentClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
         if ($field.attr('data-formreadonly') === 'true') {
-            $field.find('.fieldvalue').val(data.value);
+            $field.find('.fieldvalue').text(data.value);
         } else {
             $field.find('input.value').val(data.value);
         }
