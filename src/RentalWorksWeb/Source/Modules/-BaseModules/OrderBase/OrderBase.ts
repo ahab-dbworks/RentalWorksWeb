@@ -3769,7 +3769,7 @@ class OrderBase {
             //$form.find('.notcombined').css('display', 'block');
             //$form.find('.generaltab').click();
         }
-        this.renderGrids($form);
+        //this.renderGrids($form); //commented out because it was re-rendering the grids and overriding changes made in afterLoad
         //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         //this.dynamicColumns($form);
