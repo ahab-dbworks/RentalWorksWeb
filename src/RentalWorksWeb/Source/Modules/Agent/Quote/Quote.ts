@@ -156,7 +156,7 @@ class Quote extends OrderBase {
         };
 
         return screen;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = super.openForm(mode, parentModuleInfo);
@@ -175,9 +175,59 @@ class Quote extends OrderBase {
             FwFormField.disableDataField($form, 'DealId');
         }
 
-        return $form;
-    };
+        //Toggle Buttons - Manifest tab - View Items
+        FwFormField.loadItems($form.find('div[data-datafield="manifestItems"]'), [
+            { value: 'SUMMARY', caption: 'Summary', checked: 'checked' },
+            { value: 'DETAIL',  caption: 'Detail' }
+        ]);
+        //Toggle Buttons - Manifest tab - Filter By
+        FwFormField.loadItems($form.find('div[data-datafield="manifestFilter"]'), [
+            { value: 'ALL',   caption: 'All', checked: 'checked' },
+            { value: 'SHORT', caption: 'Short' }
+        ]);
+        //Toggle Buttons - Manifest tab - Rental Valuation
+        FwFormField.loadItems($form.find('div[data-datafield="rentalValueSelector"]'), [
+            { value: 'UNIT VALUE',       caption: 'Unit Value', checked: 'checked' },
+            { value: 'REPLACEMENT COST', caption: 'Replacement Cost' }
+        ]);
+        //Toggle Buttons - Manifest tab - Sales Valuation
+        FwFormField.loadItems($form.find('div[data-datafield="salesValueSelector"]'), [
+            { value: 'SELL PRICE',   caption: 'Sell Price', checked: 'checked' },
+            { value: 'DEFAULT COST', caption: 'Default Cost' },
+            { value: 'AVERAGE COST', caption: 'Average Cost' }
+        ]);
+        //Toggle Buttons - Manifest tab - Weight Type
+        FwFormField.loadItems($form.find('div[data-datafield="weightSelector"]'), [
+            { value: 'IMPERIAL', caption: 'Imperial', checked: 'checked' },
+            { value: 'METRIC',   caption: 'Metric' }
+        ]);
 
+        $form
+            .on('change', 'div[data-datafield="manifestItems"], div[data-datafield="manifestFilter"], div[data-datafield="rentalValueSelector"], div[data-datafield="salesValueSelector"]', event => {
+                let $OrderManifestGrid = $form.find('div[data-name="OrderManifestGrid"]');
+    
+                FwBrowse.search($OrderManifestGrid);
+            })
+            .on('change', 'div[data-datafield="weightSelector"]', e => {
+                let totals = jQuery(e.currentTarget).data('totals');
+                if (FwFormField.getValueByDataField($form, 'weightSelector') === 'IMPERIAL') {
+                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGreater"]', totals.TotalExtendedWeightLbs);
+                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLesser"]', totals.TotalExtendedWeightOz);
+    
+                    $form.find('div[data-datafield="ExtendedWeightTotalGreater"] .fwformfield-caption').html('Pounds');
+                    $form.find('div[data-datafield="ExtendedWeightTotalLesser"] .fwformfield-caption').html('Ounces');
+                } else {
+                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGreater"]', totals.TotalExtendedWeightKg);
+                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLesser"]', totals.TotalExtendedWeightGr);
+    
+                    $form.find('div[data-datafield="ExtendedWeightTotalGreater"] .fwformfield-caption').html('Kilograms');
+                    $form.find('div[data-datafield="ExtendedWeightTotalLesser"] .fwformfield-caption').html('Grams');
+                }
+            })
+        ;
+
+        return $form;
+    }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT', uniqueids);
@@ -219,12 +269,55 @@ class Quote extends OrderBase {
         }
 
         return $form;
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         super.renderGrids($form);
-    };
+
+        FwBrowse.renderGrid({
+            nameGrid:         'OrderManifestGrid',
+            gridSecurityId:   '8uhwXXJ95d3o',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            //getBaseApiUrl: () => `${this.apiurl}/manifest`,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId:     FwFormField.getValueByDataField($form, 'QuoteId'),
+                    RentalValue: FwFormField.getValueByDataField($form, 'rentalValueSelector'),
+                    SalesValue:  FwFormField.getValueByDataField($form, 'salesValueSelector'),
+                    FilterBy:    FwFormField.getValueByDataField($form, 'manifestFilter'),
+                    Mode:        FwFormField.getValueByDataField($form, 'manifestItems')
+                };
+                request.totalfields = ['OrderValueTotal', 'OrderReplacementTotal', 'OwnedValueTotal', 'OwnedReplacementTotal', 'SubValueTotal', 'SubReplacementTotal', 'ShippingContainerTotal', 'ShippingItemTotal', 'PieceCountTotal', 'StandAloneItemTotal', 'TotalExtendedWeightLbs', 'TotalExtendedWeightOz', 'TotalExtendedWeightKg', 'TotalExtendedWeightGr'];
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                var $barcodecells = $browse.find('div[data-browsedatafield="Barcode"]');
+                for (var i = 0; i < $barcodecells.length; i++) {
+                    let cell = jQuery($barcodecells[i]).parent();
+                    if (FwFormField.getValueByDataField($form, 'manifestItems') == 'SUMMARY') {
+                        jQuery(cell).hide();
+                    } else {
+                        jQuery(cell).show();
+                    }
+                }
+
+                FwFormField.setValue($form, 'div[data-datafield="OrderValueTotal"]', dt.Totals.OrderValueTotal);
+                FwFormField.setValue($form, 'div[data-datafield="OrderReplacementTotal"]', dt.Totals.OrderReplacementTotal);
+                FwFormField.setValue($form, 'div[data-datafield="OwnedValueTotal"]', dt.Totals.OwnedValueTotal);
+                FwFormField.setValue($form, 'div[data-datafield="OwnedReplacementTotal"]', dt.Totals.OwnedReplacementTotal);
+                FwFormField.setValue($form, 'div[data-datafield="SubValueTotal"]', dt.Totals.SubValueTotal);
+                FwFormField.setValue($form, 'div[data-datafield="SubReplacementTotal"]', dt.Totals.SubReplacementTotal);
+                FwFormField.setValue($form, 'div[data-datafield="ShippingContainerTotal"]', dt.Totals.ShippingContainerTotal);
+                FwFormField.setValue($form, 'div[data-datafield="ShippingItemTotal"]', dt.Totals.ShippingItemTotal);
+                FwFormField.setValue($form, 'div[data-datafield="PieceCountTotal"]', dt.Totals.PieceCountTotal);
+                FwFormField.setValue($form, 'div[data-datafield="StandAloneItemTotal"]', dt.Totals.StandAloneItemTotal);
+
+                $form.find('div[data-datafield="weightSelector"]').data('totals', {'TotalExtendedWeightLbs': dt.Totals.TotalExtendedWeightLbs, 'TotalExtendedWeightOz': dt.Totals.TotalExtendedWeightOz, 'TotalExtendedWeightKg': dt.Totals.TotalExtendedWeightKg, 'TotalExtendedWeightGr': dt.Totals.TotalExtendedWeightGr}).change();
+            }
+        });
+        FwBrowse.addLegend($form.find('div[data-name="OrderManifestGrid"]'), 'Shipping Container', '#ffeb3b');
+        FwBrowse.addLegend($form.find('div[data-name="OrderManifestGrid"]'), 'Stand-Alone Item', '#2196f3');
+    }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
@@ -296,7 +389,7 @@ class Quote extends OrderBase {
               <div data-type="tab" id="contactstab" class="tab contactstab" data-tabpageid="contactstabpage" data-caption="Contacts"></div> 
               <div data-type="tab" id="activitytab" class="tab activitytab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
               <div data-type="tab" id="delivershiptab" class="tab delivershiptab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
-              <!--<div data-type="tab" id="manifesttab" class="tab manifesttab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>-->
+              <div data-type="tab" id="manifesttab" class="tab manifesttab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>
               <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notetab" class="tab notestab" data-tabpageid="notetabpage" data-caption="Notes"></div>
               <div data-type="tab" id="historytab" class="tab historytab" data-tabpageid="historytabpage" data-caption="History"></div>
@@ -354,20 +447,20 @@ class Quote extends OrderBase {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield activity" data-caption="Combine Activity" data-datafield="CombineActivity" style="display:none"></div>
-                        </div class="flexrow">                            
+                        </div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield anti-LD activity" data-caption="Rental" data-datafield="Rental" style="flex:1 1 100px;"></div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield anti-LD activity" data-caption="Sales" data-datafield="Sales" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Miscellaneous" data-datafield="Miscellaneous" style="flex:1 1 125px;"></div>
-                        </div>                          
+                        </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Labor" data-datafield="Labor" style="flex:1 1 100px;"></div>
-                        </div>                          
+                        </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield anti-LD activity" data-caption="Used Sale" data-datafield="RentalSale" style="flex:1 1 100px;"></div>
-                        </div>                          
+                        </div>
                         <!--
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Facilities" data-datafield="Facilities" style="flex:1 1 100px;"></div>
@@ -1423,94 +1516,72 @@ class Quote extends OrderBase {
               <!-- MANIFEST TAB -->
               <div data-type="tabpage" id="manifesttabpage" class="tabpage rentalgrid notcombined" data-tabid="manifesttab" data-render="false">
                 <div class="wideflexrow">
-                  <div class="flexcolumn" style="flex:0 0 35px;">
-                    <div class="flexrow">
-                      <div style="margin-top:10px; margin-left: 5px;">
-                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
-                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flexcolumn" style="flex:0 0 200px;">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manifest Total">
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="" data-displayfield="CurrencyCode" style="flex:1 1 250px;"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Total" data-datafield="" data-framedatafield="ReplacementCostTotal" data-formreadonly="true" style="flex:1 1 125px;"></div>
-                      </div>
-                    </div>
+                  <div class="flexcolumn" style="flex:0 1 175px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Total">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Value" data-datafield="" data-framedatafield="ValueTotal" data-formreadonly="true" style="flex: 1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="OrderValueTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Replacement Cost" data-datafield="" data-framedatafield="ReplacementCostTotal" data-formreadonly="true" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="OrderReplacementTotal" data-enabled="false"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Owned Total">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Value" data-datafield="" data-framedatafield="ValueOwned" data-formreadonly="true" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="OwnedValueTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Replacement Cost" data-datafield="" data-framedatafield="ReplacementCostOwned" data-formreadonly="true" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="OwnedReplacementTotal" data-enabled="false"></div>
                       </div>
                     </div> 
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Rental Total">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Value" data-datafield="" data-framedatafield="ValueSubs" data-formreadonly="true" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="SubValueTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="formcolumn fwcontrol fwformfield frame" data-caption="Replacement Cost" data-datafield="" data-framedatafield="ReplacementCostSubs" data-formreadonly="true" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="SubReplacementTotal" data-enabled="false"></div>
                       </div>
                     </div>
                   </div>
-                  <div class="flexcolumn" style="flex:1 1 300px;">
+                  <div class="flexcolumn" style="flex:1 1 450px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manifest Items">
-                      <!-- <div class="wide-flexrow">
-                        <div data-control="FwGrid" data-grid="" data-securitycaption="" style="border:1px solid #9e9e9e;min-height:500px;padding:10px;"></div>
-                      </div> -->
                       <div class="wideflexrow">
                         <div class="flexcolumn">
-                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Valuation">
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="rentalValueSelector"></div>
-                            </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="View Items" data-datafield="manifestItems"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Rental Valuation" data-datafield="rentalValueSelector"></div>
                           </div>
                         </div>
                         <div class="flexcolumn">
-                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Valuation">
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="salesValueSelector"></div>
-                            </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Filter By" data-datafield="manifestFilter"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Sales Valuation" data-datafield="salesValueSelector"></div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="flexcolumn" style="flex:0 0 35px;">
-                    <div class="flexrow">
-                      <div style="margin-top:10px; margin-left: 5px;">
-                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
-                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
+                      <div class="wideflexrow">
+                        <div data-control="FwGrid" data-grid="OrderManifestGrid" data-securitycaption=""></div>
                       </div>
                     </div>
                   </div>
-                  <div class="flexcolumn" style="flex:0 0 200px;padding-right:10px;"> 
+                  <div class="flexcolumn" style="flex:0 1 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Piece Count">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Shipping Containers" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="flex:1 1 70px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Shipping Containers" data-datafield="ShippingContainerTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Shipping Items" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="flex:1 1 70px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Stand-Alone Items" data-datafield="StandAloneItemTotal" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Piece Count" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="flex:1 1 70px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Piece Count" data-datafield="PieceCountTotal" data-enabled="false"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Total Items">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Stand-Alone Items" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="flex:1 1 70px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Shipping Items" data-datafield="ShippingItemTotal" data-enabled="false"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Weight">
@@ -1518,10 +1589,10 @@ class Quote extends OrderBase {
                         <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="weightSelector"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Pounds" data-datafield="" data-framedatafield="WeightPounds" data-formreadonly="true" style="flex:1 1 100px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Pounds" data-datafield="ExtendedWeightTotalGreater" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="Ounces" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="flex:1 1 70px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Ounces" data-datafield="ExtendedWeightTotalLesser" data-enabled="false"></div>
                       </div>
                     </div>
                   </div>

@@ -221,28 +221,58 @@ class Order extends OrderBase {
         //    }
         //});
 
-        $form.on('change', 'div[data-datafield="manifestItems"], div[data-datafield="manifestFilter"], div[data-datafield="rentalValueSelector"], div[data-datafield="salesValueSelector"]', event => {
-            let $OrderManifestGrid = $form.find('div[data-name="OrderManifestGrid"]');
+        //Toggle Buttons - Manifest tab - View Items
+        FwFormField.loadItems($form.find('div[data-datafield="manifestItems"]'), [
+            { value: 'SUMMARY', caption: 'Summary', checked: 'checked' },
+            { value: 'DETAIL',  caption: 'Detail' }
+        ]);
+        //Toggle Buttons - Manifest tab - Filter By
+        FwFormField.loadItems($form.find('div[data-datafield="manifestFilter"]'), [
+            { value: 'ALL',   caption: 'All', checked: 'checked' },
+            { value: 'OUT',   caption: 'Out' },
+            { value: 'IN',    caption: 'In' },
+            { value: 'SHORT', caption: 'Short' }
+        ]);
+        //Toggle Buttons - Manifest tab - Rental Valuation
+        FwFormField.loadItems($form.find('div[data-datafield="rentalValueSelector"]'), [
+            { value: 'UNIT VALUE',       caption: 'Unit Value', checked: 'checked' },
+            { value: 'REPLACEMENT COST', caption: 'Replacement Cost' }
+        ]);
+        //Toggle Buttons - Manifest tab - Sales Valuation
+        FwFormField.loadItems($form.find('div[data-datafield="salesValueSelector"]'), [
+            { value: 'SELL PRICE',   caption: 'Sell Price', checked: 'checked' },
+            { value: 'DEFAULT COST', caption: 'Default Cost' },
+            { value: 'AVERAGE COST', caption: 'Average Cost' }
+        ]);
+        //Toggle Buttons - Manifest tab - Weight Type
+        FwFormField.loadItems($form.find('div[data-datafield="weightSelector"]'), [
+            { value: 'IMPERIAL', caption: 'Imperial', checked: 'checked' },
+            { value: 'METRIC',   caption: 'Metric' }
+        ]);
 
-            FwBrowse.search($OrderManifestGrid);
-        });
-
-        $form.on('change', 'div[data-datafield="weightSelector"]', e => {
-            let totals = jQuery(e.currentTarget).data('totals');
-            if (FwFormField.getValueByDataField($form, 'weightSelector') === 'IMPERIAL') {
-                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGreater"]', totals.TotalExtendedWeightLbs);
-                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLesser"]', totals.TotalExtendedWeightOz);
-
-                $form.find('div[data-datafield="ExtendedWeightTotalGreater"] .fwformfield-caption').html('Pounds');
-                $form.find('div[data-datafield="ExtendedWeightTotalLesser"] .fwformfield-caption').html('Ounces');
-            } else {
-                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGreater"]', totals.TotalExtendedWeightKg);
-                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLesser"]', totals.TotalExtendedWeightGr);
-
-                $form.find('div[data-datafield="ExtendedWeightTotalGreater"] .fwformfield-caption').html('Kilograms');
-                $form.find('div[data-datafield="ExtendedWeightTotalLesser"] .fwformfield-caption').html('Grams');
-            }
-        });
+        $form
+            .on('change', 'div[data-datafield="manifestItems"], div[data-datafield="manifestFilter"], div[data-datafield="rentalValueSelector"], div[data-datafield="salesValueSelector"]', event => {
+                let $OrderManifestGrid = $form.find('div[data-name="OrderManifestGrid"]');
+    
+                FwBrowse.search($OrderManifestGrid);
+            })
+            .on('change', 'div[data-datafield="weightSelector"]', e => {
+                let totals = jQuery(e.currentTarget).data('totals');
+                if (FwFormField.getValueByDataField($form, 'weightSelector') === 'IMPERIAL') {
+                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGreater"]', totals.TotalExtendedWeightLbs);
+                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLesser"]', totals.TotalExtendedWeightOz);
+    
+                    $form.find('div[data-datafield="ExtendedWeightTotalGreater"] .fwformfield-caption').html('Pounds');
+                    $form.find('div[data-datafield="ExtendedWeightTotalLesser"] .fwformfield-caption').html('Ounces');
+                } else {
+                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGreater"]', totals.TotalExtendedWeightKg);
+                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLesser"]', totals.TotalExtendedWeightGr);
+    
+                    $form.find('div[data-datafield="ExtendedWeightTotalGreater"] .fwformfield-caption').html('Kilograms');
+                    $form.find('div[data-datafield="ExtendedWeightTotalLesser"] .fwformfield-caption').html('Grams');
+                }
+            })
+        ;
 
         return $form;
     }
@@ -331,29 +361,18 @@ class Order extends OrderBase {
         });
 
         FwBrowse.renderGrid({
-            nameGrid: 'OrderManifestGrid',
-            gridSecurityId: '8uhwXXJ95d3o',
+            nameGrid:         'OrderManifestGrid',
+            gridSecurityId:   '8uhwXXJ95d3o',
             moduleSecurityId: this.id,
-            $form: $form,
+            $form:            $form,
             //getBaseApiUrl: () => `${this.apiurl}/manifest`,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                //const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
-                //const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                //FwMenu.addSubMenuItem($optionsgroup, 'View Snapshot', '', (e: JQuery.ClickEvent) => {
-                //    try {
-                //        OrderSnapshotGridController.viewSnapshotGrid(e);
-                //    } catch (ex) {
-                //        FwFunc.showError(ex);
-                //    }
-                //})
-            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                    OrderId:     FwFormField.getValueByDataField($form, 'OrderId'),
                     RentalValue: FwFormField.getValueByDataField($form, 'rentalValueSelector'),
-                    SalesValue: FwFormField.getValueByDataField($form, 'salesValueSelector'),
-                    FilterBy: FwFormField.getValueByDataField($form, 'manifestFilter'),
-                    Mode: FwFormField.getValueByDataField($form, 'manifestItems')
+                    SalesValue:  FwFormField.getValueByDataField($form, 'salesValueSelector'),
+                    FilterBy:    FwFormField.getValueByDataField($form, 'manifestFilter'),
+                    Mode:        FwFormField.getValueByDataField($form, 'manifestItems')
                 };
                 request.totalfields = ['OrderValueTotal', 'OrderReplacementTotal', 'OwnedValueTotal', 'OwnedReplacementTotal', 'SubValueTotal', 'SubReplacementTotal', 'ShippingContainerTotal', 'ShippingItemTotal', 'PieceCountTotal', 'StandAloneItemTotal', 'TotalExtendedWeightLbs', 'TotalExtendedWeightOz', 'TotalExtendedWeightKg', 'TotalExtendedWeightGr'];
             },

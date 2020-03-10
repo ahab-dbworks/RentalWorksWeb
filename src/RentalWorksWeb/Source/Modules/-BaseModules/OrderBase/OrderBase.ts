@@ -1350,34 +1350,6 @@ class OrderBase {
             { value: 'WAREHOUSE', caption: 'Warehouse' },
             { value: 'OTHER', caption: 'Other' }
         ]);
-        //Toggle Buttons - Manifest tab - View Items
-        FwFormField.loadItems($form.find('div[data-datafield="manifestItems"]'), [
-            { value: 'SUMMARY', caption: 'Summary', checked: 'checked' },
-            { value: 'DETAIL', caption: 'Detail' }
-        ]);
-        //Toggle Buttons - Manifest tab - Filter By
-        FwFormField.loadItems($form.find('div[data-datafield="manifestFilter"]'), [
-            { value: 'ALL', caption: 'All', checked: 'checked' },
-            { value: 'OUT', caption: 'Out' },
-            { value: 'IN', caption: 'In' },
-            { value: 'SHORT', caption: 'Short' }
-        ]);
-        //Toggle Buttons - Manifest tab - Rental Valuation
-        FwFormField.loadItems($form.find('div[data-datafield="rentalValueSelector"]'), [
-            { value: 'UNIT VALUE', caption: 'Unit Value', checked: 'checked' },
-            { value: 'REPLACEMENT COST', caption: 'Replacement Cost' }
-        ]);
-        //Toggle Buttons - Manifest tab - Sales Valuation
-        FwFormField.loadItems($form.find('div[data-datafield="salesValueSelector"]'), [
-            { value: 'SELL PRICE', caption: 'Sell Price', checked: 'checked' },
-            { value: 'DEFAULT COST', caption: 'Default Cost' },
-            { value: 'AVERAGE COST', caption: 'Average Cost' }
-        ]);
-        //Toggle Buttons - Manifest tab - Weight Type
-        FwFormField.loadItems($form.find('div[data-datafield="weightSelector"]'), [
-            { value: 'IMPERIAL', caption: 'Imperial', checked: 'checked' },
-            { value: 'METRIC', caption: 'Metric' }
-        ]);
 
         this.events($form);
         this.activityCheckboxEvents($form, mode);
