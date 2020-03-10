@@ -1,6 +1,6 @@
 ﻿class FwBrowseColumn_phoneClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
-    databindfield ($browse, $field, dt, dtRow, $tr): void {
+    databindfield($browse, $field, dt, dtRow, $tr): void {
 
     }
     //---------------------------------------------------------------------------------
@@ -11,7 +11,11 @@
     }
     //---------------------------------------------------------------------------------
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
-        $field.find('input.value').val(data.value);
+        if ($field.attr('data-formreadonly') === 'true') {
+            $field.find('.fieldvalue').text(data.value);
+        } else {
+            $field.find('input.value').val(data.value);
+        }
     }
     //---------------------------------------------------------------------------------
     isModified($browse, $tr, $field): boolean {
@@ -28,7 +32,7 @@
         $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
-        $field.on('click', function() {
+        $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
             }
