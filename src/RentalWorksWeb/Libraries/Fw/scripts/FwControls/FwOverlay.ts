@@ -14,10 +14,9 @@
         const maxZIndex = FwFunc.getMaxZ('*');
         $moduleoverlay.html(html.join(''));
         $moduleoverlay.css('z-index', maxZIndex);
-        $moduleoverlay.addClass('clicked');
-        //$moduleoverlay.on('click', function () {
-        //    $moduleoverlay.addClass('clicked');
-        //});
+        $moduleoverlay.on('click', function () {
+            $moduleoverlay.addClass('clicked');
+        });
         //$moduleoverlay.on('click', '.btnCancel', function(event) {
         //    event.stopPropagation();
         //    FwAppData.abortRequest(requestid);
