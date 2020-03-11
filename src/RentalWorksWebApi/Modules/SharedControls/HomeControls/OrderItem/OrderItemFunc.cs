@@ -834,7 +834,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         {
             if (FieldToCalculate == "MarkupPercent")
             {
-               //
+                Price = (Cost / ((-1) * ((MarginPercent / 100) - 1)));
                 CalculateMarkup();
             }
             else if (FieldToCalculate == "MarginPercent")
