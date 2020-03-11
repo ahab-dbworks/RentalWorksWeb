@@ -347,7 +347,8 @@ class Order extends OrderBase {
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
                 FwMenu.addSubMenuItem($optionsgroup, 'View Snapshot', '', (e: JQuery.ClickEvent) => {
                     try {
-                        OrderSnapshotGridController.viewSnapshotGrid(e);
+                        const $form = jQuery(e.currentTarget).closest('.fwform');
+                        OrderSnapshotGridController.viewSnapshotGrid($form);
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
