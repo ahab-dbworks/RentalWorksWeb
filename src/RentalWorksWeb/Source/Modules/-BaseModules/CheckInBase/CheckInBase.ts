@@ -768,6 +768,7 @@ abstract class CheckInBase implements IModule {
               </div>
               <div data-type="tabpage" id="quantityitemstabpage" class="tabpage" data-tabid="quantityitemstab">
                 <div class="flexpage">
+                  <div class="flexrow error-msg qty"></div>
                   <div class="flexrow">
                     <div data-control="FwGrid" data-grid="CheckInQuantityItemsGrid" data-securitycaption=""></div>
                   </div>

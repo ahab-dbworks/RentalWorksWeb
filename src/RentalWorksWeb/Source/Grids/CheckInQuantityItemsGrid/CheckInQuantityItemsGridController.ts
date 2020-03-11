@@ -31,13 +31,17 @@
                 };
 
                 if (quantity != 0) {
+                    const errorMsg = $form.find('.error-msg.qty');
                     FwAppData.apiMethod(true, 'POST', "api/v1/checkin/checkinitem", request, FwServices.defaultTimeout,
                         function onSuccess(response) {
+                            errorMsg.html('');
                             if (response.success) {
                                 $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
                                 const $grid = $tr.parents('[data-grid="CheckInQuantityItemsGrid"]');
                                 FwBrowse.setFieldValue($grid, $tr, 'QuantityOut', { value: response.InventoryStatus.QuantityOut });
-                            } else {
+                            } else if (response.success === false) {
+                                FwFunc.playErrorSound();
+                                errorMsg.html(`<div><span>${response.msg}</span></div>`);
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                             }
                         },
