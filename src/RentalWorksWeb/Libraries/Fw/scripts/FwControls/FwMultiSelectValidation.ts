@@ -299,6 +299,7 @@
                 }
             })
             .on('keydown', 'div[contenteditable="true"]', e => {
+                e.stopPropagation();
                 const code = e.keyCode || e.which;
                 try {
                     switch (code) {
@@ -337,10 +338,12 @@
                 }
             });
 
-        const focusValidationSearchBox = function ($browse) {
+        const focusValidationSearchBox = $browse => {
             setTimeout(() => {
                 const $searchBox = $browse.find('.search input:visible');
-                $searchBox.eq(0).focus();
+                if ($searchBox.length > 0) {
+                    $searchBox.eq(0).focus();
+                }
             }, 1000);
         };
     }
@@ -630,16 +633,21 @@
         }
     };
     //---------------------------------------------------------------------------------
-    setCaret($control) {
-        const element = $control.find('div.multiselectitems');
-        const node = element.find('span.addItem').get(0);
-        const range = document.createRange();
-        range.setStartAfter(node);
-        range.collapse(true);
-        const sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-        element.focus();
+    setCaret($control: JQuery) {
+        const $element = $control.find('div.multiselectitems');
+        if ($element.length > 0) {
+            const $addItemSpan = $element.find('span.addItem');
+            if ($addItemSpan.length > 0) {
+                const addItemNode = $addItemSpan.get(0);
+                const range = document.createRange();
+                range.setStartAfter(addItemNode);
+                range.collapse(true);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+                $element.focus();
+            }
+        }
     }
     //---------------------------------------------------------------------------------
 }
