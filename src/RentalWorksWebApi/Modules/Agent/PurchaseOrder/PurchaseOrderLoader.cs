@@ -862,7 +862,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>();
         //------------------------------------------------------------------------------------
 
-
         public void OnAfterLoad(object sender, AfterLoadEventArgs e)
         {
             if ((e.Record != null) && (e.Record is PurchaseOrderLoader))
@@ -873,13 +872,13 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 request.orderby = "OrderBy";
                 request.uniqueids = new Dictionary<string, object>();
                 request.uniqueids.Add("OrderId", GetPrimaryKeys()[0].ToString());
+                request.uniqueids.Add("Enabled", true);
                 OrderDatesLogic l = new OrderDatesLogic();
                 l.SetDependencies(AppConfig, UserSession);
                 ((PurchaseOrderLoader)e.Record).ActivityDatesAndTimes = l.SelectAsync<OrderDatesLogic>(request).Result;
             }
         }
         //------------------------------------------------------------------------------------    
-
 
     }
 }

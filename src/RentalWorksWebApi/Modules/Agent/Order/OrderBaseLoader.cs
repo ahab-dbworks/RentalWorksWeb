@@ -967,6 +967,7 @@ namespace WebApi.Modules.Agent.Order
                 request.orderby = "OrderBy";
                 request.uniqueids = new Dictionary<string, object>();
                 request.uniqueids.Add("OrderId", GetPrimaryKeys()[0].ToString());
+                request.uniqueids.Add("Enabled", true);
                 OrderDatesLogic l = new OrderDatesLogic();
                 l.SetDependencies(AppConfig, UserSession);
                 ((OrderBaseLoader)e.Record).ActivityDatesAndTimes = l.SelectAsync<OrderDatesLogic>(request).Result;

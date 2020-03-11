@@ -29,9 +29,9 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 1)]
         public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "enabled", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Enabled { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enabled", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? Enabled { get; set; }
+        //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "requiredquote", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? RequiredOnQuote { get; set; }
         ////------------------------------------------------------------------------------------ 

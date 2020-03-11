@@ -10,6 +10,7 @@ using WebApi.Modules.HomeControls.DealOrder;
 using WebApi.Modules.HomeControls.DealOrderDetail;
 using WebApi.Modules.HomeControls.Tax;
 using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
+using WebApi;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 using WebApi.Modules.HomeControls.Delivery;
 using WebApi.Modules.HomeControls.OrderDates;
@@ -217,10 +218,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "pSJOEHHADRcU5", IsReadOnly: true)]
         public string PoClassification { get; set; }
 
-
         [FwLogicProperty(Id: "fwPSBW0fcJ5TN", IsNotAudited: true)]
         public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>();
-
 
         [FwLogicProperty(Id: "HJ8GhcEZYu3a")]
         public string EstimatedStartDate { get { return purchaseOrder.EstimatedStartDate; } set { purchaseOrder.EstimatedStartDate = value; } }
@@ -1094,7 +1093,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 if (((newEstimatedStartDate != orig.EstimatedStartDate)) ||
                     //((newEstimatedStartTime != orig.EstimatedStartTime)) ||
                     ((newEstimatedStopDate != orig.EstimatedStopDate)) //||
-                    //((newEstimatedStopTime != orig.EstimatedStopTime))
+                                                                       //((newEstimatedStopTime != orig.EstimatedStopTime))
                     )
                 {
                     OrderDatesAndTimesChange change = new OrderDatesAndTimesChange();
@@ -1146,7 +1145,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------
-
         public virtual void OnAfterSavePurchaseOrder(object sender, AfterSaveDataRecordEventArgs e)
         {
             //bool saved = false;
