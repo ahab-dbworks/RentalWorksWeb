@@ -1800,15 +1800,23 @@ class FwBrowseClass {
                             } else {
                                 var $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?',
                                     //on yes
-                                    () => {
+                                    async () => {
+                                        const recordCount = $selectedCheckBoxes.length;
+                                        const $confirmation = FwConfirmation.renderConfirmation('Deleting...', '');
+                                        FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${recordCount}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;">Deleting Record <span class="recordno">1</span> of ${recordCount}<div>`);
                                         try {
-                                            let lastCheckBoxIndex = $selectedCheckBoxes.length - 1;
                                             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                                                $confirmation.find('.recordno').html((i + 1).toString());
+                                                $confirmation.find('.progress').attr('value', (i + 1).toString());
                                                 let $tr = $selectedCheckBoxes.eq(i).closest('tr');
-                                                this.deleteRecord(options.$browse, $tr, i === lastCheckBoxIndex);
+                                                await this.deleteRecord(options.$browse, $tr);
                                             }
                                         } catch (ex) {
                                             FwFunc.showError(ex);
+                                        }
+                                        finally {
+                                            FwConfirmation.destroyConfirmation($confirmation);
+                                            await this.databind(options.$browse);
                                         }
                                     },
                                     // on no
@@ -1829,9 +1837,9 @@ class FwBrowseClass {
             });
         }
 
-        options.$browse.attr('data-hasedit', 'false');
+
         if (typeof options.hasEdit === 'boolean' && options.hasEdit && nodeGridEdit !== null && nodeGridEdit.properties.visible === 'T') {
-            options.$browse.attr('data-hasedit', 'true');
+            options.$browse.data('hasedit', true);
         }
         FwGridMenu.addCaption(options.$menu, options.$browse.attr('data-caption'));
         if (typeof options.hasNew === 'boolean' && options.hasNew && nodeGridEdit !== null && nodeGridEdit.properties.visible === 'T') {
@@ -3101,97 +3109,95 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     setRowEditMode($control: JQuery, $tr: JQuery): void {
-        const hasEdit: boolean = ($control.attr('data-hasedit') !== undefined) ? $control.attr('data-hasedit') === 'true' : true;
-        if (hasEdit) {
-            const rowIndex = $tr.index();
-            if ($control.attr('data-multisave') == 'true') {
-                $tr = $control.find('tbody tr').eq(rowIndex);
-                $control.attr('data-mode', 'EDIT');
-                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                    $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
-                    $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
-                    //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
-                    //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+        const rowIndex = $tr.index();
 
-                    const controller = $control.attr('data-controller');
-                    if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
-                    if (typeof <any>window[controller]['beforeRowEditMode'] === 'function') {
-                        <any>window[controller]['beforeRowEditMode']($control, $tr);
-                    }
+        if ($control.attr('data-multisave') == 'true') {
+            $tr = $control.find('tbody tr').eq(rowIndex);
+            $control.attr('data-mode', 'EDIT');
+            if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
+                $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
+                //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+                //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+
+                const controller = $control.attr('data-controller');
+                if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
+                if (typeof <any>window[controller]['beforeRowEditMode'] === 'function') {
+                    <any>window[controller]['beforeRowEditMode']($control, $tr);
                 }
+            }
 
-                $tr.find('> td > .field').each((index, element) => {
-                    const $field = jQuery(element);
-                    if ($field.attr('data-formreadonly') === 'true') {
-                        this.setFieldViewMode($control, $tr, $field);
-                    } else {
-                        this.setFieldEditMode($control, $tr, $field);
-                    }
-                });
-
-                this.addMultiSaveAndCancelButtonToRow($control, $tr);
-
-                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                    const controller = $control.attr('data-controller');
-                    if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
-                    if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
-                        <any>window[controller]['afterRowEditMode']($control, $tr);
-                    }
+            $tr.find('> td > .field').each((index, element) => {
+                const $field = jQuery(element);
+                if ($field.attr('data-formreadonly') === 'true') {
+                    this.setFieldViewMode($control, $tr, $field);
+                } else {
+                    this.setFieldEditMode($control, $tr, $field);
                 }
+            });
 
-                if (typeof $control.data('selectedfield') === 'string') {
-                    const fieldName = $control.data('selectedfield');
-                    $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
-                    $control.data('selectedfield', []);
-                }
-                else {
-                    $tr.find('td.column:visible div.editablefield input.text').select();
-                }
-            } else {
-                this.beforeNewOrEditRow($control, $tr)
-                    .then(() => {
-                        $tr = $control.find('tbody tr').eq(rowIndex);
-                        $control.attr('data-mode', 'EDIT');
-                        if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                            $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
-                            $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
-                            //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
-                            //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+            this.addMultiSaveAndCancelButtonToRow($control, $tr);
 
-                            const controller = $control.attr('data-controller');
-                            if (typeof <any>window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                            if (typeof <any>window[controller]['beforeRowEditMode'] === 'function') {
-                                <any>window[controller]['beforeRowEditMode']($control, $tr);
-                            }
+            if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                const controller = $control.attr('data-controller');
+                if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
+                if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
+                    <any>window[controller]['afterRowEditMode']($control, $tr);
+                }
+            }
+
+            if (typeof $control.data('selectedfield') === 'string') {
+                const fieldName = $control.data('selectedfield');
+                $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
+                $control.data('selectedfield', []);
+            }
+            else {
+                $tr.find('td.column:visible div.editablefield input.text').select();
+            }
+        } else {
+            this.beforeNewOrEditRow($control, $tr)
+                .then(() => {
+                    $tr = $control.find('tbody tr').eq(rowIndex);
+                    $control.attr('data-mode', 'EDIT');
+                    if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                        $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
+                        $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
+                        //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+                        //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+
+                        const controller = $control.attr('data-controller');
+                        if (typeof <any>window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                        if (typeof <any>window[controller]['beforeRowEditMode'] === 'function') {
+                            <any>window[controller]['beforeRowEditMode']($control, $tr);
                         }
+                    }
 
-                        $tr.find('> td > .field').each((index, element) => {
-                            const $field = jQuery(element);
-                            if ($field.attr('data-formreadonly') === 'true') {
-                                this.setFieldViewMode($control, $tr, $field);
-                            } else {
-                                this.setFieldEditMode($control, $tr, $field);
-                            }
-                        });
-
-                        //$control.attr('data-multisave') == 'true' ? me.addMultiSaveAndCancelButtonToRow($control, $tr) : me.addSaveAndCancelButtonToRow($control, $tr);
-                        this.addSaveAndCancelButtonToRow($control, $tr);
-
-                        if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                            const controller = $control.attr('data-controller');
-                            if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
-                            if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
-                                <any>window[controller]['afterRowEditMode']($control, $tr);
-                            }
-                        }
-
-                        if (typeof $control.data('selectedfield') === 'string') {
-                            const fieldName = $control.data('selectedfield');
-                            $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
-                            $control.data('selectedfield', []);
+                    $tr.find('> td > .field').each((index, element) => {
+                        const $field = jQuery(element);
+                        if ($field.attr('data-formreadonly') === 'true') {
+                            this.setFieldViewMode($control, $tr, $field);
+                        } else {
+                            this.setFieldEditMode($control, $tr, $field);
                         }
                     });
-            }
+
+                    //$control.attr('data-multisave') == 'true' ? me.addMultiSaveAndCancelButtonToRow($control, $tr) : me.addSaveAndCancelButtonToRow($control, $tr);
+                    this.addSaveAndCancelButtonToRow($control, $tr);
+
+                    if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                        const controller = $control.attr('data-controller');
+                        if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
+                        if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
+                            <any>window[controller]['afterRowEditMode']($control, $tr);
+                        }
+                    }
+
+                    if (typeof $control.data('selectedfield') === 'string') {
+                        const fieldName = $control.data('selectedfield');
+                        $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
+                        $control.data('selectedfield', []);
+                    }
+                });
         }
     }
     //---------------------------------------------------------------------------------
@@ -3793,9 +3799,10 @@ class FwBrowseClass {
             $ok = FwConfirmation.addButton($confirmation, 'OK');
             $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
 
-            $ok.on('click', function () {
+            $ok.on('click', async () => {
                 try {
-                    me.deleteRecord($control, $tr, true);
+                    await me.deleteRecord($control, $tr);
+                    await me.databind($control);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -3803,73 +3810,81 @@ class FwBrowseClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    async deleteRecord($control: JQuery, $tr: JQuery, refreshAfterDelete: boolean) {
-        let me = this;
-        this.autoSave($control, $tr);
-        let miscfields = {};
-        let name = $control.attr('data-name');
-        let $form = $control.closest('.fwform');
-        let rowuniqueids = this.getRowFormUniqueIds($control, $tr);
-        const request = new FwAjaxRequest<any>();
-        request.data = {
-            module: name,
-            ids: rowuniqueids,
-            miscfields: miscfields
-        };
-        if ($form.length > 0) {
-            let formuniqueids = ($form.length > 0) ? FwModule.getFormUniqueIds($form) : [];
-            request.data.miscfields = jQuery.extend({}, miscfields, formuniqueids);
-        }
+    async deleteRecord($control: JQuery, $tr: JQuery): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                let me = this;
+                this.autoSave($control, $tr);
+                let miscfields = {};
+                let name = $control.attr('data-name');
+                let $form = $control.closest('.fwform');
+                let rowuniqueids = this.getRowFormUniqueIds($control, $tr);
+                const request = new FwAjaxRequest<any>();
+                request.data = {
+                    module: name,
+                    ids: rowuniqueids,
+                    miscfields: miscfields
+                };
+                if ($form.length > 0) {
+                    let formuniqueids = ($form.length > 0) ? FwModule.getFormUniqueIds($form) : [];
+                    request.data.miscfields = jQuery.extend({}, miscfields, formuniqueids);
+                }
 
-        var controller: any = window[name + 'Controller'];
-        if (typeof controller === 'undefined') {
-            throw name + 'Controller is not defined.'
-        }
-        let url = '';
-        if (typeof $control.data('getapiurl') === 'function') {
-            url = $control.data('getapiurl')('DELETE');
-        }
-        if (url.length === 0 && typeof controller.apiurl !== 'undefined' || typeof $control.data('getbaseapiurl') === 'function') {
-            if (typeof $control.data('getbaseapiurl') !== 'undefined') {
-                url = $control.data('getbaseapiurl')();
-            }
-            else if (typeof controller.apiurl !== 'undefined' && controller.apiurl.length > 0) {
-                url = controller.apiurl;
-            }
-            else {
-                throw `No apiurl defined for Grid: ${name}`;
-            }
-            var ids: any = [];
-            for (var key in request.data.ids) {
-                ids.push(request.data.ids[key].value);
-            }
-            ids = ids.join('~');
-            if (ids.length === 0) {
-                throw 'primary key id(s) cannot be blank';
-            }
-            url += '/' + ids;
-        }
-        request.url = applicationConfig.apiurl + url;
-        request.httpMethod = 'DELETE';
+                var controller: any = window[name + 'Controller'];
+                if (typeof controller === 'undefined') {
+                    throw name + 'Controller is not defined.'
+                }
+                let url = '';
+                if (typeof $control.data('getapiurl') === 'function') {
+                    url = $control.data('getapiurl')('DELETE');
+                }
+                if (url.length === 0 && typeof controller.apiurl !== 'undefined' || typeof $control.data('getbaseapiurl') === 'function') {
+                    if (typeof $control.data('getbaseapiurl') !== 'undefined') {
+                        url = $control.data('getbaseapiurl')();
+                    }
+                    else if (typeof controller.apiurl !== 'undefined' && controller.apiurl.length > 0) {
+                        url = controller.apiurl;
+                    }
+                    else {
+                        throw `No apiurl defined for Grid: ${name}`;
+                    }
+                    var ids: any = [];
+                    for (var key in request.data.ids) {
+                        ids.push(request.data.ids[key].value);
+                    }
+                    ids = ids.join('~');
+                    if (ids.length === 0) {
+                        throw 'primary key id(s) cannot be blank';
+                    }
+                    url += '/' + ids;
+                }
+                request.url = applicationConfig.apiurl + url;
+                request.httpMethod = 'DELETE';
         
-        const response = await FwAjax.callWebApi<any, any>(request)
-        if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
-            //perform after delete
-            if (($control.attr('data-type') === 'Grid') && (typeof $control.data('afterdelete') === 'function')) {
-                $control.data('afterdelete')($control, $tr);
-            }
-            else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                if (controller.afterDelete === 'function') {
-                    controller.afterDelete($control, $tr);
+                const response = await FwAjax.callWebApi<any, any>(request)
+                if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
+                    //perform after delete
+                    if (($control.attr('data-type') === 'Grid') && (typeof $control.data('afterdelete') === 'function')) {
+                        $control.data('afterdelete')($control, $tr);
+                    }
+                    else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                        if (controller.afterDelete === 'function') {
+                            controller.afterDelete($control, $tr);
+                        }
+                    }
+                    //if (refreshAfterDelete) {
+                    //    me.search($control);
+                    //}
+                    resolve();
+                }
+                else {
+                    reject(response);
                 }
             }
-            if (refreshAfterDelete) {
-                me.search($control);
+            catch (ex) {
+                reject(ex);
             }
-        }
-        else {
-            FwFunc.showError(response);
-        }
+        });
     }
     //---------------------------------------------------------------------------------
     addLegend($control: JQuery, caption: string, color: string) {
