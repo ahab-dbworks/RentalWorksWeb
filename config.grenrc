@@ -2,6 +2,7 @@
     "dataSource": "issues",
     "ignoreIssuesWith": [
         "non-issue",
+        "canceled",
         "duplicate"
     ],
     "groupBy": {
