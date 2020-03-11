@@ -10,9 +10,12 @@ using WebApi.Modules.HomeControls.DealOrder;
 using WebApi.Modules.HomeControls.DealOrderDetail;
 using WebApi.Modules.HomeControls.Tax;
 using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
-using WebApi;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 using WebApi.Modules.HomeControls.Delivery;
+using WebApi.Modules.HomeControls.OrderDates;
+using System.Collections.Generic;
+using WebApi.Modules.Agent.Order;
+using WebApi.Modules.Settings.OrderTypeDateType;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -45,6 +48,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             purchaseOrder.BeforeSave += OnBeforeSavePurchaseOrder;
             purchaseOrder.AfterSave += OnAfterSavePurchaseOrder;
             tax.AfterSave += OnAfterSaveTax;
+            purchaseOrderDetail.AssignPrimaryKeys += OrderDetailAssignPrimaryKeys;
 
             Type = RwConstants.ORDER_TYPE_PURCHASE_ORDER;
 
@@ -212,6 +216,11 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
         [FwLogicProperty(Id: "pSJOEHHADRcU5", IsReadOnly: true)]
         public string PoClassification { get; set; }
+
+
+        [FwLogicProperty(Id: "fwPSBW0fcJ5TN", IsNotAudited: true)]
+        public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>();
+
 
         [FwLogicProperty(Id: "HJ8GhcEZYu3a")]
         public string EstimatedStartDate { get { return purchaseOrder.EstimatedStartDate; } set { purchaseOrder.EstimatedStartDate = value; } }
@@ -954,6 +963,11 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return isValid;
         }
         //------------------------------------------------------------------------------------
+        public void OrderDetailAssignPrimaryKeys(object sender, EventArgs e)
+        {
+            ((DealOrderDetailRecord)sender).OrderId = GetPrimaryKeys()[0].ToString();
+        }
+        //------------------------------------------------------------------------------------ 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
@@ -1011,6 +1025,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
+            string newEstimatedStartDate = "", newEstimatedStopDate = "";//, newEstimatedStartTime = "", newEstimatedStopTime = "";
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 // this is a newPO.  ReceiveDeliveryId, ReturnDeliveryId, and TaxId were not known at time of insert.  Need to re-update the data with the known ID's
@@ -1019,7 +1034,85 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 purchaseOrder.TaxId = tax.TaxId;
                 int i = purchaseOrder.SaveAsync(null, e.SqlConnection).Result;
             }
-            //bool b2 = purchaseOrder.UpdatePoStatus(e.SqlConnection).Result;
+            else // updating
+            {
+                PurchaseOrderLogic orig = ((PurchaseOrderLogic)e.Original);
+
+                newEstimatedStartDate = EstimatedStartDate ?? orig.EstimatedStartDate;
+                //newEstimatedStartTime = EstimatedStartTime ?? orig.EstimatedStartTime;
+                newEstimatedStopDate = EstimatedStopDate ?? orig.EstimatedStopDate;
+                //newEstimatedStopTime = EstimatedStopTime ?? orig.EstimatedStopTime;
+            }
+
+            if (ActivityDatesAndTimes.Count > 0)
+            {
+                ApplyOrderDatesAndTimesRequest request = new ApplyOrderDatesAndTimesRequest();
+                request.OrderId = GetPrimaryKeys()[0].ToString();
+                foreach (OrderDatesLogic d in ActivityDatesAndTimes)
+                {
+                    OrderDateAndTime dt = new OrderDateAndTime();
+                    dt.OrderTypeDateTypeId = d.OrderTypeDateTypeId;
+
+                    //get the Activity Type from the true source: OrderTypeDateType
+                    OrderTypeDateTypeLogic otdt = new OrderTypeDateTypeLogic();
+                    otdt.SetDependencies(AppConfig, UserSession);
+                    otdt.OrderTypeDateTypeId = dt.OrderTypeDateTypeId;
+                    bool b = otdt.LoadAsync<OrderTypeDateTypeLogic>(e.SqlConnection).Result;
+
+                    if (!string.IsNullOrEmpty(d.Date))
+                    {
+                        dt.Date = FwConvert.ToDateTime(d.Date);
+                    }
+                    dt.Time = d.Time;
+                    //dt.IsMilestone = d.IsMilestone;
+                    //dt.IsProductionActivity = d.IsProductionActivity;
+                    request.DatesAndTimes.Add(dt);
+                    //if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_PICK))
+                    //{
+                    //    newPickDate = d.Date;
+                    //    newPickTime = d.Time;
+                    //}
+                    if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_START))
+                    {
+                        newEstimatedStartDate = d.Date;
+                        //newEstimatedStartTime = d.Time;
+                    }
+                    else if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_STOP))
+                    {
+                        newEstimatedStopDate = d.Date;
+                        //newEstimatedStopTime = d.Time;
+                    }
+                }
+                ApplyOrderDatesAndTimesResponse response = OrderFunc.ApplyOrderDatesAndTimes(AppConfig, UserSession, request, e.SqlConnection).Result;
+            }
+
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                PurchaseOrderLogic orig = ((PurchaseOrderLogic)e.Original);
+
+                if (((newEstimatedStartDate != orig.EstimatedStartDate)) ||
+                    //((newEstimatedStartTime != orig.EstimatedStartTime)) ||
+                    ((newEstimatedStopDate != orig.EstimatedStopDate)) //||
+                    //((newEstimatedStopTime != orig.EstimatedStopTime))
+                    )
+                {
+                    OrderDatesAndTimesChange change = new OrderDatesAndTimesChange();
+                    change.OrderId = this.GetPrimaryKeys()[0].ToString();
+                    change.OldEstimatedStartDate = orig.EstimatedStartDate;
+                    change.NewEstimatedStartDate = newEstimatedStartDate;
+                    //change.OldEstimatedStartTime = orig.EstimatedStartTime;
+                    //change.NewEstimatedStartTime = newEstimatedStartTime;
+                    change.OldEstimatedStopDate = orig.EstimatedStopDate;
+                    change.NewEstimatedStopDate = newEstimatedStopDate;
+                    //change.OldEstimatedStopTime = orig.EstimatedStopTime;
+                    //change.NewEstimatedStopTime = newEstimatedStopTime;
+                    bool b = OrderFunc.UpdateOrderItemDatesAndTimes(AppConfig, UserSession, change, e.SqlConnection).Result;
+                }
+
+            }
+
+
 
             //after save - do work in the database
             {
@@ -1060,6 +1153,18 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             //billToAddress.UniqueId1 = dealOrder.OrderId;
             //saved = dealOrder.SavePoASync(PoNumber, PoAmount).Result;
 
+
+            // justin hoffman 03/11/2020
+            // this is really stupid
+            // I am deleting the record that dbwIU_dealorder is giving us, so I can add my own and avoid a unique index error
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                DealOrderDetailRecord detailRec = new DealOrderDetailRecord();
+                detailRec.SetDependencies(AppConfig, UserSession);
+                detailRec.OrderId = GetPrimaryKeys()[0].ToString();
+                bool b = detailRec.DeleteAsync(e.SqlConnection).Result;
+            }
+
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
             {
                 if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
@@ -1077,7 +1182,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 }
             }
 
-            bool b3 = purchaseOrder.UpdateOrderTotal(e.SqlConnection).Result;
+            //bool b3 = purchaseOrder.UpdateOrderTotal(e.SqlConnection).Result;  moved to aftersavepoweb
         }
         //------------------------------------------------------------------------------------
         public void OnAfterSaveTax(object sender, AfterSaveDataRecordEventArgs e)
