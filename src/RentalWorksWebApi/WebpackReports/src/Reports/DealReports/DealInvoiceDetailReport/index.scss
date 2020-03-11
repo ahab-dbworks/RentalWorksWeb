@@ -1,5 +1,5 @@
 ﻿/*DealInvoiceDetailReport*/
-tbody[data-rowtype="detail"]:nth-child(odd) td:not(.no-border) {
+tbody[data-rowtype="detail"]:nth-of-type(odd) td:not(.no-border) {
     background-color: #DCDCDC;
 }
 
