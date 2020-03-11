@@ -7,9 +7,11 @@ namespace WebApi.Modules.UtilitiesControls.QuikActivitySettings
     {
         //------------------------------------------------------------------------------------ 
         QuikActivitySettingsRecord quikActivitySettings = new QuikActivitySettingsRecord();
+        QuikActivitySettingsLoader quikActivitySettingsLoader = new QuikActivitySettingsLoader();
         public QuikActivitySettingsLogic()
         {
             dataRecords.Add(quikActivitySettings);
+            dataLoader = quikActivitySettingsLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "3BLXvLqNUHVM", IsPrimaryKey: true)]
