@@ -16,15 +16,21 @@
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        if ($form.attr('data-controller') !== 'BillingWorksheetController') {
-            var invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-            if (invoiceId != '') {
-                request.uniqueids = {
-                    InvoiceId: invoiceId
-                }
-            }
-        }
         switch (datafield) {
+            case 'OrderId':
+                let invoiceId: string = "";
+                if ($form.attr('data-controller') === 'BillingWorksheetController') {
+                    invoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+                }
+                else {
+                    invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+                }
+                if (invoiceId != '') {
+                    request.uniqueids = {
+                        InvoiceId: invoiceId
+                    }
+                }
+                break;
             case 'InventoryId':
                 const recType = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
                 if (recType !== null) {
