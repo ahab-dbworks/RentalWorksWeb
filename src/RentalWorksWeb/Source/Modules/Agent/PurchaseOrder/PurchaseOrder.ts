@@ -1984,7 +1984,8 @@ class PurchaseOrder implements IModule {
                 break;
         }
         //resets back to period summary frames
-        $form.find('.togglebutton-item input[value="P"]').click();
+        //$form.find('.togglebutton-item input[value="P"]').click();
+        FwFormField.setValueByDataField($form, 'totalTypeProfitLoss', 'P', '', false);
     }
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
