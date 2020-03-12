@@ -138,9 +138,9 @@ export class InventoryIntegrityTest extends BaseTest {
             invData.dates.push(new AvailabilityDate(theDate, +availQty));
         }
 
-        if (screenshotFileName) {
-            await page.screenshot({ path: `./inventoryintegrity_${this.testToken}_${screenshotFileName}.jpg`, fullPage: true });
-        }
+        //if (screenshotFileName) {
+        //    await page.screenshot({ path: `./inventoryintegrity_${this.testToken}_${screenshotFileName}.jpg`, fullPage: true });
+        //}
         return invData;
     }
     //---------------------------------------------------------------------------------------

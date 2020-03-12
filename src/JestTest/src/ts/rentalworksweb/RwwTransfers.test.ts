@@ -142,9 +142,9 @@ export class TransfersTest extends BaseTest {
             Logging.logInfo(`day=${d}, availQty=${availQty}`);
         }
 
-        if (screenshotFileName) {
-            await page.screenshot({ path: `./transfertest_${this.testToken}_${screenshotFileName}.jpg`, fullPage: true });
-        }
+        //if (screenshotFileName) {
+        //    await page.screenshot({ path: `./transfertest_${this.testToken}_${screenshotFileName}.jpg`, fullPage: true });
+        //}
 
         return invData;
     }
