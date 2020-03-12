@@ -224,8 +224,14 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "HJ8GhcEZYu3a")]
         public string EstimatedStartDate { get { return purchaseOrder.EstimatedStartDate; } set { purchaseOrder.EstimatedStartDate = value; } }
 
+        [FwLogicProperty(Id: "XHjoZKNARXFss")]
+        public string EstimatedStartTime { get { return purchaseOrder.EstimatedStartTime; } set { purchaseOrder.EstimatedStartTime = value; } }
+
         [FwLogicProperty(Id: "5Gfpglv62U6q")]
         public string EstimatedStopDate { get { return purchaseOrder.EstimatedStopDate; } set { purchaseOrder.EstimatedStopDate = value; } }
+
+        [FwLogicProperty(Id: "xpxpm8LY7aRe5")]
+        public string EstimatedStopTime { get { return purchaseOrder.EstimatedStopTime; } set { purchaseOrder.EstimatedStopTime = value; } }
 
         [FwLogicProperty(Id: "Z578OE4eTaty")]
         public string BillingStartDate { get { return purchaseOrder.BillingStartDate; } set { purchaseOrder.BillingStartDate = value; } }
