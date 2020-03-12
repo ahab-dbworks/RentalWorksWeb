@@ -478,12 +478,41 @@ namespace WebApi.Modules.Transfers.TransferOrder
         [FwLogicProperty(Id: "crH6wTINbMj9z")]
         public string DateStamp { get { return transferOrder.DateStamp; } set { transferOrder.DateStamp = value; transferOrderDetail.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{                   
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //}                    
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (original != null)
+                {
+                    TransferOrderLogic orig = (TransferOrderLogic)original;
+                    if (((FromWarehouseId != null) && (!FromWarehouseId.Equals(orig.FromWarehouseId))) ||
+                        ((ToWarehouseId != null) && (!ToWarehouseId.Equals(orig.ToWarehouseId))))
+                    {
+                        bool hasItem = false;
+                        using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                        {
+                            FwSqlCommand qrySt = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                            qrySt.Add("select hasitem = (case when exists (select * from masteritem mi with (nolock) where mi.orderid = @orderid) then 'T' else 'F' end) ");
+                            qrySt.AddParameter("@orderid", TransferId);
+                            FwJsonDataTable dt = qrySt.QueryToFwJsonTableAsync().Result;
+                            hasItem = FwConvert.ToBoolean(dt.Rows[0][0].ToString());
+                        }
+
+                        if (hasItem)
+                        {
+                            validateMsg = "Cannot change the From Warehouse or To Warehouse after line-items have been added to this Transfer.";
+                            isValid = false;
+                        }
+
+                    }
+                }
+            }
+
+
+            return isValid;
+        }
         //-------------------- ---------------------------------------------------------------- 
         public void OnBeforeSaveTransferOrder(object sender, BeforeSaveDataRecordEventArgs e)
         {
