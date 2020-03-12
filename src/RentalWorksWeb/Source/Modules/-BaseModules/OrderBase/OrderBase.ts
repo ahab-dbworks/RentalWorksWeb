@@ -3388,6 +3388,39 @@ class OrderBase {
         }
     };
     //----------------------------------------------------------------------------------------------
+    disableRateColumns($form) {
+
+        // find all the items grids on the form
+        const $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        const $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        const $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        const $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        const $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
+        const $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+
+        // disable the Rate column
+        if (FwFormField.getValueByDataField($form, 'DisableEditingRentalRate')) {
+            $rentalGrid.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingSalesRate')) {
+            $salesGrid.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingLaborRate')) {
+            $laborGrid.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingMiscellaneousRate')) {
+            $miscGrid.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingUsedSaleRate')) {
+            $usedSaleGrid.find('.rates').attr('data-formreadonly', true);
+        }
+        if ($lossDamageGrid !== undefined) {
+            if (FwFormField.getValueByDataField($form, 'DisableEditingLossAndDamageRate')) {
+                $lossDamageGrid.find('.rates').attr('data-formreadonly', true);
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form, response) {
         //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
@@ -3435,6 +3468,7 @@ class OrderBase {
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
 
+        /*
         // find all the items grids on the form
         const $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         const $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
@@ -3464,6 +3498,9 @@ class OrderBase {
                 $lossDamageGrid.find('.rates').attr('data-formreadonly', true);
             }
         }
+        */
+        this.disableRateColumns($form);
+
 
         // disable/enable the No Charge Reason field
         const noChargeValue = FwFormField.getValueByDataField($form, 'NoCharge');
@@ -3785,11 +3822,12 @@ class OrderBase {
             //$form.find('.notcombined').css('display', 'block');
             //$form.find('.generaltab').click();
         }
-        //this.renderGrids($form); //commented out because it was re-rendering the grids and overriding changes made in afterLoad
+        this.renderGrids($form); 
         //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         //this.dynamicColumns($form);
         this.applyOrderTypeAndRateTypeToForm($form);
+        this.disableRateColumns($form);
         $activeTab.click();
     };
     //----------------------------------------------------------------------------------------------
