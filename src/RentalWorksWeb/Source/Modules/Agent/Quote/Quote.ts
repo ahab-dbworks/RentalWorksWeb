@@ -209,19 +209,16 @@ class Quote extends OrderBase {
                 FwBrowse.search($OrderManifestGrid);
             })
             .on('change', 'div[data-datafield="weightSelector"]', e => {
-                let totals = jQuery(e.currentTarget).data('totals');
                 if (FwFormField.getValueByDataField($form, 'weightSelector') === 'IMPERIAL') {
-                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGreater"]', totals.TotalExtendedWeightLbs);
-                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLesser"]', totals.TotalExtendedWeightOz);
-    
-                    $form.find('div[data-datafield="ExtendedWeightTotalGreater"] .fwformfield-caption').html('Pounds');
-                    $form.find('div[data-datafield="ExtendedWeightTotalLesser"] .fwformfield-caption').html('Ounces');
+                    $form.find('div[data-datafield="ExtendedWeightTotalLbs"]').show();
+                    $form.find('div[data-datafield="ExtendedWeightTotalOz"]').show();
+                    $form.find('div[data-datafield="ExtendedWeightTotalKg"]').hide();
+                    $form.find('div[data-datafield="ExtendedWeightTotalGm"]').hide();
                 } else {
-                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGreater"]', totals.TotalExtendedWeightKg);
-                    FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLesser"]', totals.TotalExtendedWeightGr);
-    
-                    $form.find('div[data-datafield="ExtendedWeightTotalGreater"] .fwformfield-caption').html('Kilograms');
-                    $form.find('div[data-datafield="ExtendedWeightTotalLesser"] .fwformfield-caption').html('Grams');
+                    $form.find('div[data-datafield="ExtendedWeightTotalLbs"]').hide();
+                    $form.find('div[data-datafield="ExtendedWeightTotalOz"]').hide();
+                    $form.find('div[data-datafield="ExtendedWeightTotalKg"]').show();
+                    $form.find('div[data-datafield="ExtendedWeightTotalGm"]').show();
                 }
             })
         ;
@@ -312,7 +309,10 @@ class Quote extends OrderBase {
                 FwFormField.setValue($form, 'div[data-datafield="PieceCountTotal"]', dt.Totals.PieceCountTotal);
                 FwFormField.setValue($form, 'div[data-datafield="StandAloneItemTotal"]', dt.Totals.StandAloneItemTotal);
 
-                $form.find('div[data-datafield="weightSelector"]').data('totals', {'TotalExtendedWeightLbs': dt.Totals.TotalExtendedWeightLbs, 'TotalExtendedWeightOz': dt.Totals.TotalExtendedWeightOz, 'TotalExtendedWeightKg': dt.Totals.TotalExtendedWeightKg, 'TotalExtendedWeightGr': dt.Totals.TotalExtendedWeightGr}).change();
+                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalLbs"]', dt.Totals.TotalExtendedWeightLbs);
+                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalOz"]', dt.Totals.TotalExtendedWeightOz);
+                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalKg"]', dt.Totals.TotalExtendedWeightKg);
+                FwFormField.setValue($form, 'div[data-datafield="ExtendedWeightTotalGm"]', dt.Totals.TotalExtendedWeightGr);
             }
         });
         FwBrowse.addLegend($form.find('div[data-name="OrderManifestGrid"]'), 'Shipping Container', '#ffeb3b');
@@ -1591,10 +1591,12 @@ class Quote extends OrderBase {
                         <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="weightSelector"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Pounds" data-datafield="ExtendedWeightTotalGreater" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Pounds" data-datafield="ExtendedWeightTotalLbs" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Kilograms" data-datafield="ExtendedWeightTotalKg" data-enabled="false" style="display:none;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Ounces" data-datafield="ExtendedWeightTotalLesser" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Ounces" data-datafield="ExtendedWeightTotalOz" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Grams" data-datafield="ExtendedWeightTotalGm" data-enabled="false" style="display:none;"></div>
                       </div>
                     </div>
                   </div>
