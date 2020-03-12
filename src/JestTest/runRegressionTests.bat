@@ -39,11 +39,7 @@ IF "%starttest%"=="" (
    set /p=Hit ENTER to exit
    exit /B
 )
-IF "%endtest%"=="" (
-   ECHO Supply a ending test number as a command-line parameter
-   set /p=Hit ENTER to exit
-   exit /B
-)
+IF "%endtest%"=="" set endtest=%starttest%
 
 IF "%webinstallpath%"=="" (
    ECHO Web install path is not defined
