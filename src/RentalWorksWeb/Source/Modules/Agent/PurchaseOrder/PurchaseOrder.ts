@@ -1273,7 +1273,7 @@ class PurchaseOrder implements IModule {
         }
     };
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: JQuery): void {
+    afterLoad($form: JQuery, response): void {
         this.applyPurchaseOrderTypeToForm($form);
 
         const status = FwFormField.getValueByDataField($form, 'Status');
@@ -1444,6 +1444,8 @@ class PurchaseOrder implements IModule {
             FwTabs.showTab($form.find('.contracttab'));
             $form.find('.contractSubModule').empty().append(this.openContractBrowse($form));
         }
+
+        this.renderScheduleDateAndTimeSection($form, response);
     };
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
@@ -2412,6 +2414,83 @@ class PurchaseOrder implements IModule {
                 }
             }, null, $form);
         });
+    }
+    //----------------------------------------------------------------------------------------------	
+    renderScheduleDateAndTimeSection($form, response) {
+        $form.find('.activity-dates').empty();
+        const activityDatesAndTimes = response.ActivityDatesAndTimes;
+        for (let i = 0; i < activityDatesAndTimes.length; i++) {
+            const row = activityDatesAndTimes[i];
+            let validationClass = '';
+            if (row.ActivityType === 'PICK' || row.ActivityType === 'START' || row.ActivityType === 'STOP') {
+                validationClass = 'pick-date-validation';
+            }
+            const $row = jQuery(`<div class="flexrow date-row">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderTypeDateTypeId" style="display:none;"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield ${validationClass}" data-caption="${row.DescriptionDisplayTitleCase} Date" data-dateactivitytype="${row.ActivityType}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Time" data-timeactivitytype="${row.ActivityType}" data-datafield="Time" data-enabled="true" style="flex:0 1 120px;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Day" data-datafield="DayOfWeek" data-enabled="false" style="flex:0 1 120px;"></div>                          
+                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="display:none; flex:0 1 180px;"></div>                          
+                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Milestone" data-datafield="IsMilestone" style="display:none; flex:0 1 110px;"></div>                          
+                              </div>`);
+            FwControl.renderRuntimeControls($row.find('.fwcontrol'));
+            FwFormField.setValueByDataField($row, 'OrderTypeDateTypeId', row.OrderTypeDateTypeId);
+            FwFormField.setValueByDataField($row, 'Date', row.Date);
+            FwFormField.setValueByDataField($row, 'Time', row.Time);
+            FwFormField.setValueByDataField($row, 'DayOfWeek', row.DayOfWeek);
+            FwFormField.setValueByDataField($row, 'IsProductionActivity', row.IsProductionActivity);
+            FwFormField.setValueByDataField($row, 'IsMilestone', row.IsMilestone);
+            $form.find('.activity-dates').append($row);
+        };
+
+        const $showActivitiesAndMilestones = jQuery(`<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Production Activities and Milestones" data-datafield="ShowActivitiesAndMilestones" style="flex:1 1 250px;"></div>`);
+        FwControl.renderRuntimeControls($showActivitiesAndMilestones);
+        $form.find('.activity-dates').append($showActivitiesAndMilestones);
+
+        $showActivitiesAndMilestones.on('change', e => {
+            const isChecked = jQuery(e.currentTarget).find('input').prop('checked');
+            const $checkboxes = $form.find('[data-datafield="IsMilestone"], [data-datafield="IsProductionActivity"]');
+            if (isChecked) {
+                $checkboxes.show();
+            } else {
+                $checkboxes.hide();
+            }
+        });
+
+        const scheduleFields = $form.find('.schedule-date-fields');
+        scheduleFields.remove();
+        const activityDateFields = $form.find('.activity-dates');
+        activityDateFields.show();
+
+        function addNewFieldsToDataObj($form, $newFieldsObj) {
+            const $fieldsDataObj = $form.data('fields');
+            const $newFields = $fieldsDataObj.add($newFieldsObj);
+            $form.data('fields', $newFields);
+        }
+
+        const newDateFields = $form.find('.pick-date-validation');
+        addNewFieldsToDataObj($form, newDateFields);
+
+        $form.data('beforesave', request => {
+            if ($form.find('.activity-dates:visible').length > 0) {
+                const activityDatesAndTimes = [];
+                const $rows = $form.find('.date-row');
+                for (let i = 0; i < $rows.length; i++) {
+                    const $row = jQuery($rows[i]);
+                    activityDatesAndTimes.push({
+                        OrderTypeDateTypeId: FwFormField.getValue2($row.find('[data-datafield="OrderTypeDateTypeId"]'))
+                        , Date: FwFormField.getValue2($row.find('[data-datafield="Date"]'))
+                        , Time: FwFormField.getValue2($row.find('[data-datafield="Time"]'))
+                        , IsProductionActivity: FwFormField.getValue2($row.find('[data-datafield="IsProductionActivity"]'))
+                        , IsMilestone: FwFormField.getValue2($row.find('[data-datafield="IsMilestone"]'))
+                    });
+                }
+                request['ActivityDatesAndTimes'] = activityDatesAndTimes;
+            }
+        });
+
+        //stops field event bubbling
+        $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
     }
 }
 //----------------------------------------------------------------------------------------------

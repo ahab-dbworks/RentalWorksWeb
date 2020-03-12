@@ -52,7 +52,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             purchaseOrderDetail.AssignPrimaryKeys += OrderDetailAssignPrimaryKeys;
 
             Type = RwConstants.ORDER_TYPE_PURCHASE_ORDER;
-
+            ForceSave = true;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "VIVLmYhhFSMVm", IsPrimaryKey: true)]
