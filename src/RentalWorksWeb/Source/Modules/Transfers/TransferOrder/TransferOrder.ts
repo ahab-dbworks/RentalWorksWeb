@@ -423,6 +423,9 @@ class TransferOrder {
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('R');
             },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.checkGridRows($browse, $form);
+            }
         });
         // ----------
         //const $orderItemSalesGrid = $form.find('.salesItemGrid div[data-grid="TransferOrderItemGrid"]');
@@ -484,6 +487,9 @@ class TransferOrder {
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('S');
             },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.checkGridRows($browse, $form);
+            }
         });
 
         // ----------
@@ -594,6 +600,14 @@ class TransferOrder {
             case 'OutDeliveryToCountryId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateoutdeliverytocountry`);
                 break;
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    checkGridRows($browse, $form) {
+        const gridRowCount = $browse.find('.tablewrapper table tbody tr').length;
+        if (gridRowCount > 0) {
+            FwFormField.disable($form.find('div[data-datafield="FromWarehouseId"]'));
+            FwFormField.disable($form.find('div[data-datafield="ToWarehouseId"]'));
         }
     }
 };
