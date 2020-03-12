@@ -261,6 +261,8 @@ class PurchaseOrder implements IModule {
             { value: 'P', caption: 'Period', checked: 'checked' }
         ]);
 
+        FwFormField.setValue($form, 'div[data-datafield="ShowShipping"]', true);  //justin hoffman 03/12/2020 - this is temporary until the Shipping tab is updated
+
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         this.renderPrintButton($form);
@@ -1129,7 +1131,8 @@ class PurchaseOrder implements IModule {
             $form: $form,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
+                    ShowShipping: FwFormField.getValueByDataField($form, 'ShowShipping')
                 };
             },
             beforeSave: (request: any) => {
@@ -1435,7 +1438,7 @@ class PurchaseOrder implements IModule {
                 }
             });
         }
-        
+
         let nodeContract = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Z8MlDQp7xOqu');
         if (nodeContract !== undefined && nodeContract.properties.visible === 'T') {
             FwTabs.showTab($form.find('.contracttab'));

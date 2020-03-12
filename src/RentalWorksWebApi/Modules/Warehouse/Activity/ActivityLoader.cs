@@ -126,6 +126,12 @@ namespace WebApi.Modules.Warehouse.Activity
                 select.AddWhere("activitystatuscomplete <> 'T'");
             }
 
+            bool showShipping = GetUniqueIdAsBoolean("ShowShipping", request).GetValueOrDefault(false);
+            if (!showShipping)
+            {
+                select.AddWhere("isshipping <> 'T'");
+            }
+
             DateTime? fromDate = GetUniqueIdAsDate("ActivityFromDate", request);
             DateTime? toDate = GetUniqueIdAsDate("ActivityToDate", request);
             if (fromDate != null)
