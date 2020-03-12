@@ -1350,7 +1350,9 @@ class PurchaseOrder implements IModule {
                     }
                 }
             }
-            $tab.addClass('tabGridsLoaded');
+            if (!$tab.hasClass('activitytab')) {
+                $tab.addClass('tabGridsLoaded');
+            }
         });
 
         const $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');

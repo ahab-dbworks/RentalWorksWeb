@@ -3580,7 +3580,9 @@ class OrderBase {
                         FwBrowse.search($browseControl);
                     }
                 }
-                $tab.addClass('tabGridsLoaded');
+                if (!$tab.hasClass('activitytab')) {
+                    $tab.addClass('tabGridsLoaded');
+                }
             }
         });
 
