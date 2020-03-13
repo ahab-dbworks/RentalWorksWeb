@@ -1393,7 +1393,7 @@ class SearchInterface {
             }
             const title = jQuery(e.currentTarget).siblings().text().trim();
             const $popupForm = (<any>window)[`${module}Controller`].loadForm(uniqueids);
-            FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, title));
+            FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, title, inventoryId));
             let $fwcontrols = $popupForm.find('.fwcontrol');
             FwControl.loadControls($fwcontrols);
             $popupForm.find('.btnpeek').remove();
