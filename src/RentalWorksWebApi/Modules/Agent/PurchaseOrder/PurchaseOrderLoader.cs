@@ -1,5 +1,9 @@
+using FwStandard.Data;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
+using WebApi.Modules.HomeControls.OrderDates;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -7,6 +11,11 @@ namespace WebApi.Modules.Agent.PurchaseOrder
     public class PurchaseOrderLoader : PurchaseOrderBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
+        public PurchaseOrderLoader()
+        {
+            AfterLoad += OnAfterLoad;
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "requisitionno", modeltype: FwDataTypes.Text)]
         public string RequisitionNumber { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -148,8 +157,14 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date)]
         public string EstimatedStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "estfromtime", modeltype: FwDataTypes.Text)]
+        public string EstimatedStartTime { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date)]
         public string EstimatedStopDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text)]
+        public string EstimatedStopTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiodstart", modeltype: FwDataTypes.Date)]
         public string BillingStartDate { get; set; }
@@ -850,7 +865,26 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public bool? SubLaborIsComplete { get; set; }
         //------------------------------------------------------------------------------------
 
+        public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>();
+        //------------------------------------------------------------------------------------
 
+        public void OnAfterLoad(object sender, AfterLoadEventArgs e)
+        {
+            if ((e.Record != null) && (e.Record is PurchaseOrderLoader))
+            {
+                BrowseRequest request = new BrowseRequest();
+                request.pageno = 0;
+                request.pagesize = 0;
+                request.orderby = "OrderBy";
+                request.uniqueids = new Dictionary<string, object>();
+                request.uniqueids.Add("OrderId", GetPrimaryKeys()[0].ToString());
+                request.uniqueids.Add("Enabled", true);
+                OrderDatesLogic l = new OrderDatesLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                ((PurchaseOrderLoader)e.Record).ActivityDatesAndTimes = l.SelectAsync<OrderDatesLogic>(request).Result;
+            }
+        }
+        //------------------------------------------------------------------------------------    
 
     }
 }

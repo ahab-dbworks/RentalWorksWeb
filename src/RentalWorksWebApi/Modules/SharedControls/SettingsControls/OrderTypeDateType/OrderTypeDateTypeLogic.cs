@@ -1,4 +1,5 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.OrderTypeDateType
@@ -13,6 +14,8 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         {
             dataRecords.Add(orderTypeDateType);
             dataLoader = orderTypeDateTypeLoader;
+        
+            BeforeDelete += OnBeforeDelete;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"Fs92UMGmzOJ8", IsPrimaryKey:true)]
@@ -43,8 +46,8 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [FwLogicProperty(Id:"3fztsYVeD2A")]
         public bool? SystemType { get { return orderTypeDateType.SystemType; } set { orderTypeDateType.SystemType = value; } }
 
-        //[FwLogicProperty(Id:"r3HTv7hNewC")]
-        //public bool? Enabled { get { return orderTypeDateType.Enabled; } set { orderTypeDateType.Enabled = value; } }
+        [FwLogicProperty(Id:"r3HTv7hNewC")]
+        public bool? Enabled { get { return orderTypeDateType.Enabled; } set { orderTypeDateType.Enabled = value; } }
 
         //[FwLogicProperty(Id:"QfKELUy7uz3")]
         //public bool? Milestone { get { return orderTypeDateType.Milestone; } set { orderTypeDateType.Milestone = value; } }
@@ -70,6 +73,19 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [FwLogicProperty(Id:"J60GuLbDstHF")]
         public string DateStamp { get { return orderTypeDateType.DateStamp; } set { orderTypeDateType.DateStamp = value; } }
 
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            OrderTypeDateTypeLogic l2 = new OrderTypeDateTypeLogic();
+            l2.SetDependencies(this.AppConfig, this.UserSession);
+            object[] pk = GetPrimaryKeys();
+            bool b = l2.LoadAsync<OrderTypeDateTypeLogic>(pk).Result;
+            if (l2.SystemType.Value)
+            {
+                e.PerformDelete = false;
+                e.ErrorMessage = $"Cannot delete a System Activity record.  Disable it instead.";
+            }
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

@@ -146,6 +146,8 @@ class TransferOrder {
             $form.find('.picklistSubModule').append(this.openPickListBrowse($form));
         }
 
+        FwFormField.setValue($form, 'div[data-datafield="ShowShipping"]', true);  //justin hoffman 03/12/2020 - this is temporary until the Shipping tab is updated
+
         this.events($form);
         this.renderSearchButton($form);
         return $form;
@@ -500,7 +502,8 @@ class TransferOrder {
             $form: $form,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `TransferId`)
+                    OrderId: FwFormField.getValueByDataField($form, `TransferId`),
+                    ShowShipping: FwFormField.getValueByDataField($form, 'ShowShipping')
                 };
             },
             beforeSave: (request: any) => {

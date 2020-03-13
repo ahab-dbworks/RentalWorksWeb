@@ -36,9 +36,9 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [FwSqlDataField(column: "systemtype", modeltype: FwDataTypes.Boolean)]
         public bool? SystemType { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "enabled", modeltype: FwDataTypes.Boolean)]
-        //public bool? Enabled { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enabled", modeltype: FwDataTypes.Boolean)]
+        public bool? Enabled { get; set; }
+        //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "milestone", modeltype: FwDataTypes.Boolean)]
         //public bool? Milestone { get; set; }
         ////------------------------------------------------------------------------------------ 

@@ -80,10 +80,15 @@ namespace WebApi.Modules.HomeControls.OrderDates
             useWithNoLock = false;
             string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
             string orderTypeId = GetUniqueIdAsString("OrderTypeId", request) ?? "";
+            bool? enabled = GetUniqueIdAsBoolean("Enabled", request);
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddParameter("@orderid", orderId);
             select.AddParameter("@ordertypeid", orderTypeId);
+            if (enabled != null)
+            {
+                select.AddWhere($"enabled {(enabled.GetValueOrDefault(false) ? "=": " <> ")} 'T'");
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
