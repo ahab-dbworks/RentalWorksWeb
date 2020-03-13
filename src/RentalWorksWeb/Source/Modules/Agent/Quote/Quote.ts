@@ -178,34 +178,34 @@ class Quote extends OrderBase {
         //Toggle Buttons - Manifest tab - View Items
         FwFormField.loadItems($form.find('div[data-datafield="manifestItems"]'), [
             { value: 'SUMMARY', caption: 'Summary', checked: 'checked' },
-            { value: 'DETAIL',  caption: 'Detail' }
+            { value: 'DETAIL', caption: 'Detail' }
         ]);
         //Toggle Buttons - Manifest tab - Filter By
         FwFormField.loadItems($form.find('div[data-datafield="manifestFilter"]'), [
-            { value: 'ALL',   caption: 'All', checked: 'checked' },
+            { value: 'ALL', caption: 'All', checked: 'checked' },
             { value: 'SHORT', caption: 'Short' }
         ]);
         //Toggle Buttons - Manifest tab - Rental Valuation
         FwFormField.loadItems($form.find('div[data-datafield="rentalValueSelector"]'), [
-            { value: 'UNIT VALUE',       text: 'Unit Value', selected: 'checked' },
+            { value: 'UNIT VALUE', text: 'Unit Value', selected: 'checked' },
             { value: 'REPLACEMENT COST', text: 'Replacement Cost' }
         ], true);
         //Toggle Buttons - Manifest tab - Sales Valuation
         FwFormField.loadItems($form.find('div[data-datafield="salesValueSelector"]'), [
-            { value: 'SELL PRICE',   text: 'Sell Price', selected: 'checked' },
+            { value: 'SELL PRICE', text: 'Sell Price', selected: 'checked' },
             { value: 'DEFAULT COST', text: 'Default Cost' },
             { value: 'AVERAGE COST', text: 'Average Cost' }
         ], true);
         //Toggle Buttons - Manifest tab - Weight Type
         FwFormField.loadItems($form.find('div[data-datafield="weightSelector"]'), [
             { value: 'IMPERIAL', caption: 'Imperial', checked: 'checked' },
-            { value: 'METRIC',   caption: 'Metric' }
+            { value: 'METRIC', caption: 'Metric' }
         ]);
 
         $form
             .on('change', 'div[data-datafield="manifestItems"], div[data-datafield="manifestFilter"], div[data-datafield="rentalValueSelector"], div[data-datafield="salesValueSelector"]', event => {
                 let $OrderManifestGrid = $form.find('div[data-name="OrderManifestGrid"]');
-    
+
                 FwBrowse.search($OrderManifestGrid);
             })
             .on('change', 'div[data-datafield="weightSelector"]', e => {
@@ -221,7 +221,7 @@ class Quote extends OrderBase {
                     $form.find('div[data-datafield="ExtendedWeightTotalGm"]').show();
                 }
             })
-        ;
+            ;
 
         return $form;
     }
@@ -234,7 +234,7 @@ class Quote extends OrderBase {
         if (nodeActivity !== undefined && nodeActivity.properties.visible === 'T') {
             FwTabs.showTab($form.find('.activitytab'));
         }
-        
+
         // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
         FwAppDocumentGrid.renderGrid({
             $form: $form,
@@ -272,18 +272,18 @@ class Quote extends OrderBase {
         super.renderGrids($form);
 
         FwBrowse.renderGrid({
-            nameGrid:         'OrderManifestGrid',
-            gridSecurityId:   '8uhwXXJ95d3o',
+            nameGrid: 'OrderManifestGrid',
+            gridSecurityId: '8uhwXXJ95d3o',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
             //getBaseApiUrl: () => `${this.apiurl}/manifest`,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    OrderId:     FwFormField.getValueByDataField($form, 'QuoteId'),
+                    OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                     RentalValue: FwFormField.getValueByDataField($form, 'rentalValueSelector'),
-                    SalesValue:  FwFormField.getValueByDataField($form, 'salesValueSelector'),
-                    FilterBy:    FwFormField.getValueByDataField($form, 'manifestFilter'),
-                    Mode:        FwFormField.getValueByDataField($form, 'manifestItems')
+                    SalesValue: FwFormField.getValueByDataField($form, 'salesValueSelector'),
+                    FilterBy: FwFormField.getValueByDataField($form, 'manifestFilter'),
+                    Mode: FwFormField.getValueByDataField($form, 'manifestItems')
                 };
                 request.totalfields = ['OrderValueTotal', 'OrderReplacementTotal', 'OwnedValueTotal', 'OwnedReplacementTotal', 'SubValueTotal', 'SubReplacementTotal', 'ShippingContainerTotal', 'ShippingItemTotal', 'PieceCountTotal', 'StandAloneItemTotal', 'TotalExtendedWeightLbs', 'TotalExtendedWeightOz', 'TotalExtendedWeightKg', 'TotalExtendedWeightGr'];
             },
@@ -588,7 +588,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="TotalDiscount"></div>
                         </div>
                         <div class="flexrow totalColors">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="TotalTotal"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="TotalSubTotal"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="TotalCost"></div>
@@ -614,7 +614,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="RentalDiscount"></div>
                         </div>
                         <div class="flexrow totalColors">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="RentalTotal"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="RentalSubTotal"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="RentalCost"></div>
@@ -640,7 +640,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="SalesDiscount"></div>
                         </div>
                         <div class="flexrow totalColors">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="SalesTotal"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="SalesSubTotal"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="SalesCost"></div>
@@ -666,7 +666,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="FacilitiesDiscount"></div>
                         </div>
                         <div class="flexrow totalColors">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="FacilitiesTotal"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="FacilitiesSubTotal"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="FacilitiesCost"></div>
@@ -693,7 +693,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="TransportationDiscount"></div>
                         </div>
                         <div class="flexrow totalColors">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="TransportationTotal"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="TransportationSubTotal"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="TransportationCost"></div>
@@ -720,7 +720,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="LaborDiscount"></div>
                         </div>
                         <div class="flexrow totalColors">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="LaborTotal"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="LaborSubTotal"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="LaborCost"></div>
@@ -746,7 +746,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="MiscDiscount"></div>
                         </div>
                         <div class="flexrow totalColors">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="MiscTotal"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="MiscSubTotal"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="MiscCost"></div>
@@ -772,7 +772,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="RentalSaleDiscount"></div>
                         </div>
                         <div class="flexrow totalColors">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="RentalSaleTotal"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="RentalSaleSubTotal"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="RentalSaleCost"></div>
@@ -798,7 +798,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="PartsDiscount"></div>
                         </div>
                         <div class="flexrow totalColors">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="PartsTotal"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="PartsSubTotal"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="PartsCost"></div>
