@@ -683,10 +683,13 @@ abstract class CheckInBase implements IModule {
     }
     //----------------------------------------------------------------------------------------------
     resetForm($form) {
-        const errorMsg = $form.find('.error-msg:not(.qty)');
+        $form.find('.error-msg').html('');
         $form.find('.fwformfield').not('[data-datafield="DepartmentId"]').find('input').val('');
+        $form.find('div[data-type="checkbox"] input').prop('checked', false);
         $form.find('div[data-name="CheckedInItemGrid"] tr.viewmode').empty();
-        errorMsg.html('');
+        $form.find('div[data-name="CheckInQuantityItemsGrid"] tr.viewmode').empty();
+        $form.find('div[data-name="CheckInExceptionGrid"] tr.viewmode').empty();
+
         FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"], [data-datafield="TransferId"]'));
 
         $form.find('.suspendedsession').show();
