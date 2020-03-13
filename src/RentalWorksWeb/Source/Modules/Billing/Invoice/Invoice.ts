@@ -501,6 +501,35 @@ class Invoice {
                 this.calculateInvoiceItemGridTotals($form, 'rentalsale', dt.Totals);
             },
         });
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceItemGrid',
+            gridSelector: '.lossdamagegrid div[data-grid="InvoiceItemGrid"]',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                    RecType: 'F'
+                };
+                request.totalfields = invoiceItemTotalFields;
+            },
+            beforeSave: (request: any) => {
+                request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+                request.RecType = 'F';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('F');
+                $browse.attr('data-enabled', 'false');
+                $browse.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.calculateInvoiceItemGridTotals($form, 'lossdamage', dt.Totals);
+                let lossDamageItems = $form.find('.lossdamagegrid tbody').children();
+                lossDamageItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="LossAndDamage"]')) : FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
+            }
+        });
         // ----------
         //const $invoiceNoteGrid = $form.find('div[data-grid="InvoiceNoteGrid"]');
         //const $invoiceNoteGridControl = FwBrowse.loadGridFromTemplate('InvoiceNoteGrid');
@@ -889,7 +918,7 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
-            case 'DepartmentId': 
+            case 'DepartmentId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
                 break;
             case 'DealId':
@@ -972,6 +1001,7 @@ class Invoice {
         if (!FwFormField.getValueByDataField($form, 'HasMeterItem')) { $form.find('[data-type="tab"][data-caption="Meter"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { $form.find('[data-type="tab"][data-caption="Transportation"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Used Sale"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) { $form.find('[data-type="tab"][data-caption="Loss and Damage"]').hide() }
 
         const $invoiceItemGridRental = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
         const $invoiceItemGridSales = $form.find('.salesgrid [data-name="InvoiceItemGrid"]');
@@ -1063,6 +1093,16 @@ class Invoice {
         const $rentalSaleGrid = $form.find('.rentalsalegrid [data-name="InvoiceItemGrid"]');
         for (let i = 0; i < hiddenRentalSale.length; i++) {
             jQuery($rentalSaleGrid.find(`[data-mappedfield="${hiddenRentalSale[i]}"]`)).parent().hide();
+        }
+        // ----------
+        const lossDamageShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "BarCode", "SerialNumber", "Quantity", "Unit", "Cost", "Rate", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
+        // if (invoiceType === 'CREDIT') { lossDamageShowFields.push('Adjustment'); }
+        const hiddenLossDamage = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(lossDamageShowFields))
+        const $lossDamageGrid = $form.find('.lossdamagegrid [data-name="InvoiceItemGrid"]');
+        for (let i = 0; i < hiddenLossDamage.length; i++) {
+            jQuery($lossDamageGrid.find(`[data-mappedfield="${hiddenLossDamage[i]}"]`)).parent().hide();
         }
         // ----------
         // Item Adjustment Grids - Rental, Sales, Parts
