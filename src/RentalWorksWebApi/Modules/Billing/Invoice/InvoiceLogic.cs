@@ -406,6 +406,10 @@ namespace WebApi.Modules.Billing.Invoice
         public bool? HasRentalSaleItem { get; set; }
 
 
+        [FwLogicProperty(Id: "Q0zV0j5lCSBHd", IsReadOnly: true)]
+        public bool? HasLossAndDamageItem { get; set; }
+
+        
 
         [FwLogicProperty(Id: "4NGkESxWvfM5c")]
         public decimal? RentalTotal { get { return invoice.RentalTotal; } set { invoice.RentalTotal = value; } }
