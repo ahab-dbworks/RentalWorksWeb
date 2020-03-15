@@ -1215,7 +1215,7 @@ abstract class StagingCheckoutBase {
                 request = {
                     OrderId: orderId,
                     Code: code,
-                    Warehouse: warehouse.warehouseid,
+                    WarehouseId: warehouse.warehouseid,
                     AddCompleteToOrder: true,
                     Quantity: quantity
                 }
@@ -1223,7 +1223,7 @@ abstract class StagingCheckoutBase {
                 request = {
                     OrderId: orderId,
                     Code: code,
-                    Warehouse: warehouse.warehouseid,
+                    WarehouseId: warehouse.warehouseid,
                     AddCompleteToOrder: true
                 }
             }
@@ -1232,7 +1232,7 @@ abstract class StagingCheckoutBase {
                 request = {
                     OrderId: orderId,
                     Code: code,
-                    Warehouse: warehouse.warehouseid,
+                    WarehouseId: warehouse.warehouseid,
                     AddItemToOrder: true,
                     Quantity: quantity
                 }
@@ -1240,7 +1240,7 @@ abstract class StagingCheckoutBase {
                 request = {
                     OrderId: orderId,
                     Code: code,
-                    Warehouse: warehouse.warehouseid,
+                    WarehouseId: warehouse.warehouseid,
                     AddItemToOrder: true
                 }
             }
