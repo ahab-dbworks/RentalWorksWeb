@@ -253,9 +253,9 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalSaleItem { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "haslditem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasLossAndDamageItem { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "haslditem", modeltype: FwDataTypes.Boolean)]
+        //public bool? HasLossAndDamageItem { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentaltotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
         public decimal? RentalTotal { get; set; }
         //------------------------------------------------------------------------------------ 
