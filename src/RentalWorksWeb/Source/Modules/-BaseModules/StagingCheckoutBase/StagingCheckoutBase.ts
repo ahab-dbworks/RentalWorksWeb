@@ -545,9 +545,6 @@ abstract class StagingCheckoutBase {
         FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${recordCount}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;">Unstaging Record <span class="recordno">1</span> of ${recordCount}<div>`);
 
         for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-            $confirmation.find('.recordno').html((i + 1).toString());
-            $confirmation.find('.progress').attr('value', (i + 1).toString());
-
 
             const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
             const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
@@ -583,7 +580,9 @@ abstract class StagingCheckoutBase {
         }
 
         while (responseCount < $selectedCheckBoxes.length) {
-            await delay(1000);
+            $confirmation.find('.recordno').html((responseCount).toString());
+            $confirmation.find('.progress').attr('value', (responseCount).toString());
+            await delay(200);
         }
         FwConfirmation.destroyConfirmation($confirmation);
         return errorMessages;
