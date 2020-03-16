@@ -483,7 +483,8 @@
                         }
                     });
 
-                    jQuery('.fwpopupbox').on('click', function (e: JQuery.ClickEvent) {
+                   $popupControl.on('click', function (e: JQuery.ClickEvent) {
+                    //jQuery('.fwpopupbox').on('click', function (e: JQuery.ClickEvent) {
                         if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
 
                         } else {
