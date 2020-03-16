@@ -101,7 +101,7 @@ namespace WebApi.Modules.Warehouse.ReturnToVendor
             }
             try
             {
-                SelectAllNoneReturnItemResponse response = await PurchaseOrderFunc.SelectAllReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                SelectAllNoneReturnItemResponse response = await PurchaseOrderFunc.SelectAllReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.WarehouseId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -121,7 +121,7 @@ namespace WebApi.Modules.Warehouse.ReturnToVendor
             }
             try
             {
-                SelectAllNoneReturnItemResponse response = await PurchaseOrderFunc.SelectNoneReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                SelectAllNoneReturnItemResponse response = await PurchaseOrderFunc.SelectNoneReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.WarehouseId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

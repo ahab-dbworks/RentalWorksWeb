@@ -97,7 +97,7 @@ namespace WebApi.Modules.Warehouse.ReceiveFromVendor
             }
             try
             {
-                SelectAllNoneReceiveItemResponse response = await PurchaseOrderFunc.SelectAllReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                SelectAllNoneReceiveItemResponse response = await PurchaseOrderFunc.SelectAllReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.WarehouseId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -117,7 +117,7 @@ namespace WebApi.Modules.Warehouse.ReceiveFromVendor
             }
             try
             {
-                SelectAllNoneReceiveItemResponse response = await PurchaseOrderFunc.SelectNoneReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                SelectAllNoneReceiveItemResponse response = await PurchaseOrderFunc.SelectNoneReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.WarehouseId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

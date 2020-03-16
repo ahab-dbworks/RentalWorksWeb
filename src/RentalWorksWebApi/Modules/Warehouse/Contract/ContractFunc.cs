@@ -80,6 +80,7 @@ namespace WebApi.Modules.Warehouse.Contract
                 FwSqlCommand qry = new FwSqlCommand(conn, "assignbarcodesfromreceive", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, request.PurchaseOrderId);
                 qry.AddParameter("@receivecontractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);

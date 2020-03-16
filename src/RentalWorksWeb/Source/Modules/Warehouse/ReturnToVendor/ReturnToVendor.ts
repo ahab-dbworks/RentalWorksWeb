@@ -193,7 +193,8 @@ class ReturnToVendor {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
-                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                    WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
                 };
             }
         });
@@ -211,7 +212,8 @@ class ReturnToVendor {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                    ReturnContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                    ReturnContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                    WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
                 };
             }
         });
@@ -254,6 +256,7 @@ class ReturnToVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
+            request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.search($returnItemsGridControl);
             }, function onError(response) {
@@ -269,6 +272,7 @@ class ReturnToVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
+            request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.search($returnItemsGridControl);
             }, function onError(response) {

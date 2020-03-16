@@ -194,7 +194,8 @@ class ReceiveFromVendor {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
-                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                    WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
                 };
             }
         });
@@ -239,6 +240,7 @@ class ReceiveFromVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
+            request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/selectnone`, request, FwServices.defaultTimeout, response => {
                 FwBrowse.search($receiveItemsGridControl);
             }, ex => {
@@ -257,6 +259,7 @@ class ReceiveFromVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
+            request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/selectall`, request, FwServices.defaultTimeout, response => {
                 FwBrowse.search($receiveItemsGridControl);
             }, ex => {

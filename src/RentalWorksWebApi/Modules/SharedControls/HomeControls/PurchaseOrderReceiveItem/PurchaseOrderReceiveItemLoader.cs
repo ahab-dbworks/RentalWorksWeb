@@ -141,7 +141,7 @@ namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveItem
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
 
             select.AddParameter("@poid", PurchaseOrderId);
             select.AddParameter("@receivecontractid", ContractId);

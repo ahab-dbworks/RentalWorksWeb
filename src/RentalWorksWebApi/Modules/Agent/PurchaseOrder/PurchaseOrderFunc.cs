@@ -61,6 +61,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public string ContractId { get; set; }
         [Required]
         public string PurchaseOrderId { get; set; }
+        [Required]
+        public string WarehouseId { get; set; }
     }
 
 
@@ -109,6 +111,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public string ContractId { get; set; }
         [Required]
         public string PurchaseOrderId { get; set; }
+        [Required]
+        public string WarehouseId { get; set; }
     }
 
 
@@ -134,6 +138,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
     {
         public string PurchaseOrderId;
         public string ContractId;
+        public string WarehouseId;
     }
 
     public class PurchaseOrderReceiveAssignBarCodesResponse : TSpStatusResponse
@@ -259,7 +264,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        private static async Task<SelectAllNoneReceiveItemResponse> SelectAllNoneReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, bool selectAll)
+        private static async Task<SelectAllNoneReceiveItemResponse> SelectAllNoneReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string warehouseId, bool selectAll)
         {
             SelectAllNoneReceiveItemResponse response = new SelectAllNoneReceiveItemResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -267,6 +272,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 FwSqlCommand qry = new FwSqlCommand(conn, "selectallreceivefromvendor", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE));
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
@@ -278,14 +284,14 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<SelectAllNoneReceiveItemResponse> SelectAllReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId)
+        public static async Task<SelectAllNoneReceiveItemResponse> SelectAllReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string warehouseId)
         {
-            return await SelectAllNoneReceiveItem(appConfig, userSession, contractId, purchaseOrderId, true);
+            return await SelectAllNoneReceiveItem(appConfig, userSession, contractId, purchaseOrderId, warehouseId, true);
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<SelectAllNoneReceiveItemResponse> SelectNoneReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId)
+        public static async Task<SelectAllNoneReceiveItemResponse> SelectNoneReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string warehouseId)
         {
-            return await SelectAllNoneReceiveItem(appConfig, userSession, contractId, purchaseOrderId, false);
+            return await SelectAllNoneReceiveItem(appConfig, userSession, contractId, purchaseOrderId, warehouseId, false);
         }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<ReturnItemResponse> ReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string purchaseOrderItemId, int quantity, string barCode = "")
@@ -319,7 +325,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        private static async Task<SelectAllNoneReturnItemResponse> SelectAllNoneReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, bool selectAll)
+        private static async Task<SelectAllNoneReturnItemResponse> SelectAllNoneReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string warehouseId, bool selectAll)
         {
             SelectAllNoneReturnItemResponse response = new SelectAllNoneReturnItemResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -327,6 +333,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 FwSqlCommand qry = new FwSqlCommand(conn, "selectallreturntovendor", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE));
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
@@ -338,14 +345,14 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<SelectAllNoneReturnItemResponse> SelectAllReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId)
+        public static async Task<SelectAllNoneReturnItemResponse> SelectAllReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string warehouseId)
         {
-            return await SelectAllNoneReturnItem(appConfig, userSession, contractId, purchaseOrderId, true);
+            return await SelectAllNoneReturnItem(appConfig, userSession, contractId, purchaseOrderId, warehouseId, true);
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<SelectAllNoneReturnItemResponse> SelectNoneReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId)
+        public static async Task<SelectAllNoneReturnItemResponse> SelectNoneReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string warehouseId)
         {
-            return await SelectAllNoneReturnItem(appConfig, userSession, contractId, purchaseOrderId, false);
+            return await SelectAllNoneReturnItem(appConfig, userSession, contractId, purchaseOrderId, warehouseId, false);
         }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<List<string>> CreateOutContractsFromReceive(FwApplicationConfig appConfig, FwUserSession userSession, string receiveContractId)

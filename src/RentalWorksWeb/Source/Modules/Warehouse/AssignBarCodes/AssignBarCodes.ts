@@ -129,7 +129,8 @@ class AssignBarCodes {
         $form.find('.assignbarcodes').on('click', e => {
             const request: any = {
                 PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
             }
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/assignbarcodes`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.search($poReceiveBarCodeGridControl);
