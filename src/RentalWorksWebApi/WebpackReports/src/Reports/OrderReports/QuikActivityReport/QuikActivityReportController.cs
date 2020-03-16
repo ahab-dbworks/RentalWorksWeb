@@ -31,7 +31,7 @@ namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
         public string WarehouseId { get; set; }
         public string InventoryTypeId { get; set; }
         public string ActivityType { get; set; }
-        public SelectedCheckBoxListItems OrderTypes { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems OrderType { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
