@@ -1077,12 +1077,12 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                     //    newPickDate = d.Date;
                     //    newPickTime = d.Time;
                     //}
-                    if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_START))
+                    if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_RECEIVE))
                     {
                         newEstimatedStartDate = d.Date;
                         //newEstimatedStartTime = d.Time;
                     }
-                    else if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_STOP))
+                    else if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_RETURN))
                     {
                         newEstimatedStopDate = d.Date;
                         //newEstimatedStopTime = d.Time;
