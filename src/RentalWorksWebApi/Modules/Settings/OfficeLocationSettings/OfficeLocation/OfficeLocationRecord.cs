@@ -62,6 +62,33 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "invoicesnumberedforhiatus", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? UseHInHiatusInvoiceNumbers { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "attention", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30)]
+        public string Attention { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
+        public string Address1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "add2", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
+        public string Address2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "city", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
+        public string City { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 10)]
+        public string Zip { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string State { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
+        public string Phone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string CountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
+        public string Fax { get; set; }
+        //------------------------------------------------------------------------------------        
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

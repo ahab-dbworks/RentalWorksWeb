@@ -21,6 +21,33 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
         public string CompanyName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
+        public string Address1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "add2", modeltype: FwDataTypes.Text)]
+        public string Address2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "city", modeltype: FwDataTypes.Text)]
+        public string City { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text)]
+        public string Zip { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text)]
+        public string State { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
+        public string Phone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text)]
+        public string CountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text)]
+        public string Country { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text)]
+        public string Fax { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text)]
         public string Email { get; set; }
         //------------------------------------------------------------------------------------ 

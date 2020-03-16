@@ -28,6 +28,33 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwLogicProperty(Id: "ZeOmhYbh0kY6D")]
         public string CompanyName { get { return location.CompanyName; } set { location.CompanyName = value; } }
 
+        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        public string Address1 { get { return location.Address1; } set { location.Address1 = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        public string Address2 { get { return location.Address2; } set { location.Address2 = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        public string City { get { return location.City; } set { location.City = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        public string Zip { get { return location.Zip; } set { location.Zip = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        public string State { get { return location.State; } set { location.State = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        public string CountryId { get { return location.CountryId; } set { location.CountryId = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxxxxxxxx", IsReadOnly: true)]
+        public string Country { get; set; }
+
+        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        public string Phone { get { return location.Phone; } set { location.Phone = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        public string Fax { get { return location.Fax; } set { location.Fax = value; } }
+
         [FwLogicProperty(Id: "vkQn6TgUTnDWo")]
         public string Email { get { return location.Email; } set { location.Email = value; } }
 
