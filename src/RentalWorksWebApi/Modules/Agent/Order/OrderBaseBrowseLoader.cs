@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using WebApi.Data;
 using WebApi;
+using System.Text;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -341,6 +342,43 @@ namespace WebApi.Modules.Agent.Order
 
                 AddActiveViewFieldToSelect("DealId", "dealid", select, request);
             }
+
+            //ALL, AGENT, PROJECTMANAGER
+            if ((request != null) && (request.activeviewfields != null))
+            {
+                if (request.activeviewfields.ContainsKey("My"))
+                {
+                    StringBuilder myWhere = new StringBuilder();
+                    List<string> myValues = request.activeviewfields["My"];
+                    foreach (string myValue in myValues)
+                    {
+                        if (myValue.ToUpper().Equals(RwConstants.MY_AGENT_ACTIVE_VIEW_VALUE))
+                        {
+                            if (myWhere.Length > 0)
+                            {
+                                myWhere.AppendLine("or");
+                            }
+                            myWhere.AppendLine("agentid = @myusersid");
+                        }
+                        if (myValue.ToUpper().Equals(RwConstants.MY_PROJECT_MANAGER_ACTIVE_VIEW_VALUE))
+                        {
+                            if (myWhere.Length > 0)
+                            {
+                                myWhere.AppendLine("or");
+                            }
+                            myWhere.AppendLine("projectmanagerid = @myusersid");
+                        }
+                    }
+                    if (myWhere.Length > 0)
+                    {
+                        myWhere.Insert(0, "(");
+                        myWhere.AppendLine(")");
+                        select.AddWhere(myWhere.ToString());
+                        select.AddParameter("@myusersid", this.UserSession.UsersId);
+                    }
+                }
+            }
+
         }
         //------------------------------------------------------------------------------------    
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
@@ -419,7 +457,7 @@ namespace WebApi.Modules.Agent.Order
         protected string getStatusColor(string orderType, string status, string dealStatusType, string customerStatusType)
         {
             string color = null;
-            if (orderType.Equals(RwConstants.ORDER_TYPE_QUOTE) && (status.Equals(RwConstants.QUOTE_STATUS_REQUEST))) 
+            if (orderType.Equals(RwConstants.ORDER_TYPE_QUOTE) && (status.Equals(RwConstants.QUOTE_STATUS_REQUEST)))
             {
                 color = RwGlobals.QUOTE_REQUEST_COLOR;
             }

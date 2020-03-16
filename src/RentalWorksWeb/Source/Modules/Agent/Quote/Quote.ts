@@ -50,6 +50,16 @@ class Quote extends OrderBase {
             const viewLocation: Array<JQuery> = [];
             viewLocation.push($userLocation, $allLocations);
             FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+
+            // Agent DropDownMenu
+            const $allAgents = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+            const $myAgent = FwMenu.generateDropDownViewBtn('My Agent Quotes', false, "AGENT");
+            const $myProjectManager = FwMenu.generateDropDownViewBtn('My Project Manager Quotes', false, "PROJECTMANAGER");
+
+            const viewAgentItems: Array<JQuery> = [];
+            viewAgentItems.push($allAgents, $myAgent, $myProjectManager);
+            FwMenu.addViewBtn(options.$menu, 'My', viewAgentItems, true, "My");
+
         } else if (sessionStorage.getItem('userType') === 'CONTACT') {
             //Location Filter
             const dealId = JSON.parse(sessionStorage.getItem('deal')).dealid;
@@ -59,15 +69,6 @@ class Quote extends OrderBase {
             if (typeof this.ActiveViewFields["DealId"] == 'undefined') {
                 this.ActiveViewFields.DealId = [dealId];
             }
-
-            // Agent DropDownMenu
-            const $allAgents = FwMenu.generateDropDownViewBtn('All', true, "ALL");
-            const $myAgent = FwMenu.generateDropDownViewBtn('My Agent Quotes', false, "AGENT");
-            const $myProjectManager = FwMenu.generateDropDownViewBtn('My Project Manager Quotes', false, "PROJECTMANAGER");
-
-            const viewAgentItems: Array<JQuery> = [];
-            viewAgentItems.push($allAgents, $myAgent, $myProjectManager);
-            //FwMenu.addViewBtn(options.$menu, 'Agent', viewAgentItems, true, "AgentId");
         }
     }
     //----------------------------------------------------------------------------------------------

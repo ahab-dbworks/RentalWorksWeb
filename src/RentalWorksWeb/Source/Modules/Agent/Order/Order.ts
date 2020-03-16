@@ -54,7 +54,7 @@ class Order extends OrderBase {
 
         const viewAgentItems: Array<JQuery> = [];
         viewAgentItems.push($allAgents, $myAgent, $myProjectManager);
-        //FwMenu.addViewBtn(options.$menu, 'Agent', viewAgentItems, true, "AgentId");
+        FwMenu.addViewBtn(options.$menu, 'My', viewAgentItems, true, "My");
     }
     //-----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {

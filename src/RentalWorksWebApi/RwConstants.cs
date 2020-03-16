@@ -56,6 +56,9 @@ namespace WebApi
         public const string ORDER_TYPE_TEMPLATE = "M";
         public const string ORDER_TYPE_PENDING_EXCHANGE = "PENDING";
 
+        public const string MY_AGENT_ACTIVE_VIEW_VALUE = "AGENT";
+        public const string MY_PROJECT_MANAGER_ACTIVE_VIEW_VALUE = "PROJECTMANAGER";
+
         public const string ORDER_TYPE_DESCRIPTION_QUOTE = "QUOTE";
         //public const string ORDER_TYPE_DESCRIPTION_RESERVED = "RESERVED";
         public const string ORDER_TYPE_DESCRIPTION_ORDER = "ORDER";
