@@ -10,6 +10,11 @@ namespace WebApi.Modules.HomeControls.PickListItem
     public class PickListItemLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        public PickListItemLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "picklistitemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string PickListItemId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
@@ -124,6 +129,7 @@ namespace WebApi.Modules.HomeControls.PickListItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------    
         private string getVendorColor(string VendorId)
         {
             return (!string.IsNullOrEmpty(VendorId) ? RwGlobals.SUB_COLOR : null);
