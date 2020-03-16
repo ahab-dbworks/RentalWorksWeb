@@ -81,6 +81,12 @@ namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveBarCode
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCode { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
         public string ItemId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -129,7 +135,8 @@ namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveBarCode
             select.AddWhere("(orderid > '')"); 
             select.AddWhere("(issuspend <> 'T')"); 
             addFilterToSelect("PurchaseOrderId", "orderid", select, request); 
-            addFilterToSelect("ReceiveContractId", "receivecontractid", select, request); 
+            addFilterToSelect("ReceiveContractId", "receivecontractid", select, request);
+            addFilterToSelect("WarehouseId", "warehouseid", select, request);
             //select.AddParameter("@filterid", filterId); 
             //select.AddParameter("@filterdate", filterDate); 
             //select.AddParameter("@filterboolean", filterBoolean); 
