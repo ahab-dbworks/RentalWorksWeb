@@ -2140,6 +2140,8 @@ class Order extends OrderBase {
                 FwFormField.disable($no);
                 $yes.text('Retiring...');
                 $yes.off('click');
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/retire`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success === true) {
@@ -2158,7 +2160,7 @@ class Order extends OrderBase {
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
                     FwModule.refreshForm($form);
-                }, $form);
+                }, $realConfirm);
             }
         } else {
             FwNotification.renderNotification('WARNING', 'Save the record before performing this function.');
