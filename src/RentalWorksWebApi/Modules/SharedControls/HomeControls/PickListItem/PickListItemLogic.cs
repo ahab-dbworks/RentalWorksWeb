@@ -86,6 +86,9 @@ namespace WebApi.Modules.HomeControls.PickListItem
         [FwLogicProperty(Id:"LXyh1hzs1RkY")]
         public string VendorId { get { return pickListItem.VendorId; } set { pickListItem.VendorId = value; } }
 
+        [FwLogicProperty(Id: "BNTZyyyG3ajMe", IsReadOnly: true)]
+        public string VendorColor { get; set; }
+
         [FwLogicProperty(Id:"kVEc9qSVffbQ")]
         public string InventoryTypeId { get { return pickListItem.InventoryTypeId; } set { pickListItem.InventoryTypeId = value; } }
 

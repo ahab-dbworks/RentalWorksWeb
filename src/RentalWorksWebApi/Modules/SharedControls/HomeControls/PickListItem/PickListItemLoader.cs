@@ -82,6 +82,16 @@ namespace WebApi.Modules.HomeControls.PickListItem
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
         public string VendorId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
+        public string Vendor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorColor
+        {
+            get { return getVendorColor(VendorId); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -114,6 +124,10 @@ namespace WebApi.Modules.HomeControls.PickListItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
+        private string getVendorColor(string VendorId)
+        {
+            return (!string.IsNullOrEmpty(VendorId) ? RwGlobals.SUB_COLOR : null);
+        }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
@@ -121,6 +135,21 @@ namespace WebApi.Modules.HomeControls.PickListItem
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("PickListId", "picklistid", select, request); 
+        }
+        //------------------------------------------------------------------------------------    
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("VendorColor")] = getVendorColor(row[dt.GetColumnNo("VendorId")].ToString());
+                    }
+                }
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
