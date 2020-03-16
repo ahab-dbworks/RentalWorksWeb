@@ -20,12 +20,13 @@ namespace WebApi.Modules.Settings.LaborSettings.LaborRate
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"H39qX5KfG1Y7", IsPrimaryKey:true)]
         public string RateId { get { return master.MasterId; } set { master.MasterId = value; } }
-
+        //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"2kExLTksQ7V4", IsReadOnly:true)]
         public string LaborTypeId { get; set; }
-
+        //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"2kExLTksQ7V4", IsReadOnly:true)]
         public string LaborType { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)

@@ -20,12 +20,13 @@ namespace WebApi.Modules.Settings.MiscellaneousSettings.MiscRate
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"362a7iGn1v2N", IsPrimaryKey:true)]
         public string RateId { get { return master.MasterId; } set { master.MasterId = value; } }
-
+        //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"SxwWlK63QDdQ", IsReadOnly:true)]
         public string MiscTypeId { get; set; }
-
+        //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"SxwWlK63QDdQ", IsReadOnly:true)]
         public string MiscType { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
