@@ -33,7 +33,7 @@ class Quote extends OrderBase {
 
         FwMenu.addVerticleSeparator(options.$menu);
 
-        let viewSubitems: Array<JQuery> = [];
+        const viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $new, $request, $prospect, $active, $reserved, $ordered, $cancelled, $closed);
         FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
@@ -47,22 +47,27 @@ class Quote extends OrderBase {
                 this.ActiveViewFields.LocationId = [location.locationid];
             }
 
-            let viewLocation: Array<JQuery> = [];
+            const viewLocation: Array<JQuery> = [];
             viewLocation.push($userLocation, $allLocations);
             FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
         } else if (sessionStorage.getItem('userType') === 'CONTACT') {
             //Location Filter
-            const deal = JSON.parse(sessionStorage.getItem('deal'));
+            const dealId = JSON.parse(sessionStorage.getItem('deal')).dealid;
             //const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
             //const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
 
             if (typeof this.ActiveViewFields["DealId"] == 'undefined') {
-                this.ActiveViewFields.DealId = [deal.dealid];
+                this.ActiveViewFields.DealId = [dealId];
             }
 
-            //let viewLocation: Array<JQuery> = [];
-            //viewLocation.push($userLocation, $allLocations);
-            //FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
+            // Agent DropDownMenu
+            const $allAgents = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+            const $myAgent = FwMenu.generateDropDownViewBtn('My Agent Quotes', false, "AGENT");
+            const $myProjectManager = FwMenu.generateDropDownViewBtn('My Project Manager Quotes', false, "PROJECTMANAGER");
+
+            const viewAgentItems: Array<JQuery> = [];
+            viewAgentItems.push($allAgents, $myAgent, $myProjectManager);
+            //FwMenu.addViewBtn(options.$menu, 'Agent', viewAgentItems, true, "AgentId");
         }
     }
     //----------------------------------------------------------------------------------------------

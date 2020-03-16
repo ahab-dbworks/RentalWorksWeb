@@ -30,7 +30,7 @@ class Order extends OrderBase {
         const $cancelled = FwMenu.generateDropDownViewBtn('Cancelled', false, "CANCELLED");
         const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
 
-        let viewSubitems: Array<JQuery> = [];
+        const viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $confirmed, $active, $hold, $complete, $cancelled, $closed);
         FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
@@ -46,6 +46,15 @@ class Order extends OrderBase {
         const viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+
+        // Agent DropDownMenu
+        const $allAgents = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $myAgent = FwMenu.generateDropDownViewBtn('My Agent Orders', false, "AGENT");
+        const $myProjectManager = FwMenu.generateDropDownViewBtn('My Project Manager Orders', false, "PROJECTMANAGER");
+
+        const viewAgentItems: Array<JQuery> = [];
+        viewAgentItems.push($allAgents, $myAgent, $myProjectManager);
+        //FwMenu.addViewBtn(options.$menu, 'Agent', viewAgentItems, true, "AgentId");
     }
     //-----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
