@@ -742,6 +742,10 @@ class SalesInventory extends InventoryBase {
         let $confirmTrackedByField = $form.find('[data-datafield="ConfirmTrackedBy"]');
         $confirmTrackedByField.hide();
         FwFormField.setValue2($confirmTrackedByField, '');
+
+        if ($form.attr('data-opensearch') == 'true') {
+            RentalInventoryController.quikSearch($form.data('opensearch'));
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {

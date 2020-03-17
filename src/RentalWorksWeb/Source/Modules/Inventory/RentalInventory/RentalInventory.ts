@@ -574,6 +574,10 @@ class RentalInventory extends InventoryBase {
         let $confirmTrackedByField = $form.find('[data-datafield="ConfirmTrackedBy"]');
         $confirmTrackedByField.hide();
         FwFormField.setValue2($confirmTrackedByField, '');
+
+        if ($form.attr('data-opensearch') == 'true') {
+            this.quikSearch($form.data('opensearch'));
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -669,24 +673,42 @@ class RentalInventory extends InventoryBase {
                 let activeTabId = jQuery($form.find('[data-type="tab"].active')).attr('id');
                 (<any>window)[controllerName].saveForm($form, { closetab: false });
                 $form.attr('data-opensearch', 'true');
+                $form.data('opensearch', event);
                 $form.attr('data-searchtype', gridInventoryType);
                 $form.attr('data-activetabid', activeTabId);
+                FwNotification.renderNotification('WARNING', 'Saving record...')
+                return;
+            } else {
+                FwNotification.renderNotification('ERROR', 'Save the record before adding items.')
+                return;
+            }
+        } 
+
+        const classification = FwFormField.getValueByDataField($form, 'Classification');
+        if (classification == 'C') {
+            const $completeGrid = $form.find('[data-name="InventoryCompleteGrid"]');
+            if ($completeGrid.find('tbody tr:not(.empty)').length === 0) {
+                FwNotification.renderNotification('ERROR', 'Add a primary item manually before using QuikSearch.');
+                return;
             }
         }
         let type: string;
         const grid = jQuery(event.currentTarget).parents('[data-control="FwGrid"]').attr('data-grid');
         if (grid === 'InventoryKitGrid') {
-            type = 'Kit'
+            type = 'Kit';
         }
         if (grid === 'InventoryCompleteGrid') {
-            type = 'Complete'
+            type = 'Complete';
         }
         if (grid === 'InventoryContainerItemGrid') {
-            type = 'Container'
+            type = 'Container';
         }
         const id = FwFormField.getValueByDataField($form, 'InventoryId');
         const search = new SearchInterface();
         search.renderSearchPopup($form, id, type, gridInventoryType);
+
+        $form.removeData('opensearch');
+        $form.removeAttr('data-opensearch');
     }
     //----------------------------------------------------------------------------------------------
     openContainerBrowse($form: any) {
