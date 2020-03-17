@@ -833,7 +833,7 @@ class CustomForm {
                         e.stopPropagation();
                         originalHtml = e.currentTarget;
                         controlType = jQuery(originalHtml).attr('data-control');
-                        let properties = e.currentTarget.attributes;
+                        let properties = jQuery(e.currentTarget.attributes).sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));  //sorts attributes list
                         let html: any = [];
                         html.push(propertyContainerHtml);
                         for (let i = 0; i < properties.length; i++) {
@@ -990,6 +990,15 @@ class CustomForm {
                                             $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(datatype);
                                         }
                                     }
+                                    break;
+                                case 'data-datatype':
+                                case 'data-formdatatype':
+                                    $form.find(`#controlProperties .propname:contains('data-browsedatatype')`).siblings('.propval').find('select').val(value);
+                                case 'data-browsedatatype':
+                                    $form.find(`#controlProperties .propname:contains('data-formdatatype')`).siblings('.propval').find('select').val(value);
+                                    $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(value);
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr({'data-datatype': value, 'data-formdatatype': value, 'data-browsedatatype': value});
+                                    jQuery(originalHtml).attr({ 'data-datatype': value, 'data-formdatatype': value, 'data-browsedatatype': value });
                                     break;
                                 default:
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
