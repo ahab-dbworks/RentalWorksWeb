@@ -6,7 +6,7 @@ using WebApi.Data;
 
 namespace WebApi.Modules.Inventory.Repair
 {
-    [FwSqlTable("repairview")]
+    [FwSqlTable("repairwebview")]
     public class RepairBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -18,6 +18,9 @@ namespace WebApi.Modules.Inventory.Repair
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairno", modeltype: FwDataTypes.Text)]
         public string RepairNumber { get; set; }
@@ -97,9 +100,69 @@ namespace WebApi.Modules.Inventory.Repair
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "repairitemstatus", modeltype: FwDataTypes.Text)]
+        public string RepairItemStatus { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string InventoryType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pendingrepair", modeltype: FwDataTypes.Boolean)]
+        public bool? PendingRepair { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outsiderepair", modeltype: FwDataTypes.Boolean)]
+        public bool? OutsideRepair { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "damageorderno", modeltype: FwDataTypes.Text)]
+        public string DamageOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "damageorderdesc", modeltype: FwDataTypes.Text)]
+        public string DamageOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "damagescannedby", modeltype: FwDataTypes.Text)]
+        public string DamageScannedBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "damagecontractno", modeltype: FwDataTypes.Text)]
+        public string DamageContractNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "damagecontractdate", modeltype: FwDataTypes.Date)]
+        public string DamageContractDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billable", modeltype: FwDataTypes.Boolean)]
+        public bool? Billable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billabletext", modeltype: FwDataTypes.Text)]
+        public string BillableDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notbilled", modeltype: FwDataTypes.Boolean)]
+        public bool? NotBilled { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "priority", modeltype: FwDataTypes.Text)]
+        public string Priority { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "repairtype", modeltype: FwDataTypes.Text)]
+        public string RepairType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "popending", modeltype: FwDataTypes.Boolean)]
+        public bool? PoPending { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "duedate", modeltype: FwDataTypes.Date)]
+        public string DueDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "estimateby", modeltype: FwDataTypes.Text)]
+        public string EstimateBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "estimatedate", modeltype: FwDataTypes.Date)]
+        public string EstimateDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "completeby", modeltype: FwDataTypes.Text)]
+        public string CompleteBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "completedate", modeltype: FwDataTypes.Date)]
+        public string CompleteDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
