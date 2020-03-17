@@ -499,8 +499,8 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public virtual async Task<bool> LoadAsync<T>(object[] primaryKeyValues, FwSqlConnection conn = null)
         {
-            bool blLoaded = false;
-            bool recLoaded = false;
+            bool businessLogicLoaded = false;
+            bool recordLoaded = false;
             FwApplicationConfig tmpAppConfig = AppConfig;
             FwUserSession tmpUserSession = UserSession;
 
@@ -522,11 +522,11 @@ namespace FwStandard.BusinessLogic
                     afterMapArgs.Source = rec;
                     await AfterMapAsync(afterMapArgs);
 
-                    recLoaded = (rec != null);
+                    recordLoaded = (rec != null);
 
                     if (i == 0)
                     {
-                        blLoaded = recLoaded;
+                        businessLogicLoaded = recordLoaded;
                     }
                     i++;
                 }
@@ -537,7 +537,7 @@ namespace FwStandard.BusinessLogic
             {
                 dataLoader = await dataLoader.GetAsync<T>(primaryKeyValues, _Custom.CustomFields, conn);
 
-                blLoaded = (dataLoader != null);
+                businessLogicLoaded = (dataLoader != null);
                 Mapper.Map(dataLoader, this, opts =>
                 {
                     opts.ConfigureMap(MemberList.None);
@@ -551,7 +551,60 @@ namespace FwStandard.BusinessLogic
 
             }
 
-            return blLoaded;
+            //justin hoffman 03/18/2020 hopefully temporary while we figure out why AutoMapper is mapping all fields as NULL
+            ValidateMappedObject();
+
+            return businessLogicLoaded;
+        }
+        //------------------------------------------------------------------------------------
+        protected void ValidateMappedObject()
+        {
+            PropertyInfo[] properties = this.GetType().GetProperties();
+            List<PropertyInfo> nonPrimaryKeyFields = new List<PropertyInfo>();
+            foreach (PropertyInfo property in properties)
+            {
+                bool isPrimaryKey = false;
+                if (property.IsDefined(typeof(FwLogicPropertyAttribute)))
+                {
+                    foreach (Attribute attribute in property.GetCustomAttributes())
+                    {
+                        if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
+                        {
+                            FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
+
+                            if (businessLogicFieldAttribute.IsPrimaryKey)
+                            {
+                                isPrimaryKey = true;
+                            }
+                        }
+                    }
+                }
+
+                if (!isPrimaryKey)
+                {
+                    nonPrimaryKeyFields.Add(property);
+                }
+            }
+
+            if (nonPrimaryKeyFields.Count > 0)
+            {
+                bool allNullValues = true;
+                foreach (PropertyInfo property in nonPrimaryKeyFields)
+                {
+                    object propertyValue = property.GetValue(this);
+                    if (propertyValue != null)
+                    {
+                        allNullValues = false;
+                        break;
+                    }
+                }
+
+                if (allNullValues)
+                {
+                    throw new Exception($"Internal object mapping error in {this.BusinessLogicModuleName}.");
+                }
+            }
+
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<bool> LoadAsync<T>(FwSqlConnection conn = null)
