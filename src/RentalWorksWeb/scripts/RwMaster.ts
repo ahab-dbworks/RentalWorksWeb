@@ -534,7 +534,7 @@ class RwMaster extends WebMaster {
                         FwFunc.showError(ex);
                     }
                 });
-                FwFileMenu.UserControl_addSystemBarControl('dashboard', $settings, $usercontrol)
+                FwFileMenu.UserControl_addSystemBarControl('settings', $settings, $usercontrol)
             }
 
             const nodeReports = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
@@ -547,7 +547,7 @@ class RwMaster extends WebMaster {
                         FwFunc.showError(ex);
                     }
                 });
-                FwFileMenu.UserControl_addSystemBarControl('dashboard', $reports, $usercontrol);
+                FwFileMenu.UserControl_addSystemBarControl('reports', $reports, $usercontrol);
             }
         }
     }

@@ -6,7 +6,7 @@ class LogoSettings {
     caption: string = Constants.Modules.Settings.children.SystemSettings.children.LogoSettings.caption;
     nav: string = Constants.Modules.Settings.children.SystemSettings.children.LogoSettings.nav;
     id: string = Constants.Modules.Settings.children.SystemSettings.children.LogoSettings.id;
-    reportImageId: string = Constants.MainMenu.Reports.id;
+    reportImageId: string = Constants.Modules.Administrator.children.Reports.id;
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasNew = false;

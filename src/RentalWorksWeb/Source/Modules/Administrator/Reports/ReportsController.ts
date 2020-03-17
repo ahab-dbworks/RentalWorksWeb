@@ -3,7 +3,7 @@
     caption: string = Constants.Modules.Administrator.children.Reports.caption;
     nav: string = Constants.Modules.Administrator.children.Reports.nav
     id: string = Constants.Modules.Administrator.children.Reports.id;
-    reportsMenuId = Constants.MainMenu.Reports.id;
+    reportsMenuId = Constants.Modules.Administrator.children.Reports.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

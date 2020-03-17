@@ -6,10 +6,10 @@ var Constants = {
     //appTitle: 'Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span>',
     appTitle: 'Rental<span class="rwpurple">Works</span>',
     validationsWithPeeks: ['ContactValidation', 'CustomerValidation', 'DealValidation', 'OrderValidation', 'ProjectValidation', 'PurchaseOrderValidation', 'QuoteValidation', 'VendorValidation', 'AssetValidation', 'PartsInventoryValidation', 'RentalInventoryValidation', 'RepairOrderValidation', 'SalesInventoryValidation', 'GeneralItemValidation', 'ContractValidation', 'PickListValidation', 'ContainerValidation', 'InvoiceValidation', 'ReceiptValidation', 'CompanyValidation'],
-    MainMenu: {
-        Reports: { id: 'Reports' },
-        Settings: { id: 'Settings' }
-    },
+    //MainMenu: {
+    //    Reports: { id: 'Reports' },
+    //    Settings: { id: 'Settings' }
+    //},
     Modules: {
         Administrator: {
             id: 'Administrator',
@@ -24,8 +24,8 @@ var Constants = {
                 EmailHistory:       { id: '3XHEm3Q8WSD8z', caption: 'Email History',  nav: 'module/emailhistory', nodetype: 'Module' },
                 Group:              { id: '0vP4rXxgGL1M',  caption: 'Group',          nav: 'module/group', nodetype: 'Module' },
                 Hotfix:             { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',         nav: 'module/hotfix', nodetype: 'Module' },
-                Reports:            { id: '', caption: 'Reports', nav: 'module/reports', nodetype: 'Module' },
-                Settings:           { id: '', caption: 'Settings', nav: 'module/settings', nodetype: 'Module' },
+                Reports:            { id: 'Reports', caption: 'Reports', nav: 'module/reports', nodetype: 'Module' },
+                Settings:           { id: 'Settings', caption: 'Settings', nav: 'module/settings', nodetype: 'Module' },
                 User:               { id: 'r1fKvn1KaFd0u', caption: 'User',           nav: 'module/user', nodetype: 'Module' }
             }
         },
