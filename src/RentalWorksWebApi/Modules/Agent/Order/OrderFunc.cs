@@ -247,20 +247,20 @@ namespace WebApi.Modules.Agent.Order
             qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
 
             //pick
-            if (!change.OldPickDate.Equals(string.Empty)) { qry.AddParameter("@olddatepick", SqlDbType.Date, ParameterDirection.Input, change.OldPickDate); }
-            if (!change.NewPickDate.Equals(string.Empty)) { qry.AddParameter("@newdatepick", SqlDbType.Date, ParameterDirection.Input, change.NewPickDate); }
+            if (!string.IsNullOrEmpty(change.OldPickDate)) { qry.AddParameter("@olddatepick", SqlDbType.Date, ParameterDirection.Input, change.OldPickDate); }
+            if (!string.IsNullOrEmpty(change.NewPickDate)) { qry.AddParameter("@newdatepick", SqlDbType.Date, ParameterDirection.Input, change.NewPickDate); }
             qry.AddParameter("@oldtimepick", SqlDbType.NVarChar, ParameterDirection.Input, change.OldPickTime);
             qry.AddParameter("@newtimepick", SqlDbType.NVarChar, ParameterDirection.Input, change.NewPickTime);
 
             //from
-            if (!change.OldEstimatedStartDate.Equals(string.Empty)) { qry.AddParameter("@olddatefrom", SqlDbType.Date, ParameterDirection.Input, change.OldEstimatedStartDate); }
-            if (!change.NewEstimatedStartDate.Equals(string.Empty)) { qry.AddParameter("@newdatefrom", SqlDbType.Date, ParameterDirection.Input, change.NewEstimatedStartDate); }
+            if (!string.IsNullOrEmpty(change.OldEstimatedStartDate)) { qry.AddParameter("@olddatefrom", SqlDbType.Date, ParameterDirection.Input, change.OldEstimatedStartDate); }
+            if (!string.IsNullOrEmpty(change.NewEstimatedStartDate)) { qry.AddParameter("@newdatefrom", SqlDbType.Date, ParameterDirection.Input, change.NewEstimatedStartDate); }
             qry.AddParameter("@oldtimefrom", SqlDbType.NVarChar, ParameterDirection.Input, change.OldEstimatedStartTime);
             qry.AddParameter("@newtimefrom", SqlDbType.NVarChar, ParameterDirection.Input, change.NewEstimatedStartTime);
 
             //to
-            if (!change.OldEstimatedStopDate.Equals(string.Empty)) { qry.AddParameter("@olddateto", SqlDbType.Date, ParameterDirection.Input, change.OldEstimatedStopDate); }
-            if (!change.NewEstimatedStopDate.Equals(string.Empty)) { qry.AddParameter("@newdateto", SqlDbType.Date, ParameterDirection.Input, change.NewEstimatedStopDate); }
+            if (!string.IsNullOrEmpty(change.OldEstimatedStopDate)) { qry.AddParameter("@olddateto", SqlDbType.Date, ParameterDirection.Input, change.OldEstimatedStopDate); }
+            if (!string.IsNullOrEmpty(change.NewEstimatedStopDate)) { qry.AddParameter("@newdateto", SqlDbType.Date, ParameterDirection.Input, change.NewEstimatedStopDate); }
             qry.AddParameter("@oldtimeto", SqlDbType.NVarChar, ParameterDirection.Input, change.OldEstimatedStopTime);
             qry.AddParameter("@newtimeto", SqlDbType.NVarChar, ParameterDirection.Input, change.NewEstimatedStopTime);
             await qry.ExecuteNonQueryAsync();
