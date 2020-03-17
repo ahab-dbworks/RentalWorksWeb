@@ -27,10 +27,10 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         [FwSqlDataField(column: "hidezeroqty", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? HideZeroQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "defaultselect", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 25)]
+        [FwSqlDataField(column: "defaultselect", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string DefaultSelect { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "defaultsortby", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 25)]
+        [FwSqlDataField(column: "defaultsortby", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string DefaultSortBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
