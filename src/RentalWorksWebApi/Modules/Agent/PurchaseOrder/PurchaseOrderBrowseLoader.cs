@@ -62,6 +62,12 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "qtytobarcode", modeltype: FwDataTypes.Integer)]
         public int? QuantityToBarCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
+        public string PoTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
+        public string PoType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -139,12 +139,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "deptlocrequiresapproval", modeltype: FwDataTypes.Boolean)]
         public bool? DepartmentLocationRequiresApproval { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
-        public string PoTypeId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
-        public string PoType { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requiredbydate", modeltype: FwDataTypes.Date)]
         public string RequiredByDate { get; set; }
         //------------------------------------------------------------------------------------ 
