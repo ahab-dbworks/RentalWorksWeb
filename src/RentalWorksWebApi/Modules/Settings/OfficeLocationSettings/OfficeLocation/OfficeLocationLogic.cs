@@ -1,4 +1,5 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
@@ -14,6 +15,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         {
             dataRecords.Add(location);
             dataLoader = locationLoader;
+
+            AfterSave += OnAfterSave;
+            ForceSave = true;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "0Hj1fA4EoP7P", IsPrimaryKey: true)]
@@ -28,31 +32,31 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwLogicProperty(Id: "ZeOmhYbh0kY6D")]
         public string CompanyName { get { return location.CompanyName; } set { location.CompanyName = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "DyLYzbbaRHFCB")]
         public string Address1 { get { return location.Address1; } set { location.Address1 = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "WmcJsMTwldiwF")]
         public string Address2 { get { return location.Address2; } set { location.Address2 = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "p7WEwHOTr1vd2")]
         public string City { get { return location.City; } set { location.City = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "k3o1NoZTb7Oe4")]
         public string Zip { get { return location.Zip; } set { location.Zip = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "O5h4HpR8p6xRt")]
         public string State { get { return location.State; } set { location.State = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "AIAesoiOBJfUx")]
         public string CountryId { get { return location.CountryId; } set { location.CountryId = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxx", IsReadOnly: true)]
+        [FwLogicProperty(Id: "LVGrEQslMkIwE", IsReadOnly: true)]
         public string Country { get; set; }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "yl1dYckdmE8KZ")]
         public string Phone { get { return location.Phone; } set { location.Phone = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "gbmqrkj4A2auZ")]
         public string Fax { get { return location.Fax; } set { location.Fax = value; } }
 
         [FwLogicProperty(Id: "vkQn6TgUTnDWo")]
@@ -116,6 +120,14 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         public string DateStamp { get { return location.DateStamp; } set { location.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-    }
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            if (DefaultCurrencyId != null)
+            {
+                bool b = OfficeLocationFunc.SetOfficeLocationDefaultCurrency(AppConfig, UserSession, LocationId, DefaultCurrencyId, e.SqlConnection).Result;
+            }
+        }
+        //------------------------------------------------------------------------------------
 
+    }
 }
