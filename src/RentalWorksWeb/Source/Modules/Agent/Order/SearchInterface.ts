@@ -1464,6 +1464,8 @@ class SearchInterface {
                     }
                 })
         }
+
+        $popup.find('[data-datafield="SearchBox"] input').focus();
     }
     //----------------------------------------------------------------------------------------------
     addToOrder($popup: JQuery, $form: JQuery, actionType: string) {
