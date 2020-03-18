@@ -1,8 +1,8 @@
-﻿;(function ( $, window, document, undefined ) {
+﻿; (function ($, window, document, undefined) {
 
     "use strict";
 
-    var FwMobileSearch = function(element, options) {
+    var FwMobileSearch = function (element, options) {
         this._process_options(options);
         this.$element = $(element);
 
@@ -11,25 +11,25 @@
     };
 
     FwMobileSearch.prototype = {
-        constructor:        FwMobileSearch,
-        _searchCalled:      false,
-        _throttleTimer:     null,
-        _throttleDelay:     100,
-        _totalPages:        0,
-        _pageNo:            1,
+        constructor: FwMobileSearch,
+        _searchCalled: false,
+        _throttleTimer: null,
+        _throttleDelay: 100,
+        _totalPages: 0,
+        _pageNo: 1,
         _builtItemTemplate: null,
         _searchModesLookup: {},
-        _process_options: function(options) {
+        _process_options: function (options) {
             this._options = $.extend({}, this._options, options);
             if (this._options.cacheItemTemplate) {
                 this._builtItemTemplate = this._options.itemTemplate();
             }
             this._searchModesLookup = {};
-            for(var i = 0; i < this._options.searchModes.length; i++) {
+            for (var i = 0; i < this._options.searchModes.length; i++) {
                 this._searchModesLookup[this._options.searchModes[i].value] = this._options.searchModes[i];
             }
         },
-        _renderControl: function() {
+        _renderControl: function () {
             var html = [];
             this.$element.addClass('fwmobilesearch');
 
@@ -70,13 +70,13 @@
                 this.$element.find('.searchbox').addClass('toupper');
             }
         },
-        _bindEvents: function() {
-            var plugin    = this,
-                $window   = jQuery(window),
+        _bindEvents: function () {
+            var plugin = this,
+                $window = jQuery(window),
                 $document = jQuery(document);
 
             plugin.$element
-                .on('click', '.option', function() {
+                .on('click', '.option', function () {
                     try {
                         var $this = jQuery(this);
                         $this.siblings().removeClass('active');
@@ -84,16 +84,16 @@
                         plugin._options.currentMode = $this.attr('data-value');
                         plugin.$element.attr('data-mode', plugin._options.currentMode);
                         plugin.$element.find('.searchbox').attr('placeholder', $this.attr('data-placeholder'))
-                                                          .select();
+                            .select();
                         //plugin._clearSearchResults();
                         if (typeof plugin._searchModesLookup[plugin._options.currentMode].click === 'function') {
                             plugin._searchModesLookup[plugin._options.currentMode].click();
                         }
-                    } catch(ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 })
-                .on('change', '.searchbox', function() {
+                .on('change', '.searchbox', function () {
                     try {
                         if (this.value !== '') {
                             plugin.$element.find('.clear').addClass('visible');
@@ -104,64 +104,64 @@
                             plugin._clearSearchResults();
                             plugin._search();
                         }
-                    } catch(ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 })
-                .on('blur', '.searchbox', function() {
+                .on('blur', '.searchbox', function () {
                     try {
                         plugin._searchCalled = false;
-                    } catch(ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 })
-                .on('input', '.searchbox', function() {
+                .on('input', '.searchbox', function () {
                     try {
                         if (this.value !== '') {
                             plugin.$element.find('.clear').addClass('visible');
                         } else {
                             plugin.$element.find('.clear').removeClass('visible');
                         }
-                    } catch(ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 })
-                .on('keydown', function(event) {
+                .on('keydown', function (event) {
                     try {
                         if (event.keyCode === 13) {
                             plugin._searchCalled = true;
                             plugin._clearSearchResults();
                             plugin._search();
                         }
-                    } catch(ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 })
-                .on('click', '.pager', function() {
+                .on('click', '.pager', function () {
                     try {
                         plugin._nextpage();
-                    } catch(ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 })
-                .on('click', '.clear', function() {
+                .on('click', '.clear', function () {
                     try {
                         plugin.$element.find('.searchbox').val('').focus();
                         $(this).removeClass('visible');
-                    } catch(ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 })
-            ;
+                ;
         },
-        _load: function(searchresults) {
+        _load: function (searchresults) {
             var $record, plugin;
             plugin = this;
             if (searchresults !== null) {
                 this._totalPages = searchresults.TotalPages;
                 jQuery(window).off('scroll');
                 if (this._totalPages > 1) {
-                    jQuery(window).on('scroll', function() {
+                    jQuery(window).on('scroll', function () {
                         var $window = jQuery(window);
                         var $document = jQuery(document);
                         clearTimeout(plugin._throttleTimer);
@@ -186,13 +186,13 @@
                         $record.css({ 'cursor': 'pointer' });
                     }
                     $record.data('recorddata', itemmodel);
-                    $record.on('click', function(e) {
+                    $record.on('click', function (e) {
                         try {
                             jQuery(window).off('scroll');
                             if (typeof plugin._options.recordClick === 'function') {
                                 plugin._options.recordClick.call(plugin, $(this).data('recorddata'), $(this), e);
                             }
-                        } catch(ex) {
+                        } catch (ex) {
                             FwFunc.showError(ex);
                         }
                     });
@@ -201,14 +201,14 @@
             }
             this._updateSearchFooter(searchresults);
         },
-        _clearSearchResults: function() {
+        _clearSearchResults: function () {
             this._totalPages = 0;
-            this._pageNo     = 1;
+            this._pageNo = 1;
             this.$element.find('.searchresults').empty();
             this.$element.find('.searchfooter .recordcount').empty();
             this.$element.find('.searchfooter .pager').empty();
         },
-        _updateSearchFooter: function(searchresults) {
+        _updateSearchFooter: function (searchresults) {
             if (searchresults.PageNo < searchresults.TotalPages) {
                 this.$element.find('.searchfooter .recordcount').html(searchresults.PageNo * searchresults.PageSize + ' of ' + searchresults.TotalRows + ' items');
                 var remaining = searchresults.TotalRows - (searchresults.PageNo * searchresults.PageSize);
@@ -222,7 +222,7 @@
                 this.$element.find('.searchfooter .pager').empty();
             }
         },
-        _search: function() {
+        _search: function () {
             var plugin = this;
             plugin.$element.find('.searchbox').blur();
             plugin._options.beforeSearch();
@@ -230,29 +230,29 @@
             if ((typeof plugin._options.currentMode === 'string') && (typeof plugin._searchModesLookup[typeof plugin._options.currentMode] === 'object')) {
                 plugin._searchModesLookup[plugin._options.currentMode].search;
             }
-            var hasCustomSearch  = typeof funcCustomSearch === 'function';
-            var searchvalue      = plugin.$element.find('.searchbox').val();
+            var hasCustomSearch = typeof funcCustomSearch === 'function';
+            var searchvalue = plugin.$element.find('.searchbox').val();
             if (hasCustomSearch) {
                 funcCustomSearch(searchvalue);
             } else {
-                plugin._options.request             = plugin._options.getRequest();
+                plugin._options.request = plugin._options.getRequest();
                 plugin._options.request.searchvalue = searchvalue;
-                plugin._options.request.searchmode  = plugin._options.currentMode;
-                plugin._options.request.pagesize    = plugin._options.pageSize;
-                plugin._options.request.pageno      = plugin._pageNo;
-                FwServices.callMethod(plugin._options.service, plugin._options.method, plugin._options.request, plugin._options.queryTimeout, null, function(response) {
+                plugin._options.request.searchmode = plugin._options.currentMode;
+                plugin._options.request.pagesize = plugin._options.pageSize;
+                plugin._options.request.pageno = plugin._pageNo;
+                FwServices.callMethod(plugin._options.service, plugin._options.method, plugin._options.request, plugin._options.queryTimeout, null, function (response) {
                     try {
                         plugin._load(response.searchresults);
                         plugin._options.afterLoad(plugin, response);
-                    } catch(ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 });
             }
         },
-        _nextpage: function() {
+        _nextpage: function () {
             var plugin = this;
-            var pageno     = plugin._pageNo + 1;
+            var pageno = plugin._pageNo + 1;
             var totalpages = plugin._totalPages;
             if (pageno <= totalpages) {
                 plugin._pageNo = pageno;
@@ -260,21 +260,21 @@
             }
         },
 
-        search: function() {
+        search: function () {
             this._clearSearchResults();
             this._search();
         },
-        load: function(searchresults) {
+        load: function (searchresults) {
             this._clearSearchResults();
             this._load(searchresults);
         },
-        destroy: function() {
+        destroy: function () {
             jQuery(window).off('scroll');
         },
-        setsearchmode: function(searchmode) {
+        setsearchmode: function (searchmode) {
             this.$element.find('.option[data-value="' + searchmode + '"]').trigger('click');
         },
-        clearsearchresults: function() {
+        clearsearchresults: function () {
             this._clearSearchResults();
         },
         clearsearchbox: function () {
@@ -291,11 +291,11 @@
         }
     };
 
-    $.fn.fwmobilesearch = function(option) {
+    $.fn.fwmobilesearch = function (option) {
         var args = Array.apply(null, arguments);
         args.shift();
         var internal_return;
-        this.each(function(){
+        this.each(function () {
             var $this = $(this),
                 data = $this.data('fwmobilesearch'),
                 options = typeof option === 'object' && option;
@@ -303,7 +303,7 @@
                 var opts = $.extend({}, defaults, options); // Options priority: js args, defaults
                 $this.data('fwmobilesearch', (data = new FwMobileSearch(this, opts)));
             }
-            if (typeof option === 'string' && typeof data[option] === 'function'){
+            if (typeof option === 'string' && typeof data[option] === 'function') {
                 internal_return = data[option].apply(data, args);
                 if (internal_return !== undefined)
                     return false;
@@ -316,22 +316,21 @@
     };
 
     var defaults = $.fn.fwmobilesearch.defaults = {
-        service:           '',
-        method:            '',
-        placeholder:       '',
-        currentMode:       '',
-        searchModes:       [],
-        upperCase:         false,
-        getRequest:        function() { return {}; },
-        request:           {},
+        service: '',
+        method: '',
+        placeholder: '',
+        currentMode: '',
+        searchModes: [],
+        upperCase: false,
+        getRequest: function () { return {}; },
+        request: {},
         cacheItemTemplate: false,
-        itemTemplate:      function(itemmodel) { return ''; },
-        beforeSearch:      function() {},
-        pageSize:          100,
-        recordClick:       null,
-        queryTimeout:      null,
+        itemTemplate: function (itemmodel) { return ''; },
+        beforeSearch: function () { },
+        pageSize: 100,
+        recordClick: null,
+        queryTimeout: null,
         afterLoad: function (plugin, response) { }
     };
 
-})( jQuery, window, document );
- 
+})(jQuery, window, document);
