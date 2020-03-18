@@ -19,7 +19,10 @@ namespace WebApi.Modules.Settings.Rate
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string InventoryId { get; set; } = "";
+        public string RateId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string RateType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
         public string AvailFor { get; set; }

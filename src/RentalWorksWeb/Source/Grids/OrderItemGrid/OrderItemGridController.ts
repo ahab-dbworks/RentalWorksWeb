@@ -398,12 +398,16 @@ class OrderItemGrid {
                     case 'L':
                         if (rateType == 'DAILY') {
                             rateFieldName = 'DailyRate';
+                            costFieldName = 'DailyCost';
                         } else if (rateType == 'WEEKLY') {
                             rateFieldName = 'WeeklyRate';
+                            costFieldName = 'WeeklyCost';
                         } else if (rateType == '3WEEK') {
                             rateFieldName = 'WeeklyRate';
+                            costFieldName = 'WeeklyCost';
                         } else if (rateType == 'MONTHLY') {
                             rateFieldName = 'MonthlyRate';
+                            costFieldName = 'MonthlyCost';
                         }
                         break;
                     case 'RS':
@@ -413,15 +417,24 @@ class OrderItemGrid {
 
                 }
 
-                if (costFieldName) {
-                    const cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
-                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost, text: cost });
+                let rate;
+                let cost;
+                let laborMiscRateType;
+                if (recType === 'L' || recType === 'M') {
+                    laborMiscRateType = FwBrowse.getValueByDataField($control, $tr, 'RateType');
+                    if (laborMiscRateType == 'SINGLE') {
+                        rate = FwBrowse.getValueByDataField($control, $tr, 'Price');
+                        cost = FwBrowse.getValueByDataField($control, $tr, 'AverageCost');
+                    } else {
+                        cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
+                        rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                    }
+                } else {
+                    cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
+                    rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
                 }
-
-                if (rateFieldName) {
-                    const rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
-                    FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
-                }
+                FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost, text: cost });
+                FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
 
                 const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
                 FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable });
