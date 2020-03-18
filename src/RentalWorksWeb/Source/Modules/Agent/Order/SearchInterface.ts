@@ -662,12 +662,12 @@ class SearchInterface {
             let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
             let imageId        = response.Rows[i][appImageId] ? response.Rows[i][appImageId] : '';
             let rate;
-            if (inventoryType === 'L' || inventoryType === 'M') {
+            if (inventoryType === 'S' || inventoryType === 'L' || inventoryType === 'M') {
                 rate = Number(response.Rows[i][priceIndex]).toFixed(2);
             } else {
                 rate = Number(response.Rows[i][dailyRate]).toFixed(2);
             }
-
+            
             let conflictdate = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
 
             let itemhtml = `<div class="item-container" data-classification="${response.Rows[i][classificationIndex]}">
