@@ -855,8 +855,8 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public void SearchLocations(dynamic request, dynamic response, dynamic session)
         {
-            response.locations = CheckIn.SearchOrderLocations(orderid:     request.orderid,
-                                                              searchvalue: request.searchvalue);
+            response.locations = SearchOrderLocations(orderid:     request.orderid,
+                                                      searchvalue: request.searchvalue);
         }
         //----------------------------------------------------------------------------------------------------
         public static dynamic SearchOrderLocations(string orderid, string searchvalue)

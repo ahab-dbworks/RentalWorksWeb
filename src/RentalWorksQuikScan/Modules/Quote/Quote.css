@@ -24,3 +24,18 @@
 #quote #item-search-by-description .item-search-items .item.selected {background-color: rgba(33, 150, 243, 0.5);}
 #quote #item-search-by-description .item-search-items .item.selected .row1 {background-color: rgba(33, 150, 243, 0.5);}
 #quote #item-search-by-description .item-search-items .zeroitems {text-align:center;padding:10px 0;}
+
+#quote #quote-orderlocation {display:none;}
+#quote #quote-orderlocation .orderlocations {background-color: #212121;padding:5px;}
+#quote #quote-orderlocation .orderlocations .location {padding: 0 0 12px 0;cursor:pointer;}
+#quote #quote-orderlocation .orderlocations .location.selected {background-color: rgba(33, 150, 243, 0.5);}
+#quote #quote-orderlocation .orderlocations .location.selected .row1 {background-color: rgba(33, 150, 243, 0.5);}
+#quote #quote-orderlocation .orderlocations .zeroitems {text-align:center;padding:10px 0;}
+#quote #quote-orderlocation .orderlocations .location .row1 {font-size:12px;font-weight: bold;padding: 2px 5px;background-color: #424242;}
+#quote #quote-orderlocation .orderlocations .location .row2,
+#quote #quote-orderlocation .orderlocations .location .row3 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
+#quote #quote-orderlocation .orderlocations .location .col1 {flex: 1 1 0;}
+#quote #quote-orderlocation .orderlocations .location .col2 {flex: 1 1 0;}
+#quote #quote-orderlocation .orderlocations .location .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
+#quote #quote-orderlocation .orderlocations .location .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
+#quote #quote-orderlocation .orderlocations .location .value {flex: 1 1 0;font-size:.625em;}

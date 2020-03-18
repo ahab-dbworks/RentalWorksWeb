@@ -1,6 +1,7 @@
 ﻿var RwQuote = {};
 //----------------------------------------------------------------------------------------------
 RwQuote.getQuoteScreen = function(viewModel, properties) {
+    var locationdata = null, moduleproperties = null;
     var combinedViewModel = jQuery.extend({
         captionPageTitle:         (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order')) + ' ' + 'No: ' + properties.orderno,
         captionPageSubTitle:      '<div class="title">' + properties.description + '</div>',
@@ -77,6 +78,34 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                 state:       0,
                 menuoptions: [
                     {
+                        id:      'submitcreatecontract',
+                        caption: 'Submit & Create Contract',
+                        buttonclick: function () {
+                            var request = {
+                                orderid:        properties.orderid,
+                                createcontract: 'T'
+                            };
+                            if (sessionStorage.getItem('sessionLock') === 'true') {
+                                FwFunc.showMessage('Navigation is locked.');
+                            } else {
+                                RwServices.callMethod("Quote", "SubmitQuote", request, function(response) {
+                                    try {
+                                        if (response.submit.errno != 0) {
+                                            FwFunc.showError(response.submit.errmsg);
+                                        } else {
+                                            var ordertypetext = (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order'));
+                                            FwFunc.showMessage(ordertypetext + ' Submitted.', function() {
+                                                program.navigate('home/home');
+                                            });
+                                        }
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    {
                         id:      'cancel',
                         caption: 'Cancel' + ((properties.ordertype === 'Q') ? ' Quote' : ' Order'),
                         buttonclick: function() {
@@ -114,6 +143,14 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                             $quotemain.hide();
                             $itemsearch.showscreen();
                         }
+                    },
+                    {
+                        id:      'selectorderlocation',
+                        caption: 'Select Order Location',
+                        buttonclick: function() {
+                            $quotemain.hide();
+                            $orderlocation.showscreen();
+                        }
                     }
                 ]
             },
@@ -124,7 +161,8 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                 state:       0,
                 buttonclick: function () {
                     var request = {
-                        orderid: properties.orderid
+                        orderid:        properties.orderid,
+                        createcontract: 'F'
                     };
                     if (sessionStorage.getItem('sessionLock') === 'true') {
                         FwFunc.showMessage('Navigation is locked.');
@@ -218,7 +256,8 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                 if (value !== '') {
                     var request = {
                         orderid:      properties.orderid,
-                        enteredvalue: value
+                        enteredvalue: value,
+                        locationdata: screen._locationdata()
                     };
                     RwServices.callMethod("Quote", "ScanItem", request, function(response) {
                         try {
@@ -262,7 +301,8 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                 var request = {
                     orderid:      properties.orderid,
                     masterno:     iteminfo.masterNo,
-                    qty:          qtyValue
+                    qty:          qtyValue,
+                    locationdata: screen._locationdata()
                 };
                 RwServices.callMethod("Quote", "AddItem", request, function(response) {
                     try {
@@ -348,7 +388,8 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
             orderid:      properties.orderid,
             masterno:     masterNo,
             qty:          qtyValue,
-            masteritemid: masterItemId
+            masteritemid: masterItemId,
+            locationdata: screen._locationdata()
         };
         RwServices.callMethod("Quote", "UpdateItem", request, function(response) {
             try {
@@ -360,6 +401,14 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                 FwFunc.showError(ex);
             }
         });
+    };
+
+    screen._locationdata = function(locationData) {
+        if (locationData) {
+            locationdata = locationData;
+        } else {
+            return locationdata;
+        }
     };
 
     var $itemsearch = screen.$view.find('#item-search-by-description');
@@ -445,12 +494,113 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
         $itemsearch.show();
     }
 
+    const $orderlocation = screen.$view.find('#quote-orderlocation');
+    $orderlocation.find('#orderlocationcontroller').fwmobilemodulecontrol({
+        buttons: [
+            {
+                caption:     'Back',
+                orientation: 'left',
+                icon:        '&#xE5CB;', //chevron_left
+                state:       0,
+                buttonclick: function () {
+                    $orderlocation.hide();
+                    $quotemain.show();
+                }
+            },
+            {
+                caption:     'Select Location',
+                orientation: 'right',
+                icon:        '&#xE5CC;', //chevron_right
+                state:       0,
+                buttonclick: function () {
+                    var locationdata = $orderlocation.find('.location.selected').data('recorddata');
+                    if (locationdata != null) {
+                        screen._locationdata(locationdata);
+                        $orderlocation.hide();
+                        $quotemain.show();
+                    } else {
+                        FwNotification.renderNotification('ERROR', 'Select a location.')
+                    }
+                }
+            }
+        ]
+    });
+    $orderlocation.showscreen = function () {
+        $orderlocation.show();
+        $orderlocation.searchlocation('');
+    };
+    $orderlocation.searchlocation = function (searchvalue) {
+        var request = {
+            orderid:     properties.orderid,
+            searchvalue: searchvalue
+        };
+        RwServices.callMethod("Quote", "SearchLocations", request, function(response) {
+            $orderlocation.find('.orderlocations').empty();
+            if (response.locations.length > 0) {
+                for (var item of response.locations) {
+                    var html = [];
+                    html.push('<div class="location">');
+                    html.push(`  <div class="row1"><div class="title">${item.location}</div></div>`);
+                    html.push('  <div class="row2">');
+                    html.push('    <div class="col1">');
+                    html.push('      <div class="datafield masterno">');
+                    html.push('        <div class="caption">Building:</div>');
+                    html.push(`        <div class="value">${item.building}</div>`);
+                    html.push('      </div>');
+                    html.push('    </div>');
+                    html.push('    <div class="col2">');
+                    html.push('      <div class="datafield rate">');
+                    html.push('        <div class="caption">Floor:</div>');
+                    html.push(`        <div class="value">${item.floor}</div>`);
+                    html.push('      </div>');
+                    html.push('    </div>');
+                    html.push('  </div>');
+                    html.push('  <div class="row3">');
+                    html.push('    <div class="col1">');
+                    html.push('      <div class="datafield masterno">');
+                    html.push('        <div class="caption">Space:</div>');
+                    html.push(`        <div class="value">${item.space}</div>`);
+                    html.push('      </div>');
+                    html.push('    </div>');
+                    html.push('  </div>');
+                    html.push('</div>');
+                    var $item = jQuery(html.join(''));
+                    $item.data('recorddata', item);
+
+                    $orderlocation.find('.orderlocations').append($item);
+                }
+            } else {
+                var $zeroitems = jQuery('<div class="zeroitems">0 Locations Found</div>');
+                $orderlocation.find('.orderlocations').append($zeroitems);
+            }
+        });
+    };
+    $orderlocation
+        .on('change', '.fwmobilecontrol-value', function () {
+            var value = jQuery(this).val();
+            if (value != '') {
+                $orderlocation.searchlocation(value);
+            }
+        })
+        .on('click', '.location', function () {
+            var $this = jQuery(this);
+            $this.siblings().removeClass('selected');
+            $this.addClass('selected');
+        })
+    ;
+
     screen.load = function() {
         program.setScanTarget('#scanBarcodeView-txtBarcodeData');
         program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData', true);
         if (!Modernizr.touch) {
             jQuery('#scanBarcodeView-txtBarcodeData').select();
         }
+
+        RwServices.callMethod("Quote", "LoadModuleProperties", {}, function(response) {
+            moduleproperties = response;
+            var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
+            $quotemain.find('#quotecontrol').fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
+        });
 
         $quotemain.find('#item-list').fwmobilesearch('search');
     };

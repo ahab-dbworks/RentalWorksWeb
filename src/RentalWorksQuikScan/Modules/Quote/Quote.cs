@@ -13,6 +13,12 @@ namespace RentalWorksQuikScan.Modules
     {
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
+        public void LoadModuleProperties(dynamic request, dynamic response, dynamic session)
+        {
+            response.syscontrol = LoadSysControlValues();
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
         public static void LoadItems(dynamic request, dynamic response, dynamic session)
         {
             FwSqlSelect select = new FwSqlSelect();
@@ -55,21 +61,27 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public static void AddItem(dynamic request, dynamic response, dynamic session)
         {
-            response.insert = QSInsertMasterItem(orderid:      request.orderid,
-                                                 barcode:      request.masterno,
-                                                 qtyordered:   request.qty,
-                                                 webusersid:   session.security.webUser.webusersid,
-                                                 masteritemid: "");
+            response.insert = QSInsertMasterItem(orderid:          request.orderid,
+                                                 barcode:          request.masterno,
+                                                 qtyordered:       request.qty,
+                                                 webusersid:       session.security.webUser.webusersid,
+                                                 masteritemid:     "",
+                                                 spaceid:          (request.locationdata != null) ? request.locationdata.spaceid : "",
+                                                 spacetypeid:      (request.locationdata != null) ? request.locationdata.spacetypeid : "",
+                                                 facilitiestypeid: (request.locationdata != null) ? request.locationdata.facilitiestypeid : "");
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
         public static void UpdateItem(dynamic request, dynamic response, dynamic session)
         {
-            response.update = QSInsertMasterItem(orderid:      request.orderid,
-                                                 barcode:      request.masterno,
-                                                 qtyordered:   request.qty,
-                                                 webusersid:   session.security.webUser.webusersid,
-                                                 masteritemid: request.masteritemid);
+            response.update = QSInsertMasterItem(orderid:          request.orderid,
+                                                 barcode:          request.masterno,
+                                                 qtyordered:       request.qty,
+                                                 webusersid:       session.security.webUser.webusersid,
+                                                 masteritemid:     request.masteritemid,
+                                                 spaceid:          (request.locationdata != null) ? request.locationdata.spaceid : "",
+                                                 spacetypeid:      (request.locationdata != null) ? request.locationdata.spacetypeid : "",
+                                                 facilitiestypeid: (request.locationdata != null) ? request.locationdata.facilitiestypeid : "");
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -85,8 +97,9 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public static void SubmitQuote(dynamic request, dynamic response, dynamic session)
         {
-            response.submit = QSSubmitQuote(orderid:    request.orderid,
-                                            webusersid: session.security.webUser.webusersid);
+            response.submit = QSSubmitQuote(orderid:        request.orderid,
+                                            webusersid:     session.security.webUser.webusersid,
+                                            createcontract: request.createcontract);
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -117,17 +130,20 @@ namespace RentalWorksQuikScan.Modules
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        public static dynamic QSInsertMasterItem(string orderid, string barcode, int qtyordered, string masteritemid, string webusersid)
+        public static dynamic QSInsertMasterItem(string orderid, string barcode, int qtyordered, string masteritemid, string webusersid, string spaceid, string spacetypeid, string facilitiestypeid)
         {
             dynamic result = new ExpandoObject();
             FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.qsinsertmasteritem");
-            sp.AddParameter("@orderid",      orderid);
-            sp.AddParameter("@barcode",      barcode);
-            sp.AddParameter("@qtyordered",   qtyordered);
-            sp.AddParameter("@webusersid",   webusersid);
-            sp.AddParameter("@masteritemid", SqlDbType.Char,    ParameterDirection.InputOutput, masteritemid);
-            sp.AddParameter("@errno",        SqlDbType.Int,     ParameterDirection.Output);
-            sp.AddParameter("@errmsg",       SqlDbType.VarChar, ParameterDirection.Output);
+            sp.AddParameter("@orderid",          orderid);
+            sp.AddParameter("@barcode",          barcode);
+            sp.AddParameter("@qtyordered",       qtyordered);
+            sp.AddParameter("@webusersid",       webusersid);
+            sp.AddParameter("@spaceid",          spaceid);
+            sp.AddParameter("@spacetypeid",      spacetypeid);
+            sp.AddParameter("@facilitiestypeid", facilitiestypeid);
+            sp.AddParameter("@masteritemid",     SqlDbType.Char,    ParameterDirection.InputOutput, masteritemid);
+            sp.AddParameter("@errno",            SqlDbType.Int,     ParameterDirection.Output);
+            sp.AddParameter("@errmsg",           SqlDbType.VarChar, ParameterDirection.Output);
             try
             {
                 sp.Execute();
@@ -168,13 +184,14 @@ namespace RentalWorksQuikScan.Modules
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        public static dynamic QSSubmitQuote(string orderid, string webusersid)
+        public static dynamic QSSubmitQuote(string orderid, string webusersid, string createcontract)
         {
             FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.qssubmitquote");
-            sp.AddParameter("@orderid",      orderid);
-            sp.AddParameter("@webusersid",   webusersid);
-            sp.AddParameter("@errno",        SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@errmsg",       SqlDbType.VarChar,  ParameterDirection.Output);
+            sp.AddParameter("@orderid",        orderid);
+            sp.AddParameter("@webusersid",     webusersid);
+            sp.AddParameter("@createcontract", createcontract);
+            sp.AddParameter("@errno",          SqlDbType.Int,      ParameterDirection.Output);
+            sp.AddParameter("@errmsg",         SqlDbType.VarChar,  ParameterDirection.Output);
             sp.Execute();
 
             dynamic result = new ExpandoObject();
@@ -241,6 +258,73 @@ namespace RentalWorksQuikScan.Modules
             qry.Add("order by master");
             qry.AddParameter("@warehouseid", warehouseid);
             result = qry.QueryToDynamicList2();
+
+            return result;
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public void SearchLocations(dynamic request, dynamic response, dynamic session)
+        {
+            response.locations = SearchOrderLocations(orderid:     request.orderid,
+                                                      searchvalue: request.searchvalue);
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static dynamic SearchOrderLocations(string orderid, string searchvalue)
+        {
+            dynamic result               = new ExpandoObject();
+            FwSqlCommand qry             = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            string includefacilitiestype = "F";
+            dynamic applicationoptions   = FwSqlData.GetApplicationOptions(FwSqlConnection.RentalWorks);
+            string[] searchvalues        = searchvalue.Split(' ');
+
+            if (applicationoptions.facilities.enabled)
+            {
+                dynamic controlresult = LoadSysControlValues();
+
+                if ((controlresult.itemsinrooms == "T") && (controlresult.facilitytypeincurrentlocation == "T"))
+                {
+                    includefacilitiestype = "T";
+                }
+            }
+
+            qry.Add("select *");
+            qry.Add("  from dbo.funcorderspacelocation(@orderid, @includefacilitiestype)");
+            qry.Add(" where orderid = orderid");
+
+            if (searchvalues.Length == 1)
+            {
+                qry.Add("   and location like '%' + @searchvalue + '%'");
+                qry.AddParameter("@searchvalue", searchvalues[0]);
+            }
+            else
+            {
+                qry.Add("   and (");
+                for (int i = 0; i < searchvalues.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        qry.Add(" and ");
+                    }
+                    qry.Add("(location like '%' + @searchvalue" + i + " + '%')");
+                    qry.AddParameter("@searchvalue" + i, searchvalues[i]);
+                }
+                qry.Add(")");
+            }
+
+            qry.AddParameter("@orderid",               orderid);
+            qry.AddParameter("@includefacilitiestype", includefacilitiestype);
+            result = qry.QueryToDynamicList2();
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static dynamic LoadSysControlValues()
+        {
+            FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("select top 1 itemsinrooms, facilitytypeincurrentlocation");
+            qry.Add("  from syscontrol with (nolock)");
+            qry.Add(" where controlid = '1'");
+            dynamic result = qry.QueryToDynamicObject2();
 
             return result;
         }
