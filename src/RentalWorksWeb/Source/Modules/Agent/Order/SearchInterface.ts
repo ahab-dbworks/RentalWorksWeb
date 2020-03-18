@@ -101,8 +101,8 @@ class SearchInterface {
                                       <div class="columnorder hideColumns" data-column="Available">Available</div>
                                       <div class="columnorder hideColumns" data-column="ConflictDate">Conflict Date</div>
                                       <div class="columnorder hideColumns" data-column="AllWh">All Warehouses</div>
-                                      <div class="columnorder hideColumns" data-column="In">In</div>
-                                      <div class="columnorder hideColumns" data-column="QC">QC</div>
+                                      <div class="columnorder" data-column="In">In</div>
+                                      <div class="columnorder" data-column="QC">QC</div>
                                       <div class="columnorder" style="display:none;" data-column="Note">Note</div>
                                       <div class="columnorder" data-column="Rate">Rate</div>
                                     </div>
@@ -690,8 +690,8 @@ class SearchInterface {
                                 <div data-column="PartNumber" class="columnorder"><div class="gridcaption">Part Number</div><div class="value">${response.Rows[i][partNumber]}</div></div>
                                 <div data-column="ConflictDate" class="columnorder hideColumns"><div class="gridcaption">Conflict</div><div class="value">${conflictdate}</div></div>
                                 <div data-column="AllWh" class="columnorder hideColumns"><div class="gridcaption">Available</div><div class="available-color value">${response.Rows[i][quantityAvailableAllWh]}</div></div>
-                                <div data-column="In" class="columnorder hideColumns"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
-                                <div data-column="QC" class="columnorder hideColumns"><div class="gridcaption">QC</div><div class="value">${response.Rows[i][quantityQcRequired]}</div></div>
+                                <div data-column="In" class="columnorder"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
+                                <div data-column="QC" class="columnorder"><div class="gridcaption">QC</div><div class="value">${response.Rows[i][quantityQcRequired]}</div></div>
                                 <div data-column="Note" class="columnorder note-button" style="display:none;"><div class="gridcaption">Note</div><textarea class="value">${response.Rows[i][note]}</textarea>${response.Rows[i][note].length > 0 ? '<i class="material-icons">insert_drive_file</i>' : ''}</div>
                                 <div data-column="Rate" class="columnorder rate"><div class="gridcaption">Rate</div><div class="value">${rate}</div> </div>
                                 <div data-column="Quantity" class="columnorder">
@@ -1659,8 +1659,8 @@ class SearchInterface {
                                            <div class="columnorder hideColumns" data-column="Available">Available</div>
                                            <div class="columnorder hideColumns" data-column="ConflictDate">Conflict <div>Date</div></div>
                                            <div class="columnorder hideColumns" data-column="AllWh"></div>
-                                           <div class="columnorder hideColumns" data-column="In">In</div>
-                                           <div class="columnorder hideColumns" data-column="QC"></div>
+                                           <div class="columnorder" data-column="In">In</div>
+                                           <div class="columnorder" data-column="QC"></div>
                                            <div class="columnorder note-button" style="display:none;" data-column="Note"></div>
                                            <div class="columnorder" data-column="Rate"></div>
                                          </div>`;
@@ -1679,6 +1679,7 @@ class SearchInterface {
             const descriptionIndex                 = response.ColumnIndex.Description;
             const qtyIndex                         = response.ColumnIndex.Quantity;
             const qtyInIndex                       = response.ColumnIndex.QuantityIn;
+            const quantityQcRequired               = response.ColumnIndex.QuantityQcRequired;
             const qtyAvailIndex                    = response.ColumnIndex.QuantityAvailable;
             const qtyAvailableAllWhIndex           = response.ColumnIndex.QuantityAvailableAllWarehouses;
             const conflictIndex                    = response.ColumnIndex.ConflictDate;
@@ -1731,13 +1732,13 @@ class SearchInterface {
                                        <div class="columnorder hideColumns" data-column="Available"><div class="available-color value">${response.Rows[i][qtyAvailIndex]}</div></div>
                                        <div class="columnorder hideColumns" data-column="ConflictDate">${conflictdate}</div>
                                        <div class="columnorder hideColumns" data-column="AllWh"><div class="available-color value">${response.Rows[i][qtyAvailableAllWhIndex]}</div></div>
-                                       <div class="hideColumns columnorder" data-column="In">${response.Rows[i][qtyInIndex]}</div>
+                                       <div class="columnorder" data-column="In">${response.Rows[i][qtyInIndex]}</div>
                                        <div class="columnorder" data-column="Type"></div>
                                        <div class="columnorder" data-column="Category"></div>
                                        <div class="columnorder" data-column="SubCategory"></div>
                                        <div class="columnorder note-button" data-column="Note"><textarea class="value">${response.Rows[i][note]}</textarea>${response.Rows[i][note].length > 0 ? '<i class="material-icons">insert_drive_file</i>' : ''}</div>
                                        <div class="columnorder" data-column="Rate"></div>
-                                       <div class="columnorder hideColumns" data-column="QC"></div>
+                                       <div class="columnorder" data-column="QC">${response.Rows[i][quantityQcRequired]}</div>
                                      </div>`;
                 let $itemaccessoryinfo = jQuery(accessoryhtml);
                 accessoryContainer.append($itemaccessoryinfo);
