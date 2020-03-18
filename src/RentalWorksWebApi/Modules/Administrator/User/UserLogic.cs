@@ -10,7 +10,6 @@ namespace WebApi.Modules.Administrator.User
         UserRecord user = new UserRecord();
         WebUserRecord webUser = new WebUserRecord();
         UserLoader userLoader = new UserLoader();
-        UserBrowseLoader userBrowseLoader = new UserBrowseLoader();
         private bool? passwordChanged = false;
 
         public UserLogic()
@@ -18,7 +17,6 @@ namespace WebApi.Modules.Administrator.User
             dataRecords.Add(user);
             dataRecords.Add(webUser);
             dataLoader = userLoader;
-            browseLoader = userBrowseLoader;
 
             BeforeSave += OnBeforeSave;
 
