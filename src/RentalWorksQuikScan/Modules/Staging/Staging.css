@@ -124,6 +124,13 @@
 #staging-popupQty-summary-table > tbody > tr > td.col3 {}
 #staging-popupQty-summary-table > tbody > tr > td.col4 {padding:0 0 0 10px;}
 
+#staging #staging-bottomtray {position:fixed;bottom:0;left:0;right:0;background-color:#424242;}
+#staging #staging-bottomtray .item {display:flex;flex:1 0 auto;margin:2px 10px;line-height:32px;}
+#staging #staging-bottomtray .item .caption {margin-right:5px;}
+#staging #staging-bottomtray .btnclear {display:inline-block;line-height:30px;padding:0 6px;background-color:#2196F3;border:1px solid #3F51B5;cursor:pointer;margin:2px 10px;}
+#staging #staging-bottomtray .btnclear:hover {background-color:#1976d2;}
+#staging #staging-bottomtray .orderlocation {display:flex;}
+
 .staging .page-selectserialno .row1 {text-align:center;background-color:#546e7a;font-size:14px;padding:4px;}
 /*.staging .page-selectserialno .row1 .fsffield {display:flex;width:130px;}
 .staging .page-selectserialno .row1 .caption {flex:0 0 50px;align-items:center;text-align:right;padding:0 0 0 5px;box-sizing:border-box;}*/

@@ -248,6 +248,18 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
             $quotemain.find('#quote-grandtotal-value').html(numberWithCommas(parseFloat(response.grandtotal).toFixed(2))).attr('data-grandtotal', response.grandtotal);
         }
     });
+    $quotemain.displayOrderLocation = function (orderlocation) {
+        let html = `<div class="orderlocation">
+                        <div class="item"><div class="caption">Location:</div><div class="value">${orderlocation}</div></div>
+                        <div class="orderlocationclear btnclear">Clear</div>
+                    </div>`;
+        $quotemain.find('#quote-bottomtray').append(html);
+
+        $quotemain.refreshbottomspacer();
+    };
+    $quotemain.refreshbottomspacer = function () {
+        $quotemain.find('#quote-bottomspacer').css('height', $quotemain.find('#quote-bottomtray').height());
+    };
     $quotemain
         .on('change', '#scanBarcodeView-txtBarcodeData', function() {
             try {
@@ -277,6 +289,12 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
             } catch(ex) {
                 FwFunc.showError(ex);
             }
+        })
+        .on('click', '.orderlocationclear', function() {
+            $quotemain.find('#quote-bottomtray .orderlocation').remove();
+            $quotemain.refreshbottomspacer();
+
+            locationdata = null;
         })
     ;
 
@@ -516,8 +534,10 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                     var locationdata = $orderlocation.find('.location.selected').data('recorddata');
                     if (locationdata != null) {
                         screen._locationdata(locationdata);
+                        $quotemain.displayOrderLocation(locationdata.location);
                         $orderlocation.hide();
                         $quotemain.show();
+                        $quotemain.refreshbottomspacer();
                     } else {
                         FwNotification.renderNotification('ERROR', 'Select a location.')
                     }

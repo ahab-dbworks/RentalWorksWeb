@@ -2268,7 +2268,26 @@ class StagingControllerClass {
                     (response.pending.length > 0)    ? screen.$view.find('.btnpending').show()   : screen.$view.find('.btnpending').show();
                 });
             })
+            .on('click', '.orderlocationclear', function() {
+                screen.$view.find('#staging-bottomtray .orderlocation').remove();
+                screen.refreshbottomspacer();
+
+                locationdata = null;
+            })
         ;
+
+        screen.displayOrderLocation = function (orderlocation) {
+            let html = `<div class="orderlocation">
+                            <div class="item"><div class="caption">Location:</div><div class="value">${orderlocation}</div></div>
+                            <div class="orderlocationclear btnclear">Clear</div>
+                        </div>`;
+            screen.$view.find('#staging-bottomtray').append(html);
+
+            screen.refreshbottomspacer();
+        };
+        screen.refreshbottomspacer = function () {
+            screen.$view.find('#staging-bottomspacer').css('height', screen.$view.find('#staging-bottomtray').height());
+        };
 
         screen.renderPopupQty = function() {
             var template = Mustache.render(jQuery('#tmpl-Staging-PopupQty').html(), {
@@ -2898,8 +2917,10 @@ class StagingControllerClass {
                         var locationdata = $orderlocation.find('.location.selected').data('recorddata');
                         if (locationdata != null) {
                             screen._locationdata(locationdata);
+                            screen.displayOrderLocation(locationdata.location)
                             $orderlocation.hide();
                             $primarywindow.show();
+                            screen.refreshbottomspacer();
                         } else {
                             FwNotification.renderNotification('ERROR', 'Select a location.')
                         }

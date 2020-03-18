@@ -44,7 +44,7 @@
     };
     //----------------------------------------------------------------------------------------------
     getCheckInScreen(viewModel, properties) {
-        var combinedViewModel, screen, pageSubTitle, applicationOptions, locationdata = null, moduleproperties = null;
+        var combinedViewModel, screen, pageSubTitle, applicationOptions, locationdata = null, aisleshelfdata = null, moduleproperties = null;
         applicationOptions = program.getApplicationOptions();
         if (typeof properties.orderId            === 'undefined') { properties.orderId            = ''; }
         if (typeof properties.dealId             === 'undefined') { properties.dealId             = ''; }
@@ -94,8 +94,6 @@
         screen.$view      = FwMobileMasterController.getMasterView(combinedViewModel, properties);
         screen.properties = properties;
 
-        screen.properties.aisle       = '';
-        screen.properties.shelf       = '';
         screen.properties.currentview = '';
 
         screen.getOrderId            = function() { return properties.orderId; };
@@ -109,6 +107,13 @@
                 locationdata = locationData;
             } else {
                 return locationdata;
+            }
+        }
+        screen._aisleshelfdata = function(aisleshelfData?: object) {
+            if (aisleshelfData) {
+                aisleshelfdata = aisleshelfData;
+            } else {
+                return aisleshelfdata;
             }
         }
 
@@ -193,8 +198,8 @@
                                         orderid:           screen.getOrderId(),
                                         dealid:            screen.getDealId(),
                                         departmentid:      screen.getDepartmentId(),
-                                        aisle:             screen.properties.aisle,
-                                        shelf:             screen.properties.shelf
+                                        aisle:             screen._aisleshelfdata()?.Aisle || '',
+                                        shelf:             screen._aisleshelfdata()?.Shelf || ''
                                     });
                                     program.pushScreen(RwFillContainer.getFillContainerScreen({}, fillcontainerproperties));
                                 } catch(ex) {
@@ -394,8 +399,8 @@
                         var code           = recorddata.masterno;
                         var qty            = 0;
                         var newOrderAction = '';
-                        var aisle          = screen.properties.aisle;
-                        var shelf          = screen.properties.shelf;
+                        var aisle          = screen._aisleshelfdata()?.Aisle || '';
+                        var shelf          = screen._aisleshelfdata()?.Shelf || '';
                         var playStatus     = false;
                         var vendorId       = recorddata.vendorid;
                         var trackedby      = recorddata.trackedby;
@@ -494,8 +499,8 @@
                 sessionid: screen.getContractId(),
                 portal:    device.uuid,
                 tags:      epcs,
-                aisle:     screen.properties.aisle,
-                shelf:     screen.properties.shelf
+                aisle:     screen._aisleshelfdata()?.Aisle || '',
+                shelf:     screen._aisleshelfdata()?.Shelf || ''
             };
             RwServices.callMethod("CheckIn", "RFIDScan", request, function(response) {
                 $rfid.data('batchid', response.batchid);
@@ -762,8 +767,8 @@
                                         internalchar: recorddata.internalchar,
                                         qty:          recorddata.sessionin,
                                         trackedby:    recorddata.trackedby,
-                                        aisle:        screen.properties.aisle,
-                                        shelf:        screen.properties.shelf,
+                                        aisle:        screen._aisleshelfdata()?.Aisle || '',
+                                        shelf:        screen._aisleshelfdata()?.Shelf || '',
                                         orderid:      recorddata.orderid
                                     };
                                     RwServices.callMethod("CheckIn", "CheckInItemCancel", request, function(response) {
@@ -1364,6 +1369,7 @@
                         var locationdata = $orderlocation.find('.location.selected').data('recorddata');
                         if (locationdata != null) {
                             screen._locationdata(locationdata);
+                            screen.displayOrderLocation(locationdata.location);
                             $orderlocation.hide();
                             $primarywindow.show();
                         } else {
@@ -1764,25 +1770,27 @@
                         if (barcode.length > 0) {
                             isAisleShelfBarcode = /^[A-z0-9]{4}-[A-z0-9]{4}$/.test(barcode);  // Format: AAAA-SSSS
                             if (isAisleShelfBarcode) {
-                                screen.properties.aisle = $txtBarcodeData.val().substring(0, 4).toUpperCase();
-                                screen.properties.shelf = $txtBarcodeData.val().split('-')[1].toUpperCase();
-                                screen.$view.find('.aisle .value').html(screen.properties.aisle);
-                                screen.$view.find('.shelf .value').html(screen.properties.shelf);
-                                screen.$view.find('.aisleshelf').show();
+                                let aisleshelfstring = $txtBarcodeData.val().split('-');
+                                let aisleshelfdata   = { 'Aisle': aisleshelfstring[0].toUpperCase(), 'Shelf': aisleshelfstring[1].toUpperCase() };
+
+                                screen._aisleshelfdata(aisleshelfdata);
+
+                                screen.displayAisleShelf(aisleshelfdata.Aisle, aisleshelfdata.Shelf);
+
                                 $txtBarcodeData.val('');
                                 screen.enableBarcodeField();
                             } else {
-                                orderId = screen.getOrderId();
-                                masterItemId = '';
-                                masterId = '';
-                                code = RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase());
-                                qty = 0;
+                                orderId        = screen.getOrderId();
+                                masterItemId   = '';
+                                masterId       = '';
+                                code           = RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase());
+                                qty            = 0;
                                 newOrderAction = '';
-                                aisle = screen.properties.aisle;
-                                shelf = screen.properties.shelf;
-                                playStatus = true;
-                                vendorId = '';
-                                trackedby = '';
+                                aisle          = screen._aisleshelfdata()?.Aisle || '';
+                                shelf          = screen._aisleshelfdata()?.Shelf || '';
+                                playStatus     = true;
+                                vendorId       = '';
+                                trackedby      = '';
                                 screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
                             }
                         }
@@ -1791,14 +1799,42 @@
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', '.btnclear', function() {
-                screen.$view.find('.aisle .value').html('');
-                screen.$view.find('.shelf .value').html('');
-                screen.$view.find('.aisleshelf').hide();
-                screen.properties.aisle = '';
-                screen.properties.shelf = '';
+            .on('click', '.aisleshelfclear', function() {
+                screen.$view.find('#checkIn-bottomtray .aisleshelf').remove();
+                screen.refreshbottomspacer();
+
+                aisleshelfdata = null;
+            })
+            .on('click', '.orderlocationclear', function() {
+                screen.$view.find('#checkIn-bottomtray .orderlocation').remove();
+                screen.refreshbottomspacer();
+
+                locationdata = null;
             })
         ;
+
+        screen.displayAisleShelf = function (aisle, shelf) {
+            let html = `<div class="aisleshelf">
+                          <div class="item aisle"><div class="caption">Aisle:</div><div class="value">${aisle}</div></div>
+                          <div class="item shelf"><div class="caption">Shelf:</div><div class="value">${shelf}</div></div>
+                          <div class="aisleshelfclear btnclear">Clear</div>
+                        </div>`;
+            screen.$view.find('#checkIn-bottomtray').append(html);
+
+            screen.refreshbottomspacer();
+        };
+        screen.displayOrderLocation = function (orderlocation) {
+            let html = `<div class="orderlocation">
+                          <div class="item"><div class="caption">Location:</div><div class="value">${orderlocation}</div></div>
+                          <div class="orderlocationclear btnclear">Clear</div>
+                        </div>`;
+            screen.$view.find('#checkIn-bottomtray').append(html);
+
+            screen.refreshbottomspacer();
+        };
+        screen.refreshbottomspacer = function () {
+            screen.$view.find('#checkIn-bottomspacer').css('height', screen.$view.find('#checkIn-bottomtray').height());
+        };
 
         screen.renderPopupQty = function() {
             var template = Mustache.render(jQuery('#tmpl-CheckIn-PopupQty').html(), {
