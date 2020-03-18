@@ -15,6 +15,7 @@ namespace WebApi.Modules.Settings.LaborSettings.LaborRate
         public LaborRateLogic()
         {
             dataLoader = inventoryLoader;
+            ((RateBrowseLoader)browseLoader).AvailFor = RwConstants.RATE_AVAILABLE_FOR_LABOR;
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 

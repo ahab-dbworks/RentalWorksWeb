@@ -1,13 +1,17 @@
 using FwStandard.AppManager;
-using FwStandard.BusinessLogic;
-using WebApi.Logic;
 using WebApi.Modules.HomeControls.Master;
-using WebApi;
 
 namespace WebApi.Modules.Settings.Rate
 {
     public abstract class RateLogic : MasterLogic 
     {
+        //------------------------------------------------------------------------------------ 
+        RateBrowseLoader rateBrowseLoader = new RateBrowseLoader();
+       
+        public RateLogic() : base()
+        {
+            browseLoader = rateBrowseLoader;
+        }
         //------------------------------------------------------------------------------------ 
         //[FwLogicProperty(Id:"cBzTRIkblHSE", IsPrimaryKey:true)]
         //public string RateId { get { return master.MasterId; } set { master.MasterId = value; } }
@@ -18,7 +22,6 @@ namespace WebApi.Modules.Settings.Rate
         [FwLogicProperty(Id:"QmBtKwVSnVsv")]
         public bool? IncludeAsProfitAndLossCategory { get { return master.IncludeAsProfitAndLossCategory; } set { master.IncludeAsProfitAndLossCategory = value; } }
         //------------------------------------------------------------------------------------ 
-
 
 
         //------------------------------------------------------------------------------------ 
@@ -51,7 +54,6 @@ namespace WebApi.Modules.Settings.Rate
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "XoJv9FLFq1ko", IsReadOnly: true)]
         public decimal? MonthlyCost { get; set; }
-        //------------------------------------------------------------------------------------ 
         //------------------------------------------------------------------------------------ 
     }
 }

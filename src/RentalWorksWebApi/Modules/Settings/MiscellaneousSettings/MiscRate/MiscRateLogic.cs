@@ -15,6 +15,7 @@ namespace WebApi.Modules.Settings.MiscellaneousSettings.MiscRate
         public MiscRateLogic()
         {
             dataLoader = inventoryLoader;
+            ((RateBrowseLoader)browseLoader).AvailFor = RwConstants.RATE_AVAILABLE_FOR_MISC;
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
