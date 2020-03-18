@@ -13,16 +13,16 @@ using WebApi.Logic;
 
 /*
 QuickBooks IIF file for Invoice
-!TRNS,TRNSTYPE,DATE,TERMS,ACCNT,NAME,AMOUNT,DOCNUM,INVMEMO,ADDR1,ADDR2,ADDR3,ADDR4,ADDR5,PONUM,MEMO,CLASS,NAMEISTAXABLE,DUEDATE  
-!SPL,TRNSTYPE,DATE,ACCNT,NAME,AMOUNT,DOCNUM,MEMO,PRICE,QNTY,INVITEM,TAXABLE,CLASS,EXTRA  
+!TRNS	TRNSTYPE	DATE	TERMS	ACCNT	NAME	AMOUNT	DOCNUM	INVMEMO	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	PONUM	MEMO	CLASS	NAMEISTAXABLE	DUEDATE  
+!SPL	TRNSTYPE	DATE	ACCNT	NAME	AMOUNT	DOCNUM	MEMO	PRICE	QNTY	INVITEM	TAXABLE	CLASS	EXTRA  
 !ENDTRNS
 {{#each Invoices}}
-TRNS,{{InvoiceTypeForQuickBooks}},{{InvoiceDate}},{{PaymentTerms}},{{AccountsReceivableAccountNumber}},"{{Customer}}",{{InvoiceTotal}},{{InvoiceNumber}},{{../BatchNumber}},"{{Customer}}","{{BillToAttention}}","{{BillToAddress1}}","{{BillToAddress2}}","{{BillToCity}}, {{BillToState}} {{BillToZip}}",{{PurchaseOrderNumber}},{{../BatchNumber}},{{InvoiceClass}},Y,{{InvoiceDueDate}}
+TRNS	{{InvoiceTypeForQuickBooks}}	{{InvoiceDate}}	{{PaymentTerms}}	{{AccountsReceivableAccountNumber}}	"{{Customer}}"	{{InvoiceTotal}}	{{InvoiceNumber}}	{{../BatchNumber}}	"{{Customer}}"	"{{BillToAttention}}"	"{{BillToAddress1}}"	"{{BillToAddress2}}"	"{{BillToCity}}	 {{BillToState}} {{BillToZip}}"	{{PurchaseOrderNumber}}	{{../BatchNumber}}	{{InvoiceClass}}	Y	{{InvoiceDueDate}}
 {{#each Items}}
-SPL,{{../InvoiceTypeForQuickBooks}},{{../InvoiceDate}},{{IncomeAccountNumber}},"{{../Customer}}",{{ExtendedNegative}},{{../InvoiceNumber}},"{{Description}}",{{Rate}},{{QuantityNegative}},{{ICode}},{{TaxableYesNo}},{{../InvoiceClass}},
+SPL	{{../InvoiceTypeForQuickBooks}}	{{../InvoiceDate}}	{{IncomeAccountNumber}}	"{{../Customer}}"	{{ExtendedNegative}}	{{../InvoiceNumber}}	"{{Description}}"	{{Rate}}	{{QuantityNegative}}	{{ICode}}	{{TaxableYN}}	{{../InvoiceClass}}	
 {{/each}}
 {{#each Taxes}}
-SPL,{{../InvoiceTypeForQuickBooks}},{{../InvoiceDate}},{{TaxAccountNumber1}},"{{Vendor}}",{{../InvoiceTaxNegative}},{{../InvoiceNumber}},"{{Description}}",{{RentalTaxRate1}} %,-1,"{{Code}}",No,,AUTOSTAX
+SPL	{{../InvoiceTypeForQuickBooks}}	{{../InvoiceDate}}	{{TaxAccountNumber1}}	"{{Vendor}}"	{{../InvoiceTaxNegative}}	{{../InvoiceNumber}}	"{{Description}}"	{{RentalTaxRate1}} %	-1	"{{Code}}"	N		AUTOSTAX
 {{/each}}
 ENDTRNS
 {{/each}}

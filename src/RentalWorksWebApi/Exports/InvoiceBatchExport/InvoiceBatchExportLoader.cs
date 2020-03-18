@@ -27,6 +27,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
             public decimal? ExtendedNegative { get; set; }
             public bool Taxable { get; set; }
             public string TaxableYesNo { get; set; }
+            public string TaxableYN { get; set; }
             public string IncomeAccountNumber { get; set; }
             public string IncomeAccountDescription { get; set; }
         }
@@ -204,6 +205,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                             ii.ExtendedNegative = (-1) * ii.Extended;
                             ii.Taxable = FwConvert.ToBoolean(row[dt.GetColumnNo("taxable")].ToString());
                             ii.TaxableYesNo = ii.Taxable ? "Yes" : "No";
+                            ii.TaxableYN = ii.Taxable ? "Y" : "N";
                             ii.IncomeAccountNumber = row[dt.GetColumnNo("incomeglno")].ToString();
                             ii.IncomeAccountDescription = row[dt.GetColumnNo("incomegldesc")].ToString();
                             i.Items.Add(ii);
