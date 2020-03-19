@@ -56,7 +56,6 @@
     }
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
-        const max = 9999;
         $form.on('change', `[data-datafield="${this.Type}Id"]`, e => {
             try {
                 $form.find('.toggle [data-value="Summary"] input').prop('checked', true).change();
@@ -131,7 +130,6 @@
                     request.uniqueids = {
                         OrderId: orderId
                     }
-                    request.pagesize = max;
                 })
                 FwBrowse.search($orderStatusSummaryGridControl);
 
@@ -140,7 +138,6 @@
                     request.uniqueids = {
                         OrderId: orderId,
                     }
-                    request.pagesize = max;
                 })
                 FwBrowse.search($orderStatusDetailGridControl);
 
