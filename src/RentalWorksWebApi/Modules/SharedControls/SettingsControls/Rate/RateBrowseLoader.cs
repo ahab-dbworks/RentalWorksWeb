@@ -3,8 +3,8 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Collections.Generic;
-using WebApi.Modules.HomeControls.Master;
-using WebApi.Modules.HomeControls.Inventory;
+//using WebApi.Modules.HomeControls.Master;
+//using WebApi.Modules.HomeControls.Inventory;
 using WebApi.Data;
 using WebApi.Logic;
 
@@ -13,6 +13,7 @@ namespace WebApi.Modules.Settings.Rate
     [FwSqlTable("inventoryview")]
     public class RateBrowseLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
         public RateBrowseLoader()
         {
             AfterBrowse += OnAfterBrowse;
@@ -54,9 +55,9 @@ namespace WebApi.Modules.Settings.Rate
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
-        public string ManufacturerPartNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
+        //public string ManufacturerPartNumber { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
         public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -73,21 +74,21 @@ namespace WebApi.Modules.Settings.Rate
             set { }
         }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
-        public string Rank { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "q.qty", modeltype: FwDataTypes.Decimal)]
-        public decimal? Quantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.manifestvalue", modeltype: FwDataTypes.Decimal)]
-        public decimal? UnitValue { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.aisleloc", modeltype: FwDataTypes.Text)]
-        public string AisleLocation { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.shelfloc", modeltype: FwDataTypes.Text)]
-        public string ShelfLocation { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        //public string Rank { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "q.qty", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Quantity { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "mw.manifestvalue", modeltype: FwDataTypes.Decimal)]
+        //public decimal? UnitValue { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "mw.aisleloc", modeltype: FwDataTypes.Text)]
+        //public string AisleLocation { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "mw.shelfloc", modeltype: FwDataTypes.Text)]
+        //public string ShelfLocation { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "mw.hourlyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? HourlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -130,9 +131,9 @@ namespace WebApi.Modules.Settings.Rate
         [FwSqlDataField(calculatedColumnSql: "mw.price", modeltype: FwDataTypes.Decimal)]
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.replacementcost", modeltype: FwDataTypes.Decimal)]
-        public decimal? ReplacementCost { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "mw.replacementcost", modeltype: FwDataTypes.Decimal)]
+        //public decimal? ReplacementCost { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "ml.taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -146,10 +147,10 @@ namespace WebApi.Modules.Settings.Rate
                   "              from  masterwh mw with(nolock)" +
                   "              where mw.masterid    = t.masterid" +
                   "              and   mw.warehouseid = @warehouseid) mw" +
-                  " outer apply(select top 1 q.qty" +
-                  "              from  masterwhqty q with(nolock) " +
-                  "              where q.masterid    = t.masterid" +
-                  "              and   q.warehouseid = @warehouseid) q" +
+                  //" outer apply(select top 1 q.qty" +
+                  //"              from  masterwhqty q with(nolock) " +
+                  //"              where q.masterid    = t.masterid" +
+                  //"              and   q.warehouseid = @warehouseid) q" +
                   " outer apply(select top 1 ml.taxable" +
                   "              from  masterlocation ml with(nolock)" +
                   "              where ml.masterid   = t.masterid" +
@@ -161,7 +162,7 @@ namespace WebApi.Modules.Settings.Rate
             select.AddWhere("(availfor = @availfor)");
             select.AddParameter("@availfor", AvailFor);
 
-            addFilterToSelect("TrackedBy", "trackedby", select, request);
+            //addFilterToSelect("TrackedBy", "trackedby", select, request);
             addFilterToSelect("Classification", "class", select, request);
             addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
             addFilterToSelect("CategoryId", "categoryid", select, request);
