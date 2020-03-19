@@ -41,11 +41,11 @@
                 html.push('</div>');
                 html.push('<div class="options"></div>');
             }
-            html.push('<div class="searchheader" style="color:#ffffff;text-align:center;display:flex;">');
+            html.push('<div class="searchheader" style="color:#ffffff;text-align:center;display:flex;background-color: #333333;">');
             html.push('  <div class="pagingcontrols" style="flex:0 0 auto;display:flex;align-items:center;">');
             html.push('    <i class="material-icons btnfirst" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5DC;</i><i class="material-icons btnprev" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5CB;</i><input class="pageno" value="-" style="width:30px;text-align:center;" /><span style="padding:0 .5em;">of</span><span class="totalpages">-</span><i class="material-icons btnnext" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5CC</i><i class="material-icons btnlast" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5DD</i>');
             html.push('  </div >');
-            html.push('  <div class="paginginfo" style="flex:1 1 0;padding:0 .2em 0 0;display:flex;align-items:center;justify-content:flex-end;">');
+            html.push('  <div class="paginginfo" style="flex:1 1 0;padding:0 .2em 0 0;display:flex;align-items:center;justify-content:flex-end;color:#aaaaaa;font-size:.8em;">');
             html.push('   <span class="rowstart">-</span><span style="padding:0 .5em;">to</span><span class="rowend">-</span><span style="padding:0 .5em;">of</span><span class="totalrows">-</span><select class="pagesize" style="margin: 0 1em 0 1em;"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="100">100</option><option value="200">200</option><option value="500">500</option><option value="1000">1000</option></select>');
             html.push('  </div >');
             html.push('</div>');
@@ -259,14 +259,14 @@
                     if (this._options.cacheItemTemplate) {
                         $record = jQuery(Mustache.render(this._builtItemTemplate, itemmodel));
                     } else {
-                        $record = jQuery(Mustache.render(this._options.itemTemplate(itemmodel), itemmodel));
+                        $record = jQuery(Mustache.render(this._options.itemTemplate(itemmodel, searchresults, rowno), itemmodel));
                     }
                     if ($record.attr('class').length === 0) {
                         $record.attr('class', 'item');
                     } else {
                         $record.attr('class', `item ${$record.attr('class')}`);
                     }
-                    if (typeof plugin._options.recordClick === 'function' && plugin._options.hasRecordClick(itemmodel)) {
+                    if (typeof plugin._options.recordClick === 'function' && plugin._options.hasRecordClick(itemmodel, searchresults, rowno)) {
                         $record.addClass(`link  ${$record.attr('class')}`);
                         $record.css({ 'cursor': 'pointer' });
                     }
