@@ -336,14 +336,14 @@ namespace RentalWorksQuikScan.Modules
             {
                 pageSize = request.pagesize;
             }
-            response.getStagingPendingItems = RwAppData.GetStagingPendingItems(conn:        FwSqlConnection.RentalWorks,
-                                                                               orderId:     request.orderid,
-                                                                               warehouseId: session.userLocation.warehouseId,
-                                                                               contractId:  request.contractid,
-                                                                               searchMode:  searchMode,
-                                                                               searchValue: searchValue,
-                                                                               pageNo:      pageNo,
-                                                                               pageSize:    pageSize);
+            response.searchresults = RwAppData.GetStagingPendingItems(conn:        FwSqlConnection.RentalWorks,
+                                                                      orderId:     request.orderid,
+                                                                      warehouseId: session.userLocation.warehouseId,
+                                                                      contractId:  request.contractid,
+                                                                      searchMode:  searchMode,
+                                                                      searchValue: searchValue,
+                                                                      pageNo:      pageNo,
+                                                                      pageSize:    pageSize);
         }
         //----------------------------------------------------------------------------------------------------
         public static FwJsonDataTable funcstaged(FwSqlConnection conn, string orderid, string warehouseid, bool summary, string searchMode, string searchValue, int pageNo, int pageSize)

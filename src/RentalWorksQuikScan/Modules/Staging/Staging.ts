@@ -316,6 +316,198 @@ class StagingControllerClass {
             ]
         });
 
+        // Pending Items
+        let showapplyallqtyitems = false; 
+        screen.$view.find('#pendingsearch').fwmobilesearch({
+            service: 'Staging',
+            method: 'GetPendingItems',
+            getRequest: function () {
+                var request = {
+                    orderid: screen.getOrderId(),
+                    contractid: ''
+                };
+                return request;
+            },
+            //pageSize: 15,
+            dontAddCursorCss: true,
+            cacheItemTemplate: false,
+            itemTemplate: function (model) {
+                var html: string | string[] = [], isClickableRentalItem = false, isClickableSalesItem = false;
+                const isHeaderRow = ((model.itemclass === 'N') || (model.missingqty === 0));
+                if (model.trackedby === 'QUANTITY' && model.subvendorid.length === 0) {
+                    showapplyallqtyitems = true;
+                }
+                let cssClass = '';
+                if (!isHeaderRow) {
+                    isClickableRentalItem = ((model.rectype === 'R') &&
+                        ((model.trackedby === 'QUANTITY') || (model.trackedby === 'SERIALNO')) &&
+                        (model.itemclass[0] !== 'N') &&
+                        (model.qtysub === 0)
+                    );
+                    isClickableSalesItem = (model.rectype === 'S');
+                    if (isClickableRentalItem || isClickableSalesItem) {
+                        if (cssClass.length > 0) {
+                            cssClass += ' ';
+                        }
+                        cssClass += 'link';
+                    }
+                }
+                if (cssClass.length > 0) {
+                    cssClass += ' ';
+                }
+                //cssClass += 'itemclass-' + model.itemclass;
+                let availablefor = '';
+                if (model.rectype === 'R') {
+                    availablefor = 'Rent';
+                } else if (model.rectype === 'S') {
+                    availablefor = 'Sell';
+                } else if (model.rectype === 'P') {
+                    availablefor = 'Parts';
+                }
+                html.push(
+`<div class="${cssClass}" data-itemclass="{{itemclass}}" data-rectype="{{rectype}}">
+  <div class="row">
+    <div class="title">{{description}}</div>
+    </div>
+  <div class="row">
+    <div class="col1 masterno caption">I-Code:</div>
+    <div class="col2 masterno value">{{masterno}}</div>
+    <div class="col3 missingqty caption">Remaining:</div>
+    <div class="col4 missingqty value">{{missingqty}}</div>
+  </div>
+  <div class="row">`);
+
+                if (model.rectype === 'R') {
+                    html.push(
+`  
+   <div class="col1 trackedby caption">Tracked By:</div>
+   <div class="col2 trackedby value">{{trackedby}}</div>`);
+                } else {
+                    html.push(
+`  <div class="col1 availfor caption">Available For:</div>
+  <div class="col2 availfor value">` + availablefor + `</div>`);
+                }
+                html.push(
+`  <div class="col3 qtyordered caption">Ordered:</div>
+  <div class="col4 qtyordered value">{{qtyordered}}</div>
+</div>
+<div class="row">
+  <div class="col1 caption"></div>
+  <div class="col2 value"></div>
+  <div class="col3 qtystagedandout caption">Staged/Out:</div>
+  <div class="col4 qtystagedandout value">{{qtystagedandout}}</div>
+</div>
+<div class="row">`);
+                if (model.consignorid !== '') {
+                    html.push(
+`  <div class="col1 caption">Consignor:</div>
+  <div class="col2 value">{{vendor}}</div>`);
+                } else if (model.subvendorid !== '') {
+                    html.push(
+`  <div class="col1 caption">Sub-Vendor:</div>
+  <div class="col234 value">{{vendor}} <span style="color:#ffff00;">(PO Sub-Receive to move to Staged)</span></div>`);
+                }
+                html.push('</div>');
+                html = html.join('\n');
+                return html;
+            },
+            hasRecordClick: (model: any): boolean => {
+                return ((model.trackedby === 'SERIALNO' || model.trackedby === 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0));            
+            },
+            recordClick: function (recorddata, $record) {
+                var $this, requestStageItem, requestSelectSerialNo, rectype, trackedby;
+                try {
+                    $this = jQuery(this);
+                    rectype = recorddata.rectype;
+                    trackedby = recorddata.trackedby;
+                    if (rectype === 'R') {
+                        if (trackedby === 'QUANTITY') {
+                            requestStageItem = {
+                                orderid: screen.getOrderId(),
+                                code: '',
+                                masteritemid: recorddata.masteritemid,
+                                qty: 0,
+                                additemtoorder: false,
+                                addcompletetoorder: false,
+                                releasefromrepair: false,
+                                unstage: false,
+                                vendorid: '',
+                                meter: 0,
+                                location: '',
+                                locationdata: screen._locationdata(),
+                                addcontainertoorder: false,
+                                overridereservation: false,
+                                stageconsigned: false,
+                                transferrepair: false,
+                                removefromcontainer: false,
+                                contractid: screen.getContractId(),
+                                ignoresuspendedin: false,
+                                consignorid: recorddata.consignorid,
+                                consignoragreementid: recorddata.consignoragreementid,
+                                playStatus: false
+                            };
+                            RwServices.order.pdastageitem(requestStageItem, function (responseStageItem) {
+                                properties.responseStageItem = responseStageItem;
+                                screen.pdastageitemCallback(responseStageItem);
+                            });
+                        } else if (trackedby === 'SERIALNO') {
+                            var masterid = recorddata.masterid;
+                            var masteritemid = recorddata.masteritemid;
+                            var description = recorddata.description;
+                            var masterno = recorddata.masterno;
+                            var missingqty = recorddata.missingqty;
+                            var qtyordered = recorddata.qtyordered;
+                            var qtystagedandout = recorddata.qtystagedandout;
+                            screen.pages.selectserialno.forward(masterid, masteritemid, description, masterno, missingqty, qtyordered, qtystagedandout);
+                        }
+                    } else if (rectype === 'S') {
+                        requestStageItem = {
+                            orderid: screen.getOrderId(),
+                            code: '',
+                            masteritemid: recorddata.masteritemid,
+                            qty: 0,
+                            additemtoorder: false,
+                            addcompletetoorder: false,
+                            releasefromrepair: false,
+                            unstage: false,
+                            vendorid: '',
+                            meter: 0,
+                            location: '',
+                            locationdata: screen._locationdata(),
+                            addcontainertoorder: false,
+                            overridereservation: false,
+                            stageconsigned: false,
+                            transferrepair: false,
+                            removefromcontainer: false,
+                            contractid: screen.getContractId(),
+                            ignoresuspendedin: false,
+                            consignorid: '',
+                            consignoragreementid: '',
+                            playStatus: false
+                        };
+                        RwServices.order.pdastageitem(requestStageItem, function (responseStageItem) {
+                            properties.responseStageItem = responseStageItem;
+                            screen.pdastageitemCallback(responseStageItem);
+                        });
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            },
+            afterLoad: function (plugin, response) {
+                if ((sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') && showapplyallqtyitems) {
+                    screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#applyallqtyitems');
+                } else {
+                    screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
+                }
+                var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
+                screen.$modulecontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
+
+                var $recordcount = plugin.$element.find('.searchfooter .recordcount');
+                $recordcount.html($recordcount.text().replace('items', 'lines'));
+            }
+        });
+
         screen.$modulemodeselector = screen.$view.find('.modulemodeselector');
         screen.$modulemodeselector.fwmobilemoduletabs({
             tabs: [
@@ -324,19 +516,16 @@ class StagingControllerClass {
                     caption:     'Pending',
                     buttonclick: function () {
                         try {
-                            var request;
                             jQuery('#staging-stagedList').hide();
                             jQuery('#staging-scan').hide();
                             jQuery('#staging-rfid').hide();
                             jQuery('#staging-pendingList').show();
                             jQuery('#staging-scan').attr('data-mode', 'PENDING');
                             RwRFID.unregisterEvents();
-                            request = {
-                                orderid: screen.getOrderId(),
-                                contractid: ''
-                            };
-                            //RwServices.order.getStagingPendingItems(request, screen.getStagingPendingItemsCallback);
-                            RwServices.callMethod('Staging', 'GetPendingItems', request, screen.getStagingPendingItemsCallback);
+                            screen.$view.find('#pendingsearch').fwmobilesearch('search');
+                            
+
+
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
@@ -1460,12 +1649,14 @@ class StagingControllerClass {
             ;
 
             // refresh the pending list if the Pending Tab is active
-            if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabpending')) {
-                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
-            } 
-            // refresh the staged list if the Staged Tab list is active
-            else if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabstaged')) {
-                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
+            if (responseStageItem.request.qty > 0) {
+                if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabpending')) {
+                    screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
+                }
+                // refresh the staged list if the Staged Tab list is active
+                else if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabstaged')) {
+                    screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
+                }
             }
 
             jQuery('#staging-popupQty-genericMsg')  .html(responseStageItem.webStageItem.genericMsg);
@@ -1523,125 +1714,6 @@ class StagingControllerClass {
                 }
             } else {
                 screen.showPopupQty();
-            }
-        };
-        screen.getStagingPendingItemsCallback = function(response) {
-            var dt, ul, li, isAlternate, colIndex, isHeaderRow, cssClass, isClickableRentalItem, isClickableSalesItem, availableforisTrackedByQty, showapplyallqtyitems=false;
-            try {
-                isAlternate = false;
-                dt = response.getStagingPendingItems;
-                colIndex = response.getStagingPendingItems.ColumnIndex;
-                ul = [];
-                for (var i = 0; i < dt.Rows.length; i++) {
-                    var rectype   = dt.Rows[i][colIndex.rectype];
-                    var trackedby = dt.Rows[i][colIndex.trackedby];
-                    var itemclass = dt.Rows[i][colIndex.itemclass];
-                    var qtysub    = dt.Rows[i][colIndex.qtysub];
-                    var subvendorid = dt.Rows[i][colIndex.subvendorid];
-                    isHeaderRow = ((dt.Rows[i][colIndex.itemclass] === 'N') || (dt.Rows[i][colIndex.missingqty] === 0));
-                    if (trackedby === 'QUANTITY' && subvendorid.length === 0) {
-                        showapplyallqtyitems = true;
-                    }
-                    li = [];
-                    cssClass = '';
-                    if (!isHeaderRow) {
-                        isClickableRentalItem = ((rectype === 'R') && 
-                                                 ((trackedby === 'QUANTITY') || (trackedby === 'SERIALNO')) && 
-                                                 (itemclass[0] !== 'N') &&
-                                                 (qtysub === 0)
-                                                );
-                        isClickableSalesItem  = (dt.Rows[i][colIndex.rectype] === 'S');
-                        if (isClickableRentalItem || isClickableSalesItem) {
-                            if (cssClass.length > 0) {
-                                cssClass += ' ';
-                            }
-                            cssClass += 'link';
-                        }
-                    }
-                    if (cssClass.length > 0) {
-                        cssClass += ' ';
-                    }
-                    cssClass +=  'itemclass-' + dt.Rows[i][colIndex.itemclass];
-                    isAlternate = !isAlternate;
-                    let availablefor = '';
-                    if (dt.Rows[i][colIndex.rectype] === 'R') {
-                        availablefor = RwLanguages.translate('Rent');
-                    } else if (dt.Rows[i][colIndex.rectype] === 'S') {
-                        availablefor = RwLanguages.translate('Sell');
-                    } else if (dt.Rows[i][colIndex.rectype] === 'P') {
-                        availablefor = RwLanguages.translate('Parts');
-                    }
-                    li.push('<li class="' + cssClass + 
-                        '" data-itemclass="' + dt.Rows[i][colIndex.itemclass] + 
-                        '" data-rectype="' + dt.Rows[i][colIndex.rectype] + 
-                        '" data-parentid="' + dt.Rows[i][colIndex.parentid] + 
-                        '" data-masteritemid="' + dt.Rows[i][colIndex.masteritemid] + 
-                        '" data-scannablemasterid="' + dt.Rows[i][colIndex.scannablemasterid] + 
-                        '" data-masterid="' + dt.Rows[i][colIndex.masterid] + 
-                        '" data-trackedby="' + dt.Rows[i][colIndex.trackedby] + 
-                        '" data-description="' + dt.Rows[i][colIndex.description] + 
-                        '" data-masterno="' + dt.Rows[i][colIndex.masterno] + 
-                        '" data-missingqty="' + dt.Rows[i][colIndex.missingqty] + 
-                        '" data-qtyordered="' + dt.Rows[i][colIndex.qtyordered] + 
-                        '" data-qtystagedandout="' + dt.Rows[i][colIndex.qtystagedandout] + 
-                        '" data-consignorid="' + dt.Rows[i][colIndex.consignorid] + 
-                        '" data-consignoragreementid="' + dt.Rows[i][colIndex.consignoragreementid] + 
-                        '" >');
-                        li.push('<div class="description">' + dt.Rows[i][colIndex.description] + '</div>');
-                        if (isHeaderRow) {
-                            li.push('<table style="display:none;">');
-                        } else {
-                            li.push('<table>');
-                        }
-                            li.push('<tbody>');
-                                li.push('<tr>');
-                                    li.push('<td class="col1 key masterno">' + RwLanguages.translate('I-Code') + ':</td>');
-                                    li.push('<td class="col2 value masterno">' + dt.Rows[i][colIndex.masterno] + '</td>');
-                                    li.push('<td class="col3 key missingqty">' + RwLanguages.translate('Remaining') + ':</td>');
-                                    li.push('<td class="col4 value missingqty">' + String(dt.Rows[i][colIndex.missingqty]) + '</td>');
-                                li.push('</tr>');
-                                li.push('<tr>');
-                                    if (dt.Rows[i][colIndex.rectype] === 'R') {
-                                        li.push('<td class="col1 key trackedby">' + RwLanguages.translate('Tracked By') + ':</td>');
-                                        li.push('<td class="col2 value trackedby">' + dt.Rows[i][colIndex.trackedby] + '</td>');
-                                    } else {
-                                        li.push('<td class="col1 key rectype">' + RwLanguages.translate('Available For') + ':</td>');
-                                        li.push('<td class="col2 value rectype">' + availablefor + '</td>');
-                                    }
-                                    li.push('<td class="col3 key qtyordered">' + RwLanguages.translate('Ordered') + ':</td>');
-                                    li.push('<td class="col4 value qtyordered">' + String(dt.Rows[i][colIndex.qtyordered]) + '</td>');
-                                li.push('</tr>');
-                                li.push('<tr>');
-                                    li.push('<td class="col1 key"></td>');
-                                        li.push('<td class="col2 value"></td>');
-                                    li.push('<td class="col3 key qtystagedandout">' + RwLanguages.translate('Staged/Out') + ':</td>');
-                                    li.push('<td class="col4 value qtystagedandout">' + String(dt.Rows[i][colIndex.qtystagedandout]) + '</td>');
-                                li.push('</tr>');
-                                li.push('<tr>');
-                                    if (dt.Rows[i][colIndex.consignorid] !== '') {
-                                        li.push('<td class="col1 key vendor">' + RwLanguages.translate('Consignor') + ':</td>');
-                                        li.push('<td class="col234 value vendor" colspan="3">' + dt.Rows[i][colIndex.vendor] + '</td>');
-                                    } else if (dt.Rows[i][colIndex.subvendorid] !== '') {
-                                        li.push('<td class="col1 key vendor">' + RwLanguages.translate('Sub-Vendor') + ':</td>');
-                                        li.push('<td class="col234 value vendor" colspan="3">' + dt.Rows[i][colIndex.vendor] + ' <span style="color:#ffff00;">(PO Sub-Receive to move to Staged)</span></td>');
-                                    }
-                                li.push('</tr>');
-                            li.push('</tbody>');
-                        li.push('</table>');
-                    li.push('</li>');
-                    ul.push(li.join(''));
-                }
-                ul.push(screen.getRowCountItem(dt.Rows.length));
-                jQuery('#staging-pendingList-ul').html(ul.join(''));
-                if ((sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') && showapplyallqtyitems) {
-                    screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#applyallqtyitems');
-                } else {
-                    screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
-                }
-                var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
-                screen.$modulecontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
-            } catch(ex) {
-                FwFunc.showError(ex);
             }
         };
         screen.getRowCountItem = function(count) {
@@ -2045,86 +2117,6 @@ class StagingControllerClass {
                                 },
                                 null);
                         }
-                    }
-                } catch(ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#staging-pendingList-ul > li.link', function() {
-                var $this, requestStageItem, requestSelectSerialNo, rectype, trackedby;
-                try {
-                    $this     = jQuery(this);
-                    rectype   = $this.attr('data-rectype');
-                    trackedby = $this.attr('data-trackedby');
-                    if (rectype === 'R') {
-                        if (trackedby === 'QUANTITY') {
-                            requestStageItem = {
-                                orderid:               screen.getOrderId(),
-                                code:                  '',
-                                masteritemid:          $this.attr('data-masteritemid'),
-                                qty:                   0,
-                                additemtoorder:        false,
-                                addcompletetoorder:    false,
-                                releasefromrepair:     false,
-                                unstage:               false,
-                                vendorid:              '',
-                                meter:                 0,
-                                location:              '',
-                                locationdata:          screen._locationdata(),
-                                addcontainertoorder:   false,
-                                overridereservation:   false,
-                                stageconsigned:        false,
-                                transferrepair:        false,
-                                removefromcontainer:   false,
-                                contractid:            screen.getContractId(),
-                                ignoresuspendedin:     false,
-                                consignorid:           $this.attr('data-consignorid'),
-                                consignoragreementid:  $this.attr('data-consignoragreementid'),
-                                playStatus:            false
-                            };
-                            RwServices.order.pdastageitem(requestStageItem, function(responseStageItem) {
-                                properties.responseStageItem = responseStageItem;
-                                screen.pdastageitemCallback(responseStageItem);
-                            });
-                        } else if (trackedby === 'SERIALNO') {
-                            var masterid        = $this.attr('data-masterid');
-                            var masteritemid    = $this.attr('data-masteritemid');
-                            var description     = $this.attr('data-description');
-                            var masterno        = $this.attr('data-masterno');
-                            var missingqty      = $this.attr('data-missingqty');
-                            var qtyordered      = $this.attr('data-qtyordered');
-                            var qtystagedandout = $this.attr('data-qtystagedandout');
-                            screen.pages.selectserialno.forward(masterid, masteritemid, description, masterno, missingqty, qtyordered, qtystagedandout);
-                        }
-                    } else if (rectype === 'S') {
-                        requestStageItem = {
-                            orderid:               screen.getOrderId(),
-                            code:                  '',
-                            masteritemid:          $this.attr('data-masteritemid'),
-                            qty:                   0,
-                            additemtoorder:        false,
-                            addcompletetoorder:    false,
-                            releasefromrepair:     false,
-                            unstage:               false,
-                            vendorid:              '',
-                            meter:                 0,
-                            location:              '',
-                            locationdata:          screen._locationdata(),
-                            addcontainertoorder:   false,
-                            overridereservation:   false,
-                            stageconsigned:        false,
-                            transferrepair:        false,
-                            removefromcontainer:   false,
-                            contractid:            screen.getContractId(),
-                            ignoresuspendedin:     false,
-                            consignorid:           '',
-                            consignoragreementid:  '',
-                            playStatus:            false
-                        };
-                        RwServices.order.pdastageitem(requestStageItem, function(responseStageItem) {
-                            properties.responseStageItem = responseStageItem;
-                            screen.pdastageitemCallback(responseStageItem);
-                        });
                     }
                 } catch(ex) {
                     FwFunc.showError(ex);
