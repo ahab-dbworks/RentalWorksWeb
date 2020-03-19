@@ -1,4 +1,4 @@
-﻿; (function ($, window, document, undefined) {
+; (function ($, window, document, undefined) {
 
     "use strict";
 
@@ -152,7 +152,17 @@
                         FwFunc.showError(ex);
                     }
                 })
-                ;
+            ;
+            if (typeof plugin._options.recordClick === 'function') {
+                this.$element.find('.searchresults').on('click', '.item.link', function (e) {
+                    try {
+                        jQuery(window).off('scroll');
+                        plugin._options.recordClick.call(plugin, $(this).data('recorddata'), $(this), e);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            }
         },
         _load: function (searchresults) {
             var $record, plugin;
@@ -182,20 +192,16 @@
                     } else {
                         $record = jQuery(Mustache.render(this._options.itemTemplate(itemmodel), itemmodel));
                     }
-                    if (typeof plugin._options.recordClick === 'function') {
+                    if ($record.attr('class').length === 0) {
+                        $record.attr('class', 'item');
+                    } else {
+                        $record.attr('class', `item ${$record.attr('class')}`);
+                    }
+                    if (typeof plugin._options.recordClick === 'function' && plugin._options.hasRecordClick(itemmodel)) {
+                        $record.addClass(`link  ${$record.attr('class')}`);
                         $record.css({ 'cursor': 'pointer' });
                     }
                     $record.data('recorddata', itemmodel);
-                    $record.on('click', function (e) {
-                        try {
-                            jQuery(window).off('scroll');
-                            if (typeof plugin._options.recordClick === 'function') {
-                                plugin._options.recordClick.call(plugin, $(this).data('recorddata'), $(this), e);
-                            }
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
                     this.$element.find('.searchresults').append($record);
                 }
             }
@@ -322,12 +328,13 @@
         currentMode: '',
         searchModes: [],
         upperCase: false,
-        getRequest: function () { return {}; },
+        getRequest: () => {},
         request: {},
         cacheItemTemplate: false,
-        itemTemplate: function (itemmodel) { return ''; },
-        beforeSearch: function () { },
-        pageSize: 100,
+        itemTemplate: (itemmodel) => '',
+        beforeSearch: () => { },
+        pageSize: 25,
+        hasRecordClick: (itemmodel) => true,
         recordClick: null,
         queryTimeout: null,
         afterLoad: function (plugin, response) { }
