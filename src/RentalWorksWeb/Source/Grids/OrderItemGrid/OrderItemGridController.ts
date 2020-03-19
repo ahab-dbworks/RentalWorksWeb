@@ -68,6 +68,12 @@ class OrderItemGrid {
                 FwBrowse.setFieldValue($grid, $tr, 'DaysPerWeek', { value: daysPerWeek });
             };
         }
+
+        //Allow searching on description field
+        $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
+            $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
+            $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
+        });
     }
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -82,8 +88,11 @@ class OrderItemGrid {
             //    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebarcode`);
             //    break;
             // barcode validation currently disabled on the front-end.
+            //case 'Description':
+            //    $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
+            //    $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
             case 'InventoryId':
-                var rate = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
+                const rate = FwBrowse.getValueByDataField($validationbrowse, $tr, 'RecType');
                 if (rate !== null) {
                     switch (rate) {
                         case 'R':
@@ -209,6 +218,12 @@ class OrderItemGrid {
                             FwFunc.showError(ex);
                         }
                     });
+                });
+
+                //Allow searching on description field
+                $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
+                    $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
+                    $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
                 });
             });
 
@@ -372,6 +387,18 @@ class OrderItemGrid {
                 $generatedtr.find('.field[data-browsedatafield="InventoryId"] input.text').val($tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+            });
+
+            $generatedtr.find('div[data-browsedatafield="Description"]').data('onchange', $tr => {
+                const recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
+                let idFieldName;
+                if (recType === 'L' || recType === 'M') {
+                    idFieldName = 'RateId';
+                } else {
+                    idFieldName = 'InventoryId';
+                }
+                FwBrowse.setFieldValue($control, $generatedtr, 'InventoryId', { value: FwBrowse.getValueByDataField($control, $tr, idFieldName), text: FwBrowse.getValueByDataField($control, $tr, 'ICode') });
+                $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange')($tr);
             });
 
             $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', $tr => {
