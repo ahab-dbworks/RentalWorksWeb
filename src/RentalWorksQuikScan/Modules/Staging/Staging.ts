@@ -522,7 +522,7 @@ class StagingControllerClass {
                             jQuery('#staging-pendingList').show();
                             jQuery('#staging-scan').attr('data-mode', 'PENDING');
                             RwRFID.unregisterEvents();
-                            screen.$view.find('#pendingsearch').fwmobilesearch('search');
+                            screen.$view.find('#pendingsearch').fwmobilesearch('refresh');
                             
 
 
@@ -1312,6 +1312,7 @@ class StagingControllerClass {
                         screen.pagehistory.pop();
                         screen.getCurrentPage().show();
                         jQuery(window).off('scroll').off('touchmove');
+                        screen.$view.find('#pendingsearch').fwmobilesearch('clearsearchresults');
                     });
                 }
             },
