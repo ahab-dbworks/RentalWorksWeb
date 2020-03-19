@@ -2277,6 +2277,8 @@ class StagingControllerClass {
         ;
 
         screen.displayOrderLocation = function (orderlocation) {
+            screen.$view.find('#staging-bottomtray .orderlocation').remove();
+
             let html = `<div class="orderlocation">
                             <div class="item"><div class="caption">Location:</div><div class="value">${orderlocation}</div></div>
                             <div class="orderlocationclear btnclear">Clear</div>
@@ -2933,12 +2935,12 @@ class StagingControllerClass {
             $orderlocation.searchlocation('');
         };
         $orderlocation.searchlocation = function (searchvalue) {
+            $orderlocation.find('.orderlocations').empty();
             var request = {
                 orderid:     screen.getOrderId(),
                 searchvalue: searchvalue
             };
             RwServices.callMethod("Staging", "SearchLocations", request, function(response) {
-                $orderlocation.find('.orderlocations').empty();
                 if (response.locations.length > 0) {
                     for (var item of response.locations) {
                         var html = [];

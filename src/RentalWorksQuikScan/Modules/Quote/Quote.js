@@ -249,8 +249,10 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
         }
     });
     $quotemain.displayOrderLocation = function (orderlocation) {
+        screen.$view.find('#quote-bottomtray .orderlocation').remove();
+
         let html = `<div class="orderlocation">
-                        <div class="item"><div class="caption">Location:</div><div class="value">${orderlocation}</div></div>
+                        <div class="item"><div class="cap">Location:</div><div class="val">${orderlocation}</div></div>
                         <div class="orderlocationclear btnclear">Clear</div>
                     </div>`;
         $quotemain.find('#quote-bottomtray').append(html);
@@ -550,12 +552,12 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
         $orderlocation.searchlocation('');
     };
     $orderlocation.searchlocation = function (searchvalue) {
+        $orderlocation.find('.orderlocations').empty();
         var request = {
             orderid:     properties.orderid,
             searchvalue: searchvalue
         };
         RwServices.callMethod("Quote", "SearchLocations", request, function(response) {
-            $orderlocation.find('.orderlocations').empty();
             if (response.locations.length > 0) {
                 for (var item of response.locations) {
                     var html = [];

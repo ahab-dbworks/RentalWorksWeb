@@ -3,24 +3,24 @@
 #moduleLock img {width: 30px;height: 30px;/*padding: 10px;*/}
 
 #quote .searchresults {padding:5px;}
-#quote .searchresults .item.link:active {background-color: #455A64;}
-#quote .searchresults .row1 {font-size:12px;font-weight: bold;padding: 2px 5px;background-color: #424242;}
-#quote .searchresults .item.link .row1 {text-decoration:underline;}
-#quote .searchresults .item.link:active .row1 {background-color: #607D8B;}
-#quote .searchresults .item.inrepair .row1 {background-color: #F44336;}
-#quote .searchresults .row2 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
-#quote .searchresults .col1 {flex: 1 1 0;}
-#quote .searchresults .col2 {flex: 1 1 0;}
-#quote .searchresults .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
-#quote .searchresults .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
-#quote .searchresults .value {flex: 1 1 0;font-size:.625em;}
+#quote .item.link:active {background-color: #455A64;}
+#quote .row1 {font-size:12px;font-weight: bold;padding: 2px 5px;background-color: #424242;}
+#quote .item.link .row1 {text-decoration:underline;}
+#quote .item.link:active .row1 {background-color: #607D8B;}
+#quote .item.inrepair .row1 {background-color: #F44336;}
+#quote .row2 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
+#quote .col1 {flex: 1 1 0;}
+#quote .col2 {flex: 1 1 0;}
+#quote .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
+#quote .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
+#quote .value {flex: 1 1 0;font-size:.625em;}
 #quote .fwmobilesearch .searchfooter {display:none;}
 
 #quote #quote-grandtotal {background-color: rgba(0,0,0,.3);border-top:1px solid rgba(80,80,80,1);padding:5px;text-align:right;font-size:12px;}
 
 #quote #quote-bottomtray {position:fixed;bottom:0;left:0;right:0;background-color:#424242;}
 #quote #quote-bottomtray .item {display:flex;flex:1 0 auto;margin:2px 10px;line-height:32px;}
-#quote #quote-bottomtray .item .caption {margin-right:5px;}
+#quote #quote-bottomtray .item .cap {margin-right:5px;}
 #quote #quote-bottomtray .btnclear {display:inline-block;line-height:30px;padding:0 6px;background-color:#2196F3;border:1px solid #3F51B5;cursor:pointer;margin:2px 10px;}
 #quote #quote-bottomtray .btnclear:hover {background-color:#1976d2;}
 #quote #quote-bottomtray .orderlocation {display:flex;}
