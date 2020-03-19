@@ -116,6 +116,17 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         {
             this.InventoryId = inventoryId;
             this.WarehouseId = warehouseId;
+
+            if (fromDateTime.Equals(DateTime.MinValue)) 
+            {
+                fromDateTime = DateTime.Today;
+            }
+
+            if (toDateTime.Equals(DateTime.MinValue))
+            {
+                toDateTime = InventoryAvailabilityFunc.LateDateTime;
+            }
+
             this.FromDateTime = fromDateTime;
             this.ToDateTime = toDateTime;
         }

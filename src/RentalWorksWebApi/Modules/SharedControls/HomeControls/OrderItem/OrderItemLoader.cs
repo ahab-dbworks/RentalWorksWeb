@@ -1056,6 +1056,17 @@ namespace WebApi.Modules.HomeControls.OrderItem
                                 itemAvailToDateTime = itemAvailToDateTime.Date;
                             }
 
+                            if (itemAvailFromDateTime.Equals(DateTime.MinValue))
+                            {
+                                itemAvailFromDateTime = DateTime.Today;
+                            }
+
+                            if (itemAvailToDateTime.Equals(DateTime.MinValue))
+                            {
+                                itemAvailToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                            }
+
+
                             availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, itemAvailFromDateTime, itemAvailToDateTime));
                         }
 
@@ -1092,6 +1103,17 @@ namespace WebApi.Modules.HomeControls.OrderItem
                             itemAvailFromDateTime = itemAvailFromDateTime.Date;
                             itemAvailToDateTime = itemAvailToDateTime.Date;
                         }
+
+                        if (itemAvailFromDateTime.Equals(DateTime.MinValue))
+                        {
+                            itemAvailFromDateTime = DateTime.Today;
+                        }
+
+                        if (itemAvailToDateTime.Equals(DateTime.MinValue))
+                        {
+                            itemAvailToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                        }
+
 
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
                         TInventoryWarehouseAvailability availData = null;
