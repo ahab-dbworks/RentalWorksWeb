@@ -41,13 +41,75 @@
                 html.push('</div>');
                 html.push('<div class="options"></div>');
             }
-            html.push('<div class="searchresults"></div>');
-            html.push('<div class="searchfooter">');
-            html.push('  <div class="recordcount"></div>');
-            html.push('  <div class="pager"></div>');
+            html.push('<div class="searchheader" style="color:#ffffff;text-align:center;display:flex;">');
+            html.push('  <div class="pagingcontrols" style="flex:0 0 auto;display:flex;align-items:center;">');
+            html.push('    <i class="material-icons btnfirst" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5DC;</i><i class="material-icons btnprev" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5CB;</i><input class="pageno" value="-" style="width:30px;text-align:center;" /><span style="padding:0 .5em;">of</span><span class="totalpages">-</span><i class="material-icons btnnext" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5CC</i><i class="material-icons btnlast" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5DD</i>');
+            html.push('  </div >');
+            html.push('  <div class="paginginfo" style="flex:1 1 0;padding:0 .2em 0 0;display:flex;align-items:center;justify-content:flex-end;">');
+            html.push('   <span class="rowstart">-</span><span style="padding:0 .5em;">to</span><span class="rowend">-</span><span style="padding:0 .5em;">of</span><span class="totalrows">-</span><select class="pagesize" style="margin: 0 1em 0 1em;"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="100">100</option><option value="200">200</option><option value="500">500</option><option value="1000">1000</option></select>');
+            html.push('  </div >');
             html.push('</div>');
-
+            html.push('<div class="searchresults"></div>');
             this.$element.append(html.join(''));
+
+            this.$element.find('.searchheader .paginginfo .pagesize').val(this._options.pageSize);
+
+            this.$element.on('click', '.btnfirst', (event) => {
+                try {
+                    this._firstpage();    
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            this.$element.on('click', '.btnprev', (event) => {
+                try {
+                    this._previouspage();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            this.$element.on('change', '.pageno', (event) => {
+                try {
+                    const $this = jQuery(event.currentTarget);
+                    if ($this.val().length > 0) {
+                        const pageNo = parseInt($this.val());
+                        if (!isNaN(pageNo)) {
+                            this._pageNo = pageNo;
+                            this._search();
+                        }
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            this.$element.on('click', '.btnnext', (event) => {
+                try {
+                    this._nextpage();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            this.$element.on('click', '.btnlast', (event) => {
+                try {
+                    this._lastpage();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            this.$element.on('change', '.pagesize', (event) => {
+                try {
+                    const $this = jQuery(event.currentTarget);
+                    if ($this.val().length > 0) {
+                        const pageSize = parseInt($this.val());
+                        if (!isNaN(pageSize)) {
+                            this._options.pageSize = pageSize;
+                            this._search();
+                        }
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
 
             if (this._options.searchModes.length > 0) {
                 for (var i = 0; i < this._options.searchModes.length; i++) {
@@ -169,19 +231,26 @@
             plugin = this;
             if (searchresults !== null) {
                 this._totalPages = searchresults.TotalPages;
-                jQuery(window).off('scroll');
-                if (this._totalPages > 1) {
-                    jQuery(window).on('scroll', function () {
-                        var $window = jQuery(window);
-                        var $document = jQuery(document);
-                        clearTimeout(plugin._throttleTimer);
-                        plugin._throttleTimer = setTimeout(function () {
-                            if ($window.scrollTop() + $window.height() > $document.height() - 100) {
-                                plugin._nextpage();
-                            }
-                        }, plugin._throttleDelay);
-                    });
+                if (searchresults.PageNo === 0 && searchresults.PageSize === 0) {
+                    this.$element.find('.searchheader').hide();
+                } else {
+                    this._updateSearchHeader(searchresults);
+                    this.$element.find('.searchheader').show()
                 }
+                //jQuery(window).off('scroll');
+                //if (this._totalPages > 1) {
+                    //jQuery(window).on('scroll', function () {
+                    //    var $window = jQuery(window);
+                    //    var $document = jQuery(document);
+                    //    clearTimeout(plugin._throttleTimer);
+                    //    plugin._throttleTimer = setTimeout(function () {
+                    //        if ($window.scrollTop() + $window.height() > $document.height() - 100) {
+                    //            plugin._nextpage();
+                    //        }
+                    //    }, plugin._throttleDelay);
+                    //});
+                //}
+                this.$element.find('.searchresults').empty();
                 for (var rowno = 0; rowno < searchresults.Rows.length; rowno++) {
                     var itemmodel = {};
                     for (var colname in searchresults.ColumnIndex) {
@@ -205,29 +274,58 @@
                     this.$element.find('.searchresults').append($record);
                 }
             }
-            this._updateSearchFooter(searchresults);
+            //this._updateSearchFooter(searchresults);
         },
         _clearSearchResults: function () {
             this._totalPages = 0;
             this._pageNo = 1;
+
+            this.$element.find('.searchheader .pagingcontrols .pageno').val('-');
+            this.$element.find('.searchheader .pagingcontrols .totalpages').text('-');
+            this.$element.find('.searchheader .paginginfo .rowstart').text('-');
+            this.$element.find('.searchheader .paginginfo .rowend').text('-');
+            this.$element.find('.searchheader .paginginfo .totalrows').text('-');
+
             this.$element.find('.searchresults').empty();
             this.$element.find('.searchfooter .recordcount').empty();
             this.$element.find('.searchfooter .pager').empty();
         },
-        _updateSearchFooter: function (searchresults) {
-            if (searchresults.PageNo < searchresults.TotalPages) {
-                this.$element.find('.searchfooter .recordcount').html(searchresults.PageNo * searchresults.PageSize + ' of ' + searchresults.TotalRows + ' items');
-                var remaining = searchresults.TotalRows - (searchresults.PageNo * searchresults.PageSize);
-                if (searchresults.PageSize >= remaining) {
-                    this.$element.find('.searchfooter .pager').html('Load last ' + remaining + ' records...');
-                } else {
-                    this.$element.find('.searchfooter .pager').html('Load next ' + searchresults.PageSize + ' records...');
-                }
-            } else {
-                this.$element.find('.searchfooter .recordcount').html(searchresults.TotalRows + ' items');
-                this.$element.find('.searchfooter .pager').empty();
+        _updateSearchHeader: function (searchresults) {
+            const totalPages = Math.ceil(searchresults.TotalRows / searchresults.PageSize);
+            let pageNo = searchresults.PageNo;
+            if (totalPages === 0) {
+                pageNo = 0;
             }
+            this.$element.find('.searchheader .pagingcontrols .pageno').val(pageNo);
+            this.$element.find('.searchheader .pagingcontrols .totalpages').text(totalPages);
+
+            let rowstart = pageNo;
+            if (pageNo > 1) {
+                rowstart = (pageNo - 1) * searchresults.PageSize + 1;
+            }
+            let rowend = rowstart + searchresults.PageSize - 1;
+            if (rowend > searchresults.TotalRows) {
+                rowend = searchresults.TotalRows;
+            }
+            this.$element.find('.searchheader .paginginfo .rowstart').text(rowstart);
+            this.$element.find('.searchheader .paginginfo .rowend').text(rowend);
+            this.$element.find('.searchheader .paginginfo .totalrows').text(searchresults.TotalRows);
         },
+        //_updateSearchFooter: function (searchresults) {
+        //    this.$element.find('.searchheader .paginginfo .pagesize').val(this.pageSize);
+        //    if (searchresults.PageNo < searchresults.TotalPages) {
+        //        this.$element.find('.searchfooter .recordcount').html(searchresults.PageNo * searchresults.PageSize + ' of ' + searchresults.TotalRows + ' items');
+        //        var remaining = searchresults.TotalRows - (searchresults.PageNo * searchresults.PageSize);
+        //        if (searchresults.PageSize >= remaining) {
+        //            this.$element.find('.searchfooter .pager').html('Load last ' + remaining + ' records...');
+        //        } else {
+        //            this.$element.find('.searchfooter .pager').html('Load next ' + searchresults.PageSize + ' records...');
+        //        }
+        //    } else {
+        //        this.$element.find('.searchfooter .recordcount').html(searchresults.TotalRows + ' items');
+        //        this.$element.find('.searchfooter .pager').empty();
+        //    }
+        //},
         _search: function () {
             var plugin = this;
             plugin.$element.find('.searchbox').blur();
@@ -256,16 +354,37 @@
                 });
             }
         },
+        _firstpage: function () {
+            var plugin = this;
+            plugin._pageNo = 1;
+            plugin._search();
+        },
+        _previouspage: function () {
+            var plugin = this;
+            var pageno = plugin._pageNo;
+            if (pageno > 1) {
+                plugin._pageNo = pageno - 1;
+            }
+            plugin._search();
+        },
         _nextpage: function () {
             var plugin = this;
-            var pageno = plugin._pageNo + 1;
+            var pageno = plugin._pageNo;
             var totalpages = plugin._totalPages;
-            if (pageno <= totalpages) {
-                plugin._pageNo = pageno;
-                plugin._search();
+            if (pageno < totalpages) {
+                plugin._pageNo = plugin._pageNo + 1;
             }
+            plugin._search();
         },
-
+        _lastpage: function () {
+            var plugin = this;
+            var totalpages = plugin._totalPages;
+            plugin._pageNo = totalpages;
+            plugin._search();
+        },
+        refresh: function () {
+            this._search();
+        },
         search: function () {
             this._clearSearchResults();
             this._search();
@@ -328,13 +447,13 @@
         currentMode: '',
         searchModes: [],
         upperCase: false,
-        getRequest: () => {},
+        getRequest: function () { return {}; },
         request: {},
         cacheItemTemplate: false,
-        itemTemplate: (itemmodel) => '',
-        beforeSearch: () => { },
+        itemTemplate: function (itemmodel) { return ''; },
+        beforeSearch: function () { },
         pageSize: 25,
-        hasRecordClick: (itemmodel) => true,
+        hasRecordClick: function (itemmodel) { return true; },
         recordClick: null,
         queryTimeout: null,
         afterLoad: function (plugin, response) { }
