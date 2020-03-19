@@ -88,9 +88,7 @@ class OrderItemGrid {
             //    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebarcode`);
             //    break;
             // barcode validation currently disabled on the front-end.
-            //case 'Description':
-            //    $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
-            //    $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
+            case 'Description':
             case 'InventoryId':
                 const rate = FwBrowse.getValueByDataField($validationbrowse, $tr, 'RecType');
                 if (rate !== null) {
@@ -457,10 +455,15 @@ class OrderItemGrid {
                         rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
                     }
                 } else {
-                    cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
+                    if (recType != 'R') {
+                        cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
+                    }
                     rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
                 }
-                FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost, text: cost });
+
+                if (recType != 'R') {
+                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost, text: cost });
+                }
                 FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
 
                 const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
@@ -497,6 +500,8 @@ class OrderItemGrid {
                     $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
                     $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
                 }
+
+                calculateExtended('Extended');
             });
 
             $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input.value', function ($tr) {
