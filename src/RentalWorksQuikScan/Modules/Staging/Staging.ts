@@ -2273,51 +2273,6 @@ class StagingControllerClass {
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', '#staging-stagedList-ul > li.link', function() {
-                var $this, qty, requestStageItem, $tdBarcodeValue, code;
-                try {
-                    $this = jQuery(this);
-                    const $contextmenu = FwContextMenu.render($this.attr('data-description'), null);
-                    FwContextMenu.addMenuItem($contextmenu, 'Unstage Item', function() {
-                        try {
-                            var requestStageItem = {
-                                orderid:               screen.getOrderId(),
-                                code:                  $this.attr('data-code'),
-                                masteritemid:          $this.attr('data-masteritemid'),
-                                qty:                   parseFloat($this.attr('data-quantity')),
-                                additemtoorder:        false,
-                                addcompletetoorder:    false,
-                                releasefromrepair:     false,
-                                unstage:               true,
-                                vendorid:              $this.attr('data-vendorid'),
-                                meter:                 0,
-                                location:              '',
-                                locationdata:          screen._locationdata(),
-                                addcontainertoorder:   false,
-                                overridereservation:   false,
-                                stageconsigned:        false,
-                                transferrepair:        false,
-                                removefromcontainer:   false,
-                                contractid:            screen.getContractId(),
-                                ignoresuspendedin:     false,
-                                consignorid:           $this.attr('data-consignorid'),
-                                consignoragreementid:  $this.attr('data-consignoragreementid'),
-                                playStatus:            false
-                            };
-                            RwServices.order.pdastageitem(requestStageItem, function(responseStageItem) {
-                                responseStageItem.unstageqty = requestStageItem.qty;
-                                properties.responseStageItem = responseStageItem;
-                                screen.unstageItemCallback(responseStageItem);
-                                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
-                            });
-                        } catch(ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
-                } catch(ex) {
-                    FwFunc.showError(ex);
-                }
-            })
             .on('click', '.rfid-item', function() {
                 var $this, $selectedrfiditem;
                 $this             = jQuery(this);
