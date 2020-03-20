@@ -42,18 +42,34 @@
                 html.push('<div class="options"></div>');
             }
             html.push('<div class="searchheader" style="color:#ffffff;text-align:center;display:flex;background-color: #333333;">');
-            html.push('  <div class="pagingcontrols" style="flex:0 0 auto;display:flex;align-items:center;">');
-            html.push('    <i class="material-icons btnfirst" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5DC;</i><i class="material-icons btnprev" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5CB;</i><input class="pageno" value="-" style="width:30px;text-align:center;" /><span style="padding:0 .5em;">of</span><span class="totalpages">-</span><i class="material-icons btnnext" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5CC</i><i class="material-icons btnlast" style="font-size:2em;padding:.2em;cursor:pointer;">&#xE5DD</i>');
+            html.push('  <div class="paginginfo" style="flex:1 1 0;padding:0 .2em 0 0;display:flex;align-items:center;justify-content:flex-start;color:#aaaaaa;font-size:.8em;">');
+            html.push('    <i class="material-icons btnrefresh" style="font-size:2em;padding:.2em;cursor:pointer;color:#ffffff;">&#xE5D5;</i>');
+            html.push('   <span class="rowstart">-</span><span style="padding:0 .5em;">to</span><span class="rowend">-</span><span style="padding:0 .5em;">of</span><span class="totalrows">-</span>');
             html.push('  </div >');
-            html.push('  <div class="paginginfo" style="flex:1 1 0;padding:0 .2em 0 0;display:flex;align-items:center;justify-content:flex-end;color:#aaaaaa;font-size:.8em;">');
-            html.push('   <span class="rowstart">-</span><span style="padding:0 .5em;">to</span><span class="rowend">-</span><span style="padding:0 .5em;">of</span><span class="totalrows">-</span><select class="pagesize" style="margin: 0 1em 0 1em;"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="100">100</option><option value="200">200</option><option value="500">500</option><option value="1000">1000</option></select>');
+            html.push('  <div class="pagingcontrols" style="flex:0 0 auto;display:flex;align-items:center;">');
+            html.push('    <i class="material-icons btnfirst" style="font-size:2em;padding:.2em;">&#xE5DC;</i>');
+            html.push('    <i class="material-icons btnprev" style="font-size:2em;padding:.2em;">&#xE5CB;</i>');
+            html.push('    <input class="pageno" value="-" style="width:30px;text-align:center;" />');
+            html.push('    <span style="padding:0 .5em;">of</span> <span class="totalpages">-</span>');
+            html.push('    <i class="material-icons btnnext" style="font-size:2em;padding:.2em;">&#xE5CC</i>');
+            html.push('    <i class="material-icons btnlast" style="font-size:2em;padding:.2em;">&#xE5DD</i>');
+            html.push('    <select class="pagesize" style="margin: 0 1em 0 1em;"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="100">100</option><option value="200">200</option><option value="500">500</option><option value="1000">1000</option></select>');
             html.push('  </div >');
             html.push('</div>');
             html.push('<div class="searchresults"></div>');
             this.$element.append(html.join(''));
 
-            this.$element.find('.searchheader .paginginfo .pagesize').val(this._options.pageSize);
+            this._updatePagerColors();
 
+            this.$element.find('.searchheader .pagesize').val(this._options.pageSize);
+
+            this.$element.on('click', '.btnrefresh', (event) => {
+                try {
+                    this._search();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
             this.$element.on('click', '.btnfirst', (event) => {
                 try {
                     this._firstpage();    
@@ -290,14 +306,43 @@
             this.$element.find('.searchfooter .recordcount').empty();
             this.$element.find('.searchfooter .pager').empty();
         },
+        _updatePagerColors: function () {
+            var plugin = this;
+            const pageNo = plugin._pageNo;
+            const pagesize = plugin._options.pageSize;
+            const disabledCss = {
+                color: '#555555',
+                cursor: 'default'
+            };
+            const enabledCss = {
+                color: '#ffffff',
+                cursor: 'pointer'
+            };
+            if (pageNo === 1) {
+                plugin.$element.find('.searchheader .btnfirst').css(disabledCss);
+                plugin.$element.find('.searchheader .btnprev').css(disabledCss);
+            } else {
+                plugin.$element.find('.searchheader .btnfirst').css(enabledCss);
+                plugin.$element.find('.searchheader .btnprev').css(enabledCss);
+            }
+            if (pageNo === plugin._totalPages) {
+                plugin.$element.find('.searchheader .btnnext').css(disabledCss);
+                plugin.$element.find('.searchheader .btnlast').css(disabledCss);
+            } else {
+                plugin.$element.find('.searchheader .btnnext').css(enabledCss);
+                plugin.$element.find('.searchheader .btnlast').css(enabledCss);
+            }
+        },
         _updateSearchHeader: function (searchresults) {
             const totalPages = Math.ceil(searchresults.TotalRows / searchresults.PageSize);
+            this._totalPages = totalPages;
             let pageNo = searchresults.PageNo;
+            this._updatePagerColors();
             if (totalPages === 0) {
                 pageNo = 0;
             }
-            this.$element.find('.searchheader .pagingcontrols .pageno').val(pageNo);
-            this.$element.find('.searchheader .pagingcontrols .totalpages').text(totalPages);
+            this.$element.find('.searchheader .pageno').val(pageNo);
+            this.$element.find('.searchheader .totalpages').text(totalPages);
 
             let rowstart = pageNo;
             if (pageNo > 1) {
@@ -307,25 +352,10 @@
             if (rowend > searchresults.TotalRows) {
                 rowend = searchresults.TotalRows;
             }
-            this.$element.find('.searchheader .paginginfo .rowstart').text(rowstart);
-            this.$element.find('.searchheader .paginginfo .rowend').text(rowend);
-            this.$element.find('.searchheader .paginginfo .totalrows').text(searchresults.TotalRows);
+            this.$element.find('.searchheader .rowstart').text(rowstart);
+            this.$element.find('.searchheader .rowend').text(rowend);
+            this.$element.find('.searchheader .totalrows').text(searchresults.TotalRows);
         },
-        //_updateSearchFooter: function (searchresults) {
-        //    this.$element.find('.searchheader .paginginfo .pagesize').val(this.pageSize);
-        //    if (searchresults.PageNo < searchresults.TotalPages) {
-        //        this.$element.find('.searchfooter .recordcount').html(searchresults.PageNo * searchresults.PageSize + ' of ' + searchresults.TotalRows + ' items');
-        //        var remaining = searchresults.TotalRows - (searchresults.PageNo * searchresults.PageSize);
-        //        if (searchresults.PageSize >= remaining) {
-        //            this.$element.find('.searchfooter .pager').html('Load last ' + remaining + ' records...');
-        //        } else {
-        //            this.$element.find('.searchfooter .pager').html('Load next ' + searchresults.PageSize + ' records...');
-        //        }
-        //    } else {
-        //        this.$element.find('.searchfooter .recordcount').html(searchresults.TotalRows + ' items');
-        //        this.$element.find('.searchfooter .pager').empty();
-        //    }
-        //},
         _search: function () {
             var plugin = this;
             plugin.$element.find('.searchbox').blur();
