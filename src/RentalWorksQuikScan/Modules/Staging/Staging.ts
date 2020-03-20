@@ -321,6 +321,19 @@ class StagingControllerClass {
         screen.$view.find('#pendingsearch').fwmobilesearch({
             service: 'Staging',
             method: 'GetPendingItems',
+            searchModes: [
+                {
+                    caption: 'Description', placeholder: 'Description', value: 'description',
+                    search: function (description) {
+                        if (description.length > 0) {
+                            screen.$search.fwmobilesearch('search');
+                        }
+                    },
+                    click: function () {
+                        screen.$search.fwmobilesearch('clearsearchbox');
+                    }
+                }
+            ],
             getRequest: function () {
                 var request = {
                     orderid: screen.getOrderId(),
@@ -1247,17 +1260,15 @@ class StagingControllerClass {
         screen.pages = {
             reset: function () {
                 screen.$view.find('.page-stagingmenu')
-                    .removeClass('page-slidein')
                     .hide();
                 screen.$view.find('.page-search')
-                    .removeClass('page-slidein')
                     .hide();
                 screen.$search.find('.option[data-value="orderno"]').hide();
                 screen.$search.find('.option[data-value="orderdesc"]').hide();
                 screen.$search.find('.option[data-value="deal"]').hide();
                 screen.$search.find('.option[data-value="sessionno"]').hide();
-                screen.pages.ordersuspendedsessions.getElement().removeClass('page-slidein').hide();
-                screen.pages.staging.getElement().removeClass('page-slidein').hide();
+                screen.pages.ordersuspendedsessions.getElement().hide();
+                screen.pages.staging.getElement().hide();
                 screen.pages.selectserialno.getElement().hide();
                 screen.pages.serialmeters.getElement().hide();
                 screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabpending');
@@ -1296,7 +1307,7 @@ class StagingControllerClass {
                     screen.pages.reset();
                     screen.$view.find('.btnSuspendedSessions').hide();
                     FwMobileMasterController.setTitle('');
-                    screen.$view.find('.page-stagingmenu').addClass('page-slidein').show();
+                    screen.$view.find('.page-stagingmenu').show();
                 },
                 forward: function () {
                     screen.pagehistory.push(screen.pages.stagingmenu);
@@ -1332,7 +1343,7 @@ class StagingControllerClass {
                     screen.$search.find('.option[data-value="orderno"]').show().click();
                     screen.$search.find('.option[data-value="orderdesc"]').show();
                     screen.$search.find('.option[data-value="deal"]').show();
-                    screen.$view.find('.page-search').addClass('page-slidein').show();
+                    screen.$view.find('.page-search').show();
                     screen.$search.fwmobilesearch('search');
                     screen.setOrderId('');
                     screen.setOrderNo('');
@@ -1358,7 +1369,7 @@ class StagingControllerClass {
                     FwMobileMasterController.setTitle('Select Suspended Session...');
                     screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#ordersuspendedsessions-back');
                     screen.$search.find('.option[data-value="sessionno"]').click();
-                    screen.$view.find('.page-search').addClass('page-slidein').show();
+                    screen.$view.find('.page-search').show();
                     screen.$search.fwmobilesearch('search');
                     screen.setOrderId('');
                     screen.setOrderNo('');
@@ -1382,7 +1393,7 @@ class StagingControllerClass {
                     screen.pages.reset();
                     screen.$modulecontrol.fwmobilemodulecontrol('changeState', this.name);
                     FwMobileMasterController.setTitle('Select Suspended Session...');
-                    screen.$view.find('.page-ordersuspendedsessions').addClass('page-slidein').show();
+                    screen.$view.find('.page-ordersuspendedsessions').show();
                     screen.$ordersuspendedsessions.fwmobilesearch('search');
                 },
                 forward: function() {
@@ -1409,7 +1420,7 @@ class StagingControllerClass {
                     } else {
                         FwMobileMasterController.setTitle(screen.getOrderNo() + ' - ' + screen.getOrderDesc());
                     }
-                    screen.pages.staging.getElement().addClass('page-slidein').show();
+                    screen.pages.staging.getElement().show();
                     jQuery('.tab.active').click();
                     jQuery(window).on('scroll', function() {
                         screen.evalWindowPosition();
@@ -1451,7 +1462,7 @@ class StagingControllerClass {
                     screen.$modulecontrol.fwmobilemodulecontrol('changeState', this.name);
                     FwMobileMasterController.setTitle('Select Serial No(s)...');
                     var $pageselectserialno = screen.pages.selectserialno.getElement();
-                    $pageselectserialno.addClass('page-slidein').show();
+                    $pageselectserialno.show();
                     if (typeof masteritemid === 'undefined') {
                         masteritemid = screen.pages.selectserialno.getMasterItemId();
                     }
@@ -1595,7 +1606,7 @@ class StagingControllerClass {
                     screen.$modulecontrol.fwmobilemodulecontrol('changeState', this.name);
                     FwMobileMasterController.setTitle('Enter Meter Data...');
                     var $pageselectserialno = screen.pages.serialmeters.getElement();
-                    $pageselectserialno.addClass('page-slidein').show();
+                    $pageselectserialno.show();
                 },
                 forward: function(masterid, masteritemid, description, masterno) {
                     var $pageserialmeters = screen.pages.serialmeters.getElement();

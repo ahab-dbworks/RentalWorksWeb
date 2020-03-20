@@ -1129,7 +1129,7 @@ namespace RentalWorksQuikScan.Source
                 select.Add("where exceptionflg = 'T'");
                 select.Add("  and (qtyordered > 0 or qtystagedandout > 0)");
                 select.Add("  and ((itemclass = 'C') or (itemclass = 'K') or (itemclass = 'S') or (itemclass = 'N') or missingflg = 'T')");
-                if (searchMode == "description")
+                if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
                     select.Add("  and description like @searchvalue");
                     select.AddParameter("@searchvalue", "%" + searchValue + "%");

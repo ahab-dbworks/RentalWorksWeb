@@ -324,8 +324,8 @@ namespace RentalWorksQuikScan.Modules
             session.userLocation = RwAppData.GetUserLocation(conn: FwSqlConnection.RentalWorks
                                                            , usersId: session.security.webUser.usersid);
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "Your user account requires a warehouse to peform this action.", session.userLocation.warehouseId);
-            string searchMode = string.Empty;
-            string searchValue = string.Empty;
+            string searchMode = request.searchmode;
+            string searchValue = request.searchvalue;
             int pageNo = 0;
             int pageSize = 0;
             if (FwValidate.IsPropertyDefined(request, "pageno"))
