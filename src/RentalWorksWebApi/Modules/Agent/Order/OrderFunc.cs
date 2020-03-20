@@ -268,6 +268,21 @@ namespace WebApi.Modules.Agent.Order
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> UpdateOrderItemExtendedAllASync(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, FwSqlConnection conn = null)
+        {
+            bool saved = false;
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+            FwSqlCommand qry = new FwSqlCommand(conn, "updatemasteritemextendedall", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+            await qry.ExecuteNonQueryAsync();
+            saved = true;
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
         public static async Task<CreatePoWorksheetSessionResponse> StartCreatePoWorksheetSession(FwApplicationConfig appConfig, FwUserSession userSession, CreatePoWorksheetSessionRequest request)
         {
             CreatePoWorksheetSessionResponse response = new CreatePoWorksheetSessionResponse();

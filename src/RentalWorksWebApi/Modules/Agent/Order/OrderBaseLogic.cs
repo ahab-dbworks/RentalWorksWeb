@@ -1561,17 +1561,9 @@ namespace WebApi.Modules.Agent.Order
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
+                if (e.Original != null)
                 {
-                    if (e.Original != null)
-                    {
-                        TaxId = ((DealOrderRecord)e.Original).TaxId;
-                    }
-
-                    if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
-                    {
-                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
-                    }
+                    TaxId = ((DealOrderRecord)e.Original).TaxId;
                 }
             }
         }
@@ -1588,12 +1580,11 @@ namespace WebApi.Modules.Agent.Order
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
+                if ((!string.IsNullOrEmpty(TaxOptionId)) && (!string.IsNullOrEmpty(TaxId)))
                 {
-                    if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
-                    {
-                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
-                    }
+                    bool b = false;
+                    b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
+                    b = OrderFunc.UpdateOrderItemExtendedAllASync(this.AppConfig, this.UserSession, GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
                 }
             }
         }
