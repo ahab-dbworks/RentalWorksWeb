@@ -332,7 +332,20 @@
         //let showapplyallqtyitems = false; 
         $pending.find('#pendingsearch').fwmobilesearch({
             service: 'CheckIn',
-            method:  'PendingSearch',
+            method: 'PendingSearch',
+            searchModes: [
+                {
+                    caption: 'Description', placeholder: 'Description', value: 'description',
+                    search: function (description) {
+                        if (description.length > 0) {
+                            screen.$search.fwmobilesearch('search');
+                        }
+                    },
+                    click: function () {
+                        screen.$search.fwmobilesearch('clearsearchbox');
+                    }
+                }
+            ],
             getRequest: function() {
                 var request = {
                     contractid: screen.getContractId()
@@ -674,7 +687,20 @@
 
         $sessionin.find('#sessioninsearch').fwmobilesearch({
             service: 'CheckIn',
-            method:  'SessionInSearch',
+            method: 'SessionInSearch',
+            searchModes: [
+                {
+                    caption: 'Description', placeholder: 'Description', value: 'description',
+                    search: function (description) {
+                        if (description.length > 0) {
+                            screen.$search.fwmobilesearch('search');
+                        }
+                    },
+                    click: function () {
+                        screen.$search.fwmobilesearch('clearsearchbox');
+                    }
+                }
+            ],
             getRequest: function() {
                 var request = {
                     contractid: screen.getContractId()
