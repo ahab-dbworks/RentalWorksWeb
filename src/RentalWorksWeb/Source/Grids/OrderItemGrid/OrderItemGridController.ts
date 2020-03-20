@@ -197,33 +197,42 @@ class OrderItemGrid {
                 });
             });
 
-            //Allow searching on description field
-            $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
-                $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
-                $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
-            });
-
+            const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
             if (controller === 'QuoteController' || controller === 'OrderController') {
                 const availabilityState = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityState');
                 const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
                 $availQty.attr('data-state', availabilityState);
                 $availQty.css('cursor', 'pointer');
-                if ($form.attr('data-controller') === 'PurchaseOrderController') {
-                    const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
-                    let peekForm;
-                    switch (recType) {
-                        case 'R':
-                            peekForm = 'RentalInventory';
-                            break;
-                        case 'S':
-                            peekForm = 'SalesInventory';
-                            break;
-                        case 'P':
-                            peekForm = 'PartsInventory';
-                            break;
-                    }
-                    const $td = $tr.find('[data-validationname="GeneralItemValidation"]');
-                    $td.attr('data-peekForm', peekForm);
+            }
+
+            if (controller === 'PurchaseOrderController') {
+                let peekForm;
+                switch (recType) {
+                    case 'R':
+                        peekForm = 'RentalInventory';
+                        break;
+                    case 'S':
+                        peekForm = 'SalesInventory';
+                        break;
+                    case 'P':
+                        peekForm = 'PartsInventory';
+                        break;
+                }
+                const $td = $tr.find('[data-validationname="GeneralItemValidation"]');
+                $td.attr('data-peekForm', peekForm);
+            }
+
+            //Allow searching on description field
+            const validDescriptionValidationTypes: any = ['R', 'S', 'P'];
+            const validTextItemClasses: any = ['M', 'GH', 'T', 'ST'];
+            if (validDescriptionValidationTypes.includes(recType)) {
+                if (validTextItemClasses.includes(itemClass)) {
+                    $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+                } else {
+                    $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
+                        $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
+                        $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
+                    });
                 }
             }
         });
