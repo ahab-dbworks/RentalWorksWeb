@@ -33,22 +33,22 @@
             var html = [];
             this.$element.addClass('fwmobilesearch');
 
-            html.push('<div class="searchheader" style="color:#ffffff;text-align:center;display:flex;background-color: #333333;">');
-            html.push('  <div class="paginginfo" style="flex:0 0 auto;min-width:170px;box-sizing:border-box;display:flex;align-items:center;justify-content:flex-start;color:#aaaaaa;font-size:.8em;">');
+            html.push('<div class="searchheader" style="color:#ffffff;background-color: #333333;">');
+            html.push('  <div class="pagingcontrols" style="flex:1 1 0;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;">');
             html.push('    <i class="material-icons btnrefresh" style="font-size:2em;padding:.2em;cursor:pointer;color:#ffffff;">&#xE5D5;</i>');
+            html.push('    <i class="material-icons btnfirst" data-enabled="false" style="font-size:2em;padding:.2em;">&#xE5DC;</i>');
+            html.push('    <i class="material-icons btnprev" data-enabled="false" style="font-size:2em;padding:.2em;">&#xE5CB;</i>');
+            html.push('    <input class="pageno" value="-" style="width:30px;text-align:center;" />');
+            html.push('    <span style="padding:0 .5em;">of</span> <span class="totalpages">-</span>');
+            html.push('    <i class="material-icons btnnext" data-enabled="false" style="font-size:2em;padding:.2em;">&#xE5CC;</i>');
+            html.push('    <i class="material-icons btnlast" data-enabled="false" style="font-size:2em;padding:.2em;">&#xE5DD;</i>');
+            html.push('  </div >');
+            html.push('  <div class="paginginfo" style="flex:0 0 auto;min-width:170px;box-sizing:border-box;padding:.2em;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;color:#aaaaaa;font-size:.8em;">');
             html.push('    <span class="rowstart">-</span>');
             html.push('    <span style="padding:0 .5em;">to</span>');
             html.push('    <span class="rowend">-</span>');
             html.push('    <span style="padding:0 .5em;">of</span>');
             html.push('    <span class="totalrows">-</span>');
-            html.push('  </div >');
-            html.push('  <div class="pagingcontrols" style="flex:1 1 0;display:flex;align-items:center;justify-content:flex-end;">');
-            html.push('    <i class="material-icons btnfirst" style="font-size:1.8em;padding:.05em;">&#xE5DC;</i>');
-            html.push('    <i class="material-icons btnprev" style="font-size:1.8em;padding:.05em;">&#xE5CB;</i>');
-            html.push('    <input class="pageno" value="-" style="width:30px;text-align:center;" />');
-            html.push('    <span style="padding:0 .5em;">of</span> <span class="totalpages">-</span>');
-            html.push('    <i class="material-icons btnnext" style="font-size:1.8em;padding:.05em;">&#xE5CC</i>');
-            html.push('    <i class="material-icons btnlast" style="font-size:1.8em;padding:.05em;">&#xE5DD</i>');
             html.push('    <select class="pagesize" style="margin: 0 1em 0 1em;"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="100">100</option><option value="200">200</option><option value="500">500</option><option value="1000">1000</option></select>');
             //html.push('    <i class="material-icons btntogglesearch" style="font-size:1.8em;padding:.05em;">&#xE313</i>');
             html.push('  </div >');
@@ -72,6 +72,8 @@
 
             this.$element.on('click', '.btnrefresh', (event) => {
                 try {
+                    //this._blankOutSearchHeader();
+                    //this.$element.find('.searchheader .pagingcontrols .pageno').val('-');
                     this._search();
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -79,14 +81,21 @@
             });
             this.$element.on('click', '.btnfirst', (event) => {
                 try {
-                    this._firstpage();    
+                    const $this = jQuery(event.currentTarget);
+                    if ($this.data('enabled')) {
+                        this._firstpage();    
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
             this.$element.on('click', '.btnprev', (event) => {
                 try {
-                    this._previouspage();
+                    const $this = jQuery(event.currentTarget);
+                    if ($this.data('enabled')) {
+                        this._previouspage();
+                    }
+                    
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -94,12 +103,8 @@
             this.$element.on('change', '.pageno', (event) => {
                 try {
                     const $this = jQuery(event.currentTarget);
-                    if ($this.val().length > 0) {
-                        const pageNo = parseInt($this.val());
-                        if (!isNaN(pageNo)) {
-                            this._pageNo = pageNo;
-                            this._search();
-                        }
+                    if ($this.data('enabled')) {
+                        this._firstpage();
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -107,14 +112,20 @@
             });
             this.$element.on('click', '.btnnext', (event) => {
                 try {
-                    this._nextpage();
+                    const $this = jQuery(event.currentTarget);
+                    if ($this.data('enabled')) {
+                        this._nextpage();
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
             this.$element.on('click', '.btnlast', (event) => {
                 try {
-                    this._lastpage();
+                    const $this = jQuery(event.currentTarget);
+                    if ($this.data('enabled')) {
+                        this._lastpage();
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -301,15 +312,33 @@
             }
             //this._updateSearchFooter(searchresults);
         },
+        _toggleWaitIcons: function (isWaiting) {
+            if (!isWaiting) {
+                this.$element.find('.searchheader .btnfirst').html('&#xE5DC;');
+                this.$element.find('.searchheader .btnprev').html('&#xE5CB;');
+                this.$element.find('.searchheader .btnnext').html('&#xE5CC;');
+                this.$element.find('.searchheader .btnlast').html('&#xE5DD;');
+                //this.$element.find('.searchheader .btnrefresh').html('&#xE5D5;');
+            } else {
+                this.$element.find('.searchheader .btnfirst').html('&#xE15B;');
+                this.$element.find('.searchheader .btnprev').html('&#xE15B;');
+                this.$element.find('.searchheader .btnnext').html('&#xE15B;');
+                this.$element.find('.searchheader .btnlast').html('&#xE15B;');
+                //this.$element.find('.searchheader .btnrefresh').html('&#xE15B;');
+            }
+        },
+        _blankOutSearchHeader: function () {
+            this.$element.find('.searchheader .pageno').val('-');
+            this.$element.find('.searchheader .totalpages').text('-');
+            this.$element.find('.searchheader .rowstart').text('-');
+            this.$element.find('.searchheader .rowend').text('-');
+            this.$element.find('.searchheader .totalrows').text('-');
+        },
         _clearSearchResults: function () {
             this._totalPages = 0;
             this._pageNo = 1;
 
-            this.$element.find('.searchheader .pagingcontrols .pageno').val('-');
-            this.$element.find('.searchheader .pagingcontrols .totalpages').text('-');
-            this.$element.find('.searchheader .paginginfo .rowstart').text('-');
-            this.$element.find('.searchheader .paginginfo .rowend').text('-');
-            this.$element.find('.searchheader .paginginfo .totalrows').text('-');
+            this._blankOutSearchHeader();
 
             this.$element.find('.searchresults').empty();
             this.$element.find('.searchfooter .recordcount').empty();
@@ -328,18 +357,18 @@
                 cursor: 'pointer'
             };
             if (pageNo === 1) {
-                plugin.$element.find('.searchheader .btnfirst').css(disabledCss);
-                plugin.$element.find('.searchheader .btnprev').css(disabledCss);
+                plugin.$element.find('.searchheader .btnfirst').data('enabled', false).css(disabledCss);
+                plugin.$element.find('.searchheader .btnprev').data('enabled', false).css(disabledCss);
             } else {
-                plugin.$element.find('.searchheader .btnfirst').css(enabledCss);
-                plugin.$element.find('.searchheader .btnprev').css(enabledCss);
+                plugin.$element.find('.searchheader .btnfirst').data('enabled', true).css(enabledCss);
+                plugin.$element.find('.searchheader .btnprev').data('enabled', true).css(enabledCss);
             }
             if (pageNo === plugin._totalPages) {
-                plugin.$element.find('.searchheader .btnnext').css(disabledCss);
-                plugin.$element.find('.searchheader .btnlast').css(disabledCss);
+                plugin.$element.find('.searchheader .btnnext').data('enabled', false).css(disabledCss);
+                plugin.$element.find('.searchheader .btnlast').data('enabled', false).css(disabledCss);
             } else {
-                plugin.$element.find('.searchheader .btnnext').css(enabledCss);
-                plugin.$element.find('.searchheader .btnlast').css(enabledCss);
+                plugin.$element.find('.searchheader .btnnext').data('enabled', true).css(enabledCss);
+                plugin.$element.find('.searchheader .btnlast').data('enabled', true).css(enabledCss);
             }
         },
         _updateSearchHeader: function (searchresults) {
@@ -367,6 +396,10 @@
         },
         _search: function () {
             var plugin = this;
+            this._toggleWaitIcons(true);
+            if (plugin._pageNo === 0) {
+                plugin.$element.find('.searchheader .pageno').val(1).change();
+            }
             plugin.$element.find('.searchbox').blur();
             plugin._options.beforeSearch();
             var funcCustomSearch = null;
@@ -383,8 +416,9 @@
                 plugin._options.request.searchmode = plugin._options.currentMode;
                 plugin._options.request.pagesize = plugin._options.pageSize;
                 plugin._options.request.pageno = plugin._pageNo;
-                FwServices.callMethod(plugin._options.service, plugin._options.method, plugin._options.request, plugin._options.queryTimeout, null, function (response) {
+                FwServices.callMethod(plugin._options.service, plugin._options.method, plugin._options.request, plugin._options.queryTimeout, null, (response) => {
                     try {
+                        this._toggleWaitIcons(false);
                         plugin._load(response.searchresults);
                         plugin._options.afterLoad(plugin, response);
                     } catch (ex) {
