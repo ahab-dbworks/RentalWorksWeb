@@ -329,6 +329,7 @@
             ]
         });
 
+        //let showapplyallqtyitems = false; 
         $pending.find('#pendingsearch').fwmobilesearch({
             service: 'CheckIn',
             method:  'PendingSearch',
@@ -339,7 +340,10 @@
                 return request;
             },
             cacheItemTemplate: false,
-            itemTemplate: function(model) {
+            itemTemplate: function (model) {
+                //if ((model.trackedby === 'QUANTITY' || model.subbyquantity === 'T') && model.qtystillout > 0) {
+                //    showapplyallqtyitems = true;
+                //}
                 var html: string | string[] = [], masterclass;
                 masterclass = 'item itemclass-' + model.itemclass;
                 masterclass += ((model.trackedby === 'SERIALNO' || model.trackedby === 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0)) ? ' link' : '';
@@ -414,16 +418,13 @@
                 }
             },
             afterLoad: function(plugin, response) {
-                if ((sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') && response.qtyitemexists) {
+                if (sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') {
                     $checkincontrol.fwmobilemodulecontrol('showButton', '#applyallqtyitems');
                 } else {
                     $checkincontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
                 }
                 var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
                 $checkincontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
-
-                var $recordcount = plugin.$element.find('.searchfooter .recordcount');
-                $recordcount.html($recordcount.text().replace('items', 'lines') + ' / ' + response.totalout + ' items');
             }
         });
         $pending.showscreen = function() {
@@ -841,16 +842,14 @@
                 }
             },
             afterLoad: function(plugin, response) {
-                var $recordcount;
-
                 if (response.extraitems > 0) {
                     $checkincontrol.fwmobilemodulecontrol('showButton', '#extraitems');
                 } else {
                     $checkincontrol.fwmobilemodulecontrol('hideButton', '#extraitems');
                 }
 
-                $recordcount = plugin.$element.find('.searchfooter .recordcount');
-                $recordcount.html($recordcount.text().replace('items', 'lines') + ' / ' + response.totalin + ' items');
+                //const $recordcount = plugin.$element.find('.searchfooter .recordcount');
+                //$recordcount.html($recordcount.text().replace('items', 'lines') + ' / ' + response.totalin + ' items');
             }
         });
         $sessionin.showscreen = function() {

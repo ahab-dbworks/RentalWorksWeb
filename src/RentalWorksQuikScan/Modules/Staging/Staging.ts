@@ -317,7 +317,7 @@ class StagingControllerClass {
         });
 
         // Pending Items
-        let showapplyallqtyitems = false; 
+        //let showapplyallqtyitems = false; 
         screen.$view.find('#pendingsearch').fwmobilesearch({
             service: 'Staging',
             method: 'GetPendingItems',
@@ -345,9 +345,9 @@ class StagingControllerClass {
             itemTemplate: function (model) {
                 var html: string | string[] = [], isClickableRentalItem = false, isClickableSalesItem = false;
                 const isHeaderRow = ((model.itemclass === 'N') || (model.missingqty === 0));
-                if (model.trackedby === 'QUANTITY' && model.subvendorid.length === 0) {
-                    showapplyallqtyitems = true;
-                }
+                //if (model.trackedby === 'QUANTITY' && model.subvendorid.length === 0) {
+                //    showapplyallqtyitems = true;
+                //}
                 let cssClass = '';
                 if (!isHeaderRow) {
                     isClickableRentalItem = ((model.rectype === 'R') &&
@@ -506,7 +506,7 @@ class StagingControllerClass {
                 }
             },
             afterLoad: function (plugin, response) {
-                if ((sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') && showapplyallqtyitems) {
+                if (sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') {
                     screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#applyallqtyitems');
                 } else {
                     screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');

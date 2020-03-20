@@ -611,14 +611,8 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public static void PendingSearch(dynamic request, dynamic response, dynamic session)
         {
-            FwSqlCommand qry;
+            FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             FwSqlSelect select = new FwSqlSelect();
-            dynamic allpendingitems;
-            string trackedby, subbyquantity;
-            decimal qtystillout, totalout = 0;
-            bool qtyitemexists = false;
-
-            qry             = new FwSqlCommand(FwSqlConnection.RentalWorks);
             select.PageNo   = request.pageno;
             select.PageSize = request.pagesize;
             qry.AddColumn("exceptionflg",       false, FwJsonDataTableColumn.DataTypes.Boolean);
@@ -647,21 +641,6 @@ namespace RentalWorksQuikScan.Modules
             select.AddParameter("@showall",         "F");
 
             response.searchresults = qry.QueryToFwJsonTable(select, true);
-
-            allpendingitems = GetPendingItems(request.contractid, "F");
-            for (int i = 0; i < allpendingitems.Count; i++)
-            {
-                trackedby     = allpendingitems[i].trackedby;
-                subbyquantity = FwConvert.ToString(allpendingitems[i].subbyquantity);
-                qtystillout   = FwConvert.ToDecimal(allpendingitems[i].qtystillout);
-                if ((trackedby.Equals("QUANTITY") || subbyquantity.Equals("T")) && (qtystillout > 0))
-                {
-                    qtyitemexists = true;
-                }
-                totalout = totalout + qtystillout;
-            }
-            response.qtyitemexists = qtyitemexists;
-            response.totalout      = totalout;
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
