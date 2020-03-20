@@ -520,6 +520,19 @@ class StagingControllerClass {
         screen.$view.find('#stagedsearch').fwmobilesearch({
             service: 'Staging',
             method: 'GetStagedItems',
+            searchModes: [
+                {
+                    caption: 'Description', placeholder: 'Description', value: 'description',
+                    search: function (description) {
+                        if (description.length > 0) {
+                            screen.$search.fwmobilesearch('search');
+                        }
+                    },
+                    click: function () {
+                        screen.$search.fwmobilesearch('clearsearchbox');
+                    }
+                }
+            ],
             getRequest: function () {
                 var request = {
                     orderid: screen.getOrderId(),
@@ -1606,6 +1619,7 @@ class StagingControllerClass {
                     screen.$modulecontrol.fwmobilemodulecontrol('changeState', this.name);
                     FwMobileMasterController.setTitle('Enter Meter Data...');
                     var $pageselectserialno = screen.pages.serialmeters.getElement();
+                    $pageselectserialno.show();
                     $pageselectserialno.show();
                 },
                 forward: function(masterid, masteritemid, description, masterno) {

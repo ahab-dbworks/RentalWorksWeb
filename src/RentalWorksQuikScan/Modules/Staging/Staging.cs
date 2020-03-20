@@ -369,12 +369,13 @@ namespace RentalWorksQuikScan.Modules
                 select.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby, consignorid, consignoragreementid, orderby");
                 select.Add("from dbo.funcstaged(@orderid, @summary)");
                 select.Add("where warehouseid = @warehouseid");
-                if (searchMode == "description")
+                select.Parse();
+                if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
                     select.AddWhere("description like @searchvalue");
                     select.AddParameter("@searchvalue", "%" + searchValue + "%");
                 }
-                select.Add("order by orderby");
+                select.AddOrderBy("orderby");
                 select.AddParameter("@orderid", orderid);
                 select.AddParameter("@summary", FwConvert.LogicalToCharacter(summary));
                 select.AddParameter("@warehouseid", warehouseid);
@@ -406,12 +407,13 @@ namespace RentalWorksQuikScan.Modules
                 select.PageSize = pageSize;
                 select.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby, consignorid, consignoragreementid, orderby");
                 select.Add("from dbo.funccheckedout(@contractid)");
-                if (searchMode == "description")
+                select.Parse();
+                if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
                     select.AddWhere("description like @searchvalue");
                     select.AddParameter("@searchvalue", "%" + searchValue + "%");
                 }
-                select.Add("order by orderby");
+                select.AddOrderBy("orderby");
                 select.AddParameter("@contractid", contractid);
                 dynamic result = new ExpandoObject();
                 result = qry.QueryToFwJsonTable(select, false);
@@ -431,6 +433,14 @@ namespace RentalWorksQuikScan.Modules
             string searchValue = string.Empty;
             int pageNo = 0;
             int pageSize = 0;
+            if (FwValidate.IsPropertyDefined(request, "searchmode"))
+            {
+                searchMode = request.searchmode;
+            }
+            if (FwValidate.IsPropertyDefined(request, "searchvalue"))
+            {
+                searchValue = request.searchvalue;
+            }
             if (FwValidate.IsPropertyDefined(request, "pageno"))
             {
                 pageNo = request.pageno;
