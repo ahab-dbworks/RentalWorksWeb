@@ -1176,24 +1176,6 @@ public string DateStamp { get; set; }
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<string> QuoteToOrder()
-        {
-            string newId = "";
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "quotetoorder", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    newId = qry.GetParameter("@neworderid").ToString();
-                }
-            }
-            return newId;
-        }
-        //-------------------------------------------------------------------------------------------------------
         public async Task<bool> CancelQuote()
         {
             bool success = false;

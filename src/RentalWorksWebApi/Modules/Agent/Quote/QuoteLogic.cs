@@ -95,18 +95,6 @@ namespace WebApi.Modules.Agent.Quote
             bool b2 = dealOrder.UpdateOrderTotal(e.SqlConnection).Result;
         }
         //------------------------------------------------------------------------------------    
-        public async Task<OrderLogic> QuoteToOrderASync<T>()
-        {
-            string orderId = await dealOrder.QuoteToOrder();
-            string[] keys = { orderId };
-
-            OrderLogic l = new OrderLogic();
-            l.SetDependencies(AppConfig, UserSession);
-            bool x = await l.LoadAsync<OrderLogic>(keys);
-
-            return l;
-        }
-        //------------------------------------------------------------------------------------
         public async Task<QuoteLogic> CancelQuoteASync()
         {
             await dealOrder.CancelQuote();

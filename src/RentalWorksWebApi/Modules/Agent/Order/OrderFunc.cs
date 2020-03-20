@@ -162,7 +162,7 @@ namespace WebApi.Modules.Agent.Order
     {
         public string OrderId { get; set; }
     }
-    public class OrderMessage 
+    public class OrderMessage
     {
         public string Message { get; set; }
         public bool PreventCheckOut { get; set; }
@@ -170,6 +170,19 @@ namespace WebApi.Modules.Agent.Order
     public class OrderMessagesResponse : TSpStatusResponse
     {
         public List<OrderMessage> Messages = new List<OrderMessage>();
+    }
+
+
+
+    public class QuoteToOrderRequest
+    {
+        public string QuoteId { get; set; }
+        public string LocationId { get; set; }
+        public string WarehouseId { get; set; }
+    }
+    public class QuoteToOrderResponse : TSpStatusResponse
+    {
+        public string OrderId { get; set; }
     }
 
 
@@ -628,5 +641,24 @@ namespace WebApi.Modules.Agent.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<QuoteToOrderResponse> QuoteToOrder(FwApplicationConfig appConfig, FwUserSession userSession, QuoteToOrderRequest request)
+        {
+            QuoteToOrderResponse response = new QuoteToOrderResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "quotetoorder", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.QuoteId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.LocationId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+                qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.OrderId = qry.GetParameter("@neworderid").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
     }
 }

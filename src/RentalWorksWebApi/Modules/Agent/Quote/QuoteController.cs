@@ -109,11 +109,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
@@ -143,18 +139,14 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
-        // POST api/v1/quote/createorder/A0000001
-        [HttpPost("createorder/{id}")]
+        // POST api/v1/quote/createorder
+        [HttpPost("createorder")]
         [FwControllerMethod(Id: "jzLmFvzdy5hE1", ActionType: FwControllerActionTypes.Option, Caption: "Create Order")]
-        public async Task<ActionResult<OrderLogic>> CreateOrder([FromRoute]string id)
+        public async Task<ActionResult<OrderLogic>> CreateOrder([FromBody]QuoteToOrderRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -162,13 +154,17 @@ namespace WebApi.Modules.Agent.Quote
             }
             try
             {
-                string[] ids = id.Split('~');
                 QuoteLogic quote = new QuoteLogic();
                 quote.SetDependencies(AppConfig, UserSession);
-                if (await quote.LoadAsync<QuoteLogic>(ids))
+                quote.QuoteId = request.QuoteId;
+                if (await quote.LoadAsync<QuoteLogic>())
                 {
-                    OrderLogic order = (OrderLogic)await quote.QuoteToOrderASync<OrderBaseLogic>();
-                    return new OkObjectResult(order);
+                    QuoteToOrderResponse response = await OrderFunc.QuoteToOrder(AppConfig, UserSession, request);
+                    OrderLogic order = new OrderLogic();
+                    order.SetDependencies(AppConfig, UserSession);
+                    order.OrderId = response.OrderId;
+                    bool x = await order.LoadAsync<OrderLogic>();
+                    return order;
                 }
                 else
                 {
@@ -177,11 +173,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
@@ -221,11 +213,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
@@ -255,11 +243,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
@@ -296,11 +280,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
@@ -330,11 +310,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------       
@@ -364,11 +340,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------       
@@ -399,11 +371,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -434,11 +402,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -469,11 +433,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------                
@@ -588,11 +548,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -622,11 +578,7 @@ namespace WebApi.Modules.Agent.Quote
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------

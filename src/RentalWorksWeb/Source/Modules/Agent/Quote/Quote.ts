@@ -1882,7 +1882,12 @@ class Quote extends OrderBase {
                 const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
                 const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
                 const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-                FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                let request: any = {
+                    QuoteId: quoteId,
+                    LocationId: JSON.parse(sessionStorage.getItem('location')).locationid,
+                    WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
+                }
+                FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwConfirmation.destroyConfirmation($confirmation);
                     const $quoteTab = jQuery(`#${$form.closest('.tabpage').attr('data-tabid')}`);
                     FwTabs.removeTab($quoteTab);
