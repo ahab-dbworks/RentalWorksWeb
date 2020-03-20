@@ -33,6 +33,27 @@
             var html = [];
             this.$element.addClass('fwmobilesearch');
 
+            html.push('<div class="searchheader" style="color:#ffffff;text-align:center;display:flex;background-color: #333333;">');
+            html.push('  <div class="paginginfo" style="flex:0 0 auto;min-width:170px;box-sizing:border-box;display:flex;align-items:center;justify-content:flex-start;color:#aaaaaa;font-size:.8em;">');
+            html.push('    <i class="material-icons btnrefresh" style="font-size:2em;padding:.2em;cursor:pointer;color:#ffffff;">&#xE5D5;</i>');
+            html.push('    <span class="rowstart">-</span>');
+            html.push('    <span style="padding:0 .5em;">to</span>');
+            html.push('    <span class="rowend">-</span>');
+            html.push('    <span style="padding:0 .5em;">of</span>');
+            html.push('    <span class="totalrows">-</span>');
+            html.push('  </div >');
+            html.push('  <div class="pagingcontrols" style="flex:1 1 0;display:flex;align-items:center;justify-content:flex-end;">');
+            html.push('    <i class="material-icons btnfirst" style="font-size:1.8em;padding:.05em;">&#xE5DC;</i>');
+            html.push('    <i class="material-icons btnprev" style="font-size:1.8em;padding:.05em;">&#xE5CB;</i>');
+            html.push('    <input class="pageno" value="-" style="width:30px;text-align:center;" />');
+            html.push('    <span style="padding:0 .5em;">of</span> <span class="totalpages">-</span>');
+            html.push('    <i class="material-icons btnnext" style="font-size:1.8em;padding:.05em;">&#xE5CC</i>');
+            html.push('    <i class="material-icons btnlast" style="font-size:1.8em;padding:.05em;">&#xE5DD</i>');
+            html.push('    <select class="pagesize" style="margin: 0 1em 0 1em;"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="100">100</option><option value="200">200</option><option value="500">500</option><option value="1000">1000</option></select>');
+            //html.push('    <i class="material-icons btntogglesearch" style="font-size:1.8em;padding:.05em;">&#xE313</i>');
+            html.push('  </div >');
+            html.push('</div>');
+
             if (this._options.searchModes.length > 0) {
                 html.push('<div class="searchinput">');
                 html.push('  <i class="material-icons md-dark">&#xE8B6;</i>'); //search
@@ -41,21 +62,7 @@
                 html.push('</div>');
                 html.push('<div class="options"></div>');
             }
-            html.push('<div class="searchheader" style="color:#ffffff;text-align:center;display:flex;background-color: #333333;">');
-            html.push('  <div class="paginginfo" style="flex:1 1 0;padding:0 .2em 0 0;display:flex;align-items:center;justify-content:flex-start;color:#aaaaaa;font-size:.8em;">');
-            html.push('    <i class="material-icons btnrefresh" style="font-size:2em;padding:.2em;cursor:pointer;color:#ffffff;">&#xE5D5;</i>');
-            html.push('   <span class="rowstart">-</span><span style="padding:0 .5em;">to</span><span class="rowend">-</span><span style="padding:0 .5em;">of</span><span class="totalrows">-</span>');
-            html.push('  </div >');
-            html.push('  <div class="pagingcontrols" style="flex:0 0 auto;display:flex;align-items:center;">');
-            html.push('    <i class="material-icons btnfirst" style="font-size:2em;padding:.2em;">&#xE5DC;</i>');
-            html.push('    <i class="material-icons btnprev" style="font-size:2em;padding:.2em;">&#xE5CB;</i>');
-            html.push('    <input class="pageno" value="-" style="width:30px;text-align:center;" />');
-            html.push('    <span style="padding:0 .5em;">of</span> <span class="totalpages">-</span>');
-            html.push('    <i class="material-icons btnnext" style="font-size:2em;padding:.2em;">&#xE5CC</i>');
-            html.push('    <i class="material-icons btnlast" style="font-size:2em;padding:.2em;">&#xE5DD</i>');
-            html.push('    <select class="pagesize" style="margin: 0 1em 0 1em;"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="100">100</option><option value="200">200</option><option value="500">500</option><option value="1000">1000</option></select>');
-            html.push('  </div >');
-            html.push('</div>');
+
             html.push('<div class="searchresults"></div>');
             this.$element.append(html.join(''));
 
@@ -204,7 +211,7 @@
                         FwFunc.showError(ex);
                     }
                 })
-                .on('keydown', function (event) {
+                .on('keydown', '.searchbox', function (event) {
                     try {
                         if (event.keyCode === 13) {
                             plugin._searchCalled = true;
@@ -226,6 +233,8 @@
                     try {
                         plugin.$element.find('.searchbox').val('').focus();
                         $(this).removeClass('visible');
+                        plugin._clearSearchResults();
+                        plugin._search();
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
