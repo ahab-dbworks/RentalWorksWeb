@@ -45,8 +45,24 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "unitextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string UnitExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "extendednodisc", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string GrossExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "extendednodiscsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string GrossExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discountamt", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string DiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discountamtsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string DiscountAmountSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string Extended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "extendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string ExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
         public string OrderBy { get; set; }
@@ -57,6 +73,63 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discountpctsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string DiscountPercentSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
+        public string Category { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unit", modeltype: FwDataTypes.Text)]
+        public string Unit { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
+        public string FromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fromtime", modeltype: FwDataTypes.Text)]
+        public string FromTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
+        public string ToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totime", modeltype: FwDataTypes.Text)]
+        public string ToTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
+        public string Notes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notesprint", modeltype: FwDataTypes.Boolean)]
+        public bool? NotesPrint { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
+        public bool? Taxable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxrate", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string TaxRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string Tax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string TaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "extendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string ExtendedWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "extendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string ExtendedWithTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         public async Task<List<T>> LoadItems<T>(InvoiceReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -72,7 +145,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                 //--------------------------------------------------------------------------------- 
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-            string[] totalFields = new string[] { "Extended" };
+            string[] totalFields = new string[] { "GrossExtended", "GrossExtendedSubTotal", "DiscountAmount", "DiscountAmountSubTotal", "Extended", "ExtendedSubTotal", "Tax", "TaxSubTotal", "ExtendedWithTax" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
@@ -125,6 +198,12 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string BillablePeriods { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string InventoryType { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class SalesInvoiceItemReportLoader : InvoiceItemReportLoader
@@ -133,6 +212,10 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         {
             recType = RwConstants.RECTYPE_SALE;
         }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string InventoryType { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class MiscInvoiceItemReportLoader : InvoiceItemReportLoader
@@ -145,6 +228,12 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string BillablePeriods { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string MiscType { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class LaborInvoiceItemReportLoader : InvoiceItemReportLoader
@@ -156,6 +245,33 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public string DaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string BillablePeriods { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string LaborType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hours", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string Hours { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hoursot", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string OverTimeHours { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hoursdt", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string DoubleTimeHours { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+    //------------------------------------------------------------------------------------ 
+    public class LossAndDamageInvoiceItemReportLoader : InvoiceItemReportLoader
+    {
+        public LossAndDamageInvoiceItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_LOSS_AND_DAMAGE;
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
@@ -556,6 +672,8 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------ 
         public List<LaborInvoiceItemReportLoader> LaborItems { get; set; } = new List<LaborInvoiceItemReportLoader>(new LaborInvoiceItemReportLoader[] { new LaborInvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
+        public List<LossAndDamageInvoiceItemReportLoader> LossAndDamageItems { get; set; } = new List<LossAndDamageInvoiceItemReportLoader>(new LossAndDamageInvoiceItemReportLoader[] { new LossAndDamageInvoiceItemReportLoader() });
+        //------------------------------------------------------------------------------------ 
         public List<InvoiceItemReportLoader> Items { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
 
@@ -602,7 +720,13 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     LaborItems.SetDependencies(AppConfig, UserSession);
                     taskLaborInvoiceItems = LaborItems.LoadItems<LaborInvoiceItemReportLoader>(request);
 
-                    await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems, taskRentalInvoiceItems, taskSalesInvoiceItems, taskMiscInvoiceItems, taskLaborInvoiceItems });
+                    //loss and damage items
+                    Task<List<LossAndDamageInvoiceItemReportLoader>> taskLossAndDamageInvoiceItems;
+                    LossAndDamageInvoiceItemReportLoader LossAndDamageItems = new LossAndDamageInvoiceItemReportLoader();
+                    LossAndDamageItems.SetDependencies(AppConfig, UserSession);
+                    taskLossAndDamageInvoiceItems = LossAndDamageItems.LoadItems<LossAndDamageInvoiceItemReportLoader>(request);
+
+                    await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems, taskRentalInvoiceItems, taskSalesInvoiceItems, taskMiscInvoiceItems, taskLaborInvoiceItems, taskLossAndDamageInvoiceItems });
 
                     Invoice = taskInvoice.Result;
 
@@ -613,6 +737,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                         Invoice.SalesItems = taskSalesInvoiceItems.Result;
                         Invoice.MiscItems = taskMiscInvoiceItems.Result;
                         Invoice.LaborItems = taskLaborInvoiceItems.Result;
+                        Invoice.LossAndDamageItems = taskLossAndDamageInvoiceItems.Result;
                     }
                 }
             }

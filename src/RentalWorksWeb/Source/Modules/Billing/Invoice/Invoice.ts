@@ -480,14 +480,14 @@ class Invoice {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
-                    RecType: "RS",
+                    RecType: "F,RS",
                 };
                 request.totalfields = invoiceItemTotalFields;
             },
-            beforeSave: (request: any) => {
-                request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-                request.RecType = "RS";
-            },
+            //beforeSave: (request: any) => {
+            //    request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            //    request.RecType = "RS";
+            //},
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('RS');
                 $fwgrid.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
@@ -515,12 +515,12 @@ class Invoice {
                 };
                 request.totalfields = invoiceItemTotalFields;
             },
-            beforeSave: (request: any) => {
-                request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-                request.RecType = 'F';
-            },
+            //beforeSave: (request: any) => {
+            //    request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            //    request.RecType = 'F';
+            //},
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
-                $fwgrid.addClass('F');
+                $fwgrid.addClass('F,RS');
                 $browse.attr('data-enabled', 'false');
                 $browse.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
             },
@@ -1001,7 +1001,7 @@ class Invoice {
         if (!FwFormField.getValueByDataField($form, 'HasMeterItem')) { $form.find('[data-type="tab"][data-caption="Meter"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { $form.find('[data-type="tab"][data-caption="Transportation"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Used Sale"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) { $form.find('[data-type="tab"][data-caption="Loss and Damage"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) { $form.find('.lossdamagetab[data-type="tab"]').hide() }
 
         const $invoiceItemGridRental = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
         const $invoiceItemGridSales = $form.find('.salesgrid [data-name="InvoiceItemGrid"]');
