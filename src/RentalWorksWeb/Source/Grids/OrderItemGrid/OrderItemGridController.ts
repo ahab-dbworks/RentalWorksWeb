@@ -70,27 +70,12 @@ class OrderItemGrid {
             };
         }
 
-        if (controller == 'OrderController' || controller == 'QuoteController') {
-            if (inventoryType == 'Rental' || inventoryType == 'Sales') {
-                $tr.find('[data-browsedatafield="InventoryId"]').data('onchange', $validationtr => {
-                    const classification = FwBrowse.getValueByDataField($control, $validationtr, 'Classification');
-                    if (classification == 'M') {
-                        $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
-                        $tr.find('[data-browsedatafield="Description"] input.value').remove();
-                        $tr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
-                        $tr.find('[data-browsedatafield="Description"] .btnpeek').hide();
-                        $tr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
-                        $tr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
-                    }
-                });
 
-                //Allow searching on description field
-                $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
-                    $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
-                    $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
-                });
-            }
-        }
+        //Allow searching on description field
+        $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
+            $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
+            $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
+        });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -530,6 +515,20 @@ class OrderItemGrid {
                 const warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
                 $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
+
+                if (controller == 'OrderController' || controller == 'QuoteController') {
+                    if (recType == 'R' || recType == 'S') {
+                        const classification = FwBrowse.getValueByDataField($control, $tr, 'Classification');
+                        if (classification == 'M') {
+                            $generatedtr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+                            $generatedtr.find('[data-browsedatafield="Description"] input.value').remove();
+                            $generatedtr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
+                            $generatedtr.find('[data-browsedatafield="Description"] .btnpeek').hide();
+                            $generatedtr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
+                            $generatedtr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
+                        }
+                    }
+                }
             }
 
             calculateExtended('Extended');
