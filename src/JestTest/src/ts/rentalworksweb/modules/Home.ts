@@ -12,6 +12,7 @@ export class Quote extends HomeModule {
         this.moduleName = 'Quote';
         this.moduleId = 'jFkSBEur1dluU';
         this.moduleCaption = 'Quote';
+        this.populateNewFormTimeout = 300000; // 300 seconds = 5 minutes
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
         rentalGrid.waitAfterSavingToReloadGrid = 1500;
@@ -465,6 +466,7 @@ export class Order extends HomeModule {
         this.moduleName = 'Order';
         this.moduleId = 'U8Zlahz3ke9i';
         this.moduleCaption = 'Order';
+        this.populateNewFormTimeout = 300000; // 300 seconds = 5 minutes
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
         rentalGrid.waitAfterSavingToReloadGrid = 1500;

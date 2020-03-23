@@ -8,7 +8,6 @@ import {
 import { MediumRegressionBaseTest } from './RwwMediumRegressionBase';
 
 export class MediumRegressionHomeTest extends MediumRegressionBaseTest {
-    testTimeout: number = 300000; // 300 seconds
     //---------------------------------------------------------------------------------------
     async PerformTests() {
 

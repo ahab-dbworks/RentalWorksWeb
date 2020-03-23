@@ -67,6 +67,7 @@ export class FwModuleBase {
     browseSeekTimeout: number = 120000; // 120 seconds
     deleteTimeout: number = 120000; // 120 seconds
     formOpenTimeout: number = 120000; // 120 seconds
+    populateNewFormTimeout: number = 120000; // 120 seconds
     formSaveTimeout: number = 120000; // 120 seconds
     grids?: FwGridBase[];
     waitForRecordsToGetEvents: number = 300;

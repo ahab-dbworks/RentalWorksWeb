@@ -74,7 +74,7 @@ export class MediumRegressionBaseTest extends BaseTest {
                             }
                             test(testName, async () => {
                                 await module.populateFormWithRecord(rec.record);
-                            }, module.formOpenTimeout);
+                            }, module.populateNewFormTimeout);
 
                             testName = `Save new ${module.moduleCaption}`;
                             if (rec.expectedErrorFields) {
