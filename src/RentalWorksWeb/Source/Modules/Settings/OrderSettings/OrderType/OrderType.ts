@@ -80,6 +80,11 @@ class OrderType {
             { value: 'ORDER', caption: 'Order Quantity' }
         ]);
 
+
+        if ($form.attr('data-mode') === 'NEW') {
+            FwFormField.setValueByDataField($form, 'DetermineQuantitiesToBillBasedOn', 'CONTRACT');
+        }
+
         return $form;
     }
 

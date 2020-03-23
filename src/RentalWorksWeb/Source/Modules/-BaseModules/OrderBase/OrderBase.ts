@@ -1346,6 +1346,10 @@ class OrderBase {
             { value: 'ORDER', caption: 'Order Quantity' }
         ]);
 
+        if ($form.attr('data-mode') === 'NEW') {
+            FwFormField.setValueByDataField($form, 'DetermineQuantitiesToBillBasedOn', 'CONTRACT');
+        }
+
         //Toggle Buttons - Billing tab - Labor Prep Fees
         FwFormField.loadItems($form.find('div[data-datafield="IncludePrepFeesInRentalRate"]'), [
             { value: 'false', caption: 'As Labor Charge' },
@@ -3204,7 +3208,9 @@ class OrderBase {
 
             FwAppData.apiMethod(true, 'GET', `api/v1/ordertype/${orderTypeId}`, null, FwServices.defaultTimeout, response => {
                 if ($form.attr('data-mode') === 'NEW') {
-                    FwFormField.setValueByDataField($form, 'DetermineQuantitiesToBillBasedOn', response.DetermineQuantitiesToBillBasedOn);
+                    if (response.DetermineQuantitiesToBillBasedOn) {
+                        FwFormField.setValueByDataField($form, 'DetermineQuantitiesToBillBasedOn', response.DetermineQuantitiesToBillBasedOn);
+                    }
                 }
 
                 const hiddenRentals = fieldNames.filter(function (field) {
@@ -3401,7 +3407,9 @@ class OrderBase {
     defaultBillQuantities($form) {
         const orderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
         FwAppData.apiMethod(true, 'GET', `api/v1/ordertype/${orderTypeId}`, null, FwServices.defaultTimeout, response => {
-            FwFormField.setValueByDataField($form, 'DetermineQuantitiesToBillBasedOn', response.DetermineQuantitiesToBillBasedOn);
+            if (response.DetermineQuantitiesToBillBasedOn) {
+                FwFormField.setValueByDataField($form, 'DetermineQuantitiesToBillBasedOn', response.DetermineQuantitiesToBillBasedOn);
+            }
         }, null, null);
     }
     //----------------------------------------------------------------------------------------------
