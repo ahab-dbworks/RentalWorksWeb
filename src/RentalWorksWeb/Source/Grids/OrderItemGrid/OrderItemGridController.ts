@@ -844,6 +844,10 @@ class OrderItemGrid {
                         FwBrowse.setFieldValue($control, $generatedtr, 'PeriodDiscountAmount', { value: (response.PeriodDiscountAmount || 0).toString() });
                     }, ex => FwFunc.showError(ex), null);
             }
+
+            const unitCost = +FwBrowse.getValueByDataField($control, $generatedtr, 'UnitCost');
+            const costExtended = unitCost * (+quantity);
+            FwBrowse.setFieldValue($control, $generatedtr, 'PeriodCostExtended', { value: costExtended.toLocaleString(), text: costExtended.toLocaleString() })
         }
     };
     //----------------------------------------------------------------------------------------------
