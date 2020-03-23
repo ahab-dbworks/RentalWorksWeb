@@ -402,6 +402,44 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public bool? AvailabilityByHour { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwLogicProperty(Id: "D4CqibWRnAMi")]
+        public bool? PrintNoteOnQuote { get { return orderItem.PrintNoteOnQuote; } set { orderItem.PrintNoteOnQuote = value; } }
+
+        [FwLogicProperty(Id: "UP6JR1BICRhn")]
+        public bool? PrintNoteOnOrder { get { return orderItem.PrintNoteOnOrder; } set { orderItem.PrintNoteOnOrder = value; } }
+
+        [FwLogicProperty(Id: "0yyjiau0nGcQ")]
+        public bool? PrintNoteOnPickList { get { return orderItem.PrintNoteOnPickList; } set { orderItem.PrintNoteOnPickList = value; } }
+
+        [FwLogicProperty(Id: "DNW1i0sUEhuo")]
+        public bool? PrintNoteOnOutContract { get { return orderItem.PrintNoteOnOutContract; } set { orderItem.PrintNoteOnOutContract = value; } }
+
+        [FwLogicProperty(Id: "GhfQJSEzfLcx")]
+        public bool? PrintNoteOnInContract { get { return orderItem.PrintNoteOnInContract; } set { orderItem.PrintNoteOnInContract = value; } }
+
+        [FwLogicProperty(Id: "GkfUFbz3zeEC")]
+        public bool? PrintNoteOnReturnList { get { return orderItem.PrintNoteOnReturnList; } set { orderItem.PrintNoteOnReturnList = value; } }
+
+        [FwLogicProperty(Id: "OAMGwCUvJFu6")]
+        public bool? PrintNoteOnInvoice { get { return orderItem.PrintNoteOnInvoice; } set { orderItem.PrintNoteOnInvoice = value; } }
+
+        [FwLogicProperty(Id: "yAdecRLjo7UZ")]
+        public bool? PrintNoteOnPurchaseOrder { get { return orderItem.PrintNoteOnPurchaseOrder; } set { orderItem.PrintNoteOnPurchaseOrder = value; } }
+
+        [FwLogicProperty(Id: "MgfmsmoXIYBi")]
+        public bool? PrintNoteOnReceiveContract { get { return orderItem.PrintNoteOnReceiveContract; } set { orderItem.PrintNoteOnReceiveContract = value; } }
+
+        [FwLogicProperty(Id: "cb97o8t8Ukx6")]
+        public bool? PrintNoteOnReturnContract { get { return orderItem.PrintNoteOnReturnContract; } set { orderItem.PrintNoteOnReturnContract = value; } }
+
+        [FwLogicProperty(Id: "gTaTjalpFWo6")]
+        public bool? PrintNoteOnVendorReceiveList { get { return orderItem.PrintNoteOnVendorReceiveList; } set { orderItem.PrintNoteOnVendorReceiveList = value; } }
+
+        [FwLogicProperty(Id: "GMWNSiGY64vN")]
+        public bool? PrintNoteOnVendorReturnList { get { return orderItem.PrintNoteOnVendorReturnList; } set { orderItem.PrintNoteOnVendorReturnList = value; } }
+
+        //------------------------------------------------------------------------------------ 
+
 
 
         //[FwLogicProperty(Id:"RT2U3nU2HIK0", IsReadOnly:true)]
@@ -796,42 +834,6 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
         //[FwLogicProperty(Id:"0laR1wJIv21Q")]
         //public bool? Ispending { get; set; }
-
-        //[FwLogicProperty(Id:"D4CqibWRnAMi")]
-        //public bool? Quoteprint { get { return orderItem.Quoteprint; } set { orderItem.Quoteprint = value; } }
-
-        //[FwLogicProperty(Id:"UP6JR1BICRhn")]
-        //public bool? Orderprint { get { return orderItem.Orderprint; } set { orderItem.Orderprint = value; } }
-
-        //[FwLogicProperty(Id:"0yyjiau0nGcQ")]
-        //public bool? Picklistprint { get { return orderItem.Picklistprint; } set { orderItem.Picklistprint = value; } }
-
-        //[FwLogicProperty(Id:"DNW1i0sUEhuo")]
-        //public bool? Contractoutprint { get { return orderItem.Contractoutprint; } set { orderItem.Contractoutprint = value; } }
-
-        //[FwLogicProperty(Id:"GhfQJSEzfLcx")]
-        //public bool? Contractinprint { get { return orderItem.Contractinprint; } set { orderItem.Contractinprint = value; } }
-
-        //[FwLogicProperty(Id:"GkfUFbz3zeEC")]
-        //public bool? Returnlistprint { get { return orderItem.Returnlistprint; } set { orderItem.Returnlistprint = value; } }
-
-        //[FwLogicProperty(Id:"OAMGwCUvJFu6")]
-        //public bool? Invoiceprint { get { return orderItem.Invoiceprint; } set { orderItem.Invoiceprint = value; } }
-
-        //[FwLogicProperty(Id:"yAdecRLjo7UZ")]
-        //public bool? Poprint { get { return orderItem.Poprint; } set { orderItem.Poprint = value; } }
-
-        //[FwLogicProperty(Id:"MgfmsmoXIYBi")]
-        //public bool? Contractreceiveprint { get { return orderItem.Contractreceiveprint; } set { orderItem.Contractreceiveprint = value; } }
-
-        //[FwLogicProperty(Id:"cb97o8t8Ukx6")]
-        //public bool? Contractreturnprint { get { return orderItem.Contractreturnprint; } set { orderItem.Contractreturnprint = value; } }
-
-        //[FwLogicProperty(Id:"gTaTjalpFWo6")]
-        //public bool? Poreceivelistprint { get { return orderItem.Poreceivelistprint; } set { orderItem.Poreceivelistprint = value; } }
-
-        //[FwLogicProperty(Id:"GMWNSiGY64vN")]
-        //public bool? Poreturnlistprint { get { return orderItem.Poreturnlistprint; } set { orderItem.Poreturnlistprint = value; } }
 
         //[FwLogicProperty(Id:"i0FvO7MfFbIk")]
         //public decimal? Billableperiods { get; set; }

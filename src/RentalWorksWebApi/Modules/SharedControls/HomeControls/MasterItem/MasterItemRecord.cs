@@ -140,33 +140,51 @@ namespace WebApi.Modules.HomeControls.MasterItem
         //------------------------------------------------------------------------------------ 
 
 
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "quoteprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnQuote { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "picklistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnPickList { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractoutprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnOutContract { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnReturnList { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoiceprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnInvoice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractinprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnInContract { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnPurchaseOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractreceiveprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnReceiveContract { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractreturnprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnReturnContract { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poreceivelistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnVendorReceiveList { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poreturnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnVendorReturnList { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
 
         //[FwSqlDataField(column: "repairid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string RepairId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "orgmasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string OrgmasteritemId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "quoteprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Quoteprint { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "orderprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Orderprint { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "picklistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Picklistprint { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "contractoutprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Contractoutprint { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "invoiceprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Invoiceprint { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "returnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Returnlistprint { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "contractinprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Contractinprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldorderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string LdorderId { get; set; }
@@ -219,17 +237,8 @@ namespace WebApi.Modules.HomeControls.MasterItem
         //[FwSqlDataField(column: "conflict", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Conflict { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "contractreceiveprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Contractreceiveprint { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "contractreturnprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Contractreturnprint { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "packagecode", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
         //public string Packagecode { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "poprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Poprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "primarymasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string PrimarymasteritemId { get; set; }
@@ -266,12 +275,6 @@ namespace WebApi.Modules.HomeControls.MasterItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "orderactivity", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
         //public string Orderactivity { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "poreceivelistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Poreceivelistprint { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "poreturnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Poreturnlistprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
