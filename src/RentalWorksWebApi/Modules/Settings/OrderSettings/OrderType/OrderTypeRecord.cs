@@ -214,6 +214,9 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         [FwSqlDataField(column: "defaultmanualsort", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? DefaultManualSort { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
+        public string DetermineQuantitiesToBillBasedOn { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

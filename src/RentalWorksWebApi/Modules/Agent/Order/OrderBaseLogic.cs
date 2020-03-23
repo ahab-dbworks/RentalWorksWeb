@@ -18,6 +18,7 @@ using WebApi.Modules.Settings.OrderTypeDateType;
 using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
 using WebApi;
 using WebApi.Modules.Settings.OrderSettings.OrderType;
+using System.Reflection;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -1205,6 +1206,13 @@ namespace WebApi.Modules.Agent.Order
 
             //OrderTypeCombineActivityTabs
 
+            if (isValid)
+            {
+                PropertyInfo property = typeof(OrderBaseLogic).GetProperty(nameof(OrderBaseLogic.DetermineQuantitiesToBillBasedOn));
+                string[] acceptableValues = { RwConstants.ORDER_DETERMINE_QUANTITIES_TO_BILL_BASED_ON_CONTRACT, RwConstants.ORDER_DETERMINE_QUANTITIES_TO_BILL_BASED_ON_ORDER };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
 
             OrderBaseLogic lOrig = null;
 
@@ -1365,6 +1373,11 @@ namespace WebApi.Modules.Agent.Order
                     orderType.OrderTypeId = OrderTypeId;
                     bool b = orderType.LoadAsync<OrderTypeLogic>().Result;
                     IsManualSort = orderType.DefaultManualSort;
+
+                    if (string.IsNullOrEmpty(DetermineQuantitiesToBillBasedOn))
+                    {
+                        DetermineQuantitiesToBillBasedOn = orderType.DetermineQuantitiesToBillBasedOn;
+                    }
                 }
 
                 if (string.IsNullOrEmpty(AgentId))

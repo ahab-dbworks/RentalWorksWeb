@@ -2,6 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Reflection;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OrderTypeFields;
 
@@ -74,6 +75,9 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
         [FwLogicProperty(Id: "fwPSBW0fcJ5TN")]
         public bool? DefaultManualSort { get { return orderType.DefaultManualSort; } set { orderType.DefaultManualSort = value; } }
+
+        [FwLogicProperty(Id: "bsbfV3WbDmtIJ")]
+        public string DetermineQuantitiesToBillBasedOn { get { return orderType.DetermineQuantitiesToBillBasedOn; } set { orderType.DetermineQuantitiesToBillBasedOn = value; } }
 
 
 
@@ -2256,6 +2260,18 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         public string DateStamp { get { return orderType.DateStamp; } set { orderType.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                PropertyInfo property = typeof(OrderTypeLogic).GetProperty(nameof(OrderTypeLogic.DetermineQuantitiesToBillBasedOn));
+                string[] acceptableValues = { RwConstants.ORDER_DETERMINE_QUANTITIES_TO_BILL_BASED_ON_CONTRACT, RwConstants.ORDER_DETERMINE_QUANTITIES_TO_BILL_BASED_ON_ORDER };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))

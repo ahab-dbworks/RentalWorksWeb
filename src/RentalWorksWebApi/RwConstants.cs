@@ -125,6 +125,11 @@ namespace WebApi
         public const string QUOTE_ORDER_DATE_TYPE_ORDER_DATE = "ORDER_DATE";
         public const string QUOTE_ORDER_DATE_TYPE_ESTIMATED_START_DATE = "ESTIMATED_START_DATE";
 
+        public const string ORDER_DETERMINE_QUANTITIES_TO_BILL_BASED_ON_CONTRACT = "CONTRACT";
+        public const string ORDER_DETERMINE_QUANTITIES_TO_BILL_BASED_ON_ORDER = "ORDER";
+
+
+        //ACTIVITY
         public const string ACTIVITY_TYPE_PICK = "PICK";
         public const string ACTIVITY_TYPE_START = "START";
         public const string ACTIVITY_TYPE_STOP = "STOP";
@@ -541,6 +546,10 @@ namespace WebApi
         public const string BILLING_CYCLE_BILL_ON_PERIOD_START = "START";
         public const string BILLING_CYCLE_BILL_ON_PERIOD_END = "END";
 
+
+        //ORDER TYPE
+        public const string ORDER_TYPE_TYPE_PO = "PO";
+        public const string ORDER_TYPE_TYPE_EVENT = "EVENT";
 
 
         //DEPARTMENT

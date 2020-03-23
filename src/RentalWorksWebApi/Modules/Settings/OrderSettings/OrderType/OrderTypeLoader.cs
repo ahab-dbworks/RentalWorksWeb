@@ -15,11 +15,14 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
         public string OrderType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
+        public string DetermineQuantitiesToBillBasedOn { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(ordtype not in ('PO', 'EVENT'))"); 
+            select.AddWhere("(ordtype not in ('" + RwConstants.ORDER_TYPE_TYPE_PO + "', '" + RwConstants.ORDER_TYPE_TYPE_EVENT + "'))"); 
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
