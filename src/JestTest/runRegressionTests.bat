@@ -22,6 +22,11 @@ rem --------------------------------------------------------------------------
 if not "%~1"=="" set starttest=%~1
 if not "%~2"=="" set endtest=%~2
 
+if "%endtest%"=="" set endtest=%starttest%
+
+if "%starttest%"=="" set starttest=1
+if "%endtest%"=="" set endtest=27
+
 IF "%DwRentalWorksWebPath%"=="" (
    ECHO Environment Variable DwRentalWorksWebPath is NOT defined
    set /p=Hit ENTER to exit
@@ -33,13 +38,6 @@ if not exist "c:\Program Files\7-Zip\7z.exe" (
    set /p=Hit ENTER to exit
    exit /B
 )
-
-IF "%starttest%"=="" (
-   ECHO Supply a starting test number as a command-line parameter
-   set /p=Hit ENTER to exit
-   exit /B
-)
-IF "%endtest%"=="" set endtest=%starttest%
 
 IF "%webinstallpath%"=="" (
    ECHO Web install path is not defined

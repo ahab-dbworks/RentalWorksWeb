@@ -1,6 +1,6 @@
 import {
-    //home
-    Contact, Customer, Deal, 
+    Contract, PickList, Container, Manifest, TransferOrder, TransferReceipt,
+    Invoice, Receipt, VendorInvoice,
     DefaultSettings, 
     InventorySettings, 
     Warehouse,
@@ -21,10 +21,22 @@ export class MediumRegressionHomeTest extends MediumRegressionBaseTest {
         }
         this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
-        //Home - Agent
-        this.MediumRegressionOnModule(new Contact());
-        this.MediumRegressionOnModule(new Customer());
-        this.MediumRegressionOnModule(new Deal());
+        //Home - Warehouse
+        this.MediumRegressionOnModule(new Contract());
+        this.MediumRegressionOnModule(new PickList());
+
+        //Home - Container
+        this.MediumRegressionOnModule(new Container());
+
+        //Home - Transfer
+        this.MediumRegressionOnModule(new Manifest());
+        this.MediumRegressionOnModule(new TransferOrder());
+        this.MediumRegressionOnModule(new TransferReceipt());
+
+        //Home - Billing
+        this.MediumRegressionOnModule(new Invoice());
+        this.MediumRegressionOnModule(new Receipt());
+        this.MediumRegressionOnModule(new VendorInvoice());
 
     }
     //---------------------------------------------------------------------------------------

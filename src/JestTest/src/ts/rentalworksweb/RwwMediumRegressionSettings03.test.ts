@@ -1,7 +1,8 @@
 import {
-    ActivityType, EventType, UnretiredReason, WarehouseCatalog, Crew, LaborRate, LaborPosition, LaborType, LaborCategory,
-    CrewScheduleStatus, CrewStatus, MiscRate, MiscType, MiscCategory, OfficeLocation, OrderType, DiscountReason, MarketSegment, MarketType, 
-    POType, DefaultSettings, InventorySettings, Warehouse, User,
+    GeneratorFuelType, GeneratorMake, GeneratorRating, GeneratorWatts, GeneratorType,
+    BlackoutStatus, BarCodeRange, InventoryAdjustmentReason, Attribute, InventoryCondition, InventoryGroup, InventoryType,
+    PartsCategory, RentalCategory, RetiredReason, SalesCategory, Unit, DefaultSettings, 
+    InventorySettings, Warehouse, User,
 } from './modules/AllModules';
 import { MediumRegressionBaseTest } from './RwwMediumRegressionBase';
 
@@ -10,35 +11,24 @@ export class MediumRegressionSettingsTest extends MediumRegressionBaseTest {
     async PerformTests() {
 
         this.LoadMyUserGlobal(new User());
-        this.OpenSpecificRecord(new DefaultSettings(), null, true);
-        this.OpenSpecificRecord(new InventorySettings(), null, true);
+        //this.OpenSpecificRecord(new DefaultSettings(), null, true);
+        //this.OpenSpecificRecord(new InventorySettings(), null, true);
+        //
+        //let warehouseToSeek: any = {
+        //    Warehouse: "GlobalScope.User~ME.Warehouse",
+        //}
+        //this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
-        let warehouseToSeek: any = {
-            Warehouse: "GlobalScope.User~ME.Warehouse",
-        }
-        this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
-
-        this.MediumRegressionOnModule(new ActivityType());
-        this.MediumRegressionOnModule(new EventType());
-        this.MediumRegressionOnModule(new UnretiredReason());
-        this.MediumRegressionOnModule(new WarehouseCatalog());
-        this.MediumRegressionOnModule(new Crew());
-        this.MediumRegressionOnModule(new LaborRate());
-        this.MediumRegressionOnModule(new LaborPosition());
-        this.MediumRegressionOnModule(new LaborType());
-        this.MediumRegressionOnModule(new LaborCategory());
-        this.MediumRegressionOnModule(new CrewScheduleStatus());
-        this.MediumRegressionOnModule(new CrewStatus());
-        this.MediumRegressionOnModule(new MiscRate());
-        this.MediumRegressionOnModule(new MiscType());
-        this.MediumRegressionOnModule(new MiscCategory());
-        this.MediumRegressionOnModule(new OfficeLocation());
-        this.MediumRegressionOnModule(new OrderType());
-        this.MediumRegressionOnModule(new DiscountReason());
-        this.MediumRegressionOnModule(new MarketSegment());
-        this.MediumRegressionOnModule(new MarketType());
-        this.MediumRegressionOnModule(new POType());
-
+        this.MediumRegressionOnModule(new GeneratorFuelType());
+        this.MediumRegressionOnModule(new GeneratorMake());
+        this.MediumRegressionOnModule(new GeneratorRating());
+        this.MediumRegressionOnModule(new GeneratorWatts());
+        this.MediumRegressionOnModule(new GeneratorType());
+        //this.MediumRegressionOnModule(new Holiday()); // module cannot be tested becuase data fields repeat and become invisible based on holiday.Type
+        this.MediumRegressionOnModule(new BlackoutStatus());
+        this.MediumRegressionOnModule(new BarCodeRange());
+        this.MediumRegressionOnModule(new InventoryAdjustmentReason());
+        this.MediumRegressionOnModule(new Attribute());
     }
     //---------------------------------------------------------------------------------------
 }

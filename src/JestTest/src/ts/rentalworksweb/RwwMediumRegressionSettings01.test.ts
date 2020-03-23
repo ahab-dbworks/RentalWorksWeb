@@ -12,13 +12,13 @@ export class MediumRegressionSettingsTest extends MediumRegressionBaseTest {
     async PerformTests() {
 
         this.LoadMyUserGlobal(new User());
-        this.OpenSpecificRecord(new DefaultSettings(), null, true);
-        this.OpenSpecificRecord(new InventorySettings(), null, true);
-
-        let warehouseToSeek: any = {
-            Warehouse: "GlobalScope.User~ME.Warehouse",
-        }
-        this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
+        //this.OpenSpecificRecord(new DefaultSettings(), null, true);
+        //this.OpenSpecificRecord(new InventorySettings(), null, true);
+        //
+        //let warehouseToSeek: any = {
+        //    Warehouse: "GlobalScope.User~ME.Warehouse",
+        //}
+        //this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
         this.MediumRegressionOnModule(new AccountingSettings());
         this.MediumRegressionOnModule(new GlAccount());
@@ -38,24 +38,6 @@ export class MediumRegressionSettingsTest extends MediumRegressionBaseTest {
         this.MediumRegressionOnModule(new DealClassification());
         this.MediumRegressionOnModule(new DealType());
         this.MediumRegressionOnModule(new DealStatus());
-        this.MediumRegressionOnModule(new ProductionType());
-        this.MediumRegressionOnModule(new ScheduleType());
-        this.MediumRegressionOnModule(new DiscountTemplate());
-        this.MediumRegressionOnModule(new DocumentType());
-        //this.MediumRegressionOnModule(new CoverLetter());
-        //this.MediumRegressionOnModule(new TermsConditions());
-        this.MediumRegressionOnModule(new EventCategory());
-        this.MediumRegressionOnModule(new PersonnelType());
-        this.MediumRegressionOnModule(new PhotographyType());
-        this.MediumRegressionOnModule(new Building());
-        this.MediumRegressionOnModule(new FacilityType());
-        this.MediumRegressionOnModule(new FacilityRate());
-        this.MediumRegressionOnModule(new FacilityScheduleStatus());
-        this.MediumRegressionOnModule(new FacilityStatus());
-        this.MediumRegressionOnModule(new FacilityCategory());
-        this.MediumRegressionOnModule(new SpaceType());
-        this.MediumRegressionOnModule(new FiscalYear());
-
     }
     //---------------------------------------------------------------------------------------
 }

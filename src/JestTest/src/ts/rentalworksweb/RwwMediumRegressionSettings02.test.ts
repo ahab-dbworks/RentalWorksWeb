@@ -1,7 +1,8 @@
 import {
-    GeneratorFuelType, GeneratorMake, GeneratorRating, GeneratorWatts, GeneratorType,
-    BlackoutStatus, BarCodeRange, InventoryAdjustmentReason, Attribute, InventoryCondition, InventoryGroup, InventoryType,
-    PartsCategory, RentalCategory, RetiredReason, SalesCategory, Unit, DefaultSettings, 
+    AccountingSettings, GlAccount, GlDistribution, Country, State, BillingCycle, Department, ContactEvent, ContactTitle, MailList, Currency,
+    CreditStatus, CustomerCategory, CustomerStatus, CustomerType, DealClassification, DealType, DealStatus, ProductionType, ScheduleType, DiscountTemplate,
+    DocumentType, EventCategory, PersonnelType, PhotographyType, Building, FacilityType, FacilityRate, FacilityScheduleStatus,
+    FacilityStatus, FacilityCategory, SpaceType, FiscalYear, DefaultSettings, 
     InventorySettings, Warehouse, User,
 } from './modules/AllModules';
 import { MediumRegressionBaseTest } from './RwwMediumRegressionBase';
@@ -11,34 +12,32 @@ export class MediumRegressionSettingsTest extends MediumRegressionBaseTest {
     async PerformTests() {
 
         this.LoadMyUserGlobal(new User());
-        this.OpenSpecificRecord(new DefaultSettings(), null, true);
-        this.OpenSpecificRecord(new InventorySettings(), null, true);
+        //this.OpenSpecificRecord(new DefaultSettings(), null, true);
+        //this.OpenSpecificRecord(new InventorySettings(), null, true);
 
-        let warehouseToSeek: any = {
-            Warehouse: "GlobalScope.User~ME.Warehouse",
-        }
-        this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
+        //let warehouseToSeek: any = {
+        //    Warehouse: "GlobalScope.User~ME.Warehouse",
+        //}
+        //this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
-        this.MediumRegressionOnModule(new GeneratorFuelType());
-        this.MediumRegressionOnModule(new GeneratorMake());
-        this.MediumRegressionOnModule(new GeneratorRating());
-        this.MediumRegressionOnModule(new GeneratorWatts());
-        this.MediumRegressionOnModule(new GeneratorType());
-        //this.MediumRegressionOnModule(new Holiday()); // module cannot be tested becuase data fields repeat and become invisible based on holiday.Type
-        this.MediumRegressionOnModule(new BlackoutStatus());
-        this.MediumRegressionOnModule(new BarCodeRange());
-        this.MediumRegressionOnModule(new InventoryAdjustmentReason());
-        this.MediumRegressionOnModule(new Attribute());
-        this.MediumRegressionOnModule(new InventoryCondition());
-        this.MediumRegressionOnModule(new InventoryGroup());
-        //this.MediumRegressionOnModule(new InventoryRank());  // module cannot be tested because there is no unique field that can be searched to validate or delete the record
-        //this.MediumRegressionOnModule(new InventoryStatus());  // module cannot be tested because of unique index on the "statustype" field. no adds allowed
-        this.MediumRegressionOnModule(new InventoryType());
-        this.MediumRegressionOnModule(new PartsCategory());
-        this.MediumRegressionOnModule(new RentalCategory());
-        this.MediumRegressionOnModule(new RetiredReason());
-        this.MediumRegressionOnModule(new SalesCategory());
-        this.MediumRegressionOnModule(new Unit());
+        this.MediumRegressionOnModule(new ProductionType());
+        this.MediumRegressionOnModule(new ScheduleType());
+        this.MediumRegressionOnModule(new DiscountTemplate());
+        this.MediumRegressionOnModule(new DocumentType());
+        //this.MediumRegressionOnModule(new CoverLetter());
+        //this.MediumRegressionOnModule(new TermsConditions());
+        this.MediumRegressionOnModule(new EventCategory());
+        this.MediumRegressionOnModule(new PersonnelType());
+        this.MediumRegressionOnModule(new PhotographyType());
+        this.MediumRegressionOnModule(new Building());
+        this.MediumRegressionOnModule(new FacilityType());
+        this.MediumRegressionOnModule(new FacilityRate());
+        this.MediumRegressionOnModule(new FacilityScheduleStatus());
+        this.MediumRegressionOnModule(new FacilityStatus());
+        this.MediumRegressionOnModule(new FacilityCategory());
+        this.MediumRegressionOnModule(new SpaceType());
+        this.MediumRegressionOnModule(new FiscalYear());
+
     }
     //---------------------------------------------------------------------------------------
 }
