@@ -1,12 +1,13 @@
 class OrderItemGrid {
     Module: string = 'OrderItemGrid';
     apiurl: string = 'api/v1/orderitem';
-
+    //----------------------------------------------------------------------------------------------
     onRowNewMode($control: JQuery, $tr: JQuery) {
         let $form = $control.closest('.fwform');
+        const controller = $form.attr('data-controller');
         let $grid = $tr.parents('[data-grid="OrderItemGrid"]');
         let inventoryType;
-        if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
+        if (controller !== "TemplateController" && controller !== "PurchaseOrderController") {
             var pickDate = FwFormField.getValue($form, 'div[data-dateactivitytype="PICK"]');
             var pickTime = FwFormField.getValue($form, 'div[data-timeactivitytype="PICK"]');
             var fromDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
@@ -45,7 +46,7 @@ class OrderItemGrid {
             inventoryType = 'LossAndDamage';
         }
 
-        if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
+        if (controller !== "TemplateController" && controller !== "PurchaseOrderController") {
             let daysPerWeek, discountPercent;
             if (inventoryType !== 'RentalSales') {
                 discountPercent = FwFormField.getValueByDataField($form, `${inventoryType}DiscountPercent`);
@@ -68,8 +69,15 @@ class OrderItemGrid {
                 FwBrowse.setFieldValue($grid, $tr, 'DaysPerWeek', { value: daysPerWeek });
             };
         }
-    }
 
+
+        //Allow searching on description field
+        $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
+            $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
+            $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
             //case 'ItemId':
@@ -82,8 +90,9 @@ class OrderItemGrid {
             //    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebarcode`);
             //    break;
             // barcode validation currently disabled on the front-end.
+            case 'Description':
             case 'InventoryId':
-                var rate = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
+                const rate = FwBrowse.getValueByDataField($validationbrowse, $tr, 'RecType');
                 if (rate !== null) {
                     switch (rate) {
                         case 'R':
@@ -126,130 +135,149 @@ class OrderItemGrid {
                 break;
             case 'WarehouseId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
         }
     }
-
+    //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
         var $form = $control.closest('.fwform');
+        const controller = $form.attr('data-controller');
 
-        if ($form.attr('data-controller') === 'OrderController' || $form.attr('data-controller') === 'QuoteController' || $form.attr('data-controller') === 'PurchaseOrderController') {
-            FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
-                // Bold Row
-                if ($tr.find('.order-item-bold').text() === 'true') {
-                    $tr.css('font-weight', "bold");
-                }
+        //if ($form.attr('data-controller') === 'OrderController' || $form.attr('data-controller') === 'QuoteController' || $form.attr('data-controller') === 'PurchaseOrderController') {
+        FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+            // Bold Row
+            if ($tr.find('.order-item-bold').text() === 'true') {
+                $tr.css('font-weight', "bold");
+            }
 
-                // Summarized Row
-                if ($tr.find('.order-item-rowsrolledup').text() === 'true') {
-                    $tr.css('font-style', "italic");
-                }
+            // Summarized Row
+            if ($tr.find('.order-item-rowsrolledup').text() === 'true') {
+                $tr.css('font-style', "italic");
+            }
 
+            // Group Header Row
+            if ($tr.find('.itemclass').text() === 'GH') {
+                $tr.css('font-weight', "bold");
+                $tr.css('background-color', "#ffffcc");
+                $tr.find('.field:not(.groupheaderline) ').text('');
+            }
 
-                // Group Header Row
-                if ($tr.find('.itemclass').text() === 'GH') {
-                    $tr.css('font-weight', "bold");
-                    $tr.css('background-color', "#ffffcc");
-                    $tr.find('.field:not(.groupheaderline) ').text('');
-                }
+            // Text Row
+            if ($tr.find('.itemclass').text() === 'T') {
+                $tr.find('.field:not(.textline) ').text('');
+            }
 
-                // Text Row
-                if ($tr.find('.itemclass').text() === 'T') {
-                    $tr.find('.field:not(.textline) ').text('');
-                }
+            // Sub-Total Row
+            if ($tr.find('.itemclass').text() === 'ST') {
+                $tr.css('font-weight', "bold");
+                $tr.css('background-color', "#ffff80");
+                $tr.find('.field:not(.subtotalline) ').text('');
+            }
 
-                // Sub-Total Row
-                if ($tr.find('.itemclass').text() === 'ST') {
-                    $tr.css('font-weight', "bold");
-                    $tr.css('background-color', "#ffff80");
-                    $tr.find('.field:not(.subtotalline) ').text('');
-                }
+            //Option to open up Complete/Kit grid to add items
+            let itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+            const $browsecontextmenu = $tr.find('.browsecontextmenu');
+            const classList: any = ['C', 'CI', 'CO', 'K', 'KI', 'KO'];
 
-                const availabilityState = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityState');
-                const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
-                $availQty.attr('data-state', availabilityState);
-                $availQty.css('cursor', 'pointer');
-                if ($form.attr('data-controller') === 'PurchaseOrderController') {
-                    const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
-                    let peekForm;
-                    switch (recType) {
-                        case 'R':
-                            peekForm = 'RentalInventory';
-                            break;
-                        case 'S':
-                            peekForm = 'SalesInventory';
-                            break;
-                        case 'P':
-                            peekForm = 'PartsInventory';
-                            break;
-                    }
-                    const $td = $tr.find('[data-validationname="GeneralItemValidation"]');
-                    $td.attr('data-peekForm', peekForm);
-                }
-
-                //Option to open up Complete/Kit grid to add items
-                let itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
-                const $browsecontextmenu = $tr.find('.browsecontextmenu');
-                const classList: any = ['C', 'CI', 'CO', 'K', 'KI', 'KO'];
-
-                $browsecontextmenu.data('contextmenuoptions', $tr => {
-                    if (classList.includes(itemClass)) {
-                        FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
-                            try {
-                                this.renderCompleteKitGridPopup($control, $tr, itemClass);
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        });
-                    }
-                    //Insert line-item option
-                    FwContextMenu.addMenuItem($browsecontextmenu, `Insert Line Item`, () => {
+            $browsecontextmenu.data('contextmenuoptions', $tr => {
+                if (classList.includes(itemClass)) {
+                    FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
                         try {
-                            this.insertLineItem($control, $tr);
+                            this.renderCompleteKitGridPopup($control, $tr, itemClass);
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
                     });
+                }
+                //Insert line-item option
+                FwContextMenu.addMenuItem($browsecontextmenu, `Insert Line Item`, () => {
+                    try {
+                        this.insertLineItem($control, $tr);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
                 });
             });
 
-            FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
-                // Lock Fields
-                if ($tr.find('.order-item-lock').text() === 'true') {
-                    $tr.find('.field-to-lock').parent('td').css({
-                        'background-color': '#f5f5f5',
-                        //'border': '1.5px inset'
-                        'border-top': '2px solid black',
-                        'border-bottom': '2px solid black'
+            const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
+            if (controller === 'QuoteController' || controller === 'OrderController') {
+                const availabilityState = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityState');
+                const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
+                $availQty.attr('data-state', availabilityState);
+                $availQty.css('cursor', 'pointer');
+            }
 
+            if (controller === 'PurchaseOrderController') {
+                let peekForm;
+                switch (recType) {
+                    case 'R':
+                        peekForm = 'RentalInventory';
+                        break;
+                    case 'S':
+                        peekForm = 'SalesInventory';
+                        break;
+                    case 'P':
+                        peekForm = 'PartsInventory';
+                        break;
+                }
+                const $td = $tr.find('[data-validationname="GeneralItemValidation"]');
+                $td.attr('data-peekForm', peekForm);
+            }
+
+            //Allow searching on description field
+            const validDescriptionValidationTypes: any = ['R', 'S', 'P'];
+            const validTextItemClasses: any = ['M', 'GH', 'T', 'ST'];
+            if (validDescriptionValidationTypes.includes(recType)) {
+                if (validTextItemClasses.includes(itemClass)) {
+                    $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+                } else {
+                    $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
+                        $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
+                        $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
                     });
-                    $tr.find('.field-to-lock').attr('data-formreadonly', 'true');
-                    // disabled grids were rendering with different shade background color
-                    if ($control.attr('data-enabled') === 'false') {
-                        $tr.find('.field-to-lock').css('background-color', 'transparent');
-                    }
                 }
+            }
+        });
 
-                // Mute Fields
-                if ($tr.find('.order-item-mute').text() === 'true') {
-                    $tr.find('.field-to-mute').css({ 'background-color': '#ffccff' });
-                    $tr.find('.field-to-mute').parent('td').css({
-                        'border-top': '2px solid black',
-                        'border-bottom': '2px solid black'
-                    });
-                    $tr.find('.field-to-mute').attr('data-formreadonly', 'true');
-                    // disabled grids were rendering with different shade background color
-                    if ($control.attr('data-enabled') === 'false') {
-                        $tr.find('.field-to-mute').css('background-color', 'transparent');
-                    }
+        FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
+            // Lock Fields
+            if ($tr.find('.order-item-lock').text() === 'true') {
+                $tr.find('.field-to-lock').parent('td').css({
+                    'background-color': '#f5f5f5',
+                    //'border': '1.5px inset'
+                    'border-top': '2px solid black',
+                    'border-bottom': '2px solid black'
+
+                });
+                $tr.find('.field-to-lock').attr('data-formreadonly', 'true');
+                // disabled grids were rendering with different shade background color
+                if ($control.attr('data-enabled') === 'false') {
+                    $tr.find('.field-to-lock').css('background-color', 'transparent');
                 }
+            }
 
-                //enable editing price on misc items
-                const isMiscClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
-                if (isMiscClass === 'M') {
-                    $generatedtr.find('[data-browsedatafield="Price"]').attr('data-formreadonly', 'false');
+            // Mute Fields
+            if ($tr.find('.order-item-mute').text() === 'true') {
+                $tr.find('.field-to-mute').css({ 'background-color': '#ffccff' });
+                $tr.find('.field-to-mute').parent('td').css({
+                    'border-top': '2px solid black',
+                    'border-bottom': '2px solid black'
+                });
+                $tr.find('.field-to-mute').attr('data-formreadonly', 'true');
+                // disabled grids were rendering with different shade background color
+                if ($control.attr('data-enabled') === 'false') {
+                    $tr.find('.field-to-mute').css('background-color', 'transparent');
                 }
-            });
+            }
 
+            //enable editing price on misc items
+            const isMiscClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
+            if (isMiscClass === 'M') {
+                $generatedtr.find('[data-browsedatafield="Price"]').attr('data-formreadonly', 'false');
+            }
+        });
+
+        if (controller === 'QuoteController' || controller === 'OrderController') {
             //availability calendar popup
             $generatedtr.find('div[data-browsedatafield="AvailableQuantity"]').on('click', e => {
                 const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
@@ -366,152 +394,203 @@ class OrderItemGrid {
                     FwNotification.renderNotification('WARNING', 'Save the row first.');
                 }
             });
-
-            $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
-                $generatedtr.find('.field[data-browsedatafield="InventoryId"] input').val($tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue'));
-                $generatedtr.find('.field[data-browsedatafield="InventoryId"] input.text').val($tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
-                $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-                $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-            });
-
-            $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', $tr => {
-                const recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
-                const rateType = FwFormField.getValueByDataField($form, 'RateType');
-                const description = FwBrowse.getValueByDataField($control, $tr, 'Description');
-                FwBrowse.setFieldValue($control, $generatedtr, 'Description', { value: description, text: description });
-                FwBrowse.setFieldValue($control, $generatedtr, 'QuantityOrdered', { value: '1', text: '1' });
-                FwBrowse.setFieldValue($control, $generatedtr, 'ItemId', { value: '', text: '' });
-                //$generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-                //$generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-                //$generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
-                //$generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-                let costFieldName;
-                let rateFieldName;
-                switch (recType) {
-                    case 'P':
-                    case 'S':
-                        costFieldName = 'DefaultCost';
-                        rateFieldName = 'Price';
-                        break;
-                    case 'R':
-                    case 'M':
-                    case 'L':
-                        if (rateType == 'DAILY') {
-                            rateFieldName = 'DailyRate';
-                        } else if (rateType == 'WEEKLY') {
-                            rateFieldName = 'WeeklyRate';
-                        } else if (rateType == '3WEEK') {
-                            rateFieldName = 'WeeklyRate';
-                        } else if (rateType == 'MONTHLY') {
-                            rateFieldName = 'MonthlyRate';
-                        }
-                        break;
-                    case 'RS':
-                        costFieldName = 'UnitValue';
-                        rateFieldName = 'ReplacementCost';
-                        break;
-
-                }
-
-                if (costFieldName) {
-                    const cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
-                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost, text: cost });
-                }
-
-                if (rateFieldName) {
-                    const rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
-                    FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
-                }
-
-                const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
-                FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable });
-
-                if ($generatedtr.hasClass("newmode")) {
-                    //const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
-                    const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                    //FwAppData.apiMethod(true, 'GET', `api/v1/pricing/${inventoryId}/${warehouseId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    //    switch (rateType) {
-                    //        case 'DAILY':
-                    //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
-                    //            break;
-                    //        case 'WEEKLY':
-                    //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].WeeklyRate);
-                    //            break;
-                    //        case 'MONTHLY':
-                    //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].MonthlyRate);
-                    //            break;
-                    //    }
-                    //}, null, $form);
-
-                    //const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-                    //FwAppData.apiMethod(true, 'GET', `api/v1/taxable/${inventoryId}/${officeLocationId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    //    if (response[0].Taxable) {
-                    //        $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
-                    //    }
-                    //}, null, $form);
-                    $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-                    $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
-                    $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
-                    $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
-                    const warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
-                    $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
-                    $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
-                }
-            });
-
-            $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Extended');
-            });
-            $generatedtr.find('div[data-browsedatafield="ToDate"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Extended');
-            });
-            $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Extended');
-            });
-            $generatedtr.find('div[data-browsedatafield="Price"]').on('change', 'input.value', function ($tr) {
-                calculateMarkupMargin('Price');
-                calculateExtended('Extended');
-            });
-            $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Extended');
-            });
-            $generatedtr.find('div[data-browsedatafield="DiscountPercentDisplay"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Extended', 'DiscountPercent');
-            });
-            $generatedtr.find('div[data-browsedatafield="UnitExtended"]').on('change', 'input.value', function ($tr) {
-                updatePrice('Discount', 'UnitExtended', 'Unit');
-            });
-            $generatedtr.find('div[data-browsedatafield="WeeklyExtended"]').on('change', 'input.value', function ($tr) {
-                updatePrice('Discount', 'WeeklyExtended', 'Weekly');
-            });
-            $generatedtr.find('div[data-browsedatafield="MonthlyExtended"]').on('change', 'input.value', function ($tr) {
-                updatePrice('Discount', 'MonthlyExtended', 'Monthly');
-            });
-            $generatedtr.find('div[data-browsedatafield="PeriodExtended"]').on('change', 'input.value', function ($tr) {
-                updatePrice('Discount', 'PeriodExtended', 'Period');
-            });
-            $generatedtr.find('div[data-browsedatafield="UnitDiscountAmount"]').on('change', 'input.value', function ($tr) {
-                updatePrice('Discount', 'UnitDiscountAmount', 'Unit');
-            });
-            $generatedtr.find('div[data-browsedatafield="WeeklyDiscountAmount"]').on('change', 'input.value', function ($tr) {
-                updatePrice('Discount', 'WeeklyDiscountAmount', 'Weekly');
-            });
-            $generatedtr.find('div[data-browsedatafield="MonthlyDiscountAmount"]').on('change', 'input.value', function ($tr) {
-                updatePrice('Discount', 'MonthlyDiscountAmount', 'Monthly');
-            });
-            $generatedtr.find('div[data-browsedatafield="PeriodDiscountAmount"]').on('change', 'input.value', function ($tr) {
-                updatePrice('Discount', 'PeriodDiscountAmount', 'Period');
-            });
-
-            $generatedtr.find('div[data-browsedatafield="MarkupPercent"]').on('change', 'input.value', $tr => {
-                calculateMarkupMargin('MarkupPercent');
-            });
-
-            $generatedtr.find('div[data-browsedatafield="MarginPercent"]').on('change', 'input.value', $tr => {
-                calculateMarkupMargin('MarginPercent');
-            });
         }
-        if ($form.attr('data-controller') === 'TemplateController') {
+
+        $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
+            $generatedtr.find('.field[data-browsedatafield="InventoryId"] input').val($tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="InventoryId"] input.text').val($tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+        });
+
+        $generatedtr.find('div[data-browsedatafield="Description"]').data('onchange', $tr => {
+            const recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
+            let idFieldName;
+            if (recType === 'L' || recType === 'M') {
+                idFieldName = 'RateId';
+            } else {
+                idFieldName = 'InventoryId';
+            }
+            FwBrowse.setFieldValue($control, $generatedtr, 'InventoryId', { value: FwBrowse.getValueByDataField($control, $tr, idFieldName), text: FwBrowse.getValueByDataField($control, $tr, 'ICode') });
+            $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange')($tr);
+        });
+
+        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', $tr => {
+            const recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
+            const rateType = FwFormField.getValueByDataField($form, 'RateType');
+            const description = FwBrowse.getValueByDataField($control, $tr, 'Description');
+            FwBrowse.setFieldValue($control, $generatedtr, 'Description', { value: description, text: description });
+            FwBrowse.setFieldValue($control, $generatedtr, 'QuantityOrdered', { value: '1', text: '1' });
+            FwBrowse.setFieldValue($control, $generatedtr, 'ItemId', { value: '', text: '' });
+            //$generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            //$generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+            //$generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
+            //$generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            let costFieldName;
+            let rateFieldName;
+            switch (recType) {
+                case 'P':
+                case 'S':
+                    costFieldName = 'DefaultCost';
+                    rateFieldName = 'Price';
+                    break;
+                case 'R':
+                case 'M':
+                case 'L':
+                    if (rateType == 'DAILY') {
+                        rateFieldName = 'DailyRate';
+                        costFieldName = 'DailyCost';
+                    } else if (rateType == 'WEEKLY') {
+                        rateFieldName = 'WeeklyRate';
+                        costFieldName = 'WeeklyCost';
+                    } else if (rateType == '3WEEK') {
+                        rateFieldName = 'WeeklyRate';
+                        costFieldName = 'WeeklyCost';
+                    } else if (rateType == 'MONTHLY') {
+                        rateFieldName = 'MonthlyRate';
+                        costFieldName = 'MonthlyCost';
+                    }
+                    break;
+                case 'RS':
+                    costFieldName = 'UnitValue';
+                    rateFieldName = 'ReplacementCost';
+                    break;
+
+            }
+
+            let rate;
+            let cost;
+            let laborMiscRateType;
+            if (recType === 'L' || recType === 'M') {
+                laborMiscRateType = FwBrowse.getValueByDataField($control, $tr, 'RateType');
+                if (laborMiscRateType == 'SINGLE') {
+                    rate = FwBrowse.getValueByDataField($control, $tr, 'Price');
+                    cost = FwBrowse.getValueByDataField($control, $tr, 'AverageCost');
+                } else {
+                    cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
+                    rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                }
+            } else {
+                if (recType != 'R') {
+                    cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
+                }
+                rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+            }
+
+            if (recType != 'R') {
+                FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost, text: cost });
+            }
+            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
+
+            const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
+            FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable });
+
+            if ($generatedtr.hasClass("newmode")) {
+                //const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
+                const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                //FwAppData.apiMethod(true, 'GET', `api/v1/pricing/${inventoryId}/${warehouseId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                //    switch (rateType) {
+                //        case 'DAILY':
+                //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
+                //            break;
+                //        case 'WEEKLY':
+                //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].WeeklyRate);
+                //            break;
+                //        case 'MONTHLY':
+                //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].MonthlyRate);
+                //            break;
+                //    }
+                //}, null, $form);
+
+                //const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                //FwAppData.apiMethod(true, 'GET', `api/v1/taxable/${inventoryId}/${officeLocationId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                //    if (response[0].Taxable) {
+                //        $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
+                //    }
+                //}, null, $form);
+                $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+                $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
+                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
+                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
+                const warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
+                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
+                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
+
+                if (controller == 'OrderController' || controller == 'QuoteController') {
+                    if (recType == 'R' || recType == 'S') {
+                        const classification = FwBrowse.getValueByDataField($control, $tr, 'Classification');
+                        if (classification == 'M') {
+                            $generatedtr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+                            $generatedtr.find('[data-browsedatafield="Description"] input.value').remove();
+                            $generatedtr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
+                            $generatedtr.find('[data-browsedatafield="Description"] .btnpeek').hide();
+                            $generatedtr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
+                            $generatedtr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
+                        }
+                    }
+                }
+            }
+
+            calculateExtended('Extended');
+        });
+
+        $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Extended');
+        });
+        $generatedtr.find('div[data-browsedatafield="ToDate"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Extended');
+        });
+        $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Extended');
+        });
+        $generatedtr.find('div[data-browsedatafield="UnitCost"]').on('change', 'input.value', function ($tr) {
+            calculateMarkupMargin('UnitCost');
+            calculateExtended('Extended');
+        });
+        $generatedtr.find('div[data-browsedatafield="Price"]').on('change', 'input.value', function ($tr) {
+            calculateMarkupMargin('Price');
+            calculateExtended('Extended');
+        });
+        $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Extended');
+        });
+        $generatedtr.find('div[data-browsedatafield="DiscountPercentDisplay"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Extended', 'DiscountPercent');
+        });
+        $generatedtr.find('div[data-browsedatafield="UnitExtended"]').on('change', 'input.value', function ($tr) {
+            updatePrice('Discount', 'UnitExtended', 'Unit');
+        });
+        $generatedtr.find('div[data-browsedatafield="WeeklyExtended"]').on('change', 'input.value', function ($tr) {
+            updatePrice('Discount', 'WeeklyExtended', 'Weekly');
+        });
+        $generatedtr.find('div[data-browsedatafield="MonthlyExtended"]').on('change', 'input.value', function ($tr) {
+            updatePrice('Discount', 'MonthlyExtended', 'Monthly');
+        });
+        $generatedtr.find('div[data-browsedatafield="PeriodExtended"]').on('change', 'input.value', function ($tr) {
+            updatePrice('Discount', 'PeriodExtended', 'Period');
+        });
+        $generatedtr.find('div[data-browsedatafield="UnitDiscountAmount"]').on('change', 'input.value', function ($tr) {
+            updatePrice('Discount', 'UnitDiscountAmount', 'Unit');
+        });
+        $generatedtr.find('div[data-browsedatafield="WeeklyDiscountAmount"]').on('change', 'input.value', function ($tr) {
+            updatePrice('Discount', 'WeeklyDiscountAmount', 'Weekly');
+        });
+        $generatedtr.find('div[data-browsedatafield="MonthlyDiscountAmount"]').on('change', 'input.value', function ($tr) {
+            updatePrice('Discount', 'MonthlyDiscountAmount', 'Monthly');
+        });
+        $generatedtr.find('div[data-browsedatafield="PeriodDiscountAmount"]').on('change', 'input.value', function ($tr) {
+            updatePrice('Discount', 'PeriodDiscountAmount', 'Period');
+        });
+
+        $generatedtr.find('div[data-browsedatafield="MarkupPercent"]').on('change', 'input.value', $tr => {
+            calculateMarkupMargin('MarkupPercent');
+        });
+
+        $generatedtr.find('div[data-browsedatafield="MarginPercent"]').on('change', 'input.value', $tr => {
+            calculateMarkupMargin('MarginPercent');
+        });
+
+        if (controller === 'TemplateController') {
             $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
@@ -555,11 +634,13 @@ class OrderItemGrid {
                 fieldToCalculate = "MarginPercent";
             } else if (columnChanged == "MarginPercent") {
                 fieldToCalculate = "MarkupPercent";
+            } else if (columnChanged == "UnitCost") {
+                fieldToCalculate = "UnitCost";
             } else if (columnChanged == "Price") {
                 fieldToCalculate = "Price";
             }
-            markupPercent = +(FwBrowse.getValueByDataField($control, $generatedtr, 'MarkupPercent').replace('%','').trim());
-            marginPercent = +(FwBrowse.getValueByDataField($control, $generatedtr, 'MarginPercent').replace('%','').trim());
+            markupPercent = +(FwBrowse.getValueByDataField($control, $generatedtr, 'MarkupPercent').replace('%', '').trim());
+            marginPercent = +(FwBrowse.getValueByDataField($control, $generatedtr, 'MarginPercent').replace('%', '').trim());
             price = +FwBrowse.getValueByDataField($control, $generatedtr, 'Price');
             cost = +FwBrowse.getValueByDataField($control, $generatedtr, 'UnitCost');
             apiurl += `FieldToCalculate=${fieldToCalculate}&MarkupPercent=${markupPercent}&MarginPercent=${marginPercent}&Price=${price}&Cost=${cost}`;
@@ -577,6 +658,7 @@ class OrderItemGrid {
                             FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response.Price.toString() });
                             calculateExtended('Extended');
                             break;
+                        case 'UnitCost':
                         case 'Price':
                             FwBrowse.setFieldValue($control, $generatedtr, 'MarkupPercent', { value: response.MarkupPercent });
                             FwBrowse.setFieldValue($control, $generatedtr, 'MarginPercent', { value: response.MarginPercent });
@@ -678,7 +760,7 @@ class OrderItemGrid {
         }
 
         function calculateExtended(type, field?) {
-            let rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended,
+            let rateType, recType, fromDate, toDate, quantity, rate, unitCost, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended,
                 monthlyExtended, unitDiscountAmount, weeklyDiscountAmount, monthlyDiscountAmount, periodDiscountAmount;
             rateType = FwFormField.getValueByDataField($form, 'RateType');
             recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
@@ -686,6 +768,7 @@ class OrderItemGrid {
             toDate = FwBrowse.getValueByDataField($control, $generatedtr, 'ToDate');
             quantity = FwBrowse.getValueByDataField($control, $generatedtr, 'QuantityOrdered');
             rate = FwBrowse.getValueByDataField($control, $generatedtr, 'Price');
+            unitCost = FwBrowse.getValueByDataField($control, $generatedtr, 'UnitCost');
             daysPerWeek = FwBrowse.getValueByDataField($control, $generatedtr, 'DaysPerWeek');
             if (field == "DiscountPercent") {
                 discountPercent = FwBrowse.getValueByDataField($control, $generatedtr, 'DiscountPercentDisplay');
@@ -709,7 +792,7 @@ class OrderItemGrid {
             } else if (type == "Discount") {
                 apiurl += "calculatediscountpercent?";
             }
-            apiurl += `RateType=${rateType}&RecType=${recType}&FromDate=${fromDate}&ToDate=${toDate}&Quantity=${quantity}&Rate=${rate}&DaysPerWeek=${daysPerWeek}`;
+            apiurl += `RateType=${rateType}&RecType=${recType}&FromDate=${fromDate}&ToDate=${toDate}&Quantity=${quantity}&Rate=${rate}&UnitCost=${unitCost}&DaysPerWeek=${daysPerWeek}`;
 
             if (type == 'Extended') {
                 apiurl += `&DiscountPercent=${discountPercent}`;
@@ -717,6 +800,7 @@ class OrderItemGrid {
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout,
                     response => {
                         FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: (response.DiscountPercent || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'PeriodCostExtended', { value: (response.CostExtended || 0).toString() });
                         FwBrowse.setFieldValue($control, $generatedtr, 'UnitExtended', { value: (response.UnitExtended || 0).toString() });
                         FwBrowse.setFieldValue($control, $generatedtr, 'UnitDiscountAmount', { value: (response.UnitDiscountAmount || 0).toString() });
                         FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyExtended', { value: (response.WeeklyExtended || 0).toString() });
@@ -769,9 +853,15 @@ class OrderItemGrid {
                         FwBrowse.setFieldValue($control, $generatedtr, 'PeriodDiscountAmount', { value: (response.PeriodDiscountAmount || 0).toString() });
                     }, ex => FwFunc.showError(ex), null);
             }
+
+            //justin hoffman - moved to API layer
+            //const unitCost = +FwBrowse.getValueByDataField($control, $generatedtr, 'UnitCost');
+            //const costExtended = unitCost * (+quantity);
+            //FwBrowse.setFieldValue($control, $generatedtr, 'PeriodCostExtended', { value: costExtended.toLocaleString(), text: costExtended.toLocaleString() })
         }
     };
     //----------------------------------------------------------------------------------------------
+
     //toggleOrderItemView($form: any, event: any, module) {
     //    // Toggle between Detail and Summary view in all OrderItemGrid
     //    let $element, $orderItemGrid, isSummary, orderId, isSubGrid;

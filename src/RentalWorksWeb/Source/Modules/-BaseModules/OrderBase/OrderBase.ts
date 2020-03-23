@@ -263,6 +263,7 @@ class OrderBase {
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('R');
                 $orderItemGridRental = $fwgrid;
+                $orderItemGridRental.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'rental', dt.Totals);
@@ -425,6 +426,7 @@ class OrderBase {
                 $fwgrid.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
                 $fwgrid.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
                 $orderItemGridSales = $fwgrid;
+                $orderItemGridSales.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);

@@ -164,7 +164,7 @@
         });
 
 
-        $control.find('.btnvalidate').on('click', function () {
+        $control.find('.btnvalidate').on('click', () => {
             try {
                 if ((typeof $control.attr('data-enabled') !== 'string') || ($control.attr('data-enabled') !== 'false')) {
                     FwValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, false);
@@ -319,6 +319,10 @@
         else if (typeof $control.attr('data-apiurl') === 'string' && $control.attr('data-apiurl').length > 0) {
             $validationbrowse.data('validationmode', 2);
             $validationbrowse.attr('data-apiurl', $control.attr('data-apiurl'));
+        }
+
+        if (typeof $control.data('changedisplayfield') === 'function') {
+            $control.data('changedisplayfield')($validationbrowse);
         }
 
         $validationbrowse.data('$btnvalidate', $btnvalidate);

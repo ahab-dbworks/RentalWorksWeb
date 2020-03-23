@@ -2,23 +2,28 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
-using WebApi.Modules.HomeControls.Master;
 using System.Collections.Generic;
+//using WebApi.Modules.HomeControls.Master;
+//using WebApi.Modules.HomeControls.Inventory;
+using WebApi.Data;
 using WebApi.Logic;
 
-namespace WebApi.Modules.HomeControls.Inventory
+namespace WebApi.Modules.Settings.Rate
 {
     [FwSqlTable("inventoryview")]
-    public class InventoryBrowseLoader : AppDataLoadRecord
+    public class RateBrowseLoader : AppDataLoadRecord
     {
-        public InventoryBrowseLoader()
+        //------------------------------------------------------------------------------------ 
+        public RateBrowseLoader()
         {
             AfterBrowse += OnAfterBrowse;
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string InventoryId { get; set; } = "";
+        public string RateId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string RateType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
         public string AvailFor { get; set; }
@@ -50,9 +55,9 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
-        public string ManufacturerPartNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
+        //public string ManufacturerPartNumber { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
         public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -69,21 +74,21 @@ namespace WebApi.Modules.HomeControls.Inventory
             set { }
         }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
-        public string Rank { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "q.qty", modeltype: FwDataTypes.Decimal)]
-        public decimal? Quantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.manifestvalue", modeltype: FwDataTypes.Decimal)]
-        public decimal? UnitValue { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.aisleloc", modeltype: FwDataTypes.Text)]
-        public string AisleLocation { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.shelfloc", modeltype: FwDataTypes.Text)]
-        public string ShelfLocation { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        //public string Rank { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "q.qty", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Quantity { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "mw.manifestvalue", modeltype: FwDataTypes.Decimal)]
+        //public decimal? UnitValue { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "mw.aisleloc", modeltype: FwDataTypes.Text)]
+        //public string AisleLocation { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "mw.shelfloc", modeltype: FwDataTypes.Text)]
+        //public string ShelfLocation { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "mw.hourlyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? HourlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -126,9 +131,9 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "mw.price", modeltype: FwDataTypes.Decimal)]
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.replacementcost", modeltype: FwDataTypes.Decimal)]
-        public decimal? ReplacementCost { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "mw.replacementcost", modeltype: FwDataTypes.Decimal)]
+        //public decimal? ReplacementCost { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "ml.taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -142,10 +147,10 @@ namespace WebApi.Modules.HomeControls.Inventory
                   "              from  masterwh mw with(nolock)" +
                   "              where mw.masterid    = t.masterid" +
                   "              and   mw.warehouseid = @warehouseid) mw" +
-                  " outer apply(select top 1 q.qty" +
-                  "              from  masterwhqty q with(nolock) " +
-                  "              where q.masterid    = t.masterid" +
-                  "              and   q.warehouseid = @warehouseid) q" +
+                  //" outer apply(select top 1 q.qty" +
+                  //"              from  masterwhqty q with(nolock) " +
+                  //"              where q.masterid    = t.masterid" +
+                  //"              and   q.warehouseid = @warehouseid) q" +
                   " outer apply(select top 1 ml.taxable" +
                   "              from  masterlocation ml with(nolock)" +
                   "              where ml.masterid   = t.masterid" +
@@ -157,7 +162,7 @@ namespace WebApi.Modules.HomeControls.Inventory
             select.AddWhere("(availfor = @availfor)");
             select.AddParameter("@availfor", AvailFor);
 
-            addFilterToSelect("TrackedBy", "trackedby", select, request);
+            //addFilterToSelect("TrackedBy", "trackedby", select, request);
             addFilterToSelect("Classification", "class", select, request);
             addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
             addFilterToSelect("CategoryId", "categoryid", select, request);
