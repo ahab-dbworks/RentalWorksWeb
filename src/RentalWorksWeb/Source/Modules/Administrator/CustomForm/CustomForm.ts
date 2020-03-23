@@ -958,7 +958,7 @@ class CustomForm {
                                         jQuery(originalHtml).attr('data-datafield', value);
                                         jQuery(originalHtml).attr('data-browsedatafield', value);
                                         //jQuery(originalHtml).attr(`${attribute}`, `${value}`);
-
+                                        $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
                                         isCustomField = $form.find(`option[value="${value}"]`).attr('data-iscustomfield');
                                         if (isCustomField === "true") {
                                             //update caption and datatypes
@@ -984,11 +984,11 @@ class CustomForm {
                                             jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
                                             jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
                                             jQuery(originalHtml).attr(`data-caption`, `${value}`);
-                                            $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
                                             jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-datatype`, datatype);
                                             jQuery(originalHtml).attr(`data-datatype`, datatype);
                                             $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(datatype);
                                         }
+                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
                                     }
                                     break;
                                 case 'data-datatype':
