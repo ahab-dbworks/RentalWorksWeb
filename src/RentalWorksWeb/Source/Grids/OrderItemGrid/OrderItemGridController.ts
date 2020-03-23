@@ -4,9 +4,10 @@ class OrderItemGrid {
     //----------------------------------------------------------------------------------------------
     onRowNewMode($control: JQuery, $tr: JQuery) {
         let $form = $control.closest('.fwform');
+        const controller = $form.attr('data-controller');
         let $grid = $tr.parents('[data-grid="OrderItemGrid"]');
         let inventoryType;
-        if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
+        if (controller !== "TemplateController" && controller !== "PurchaseOrderController") {
             var pickDate = FwFormField.getValue($form, 'div[data-dateactivitytype="PICK"]');
             var pickTime = FwFormField.getValue($form, 'div[data-timeactivitytype="PICK"]');
             var fromDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
@@ -45,7 +46,7 @@ class OrderItemGrid {
             inventoryType = 'LossAndDamage';
         }
 
-        if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
+        if (controller !== "TemplateController" && controller !== "PurchaseOrderController") {
             let daysPerWeek, discountPercent;
             if (inventoryType !== 'RentalSales') {
                 discountPercent = FwFormField.getValueByDataField($form, `${inventoryType}DiscountPercent`);
@@ -69,11 +70,27 @@ class OrderItemGrid {
             };
         }
 
-        //Allow searching on description field
-        $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
-            $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
-            $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
-        });
+        if (controller == 'OrderController' || controller == 'QuoteController') {
+            if (inventoryType == 'Rental' || inventoryType == 'Sales') {
+                $tr.find('[data-browsedatafield="InventoryId"]').data('onchange', $validationtr => {
+                    const classification = FwBrowse.getValueByDataField($control, $validationtr, 'Classification');
+                    if (classification == 'M') {
+                        $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+                        $tr.find('[data-browsedatafield="Description"] input.value').remove();
+                        $tr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
+                        $tr.find('[data-browsedatafield="Description"] .btnpeek').hide();
+                        $tr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
+                        $tr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
+                    }
+                });
+
+                //Allow searching on description field
+                $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
+                    $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
+                    $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
+                });
+            }
+        }
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
