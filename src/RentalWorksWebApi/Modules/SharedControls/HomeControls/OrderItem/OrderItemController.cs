@@ -184,7 +184,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         // GET api/v1/orderitem/calculateextended
         [HttpGet("calculateextended")]
         [FwControllerMethod(Id: "Ef2C7Iuxu0tA")]
-        public IActionResult CalculateExtended(string RateType, string RecType, DateTime? FromDate, DateTime? ToDate, DateTime? BillingFromDate, DateTime? BillingToDate, Decimal? Quantity, Decimal? Rate, Decimal? Rate2, Decimal? Rate3, Decimal? Rate4, Decimal? Rate5, Decimal? DaysPerWeek, Decimal? DiscountPercent)
+        public IActionResult CalculateExtended(string RateType, string RecType, DateTime? FromDate, DateTime? ToDate, DateTime? BillingFromDate, DateTime? BillingToDate, Decimal? Quantity, Decimal? UnitCost, Decimal? Rate, Decimal? Rate2, Decimal? Rate3, Decimal? Rate4, Decimal? Rate5, Decimal? DaysPerWeek, Decimal? DiscountPercent)
         {
             try
             {
@@ -196,6 +196,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 e.BillingFromDate = BillingFromDate;
                 e.BillingToDate = BillingToDate;
                 e.Quantity = Quantity;
+                e.UnitCost = UnitCost;
                 e.Rate = Rate;
                 e.Rate2 = Rate2;
                 e.Rate3 = Rate3;

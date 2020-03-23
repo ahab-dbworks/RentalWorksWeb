@@ -543,6 +543,10 @@ class OrderItemGrid {
         $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', function ($tr) {
             calculateExtended('Extended');
         });
+        $generatedtr.find('div[data-browsedatafield="UnitCost"]').on('change', 'input.value', function ($tr) {
+            calculateMarkupMargin('UnitCost');
+            calculateExtended('Extended');
+        });
         $generatedtr.find('div[data-browsedatafield="Price"]').on('change', 'input.value', function ($tr) {
             calculateMarkupMargin('Price');
             calculateExtended('Extended');
@@ -630,6 +634,8 @@ class OrderItemGrid {
                 fieldToCalculate = "MarginPercent";
             } else if (columnChanged == "MarginPercent") {
                 fieldToCalculate = "MarkupPercent";
+            } else if (columnChanged == "UnitCost") {
+                fieldToCalculate = "UnitCost";
             } else if (columnChanged == "Price") {
                 fieldToCalculate = "Price";
             }
@@ -652,6 +658,7 @@ class OrderItemGrid {
                             FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response.Price.toString() });
                             calculateExtended('Extended');
                             break;
+                        case 'UnitCost':
                         case 'Price':
                             FwBrowse.setFieldValue($control, $generatedtr, 'MarkupPercent', { value: response.MarkupPercent });
                             FwBrowse.setFieldValue($control, $generatedtr, 'MarginPercent', { value: response.MarginPercent });
@@ -753,7 +760,7 @@ class OrderItemGrid {
         }
 
         function calculateExtended(type, field?) {
-            let rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended,
+            let rateType, recType, fromDate, toDate, quantity, rate, unitCost, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended,
                 monthlyExtended, unitDiscountAmount, weeklyDiscountAmount, monthlyDiscountAmount, periodDiscountAmount;
             rateType = FwFormField.getValueByDataField($form, 'RateType');
             recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
@@ -761,6 +768,7 @@ class OrderItemGrid {
             toDate = FwBrowse.getValueByDataField($control, $generatedtr, 'ToDate');
             quantity = FwBrowse.getValueByDataField($control, $generatedtr, 'QuantityOrdered');
             rate = FwBrowse.getValueByDataField($control, $generatedtr, 'Price');
+            unitCost = FwBrowse.getValueByDataField($control, $generatedtr, 'UnitCost');
             daysPerWeek = FwBrowse.getValueByDataField($control, $generatedtr, 'DaysPerWeek');
             if (field == "DiscountPercent") {
                 discountPercent = FwBrowse.getValueByDataField($control, $generatedtr, 'DiscountPercentDisplay');
@@ -784,7 +792,7 @@ class OrderItemGrid {
             } else if (type == "Discount") {
                 apiurl += "calculatediscountpercent?";
             }
-            apiurl += `RateType=${rateType}&RecType=${recType}&FromDate=${fromDate}&ToDate=${toDate}&Quantity=${quantity}&Rate=${rate}&DaysPerWeek=${daysPerWeek}`;
+            apiurl += `RateType=${rateType}&RecType=${recType}&FromDate=${fromDate}&ToDate=${toDate}&Quantity=${quantity}&Rate=${rate}&UnitCost=${unitCost}&DaysPerWeek=${daysPerWeek}`;
 
             if (type == 'Extended') {
                 apiurl += `&DiscountPercent=${discountPercent}`;
@@ -792,6 +800,7 @@ class OrderItemGrid {
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout,
                     response => {
                         FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: (response.DiscountPercent || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'PeriodCostExtended', { value: (response.CostExtended || 0).toString() });
                         FwBrowse.setFieldValue($control, $generatedtr, 'UnitExtended', { value: (response.UnitExtended || 0).toString() });
                         FwBrowse.setFieldValue($control, $generatedtr, 'UnitDiscountAmount', { value: (response.UnitDiscountAmount || 0).toString() });
                         FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyExtended', { value: (response.WeeklyExtended || 0).toString() });
@@ -845,9 +854,10 @@ class OrderItemGrid {
                     }, ex => FwFunc.showError(ex), null);
             }
 
-            const unitCost = +FwBrowse.getValueByDataField($control, $generatedtr, 'UnitCost');
-            const costExtended = unitCost * (+quantity);
-            FwBrowse.setFieldValue($control, $generatedtr, 'PeriodCostExtended', { value: costExtended.toLocaleString(), text: costExtended.toLocaleString() })
+            //justin hoffman - moved to API layer
+            //const unitCost = +FwBrowse.getValueByDataField($control, $generatedtr, 'UnitCost');
+            //const costExtended = unitCost * (+quantity);
+            //FwBrowse.setFieldValue($control, $generatedtr, 'PeriodCostExtended', { value: costExtended.toLocaleString(), text: costExtended.toLocaleString() })
         }
     };
     //----------------------------------------------------------------------------------------------

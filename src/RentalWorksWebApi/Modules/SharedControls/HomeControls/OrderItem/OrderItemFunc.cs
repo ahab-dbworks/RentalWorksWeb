@@ -265,15 +265,16 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                foreach (CompleteKitOption item in request.Items) { 
-                FwSqlCommand qry = new FwSqlCommand(conn, "insertoption", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
-                qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentOrderItemId);
-                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, item.InventoryId);
-                qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, item.Quantity);
-                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync();
-                response.msg = qry.GetParameter("@masteritemid").ToString();
+                foreach (CompleteKitOption item in request.Items)
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "insertoption", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                    qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentOrderItemId);
+                    qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, item.InventoryId);
+                    qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, item.Quantity);
+                    qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.msg = qry.GetParameter("@masteritemid").ToString();
                 }
             }
             return response;
@@ -472,6 +473,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public DateTime? BillingFromDate;
         public DateTime? BillingToDate;
         public Decimal? Quantity;
+        public Decimal? UnitCost;
         public Decimal? Rate;
         public Decimal? Rate2;
         public Decimal? Rate3;
@@ -483,6 +485,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public int? Weeks;
         public int? Months;
         public Decimal? BillablePeriods;
+        public Decimal? CostExtended;
         public Decimal? UnitDiscountAmount;
         public Decimal? UnitExtended;
         public Decimal? WeeklyDiscountAmount;
@@ -580,6 +583,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
         {
             UpdateDaysWeeksMonths();
 
+            CostExtended = UnitCost * Quantity;
+
             UnitDiscountAmount = Rate * (DiscountPercent / 100);
             UnitExtended = Rate * ((100 - DiscountPercent) / 100);
 
@@ -634,6 +639,10 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
 
 
+            if (CostExtended.HasValue)
+            {
+                CostExtended = Math.Round(CostExtended.Value, 2);
+            }
             if (UnitDiscountAmount.HasValue)
             {
                 UnitDiscountAmount = Math.Round(UnitDiscountAmount.Value, 2);
@@ -666,6 +675,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             {
                 PeriodExtended = Math.Round(PeriodExtended.Value, 2);
             }
+
 
 
         }
@@ -841,8 +851,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
             {
                 Price = ((MarkupPercent / 100) * Cost) + Cost;
                 CalculateMargin();
-            } 
-            else if (FieldToCalculate == "Price")
+            }
+            else if ((FieldToCalculate == "UnitCost") || (FieldToCalculate == "Price"))
             {
                 CalculateMarkup();
                 CalculateMargin();
