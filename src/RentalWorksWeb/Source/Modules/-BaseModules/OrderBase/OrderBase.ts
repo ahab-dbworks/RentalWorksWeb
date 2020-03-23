@@ -1217,6 +1217,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', office.defaultcurrencyid, office.defaultcurrencycode);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
+            this.defaultBillQuantities($form);
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', controlDefaults.defaultdealbillingcycleid, controlDefaults.defaultdealbillingcycle);
             FwFormField.setValue($form, 'div[data-datafield="TermsConditionsId"]', this.DefaultTermsConditionsId, this.DefaultTermsConditions);
             FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', this.DefaultCoverLetterId, this.DefaultCoverLetter);
@@ -3200,6 +3201,10 @@ class OrderBase {
             }
 
             FwAppData.apiMethod(true, 'GET', `api/v1/ordertype/${orderTypeId}`, null, FwServices.defaultTimeout, response => {
+                if ($form.attr('data-mode') === 'NEW') {
+                    FwFormField.setValueByDataField($form, 'DetermineQuantitiesToBillBasedOn', response.DetermineQuantitiesToBillBasedOn);
+                }
+
                 const hiddenRentals = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.RentalShowFields))
@@ -3391,6 +3396,12 @@ class OrderBase {
             //}
         }
     };
+    defaultBillQuantities($form) {
+        const orderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
+        FwAppData.apiMethod(true, 'GET', `api/v1/ordertype/${orderTypeId}`, null, FwServices.defaultTimeout, response => {
+            FwFormField.setValueByDataField($form, 'DetermineQuantitiesToBillBasedOn', response.DetermineQuantitiesToBillBasedOn);
+        }, null, null);
+    }
     //----------------------------------------------------------------------------------------------
     disableRateColumns($form) {
 
@@ -3828,7 +3839,7 @@ class OrderBase {
             //$form.find('.notcombined').css('display', 'block');
             //$form.find('.generaltab').click();
         }
-        this.renderGrids($form); 
+        this.renderGrids($form);
         //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         //this.dynamicColumns($form);

@@ -74,13 +74,17 @@ class OrderType {
             FwFormField.setValue($form, 'div[data-datafield="ManagementAndServiceFeeDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
 
+        //Toggle Buttons - Billing tab - Bill Quantities From 
+        FwFormField.loadItems($form.find('div[data-datafield="DetermineQuantitiesToBillBasedOn"]'), [
+            { value: 'CONTRACT', caption: 'Contract Activity' },
+            { value: 'ORDER', caption: 'Order Quantity' }
+        ]);
+
         return $form;
     }
 
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val(uniqueids.OrderTypeId);
         FwModule.loadForm(this.Module, $form);
 
