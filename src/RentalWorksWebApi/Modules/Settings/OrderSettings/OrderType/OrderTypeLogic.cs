@@ -1848,7 +1848,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
 
 
-        [FwLogicProperty(Id:"1gfcbRBawDCX", IsReadOnly:true)]
+        [FwLogicProperty(Id:"1gfcbRBawDCX", IsReadOnly:true, IsNotAudited: true)]
         public List<string> CombinedShowFields
 
         {
@@ -1927,7 +1927,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         }
 
 
-        [FwLogicProperty(Id:"qpMMNO0ka6IY", IsReadOnly:true)]
+        [FwLogicProperty(Id:"qpMMNO0ka6IY", IsReadOnly:true, IsNotAudited: true)]
         public List<string> RentalShowFields
 
         {
@@ -2003,7 +2003,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
             set { }
         }
 
-        [FwLogicProperty(Id:"8VFAulksW0gN", IsReadOnly:true)]
+        [FwLogicProperty(Id:"8VFAulksW0gN", IsReadOnly:true, IsNotAudited: true)]
         public List<string> SalesShowFields
 
         {
@@ -2063,7 +2063,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         }
 
 
-        [FwLogicProperty(Id:"ADQi362J3DTY", IsReadOnly:true)]
+        [FwLogicProperty(Id:"ADQi362J3DTY", IsReadOnly:true, IsNotAudited: true)]
         public List<string> MiscShowFields
 
         {
@@ -2123,7 +2123,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
 
 
-        [FwLogicProperty(Id:"8kxYYOb0Prm8", IsReadOnly:true)]
+        [FwLogicProperty(Id:"8kxYYOb0Prm8", IsReadOnly:true, IsNotAudited: true)]
         public List<string> LaborShowFields
 
         {
@@ -2181,7 +2181,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
             set { }
         }
 
-        [FwLogicProperty(Id:"5TunYFwvQv4x", IsReadOnly:true)]
+        [FwLogicProperty(Id:"5TunYFwvQv4x", IsReadOnly:true, IsNotAudited: true)]
         public List<string> RentalSaleShowFields
 
         {
@@ -2220,7 +2220,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
 
 
-        [FwLogicProperty(Id:"wfMjZkUZbbgi", IsReadOnly:true)]
+        [FwLogicProperty(Id:"wfMjZkUZbbgi", IsReadOnly:true, IsNotAudited: true)]
         public List<string> LossAndDamageShowFields
 
         {
