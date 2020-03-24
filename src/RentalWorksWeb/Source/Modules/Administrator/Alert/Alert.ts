@@ -401,15 +401,13 @@ class Alert {
         if (moduleName != '') {
             const $datafield1 = $conditionRow.find('[data-datafield="FieldName1"]');
             FwFormField.loadItems($datafield1, this.datafields);
-            jQuery($datafield1).find('select option:first-of-type')
-                .after(`<option value="DATACHANGEDBYUSER">Data Changed by User Name</option>
-                        <option value="DATACHANGEDATETIME">Data Change Date/Time</option>`);
+            //jQuery($datafield1).find('select option:first-of-type')
+            //    .after(`<option value="DATACHANGEDBYUSER">Data Changed by User Name</option>
+            //            <option value="DATACHANGEDATETIME">Data Change Date/Time</option>`);
             const $datafield2 = $conditionRow.find('[data-datafield="FieldName2"]');
             FwFormField.loadItems($datafield2, this.datafields);
             jQuery($datafield2).find('select option:first-of-type')
-                .after(`<option value="LITERALVALUE">Literal Value</option>
-                        <option value="DATACHANGEDBYUSER">Data Changed by User Name</option>
-                        <option value="DATACHANGEDATETIME">Data Change Date/Time</option>`);
+                .after(`<option value="LITERALVALUE">Literal Value</option>`);
 
             const $conditionSelect = $conditionRow.find('[data-datafield="Condition"]');
             FwFormField.loadItems($conditionSelect, [
