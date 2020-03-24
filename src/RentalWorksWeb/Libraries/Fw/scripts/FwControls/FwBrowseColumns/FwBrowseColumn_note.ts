@@ -173,6 +173,14 @@
             FwConfirmation.addControls($confirmation, controlhtml.join('\n'));
             const formController = $browse.closest('.fwform').attr('data-controller');
             if (addPrintNotes) {
+                $confirmation.find('.note textarea')
+                    .css({
+                        'width': '285px',
+                        'max-width': '570px',
+                        'height': '510px',
+                        'resize': 'vertical'
+                    })
+                    .select();
                 if (formController === 'TransferOrderController') {
                     $confirmation.find('.transfer-order').show();
                     $confirmation.find('div[data-datafield="PrintNoteOnOrder"] label').text('Transfer Order');
@@ -186,23 +194,63 @@
                     $confirmation.find('.order').show();
                 }
                 fillinCheckboxesFromRow($confirmation, $tr);
+
+                $ok.on('mousedown', () => { // saving checkbox values before popup is destroyed on 'ok' click
+                    const $checkboxes = $confirmation.find('div[data-type="checkbox"]:visible');
+                    $checkboxes.each((i, e) => {
+                        const dataField = jQuery(e).attr('data-datafield');
+                        FwBrowse.setFieldValue($browse, $tr, dataField, { value: FwFormField.getValueByDataField($confirmation, dataField) === 'T' ? 'true' : 'false' });
+                    });
+                });
+                // Check All / None
+                $confirmation.find('div[data-confirmfield="CheckAllNone"]').on('click', e => {
+                    const checkAll = $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue');
+                    const $checkboxes = $confirmation.find('div[data-type="checkbox"]:visible');
+                    if (checkAll === 'CheckAll') {
+                        // select all fields
+                        $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue', 'CheckNone');
+                        $confirmation.find('div[data-confirmfield="CheckAllNone"]').text('Check None');
+                        $checkboxes.each((i, e) => {
+                            const dataField = jQuery(e).attr('data-datafield');
+                            FwFormField.setValueByDataField($confirmation, dataField, true);
+                        });
+                    } else {
+                        //unselect all
+                        $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue', 'CheckAll');
+                        $confirmation.find('div[data-confirmfield="CheckAllNone"]').text('Check All');
+                        $checkboxes.each((i, e) => {
+                            const dataField = jQuery(e).attr('data-datafield');
+                            FwFormField.setValueByDataField($confirmation, dataField, false);
+                        });
+                    }
+                })
+                function fillinCheckboxesFromRow($confirmation, $tr) {
+                    const $checkboxes = $confirmation.find('div[data-type="checkbox"]:visible');
+                    let checkedCount = 0;
+                    $checkboxes.each((i, e) => {
+                        const dataField = jQuery(e).attr('data-datafield');
+                        const val = $tr.find(`.field[data-browsedatafield="${dataField}"]`).attr('data-originalvalue') === 'true';
+                        val === true ? checkedCount++ : '';
+                        FwFormField.setValueByDataField($confirmation, dataField, val);
+                    });
+
+                    if (checkedCount === $checkboxes.length) {
+                        $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue', 'CheckNone');
+                        $confirmation.find('div[data-confirmfield="CheckAllNone"]').text('Check None');
+                    }
+                }
             }
             FwFormField.setValue($confirmation, '.note', $noteTextArea.val());
-            $confirmation.find('.note textarea')
-                .css({
-                    'width': '400px',
-                    'max-width': '570px',
-                    'height': '510px',
-                    'resize': 'vertical'
-                })
-                .select();
-            $ok.on('mousedown', () => { // saving checkbox values before popup is destroyed on 'ok' click
-                const $checkboxes = $confirmation.find('div[data-type="checkbox"]:visible');
-                $checkboxes.each((i, e) => {
-                    const dataField = jQuery(e).attr('data-datafield');
-                    FwBrowse.setFieldValue($browse, $tr, dataField, { value: FwFormField.getValueByDataField($confirmation, dataField) === 'T' ? 'true' : 'false' });
-                });
-            });
+            if (!addPrintNotes) {
+                $confirmation.find('.note textarea')
+                    .css({
+                        'width': '400px',
+                        'max-width': '570px',
+                        'height': '510px',
+                        'resize': 'vertical'
+                    })
+                    .select();
+            }
             $ok.on('click', function () {
                 $noteTextArea.val($confirmation.find('.note textarea').val());
                 if ($noteTextArea.val().length > 0) {
@@ -213,48 +261,11 @@
                     $noteImage.css('color', '#4CAF50');
                 }
             });
-            // Check All / None
-            $confirmation.find('div[data-confirmfield="CheckAllNone"]').on('click', e => {
-                const checkAll = $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue');
-                const $checkboxes = $confirmation.find('div[data-type="checkbox"]:visible');
-                if (checkAll === 'CheckAll') {
-                    // select all fields
-                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue', 'CheckNone');
-                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').text('Check None');
-                    $checkboxes.each((i, e) => {
-                        const dataField = jQuery(e).attr('data-datafield');
-                        FwFormField.setValueByDataField($confirmation, dataField, true);
-                    });
-                } else {
-                    //unselect all
-                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue', 'CheckAll');
-                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').text('Check All');
-                    $checkboxes.each((i, e) => {
-                        const dataField = jQuery(e).attr('data-datafield');
-                        FwFormField.setValueByDataField($confirmation, dataField, false);
-                    });
-                }
-            })
             $confirmation.on('change', '.predefinednotes .fwformfield-value', function () {
                 $confirmation.find('.note .fwformfield-value').val($confirmation.find('.predefinednotes .fwformfield-value').val());
                 $confirmation.find('.predefinednotes .fwformfield-value').val('');
                 $confirmation.find('.predefinednotes .fwformfield-text').val('');
             });
-            function fillinCheckboxesFromRow($confirmation, $tr) {
-                const $checkboxes = $confirmation.find('div[data-type="checkbox"]:visible');
-                let checkedCount = 0;
-                $checkboxes.each((i, e) => {
-                    const dataField = jQuery(e).attr('data-datafield');
-                    const val = $tr.find(`.field[data-browsedatafield="${dataField}"]`).attr('data-originalvalue') === 'true';
-                    val === true ? checkedCount++ : '';
-                    FwFormField.setValueByDataField($confirmation, dataField, val);
-                });
-
-                if (checkedCount === $checkboxes.length) {
-                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue', 'CheckNone');
-                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').text('Check None');
-                }
-            }
         });
         if ($field.data('autoselect') === true) {
             $field.data('autoselect', false);
