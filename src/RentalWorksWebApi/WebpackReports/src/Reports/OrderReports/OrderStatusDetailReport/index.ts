@@ -79,6 +79,7 @@ export class OrderStatusDetailReport extends WebpackReport {
         return this.footerHtml;
     }
 }
+(<any>window).report = new OrderStatusDetailReport();
 
 interface OrderStatusDetailReportResponse {
     _Custom: any[];
@@ -118,4 +119,3 @@ interface OrderStatusDetailReportResponse {
     ItemsTable: DataTable;
 }
 
-(<any>window).report = new OrderStatusDetailReport();

@@ -5,7 +5,7 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.OrderStatusSummaryReport
+namespace WebApi.Modules.Reports.OrderReports.OrderStatusSummaryReport
 {
     [FwSqlTable("dbo.getorderstatussummary(@orderid)")]
     public class OrderStatusSummaryReportLoader : AppReportLoader

@@ -1,5 +1,3 @@
-
-
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.Reporting;
@@ -14,7 +12,7 @@ using WebApi.Data;
 using WebApi.Modules.Agent.Order;
 using static FwCore.Controllers.FwDataController;
 
-namespace WebApi.Modules.Reports.OrderStatusDetailReport
+namespace WebApi.Modules.Reports.OrderReports.OrderStatusDetailReport
 {
     public class OrderStatusDetailReportRequest : AppReportRequest
     {
@@ -40,8 +38,8 @@ namespace WebApi.Modules.Reports.OrderStatusDetailReport
         //------------------------------------------------------------------------------------ 
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
-            //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "OrderStatusDetailReport";
+            return request.parameters["OrderId"].ToString().TrimEnd();
+            //return "OrderStatusDetailReport";
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderstatusdetailreport/render 
@@ -49,19 +47,8 @@ namespace WebApi.Modules.Reports.OrderStatusDetailReport
         [FwControllerMethod(Id: "OmsVMrVdBH02")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
-            if (!this.ModelState.IsValid) return BadRequest();
-            ActionResult<FwReportRenderResponse> response = await DoRender(request);
-            return new OkObjectResult(response);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderstatusdetailreport/exportexcelxlsx/filedownloadname 
-        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "7Byk9maM4f9x")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]OrderStatusDetailReportRequest request)
-        {
-            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
-            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
-            return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderstatusdetailreport/runreport 
