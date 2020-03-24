@@ -125,33 +125,42 @@
                 controlhtml.push('  </div>');
                 controlhtml.push('  <div class="flexcolumn">');
                 controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                controlhtml.push(`      <div style="float:left;width:300px;">Print Note on these Documents</div>`);
+                controlhtml.push(`      <div style="float:left;width:300px;text-decoration:underline;">Print Note on these Documents</div>`);
                 controlhtml.push('    </div>');
-                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
                 controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Quote" data-datafield="PrintNoteOnQuote" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
-                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
                 controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Order" data-datafield="PrintNoteOnOrder" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
-                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow purchase-order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
                 controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Purchase Order" data-datafield="PrintNoteOnPurchaseOrder" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
-                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow transfer-order order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
                 controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick List" data-datafield="PrintNoteOnPickList" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
-                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
                 controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Out Contract" data-datafield="PrintNoteOnOutContract" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
-                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return List" data-datafield="PrintNoteOnVendorReturnList" style="float:left;width:100px;"></div>`);
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow purchase-order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
+                controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Receive Contract" data-datafield="PrintNoteOnReceiveContract" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
-                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Receive List" data-datafield="PrintNoteOnVendorReceiveList" style="float:left;width:100px;"></div>`);
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow purchase-order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
+                controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return Contract" data-datafield="PrintNoteOnReturnContract" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
-                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow purchase-order order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
+                controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return List" data-datafield="PrintNoteOnReturnList" style="float:left;width:100px;"></div>`);
+                controlhtml.push('    </div>');
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow purchase-order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
+                controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Vendor Return List" data-datafield="PrintNoteOnVendorReturnList" style="float:left;width:100px;"></div>`);
+                controlhtml.push('    </div>');
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow purchase-order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
+                controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Vendor Receive List" data-datafield="PrintNoteOnVendorReceiveList" style="float:left;width:100px;"></div>`);
+                controlhtml.push('    </div>');
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
                 controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="In Contract" data-datafield="PrintNoteOnInContract" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
-                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
                 controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Invoice" data-datafield="PrintNoteOnInvoice" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
                 controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
@@ -159,18 +168,30 @@
                 controlhtml.push('    </div>');
                 controlhtml.push('  </div>');
                 controlhtml.push('</div>');
-                $confirmation.find('.fwconfirmationbox').css({ 'width': '700px' });
-
+                $confirmation.find('.fwconfirmationbox').css({ 'width': '605px' });
             }
             FwConfirmation.addControls($confirmation, controlhtml.join('\n'));
+            const formController = $browse.closest('.fwform').attr('data-controller');
+            if (addPrintNotes) {
+                if (formController === 'TransferOrderController') {
+                    $confirmation.find('.transfer-order').show();
+                }
+                if (formController === 'PurchaseOrderController') {
+                    $confirmation.find('.purchase-order').show();
+                }
+                if (formController === 'OrderController' || formController === 'QuoteController') {
+                    $confirmation.find('.order').show();
+                }
+                fillinCheckboxesFromRow($confirmation, $tr);
+            }
             FwFormField.setValue($confirmation, '.note', $noteTextArea.val());
-            addPrintNotes && fillinCheckboxesFromRow($confirmation, $tr);
             $confirmation.find('.note textarea')
                 .css({
                     'width': '400px',
                     'max-width': '570px',
                     'height': '510px',
-                    'resize': 'vertical'})
+                    'resize': 'vertical'
+                })
                 .select();
             $ok.on('click', function () {
                 $noteTextArea.val($confirmation.find('.note textarea').val());
@@ -182,8 +203,8 @@
                     $noteImage.css('color', '#4CAF50');
                 }
                 const orderval = FwFormField.getValueByDataField($confirmation, 'PrintNoteOnOrder')
-                FwBrowseColumn_text.setFieldValue($browse, $tr, $tr.find('.field[databrowsedatafield="PrintNoteOnQuote"]'), { value: FwFormField.getValueByDataField($confirmation, 'PrintNoteOnQuote') === 'T' ? 'true' : 'false' });
-                FwBrowseColumn_text.setFieldValue($browse, $tr, $tr.find('.field[databrowsedatafield="PrintNoteOnOrder"]'), { value: FwFormField.getValueByDataField($confirmation, 'PrintNoteOnOrder') === 'T' ? 'true' : 'false' });
+                FwBrowse.setFieldValue($browse, $tr, 'PrintNoteOnQuote', { value: FwFormField.getValueByDataField($confirmation, 'PrintNoteOnQuote') === 'T' ? 'true' : 'false' });
+                FwBrowse.setFieldValue($browse, $tr, 'PrintNoteOnOrder', { value: FwFormField.getValueByDataField($confirmation, 'PrintNoteOnOrder') === 'T' ? 'true' : 'false' });
 
             });
             // Check All / None
@@ -208,15 +229,15 @@
             });
             function fillinCheckboxesFromRow($confirmation, $tr) {
                 const val = $tr.find('.field[data-browsedatafield="PrintNoteOnQuote"]').attr('data-originalvalue')
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnQuote', $tr.find('.field[data-browsedatafield="PrintNoteOnQuote"]').attr('data-originalvalue'));
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnOrder', $tr.find('.field[data-browsedatafield="PrintNoteOnOrder"]').attr('data-originalvalue'));
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnPurchaseOrder', $tr.find('.field[data-browsedatafield="PrintNoteOnPurchaseOrder"]').attr('data-originalvalue'));
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnPickList', $tr.find('.field[data-browsedatafield="PrintNoteOnPickList"]').val());
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnOutContract', $tr.find('.field[data-browsedatafield="PrintNoteOnOutContract"]').val());
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnVendorReturnList', $tr.find('.field[data-browsedatafield="PrintNoteOnVendorReturnList"]').val());
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnVendorReceiveList', $tr.find('.field[data-browsedatafield="PrintNoteOnVendorReceiveList"]').val());
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnInContract', $tr.find('.field[data-browsedatafield="PrintNoteOnInContract"]').val());
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnInvoice', $tr.find('.field[data-browsedatafield="PrintNoteOnInvoice"]').val());
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnQuote', $tr.find('.field[data-browsedatafield="PrintNoteOnQuote"]').attr('data-originalvalue') === 'true');
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnOrder', $tr.find('.field[data-browsedatafield="PrintNoteOnOrder"]').attr('data-originalvalue') === 'true');
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnPurchaseOrder', $tr.find('.field[data-browsedatafield="PrintNoteOnPurchaseOrder"]').attr('data-originalvalue') === 'true');
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnPickList', $tr.find('.field[data-browsedatafield="PrintNoteOnPickList"]').attr('data-originalvalue') === 'true');
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnOutContract', $tr.find('.field[data-browsedatafield="PrintNoteOnOutContract"]').attr('data-originalvalue') === 'true');
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnVendorReturnList', $tr.find('.field[data-browsedatafield="PrintNoteOnVendorReturnList"]').attr('data-originalvalue') === 'true');
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnVendorReceiveList', $tr.find('.field[data-browsedatafield="PrintNoteOnVendorReceiveList"]').attr('data-originalvalue') === 'true');
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnInContract', $tr.find('.field[data-browsedatafield="PrintNoteOnInContract"]').attr('data-originalvalue') === 'true');
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnInvoice', $tr.find('.field[data-browsedatafield="PrintNoteOnInvoice"]').attr('data-originalvalue') === 'true');
             }
         });
         if ($field.data('autoselect') === true) {
