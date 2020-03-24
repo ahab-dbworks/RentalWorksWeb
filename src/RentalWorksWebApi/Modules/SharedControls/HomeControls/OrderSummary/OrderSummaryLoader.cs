@@ -235,6 +235,55 @@ namespace WebApi.Modules.HomeControls.OrderSummary
         [FwSqlDataField(column: "rentalsaletotal", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalSaleTotal { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subrentprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubRentalPrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subrentdisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubRentalDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subrentsub", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubRentalSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subrenttotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubRentalTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subsaleprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubSalePrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subsaledisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubSaleDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subsalesub", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubSaleSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subsaletotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubSaleTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "sublaborprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubLaborPrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "sublabordisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubLaborDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "sublaborsub", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubLaborSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "sublabortotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubLaborTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "submiscprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubMiscPrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "submiscdisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubMiscDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "submiscsub", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubMiscSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "submisctotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? SubMiscTotal { get; set; }
+        //------------------------------------------------------------------------------------
+
         [FwSqlDataField(column: "totalprice", modeltype: FwDataTypes.Decimal)]
         public decimal? TotalPrice { get; set; }
         //------------------------------------------------------------------------------------

@@ -246,6 +246,58 @@ namespace WebApi.Modules.HomeControls.OrderSummary
         public decimal? RentalSaleTotal { get; set; }
 
         //------------------------------------------------------------------------------------
+        [FwLogicProperty(Id: "wZr0tmW4eO42", IsReadOnly: true)]
+        public decimal? SubRentalPrice { get; set; }
+
+        [FwLogicProperty(Id: "oXEPhWg07MUP", IsReadOnly: true)]
+        public decimal? SubRentalDiscount { get; set; }
+
+        [FwLogicProperty(Id: "5asTHK6r5QBO", IsReadOnly: true)]
+        public decimal? SubRentalSubTotal { get; set; }
+
+        [FwLogicProperty(Id: "39TSGXwpmc2b", IsReadOnly: true)]
+        public decimal? SubRentalTotal { get; set; }
+
+        //------------------------------------------------------------------------------------
+        [FwLogicProperty(Id: "d5zDbDsQOrD5", IsReadOnly: true)]
+        public decimal? SubSalePrice { get; set; }
+
+        [FwLogicProperty(Id: "bt0HXqntykUG", IsReadOnly: true)]
+        public decimal? SubSaleDiscount { get; set; }
+
+        [FwLogicProperty(Id: "oM0aWYWlmZNg", IsReadOnly: true)]
+        public decimal? SubSaleSubTotal { get; set; }
+
+        [FwLogicProperty(Id: "SeexaAmkYinV", IsReadOnly: true)]
+        public decimal? SubSaleTotal { get; set; }
+
+        //------------------------------------------------------------------------------------
+        [FwLogicProperty(Id: "xuWoy4UMg4RA", IsReadOnly: true)]
+        public decimal? SubLaborPrice { get; set; }
+
+        [FwLogicProperty(Id: "DTDQQuvfwz1a", IsReadOnly: true)]
+        public decimal? SubLaborDiscount { get; set; }
+
+        [FwLogicProperty(Id: "oAmmmuTVunYp", IsReadOnly: true)]
+        public decimal? SubLaborSubTotal { get; set; }
+
+        [FwLogicProperty(Id: "JpyDRKhFaZRe", IsReadOnly: true)]
+        public decimal? SubLaborTotal { get; set; }
+
+        //------------------------------------------------------------------------------------
+        [FwLogicProperty(Id: "sUjw3xmDy5QJ", IsReadOnly: true)]
+        public decimal? SubMiscPrice { get; set; }
+
+        [FwLogicProperty(Id: "OzgAHLlIQCdl", IsReadOnly: true)]
+        public decimal? SubMiscDiscount { get; set; }
+
+        [FwLogicProperty(Id: "VdlmXrk1s075", IsReadOnly: true)]
+        public decimal? SubMiscSubTotal { get; set; }
+
+        [FwLogicProperty(Id: "Bipc40p5f47C", IsReadOnly: true)]
+        public decimal? SubMiscTotal { get; set; }
+
+        //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"sU1tYRoz2OH0", IsReadOnly:true)]
         public decimal? TotalPrice { get; set; }
 
