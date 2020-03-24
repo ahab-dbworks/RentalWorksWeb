@@ -164,7 +164,7 @@
                 controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Invoice" data-datafield="PrintNoteOnInvoice" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
                 controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                controlhtml.push(`      <div data-datavalue="CheckAll" data-confirmfield="CheckAllNone" style="float:left;width:120px;text-decoration:underline;color:#4646ff;">Check All / None</div>`);
+                controlhtml.push(`      <div data-datavalue="CheckAll" data-confirmfield="CheckAllNone" style="float:left;width:120px;text-decoration:underline;color:#4646ff;">Check All</div>`);
                 controlhtml.push('    </div>');
                 controlhtml.push('  </div>');
                 controlhtml.push('</div>');
@@ -175,9 +175,9 @@
             if (addPrintNotes) {
                 if (formController === 'TransferOrderController') {
                     $confirmation.find('.transfer-order').show();
-                    $confirmation.find('div[data-datafield="PrintNoteOnOrder"]').attr('data-caption', 'Transfer Order');
-                    $confirmation.find('div[data-datafield="PrintNoteOnOutContract"]').attr('data-caption', 'Manifest');
-                    $confirmation.find('div[data-datafield="PrintNoteOnInContract"]').attr('data-caption', 'Transfer Receipt');
+                    $confirmation.find('div[data-datafield="PrintNoteOnOrder"] label').text('Transfer Order');
+                    $confirmation.find('div[data-datafield="PrintNoteOnOutContract"] label').text('Manifest');
+                    $confirmation.find('div[data-datafield="PrintNoteOnInContract"] label').text('Transfer Receipt');
                 }
                 if (formController === 'PurchaseOrderController') {
                     $confirmation.find('.purchase-order').show();
@@ -231,7 +231,7 @@
                     $confirmation.find('div[data-confirmfield="CheckAllNone"]').text('Check All');
                     $checkboxes.each((i, e) => {
                         const dataField = jQuery(e).attr('data-datafield');
-                        FwFormField.setValueByDataField($confirmation, dataField, true);
+                        FwFormField.setValueByDataField($confirmation, dataField, false);
                     });
                 }
             })
@@ -242,10 +242,18 @@
             });
             function fillinCheckboxesFromRow($confirmation, $tr) {
                 const $checkboxes = $confirmation.find('div[data-type="checkbox"]:visible');
+                let checkedCount = 0;
                 $checkboxes.each((i, e) => {
                     const dataField = jQuery(e).attr('data-datafield');
-                    FwFormField.setValueByDataField($confirmation, dataField, $tr.find(`.field[data-browsedatafield="${dataField}"]`).attr('data-originalvalue') === 'true');
+                    const val = $tr.find(`.field[data-browsedatafield="${dataField}"]`).attr('data-originalvalue') === 'true';
+                    val === true ? checkedCount++ : '';
+                    FwFormField.setValueByDataField($confirmation, dataField, val);
                 });
+
+                if (checkedCount === $checkboxes.length) {
+                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue', 'CheckNone');
+                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').text('Check None');
+                }
             }
         });
         if ($field.data('autoselect') === true) {
