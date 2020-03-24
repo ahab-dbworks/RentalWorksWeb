@@ -111,12 +111,14 @@
             const $ok = FwConfirmation.addButton($confirmation, 'Ok', true);
             const $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
             const controlhtml: Array<string> = [];
+            let addPrintNotes = false;
             if (typeof $field.attr('data-predefinednotevalidation') === 'string') {
                 controlhtml.push('<div data-control="FwFormField" data-type="combobox" data-validate="false" class="fwcontrol fwformfield predefinednotes" data-caption="Predefined Notes" data-datafield="" data-validationname="' + $field.attr('data-predefinednotevalidation') + '" boundfields="predefinednote.rowtype"></div>');
             }
             if ($field.attr('data-addprintnotes') !== 'true') {
                 controlhtml.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="Notes" data-enabled=""' + ((formmaxlength !== '0') ? 'data-maxlength="' + formmaxlength : '') + '" data-datafield=""></div>');
             } else {
+                addPrintNotes = true;
                 controlhtml.push('<div class="flexrow">');
                 controlhtml.push('  <div class="flexcolumn">');
                 controlhtml.push('    <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="Notes" data-enabled=""' + ((formmaxlength !== '0') ? 'data-maxlength="' + formmaxlength : '') + '" data-datafield=""></div>');
@@ -153,16 +155,16 @@
                 controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Invoice" data-datafield="PrintNoteOnInvoice" style="float:left;width:100px;"></div>`);
                 controlhtml.push('    </div>');
                 controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                controlhtml.push(`      <div data-datafield="checkAll" style="float:left;width:120px;text-decoration:underline;color:#4646ff;">Check All / None</div>`);
+                controlhtml.push(`      <div data-datavalue="CheckAll" data-confirmfield="CheckAllNone" style="float:left;width:120px;text-decoration:underline;color:#4646ff;">Check All / None</div>`);
                 controlhtml.push('    </div>');
                 controlhtml.push('  </div>');
                 controlhtml.push('</div>');
                 $confirmation.find('.fwconfirmationbox').css({ 'width': '700px' });
-                fillinCheckboxesFromRow($confirmation, $tr);
 
             }
             FwConfirmation.addControls($confirmation, controlhtml.join('\n'));
             FwFormField.setValue($confirmation, '.note', $noteTextArea.val());
+            addPrintNotes && fillinCheckboxesFromRow($confirmation, $tr);
             $confirmation.find('.note textarea')
                 .css({
                     'width': '400px',
@@ -179,16 +181,36 @@
                     $noteImage.text('note_add');
                     $noteImage.css('color', '#4CAF50');
                 }
+                const orderval = FwFormField.getValueByDataField($confirmation, 'PrintNoteOnOrder')
+                FwBrowseColumn_text.setFieldValue($browse, $tr, $tr.find('.field[databrowsedatafield="PrintNoteOnQuote"]'), { value: FwFormField.getValueByDataField($confirmation, 'PrintNoteOnQuote') === 'T' ? 'true' : 'false' });
+                FwBrowseColumn_text.setFieldValue($browse, $tr, $tr.find('.field[databrowsedatafield="PrintNoteOnOrder"]'), { value: FwFormField.getValueByDataField($confirmation, 'PrintNoteOnOrder') === 'T' ? 'true' : 'false' });
+
             });
+            // Check All / None
+            $confirmation.find('div[data-confirmfield="CheckAllNone"]').on('click', e => {
+                const checkAll = $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue');
+                if (checkAll === 'CheckAll') {
+                    // select all fields
+                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue', 'CheckNone');
+                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').text('Check None');
+
+                } else {
+                    //unselect all
+                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').attr('data-datavalue', 'CheckAll');
+                    $confirmation.find('div[data-confirmfield="CheckAllNone"]').text('Check All');
+
+                }
+            })
             $confirmation.on('change', '.predefinednotes .fwformfield-value', function () {
                 $confirmation.find('.note .fwformfield-value').val($confirmation.find('.predefinednotes .fwformfield-value').val());
                 $confirmation.find('.predefinednotes .fwformfield-value').val('');
                 $confirmation.find('.predefinednotes .fwformfield-text').val('');
             });
             function fillinCheckboxesFromRow($confirmation, $tr) {
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnQuote', $tr.find('.field[data-browsedatafield="PrintNoteOnQuote"]').val());
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnOrder', $tr.find('.field[data-browsedatafield="PrintNoteOnOrder"]').val());
-                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnPurchaseOrder', $tr.find('.field[data-browsedatafield="PrintNoteOnPurchaseOrder"]').val());
+                const val = $tr.find('.field[data-browsedatafield="PrintNoteOnQuote"]').attr('data-originalvalue')
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnQuote', $tr.find('.field[data-browsedatafield="PrintNoteOnQuote"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnOrder', $tr.find('.field[data-browsedatafield="PrintNoteOnOrder"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($confirmation, 'PrintNoteOnPurchaseOrder', $tr.find('.field[data-browsedatafield="PrintNoteOnPurchaseOrder"]').attr('data-originalvalue'));
                 FwFormField.setValueByDataField($confirmation, 'PrintNoteOnPickList', $tr.find('.field[data-browsedatafield="PrintNoteOnPickList"]').val());
                 FwFormField.setValueByDataField($confirmation, 'PrintNoteOnOutContract', $tr.find('.field[data-browsedatafield="PrintNoteOnOutContract"]').val());
                 FwFormField.setValueByDataField($confirmation, 'PrintNoteOnVendorReturnList', $tr.find('.field[data-browsedatafield="PrintNoteOnVendorReturnList"]').val());
