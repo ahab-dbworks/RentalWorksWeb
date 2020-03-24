@@ -790,23 +790,83 @@
                 </div>
               </div>
             </div>
-            <!-- Sales Tax -->
-            <!--<div class="flexcolumn salestax-pl" style="flex:0 1 200px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Tax">
+
+            <!-- Sub-Rental Summary -->
+            <div class="flexcolumn subrental-pl" style="flex:0 1 200px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Rental">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="" style="visibility:hidden;"></div>
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Gross Total" data-datafield="" data-framedatafield="SubRentalPrice"></div>
                 </div>
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="" style="visibility:hidden"></div>
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="SubRentalDiscount"></div>
                 </div>
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Total" data-datafield="" data-framedatafield="TotalTax"></div>
-                </div>
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="TaxCost"></div>
+                <div class="flexrow totalColors">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="SubRentalSubTotal"></div>
                 </div>
               </div>
-            </div>-->
+            </div>
+
+            <!-- Sub-Sale Summary -->
+            <div class="flexcolumn subsale-pl" style="flex:0 1 200px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Sale">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Gross Total" data-datafield="" data-framedatafield="SubSalePrice"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="SubSaleDiscount"></div>
+                </div>
+                <div class="flexrow totalColors">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="SubSaleSubTotal"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sub-Labor Summary -->
+            <div class="flexcolumn sublabor-pl" style="flex:0 1 200px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Labor">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Gross Total" data-datafield="" data-framedatafield="SubLaborPrice"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="SubLaborDiscount"></div>
+                </div>
+                <div class="flexrow totalColors">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="SubLaborSubTotal"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sub-Misc Summary -->
+            <div class="flexcolumn submisc-pl" style="flex:0 1 200px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Misc">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Gross Total" data-datafield="" data-framedatafield="SubMiscPrice"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Discount" data-datafield="" data-framedatafield="SubMiscDiscount"></div>
+                </div>
+                <div class="flexrow totalColors">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="SubMiscSubTotal"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Sales Tax -->
+            <!--<div class="flexcolumn salestax-pl" style="flex:0 1 200px;">
+    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Tax">
+      <div class="flexrow">
+        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="" style="visibility:hidden;"></div>
+      </div>
+      <div class="flexrow">
+        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="" style="visibility:hidden"></div>
+      </div>
+      <div class="flexrow">
+        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Total" data-datafield="" data-framedatafield="TotalTax"></div>
+      </div>
+      <div class="flexrow">
+        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="TaxCost"></div>
+      </div>
+    </div>
+  </div>-->
           </div>
         </div>
         <!--<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity Summary">

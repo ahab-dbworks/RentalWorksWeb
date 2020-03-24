@@ -1319,6 +1319,10 @@ class PurchaseOrder implements IModule {
         isSales ? $form.find('.sales-pl').show() : $form.find('.sales-pl').hide();
         isLabor ? $form.find('.labor-pl').show() : $form.find('.labor-pl').hide();
         isMisc ? $form.find('.misc-pl').show() : $form.find('.misc-pl').hide();
+        isSubRent ? $form.find('.subrental-pl').show() : $form.find('.subrental-pl').hide();
+        isSubSale ? $form.find('.subsale-pl').show() : $form.find('.subsale-pl').hide();
+        isSubLabor ? $form.find('.sublabor-pl').show() : $form.find('.sublabor-pl').hide();
+        isSubMisc ? $form.find('.submisc-pl').show() : $form.find('.submisc-pl').hide();
 
         if (!isMisc && !isLabor && !isSubRent && !isSubSale && !isSubMisc && !isSubLabor) $scheduleDateFields.hide();
 
@@ -2205,32 +2209,29 @@ class PurchaseOrder implements IModule {
     }
     //----------------------------------------------------------------------------------------------
     loadSummary($form: any) {
-        //fields disabled
-        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         FwFormField.disable($form.find('.frame'));
+        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-        $form.find('.frame input').css('width', '100%');
         if (id !== '') {
             if (typeof period !== 'undefined') {
                 id = `${id}~${period}`
             }
-            FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${id}`, null, FwServices.defaultTimeout, response => {
                 for (let key in response) {
                     if (response.hasOwnProperty(key)) {
-                        $form.find(`[data-framedatafield="${key}"] input`).val(response[key]);
-                        $form.find(`[data-framedatafield="${key}"]`).attr('data-originalvalue', response[key]);
+                        FwFormField.setValue($form, `[data-framedatafield="${key}"]`, response[key]);
                     }
                 }
 
-                const $profitFrames = $form.find('.profitframes .frame');
-                $profitFrames.each(function () {
-                    var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
-                    if (profit > 0) {
-                        jQuery(this).find('input').css('background-color', '#A6D785');
-                    } else if (profit < 0) {
-                        jQuery(this).find('input').css('background-color', '#ff9999');
-                    }
-                });
+                //const $profitFrames = $form.find('.profitframes .frame');  //no profiframes in PO
+                //$profitFrames.each(function () {
+                //    var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
+                //    if (profit > 0) {
+                //        jQuery(this).find('input').css('background-color', '#A6D785');
+                //    } else if (profit < 0) {
+                //        jQuery(this).find('input').css('background-color', '#ff9999');
+                //    }
+                //});  
 
                 const $totalFrames = $form.find('.totalColors input');
                 $totalFrames.each(function () {
@@ -2240,7 +2241,8 @@ class PurchaseOrder implements IModule {
                     }
                 })
             }, null, $form);
-            $form.find(".frame .add-on").children().hide();
+            //$form.find(".frame .add-on").children().hide(); // Jason H - 03/24/20 This looks like it doesn't do anything?
+            //$form.find('.frame input').css('width', '100%');
         }
     };
     //----------------------------------------------------------------------------------------------
