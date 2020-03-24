@@ -69,6 +69,24 @@ class AssignBarCodes {
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                     ...(contractid != '') && { ReceiveContractId: contractid }
                 };
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.on('keydown', '[data-browsedatafield="BarCode"]', e => {
+                    const keycode = e.keyCode || e.which;
+                    if (keycode === 13) {
+                        const $tr = jQuery(e.currentTarget).parents('tr');
+                        let $nextRow = FwBrowse.selectNextRow($browse);
+                        const nextIndex = FwBrowse.getSelectedIndex($browse);
+                        FwBrowse.saveRow($browse, $tr)
+                            .then((value) => {
+                                if (nextIndex != -1) {
+                                    $nextRow = FwBrowse.selectRowByIndex($browse, nextIndex);
+                                    FwBrowse.setRowEditMode($browse, $nextRow);
+                                    $browse.data('selectedfield', 'BarCode');
+                                }
+                            });
+                    }
+                });
             }
         });
     }
