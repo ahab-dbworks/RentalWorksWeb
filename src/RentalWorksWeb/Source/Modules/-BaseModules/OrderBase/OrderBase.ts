@@ -1345,7 +1345,6 @@ class OrderBase {
             { value: 'CONTRACT', caption: 'Contract Activity' },
             { value: 'ORDER', caption: 'Order Quantity' }
         ]);
-
         if ($form.attr('data-mode') === 'NEW') {
             FwFormField.setValueByDataField($form, 'DetermineQuantitiesToBillBasedOn', 'CONTRACT');
         }
@@ -1355,12 +1354,18 @@ class OrderBase {
             { value: 'false', caption: 'As Labor Charge' },
             { value: 'true', caption: 'Into Rental Rate' }
         ]);
+        if ($form.attr('data-mode') === 'NEW') {
+            FwFormField.setValueByDataField($form, 'IncludePrepFeesInRentalRate', 'false');
+        }
 
         //Toggle Buttons - Billing tab - Hiatus Schedule
         FwFormField.loadItems($form.find('div[data-datafield="HiatusDiscountFrom"]'), [
             { value: 'DEAL', caption: 'Deal' },
             { value: 'ORDER', caption: 'Order' }
         ]);
+        if ($form.attr('data-mode') === 'NEW') {
+            FwFormField.setValueByDataField($form, 'HiatusDiscountFrom', 'DEAL');
+        }
 
         //Toggle Buttons - Deliver/Ship tab - Outgoing Address
         FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryAddressType"]'), [
