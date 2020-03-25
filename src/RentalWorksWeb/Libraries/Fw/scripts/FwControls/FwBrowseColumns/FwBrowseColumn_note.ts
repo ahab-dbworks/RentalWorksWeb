@@ -193,7 +193,7 @@
                 if (formController === 'OrderController' || formController === 'QuoteController') {
                     $confirmation.find('.order').show();
                 }
-                fillinCheckboxesFromRow($confirmation, $tr);
+                fillInCheckboxesFromRow($confirmation, $tr);
 
                 $ok.on('mousedown', () => { // saving checkbox values before popup is destroyed on 'ok' click
                     const $checkboxes = $confirmation.find('div[data-type="checkbox"]:visible');
@@ -224,7 +224,7 @@
                         });
                     }
                 })
-                function fillinCheckboxesFromRow($confirmation, $tr) {
+                function fillInCheckboxesFromRow($confirmation, $tr) {
                     const $checkboxes = $confirmation.find('div[data-type="checkbox"]:visible');
                     let checkedCount = 0;
                     $checkboxes.each((i, e) => {
@@ -247,7 +247,7 @@
                         'width': '400px',
                         'max-width': '570px',
                         'height': '510px',
-                        'resize': 'vertical'
+                        'resize': 'both'
                     })
                     .select();
             }
