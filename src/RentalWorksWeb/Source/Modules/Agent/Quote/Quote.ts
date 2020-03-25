@@ -1764,9 +1764,12 @@ class Quote extends OrderBase {
         const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
         this.checkMessages($form, 'quote', quoteId);
         const status = FwFormField.getValueByDataField($form, 'Status');
-        if (status != 'CLOSED') {
-            //const makeQuoteActiveOptionId = this.menuMakeQuoteActiveId;
-            //$form.find(`.submenu-btn[data-securityid="${makeQuoteActiveOptionId}"]`).attr('data-enabled', 'false');
+        if (status === 'ACTIVE') {
+            $form.find('.submenu .submenu-btn[data-securityid="7mrZ4Q8ShsJ"]')
+                .css({
+                    'pointer-events': 'none',
+                    'color': '#e0e0e0',
+                });
         }
     }
     //-----------------------------------------------------------------------------------------------------
@@ -1917,8 +1920,12 @@ class Quote extends OrderBase {
                 response => {
                     FwNotification.renderNotification('SUCCESS', 'Quote Status Successfully Changed to Active.');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    //FwModule.refreshForm($form, QuoteController);
                     FwModule.refreshForm($form);
+                    $form.find('.submenu .submenu-btn[data-securityid="7mrZ4Q8ShsJ"]')
+                        .css({
+                            'pointer-events': 'none',
+                            'color': '#e0e0e0',
+                        });
                 },
                 ex => FwFunc.showError(ex), $realConfirm);
         });
