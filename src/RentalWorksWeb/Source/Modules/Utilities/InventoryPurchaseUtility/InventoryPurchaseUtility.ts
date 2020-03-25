@@ -212,6 +212,20 @@ class InventoryPurchaseUtility {
                 request.uniqueids = {
                     SessionId: $form.data('sessionid')
                 };
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.on('keydown', '[data-browsedatafield="BarCode"]', e => {
+                    const keycode = e.keyCode || e.which;
+                    if (keycode === 13) {
+                        let $tr = jQuery(e.currentTarget).parents('tr');
+                        FwBrowse.saveRow($browse, $tr)
+                            .then((value) => {
+                                $tr = FwBrowse.selectRowByIndex($browse, 0);
+                                FwBrowse.setRowEditMode($browse, $tr);
+                                $browse.data('selectedfield', 'BarCode');
+                            });
+                    }
+                });
             }
         });
     }
