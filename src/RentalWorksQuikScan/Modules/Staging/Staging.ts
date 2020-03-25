@@ -315,9 +315,9 @@ class StagingControllerClass {
                 }
             ]
         });
-
+        //----------------------------------------------------------------------------------------------------
         // Pending Items
-        //let showapplyallqtyitems = false; 
+        //----------------------------------------------------------------------------------------------------
         screen.$view.find('#pendingsearch').fwmobilesearch({
             service: 'Staging',
             method: 'GetPendingItems',
@@ -344,28 +344,25 @@ class StagingControllerClass {
             cacheItemTemplate: false,
             itemTemplate: function (model) {
                 var html: string | string[] = [], isClickableRentalItem = false, isClickableSalesItem = false;
-                const isHeaderRow = ((model.itemclass === 'N') || (model.missingqty === 0));
-                //if (model.trackedby === 'QUANTITY' && model.subvendorid.length === 0) {
-                //    showapplyallqtyitems = true;
+                //const isHeaderRow = ((model.itemclass === 'N') || (model.missingqty === 0));
+                //let cssClass = '';
+                //if (!isHeaderRow) {
+                //    isClickableRentalItem = ((model.rectype === 'R') &&
+                //        ((model.trackedby === 'QUANTITY') || (model.trackedby === 'SERIALNO')) &&
+                //        (model.itemclass[0] !== 'N') &&
+                //        (model.qtysub === 0)
+                //    );
+                //    isClickableSalesItem = (model.rectype === 'S');
+                //    if (isClickableRentalItem || isClickableSalesItem) {
+                //        if (cssClass.length > 0) {
+                //            cssClass += ' ';
+                //        }
+                //        cssClass += 'link';
+                //    }
                 //}
-                let cssClass = '';
-                if (!isHeaderRow) {
-                    isClickableRentalItem = ((model.rectype === 'R') &&
-                        ((model.trackedby === 'QUANTITY') || (model.trackedby === 'SERIALNO')) &&
-                        (model.itemclass[0] !== 'N') &&
-                        (model.qtysub === 0)
-                    );
-                    isClickableSalesItem = (model.rectype === 'S');
-                    if (isClickableRentalItem || isClickableSalesItem) {
-                        if (cssClass.length > 0) {
-                            cssClass += ' ';
-                        }
-                        cssClass += 'link';
-                    }
-                }
-                if (cssClass.length > 0) {
-                    cssClass += ' ';
-                }
+                //if (cssClass.length > 0) {
+                //    cssClass += ' ';
+                //}
                 //cssClass += 'itemclass-' + model.itemclass;
                 let availablefor = '';
                 if (model.rectype === 'R') {
@@ -376,7 +373,7 @@ class StagingControllerClass {
                     availablefor = 'Parts';
                 }
                 html.push(
-`<div class="${cssClass}" data-itemclass="{{itemclass}}" data-rectype="{{rectype}}">
+`<div data-itemclass="{{itemclass}}" data-rectype="{{rectype}}">
   <div class="row">
     <div class="title">{{description}}</div>
     </div>
@@ -411,19 +408,31 @@ class StagingControllerClass {
 <div class="row">`);
                 if (model.consignorid !== '') {
                     html.push(
-`  <div class="col1 caption">Consignor:</div>
-  <div class="col2 value">{{vendor}}</div>`);
+`  <div class="col1 vendor caption">Consignor:</div>
+  <div class="col2 vendor value">{{vendor}}</div>`);
                 } else if (model.subvendorid !== '') {
                     html.push(
-`  <div class="col1 caption">Sub-Vendor:</div>
-  <div class="col234 value">{{vendor}} <span style="color:#ffff00;">(PO Sub-Receive to move to Staged)</span></div>`);
+`  <div class="col1 vendor caption">Sub-Vendor:</div>
+  <div class="col234 vendor value">{{vendor}} <span style="color:#ffff00;">(PO Sub-Receive to move to Staged)</span></div>`);
                 }
                 html.push('</div>');
                 html = html.join('\n');
                 return html;
             },
             hasRecordClick: (model: any): boolean => {
-                return ((model.trackedby === 'SERIALNO' || model.trackedby === 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0));            
+                //return ((model.trackedby === 'SERIALNO' || model.trackedby === 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0));
+                let hasRecordClick = false;
+                const isHeaderRow = ((model.itemclass === 'N') || (model.missingqty === 0));
+                if (!isHeaderRow) {
+                    const isClickableRentalItem = ((model.rectype === 'R') &&
+                        ((model.trackedby === 'QUANTITY') || (model.trackedby === 'SERIALNO')) &&
+                        (model.itemclass[0] !== 'N') &&
+                        (model.qtysub === 0)
+                    );
+                    const isClickableSalesItem = (model.rectype === 'S');
+                    hasRecordClick = isClickableRentalItem || isClickableSalesItem;
+                }
+                return hasRecordClick;
             },
             recordClick: function (recorddata, $record) {
                 var $this, requestStageItem, requestSelectSerialNo, rectype, trackedby;
@@ -515,8 +524,9 @@ class StagingControllerClass {
                 screen.$modulecontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
             }
         });
-
+        //----------------------------------------------------------------------------------------------------
         // Staged Items
+        //----------------------------------------------------------------------------------------------------
         screen.$view.find('#stagedsearch').fwmobilesearch({
             service: 'Staging',
             method: 'GetStagedItems',
@@ -1856,11 +1866,11 @@ class StagingControllerClass {
                         screen.showPopupQty();
                     } else {
                         screen.showPopupQty();
-                        setTimeout(
-                            function() {
-                                screen.hidePopupQty();
-                            }
-                          , 3000);
+                        //setTimeout(
+                        //    function() {
+                        //        screen.hidePopupQty();
+                        //    }
+                        //  , 3000);
                     }
                 }
             } else {

@@ -73,10 +73,11 @@
 #staging .itemsearch .searchresults .item[data-itemclass="N"] > div.title {background-color:rgb(255,174,132);}
 #staging .itemsearch .searchresults .item[data-itemclass="N"],
 #staging .itemsearch .searchresults .item[data-itemclass="NI"] {border-left:6px solid rgb(255,174,132);}
+#staging .itemsearch .searchresults .item .vendor { color: #ffb28c; }
 
 /* Pending List Styles*/
-#staging .pendingsearch .searchresults .item .missingqty.caption {font-weight:bold;font-size:11px;color:#ff9800}
-#staging .pendingsearch .searchresults .item .missingqty.value {font-weight:bold;font-size:11px;color:#ff9800}
+#staging #pendingsearch .searchresults .item .missingqty.caption {font-weight:bold;font-size:11px;color:#ff9800}
+#staging #pendingsearch .searchresults .item .missingqty.value {font-weight:bold;font-size:11px;color:#ff9800}
 #staging-pendingList-pnlApplyAllQtyItems {text-align:center;padding:20px 0;}
 
 /* Staged List Styles*/
