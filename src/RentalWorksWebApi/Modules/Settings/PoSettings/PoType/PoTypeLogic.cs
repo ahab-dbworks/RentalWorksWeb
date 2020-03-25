@@ -1824,7 +1824,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
                 if (SubLaborShowFromTime == true) { showFields.Add("FromTime"); }
                 if (SubLaborShowToDate == true) { showFields.Add("ToDate"); }
                 if (SubLaborShowToTime == true) { showFields.Add("ToTime"); }
-                //if (SubLaborShowHours == true)
+                if (SubLaborShowHours == true) { showFields.Add("Hours"); }
                 if (SubLaborShowBillablePeriods == true) { showFields.Add("BillablePeriods"); }
                 if (SubLaborShowUnit == true) { showFields.Add("Unit"); }
                 if (SubLaborShowRate == true) { showFields.Add("Rate"); }
@@ -1940,7 +1940,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
                 if (LaborShowBillablePeriods == true) { showFields.Add("BillablePeriods"); }
                 if (LaborShowUnit == true) { showFields.Add("Unit"); }
                 if (LaborShowRate == true) { showFields.Add("Rate"); }
-                //if (LaborShowHours == true) { showFields.Add("Hours"); }
+                if (LaborShowHours == true) { showFields.Add("Hours"); }
                 if (LaborShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
                 if (LaborShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
                 if (LaborShowUnitExtended == true) { showFields.Add("UnitExtended"); }
