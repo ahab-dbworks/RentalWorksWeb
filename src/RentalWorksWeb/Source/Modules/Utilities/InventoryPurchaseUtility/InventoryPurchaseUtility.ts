@@ -217,12 +217,16 @@ class InventoryPurchaseUtility {
                 $browse.on('keydown', '[data-browsedatafield="BarCode"]', e => {
                     const keycode = e.keyCode || e.which;
                     if (keycode === 13) {
-                        let $tr = jQuery(e.currentTarget).parents('tr');
+                        const $tr = jQuery(e.currentTarget).parents('tr');
+                        let $nextRow = FwBrowse.selectNextRow($browse);
+                        const nextIndex = FwBrowse.getSelectedIndex($browse);
                         FwBrowse.saveRow($browse, $tr)
                             .then((value) => {
-                                $tr = FwBrowse.selectRowByIndex($browse, 0);
-                                FwBrowse.setRowEditMode($browse, $tr);
-                                $browse.data('selectedfield', 'BarCode');
+                                if (nextIndex != -1) {
+                                    $nextRow = FwBrowse.selectRowByIndex($browse, nextIndex);
+                                    FwBrowse.setRowEditMode($browse, $nextRow);
+                                    $browse.data('selectedfield', 'BarCode');
+                                }
                             });
                     }
                 });
