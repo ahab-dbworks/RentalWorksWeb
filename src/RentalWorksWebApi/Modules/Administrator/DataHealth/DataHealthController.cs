@@ -17,7 +17,7 @@ namespace WebApi.Modules.Administrator.DataHealth
         //------------------------------------------------------------------------------------ 
         // POST api/v1/datahealth/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "AGDanxcH9qtP", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        [FwControllerMethod(Id: "AGDanxcH9qtP", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -45,6 +45,14 @@ namespace WebApi.Modules.Administrator.DataHealth
         public async Task<ActionResult<DataHealthLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DataHealthLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/datahealth/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "yFuZ3JTiqkPs", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<DataHealthLogic>> EditAsync([FromRoute] string id, [FromBody]DataHealthLogic l)
+        {
+            return await DoEditAsync<DataHealthLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
     }

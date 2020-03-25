@@ -10,12 +10,12 @@ namespace WebApi.Modules.Administrator.DataHealth
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datahealthid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string DataHealthId { get; set; } = "";
+        public string DataHealthId { get; set; } 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datahealthtype", modeltype: FwDataTypes.Text)]
         public string DataHealthType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "capturedatetime", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "capturedatetime", modeltype: FwDataTypes.DateTime)]
         public string CaptureDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "json", modeltype: FwDataTypes.Text)]
