@@ -11,15 +11,19 @@
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="flexpage">
           <div class="flexrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Alert">
-              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield modules ifnew" data-caption="Module" data-datafield="ModuleName" data-displayfield="ModuleName" data-required="true" data-allcaps="false" style="flex:1 1 0; max-width:350px;"></div>
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Alert Actions" style="max-width:200px;">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="New" data-datafield="ActionNew" style="flex:1 1 0;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Edit" data-datafield="ActionEdit" style="flex:1 1 0;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Delete" data-datafield="ActionDelete" style="flex:1 1 0;"></div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Alert" style="width:900px">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield modules ifnew" data-caption="Module" data-datafield="ModuleName" data-displayfield="ModuleName" data-required="true" data-allcaps="false" style="flex:1 1 0;max-width:350px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Alert Name" data-datafield="AlertName" data-allcaps="false" style="flex:1 1 0;max-width:600px;" data-required="true"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="flex:1 1 0;max-width:150px;"></div>
               </div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Alert Name" data-datafield="AlertName" data-allcaps="false" style="flex:1 1 0; max-width:650px;" data-required="true"></div>
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="flex:1 1 0; max-width:250px;"></div>
+            </div>
+            </div>
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Alert Triggered by These Actions" style="max-width:500px;">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="New data is added" data-datafield="ActionNew" style="flex:1 1 0;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Existing data is modified" data-datafield="ActionEdit" style="flex:1 1 0;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Data is deleted" data-datafield="ActionDelete" style="flex:1 1 0;"></div>
             </div>
           </div>
           <div class="flexrow">
