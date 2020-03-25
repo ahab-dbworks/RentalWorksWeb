@@ -38,6 +38,10 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSaveInventorySearchPreview(object sender, BeforeSaveDataRecordEventArgs e)
         {
+            if (Quantity == null)
+            {
+                Quantity = 0;
+            }
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "savetmpsearchsession", this.AppConfig.DatabaseSettings.QueryTimeout);

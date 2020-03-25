@@ -65,6 +65,11 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSaveInventorySearch(object sender, BeforeSaveDataRecordEventArgs e)
         {
+            if (Quantity == null)
+            {
+                Quantity = 0;
+            }
+
             if (Quantity < 0)
             {
                 throw new System.Exception("Quantity cannot be negative.");
