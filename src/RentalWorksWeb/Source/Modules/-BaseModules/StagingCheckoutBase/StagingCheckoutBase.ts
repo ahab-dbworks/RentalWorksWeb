@@ -1248,16 +1248,24 @@ abstract class StagingCheckoutBase {
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
             try {
                 const gridView = FwFormField.getValueByDataField($form, 'GridView');
-                if (gridView === 'STAGE') {
-                    const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-                    FwBrowse.search($stagedItemGrid);
-                } else {
-                    const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-                    FwBrowse.search($checkOutPendingItemGrid);
-                }
-                $form.find('.error-msg:not(.qty)').html('');
+                const errorMsg = $form.find('.error-msg:not(.qty)');
+                errorMsg.html('');
                 $form.find('div.AddItemToOrder').html('');
-                FwFunc.playSuccessSound();
+
+                if (response.success) {
+                    FwFunc.playSuccessSound();
+                    if (gridView === 'STAGE') {
+                        const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+                        FwBrowse.search($stagedItemGrid);
+                    } else {
+                        const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+                        FwBrowse.search($checkOutPendingItemGrid);
+                    }
+                }
+                else if (response.success === false) {
+                    FwFunc.playErrorSound();
+                    errorMsg.html(`<div><span>${response.msg}</span></div>`);
+                }
             }
             catch (ex) {
                 FwFunc.showError(ex);
