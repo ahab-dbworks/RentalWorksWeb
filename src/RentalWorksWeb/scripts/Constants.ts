@@ -16,17 +16,18 @@ var Constants = {
             caption: 'Administrator',
             nodetype: 'Category',
             children: {
-                Alert:              { id: 'gFfpaR5mDAzX',  caption: 'Alert',          nav: 'module/alert', nodetype: 'Module' },
-                CustomField:        { id: 'cZHPJQyBxolS',  caption: 'Custom Field',   nav: 'module/customfield', nodetype: 'Module' },
-                CustomForm:         { id: 'xfpeg2SVZW',    caption: 'Custom Form',    nav: 'module/customform', nodetype: 'Module' },
-                CustomReportLayout: { id: 'EtrF5NHJ7dRg6', caption: 'Custom Report Layout', nav:  'module/customreportlayout', nodetype: 'Module' },
-                DuplicateRule:      { id: 'v7oBspDLjli8',  caption: 'Duplicate Rule', nav: 'module/duplicaterule', nodetype: 'Module' },
-                EmailHistory:       { id: '3XHEm3Q8WSD8z', caption: 'Email History',  nav: 'module/emailhistory', nodetype: 'Module' },
-                Group:              { id: '0vP4rXxgGL1M',  caption: 'Group',          nav: 'module/group', nodetype: 'Module' },
-                Hotfix:             { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',         nav: 'module/hotfix', nodetype: 'Module' },
-                Reports:            { id: 'Reports', caption: 'Reports', nav: 'module/reports', nodetype: 'Module' },
-                Settings:           { id: 'Settings', caption: 'Settings', nav: 'module/settings', nodetype: 'Module' },
-                User:               { id: 'r1fKvn1KaFd0u', caption: 'User',           nav: 'module/user', nodetype: 'Module' }
+                Alert:              { id: 'gFfpaR5mDAzX',  caption: 'Alert',                nav: 'module/alert',                nodetype: 'Module' },
+                CustomField:        { id: 'cZHPJQyBxolS',  caption: 'Custom Field',         nav: 'module/customfield',          nodetype: 'Module' },
+                CustomForm:         { id: 'xfpeg2SVZW',    caption: 'Custom Form',          nav: 'module/customform',           nodetype: 'Module' },
+                CustomReportLayout: { id: 'EtrF5NHJ7dRg6', caption: 'Custom Report Layout', nav: 'module/customreportlayout',   nodetype: 'Module' },
+                DataHealth:         { id: 'ZtbmCyitBrBe',  caption: 'Data Health',          nav: 'module/datahealth',           nodetype: 'Module' },
+                DuplicateRule:      { id: 'v7oBspDLjli8',  caption: 'Duplicate Rule',       nav: 'module/duplicaterule',        nodetype: 'Module' },
+                EmailHistory:       { id: '3XHEm3Q8WSD8z', caption: 'Email History',        nav: 'module/emailhistory',         nodetype: 'Module' },
+                Group:              { id: '0vP4rXxgGL1M',  caption: 'Group',                nav: 'module/group',                nodetype: 'Module' },
+                Hotfix:             { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',               nav: 'module/hotfix',               nodetype: 'Module' },
+                Reports:            { id: 'Reports',       caption: 'Reports',              nav: 'module/reports',              nodetype: 'Module' },
+                Settings:           { id: 'Settings',      caption: 'Settings',             nav: 'module/settings',             nodetype: 'Module' },
+                User:               { id: 'r1fKvn1KaFd0u', caption: 'User',                 nav: 'module/user',                 nodetype: 'Module' }
             }
         },
         Agent: {
