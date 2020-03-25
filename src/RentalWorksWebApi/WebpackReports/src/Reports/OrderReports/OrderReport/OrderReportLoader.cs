@@ -199,6 +199,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string TaxRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "isrecurring", modeltype: FwDataTypes.Boolean)]
+        public bool? IsRecurring { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
