@@ -8,10 +8,10 @@ namespace WebApi.Modules.Administrator.DataHealth
     public class DataHealthRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "datahealthid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
-        public string DataHealthId { get; set; }
+        [FwSqlDataField(column: "datahealthid", modeltype: FwDataTypes.Integer, sqltype: "int", identity: true, isPrimaryKey: true)]
+        public int? DataHealthId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "datahealthtype", modeltype: FwDataTypes.Text, sqltype: "varchar")]
+        [FwSqlDataField(column: "datahealthtype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string DataHealthType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "capturedatetime", modeltype: FwDataTypes.Date, sqltype: "datetime")]
@@ -28,6 +28,6 @@ namespace WebApi.Modules.Administrator.DataHealth
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------ 
     }
 }

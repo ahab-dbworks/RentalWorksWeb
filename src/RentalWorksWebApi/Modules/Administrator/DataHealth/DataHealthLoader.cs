@@ -9,8 +9,8 @@ namespace WebApi.Modules.Administrator.DataHealth
     public class DataHealthLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "datahealthid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string DataHealthId { get; set; } 
+        [FwSqlDataField(column: "datahealthid", modeltype: FwDataTypes.Integer, identity:true, isPrimaryKey: true)]
+        public int? DataHealthId { get; set; } 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datahealthtype", modeltype: FwDataTypes.Text)]
         public string DataHealthType { get; set; }
@@ -19,6 +19,7 @@ namespace WebApi.Modules.Administrator.DataHealth
         public string CaptureDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "json", modeltype: FwDataTypes.Text)]
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
         public string Json { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
