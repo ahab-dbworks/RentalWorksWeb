@@ -7,6 +7,7 @@ using WebApi.Modules.Containers.Container;
 using WebApi.Modules.HomeControls.ContainerItem;
 using WebApi.Modules.HomeControls.Inventory;
 using WebApi;
+using FwStandard.SqlServer.Attributes;
 
 namespace WebApi.Modules.Inventory.RentalInventory
 {
@@ -28,28 +29,28 @@ namespace WebApi.Modules.Inventory.RentalInventory
 
         // for cusomizing browse 
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "4uavj41MT821z", IsReadOnly: true)]
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
         public decimal? DailyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "m4WEKzqJQ2d4Y", IsReadOnly: true)]
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "dn4W1P4WmTBRV", IsReadOnly: true)]
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
         public decimal? Week2Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "P63A3BnGTm7Cl", IsReadOnly: true)]
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
         public decimal? Week3Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "Qg6UVsl5AOxtP", IsReadOnly: true)]
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
         public decimal? Week4Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "qNHW0afj0g9QY", IsReadOnly: true)]
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "UNA3nQeCQUBF1", IsReadOnly: true)]
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "25fptZQprTbeV", IsReadOnly: true)]
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
 

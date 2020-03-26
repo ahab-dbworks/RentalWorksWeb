@@ -427,5 +427,25 @@ namespace WebApi.Modules.HomeControls.Inventory
         //------------------------------------------------------------------------------------ 
 
 
+        // for cusomizing browse 
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? Quantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
+        public string AisleLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
+        public string ShelfLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Boolean)]
+        public bool? Taxable { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
+
+
     }
 }

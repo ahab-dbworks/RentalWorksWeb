@@ -22,6 +22,14 @@ namespace WebApi.Modules.Inventory.SalesInventory
         [FwLogicProperty(Id: "dgkeKcMgo8t5S", IsReadOnly: true)]
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "cCsueAb8weXt1", IsReadOnly: true)]
+        public decimal? DefaultCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "x32dthjbtSdf5", IsReadOnly: true)]
+        public decimal? AverageCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
 
 
         public override void OnBeforeSave(object sender, BeforeSaveEventArgs e)

@@ -10,6 +10,35 @@ namespace WebApi.Modules.Inventory.RentalInventory
     [FwSqlTable("inventoryview")]
     public class RentalInventoryLoader : InventoryLoader
     {
+
+        // for cusomizing browse 
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? DailyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week2Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week3Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week4Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

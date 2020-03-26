@@ -13,6 +13,19 @@ namespace WebApi.Modules.Inventory.PartsInventory
     [FwSqlTable("inventoryview")]
     public class PartsInventoryLoader : InventoryLoader
     {
+
+        // for cusomizing browse 
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? Price { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? DefaultCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? AverageCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

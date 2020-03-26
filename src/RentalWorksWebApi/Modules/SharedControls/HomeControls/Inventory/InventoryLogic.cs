@@ -394,6 +394,8 @@ namespace WebApi.Modules.HomeControls.Inventory
 
 
 
+
+
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
