@@ -2547,8 +2547,8 @@ class OrderBase {
     printManifest($form: any) {
         try {
             var module = this.Module;
-            var orderIdText = FwFormField.getValueByDataField($form, "OrderNumber");
-            var orderId = FwFormField.getValueByDataField($form, "OrderId");
+            var orderIdText = FwFormField.getValueByDataField($form, `${module}Number`);
+            var orderId = FwFormField.getValueByDataField($form, `${module}Id`);
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
             var $report = ManifestReportController.openForm();
 
