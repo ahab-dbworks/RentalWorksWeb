@@ -449,6 +449,9 @@ class OrderItemGrid {
                     } else if (rateType == 'MONTHLY') {
                         rateFieldName = 'MonthlyRate';
                         costFieldName = 'MonthlyCost';
+                    } else {
+                        rateFieldName = 'UseDefault';
+                        costFieldName = 'UseDefault';
                     }
                     break;
                 case 'RS':
@@ -467,14 +470,23 @@ class OrderItemGrid {
                     rate = FwBrowse.getValueByDataField($control, $tr, 'Price');
                     cost = FwBrowse.getValueByDataField($control, $tr, 'AverageCost');
                 } else {
-                    cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
-                    rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                    if (rateFieldName == 'UseDefault') {
+                        cost = 0;
+                        rate = 0;
+                    } else {
+                        cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
+                        rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                    }
                 }
             } else {
                 if (recType != 'R') {
                     cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
                 }
-                rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                if (recType == 'R' && rateFieldName == 'UseDefault') {
+                    rate = FwBrowse.getValueByDataField($control, $tr, 'UnitValue');
+                } else {
+                    rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                }
             }
 
             if (recType != 'R') {
