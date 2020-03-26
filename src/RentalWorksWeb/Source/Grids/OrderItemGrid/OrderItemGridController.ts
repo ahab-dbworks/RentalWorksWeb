@@ -516,7 +516,7 @@ class OrderItemGrid {
                 $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
 
-                if (controller == 'OrderController' || controller == 'QuoteController') {
+                if (controller == 'OrderController' || controller == 'QuoteController' || controller == 'PurchaseOrderController') {
                     if (recType == 'R' || recType == 'S') {
                         const classification = FwBrowse.getValueByDataField($control, $tr, 'Classification');
                         if (classification == 'M') {
