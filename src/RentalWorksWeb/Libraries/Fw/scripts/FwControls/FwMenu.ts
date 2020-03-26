@@ -1138,6 +1138,7 @@ class FwMenuClass {
                 request.searchfieldoperators = request.searchfieldoperators.concat(advancedSearch.searchfieldoperators);
                 request.searchfields = request.searchfields.concat(advancedSearch.searchfields);
                 request.searchfieldtypes = request.searchfieldtypes.concat(advancedSearch.searchfieldtypes);
+                request.searchfieldtypes.unshift('Text'); // for Inactive field
                 request.searchfieldvalues = request.searchfieldvalues.concat(advancedSearch.searchfieldvalues);
                 request.searchseparators = request.searchseparators.concat(advancedSearch.searchseparators);
                 request.searchconjunctions = request.searchconjunctions.concat(advancedSearch.searchconjunctions);
