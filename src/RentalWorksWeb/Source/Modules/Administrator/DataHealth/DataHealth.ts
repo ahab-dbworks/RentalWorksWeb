@@ -37,9 +37,6 @@ class DataHealth {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        //removes field propagation
-        //$form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
-
         this.events($form);
         return $form;
     }
@@ -52,30 +49,44 @@ class DataHealth {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: JQuery) {
+    afterLoad($form: JQuery, response: any) {
+        this.renderJsonData($form, response);
     }
     //----------------------------------------------------------------------------------------------
-    renderGrids($form: JQuery) {
-        //FwBrowse.renderGrid({
-        //    nameGrid:         'CustomFormGroupGrid',
-        //    gridSecurityId:   '11txpzVKVGi2',
-        //    moduleSecurityId: this.id,
-        //    $form:            $form,
-        //    onDataBind: (request: any) => {
-        //        request.uniqueids = {
-        //            CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId')
-        //        };
-        //    },
-        //    beforeSave: (request: any) => {
-        //        request.CustomFormId = FwFormField.getValueByDataField($form, 'CustomFormId')
-        //    }
-        //});
+    renderJsonData($form: JQuery, response: any) {
+        const data = JSON.parse(response.Json);
+        if (data.length) {
+            const $table = jQuery(`<table>
+                                        <thead></thead>
+                                   </table>`);
+            const fields: Array<string> = Object.keys(data[0]);
+            const $thead = jQuery(`<tr class="header-row"></tr>`);
+            for (let i = 0; i < fields.length; i++) {
+                const th = `<th>${fields[i]}</th>`;
+                $thead.append(th);
+            }
+            $table.find('thead').append($thead);
+
+            const $tbody = jQuery(`<tbody></tbody>`);
+            for (let i = 0; i < data.length; i++) {
+                const $row = jQuery(`<tr class="data-row"></tr>`);
+                for (let j = 0; j < fields.length; j++) {
+                    const field = fields[j];
+                    const value = data[i][field] || '';
+                    const td = `<td data-fieldname="${field}">${value.trim()}</td>`;
+                    $row.append(td);
+                }
+                $tbody.append($row);
+            }
+            $table.find('thead').after($tbody);
+            $form.find('.data-health').append($table);
+        }
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery) {
-       
+
     }
-    //----------------------------------------------------------------------------------------------a
+    //----------------------------------------------------------------------------------------------
 };
 //----------------------------------------------------------------------------------------------
 var DataHealthController = new DataHealth();

@@ -23,7 +23,7 @@ namespace WebApi.Modules.Administrator.DataHealth
         [FwLogicProperty(Id: "2MVI0lynHBsO", IsPrimaryKey: true)]
         public int? DataHealthId { get { return dataHealth.DataHealthId; } set { dataHealth.DataHealthId = value; } }
 
-        [FwLogicProperty(Id: "aC3PyMIjJ0FV")]
+        [FwLogicProperty(Id: "aC3PyMIjJ0FV", IsRecordTitle: true)]
         public string DataHealthType { get { return dataHealth.DataHealthType; } set { dataHealth.DataHealthType = value; } }
 
         [FwLogicProperty(Id: "qY9Y4gZZOqoI")]
