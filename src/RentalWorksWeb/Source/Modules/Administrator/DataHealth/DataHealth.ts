@@ -72,8 +72,9 @@ class DataHealth {
                 const $row = jQuery(`<tr class="data-row"></tr>`);
                 for (let j = 0; j < fields.length; j++) {
                     const field = fields[j];
-                    const value = data[i][field] || '';
-                    const td = `<td data-fieldname="${field}">${value.trim()}</td>`;
+                    let value = data[i][field] || '';
+                    value = value.toString().trim();
+                    const td = `<td data-fieldname="${field}">${value}</td>`;
                     $row.append(td);
                 }
                 $tbody.append($row);
