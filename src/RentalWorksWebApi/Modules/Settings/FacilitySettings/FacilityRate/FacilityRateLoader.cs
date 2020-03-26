@@ -26,7 +26,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.FacilityRate
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             //select.Parse();
-            select.AddWhere("(class='SP')");
+            select.AddWhere("(class='" + RwConstants.MISC_CLASSIFICATION_FACILITIES + "')");
         }
         //------------------------------------------------------------------------------------
     }
