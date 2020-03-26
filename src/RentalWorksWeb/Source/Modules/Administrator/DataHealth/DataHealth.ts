@@ -56,11 +56,11 @@ class DataHealth {
     renderJsonData($form: JQuery, response: any) {
         const data = JSON.parse(response.Json);
         if (data.length) {
-            const $table = jQuery(`<table>
+            const $table = jQuery(`<table class="form-table">
                                         <thead></thead>
                                    </table>`);
             const fields: Array<string> = Object.keys(data[0]);
-            const $thead = jQuery(`<tr class="header-row"></tr>`);
+            const $thead = jQuery(`<tr class="header"></tr>`);
             for (let i = 0; i < fields.length; i++) {
                 const th = `<th>${fields[i]}</th>`;
                 $thead.append(th);
@@ -79,7 +79,7 @@ class DataHealth {
                 $tbody.append($row);
             }
             $table.find('thead').after($tbody);
-            $form.find('.data-health').append($table);
+            $form.find('.data-health').empty().append($table);
         }
     }
     //----------------------------------------------------------------------------------------------
