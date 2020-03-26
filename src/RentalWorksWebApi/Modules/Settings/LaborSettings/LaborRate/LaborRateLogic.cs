@@ -45,11 +45,6 @@ namespace WebApi.Modules.Settings.LaborSettings.LaborRate
             {
                 if (RateType != null)
                 {
-                    //LaborRateLogic l2 = new LaborRateLogic();
-                    //l2.SetDependencies(AppConfig, UserSession);
-                    //l2.RateId = RateId;
-                    //bool b = l2.LoadAsync<LaborRateLogic>().Result;
-                    //if (!RateType.Equals(l2.RateType))
                     if (!RateType.Equals(((LaborRateLogic)original).RateType))
                     {
                         isValid = false;

@@ -1,10 +1,6 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using WebApi.Logic;
-using WebApi.Modules.HomeControls.Master;
-using WebApi.Modules.HomeControls.Inventory;
 using WebApi.Modules.Settings.Rate;
-using WebApi;
 
 namespace WebApi.Modules.Settings.LaborSettings.Position
 {
@@ -15,7 +11,10 @@ namespace WebApi.Modules.Settings.LaborSettings.Position
         public PositionLogic()
         {
             dataLoader = positionLoader;
+            ((RateBrowseLoader)browseLoader).AvailFor = RwConstants.RATE_AVAILABLE_FOR_LABOR;
             BeforeSave += OnBeforeSave;
+            AvailFor = RwConstants.RATE_AVAILABLE_FOR_LABOR;
+            Classification = RwConstants.LABOR_CLASSIFICATION_POSITION;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"Vm9HgzMRYu3Vm", IsPrimaryKey:true)]
@@ -40,11 +39,6 @@ namespace WebApi.Modules.Settings.LaborSettings.Position
             {
                 if (RateType != null)
                 {
-                    //PositionLogic l2 = new PositionLogic();
-                    //l2.SetDependencies(AppConfig, UserSession);
-                    //l2.PositionId = PositionId;
-                    //bool b = l2.LoadAsync<PositionLogic>().Result;
-                    //if (!RateType.Equals(l2.RateType))
                     if (!RateType.Equals(((PositionLogic)original).RateType))
                     {
                         isValid = false;
@@ -59,7 +53,7 @@ namespace WebApi.Modules.Settings.LaborSettings.Position
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             AvailFor = RwConstants.RATE_AVAILABLE_FOR_LABOR;
-            Classification = "LP";
+            Classification = RwConstants.LABOR_CLASSIFICATION_POSITION;
         }
         //------------------------------------------------------------------------------------ 
     }

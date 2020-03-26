@@ -15,6 +15,8 @@ namespace WebApi.Modules.Settings.FacilitySettings.FacilityRate
         public FacilityRateLogic()
         {
             dataLoader = inventoryLoader;
+            ((RateBrowseLoader)browseLoader).AvailFor = RwConstants.RATE_AVAILABLE_FOR_MISC;
+            Classification = RwConstants.MISC_CLASSIFICATION_FACILITIES;
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
@@ -41,11 +43,6 @@ namespace WebApi.Modules.Settings.FacilitySettings.FacilityRate
             {
                 if (RateType != null)
                 {
-                    //FacilityRateLogic l2 = new FacilityRateLogic();
-                    //l2.SetDependencies(AppConfig, UserSession);
-                    //l2.RateId = RateId;
-                    //bool b = l2.LoadAsync<FacilityRateLogic>().Result;
-                    //if (!RateType.Equals(l2.RateType))
                     if (!RateType.Equals(((FacilityRateLogic)original).RateType))
                     {
                         isValid = false;
@@ -60,7 +57,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.FacilityRate
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             AvailFor = RwConstants.RATE_AVAILABLE_FOR_MISC;
-            Classification = "SP";
+            Classification = RwConstants.MISC_CLASSIFICATION_FACILITIES;
         }
         //------------------------------------------------------------------------------------ 
     }

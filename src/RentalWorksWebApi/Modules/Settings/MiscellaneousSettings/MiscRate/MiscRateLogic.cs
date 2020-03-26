@@ -45,11 +45,6 @@ namespace WebApi.Modules.Settings.MiscellaneousSettings.MiscRate
             {
                 if (RateType != null)
                 {
-                    //MiscRateLogic l2 = new MiscRateLogic();
-                    //l2.SetDependencies(AppConfig, UserSession);
-                    //l2.RateId = RateId;
-                    //bool b = l2.LoadAsync<MiscRateLogic>().Result;
-                    //if (!RateType.Equals(l2.RateType))
                     if (!RateType.Equals(((MiscRateLogic)original).RateType))
                     {
                         isValid = false;

@@ -21,6 +21,9 @@ namespace WebApi
         public const string RATE_TYPE_SINGLE = "SINGLE";
         public const string RATE_TYPE_RECURRING = "RECURRING";
 
+        public const string MISC_CLASSIFICATION_FACILITIES = "SP";
+        public const string LABOR_CLASSIFICATION_POSITION = "LP";
+
         //DEPARTMENT TYPES
         public const string DEPARTMENT_TYPE_RENTAL = "R";
         public const string DEPARTMENT_TYPE_SALES = "S";
