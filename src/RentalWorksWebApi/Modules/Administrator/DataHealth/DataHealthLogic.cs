@@ -12,10 +12,12 @@ namespace WebApi.Modules.Administrator.DataHealth
         //------------------------------------------------------------------------------------ 
         DataHealthRecord dataHealth = new DataHealthRecord();
         DataHealthLoader dataHealthLoader = new DataHealthLoader();
+        DataHealthBrowseLoader dataHealthBrowseLoader = new DataHealthBrowseLoader();
         public DataHealthLogic()
         {
             dataRecords.Add(dataHealth);
             dataLoader = dataHealthLoader;
+            browseLoader = dataHealthBrowseLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "2MVI0lynHBsO", IsPrimaryKey: true)]
