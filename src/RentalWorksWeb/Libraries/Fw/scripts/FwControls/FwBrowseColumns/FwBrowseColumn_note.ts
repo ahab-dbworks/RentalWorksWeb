@@ -134,7 +134,6 @@
                     .select();
             } else {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
-
             }
             // ----------
             $ok.on('click', function () {
