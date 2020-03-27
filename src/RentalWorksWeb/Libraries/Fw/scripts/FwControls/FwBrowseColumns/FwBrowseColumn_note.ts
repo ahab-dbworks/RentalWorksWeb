@@ -121,7 +121,6 @@
                 addPrintNotes = true;
             }
 
-            FwFormField.setValue($confirmation, '.note', $noteTextArea.val());
             if (!addPrintNotes) {
                 FwConfirmation.addControls($confirmation, controlhtml.join('\n'));
                 $confirmation.find('.note textarea')
@@ -135,6 +134,7 @@
             } else {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             }
+            FwFormField.setValue($confirmation, '.note', $noteTextArea.val());
             // ----------
             $ok.on('click', function () {
                 $noteTextArea.val($confirmation.find('.note textarea').val());
