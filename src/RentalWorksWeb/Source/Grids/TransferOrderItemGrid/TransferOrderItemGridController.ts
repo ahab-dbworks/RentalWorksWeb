@@ -2,8 +2,29 @@
     Module: string = 'TransferOrderItemGrid';
     apiurl: string = 'api/v1/orderitem';
 
+    onRowNewMode($control: JQuery, $tr: JQuery) {
+        //Allow searching on description field
+        $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
+            $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
+            $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
+        });
+    }
+
     generateRow($control, $generatedtr) {
         const $form = $control.closest('.fwform');
+
+        $generatedtr.find('div[data-browsedatafield="Description"]').data('onchange', $tr => {
+            const recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
+            let idFieldName;
+            if (recType === 'L' || recType === 'M') {
+                idFieldName = 'RateId';
+            } else {
+                idFieldName = 'InventoryId';
+            }
+            FwBrowse.setFieldValue($control, $generatedtr, 'InventoryId', { value: FwBrowse.getValueByDataField($control, $tr, idFieldName), text: FwBrowse.getValueByDataField($control, $tr, 'ICode') });
+            $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange')($tr);
+        });
+
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', $tr => {
             const fromWarehouseId = FwFormField.getValueByDataField($form, 'FromWarehouseId');
             const toWarehouseId = FwFormField.getValueByDataField($form, 'ToWarehouseId');
@@ -20,6 +41,18 @@
                     request.WarehouseId = fromWarehouseId;
                     request.ReturnToWarehouseId = toWarehouseId;
                 });
+            };
+
+            if ($generatedtr.hasClass("newmode")) {
+                const classification = FwBrowse.getValueByDataField($control, $tr, 'Classification');
+                if (classification == 'M') {
+                    $generatedtr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+                    $generatedtr.find('[data-browsedatafield="Description"] input.value').remove();
+                    $generatedtr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
+                    $generatedtr.find('[data-browsedatafield="Description"] .btnpeek').hide();
+                    $generatedtr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
+                    $generatedtr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
+                }
             }
         });
 
@@ -41,6 +74,18 @@
                     break;
             }
             $td.attr('data-peekForm', peekForm);
+
+            //Allow searching on description field
+            const itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+            const validTextItemClasses: any = ['M', 'GH', 'T', 'ST'];
+            if (validTextItemClasses.includes(itemClass)) {
+                $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+            } else {
+                $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
+                    $validationbrowse.find('[data-browsedatafield="ICode"]').attr('data-validationdisplayfield', 'false');
+                    $validationbrowse.find('[data-browsedatafield="Description"]').attr('data-validationdisplayfield', 'true');
+                });
+            }
         });
 
         //availability calendar popup
@@ -140,6 +185,7 @@
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
+            case 'Description':
             case 'InventoryId':
                 const availFor = $form.find('.active [data-grid="TransferOrderItemGrid"]');
                 if (availFor.hasClass('R')) {

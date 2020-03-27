@@ -424,6 +424,7 @@ class TransferOrder {
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('R');
+                $fwgrid.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.checkGridRows($browse, $form);
@@ -488,6 +489,7 @@ class TransferOrder {
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('S');
+                $fwgrid.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.checkGridRows($browse, $form);
