@@ -47,7 +47,7 @@ class SearchInterface {
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="From Date" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="To Date" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
-                                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Sort By" data-datafield="SortBy" style="flex: 0 1 255px;"></div>
+                               
                                 <div data-type="button" class="fwformcontrol addToOrder">Add to ${buttonCaption}</div>
                                 <div data-type="button" class="fwformcontrol insertAtLine" style="display:none; margin: 16px 7px 0px 7px;"></div>
                                 <div data-type="button" class="fwformcontrol refresh-availability" style="display:none;">Refresh Availability</div>
@@ -159,12 +159,12 @@ class SearchInterface {
             { value: 'A',   text: 'Accessory' }
         ], true);
 
-        FwFormField.loadItems($popup.find('div[data-datafield="SortBy"]'), [
-            { value: 'INVENTORY',   text: 'Type / Category / Sub-Category', selected: true },
-            { value: 'ICODE',       text: 'I-Code' },
-            { value: 'DESCRIPTION', text: 'Description' },
-            { value: 'PARTNO',      text: 'Part No.' }
-        ], true);
+        //FwFormField.loadItems($popup.find('div[data-datafield="SortBy"]'), [
+        //    { value: 'INVENTORY',   text: 'Type / Category / Sub-Category', selected: true }, //removed 3/26/20 bc of inventory sequence util will sort now
+        //    { value: 'ICODE',       text: 'I-Code' },
+        //    { value: 'DESCRIPTION', text: 'Description' },
+        //    { value: 'PARTNO',      text: 'Part No.' }
+        //], true);
 
         var inventoryTypes = [{ value: 'R', caption: 'Rental' },
                               { value: 'S', caption: 'Sales' },
@@ -881,7 +881,7 @@ class SearchInterface {
         FwFormField.setValueByDataField($popup, 'DefaultSelect', response.DefaultSelect);
         FwFormField.setValueByDataField($popup, 'DefaultSortBy', response.DefaultSortBy);
         FwFormField.setValueByDataField($popup, 'Select', response.DefaultSelect, null, true);
-        FwFormField.setValueByDataField($popup, 'SortBy', response.DefaultSortBy);
+        // FwFormField.setValueByDataField($popup, 'SortBy', response.DefaultSortBy);
 
         $popup.find('#itemlist').attr('data-view', response.Mode);
         this.listGridView($popup);
@@ -1321,11 +1321,11 @@ class SearchInterface {
             self.saveViewSettings($popup);
         });
 
-        //Sorting option events
-        $popup.on('change', 'div[data-datafield="Select"], div[data-datafield="SortBy"]', e => {
-            //self.getInventory($popup, false);
-            self.getInventory($popup);
-        });
+        ////Sorting option events
+        //$popup.on('change', 'div[data-datafield="Select"], div[data-datafield="SortBy"]', e => {
+        //    //self.getInventory($popup, false);
+        //    self.getInventory($popup);
+        //});
 
         //Refresh Availability button
         $popup.on('click', '.refresh-availability', e => {
