@@ -270,16 +270,16 @@ class OrderBase {
                 let rentalItems = $form.find('.rentalgrid tbody').children();
                 rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
             },
-            //onAdditionalNoteFieldsTemplate: ($field: JQuery, controlhtml: any, $confirmation, $browse, $tr, $ok) => {
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
 
-            //    //let html: Array<string> = [];
-            //    // create a method like your OrderItemGridController.addPrintNotes() where you can return an Array<string> of html with the checkboxes
+                //let html: Array<string> = [];
+                // create a method like your OrderItemGridController.addPrintNotes() where you can return an Array<string> of html with the checkboxes
 
-            //    // or, call your existing method similar to this:
-            //    //html = OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+                // or, call your existing method similar to this:
+                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
 
-            //    //return html;
-            //}
+                //return html;
+            }
         });
 
         let $orderItemGridSales: JQuery;

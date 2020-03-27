@@ -4297,7 +4297,7 @@ class FwBrowseClass {
         pageSize?: number,
         getBaseApiUrl?: () => string,
         onDataBind?: (request: any) => void,
-        onAdditionalNoteFieldsTemplate?: ($browse: JQuery, dt: FwJsonDataTable) => Array<string>,
+        onAdditionalNoteFieldsTemplate?: ($field, controlhtml, $confirmation, $browse, $tr, $okwJsonDataTable) => void,
         afterDataBindCallback?: ($browse: JQuery, dt: FwJsonDataTable) => void,
         beforeSave?: (request: any) => void,
         addGridMenu?: (options: IAddGridMenuOptions) => void,
