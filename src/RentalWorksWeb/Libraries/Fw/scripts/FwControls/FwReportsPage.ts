@@ -418,7 +418,7 @@
                     let navigationCaption = $modulebtn.data('navigation');
                     let panels = $control.find('.panel-group');
                     if (navigationCaption === 'All Reports') {
-                        let event = jQuery.Event('keypress');
+                        let event = jQuery.Event('keyup');
                         event.which = 13;
                         $control.find('.selected').removeClass('selected');
                         $control.find('#reportsSearch').val('').trigger(event);
