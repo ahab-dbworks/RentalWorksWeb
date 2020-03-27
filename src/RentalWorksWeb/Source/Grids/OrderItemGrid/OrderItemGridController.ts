@@ -83,11 +83,11 @@ class OrderItemGrid {
         controlhtml.push('  <div class="flexcolumn">');
         controlhtml.push('    <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="Notes" data-enabled=""' + ((formmaxlength !== '0') ? 'data-maxlength="' + formmaxlength : '') + '" data-datafield=""></div>');
         controlhtml.push('  </div>');
-        controlhtml.push('  <div class="flexcolumn" style="max-width:134px;">');
+        controlhtml.push('  <div class="flexcolumn" style="max-width:153px;">');
         controlhtml.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         controlhtml.push(`      <div style="float:left;width:200px;text-decoration:underline;">Print Notes on</div>`);
         controlhtml.push('    </div>');
-        controlhtml.push('    <div class="fwcontrol fwcontainer flexrow order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
+        controlhtml.push('    <div class="fwcontrol fwcontainer flexrow order quote" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
         controlhtml.push(`      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Quote" data-datafield="PrintNoteOnQuote" style="float:left;width:100px;"></div>`);
         controlhtml.push('    </div>');
         controlhtml.push('    <div class="fwcontrol fwcontainer flexrow order transfer-order" data-control="FwContainer" data-type="fieldrow" style="display:none;">');
@@ -133,8 +133,6 @@ class OrderItemGrid {
 
         $confirmation.find('.note textarea')
             .css({
-                'width': '358px',
-                'max-width': '570px',
                 'height': '510px',
                 'resize': 'vertical'
             })
@@ -150,9 +148,14 @@ class OrderItemGrid {
             $confirmation.find('.purchase-order').show();
             $confirmation.find('div[data-datafield="PrintNoteOnOrder"] label').text('Purchase Order');
         }
-        if (formController === 'OrderController' || formController === 'QuoteController') {
+
+        if (formController === 'OrderController') {
+            $confirmation.find('.order:not(.quote)').show();
+        }
+        if (formController === 'QuoteController') {
             $confirmation.find('.order').show();
         }
+
         fillInCheckboxesFromRow($confirmation, $tr);
         // ----------
         $ok.on('mousedown', () => { // saving checkbox values before popup is destroyed on 'ok' click
