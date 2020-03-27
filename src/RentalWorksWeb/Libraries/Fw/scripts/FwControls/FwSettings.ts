@@ -1501,7 +1501,7 @@ class FwSettingsClass {
                     const navigationCaption = $modulebtn.data('navigation');
                     const panels = $control.find('.panel-group');
                     if (navigationCaption === 'All Settings') {
-                        const event = jQuery.Event('keypress');
+                        const event = jQuery.Event('keyup');
                         event.which = 13;
                         $control.find('.selected').removeClass('selected');
                         $control.find('#settingsSearch').val('').trigger(event);
