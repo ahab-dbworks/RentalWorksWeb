@@ -502,6 +502,7 @@
     <TypeScriptCompile Include="Source\Modules\-BaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Account\UserProfile\UserProfile.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Alert\Alert.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\DataHealth\DataHealth.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomReportLayout\CustomReportLayout.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Integration\IntegrationController.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\CheckInBase\CheckInBase.ts" />
@@ -509,6 +510,8 @@
     <Content Include="Source\Modules\Account\UserProfile\UserProfileForm.htm" />
     <Content Include="Source\Modules\Administrator\Alert\AlertBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Alert\AlertForm.htm" />
+    <Content Include="Source\Modules\Administrator\DataHealth\DataHealthBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\DataHealth\DataHealthForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomReportLayout\CustomReportLayoutBrowse.htm" />
