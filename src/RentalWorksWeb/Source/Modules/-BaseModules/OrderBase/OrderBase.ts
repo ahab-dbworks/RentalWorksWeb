@@ -269,6 +269,16 @@ class OrderBase {
                 this.calculateOrderItemGridTotals($form, 'rental', dt.Totals);
                 let rentalItems = $form.find('.rentalgrid tbody').children();
                 rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
+            },
+            onAdditionalNoteFieldsTemplate: ($browse: JQuery, dt: FwJsonDataTable) => {
+
+                let html: Array<string> = [];
+                // create a method like your OrderItemGridController.addPrintNotes() where you can return an Array<string> of html with the checkboxes
+
+                // or, call your existing method similar to this:
+                //html = OrderItemGridController.addPrintNotes($browse, dt);
+
+                return html;
             }
         });
 

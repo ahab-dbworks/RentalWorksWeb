@@ -111,29 +111,25 @@
             const $ok = FwConfirmation.addButton($confirmation, 'Ok', true);
             const $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
             const controlhtml: Array<string> = [];
-            let addPrintNotes = false;
             if (typeof $field.attr('data-predefinednotevalidation') === 'string') {
                 controlhtml.push('<div data-control="FwFormField" data-type="combobox" data-validate="false" class="fwcontrol fwformfield predefinednotes" data-caption="Predefined Notes" data-datafield="" data-validationname="' + $field.attr('data-predefinednotevalidation') + '" boundfields="predefinednote.rowtype"></div>');
             }
-            if ($field.attr('data-addprintnotes') !== 'true') {
-                controlhtml.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="Notes" data-enabled=""' + ((formmaxlength !== '0') ? 'data-maxlength="' + formmaxlength : '') + '" data-datafield=""></div>');
-            } else {
-                addPrintNotes = true;
+            controlhtml.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="Notes" data-enabled=""' + ((formmaxlength !== '0') ? 'data-maxlength="' + formmaxlength : '') + '" data-datafield=""></div>');
+            FwConfirmation.addControls($confirmation, controlhtml.join('\n'));
+            $confirmation.find('.note textarea')
+                .css({
+                    'width': '400px',
+                    'max-width': '570px',
+                    'height': '510px',
+                    'resize': 'both'
+                })
+                .select();
+
+            if ($browse.data('onAdditionalNoteFieldsTemplate')) {
+                let additionalHtml: Array<string> = $browse.data('onAdditionalNoteFieldsTemplate')();
+                controlhtml.push(additionalHtml.toString());
             }
 
-            if (!addPrintNotes) {
-                FwConfirmation.addControls($confirmation, controlhtml.join('\n'));
-                $confirmation.find('.note textarea')
-                    .css({
-                        'width': '400px',
-                        'max-width': '570px',
-                        'height': '510px',
-                        'resize': 'both'
-                    })
-                    .select();
-            } else {
-                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
-            }
             FwFormField.setValue($confirmation, '.note', $noteTextArea.val());
             // ----------
             $ok.on('click', function () {
