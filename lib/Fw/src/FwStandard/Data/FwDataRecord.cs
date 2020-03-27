@@ -586,7 +586,7 @@ namespace FwStandard.Data
                         bool doUpper = true;
                         string searchField = columns[request.searchfields[i]];
                         string searchFieldOperator = request.searchfieldoperators[i];
-                        string searchFieldValue = request.searchfieldvalues[i];
+                        string searchFieldValue = request.searchfieldvalues[i].Trim();
                         string searchFieldType = "";
                         char searchSeparator = ',';
 
@@ -664,7 +664,7 @@ namespace FwStandard.Data
                                         }
                                     }
                                     searchcondition = searchcondition + searchField + " like " + partialParameterName;
-                                    select.AddParameter(partialParameterName, "%" + partialValue.ToUpper() + "%");
+                                    select.AddParameter(partialParameterName, "%" + partialValue.ToUpper().Trim() + "%");
                                     partialValueCounter++;
                                 }
                                 searchcondition = searchcondition + ")";
