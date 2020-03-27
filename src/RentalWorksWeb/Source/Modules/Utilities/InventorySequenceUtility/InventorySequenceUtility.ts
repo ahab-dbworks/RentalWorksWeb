@@ -338,12 +338,13 @@ class InventorySequenceUtility {
         // ----------
         $subCategoryGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
-                let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+               // let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                let categoryId = $categoryGrid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
                 if (categoryId === undefined || categoryId === 'undefined' || categoryId === '') {
                     categoryId = 'NONE';
                 }
-                const subCategoryId = $subCategoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
-                const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                const inventoryTypeId = $inventoryTypeGrid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
+                const subCategoryId = $subCategoryGrid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
                 $itemsGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         InventoryTypeId: inventoryTypeId,
