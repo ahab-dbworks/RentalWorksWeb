@@ -44,6 +44,7 @@ class InventorySequenceUtility {
             { value: 'M', caption: 'Misc' },
         ]);
 
+        $form.find('div[data-control="FwTabs"] .tabs').hide();
         this.events($form);
         return $form;
     };
@@ -52,6 +53,7 @@ class InventorySequenceUtility {
         const $inventoryTypeGrid = $form.find('[data-name="InventorySequenceTypeGrid"]');
         const $categoryGrid = $form.find('[data-name="InventorySequenceCategoryGrid"]');
         const $subCategoryGrid = $form.find('[data-name="InventorySequenceSubCategoryGrid"]');
+        const $itemsGrid = $form.find('[data-name="InventorySequenceItemsGrid"]');
         // ---------- 
         // Type Toggle selector
         $form.find('div[data-datafield="RecType"]').on('change', e => {
@@ -90,7 +92,27 @@ class InventorySequenceUtility {
                                 request.searchfields = ["Inactive"];
                                 request.searchfieldvalues = ["T"];
                             });
-                            FwBrowse.search($subCategoryGrid);
+                            FwBrowse.search($subCategoryGrid)
+                                .then(() => {
+                                    let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                    if (categoryId === undefined || categoryId === 'undefined' || categoryId === '') {
+                                        categoryId = 'NONE';
+                                    }
+                                    const subCategoryId = $subCategoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                    const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                    $itemsGrid.data('ondatabind', request => {
+                                        request.uniqueids = {
+                                            InventoryTypeId: inventoryTypeId,
+                                            CategoryId: categoryId,
+                                            SubCategoryId: subCategoryId,
+                                        }
+                                        request.pagesize = 9999;
+                                        request.searchfieldoperators = ["<>"];
+                                        request.searchfields = ["Inactive"];
+                                        request.searchfieldvalues = ["T"];
+                                    });
+                                    FwBrowse.search($itemsGrid);
+                                });
                         });
                 });
         });
@@ -124,7 +146,27 @@ class InventorySequenceUtility {
                             request.searchfields = ["Inactive"];
                             request.searchfieldvalues = ["T"];
                         });
-                        FwBrowse.search($subCategoryGrid);
+                        FwBrowse.search($subCategoryGrid)
+                            .then(() => {
+                                let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                if (categoryId === undefined || categoryId === 'undefined' || categoryId === '') {
+                                    categoryId = 'NONE';
+                                }
+                                const subCategoryId = $subCategoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                $itemsGrid.data('ondatabind', request => {
+                                    request.uniqueids = {
+                                        InventoryTypeId: inventoryTypeId,
+                                        CategoryId: categoryId,
+                                        SubCategoryId: subCategoryId,
+                                    }
+                                    request.pagesize = 9999;
+                                    request.searchfieldoperators = ["<>"];
+                                    request.searchfields = ["Inactive"];
+                                    request.searchfieldvalues = ["T"];
+                                });
+                                FwBrowse.search($itemsGrid);
+                            });
                     });
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -158,7 +200,27 @@ class InventorySequenceUtility {
                             request.searchfields = ["Inactive"];
                             request.searchfieldvalues = ["T"];
                         });
-                        FwBrowse.search($subCategoryGrid);
+                        FwBrowse.search($subCategoryGrid)
+                            .then(() => {
+                                let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                if (categoryId === undefined || categoryId === 'undefined' || categoryId === '') {
+                                    categoryId = 'NONE';
+                                }
+                                const subCategoryId = $subCategoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                $itemsGrid.data('ondatabind', request => {
+                                    request.uniqueids = {
+                                        InventoryTypeId: inventoryTypeId,
+                                        CategoryId: categoryId,
+                                        SubCategoryId: subCategoryId,
+                                    }
+                                    request.pagesize = 9999;
+                                    request.searchfieldoperators = ["<>"];
+                                    request.searchfields = ["Inactive"];
+                                    request.searchfieldvalues = ["T"];
+                                });
+                                FwBrowse.search($itemsGrid);
+                            });
                     })
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -181,7 +243,27 @@ class InventorySequenceUtility {
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
                 });
-                FwBrowse.search($subCategoryGrid);
+                FwBrowse.search($subCategoryGrid)
+                    .then(() => {
+                        let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                        if (categoryId === undefined || categoryId === 'undefined' || categoryId === '') {
+                            categoryId = 'NONE';
+                        }
+                        const subCategoryId = $subCategoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                        const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                        $itemsGrid.data('ondatabind', request => {
+                            request.uniqueids = {
+                                InventoryTypeId: inventoryTypeId,
+                                CategoryId: categoryId,
+                                SubCategoryId: subCategoryId,
+                            }
+                            request.pagesize = 9999;
+                            request.searchfieldoperators = ["<>"];
+                            request.searchfields = ["Inactive"];
+                            request.searchfieldvalues = ["T"];
+                        });
+                        FwBrowse.search($itemsGrid);
+                    });
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -202,7 +284,78 @@ class InventorySequenceUtility {
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
                 });
-                FwBrowse.search($subCategoryGrid);
+                FwBrowse.search($subCategoryGrid)
+                    .then(() => {
+                        let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                        if (categoryId === undefined || categoryId === 'undefined' || categoryId === '') {
+                            categoryId = 'NONE';
+                        }
+                        const subCategoryId = $subCategoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                        const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                        $itemsGrid.data('ondatabind', request => {
+                            request.uniqueids = {
+                                InventoryTypeId: inventoryTypeId,
+                                CategoryId: categoryId,
+                                SubCategoryId: subCategoryId,
+                            }
+                            request.pagesize = 9999;
+                            request.searchfieldoperators = ["<>"];
+                            request.searchfields = ["Inactive"];
+                            request.searchfieldvalues = ["T"];
+                        });
+                        FwBrowse.search($itemsGrid)
+                    });
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        // Sub-Category Grid
+        // ---------- 
+        $subCategoryGrid.data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
+            try {
+                let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                if (categoryId === undefined || categoryId === 'undefined' || categoryId === '') {
+                    categoryId = 'NONE';
+                }
+                const subCategoryId = $subCategoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                $itemsGrid.data('ondatabind', request => {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                        CategoryId: categoryId,
+                        SubCategoryId: subCategoryId,
+                    }
+                    request.pagesize = 9999;
+                    request.searchfieldoperators = ["<>"];
+                    request.searchfields = ["Inactive"];
+                    request.searchfieldvalues = ["T"];
+                });
+                FwBrowse.search($itemsGrid);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        // ----------
+        $subCategoryGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                if (categoryId === undefined || categoryId === 'undefined' || categoryId === '') {
+                    categoryId = 'NONE';
+                }
+                const subCategoryId = $subCategoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                $itemsGrid.data('ondatabind', request => {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                        CategoryId: categoryId,
+                        SubCategoryId: subCategoryId,
+                    }
+                    request.pagesize = 9999;
+                    request.searchfieldoperators = ["<>"];
+                    request.searchfields = ["Inactive"];
+                    request.searchfieldvalues = ["T"];
+                });
+                FwBrowse.search($itemsGrid)
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -213,6 +366,8 @@ class InventorySequenceUtility {
         const $inventoryTypeGrid = $form.find('[data-name="InventorySequenceTypeGrid"]');
         const $categoryGrid = $form.find('[data-name="InventorySequenceCategoryGrid"]');
         const $subCategoryGrid = $form.find('[data-name="InventorySequenceSubCategoryGrid"]');
+        const $itemsGrid = $form.find('[data-name="InventorySequenceItemsGrid"]');
+
         FwBrowse.search($inventoryTypeGrid)
             .then(() => {
                 const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
@@ -241,7 +396,27 @@ class InventorySequenceUtility {
                             request.searchfields = ["Inactive"];
                             request.searchfieldvalues = ["T"];
                         });
-                        FwBrowse.search($subCategoryGrid);
+                        FwBrowse.search($subCategoryGrid)
+                            .then(() => {
+                                let categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                if (categoryId === undefined || categoryId === 'undefined' || categoryId === '') {
+                                    categoryId = 'NONE';
+                                }
+                                const subCategoryId = $subCategoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                const inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
+                                $itemsGrid.data('ondatabind', request => {
+                                    request.uniqueids = {
+                                        InventoryTypeId: inventoryTypeId,
+                                        CategoryId: categoryId,
+                                        SubCategoryId: subCategoryId,
+                                    }
+                                    request.pagesize = 9999;
+                                    request.searchfieldoperators = ["<>"];
+                                    request.searchfields = ["Inactive"];
+                                    request.searchfieldvalues = ["T"];
+                                });
+                                FwBrowse.search($itemsGrid)
+                            });
                     });
             });
     }
@@ -312,6 +487,26 @@ class InventorySequenceUtility {
                 $browse.attr('data-tableheight', '800px')
             }
         });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'InventorySequenceItemsGrid',
+            gridSecurityId: 'UgfInM2AmF6B',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasEdit = false;
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                // defined in afterLoad
+            },
+            beforeSave: (request: any) => {
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                $browse.attr('data-tableheight', '800px')
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     getInventoryType($form): string {
@@ -338,14 +533,13 @@ class InventorySequenceUtility {
         return `
             <div id="inventorysequenceutilityform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Inventory Sequence Utility" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="InventorySequenceUtilityController">
               <div id="inventorysequenceutilityform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
-                <div class="tabs"></div>
                 <div class="tabpages">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Inventory Sequence Utility" style="max-width:700px">
                     <div class="flexrow">
                       <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Type" data-datafield="RecType"></div>
                     </div>
                   </div>
-                  <div class="flexrow" style="max-width:1600px;">
+                  <div class="flexrow" style="max-width:2105px;">
                     <div class="flexcolumn" style="flex:0 1 525px;">
                       <div data-control="FwGrid" data-grid="InventorySequenceTypeGrid"></div>
                     </div>
@@ -354,6 +548,9 @@ class InventorySequenceUtility {
                     </div>
                     <div class="flexcolumn" style="flex:0 1 525px;">
                       <div data-control="FwGrid" data-grid="InventorySequenceSubCategoryGrid"></div>
+                    </div>
+                    <div class="flexcolumn" style="flex:0 1 525px;">
+                      <div data-control="FwGrid" data-grid="InventorySequenceItemsGrid"></div>
                     </div>
                   </div>
                 </div>
