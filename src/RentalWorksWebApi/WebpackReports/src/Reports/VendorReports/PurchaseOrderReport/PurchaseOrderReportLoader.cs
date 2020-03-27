@@ -127,7 +127,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             string[] totalFields = new string[] { "PeriodExtended" };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
