@@ -922,13 +922,15 @@ class FwSettingsClass {
                 $control
                     .unbind().on('click', '.row-heading', e => {
                         e.stopPropagation();
-                        const recordData = jQuery(e.currentTarget).parent().parent().data('recorddata');
-                        const moduleName: any = jQuery(e.currentTarget).closest('div.panel-group')[0].id;
+                        const $this = jQuery(e.currentTarget);
+                        const recordData = $this.parent().parent().data('recorddata');
+                        const moduleName: any = $this.closest('div.panel-group')[0].id;
                         let $form = jQuery(jQuery(`#tmpl-modules-${moduleName}Form`).html());
                         const moduleId = jQuery($form.find('.fwformfield[data-isuniqueid="true"]')[0]).data('datafield');
                         const uniqueids: any = {};
                         uniqueids[moduleId] = recordData[moduleId];
-                        const $rowBody = $control.find(`#${recordData[moduleId]}.panel-body`);
+                        const $rowBody = $this.closest(`#${recordData[moduleId]}.panel-record`).find(`#${recordData[moduleId]}.panel-body`);
+                        // const $rowBody = $control.find(`#${recordData[moduleId]}.panel-body`);
                         const controller = $form.data('controller');
 
                         if ($rowBody.is(':empty')) {
