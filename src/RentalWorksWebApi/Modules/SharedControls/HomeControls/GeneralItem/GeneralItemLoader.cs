@@ -4,11 +4,18 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
+using WebApi.Logic;
+
 namespace WebApi.Modules.HomeControls.GeneralItem
 {
     [FwSqlTable("inventoryview")]
     public class GeneralItemLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public GeneralItemLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string ItemId { get; set; }
@@ -49,8 +56,17 @@ namespace WebApi.Modules.HomeControls.GeneralItem
         [FwSqlDataField(column: "classdesc", modeltype: FwDataTypes.Text)]
         public string ClassificationDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "classcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ClassificationColor { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ClassificationColor
+        {
+            get { return getClassificationColor(Classification); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        private string getClassificationColor(string classification)
+        {
+            return AppFunc.GetItemClassICodeColor(classification);
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text)]
         public string UnitId { get; set; }
@@ -77,5 +93,20 @@ namespace WebApi.Modules.HomeControls.GeneralItem
             addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("ClassificationColor")] = getClassificationColor(row[dt.GetColumnNo("Classification")].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
     }
 }
