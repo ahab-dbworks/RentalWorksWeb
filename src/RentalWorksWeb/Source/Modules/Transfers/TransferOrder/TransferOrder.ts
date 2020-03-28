@@ -427,7 +427,10 @@ class TransferOrder {
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.checkGridRows($browse, $form);
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
         // ----------
         //const $orderItemSalesGrid = $form.find('.salesItemGrid div[data-grid="TransferOrderItemGrid"]');
@@ -491,7 +494,10 @@ class TransferOrder {
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.checkGridRows($browse, $form);
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         // ----------

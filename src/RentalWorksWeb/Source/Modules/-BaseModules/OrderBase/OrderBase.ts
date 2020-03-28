@@ -271,15 +271,8 @@ class OrderBase {
                 rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
             },
             onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
-
-                //let html: Array<string> = [];
-                // create a method like your OrderItemGridController.addPrintNotes() where you can return an Array<string> of html with the checkboxes
-
-                // or, call your existing method similar to this:
                  OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
-
-                //return html;
-            }
+            },
         });
 
         let $orderItemGridSales: JQuery;
@@ -442,7 +435,10 @@ class OrderBase {
                 this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);
                 let salesItems = $form.find('.salesgrid tbody').children();
                 salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         let $orderItemGridLabor: JQuery;
@@ -602,7 +598,10 @@ class OrderBase {
                 this.calculateOrderItemGridTotals($form, 'labor', dt.Totals);
                 let laborItems = $form.find('.laborgrid tbody').children();
                 laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         let $orderItemGridMisc: JQuery;
@@ -763,7 +762,10 @@ class OrderBase {
                 this.calculateOrderItemGridTotals($form, 'misc', dt.Totals);
                 let miscItems = $form.find('.miscgrid tbody').children();
                 miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         let $orderItemGridUsedSale: JQuery;
@@ -903,7 +905,10 @@ class OrderBase {
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'usedsale', dt.Totals);
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         let $combinedOrderItemGrid: JQuery;
@@ -1061,7 +1066,10 @@ class OrderBase {
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'combined', dt.Totals);
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         // ----------

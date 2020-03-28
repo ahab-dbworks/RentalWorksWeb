@@ -117,7 +117,6 @@
 
             if ($browse.data('onAdditionalNoteFieldsTemplate')) {
                 $browse.data('onAdditionalNoteFieldsTemplate')($field, controlhtml, $confirmation, $browse, $tr, $ok);
-                // controlhtml.push(additionalHtml.toString());
             } else {
                 controlhtml.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="Notes" data-enabled=""' + ((formmaxlength !== '0') ? 'data-maxlength="' + formmaxlength : '') + '" data-datafield=""></div>');
                 FwConfirmation.addControls($confirmation, controlhtml.join('\n'));

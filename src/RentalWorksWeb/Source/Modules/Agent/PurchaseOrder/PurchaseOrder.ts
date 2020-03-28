@@ -475,7 +475,10 @@ class PurchaseOrder implements IModule {
                 this.calculateOrderItemGridTotals($form, 'rental');
                 const rentalItems = $form.find('.rentalgrid tbody').children();
                 rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
         // ----------
         FwBrowse.renderGrid({
@@ -553,7 +556,10 @@ class PurchaseOrder implements IModule {
                 this.calculateOrderItemGridTotals($form, 'sales');
                 const salesItems = $form.find('.salesgrid tbody').children();
                 salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
         // ----------
         FwBrowse.renderGrid({
@@ -630,7 +636,10 @@ class PurchaseOrder implements IModule {
                 this.calculateOrderItemGridTotals($form, 'parts');
                 const partItems = $form.find('.partsgrid tbody').children();
                 partItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Parts"]')) : FwFormField.enable($form.find('[data-datafield="Parts"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
         // ----------
         FwBrowse.renderGrid({
@@ -708,7 +717,10 @@ class PurchaseOrder implements IModule {
                 this.calculateOrderItemGridTotals($form, 'labor');
                 const laborItems = $form.find('.laborgrid tbody').children();
                 laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
         // ----------
         FwBrowse.renderGrid({
@@ -786,7 +798,10 @@ class PurchaseOrder implements IModule {
                 this.calculateOrderItemGridTotals($form, 'misc');
                 const miscItems = $form.find('.miscgrid tbody').children();
                 miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
         // ----------
         FwBrowse.renderGrid({
@@ -865,7 +880,10 @@ class PurchaseOrder implements IModule {
                 this.calculateOrderItemGridTotals($form, 'subrental');
                 const subrentItems = $form.find('.subrentalgrid tbody').children();
                 subrentItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubRent"]')) : FwFormField.enable($form.find('[data-datafield="SubRent"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
         // ----------
         FwBrowse.renderGrid({
@@ -944,7 +962,10 @@ class PurchaseOrder implements IModule {
                 this.calculateOrderItemGridTotals($form, 'subsales');
                 const subsalesItems = $form.find('.subsalesgrid tbody').children();
                 subsalesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubSale"]')) : FwFormField.enable($form.find('[data-datafield="SubSale"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
         // ----------
         FwBrowse.renderGrid({
@@ -1016,7 +1037,10 @@ class PurchaseOrder implements IModule {
                 this.calculateOrderItemGridTotals($form, 'sublabor');
                 const sublaborItems = $form.find('.sublaborgrid tbody').children();
                 sublaborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubLabor"]')) : FwFormField.enable($form.find('[data-datafield="SubLabor"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
         // ----------
         FwBrowse.renderGrid({
@@ -1108,7 +1132,10 @@ class PurchaseOrder implements IModule {
                 this.calculateOrderItemGridTotals($form, 'submisc');
                 const submiscItems = $form.find('.submiscgrid tbody').children();
                 submiscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubMisc"]')) : FwFormField.enable($form.find('[data-datafield="SubMisc"]'));
-            }
+            },
+            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
         // ----------
         FwBrowse.renderGrid({
