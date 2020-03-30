@@ -1200,8 +1200,8 @@ class SearchInterface {
                             //element.parents('.item-info').find('[data-column="Description"] .toggleaccessories').click();
                             if ($accContainer.length > 0) {
                                 this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
-                                $accContainer.show();
-                                element.parents('.item-info').find('[data-column="Description"] .toggleaccessories').text('Hide Accessories');
+                                //$accContainer.show();
+                                //element.parents('.item-info').find('[data-column="Description"] .toggleaccessories').text('Hide Accessories');
                             }
                         }
 
