@@ -138,6 +138,15 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Date)]
         public string ConflictDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "0.0", modeltype: FwDataTypes.Decimal)]
+        public decimal? AvailableQuantityAllWarehouses { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
+        public string AvailabilityStateAllWarehouses { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Date)]
+        public string ConflictDateAllWarehouses { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text)]
         public string UnitId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -1069,8 +1078,15 @@ namespace WebApi.Modules.HomeControls.OrderItem
                                 itemAvailToDateTime = InventoryAvailabilityFunc.LateDateTime;
                             }
 
+                            if (_orderType.Equals(RwConstants.ORDER_TYPE_TRANSFER))
+                            { 
+                                itemAvailToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                            }
+
+
 
                             availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, itemAvailFromDateTime, itemAvailToDateTime));
+                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, RwConstants.WAREHOUSEID_ALL, itemAvailFromDateTime, itemAvailToDateTime));
                         }
 
                         availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false).Result;
@@ -1117,15 +1133,22 @@ namespace WebApi.Modules.HomeControls.OrderItem
                             itemAvailToDateTime = InventoryAvailabilityFunc.LateDateTime;
                         }
 
+                        if (_orderType.Equals(RwConstants.ORDER_TYPE_TRANSFER))
+                        {
+                            itemAvailToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                        }
+
 
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
                         TInventoryWarehouseAvailability availData = null;
 
                         float qtyAvailable = 0;
-                        bool isStale = true;
                         DateTime? conflictDate = null;
-                        string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
                         string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
+
+                        float qtyAvailableAllWarehouses = 0;
+                        DateTime? conflictDateAllWarehouses = null;
+                        string availabilityStateAllWarehouses = RwConstants.AVAILABILITY_STATE_STALE;
 
                         if (loadAvail)
                         {
@@ -1135,18 +1158,35 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
                                 qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
                                 conflictDate = minAvail.FirstConfict;
-                                isStale = minAvail.IsStale;
-                                availColor = minAvail.Color;
                                 availabilityState = minAvail.AvailabilityState;
+                            }
+
+                            if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, RwConstants.WAREHOUSEID_ALL), out availData))
+                            {
+                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(itemAvailFromDateTime, itemAvailToDateTime);
+
+                                qtyAvailableAllWarehouses = minAvail.MinimumAvailable.OwnedAndConsigned;
+                                conflictDateAllWarehouses = minAvail.FirstConfict;
+                                availabilityStateAllWarehouses = minAvail.AvailabilityState;
                             }
                         }
 
+                        // this warehouse
                         row[dt.GetColumnNo("AvailableQuantity")] = qtyAvailable;
                         if (conflictDate != null)
                         {
                             row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToUSShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
                         }
                         row[dt.GetColumnNo("AvailabilityState")] = availabilityState;
+
+                        // all warehouses
+                        row[dt.GetColumnNo("AvailableQuantityAllWarehouses")] = qtyAvailableAllWarehouses;
+                        if (conflictDateAllWarehouses != null)
+                        {
+                            row[dt.GetColumnNo("ConflictDateAllWarehouses")] = FwConvert.ToUSShortDate(conflictDateAllWarehouses.GetValueOrDefault(DateTime.MinValue));
+                        }
+                        row[dt.GetColumnNo("AvailabilityStateAllWarehouses")] = availabilityStateAllWarehouses;
+
                         row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("QuantityColor")] = getQuantityColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ModifiedAtStaging")].ToString()));

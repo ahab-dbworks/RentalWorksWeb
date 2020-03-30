@@ -58,8 +58,11 @@
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             const availabilityState = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityState');
+            const availabilityStateAllWarehouses = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityStateAllWarehouses');
             const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
+            const $availQtyAllWarehouses = $generatedtr.find('[data-browsedatafield="AvailableQuantityAllWarehouses"]')
             $availQty.attr('data-state', availabilityState);
+            $availQtyAllWarehouses.attr('data-state', availabilityStateAllWarehouses);
             $availQty.css('cursor', 'pointer');
 
             const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');

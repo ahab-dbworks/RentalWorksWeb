@@ -524,6 +524,13 @@ div[data-browsedatafield="AvailableQuantity"][data-state="stale"] .fieldvalue {b
 div[data-browsedatafield="AvailableQuantity"][data-state="low"] .fieldvalue {background-color:#ffeb3b;}
 div[data-browsedatafield="AvailableQuantity"][data-state="noavailcheck"] .fieldvalue {background-color:#00ffff;}
 div[data-browsedatafield="AvailableQuantity"][data-state="positiveconflict"] .fieldvalue {background-color:#006600;color:#ffffff;}
+div[data-browsedatafield="AvailableQuantityAllWarehouses"] .fieldvalue {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
+div[data-browsedatafield="AvailableQuantityAllWarehouses"][data-state="enough"] .fieldvalue {background-color:#009933;color:#ffffff;}
+div[data-browsedatafield="AvailableQuantityAllWarehouses"][data-state="negative"] .fieldvalue {background-color:#f44336;color:#ffffff;}
+div[data-browsedatafield="AvailableQuantityAllWarehouses"][data-state="stale"] .fieldvalue {background-color:#1565C0;color:#ffffff;}
+div[data-browsedatafield="AvailableQuantityAllWarehouses"][data-state="low"] .fieldvalue {background-color:#ffeb3b;}
+div[data-browsedatafield="AvailableQuantityAllWarehouses"][data-state="noavailcheck"] .fieldvalue {background-color:#00ffff;}
+div[data-browsedatafield="AvailableQuantityAllWarehouses"][data-state="positiveconflict"] .fieldvalue {background-color:#006600;color:#ffffff;}
 
 html.theme-material .fwformcontrol[data-type="button"].pressed {
     background-color: #1E88EF;
