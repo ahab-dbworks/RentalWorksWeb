@@ -269,7 +269,10 @@ class OrderBase {
                 this.calculateOrderItemGridTotals($form, 'rental', dt.Totals);
                 let rentalItems = $form.find('.rentalgrid tbody').children();
                 rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
-            }
+            },
+            onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         let $orderItemGridSales: JQuery;
@@ -432,7 +435,10 @@ class OrderBase {
                 this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);
                 let salesItems = $form.find('.salesgrid tbody').children();
                 salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
-            }
+            },
+            onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         let $orderItemGridLabor: JQuery;
@@ -592,7 +598,10 @@ class OrderBase {
                 this.calculateOrderItemGridTotals($form, 'labor', dt.Totals);
                 let laborItems = $form.find('.laborgrid tbody').children();
                 laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
-            }
+            },
+            onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         let $orderItemGridMisc: JQuery;
@@ -753,7 +762,10 @@ class OrderBase {
                 this.calculateOrderItemGridTotals($form, 'misc', dt.Totals);
                 let miscItems = $form.find('.miscgrid tbody').children();
                 miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
-            }
+            },
+            onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         let $orderItemGridUsedSale: JQuery;
@@ -893,7 +905,10 @@ class OrderBase {
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'usedsale', dt.Totals);
-            }
+            },
+            onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         let $combinedOrderItemGrid: JQuery;
@@ -1051,7 +1066,10 @@ class OrderBase {
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'combined', dt.Totals);
-            }
+            },
+            onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
 
         // ----------

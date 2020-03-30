@@ -4297,6 +4297,7 @@ class FwBrowseClass {
         pageSize?: number,
         getBaseApiUrl?: () => string,
         onDataBind?: (request: any) => void,
+        onOverrideNotesTemplate?: ($field, controlhtml, $confirmation, $browse, $tr, $okwJsonDataTable) => void,
         afterDataBindCallback?: ($browse: JQuery, dt: FwJsonDataTable) => void,
         beforeSave?: (request: any) => void,
         addGridMenu?: (options: IAddGridMenuOptions) => void,
@@ -4325,6 +4326,9 @@ class FwBrowseClass {
         }
         if (typeof options.onDataBind === 'function') {
             $browse.data('ondatabind', options.onDataBind);
+        }
+        if (typeof options.onOverrideNotesTemplate === 'function') {
+            $browse.data('onOverrideNotesTemplate', options.onOverrideNotesTemplate);
         }
         if (typeof options.afterDataBindCallback === 'function') {
             FwBrowse.addEventHandler($browse, 'afterdatabindcallback', ($browse: JQuery, dt: FwJsonDataTable) => {

@@ -497,7 +497,10 @@ class Order extends OrderBase {
                 this.calculateOrderItemGridTotals($form, 'lossdamage', dt.Totals);
                 let lossDamageItems = $form.find('.lossdamagegrid tbody').children();
                 lossDamageItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="LossAndDamage"]')) : FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
-            }
+            },
+            onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            },
         });
     }
     //----------------------------------------------------------------------------------------------
