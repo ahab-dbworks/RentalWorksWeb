@@ -284,6 +284,16 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
+        public string FromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
+        public string ToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
     }
     //------------------------------------------------------------------------------------ 
     public class SalesOrderItemReportLoader : OrderItemReportLoader
@@ -304,6 +314,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
+        public string FromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
+        public string ToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class LaborOrderItemReportLoader : OrderItemReportLoader
@@ -315,6 +331,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public string DaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
+        public string FromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
+        public string ToDate { get; set; }
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
