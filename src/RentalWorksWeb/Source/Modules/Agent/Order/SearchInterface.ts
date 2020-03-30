@@ -167,7 +167,7 @@ class SearchInterface {
         //], true);
 
         var inventoryTypes = [{ value: 'R', caption: 'Rental' },
-                              { value: 'S', caption: 'Sales' },
+        { value: 'S', caption: 'Sales' },
                               { value: 'L', caption: 'Labor' },
                               { value: 'M', caption: 'Misc' }];
         if (type === 'PurchaseOrder') {
@@ -372,7 +372,7 @@ class SearchInterface {
         $popup.find('#addToTab [data-datafield="DealId"]').data('onchange', $tr => {
             FwFormField.setValue2($popup.find('#addToTab [data-datafield="DealNumber"]'), $tr.find('[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
         });
-    
+
         //toggle fields shown based on type selected
         $popup.find('[data-datafield="AddToType"]').on('change', e => {
             const addToType = jQuery(e.target).val();
@@ -416,7 +416,7 @@ class SearchInterface {
             $popup.find('div.create-new').html(`Create ${addToType}`);
         });
 
-          //create new record, add items, then open form
+        //create new record, add items, then open form
         $popup.find('div.create-new').on('click', e => {
             const $addToTab = $popup.find('#addToTab');
             $addToTab.data('fields', $addToTab.find('.fwformfield:visible'));
@@ -532,7 +532,6 @@ class SearchInterface {
 
         FwFormField.setValueByDataField($popup, 'AddToType', activeModule, null, true);
     }
-
     //----------------------------------------------------------------------------------------------
     populateTypeMenu($popup) {
         let self                      = this;
@@ -667,7 +666,7 @@ class SearchInterface {
             } else {
                 rate = Number(response.Rows[i][dailyRate]).toFixed(2);
             }
-            
+
             let conflictdate = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
 
             let itemhtml = `<div class="item-container" data-classification="${response.Rows[i][classificationIndex]}">
@@ -716,8 +715,8 @@ class SearchInterface {
 
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C" || response.Rows[i][classificationIndex] == "N") {
                 var $tag = jQuery('<div>').addClass('tag')
-                                          .html(response.Rows[i][classificationDescription])
-                                          .css({ 'background-color': response.Rows[i][classificationColor] });
+                    .html(response.Rows[i][classificationDescription])
+                    .css({ 'background-color': response.Rows[i][classificationColor] });
                 $itemcontainer.find('div[data-column="Tags"]').append($tag);
                 $itemcontainer.find('div[data-column="Description"]').append('<div class="toggleaccessories">Show Accessories</div>');
                 $itemcontainer.append(`<div class="item-accessories" data-classification="${response.Rows[i][classificationIndex]}" style="display:none;"></div>`);
@@ -739,29 +738,27 @@ class SearchInterface {
     listGridView($popup) {
         let view = $popup.find('#itemlist').attr('data-view');
 
-        //if (view !== 'GRID') {
-            //custom display/sequencing for columns
-            let columnsToHide = $popup.find('#itemsearch').data('columnstohide');
-            $popup.find('.columnDescriptions .columnorder, .item-info .columnorder').css('display', '');
-            for (let i = 0; i < columnsToHide.length; i++) {
-                $popup.find(`.columnDescriptions [data-column="${columnsToHide[i]}"], .item-info [data-column="${columnsToHide[i]}"]`).hide();
-            }
+        //custom display/sequencing for columns
+        let columnsToHide = $popup.find('#itemsearch').data('columnstohide');
+        $popup.find('.columnDescriptions .columnorder, .item-info .columnorder').css('display', '');
+        for (let i = 0; i < columnsToHide.length; i++) {
+            $popup.find(`.columnDescriptions [data-column="${columnsToHide[i]}"], .item-info [data-column="${columnsToHide[i]}"]`).hide();
+        }
 
-            let type = $popup.find('#itemsearch').attr('data-moduletype');
-            if (type === 'PurchaseOrder' || type === 'Template') {
-                $popup.find('.hideColumns').css('display', 'none');
-            }
+        let type = $popup.find('#itemsearch').attr('data-moduletype');
+        if (type === 'PurchaseOrder' || type === 'Template') {
+            $popup.find('.hideColumns').css('display', 'none');
+        }
 
-            let columnOrder = $popup.find('#itemsearch').data('columnorder');
-            for (let i = 0; i < columnOrder.length; i++) {
-                $popup.find(`.columnDescriptions [data-column="${columnOrder[i]}"], .item-info [data-column="${columnOrder[i]}"]`).css('order', i);
-            }
-        //}
+        let columnOrder = $popup.find('#itemsearch').data('columnorder');
+        for (let i = 0; i < columnOrder.length; i++) {
+            $popup.find(`.columnDescriptions [data-column="${columnOrder[i]}"], .item-info [data-column="${columnOrder[i]}"]`).css('order', i);
+        }
     }
     //----------------------------------------------------------------------------------------------
     setDefaultViewSettings($popup) {
         FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), this.DefaultColumns);
-    
+
         FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
         FwFormField.setValueByDataField($popup, 'HideZeroQuantity', false);
 
@@ -828,7 +825,7 @@ class SearchInterface {
     
         FwAppData.apiMethod(true, 'PUT', `api/v1/usersearchsettings/${JSON.parse(sessionStorage.getItem('userid')).webusersid}`, request, FwServices.defaultTimeout, function onSuccess(response) {
             self.setViewSettings($popup, response);
-    
+
             if (request.DisableAccessoryAutoExpand) {
                 $popup.find('.item-accessories').css('display', 'none');
             }
@@ -1007,8 +1004,8 @@ class SearchInterface {
 
                     //Load the Inventory items if selected category doesn't have any sub-categories
                     if (response.Rows.length == 0) {
-                       //self.getInventory($popup, false);
-                       self.getInventory($popup);
+                        //self.getInventory($popup, false);
+                        self.getInventory($popup);
                     } else {
                         $popup.find('#inventory').empty();
                         $popup.find('#category ul').not('.selected').hide();
@@ -1044,7 +1041,7 @@ class SearchInterface {
                 //self.getInventory($popup, false);
                 self.getInventory($popup);
             })
-        ;
+            ;
 
         //Close the Search Interface popup
         $popup.find('.close-modal').one('click', function (e) {
@@ -1086,7 +1083,7 @@ class SearchInterface {
                 self.saveViewSettings($popup);
                 $popup.find('.options').removeClass('active');
                 $popup.find('.options .optionsmenu').css('z-index', '0');
-    
+
                 //perform search again with new settings
                 if ($popup.find('#inventory').children().length > 0) {
                     //self.getInventory($popup, false);
@@ -1100,7 +1097,7 @@ class SearchInterface {
                 $popup.find('.options .optionsmenu').css('z-index', '0');
                 self.listGridView($popup);
             })
-        ;
+            ;
 
         $popup.on('change', 'div[data-datafield="InventoryType"]', function () {
             self.populateTypeMenu($popup);
@@ -1145,10 +1142,10 @@ class SearchInterface {
                 inventoryId = $iteminfo.attr('data-inventoryid');
                 $accessoryContainer = $iteminfo.siblings('.item-accessories');
             }
-            
+
             if ($accessoryContainer.is(':visible')) {
                 jQuery(e.currentTarget).text('Show Accessories');
-            } else { 
+            } else {
                 jQuery(e.currentTarget).text('Hide Accessories');
                 this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
             }
@@ -1195,14 +1192,18 @@ class SearchInterface {
                 let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout,
                     response => {
+                        const $accLink = element.parents('.item-info').find('[data-column="Description"] .toggleaccessories');
+                        const accLinkText = $accLink.text();
                         //opens accessory list based on Auto-Expansion option value
                         if (accessoryRefresh == false) {
                             //element.parents('.item-info').find('[data-column="Description"] .toggleaccessories').click();
                             if ($accContainer.length > 0) {
                                 this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
-                                //$accContainer.show();
-                                //element.parents('.item-info').find('[data-column="Description"] .toggleaccessories').text('Hide Accessories');
+                                $accContainer.show(); //show accessories list for grid view too?
+                                $accLink.text('Hide Accessories');
                             }
+                        } else if (accLinkText == 'Hide Accessories') { // if accessories are showing, update them
+                            this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
                         }
 
                         item.find('[data-column="Available"]')
@@ -1245,30 +1246,30 @@ class SearchInterface {
                     accRequest.ParentId = element.parents('.nested-accessories').attr('data-parentid');
                     accRequest.GrandParentId = element.parents('.item-container').find('.item-info').attr('data-inventoryid');
                 } else {
-                    accRequest.ParentId = element.parents('.item-container').find('.item-info').attr('data-inventoryid'); 
+                    accRequest.ParentId = element.parents('.item-container').find('.item-info').attr('data-inventoryid');
                 }
-               
+
                 accRequest.Quantity != "0" ? element.addClass('lightBlue') : element.removeClass('lightBlue');
 
-                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, 
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout,
                     response => {
                         item.find('[data-column="Available"]')
                             .attr('data-state', response.AvailabilityState)
                             .find('.value')
                             .text(response.QuantityAvailable);
-                        
+
                         item.find('[data-column="AllWh"]')
                             .attr('data-state', response.AvailabilityStateAllWarehouses)
                             .find('.value')
                             .text(response.QuantityAvailableAllWarehouses);
-                        
+
                         item.find('[data-column="ConflictDate"] value').text(response.ConflictDate || "");
-                        
+
                         //Updates Preview tab with total # of items
                         $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
                     }, ex => FwFunc.showError(ex), $searchpopup);
             })
-        ;
+            ;
 
         //Update Preview grid tab
         $popup.on('click', '.tab[data-caption="Preview"]', e => {
@@ -1627,8 +1628,8 @@ class SearchInterface {
             ToDate:           FwFormField.getValueByDataField($popup, 'ToDate') || undefined
         }
 
-        const isAccessory = $el.attr('data-isaccessory') === 'true';
-        if (isAccessory) {
+        const isNestedAccessory = $el.attr('data-isaccessory') === 'true';
+        if (isNestedAccessory) {
             request.GrandParentId = $el.parents('.item-accessories').siblings('.item-info').attr('data-inventoryid');
             const parentId = $el.parents('.item-accessory-info').attr('data-inventoryid');
             accessoryContainer = $el.parents('.item-accessory-info').siblings(`.nested-accessories[data-parentid="${parentId}"]`);
@@ -1642,7 +1643,6 @@ class SearchInterface {
         }
 
         if ($popup.data('refreshaccessories') == true) {
-            //request.RefreshAvailability = true;
             $popup.data('refreshaccessories', false)
         }
 
@@ -1703,13 +1703,13 @@ class SearchInterface {
             const note                             = response.ColumnIndex.Note;
             const isPrimaryIndex                   = response.ColumnIndex.IsPrimary;
 
-            if (isAccessory) {
-                accessoryContainer.find(`.item-accessory-info`).remove();
-            } else {
-                $el.parents('.item-container').find('.item-accessories .item-accessory-info, .item-accessories .nested-accessories').remove();
-            }
+                if (isNestedAccessory) {
+                    accessoryContainer.find(`.item-accessory-info`).remove();
+                } else {
+                    $el.parents('.item-container').find('.item-accessories .item-accessory-info, .item-accessories .nested-accessories').remove();
+                }
 
-            for (var i = 0; i < response.Rows.length; i++) {
+                for (var i = 0; i < response.Rows.length; i++) {
                 let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
                 let imageId        = response.Rows[i][appImageId] ? response.Rows[i][appImageId] : '';
                 let conflictdate   = response.Rows[i][conflictIndex] ? moment(response.Rows[i][conflictIndex]).format('L') : '';
@@ -1743,81 +1743,71 @@ class SearchInterface {
                                        <div class="columnorder" data-column="Rate"></div>
                                        <div class="columnorder" data-column="QC">${response.Rows[i][quantityQcRequired]}</div>
                                      </div>`;
-                let $itemaccessoryinfo = jQuery(accessoryhtml);
-                accessoryContainer.append($itemaccessoryinfo);
+                    let $itemaccessoryinfo = jQuery(accessoryhtml);
+                    accessoryContainer.append($itemaccessoryinfo);
 
-                if (response.Rows[i][qtyIndex] != 0) {
-                    $itemaccessoryinfo.find('[data-column="Quantity"] input').css('background-color', '#c5eefb');
-                }
+                    if (response.Rows[i][qtyIndex] != 0) {
+                        $itemaccessoryinfo.find('[data-column="Quantity"] input').css('background-color', '#c5eefb');
+                    }
 
-                $itemaccessoryinfo.find('div[data-column="Available"]').attr('data-state', response.Rows[i][availabilityStateIndex]);
-                $itemaccessoryinfo.find('div[data-column="AllWh"]').attr('data-state', response.Rows[i][availabilityStateIndexAllWhIndex]);
+                    $itemaccessoryinfo.find('div[data-column="Available"]').attr('data-state', response.Rows[i][availabilityStateIndex]);
+                    $itemaccessoryinfo.find('div[data-column="AllWh"]').attr('data-state', response.Rows[i][availabilityStateIndexAllWhIndex]);
 
-                if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C" || response.Rows[i][classificationIndex] == "N") {
-                    var $tag = jQuery('<div>').addClass('tag')
-                                              .html(response.Rows[i][classificationDescriptionIndex])
-                                              .css({ 'background-color': response.Rows[i][classificationColorIndex] });
-                    $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
+                    if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C" || response.Rows[i][classificationIndex] == "N") {
+                        var $tag = jQuery('<div>').addClass('tag')
+                            .html(response.Rows[i][classificationDescriptionIndex])
+                            .css({ 'background-color': response.Rows[i][classificationColorIndex] });
+                        $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
 
-                    $itemaccessoryinfo.find('div[data-column="Description"]').append('<div class="toggleaccessories" data-isaccessory="true">Show Accessories</div>');
-                    if (!isAccessory) {
-                        $itemaccessoryinfo.after(`<div class="nested-accessories" data-classification="${response.Rows[i][classificationIndex]}" style="display:none;" data-parentid="${response.Rows[i][inventoryIdIndex]}"></div>`);
+                        $itemaccessoryinfo.find('div[data-column="Description"]').append('<div class="toggleaccessories" data-isaccessory="true">Show Accessories</div>');
+                        if (!isNestedAccessory) {
+                            $itemaccessoryinfo.after(`<div class="nested-accessories" data-classification="${response.Rows[i][classificationIndex]}" style="display:none;" data-parentid="${response.Rows[i][inventoryIdIndex]}"></div>`);
+                        }
+                    }
+
+                    if (response.Rows[i][isOptionIndex] === true) {
+                        var $tag = jQuery('<div>').addClass('tag')
+                            .html('Optional')
+                            .css({ 'background-color': response.Rows[i][quantityColorIndex], 'color': '#000000' });
+                        $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
+                    }
+
+                    if (response.Rows[i][defaultQuantityIndex] > 1) {
+                        var $tag = jQuery('<div>').addClass('tag')
+                            .html(`x${response.Rows[i][defaultQuantityIndex]}`)
+                            .css({ 'background-color': '#FF9800', 'color': '#000000' });
+                        $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
+                    } else if (response.Rows[i][defaultQuantityIndex] < 1) {
+                        var percentage = response.Rows[i][defaultQuantityIndex] * 100;
+                        var $tag = jQuery('<div>').addClass('tag')
+                            .html(`${percentage}%`)
+                            .css({ 'background-color': '#FF9800', 'color': '#000000' });
+                        $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
+                    }
+
+                    //custom display/sequencing for columns
+                    let columnsToHide = $popup.find('#itemsearch').data('columnstohide');
+                    $popup.find('.item-accessories .columnorder').css('display', '');
+                    for (let i = 0; i < columnsToHide.length; i++) {
+                        $popup.find(`.item-accessories [data-column="${columnsToHide[i]}"]`).hide();
+                    }
+
+                    let columnOrder = $popup.find('#itemsearch').data('columnorder');
+                    for (let i = 0; i < columnOrder.length; i++) {
+                        $popup.find(`.item-accessories [data-column="${columnOrder[i]}"]`).css('order', i);
+                    }
+
+                    let type = $popup.find('#itemsearch').attr('data-moduletype');
+                    if (type === 'PurchaseOrder' || type === 'Template') {
+                        $popup.find('.hideColumns').css('display', 'none');
                     }
                 }
 
-                if (response.Rows[i][isOptionIndex] === true) {
-                    var $tag = jQuery('<div>').addClass('tag')
-                                              .html('Optional')
-                                              .css({ 'background-color': response.Rows[i][quantityColorIndex], 'color': '#000000' });
-                    $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
+                //open accessories that were visible before they were refreshed
+                if (showAccessoriesInventoryId != undefined) {
+                    accessoryContainer.find(`[data-inventoryid="${showAccessoriesInventoryId}"]`).find('.toggleaccessories').click();
                 }
-
-                if (response.Rows[i][defaultQuantityIndex] > 1) {
-                    var $tag = jQuery('<div>').addClass('tag')
-                                              .html(`x${response.Rows[i][defaultQuantityIndex]}`)
-                                              .css({ 'background-color': '#FF9800', 'color': '#000000' });
-                    $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
-                } else if (response.Rows[i][defaultQuantityIndex] < 1) {
-                    var percentage = response.Rows[i][defaultQuantityIndex] * 100;
-                    var $tag = jQuery('<div>').addClass('tag')
-                                              .html(`${percentage}%`)
-                                              .css({ 'background-color': '#FF9800', 'color': '#000000' });
-                    $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
-                }
-
-                //custom display/sequencing for columns
-                let columnsToHide = $popup.find('#itemsearch').data('columnstohide');
-                $popup.find('.item-accessories .columnorder').css('display', '');
-                for (let i = 0; i < columnsToHide.length; i++) {
-                    $popup.find(`.item-accessories [data-column="${columnsToHide[i]}"]`).hide();
-                }
-
-                let columnOrder = $popup.find('#itemsearch').data('columnorder');
-                for (let i = 0; i < columnOrder.length; i++) {
-                    $popup.find(`.item-accessories [data-column="${columnOrder[i]}"]`).css('order', i);
-                }
-
-                let type = $popup.find('#itemsearch').attr('data-moduletype');
-                if (type === 'PurchaseOrder' || type === 'Template') {
-                    $popup.find('.hideColumns').css('display', 'none');
-                }
-            }
-
-            //open accessories that were visible before they were refreshed
-            if (showAccessoriesInventoryId != undefined) {
-                accessoryContainer.find(`[data-inventoryid="${showAccessoriesInventoryId}"]`).find('.toggleaccessories').click();
-            }
-
-            //let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-            //if (typeof obj != 'undefined') {
-            //    if (accessoryContainer.find('.acc-refresh-avail').length < 1) {
-            //        accessoryContainer.append(`<div style="text-align:center;"><div data-type="button" class="fwformcontrol acc-refresh-avail" style="line-height:24px; height:24px; background-color:rgb(49, 0, 209);">Refresh Availability</div></div>`);
-            //    }
-            //    accessoryContainer.find('.acc-refresh-avail').show();
-            //} else {
-            //    accessoryContainer.find('.acc-refresh-avail').hide();
-            //}
-        }, null, $popup.find('#searchpopup'));
+            }, null, $popup.find('#searchpopup'));
     }
     //----------------------------------------------------------------------------------------------
 }
