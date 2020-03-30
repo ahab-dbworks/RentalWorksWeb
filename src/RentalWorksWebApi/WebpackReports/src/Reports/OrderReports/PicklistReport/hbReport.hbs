@@ -67,7 +67,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each rows}}
+      {{#each Items}}
       <tr data-rowtype={{RowType}} data-itemclass="{{ItemClass}}" data-isbold="{{Bold}}">
         {{#ifEquals RowType "RecTypeDisplayheader"}}
         <td colspan="8" style="text-decoration:underline; font-weight:bold;text-align:left;">{{RecTypeDisplay}}&nbsp;</td>
@@ -78,7 +78,11 @@
         {{#ifEquals RowType "detail"}}
         <td class="text boxcol">{{OrderNumber}}</td>
         <td class="text boxcol">{{ICode}}</td>
-        <td class="text boxcol">{{Description}}</td>
+        <td class="text boxcol">{{Description}}
+        {{#ifNotEquals Notes ""}}
+        <br /> <b>Notes: </b>{{Notes}}
+        {{/ifNotEquals}}
+        </td>
         <td class="text boxcol">{{SubVendor}}</td>
         <td class="text boxcol">{{AisleShelfLocation}}</td>
         <td class="number boxcol">{{QuantityOrdered}}</td>
@@ -110,7 +114,7 @@
 </div>
 {{/ifEquals}}
 {{#ifEquals NewPagePerType true}}
-{{#each rows}}
+{{#each Items}}
 {{#ifEquals RowType "InventoryTypeheader"}}
 {{#ifNotEquals IsFirstInventoryTypeHeader true}}
 <div style="page-break-after: always !important"></div>
@@ -192,7 +196,11 @@
       <tr data-rowtype={{RowType}} data-itemclass="{{ItemClass}}" data-isbold="{{Bold}}">
         <td class="text boxcol">{{OrderNumber}}</td>
         <td class="text boxcol">{{ICode}}</td>
-        <td class="text boxcol">{{Description}}</td>
+        <td class="text boxcol">{{Description}}
+        {{#ifNotEquals Notes ""}}
+        <br /> <b>Notes: </b>{{Notes}}
+        {{/ifNotEquals}}
+        </td>
         <td class="text boxcol">{{SubVendor}}</td>
         <td class="text boxcol">{{AisleShelfLocation}}</td>
         <td class="number boxcol">{{QuantityOrdered}}</td>

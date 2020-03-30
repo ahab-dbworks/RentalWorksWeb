@@ -9,6 +9,8 @@ using WebApi;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using System.Globalization;
+
 namespace WebApi.Modules.Reports.OrderReports.PickListReport
 {
 
@@ -84,7 +86,7 @@ namespace WebApi.Modules.Reports.OrderReports.PickListReport
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agentphoneext", modeltype: FwDataTypes.Text)]
-        public string AgentPhoneExtension{ get; set; }
+        public string AgentPhoneExtension { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requestsentto", modeltype: FwDataTypes.Text)]
         public string RequestSentTo { get; set; }
@@ -111,7 +113,7 @@ namespace WebApi.Modules.Reports.OrderReports.PickListReport
         public string OrderedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderedbyphoneext", modeltype: FwDataTypes.Text)]
-        public string OrderedByPhoneExtension{ get; set; }
+        public string OrderedByPhoneExtension { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pickqty", modeltype: FwDataTypes.Integer)]
         public int? PickQuantity { get; set; }
@@ -258,7 +260,7 @@ namespace WebApi.Modules.Reports.OrderReports.PickListReport
         public string PickTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pickdatetime", modeltype: FwDataTypes.Text)]
-        public string PickDateTime{ get; set; }
+        public string PickDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "metered", modeltype: FwDataTypes.Boolean)]
         public bool? Metered { get; set; }
@@ -290,14 +292,14 @@ namespace WebApi.Modules.Reports.OrderReports.PickListReport
         [FwSqlDataField(column: "hasreservedrentalitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasReservedItem { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> LoadItems(PickListReportRequest request)
+        public async Task<List<T>> LoadItems<T>(PickListReportRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);
@@ -307,13 +309,55 @@ namespace WebApi.Modules.Reports.OrderReports.PickListReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+            dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             string[] totalFields = new string[] { "PickQuantity" };
             string[] headerFields = new string[] { "RecTypeDisplay" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertSubTotalRows("InventoryType", "RowType", totalFields, headerFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            return dt;
+
+
+            List<T> items = new List<T>();
+            foreach (List<object> row in dt.Rows)
+            {
+                T item = (T)Activator.CreateInstance(typeof(T));
+                PropertyInfo[] properties = item.GetType().GetProperties();
+                foreach (var property in properties)
+                {
+                    string fieldName = property.Name;
+                    int columnIndex = dt.GetColumnNo(fieldName);
+                    if (!columnIndex.Equals(-1))
+                    {
+                        object value = row[dt.GetColumnNo(fieldName)];
+                        FwDataTypes propType = dt.Columns[columnIndex].DataType;
+                        bool isDecimal = false;
+                        NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        FwSqlCommand.FwDataTypeIsDecimal(propType, value, ref isDecimal, ref numberFormat);
+                        if (propType.Equals(FwDataTypes.Integer))
+                        {
+                            property.SetValue(item, FwConvert.ToInt32((value ?? "").ToString()));
+                        }
+                        else if (isDecimal)
+                        {
+                            decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
+                            property.SetValue(item, d.ToString("N", numberFormat));
+                        }
+                        else if (propType.Equals(FwDataTypes.Boolean))
+                        {
+                            property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
+                        }
+                        else
+                        {
+                            property.SetValue(item, (value ?? "").ToString());
+                        }
+                    }
+                }
+                items.Add(item);
+            }
+
+            return items;
+
+
         }
         //------------------------------------------------------------------------------------ 
     }
@@ -432,16 +476,16 @@ namespace WebApi.Modules.Reports.OrderReports.PickListReport
         [FwSqlDataField(column: "orderedbyphoneext", modeltype: FwDataTypes.Text)]
         public string OrderedByPhoneExtension { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable Items { get; set; } 
+        public List<PickListItemReportLoader> Items { get; set; } = new List<PickListItemReportLoader>(new PickListItemReportLoader[] { new PickListItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public async Task<PickListReportLoader> RunReportAsync(PickListReportRequest request)
         {
 
             Task<PickListReportLoader> taskPickList;
-            Task<FwJsonDataTable> taskPickListItems;
+            //Task<FwJsonDataTable> taskPickListItems;
 
             PickListReportLoader pickList = null;
-            PickListItemReportLoader pickListItems = null;
+            //PickListItemReportLoader pickListItems = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 await conn.OpenAsync();
@@ -459,9 +503,16 @@ namespace WebApi.Modules.Reports.OrderReports.PickListReport
                     taskPickList = qry.QueryToTypedObjectAsync<PickListReportLoader>();
 
                     // load pick list items here
-                    pickListItems = new PickListItemReportLoader();
-                    pickListItems.SetDependencies(AppConfig, UserSession);
-                    taskPickListItems = pickListItems.LoadItems(request);
+                    //pickListItems = new PickListItemReportLoader();
+                    //pickListItems.SetDependencies(AppConfig, UserSession);
+                    //taskPickListItems = pickListItems.LoadItems(request);
+                    Task<List<PickListItemReportLoader>> taskPickListItems;
+                    PickListItemReportLoader PickListItems = new PickListItemReportLoader();
+                    PickListItems.SetDependencies(AppConfig, UserSession);
+                    taskPickListItems = PickListItems.LoadItems<PickListItemReportLoader>(request);
+
+
+
 
                     await Task.WhenAll(new Task[] { taskPickList, taskPickListItems });
 

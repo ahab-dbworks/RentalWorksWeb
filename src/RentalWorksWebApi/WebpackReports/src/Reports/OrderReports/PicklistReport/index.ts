@@ -15,14 +15,15 @@ export class PickListReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/picklistreport/runreport`, authorizationHeader, parameters)
                 .then((response: any) => {
                     const data: any = response;
-                    data.rows = DataTable.toObjectList(response.Items);
+                    //data.rows = DataTable.toObjectList(response.Items);
                     data.PrintTime = moment().format('h:mm:ss A');
                     data.PrintDate = moment().format('MM/DD/YYYY');
                     data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     data.NewPagePerType = parameters.NewPagePerType;
-                    data.rows[1].IsFirstInventoryTypeHeader = true;
+                    //data.rows[1].IsFirstInventoryTypeHeader = true;
+                    data.Items[1].IsFirstInventoryTypeHeader = true;
 
                     if (parameters.OrderType === 'T') {
                         data.Report = 'TRANSFER PICK LIST';
