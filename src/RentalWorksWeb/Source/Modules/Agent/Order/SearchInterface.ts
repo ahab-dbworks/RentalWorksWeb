@@ -739,7 +739,7 @@ class SearchInterface {
     listGridView($popup) {
         let view = $popup.find('#itemlist').attr('data-view');
 
-        if (view !== 'GRID') {
+        //if (view !== 'GRID') {
             //custom display/sequencing for columns
             let columnsToHide = $popup.find('#itemsearch').data('columnstohide');
             $popup.find('.columnDescriptions .columnorder, .item-info .columnorder').css('display', '');
@@ -756,7 +756,7 @@ class SearchInterface {
             for (let i = 0; i < columnOrder.length; i++) {
                 $popup.find(`.columnDescriptions [data-column="${columnOrder[i]}"], .item-info [data-column="${columnOrder[i]}"]`).css('order', i);
             }
-        }
+        //}
     }
     //----------------------------------------------------------------------------------------------
     setDefaultViewSettings($popup) {

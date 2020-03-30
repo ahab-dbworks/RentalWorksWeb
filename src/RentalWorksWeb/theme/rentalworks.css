@@ -408,7 +408,7 @@ Form tables
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Quantity"] {display:flex;align-items:center;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Available"] {display: flex;align-items:center;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Available"] .available-color {text-align:right;}
-#itemsearch #itemlist[data-view="GRID"] div[data-column="ICode"] {display: none;user-select:text;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="ICode"] {display: flex;align-items:center;user-select:text;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="PartNumber"] {display: none;user-select:text;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="ConflictDate"] {display: flex;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="In"] {display: flex;}
