@@ -498,7 +498,7 @@ class Order extends OrderBase {
                 let lossDamageItems = $form.find('.lossdamagegrid tbody').children();
                 lossDamageItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="LossAndDamage"]')) : FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
             },
-            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+            onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });

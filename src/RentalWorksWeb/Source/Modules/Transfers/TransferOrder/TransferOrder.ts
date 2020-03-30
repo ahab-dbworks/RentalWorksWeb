@@ -428,7 +428,7 @@ class TransferOrder {
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.checkGridRows($browse, $form);
             },
-            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+            onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });
@@ -495,7 +495,7 @@ class TransferOrder {
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.checkGridRows($browse, $form);
             },
-            onAdditionalNoteFieldsTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
+            onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });

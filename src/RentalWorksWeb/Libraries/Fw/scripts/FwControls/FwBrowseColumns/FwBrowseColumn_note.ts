@@ -94,9 +94,9 @@
     };
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
-        var $noteImage, $noteTextArea, $notePopup, $notePopupControl, $notePopupHtml;
-        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        var formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';
+        let $noteImage, $noteTextArea;
+        const originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        const formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';
         if (originalvalue !== '') {
             $noteImage = jQuery('<i class="material-icons" style="cursor:pointer;color:#0D47A1;">insert_drive_file</i>');
         } else {
@@ -106,7 +106,7 @@
         $noteTextArea.val(originalvalue);
         $field.empty().append([$noteImage, $noteTextArea]);
 
-        $noteImage.on('click', function (e) {
+        $noteImage.on('click', e => {
             const $confirmation = FwConfirmation.renderConfirmation('Notes', '');
             const $ok = FwConfirmation.addButton($confirmation, 'Ok', true);
             const $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
@@ -115,8 +115,8 @@
                 controlhtml.push('<div data-control="FwFormField" data-type="combobox" data-validate="false" class="fwcontrol fwformfield predefinednotes" data-caption="Predefined Notes" data-datafield="" data-validationname="' + $field.attr('data-predefinednotevalidation') + '" boundfields="predefinednote.rowtype"></div>');
             }
 
-            if ($browse.data('onAdditionalNoteFieldsTemplate')) {
-                $browse.data('onAdditionalNoteFieldsTemplate')($field, controlhtml, $confirmation, $browse, $tr, $ok);
+            if ($browse.data('onOverrideNotesTemplate')) {
+                $browse.data('onOverrideNotesTemplate')($field, controlhtml, $confirmation, $browse, $tr, $ok);
             } else {
                 controlhtml.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="Notes" data-enabled=""' + ((formmaxlength !== '0') ? 'data-maxlength="' + formmaxlength : '') + '" data-datafield=""></div>');
                 FwConfirmation.addControls($confirmation, controlhtml.join('\n'));
@@ -132,7 +132,7 @@
 
             FwFormField.setValue($confirmation, '.note', $noteTextArea.val());
             // ----------
-            $ok.on('click', function () {
+            $ok.on('click', e => {
                 $noteTextArea.val($confirmation.find('.note textarea').val());
                 if ($noteTextArea.val().length > 0) {
                     $noteImage.text('insert_drive_file');
@@ -143,7 +143,7 @@
                 }
             });
             // ----------
-            $confirmation.on('change', '.predefinednotes .fwformfield-value', function () {
+            $confirmation.on('change', '.predefinednotes .fwformfield-value', e => {
                 $confirmation.find('.note .fwformfield-value').val($confirmation.find('.predefinednotes .fwformfield-value').val());
                 $confirmation.find('.predefinednotes .fwformfield-value').val('');
                 $confirmation.find('.predefinednotes .fwformfield-text').val('');
