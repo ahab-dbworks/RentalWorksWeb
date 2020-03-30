@@ -116,7 +116,7 @@
             }
 
             if ($browse.data('onOverrideNotesTemplate')) {
-                $browse.data('onOverrideNotesTemplate')($field, controlhtml, $confirmation, $browse, $tr, $ok);
+                $browse.data('onOverrideNotesTemplate')($browse, $tr, $field, controlhtml, $confirmation, $ok);
             } else {
                 controlhtml.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="Notes" data-enabled=""' + ((formmaxlength !== '0') ? 'data-maxlength="' + formmaxlength : '') + '" data-datafield=""></div>');
                 FwConfirmation.addControls($confirmation, controlhtml.join('\n'));

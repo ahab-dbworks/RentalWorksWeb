@@ -77,7 +77,7 @@ class OrderItemGrid {
         });
     }
     //----------------------------------------------------------------------------------------------
-    addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok) {
+    addPrintNotes($browse, $tr, $field, controlhtml, $confirmation, $ok) {
         const formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';
         controlhtml.push('<div class="flexrow" style="overflow:hidden;">');
         controlhtml.push('  <div class="flexcolumn">');
