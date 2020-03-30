@@ -1195,9 +1195,13 @@ class SearchInterface {
                 let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout,
                     response => {
+                        //opens accessory list based on Auto-Expansion option value
                         if (accessoryRefresh == false) {
+                            //element.parents('.item-info').find('[data-column="Description"] .toggleaccessories').click();
                             if ($accContainer.length > 0) {
                                 this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                                $accContainer.show();
+                                element.parents('.item-info').find('[data-column="Description"] .toggleaccessories').text('Hide Accessories');
                             }
                         }
 
