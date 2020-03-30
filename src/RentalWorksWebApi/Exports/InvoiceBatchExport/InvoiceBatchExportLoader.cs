@@ -63,6 +63,18 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
             public string TaxAccountDescription2 { get; set; }
         }
 
+        public class BatchCustomer
+        {
+            public string CustomerNumber { get; set; }
+            public string CustomerName { get; set; }
+            public string Address1 { get; set; }
+            public string Address2 { get; set; }
+            public string City { get; set; }
+            public string State { get; set; }
+            public string ZipCode { get; set; }
+            public string Phone { get; set; }
+        }
+
         public class BatchInvoice
         {
             public string InvoiceId { get; set; }
@@ -103,6 +115,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
         }
 
         public List<BatchInvoice> Invoices = new List<BatchInvoice>(new BatchInvoice[] { new BatchInvoice() });
+        public List<BatchCustomer> Customers = new List<BatchCustomer>(new BatchCustomer[] { new BatchCustomer() });
 
         //------------------------------------------------------------------------------------ 
         public async Task<bool> DoLoad<InvoiceBatchExportLoader>(InvoiceBatchExportRequest request)
@@ -126,6 +139,34 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                 }
             }
 
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                Customers.Clear();
+                FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select distinct c.custno, c.customer, c.add1, c.add2, c.city, c.state, c.zip, c.phone  ");
+                qry.Add(" from  customer c with (nolock)                                                        ");
+                qry.Add("            join deal            d   with (nolock) on (c.customerid = d.customerid)    ");
+                qry.Add("            join invoice         i   with (nolock) on (i.dealid     = d.dealid)        ");
+                qry.Add("            join invoicechgbatch icb with (nolock) on (i.invoiceid  = icb.invoiceid)   ");
+                qry.Add(" where icb.chgbatchid = @chgbatchid                                                    ");
+                qry.Add("order by c.custno                                                                      ");
+                qry.AddParameter("@chgbatchid", request.BatchId);
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                foreach (List<object> row in dt.Rows)
+                {
+                    BatchCustomer c = new BatchCustomer();
+                    c.CustomerNumber = row[dt.GetColumnNo("custno")].ToString();
+                    c.CustomerName = row[dt.GetColumnNo("customer")].ToString();
+                    c.Address1 = row[dt.GetColumnNo("add1")].ToString();
+                    c.Address2 = row[dt.GetColumnNo("add2")].ToString();
+                    c.City = row[dt.GetColumnNo("city")].ToString();
+                    c.State = row[dt.GetColumnNo("state")].ToString();
+                    c.ZipCode = row[dt.GetColumnNo("zip")].ToString();
+                    c.Phone = row[dt.GetColumnNo("phone")].ToString();
+                    Customers.Add(c);
+                }
+            }
 
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
