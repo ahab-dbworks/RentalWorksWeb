@@ -61,7 +61,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwLogicProperty(Id: "BK5pcd3yhqHk", IsReadOnly: true)]
         public string RecTypeDisplay { get; set; }
 
-        [FwLogicProperty(Id: "NtiA3zTf3Trc", IsReadOnly: true, IsNotAudited: true;)]
+        [FwLogicProperty(Id: "NtiA3zTf3Trc", IsReadOnly: true, IsNotAudited: true)]
         public int? RowNumber { get; set; }
 
         [FwLogicProperty(Id: "QD4tvO0cAUb7")]
