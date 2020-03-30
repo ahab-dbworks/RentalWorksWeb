@@ -1519,9 +1519,8 @@ class SearchInterface {
                     }
                 }
 
-                if (type === 'Order' || type === 'Quote') {
-                    let url = `api/v1/${type}/${id}`
-                    FwAppData.apiMethod(true, 'GET', url, request, FwServices.defaultTimeout,
+                if (type === 'Order' || type === 'Quote' || type === 'PurchaseOrder') {
+                    FwAppData.apiMethod(true, 'GET', `api/v1/${type}/${id}`, request, FwServices.defaultTimeout,
                         response => {
                             if (response.HasLaborItem) {
                                 FwFormField.setValueByDataField($form, 'Labor', true, null, true);
@@ -1568,7 +1567,7 @@ class SearchInterface {
             SessionId:                     parentFormId,
             ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
             ShowImages:                    true,
-            SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+            //SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'), //inv seq util will sort now
             Classification:                FwFormField.getValueByDataField($popup, 'Select'),
             AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
             HideInventoryWithZeroQuantity: FwFormField.getValueByDataField($popup, 'HideZeroQuantity') == "T" ? true : false,

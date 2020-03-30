@@ -1332,8 +1332,8 @@ class PurchaseOrder implements IModule {
         const isSubMisc = FwFormField.getValueByDataField($form, 'SubMiscellaneous');
         const isSubLabor = FwFormField.getValueByDataField($form, 'SubLabor');
 
-        if (!isRental) { $form.find('.rentalinventorytab').hide() }
-        if (!isSales) { $form.find('.salesinventorytab').hide() }
+        if (!isRental) { $form.find('.rentaltab').hide() }
+        if (!isSales) { $form.find('.salestab').hide() }
         if (!isMisc) { $form.find('.misctab').hide() }
         if (!isLabor) { $form.find('.labortab').hide() }
         if (!isParts) { $form.find('.partstab').hide() }
@@ -1709,8 +1709,8 @@ class PurchaseOrder implements IModule {
     };
     //----------------------------------------------------------------------------------------------
     activityCheckboxEvents($form, mode) {
-        const rentalTab = $form.find('.rentalinventorytab')
-            , salesTab = $form.find('.salesinventorytab')
+        const rentalTab = $form.find('.rentaltab')
+            , salesTab = $form.find('.salestab')
             , partsTab = $form.find('.partstab')
             , miscTab = $form.find('.misctab')
             , laborTab = $form.find('.labortab')
