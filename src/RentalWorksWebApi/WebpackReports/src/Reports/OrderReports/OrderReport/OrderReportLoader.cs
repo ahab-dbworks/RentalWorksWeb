@@ -210,6 +210,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
         public string OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
+        public string Notes { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<List<T>> LoadItems<T>(OrderReportRequest request)
         {
             FwJsonDataTable dt = null;

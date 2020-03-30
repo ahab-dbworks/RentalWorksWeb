@@ -111,9 +111,6 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "isrecurring", modeltype: FwDataTypes.Boolean)]
         public bool? IsRecurring { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "notesprint", modeltype: FwDataTypes.Boolean)]
-        public bool? NotesPrint { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
