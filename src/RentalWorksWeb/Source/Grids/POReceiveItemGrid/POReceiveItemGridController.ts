@@ -56,6 +56,10 @@ class POReceiveItemGrid {
                                 } else {
                                     $quantityColumn.find('.cellcolor').css('border-left', `20px solid transparent`);
                                 }
+                                if (response.QuantityReceived > response.QuantityOrdered) {
+                                    const msg = `Quantity Received (${response.QuantityReceived}) is greater than Quantity Ordered (${response.QuantityOrdered})`;
+                                    $form.find('.error-msg').html(`<div><span style="background-color:#ffff99;color:black;">${msg}</span></div>`);
+                                }
                             } else {
                                 FwFunc.playErrorSound();
                                 $form.find('.error-msg').html(`<div><span>${response.msg}</span></div>`);
