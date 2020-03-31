@@ -1818,9 +1818,11 @@ class SearchInterface {
                     }
                 }
 
-                //open accessories that were visible before they were refreshed
-                if (showAccessoriesInventoryId != undefined) {
+                let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
+                if (showAccessoriesInventoryId != undefined) { //open accessories that were visible before they were refreshed
                     accessoryContainer.find(`[data-inventoryid="${showAccessoriesInventoryId}"]`).find('.toggleaccessories').click();
+                } else if (!accessoryRefresh) { //open accessories if disable auto-expansion is not checked
+                    accessoryContainer.find('.toggleaccessories').click();
                 }
             }, null, $popup.find('#searchpopup'));
     }
