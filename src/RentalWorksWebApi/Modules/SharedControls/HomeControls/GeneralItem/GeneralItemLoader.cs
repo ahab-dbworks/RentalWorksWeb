@@ -71,6 +71,9 @@ namespace WebApi.Modules.HomeControls.GeneralItem
         [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text)]
         public string UnitId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
+        public string OrderBy { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unit", modeltype: FwDataTypes.Text)]
         public string Unit { get; set; }
         //------------------------------------------------------------------------------------ 
