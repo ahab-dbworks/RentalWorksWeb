@@ -1137,7 +1137,7 @@ class SearchInterface {
                 jQuery(e.currentTarget).text('Show Accessories');
             } else {
                 jQuery(e.currentTarget).text('Hide Accessories');
-                this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, $el);
             }
 
             if ((jQuery('#itemlist').attr('data-view')) == 'GRID') {
@@ -1183,19 +1183,19 @@ class SearchInterface {
                 let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout,
                     response => {
-                        const $accLink = $element.parents('.item-info').find('[data-column="Description"] .toggleaccessories');
-                        const accLinkText = $accLink.text();
+                        const $showAccessoriesBtn = $element.parents('.item-info').find('[data-column="Description"] .toggleaccessories');
+                        const accLinkText = $showAccessoriesBtn.text();
                         //opens accessory list based on Auto-Expansion option value
                         if (accessoryRefresh == false) {
                             if ($accContainer.length > 0) {
-                                this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                                this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, $showAccessoriesBtn);
                                 if (view != 'GRID') {
                                     $accContainer.show();
-                                    $accLink.text('Hide Accessories');
+                                    $showAccessoriesBtn.text('Hide Accessories');
                                 }
                             }
                         } else if (accLinkText == 'Hide Accessories') { // if accessories are showing, update them
-                            this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                            this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, $showAccessoriesBtn);
                         }
 
                         item.find('[data-column="Available"]')
@@ -1218,13 +1218,14 @@ class SearchInterface {
                 jQuery(e.currentTarget).select();
             })
             .on('change', '.item-accessory-info [data-column="Quantity"] input', e => {
-                const element     = jQuery(e.currentTarget);
-                let quantity      = element.val();
-                const item        = element.parents('.item-accessory-info');
-                const inventoryId = element.parents('.item-accessory-info').attr('data-inventoryid');
-                const fromDate    = FwFormField.getValueByDataField($popup, 'FromDate');
-                const toDate      = FwFormField.getValueByDataField($popup, 'ToDate');
-                const pickDate    = FwFormField.getValueByDataField($popup, 'PickDate');
+                const $element      = jQuery(e.currentTarget);
+                let quantity        = $element.val();
+                const $item         = $element.parents('.item-accessory-info');
+                const inventoryId   = $element.parents('.item-accessory-info').attr('data-inventoryid');
+                const fromDate      = FwFormField.getValueByDataField($popup, 'FromDate');
+                const toDate        = FwFormField.getValueByDataField($popup, 'ToDate');
+                const pickDate = FwFormField.getValueByDataField($popup, 'PickDate');
+                const view = $popup.find('#itemlist').attr('data-view');
                 let accRequest: any = {
                     SessionId:   id,
                     InventoryId: inventoryId,
@@ -1234,34 +1235,67 @@ class SearchInterface {
                     ToDate:      toDate
                 };
 
-                if (element.parents('.nested-accessories').length > 0) {
-                    accRequest.ParentId = element.parents('.nested-accessories').attr('data-parentid');
-                    accRequest.GrandParentId = element.parents('.item-container').find('.item-info').attr('data-inventoryid');
+                ////refresh nested accessories if they are visible
+                //const classification = $item.attr('data-classification');
+                //const completeKitContainerVals: any = ['K', 'C', 'N'];
+                //if (completeKitContainerVals.includes(classification)) {
+                //    const $accLink = $item.find('[data-column="Description"] .toggleaccessories');
+                //    const accLinkText = $accLink.text();
+                //    if (accLinkText == 'Hide Accessories') {
+                //        accRequest.ParentId = $item.attr('data-inventoryid');
+                //        accRequest.GrandParentId = $item.parents('.item-accessories').siblings('.item-info').attr('data-inventoryid');
+                //    }
+                //} else {
+                //    if ($element.parents('.nested-accessories').length) {
+                //        accRequest.ParentId = $element.parents('.nested-accessories').attr('data-parentid');
+                //        accRequest.GrandParentId = $element.parents('.item-container').find('.item-info').attr('data-inventoryid');
+                //    } else {
+                //        accRequest.ParentId = $element.parents('.item-container').find('.item-info').attr('data-inventoryid');
+                //    }
+                //}
+                if ($element.parents('.nested-accessories').length) {
+                    accRequest.ParentId = $element.parents('.nested-accessories').attr('data-parentid');
+                    accRequest.GrandParentId = $element.parents('.item-container').find('.item-info').attr('data-inventoryid');
                 } else {
-                    accRequest.ParentId = element.parents('.item-container').find('.item-info').attr('data-inventoryid');
+                    accRequest.ParentId = $element.parents('.item-container').find('.item-info').attr('data-inventoryid');
                 }
 
-                accRequest.Quantity != "0" ? element.addClass('lightBlue') : element.removeClass('lightBlue');
-
+                accRequest.Quantity != "0" ? $element.addClass('lightBlue') : $element.removeClass('lightBlue');
+                let $accContainer = $element.parents('.item-accessories').find('.nested-accessories');
+                let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout,
                     response => {
-                        item.find('[data-column="Available"]')
+                        const $showAccessoriesBtn = $item.find('[data-column="Description"] .toggleaccessories');
+                        const accLinkText = $showAccessoriesBtn.text();
+                        //opens accessory list based on Auto-Expansion option value
+                        if (accessoryRefresh == false) {
+                            if ($accContainer.length > 0) {
+                                this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, $showAccessoriesBtn);
+                                if (view != 'GRID') {
+                                    $accContainer.show();
+                                    $showAccessoriesBtn.text('Hide Accessories');
+                                }
+                            }
+                        } else if (accLinkText == 'Hide Accessories') {
+                            this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, $showAccessoriesBtn);
+                        }
+
+                        $item.find('[data-column="Available"]')
                             .attr('data-state', response.AvailabilityState)
                             .find('.value')
                             .text(response.QuantityAvailable);
 
-                        item.find('[data-column="AllWh"]')
+                        $item.find('[data-column="AllWh"]')
                             .attr('data-state', response.AvailabilityStateAllWarehouses)
                             .find('.value')
                             .text(response.QuantityAvailableAllWarehouses);
 
-                        item.find('[data-column="ConflictDate"] value').text(response.ConflictDate || "");
+                        $item.find('[data-column="ConflictDate"] value').text(response.ConflictDate || "");
 
                         //Updates Preview tab with total # of items
                         $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
                     }, ex => FwFunc.showError(ex), $searchpopup);
-            })
-            ;
+            });
 
         //Update Preview grid tab
         $popup.on('click', '.tab[data-caption="Preview"]', e => {
@@ -1595,10 +1629,10 @@ class SearchInterface {
         }, null, $searchpopup);
     }
     //----------------------------------------------------------------------------------------------
-    refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e) {
+    refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, $showAccessories: JQuery) {
         let accessoryContainer;
-        let $el = jQuery(e.currentTarget);
-
+        const $el = jQuery($showAccessories);
+       
         let request: any = {
             SessionId:        id,
             OrderId:          id,
@@ -1610,11 +1644,11 @@ class SearchInterface {
             ToDate:           FwFormField.getValueByDataField($popup, 'ToDate') || undefined
         }
 
-        const isNestedAccessory = $el.attr('data-isnestedaccessory') == 'true';
+        const isNestedAccessory = $el.attr('data-isnestedaccessory');
+
         if (isNestedAccessory) {
             request.GrandParentId = $el.parents('.item-accessories').siblings('.item-info').attr('data-inventoryid');
-            const parentId = $el.parents('.item-accessory-info').attr('data-inventoryid');
-            accessoryContainer = $el.parents('.item-accessory-info').siblings(`.nested-accessories[data-parentid="${parentId}"]`);
+            accessoryContainer = $el.parents('.item-accessory-info').siblings(`.nested-accessories[data-parentid="${inventoryId}"]`);
         } else {
             accessoryContainer = $el.parents('.item-container').find('.item-accessories');
         }
@@ -1695,7 +1729,7 @@ class SearchInterface {
                 let imageId        = response.Rows[i][appImageId] ? response.Rows[i][appImageId] : '';
                 let conflictdate   = response.Rows[i][conflictIndex] ? moment(response.Rows[i][conflictIndex]).format('L') : '';
 
-                let accessoryhtml = `<div class="item-accessory-info" data-inventoryid="${response.Rows[i][inventoryIdIndex]}" data-isprimary="${response.Rows[i][isPrimaryIndex]}">
+                let accessoryhtml = `<div class="item-accessory-info"  data-classification="${response.Rows[i][classificationIndex]}" data-inventoryid="${response.Rows[i][inventoryIdIndex]}" data-isprimary="${response.Rows[i][isPrimaryIndex]}">
                                        <div data-column="Description" class="columnorder">
                                             <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
                                             <div class="descriptionrow">
