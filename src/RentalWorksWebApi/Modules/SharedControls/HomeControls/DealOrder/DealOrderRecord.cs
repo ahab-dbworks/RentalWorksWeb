@@ -9,6 +9,7 @@ using WebApi.Modules.Agent.Order;
 using WebApi.Modules.Agent.PurchaseOrder;
 using WebApi.Modules.Agent.Quote;
 using WebApi;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 
 namespace WebApi.Modules.HomeControls.DealOrder
 {
@@ -988,9 +989,22 @@ public string DateStamp { get; set; }
         public async Task<bool> SetNumber(FwSqlConnection conn)
         {
             string moduleName = "";
-            if ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))
+            if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
             {
                 moduleName = RwConstants.MODULE_QUOTE;
+            }
+            else if (Type.Equals(RwConstants.ORDER_TYPE_ORDER))
+            {
+                moduleName = RwConstants.MODULE_ORDER;
+
+                OfficeLocationLogic location = new OfficeLocationLogic();
+                location.SetDependencies(AppConfig, UserSession);
+                location.LocationId = OfficeLocationId;
+                bool x = await location.LoadAsync<OrderLogic>();
+                if (location.UseSameNumberForQuoteAndOrder.GetValueOrDefault(false))
+                {
+                    moduleName = RwConstants.MODULE_QUOTE;
+                }
             }
             else if (Type.Equals(RwConstants.ORDER_TYPE_PROJECT))
             {
