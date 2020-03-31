@@ -1235,24 +1235,6 @@ class SearchInterface {
                     ToDate:      toDate
                 };
 
-                ////refresh nested accessories if they are visible
-                //const classification = $item.attr('data-classification');
-                //const completeKitContainerVals: any = ['K', 'C', 'N'];
-                //if (completeKitContainerVals.includes(classification)) {
-                //    const $accLink = $item.find('[data-column="Description"] .toggleaccessories');
-                //    const accLinkText = $accLink.text();
-                //    if (accLinkText == 'Hide Accessories') {
-                //        accRequest.ParentId = $item.attr('data-inventoryid');
-                //        accRequest.GrandParentId = $item.parents('.item-accessories').siblings('.item-info').attr('data-inventoryid');
-                //    }
-                //} else {
-                //    if ($element.parents('.nested-accessories').length) {
-                //        accRequest.ParentId = $element.parents('.nested-accessories').attr('data-parentid');
-                //        accRequest.GrandParentId = $element.parents('.item-container').find('.item-info').attr('data-inventoryid');
-                //    } else {
-                //        accRequest.ParentId = $element.parents('.item-container').find('.item-info').attr('data-inventoryid');
-                //    }
-                //}
                 if ($element.parents('.nested-accessories').length) {
                     accRequest.ParentId = $element.parents('.nested-accessories').attr('data-parentid');
                     accRequest.GrandParentId = $element.parents('.item-container').find('.item-info').attr('data-inventoryid');
@@ -1346,6 +1328,10 @@ class SearchInterface {
 
             $popup.find('#itemlist').attr('data-view', view);
             this.saveViewSettings($popup);
+        });
+
+        $popup.on('change', 'div[data-datafield="Select"]', e => {
+            this.getInventory($popup);
         });
 
         //Refresh Availability button
