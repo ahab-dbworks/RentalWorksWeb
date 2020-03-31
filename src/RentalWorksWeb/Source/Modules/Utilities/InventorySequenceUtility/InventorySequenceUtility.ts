@@ -64,10 +64,11 @@ class InventorySequenceUtility {
                 request.searchfields = ["Inactive"];
                 request.searchfieldvalues = ["T"];
             });
+            this.unselectGridRows($form, 'rectype');
             FwBrowse.search($inventoryTypeGrid)
                 .then(() => {
                     $categoryGrid.data('ondatabind', request => {
-                        const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                        const ids = this.getGridIds($form);
                         request.uniqueids = {
                             InventoryTypeId: ids.InventoryTypeId,
                             RecType: FwFormField.getValueByDataField($form, 'RecType'),
@@ -80,7 +81,7 @@ class InventorySequenceUtility {
                     FwBrowse.search($categoryGrid)
                         .then(() => {
                             $subCategoryGrid.data('ondatabind', request => {
-                                const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                                const ids = this.getGridIds($form);
                                 request.uniqueids = {
                                     CategoryId: ids.CategoryId,
                                 }
@@ -92,7 +93,7 @@ class InventorySequenceUtility {
                             FwBrowse.search($subCategoryGrid)
                                 .then(() => {
                                     $itemsGrid.data('ondatabind', request => {
-                                        const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                                        const ids = this.getGridIds($form);
                                         request.uniqueids = {
                                             InventoryTypeId: ids.InventoryTypeId,
                                             CategoryId: ids.CategoryId,
@@ -113,7 +114,7 @@ class InventorySequenceUtility {
         $inventoryTypeGrid.data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
             try {
                 $categoryGrid.data('ondatabind', request => {
-                    const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                    const ids = this.getGridIds($form);
                     request.uniqueids = {
                         InventoryTypeId: ids.InventoryTypeId,
                         RecType: FwFormField.getValueByDataField($form, 'RecType'),
@@ -123,13 +124,11 @@ class InventorySequenceUtility {
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
                 });
-                $categoryGrid.find('tbody tr.selected').removeClass('selected');
-                $subCategoryGrid.find('tbody tr.selected').removeClass('selected');
-                $itemsGrid.find('tbody tr.selected').removeClass('selected');
+                this.unselectGridRows($form, 'inventorytype');
                 FwBrowse.search($categoryGrid)
                     .then(() => {
                         $subCategoryGrid.data('ondatabind', request => {
-                            const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                            const ids = this.getGridIds($form);
                             request.uniqueids = {
                                 CategoryId: ids.CategoryId,
                             }
@@ -141,7 +140,7 @@ class InventorySequenceUtility {
                         FwBrowse.search($subCategoryGrid)
                             .then(() => {
                                 $itemsGrid.data('ondatabind', request => {
-                                    const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                                    const ids = this.getGridIds($form);
                                     request.uniqueids = {
                                         InventoryTypeId: ids.InventoryTypeId,
                                         CategoryId: ids.CategoryId,
@@ -162,7 +161,7 @@ class InventorySequenceUtility {
         $inventoryTypeGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 $categoryGrid.data('ondatabind', request => {
-                    const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                    const ids = this.getGridIds($form);
                     request.uniqueids = {
                         InventoryTypeId: ids.InventoryTypeId,
                         RecType: FwFormField.getValueByDataField($form, 'RecType'),
@@ -172,16 +171,11 @@ class InventorySequenceUtility {
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
                 });
-                $categoryGrid.removeData('selectedindex');
-                $categoryGrid.find('tbody tr.selected').removeClass('selected');
-                $subCategoryGrid.removeData('selectedindex');
-                $subCategoryGrid.find('tbody tr.selected').removeClass('selected');
-                $itemsGrid.removeData('selectedindex');
-                $itemsGrid.find('tbody tr.selected').removeClass('selected');
+                this.unselectGridRows($form, 'inventorytype');
                 FwBrowse.search($categoryGrid)
                     .then(() => {
                         $subCategoryGrid.data('ondatabind', request => {
-                            const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                            const ids = this.getGridIds($form);
                             request.uniqueids = {
                                 CategoryId: ids.CategoryId,
                             }
@@ -193,7 +187,7 @@ class InventorySequenceUtility {
                         FwBrowse.search($subCategoryGrid)
                             .then(() => {
                                 $itemsGrid.data('ondatabind', request => {
-                                    const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                                    const ids = this.getGridIds($form);
                                     request.uniqueids = {
                                         InventoryTypeId: ids.InventoryTypeId,
                                         CategoryId: ids.CategoryId,
@@ -216,7 +210,7 @@ class InventorySequenceUtility {
         $categoryGrid.data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
             try {
                 $subCategoryGrid.data('ondatabind', request => {
-                    const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                    const ids = this.getGridIds($form);
                     request.uniqueids = {
                         CategoryId: ids.CategoryId,
                     }
@@ -225,10 +219,11 @@ class InventorySequenceUtility {
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
                 });
+                this.unselectGridRows($form, 'category');
                 FwBrowse.search($subCategoryGrid)
                     .then(() => {
                         $itemsGrid.data('ondatabind', request => {
-                            const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                            const ids = this.getGridIds($form);
                             request.uniqueids = {
                                 InventoryTypeId: ids.InventoryTypeId,
                                 CategoryId: ids.CategoryId,
@@ -249,7 +244,7 @@ class InventorySequenceUtility {
         $categoryGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 $subCategoryGrid.data('ondatabind', request => {
-                    const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                    const ids = this.getGridIds($form);
                     request.uniqueids = {
                         CategoryId: ids.CategoryId,
                     }
@@ -258,10 +253,11 @@ class InventorySequenceUtility {
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
                 });
+                this.unselectGridRows($form, 'category');
                 FwBrowse.search($subCategoryGrid)
                     .then(() => {
                         $itemsGrid.data('ondatabind', request => {
-                            const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                            const ids = this.getGridIds($form);
                             request.uniqueids = {
                                 InventoryTypeId: ids.InventoryTypeId,
                                 CategoryId: ids.CategoryId,
@@ -283,7 +279,7 @@ class InventorySequenceUtility {
         $subCategoryGrid.data('onafterrowsort', ($control: JQuery, $tr: JQuery) => {
             try {
                 $itemsGrid.data('ondatabind', request => {
-                    const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                    const ids = this.getGridIds($form);
                     request.uniqueids = {
                         InventoryTypeId: ids.InventoryTypeId,
                         CategoryId: ids.CategoryId,
@@ -294,6 +290,7 @@ class InventorySequenceUtility {
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
                 });
+                this.unselectGridRows($form, 'subcategory');
                 FwBrowse.search($itemsGrid);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -303,7 +300,7 @@ class InventorySequenceUtility {
         $subCategoryGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 $itemsGrid.data('ondatabind', request => {
-                    const ids = this.getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid);
+                    const ids = this.getGridIds($form);
                     request.uniqueids = {
                         InventoryTypeId: ids.InventoryTypeId,
                         CategoryId: ids.CategoryId,
@@ -314,6 +311,7 @@ class InventorySequenceUtility {
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
                 });
+                this.unselectGridRows($form, 'subcategory');
                 FwBrowse.search($itemsGrid)
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -321,14 +319,14 @@ class InventorySequenceUtility {
         });
     }
     //----------------------------------------------------------------------------------------------
-    getGridIds($inventoryTypeGrid, $categoryGrid, $subCategoryGrid): any {
-        const ids: any = {};
+    getGridIds($form: JQuery): any {
+        const $inventoryTypeGrid = $form.find('[data-name="InventorySequenceTypeGrid"]');
         let inventoryTypeId = $inventoryTypeGrid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
         if (!inventoryTypeId) {
             inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
         }
-        ids.InventoryTypeId = inventoryTypeId;
 
+        const $categoryGrid = $form.find('[data-name="InventorySequenceCategoryGrid"]');
         let categoryId = $categoryGrid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
         if (!categoryId) {
             categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
@@ -336,14 +334,44 @@ class InventorySequenceUtility {
                 categoryId = 'NONE';
             }
         }
-        ids.CategoryId = categoryId;
+
+        const $subCategoryGrid = $form.find('[data-name="InventorySequenceSubCategoryGrid"]');
         let subCategoryId = $subCategoryGrid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
         if (!subCategoryId) {
             subCategoryId = $subCategoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
         }
-        ids.SubCategoryId = subCategoryId;
 
-        return ids;
+        return {
+            InventoryTypeId: inventoryTypeId,
+            CategoryId: categoryId,
+            SubCategoryId: subCategoryId
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    unselectGridRows($form: JQuery, eventGrid: string): void {
+        const $categoryGrid = $form.find('[data-name="InventorySequenceCategoryGrid"]');
+        const $subCategoryGrid = $form.find('[data-name="InventorySequenceSubCategoryGrid"]');
+        const $itemsGrid = $form.find('[data-name="InventorySequenceItemsGrid"]');
+
+        if (eventGrid === 'rectype') {
+            const $inventoryTypeGrid = $form.find('[data-name="InventorySequenceTypeGrid"]');
+            FwBrowse.unselectAllRows($inventoryTypeGrid);
+            FwBrowse.unselectAllRows($categoryGrid);
+            FwBrowse.unselectAllRows($subCategoryGrid);
+            FwBrowse.unselectAllRows($itemsGrid);
+        }
+        if (eventGrid === 'inventorytype') {
+            FwBrowse.unselectAllRows($categoryGrid);
+            FwBrowse.unselectAllRows($subCategoryGrid);
+            FwBrowse.unselectAllRows($itemsGrid);
+        }
+        if (eventGrid === 'category') {
+            FwBrowse.unselectAllRows($subCategoryGrid);
+            FwBrowse.unselectAllRows($itemsGrid);
+        }
+        if (eventGrid === 'subcategory') {
+            FwBrowse.unselectAllRows($itemsGrid);
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
