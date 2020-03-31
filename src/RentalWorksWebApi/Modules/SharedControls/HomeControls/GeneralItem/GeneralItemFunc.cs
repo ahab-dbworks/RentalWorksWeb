@@ -8,7 +8,7 @@ namespace WebApi.Modules.HomeControls.GeneralItem
     public class SortGeneralItemRequest
     {
         public int? StartAtIndex { get; set; }
-        public List<string> GeneralItemIds { get; set; } = new List<string>();
+        public List<string> ItemIds { get; set; } = new List<string>();
     }
 
     public static class GeneralItemFunc
@@ -17,13 +17,13 @@ namespace WebApi.Modules.HomeControls.GeneralItem
         public static async Task<SortItemsResponse> SortGeneralItems(FwApplicationConfig appConfig, FwUserSession userSession, SortGeneralItemRequest request)
         {
             SortItemsRequest r2 = new SortItemsRequest();
-            r2.TableName = "inventoryview";
+            r2.TableName = "master";
             r2.IdFieldNames.Add("masterid");
             r2.RowNumberFieldName = "orderby";
             r2.StartAtIndex = request.StartAtIndex;
             r2.RowNumberDigits = 6;
 
-            foreach (string itemId in request.GeneralItemIds)
+            foreach (string itemId in request.ItemIds)
             {
                 List<string> idCombo = new List<string>();
                 idCombo.Add(itemId);
