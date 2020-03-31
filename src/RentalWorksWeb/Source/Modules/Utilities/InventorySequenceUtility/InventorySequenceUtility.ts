@@ -123,6 +123,9 @@ class InventorySequenceUtility {
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
                 });
+                $categoryGrid.find('tbody tr.selected').removeClass('selected');
+                $subCategoryGrid.find('tbody tr.selected').removeClass('selected');
+                $itemsGrid.find('tbody tr.selected').removeClass('selected');
                 FwBrowse.search($categoryGrid)
                     .then(() => {
                         $subCategoryGrid.data('ondatabind', request => {
@@ -169,6 +172,12 @@ class InventorySequenceUtility {
                     request.searchfields = ["Inactive"];
                     request.searchfieldvalues = ["T"];
                 });
+                $categoryGrid.removeData('selectedindex');
+                $categoryGrid.find('tbody tr.selected').removeClass('selected');
+                $subCategoryGrid.removeData('selectedindex');
+                $subCategoryGrid.find('tbody tr.selected').removeClass('selected');
+                $itemsGrid.removeData('selectedindex');
+                $itemsGrid.find('tbody tr.selected').removeClass('selected');
                 FwBrowse.search($categoryGrid)
                     .then(() => {
                         $subCategoryGrid.data('ondatabind', request => {
@@ -319,6 +328,7 @@ class InventorySequenceUtility {
             inventoryTypeId = $inventoryTypeGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
         }
         ids.InventoryTypeId = inventoryTypeId;
+
         let categoryId = $categoryGrid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
         if (!categoryId) {
             categoryId = $categoryGrid.find('tbody tr').first().find('td .field').attr('data-originalvalue');
