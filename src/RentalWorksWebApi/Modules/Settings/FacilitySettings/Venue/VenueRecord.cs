@@ -43,8 +43,8 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "webaddress", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
-        //public string Webaddress { get; set; }
+        [FwSqlDataField(column: "webaddress", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string WebAddress { get; set; }
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Inactive { get; set; }

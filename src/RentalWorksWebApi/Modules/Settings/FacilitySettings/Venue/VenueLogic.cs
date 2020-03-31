@@ -1,6 +1,9 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
+using WebApi.Modules.HomeControls.Address;
+
 namespace WebApi.Modules.Settings.FacilitySettings.Venue
 {
     [FwLogic(Id: "vdIQcn1VYkpcB")]
@@ -8,12 +11,20 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
     {
         //------------------------------------------------------------------------------------ 
         VenueRecord venue = new VenueRecord();
+        AddressRecord address = new AddressRecord();
         VenueLoader venueLoader = new VenueLoader();
         public VenueLogic()
         {
             dataRecords.Add(venue);
+            dataRecords.Add(address);
             dataLoader = venueLoader;
+
+            address.BeforeSave += OnBeforeSaveAddress;
+            address.UniqueId1 = venue.VenueId;
+
             BuildingType = RwConstants.BUILDING_TYPE_VENUE;
+
+            ForceSave = true;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "YbAvXDsZI8piP", IsPrimaryKey:true)]
@@ -35,42 +46,53 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         [FwLogicProperty(Id: "TcXV42nf2kTFv", IsReadOnly:true)]
         public string OfficeLocation { get; set; }
 
-        //[FwLogicProperty(Id:"Mhmx7EErYZqq")]
-        //public string Webaddress { get { return building.Webaddress; } set { building.Webaddress = value; } }
+        [FwLogicProperty(Id: "id2kWitqoCAlQ")]
+        public string AddressId { get { return address.AddressId; } set { address.AddressId = value; } }
 
-        //[FwLogicProperty(Id:"WalCN1Ib2CHZ")]
-        //public string Add1 { get; set; }
+        [FwLogicProperty(Id: "l2PYMzsOy90Q2")]
+        public string Address1 { get { return address.Address1; } set { address.Address1 = value; } }
 
-        //[FwLogicProperty(Id:"kJqZWyIE5zCy")]
-        //public string Add2 { get; set; }
+        [FwLogicProperty(Id: "r0HXJCrJza1Kj")]
+        public string Address2 { get { return address.Address2; } set { address.Address2 = value; } }
 
-        //[FwLogicProperty(Id:"znZaERrpUzEp")]
-        //public string City { get; set; }
+        [FwLogicProperty(Id: "JLmNZr23FdEVp")]
+        public string City { get { return address.City; } set { address.City = value; } }
 
-        //[FwLogicProperty(Id:"TW5iFfch2UGw")]
-        //public string State { get; set; }
+        [FwLogicProperty(Id: "5FvoloXD52hrC")]
+        public string State { get { return address.State; } set { address.State = value; } }
 
-        //[FwLogicProperty(Id:"edYv6tdzCpeB")]
-        //public string CountryId { get; set; }
+        [FwLogicProperty(Id: "k3u9IGQB7aDBL")]
+        public string ZipCode { get { return address.ZipCode; } set { address.ZipCode = value; } }
 
-        //[FwLogicProperty(Id:"VqKmlRtx6UNh")]
-        //public string Country { get; set; }
+        [FwLogicProperty(Id: "1cn3f2NEbt1qu")]
+        public string CountryId { get { return address.CountryId; } set { address.CountryId = value; } }
 
-        //[FwLogicProperty(Id:"ovqsLp2UXcOx")]
-        //public string Zip { get; set; }
+        [FwLogicProperty(Id: "LSgii7lqfhD0J", IsReadOnly: true)]
+        public string Country { get; set; }
 
-        //[FwLogicProperty(Id:"ERlhkmd12sgF")]
-        //public string Phone { get; set; }
+        [FwLogicProperty(Id: "1juZDHpNyzxOG")]
+        public string Phone { get { return address.Phone; } set { address.Phone = value; } }
+
+        [FwLogicProperty(Id: "Mhmx7EErYZqq")]
+        public string WebAddress { get { return venue.WebAddress; } set { venue.WebAddress = value; } }
 
         //[FwLogicProperty(Id:"1SpwBUyjOywi")]
         //public string TaxoptionId { get { return building.TaxoptionId; } set { building.TaxoptionId = value; } }
 
-        //[FwLogicProperty(Id:"rurGYiZZsUT5")]
-        //public string Primarycontact { get; set; }
+        [FwLogicProperty(Id: "AspLhkonHVWEV")]
+        public string PrimaryContact { get; set; }
 
         [FwLogicProperty(Id: "gUDDhOO9kOWQW")]
         public bool? Inactive { get { return venue.Inactive; } set { venue.Inactive = value; } }
 
         //------------------------------------------------------------------------------------ 
+        public void OnBeforeSaveAddress(object sender, BeforeSaveDataRecordEventArgs e)
+        {
+            if (AddressId.Equals(string.Empty))
+            {
+                e.PerformSave = false;
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }
