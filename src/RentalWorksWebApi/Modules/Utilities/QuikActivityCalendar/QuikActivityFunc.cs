@@ -18,6 +18,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
             public string OfficeLocationId { get; set; }
             public string WarehouseId { get; set; }
             public string DepartmentId { get; set; }
+            public string DealId { get; set; }
             public string ActivityTypeId { get; set; }
             public string AssignedToUserId { get; set; }
             public bool? IncludeCompleted { get; set; }
@@ -52,6 +53,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
                     qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, request.DepartmentId);
+                    qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, request.DealId);
                     qry.AddParameter("@activitytypeid", SqlDbType.NVarChar, ParameterDirection.Input, request.ActivityTypeId);
                     qry.AddParameter("@assignedtousersid", SqlDbType.NVarChar, ParameterDirection.Input, request.AssignedToUserId);
                     qry.AddParameter("@includecompleted", SqlDbType.NVarChar, ParameterDirection.Input, request.IncludeCompleted);
