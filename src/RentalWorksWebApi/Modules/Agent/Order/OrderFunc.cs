@@ -215,6 +215,28 @@ namespace WebApi.Modules.Agent.Order
         public QuoteLogic Quote { get; set; } = null;
     }
 
+    public class GetCustomRatesRequest
+    {
+        public string OrderId { get; set; }
+        public string InventoryId { get; set; }
+        public string RecType { get; set; }
+    }
+    public class GetCustomRatesResponse : TSpStatusResponse
+    {
+        public bool? HasDiscount { get; set; }
+        public bool? ApplyDiscountToCustomRate { get; set; }
+        public decimal? DailyRate { get; set; }
+        public decimal? WeeklyRate { get; set; }
+        public decimal? Week2Rate { get; set; }
+        public decimal? Week3Rate { get; set; }
+        public decimal? Week4Rate { get; set; }
+        public decimal? Week5Rate { get; set; }
+        public decimal? MonthlyRate { get; set; }
+        public decimal? DaysPerWeek { get; set; }
+        public decimal? DiscountPercent { get; set; }
+        public decimal? MarkupPercent { get; set; }
+        public decimal? MarginPercent { get; set; }
+    }
 
 
     public static class OrderFunc
@@ -531,6 +553,35 @@ namespace WebApi.Modules.Agent.Order
                         response.OrderItemIds.Add(qry.GetParameter("@newmasteritemid").ToString());
                     }
                 }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<GetCustomRatesResponse> GetCustomRates(FwApplicationConfig appConfig, FwUserSession userSession, GetCustomRatesRequest request)
+        {
+            GetCustomRatesResponse response = new GetCustomRatesResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select *");
+                qry.Add(" from dbo.webgetcustomrates(@orderid, @masterid, @rectype");
+                qry.AddParameter("@orderid", request.OrderId);
+                qry.AddParameter("@masterid", request.InventoryId);
+                qry.AddParameter("@rectype", request.RecType);
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+                response.HasDiscount = FwConvert.ToBoolean(dt.Rows[0][dt.GetColumnNo("hasdiscount")].ToString());
+                response.ApplyDiscountToCustomRate = FwConvert.ToBoolean(dt.Rows[0][dt.GetColumnNo("applydiscounttocustomrate")].ToString());
+                response.DailyRate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("dailyrate")].ToString());
+                response.WeeklyRate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("weeklyrate")].ToString());
+                response.Week2Rate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("week2rate")].ToString());
+                response.Week3Rate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("week3rate")].ToString());
+                response.Week4Rate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("week4rate")].ToString());
+                response.Week5Rate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("week5rate")].ToString());
+                response.MonthlyRate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("monthlyrate")].ToString());
+                response.DaysPerWeek = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("daysinwk")].ToString());
+                response.DiscountPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("discountpct")].ToString());
+                response.MarkupPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("markuppct")].ToString());
+                response.MarginPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("marginpct")].ToString());
             }
             return response;
         }

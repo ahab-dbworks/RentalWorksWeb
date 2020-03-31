@@ -172,6 +172,26 @@ namespace WebApi.Modules.Agent.Quote
                 return GetApiExceptionResult(ex);
             }
         }
+        //------------------------------------------------------------------------------------          
+        // POST api/v1/quote/getcustomrates/
+        [HttpPost("getcustomrates")]
+        [FwControllerMethod(Id: "oLTQtpb56t9H", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<GetCustomRatesResponse>> GetCustomRates([FromBody] GetCustomRatesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                GetCustomRatesResponse response = await OrderFunc.GetCustomRates(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/reserve/A0000001
         [HttpPost("reserve/{id}")]
