@@ -8,74 +8,74 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 
-namespace WebApi.Modules.Settings.FacilitySettings.Building
+namespace WebApi.Modules.Settings.FacilitySettings.Venue
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
-    [FwController(Id:"h0sTItX8Ofd")]
-    public class BuildingController : AppDataController
+    [FwController(Id: "dzfHYYraDfbPx")]
+    public class VenueController : AppDataController
     {
-        public BuildingController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(BuildingLogic); }
+        public VenueController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VenueLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/building/browse 
+        // POST api/v1/venue/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"DY1lTOcVsL8", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        [FwControllerMethod(Id: "jY8EJtduGb0bD", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/building/exportexcelxlsx
+        // POST api/v1/venue/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"io67bedqPhu", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "ZYTpLq5HM5yDa", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/building 
+        // GET api/v1/venue 
         [HttpGet]
-        [FwControllerMethod(Id:"vkxnmFTxmqJ", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<IEnumerable<BuildingLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        [FwControllerMethod(Id: "EEivE4hPVj4Ex", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<IEnumerable<VenueLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<BuildingLogic>(pageno, pagesize, sort);
+            return await DoGetAsync<VenueLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/building/A0000001 
+        // GET api/v1/venue/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"J84gEZ17wKP", ActionType: FwControllerActionTypes.View)]
-        public async Task<ActionResult<BuildingLogic>> GetOneAsync([FromRoute]string id)
+        [FwControllerMethod(Id: "q2UZyHb73Zisg", ActionType: FwControllerActionTypes.View)]
+        public async Task<ActionResult<VenueLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<BuildingLogic>(id);
+            return await DoGetAsync<VenueLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/building 
+        // POST api/v1/venue 
         [HttpPost]
-        [FwControllerMethod(Id:"wGEk23niGHZ", ActionType: FwControllerActionTypes.New)]
-        public async Task<ActionResult<BuildingLogic>> NewAsync([FromBody]BuildingLogic l)
+        [FwControllerMethod(Id: "47QCIdvy7DuWr", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<VenueLogic>> NewAsync([FromBody]VenueLogic l)
         {
-            return await DoNewAsync<BuildingLogic>(l);
+            return await DoNewAsync<VenueLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // PUT api/v1/building/A0000001
+        // PUT api/v1/venue/A0000001
         [HttpPut("{id}")]
-        [FwControllerMethod(Id: "Us6BO1bY71LOt", ActionType: FwControllerActionTypes.Edit)]
-        public async Task<ActionResult<BuildingLogic>> EditAsync([FromRoute] string id, [FromBody]BuildingLogic l)
+        [FwControllerMethod(Id: "t9hMz8KAgvmpW", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<VenueLogic>> EditAsync([FromRoute] string id, [FromBody]VenueLogic l)
         {
-            return await DoEditAsync<BuildingLogic>(l);
+            return await DoEditAsync<VenueLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/building/A0000001 
+        // DELETE api/v1/venue/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"Qj0xSJYCBpR", ActionType: FwControllerActionTypes.Delete)]
+        [FwControllerMethod(Id: "jRpxYR7R6BygS", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync<BuildingLogic>(id);
+            return await DoDeleteAsync<VenueLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/building/validateofficelocation/browse
+        // POST api/v1/venue/validateofficelocation/browse
         [HttpPost("validateofficelocation/browse")]
-        [FwControllerMethod(Id: "fYljs0Bo1aM9", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "Bqgn2dt7MsRkF", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
