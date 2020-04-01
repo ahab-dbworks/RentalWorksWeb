@@ -1100,6 +1100,7 @@
     <Content Include="Source\Validations\TransferOrderValidation\TransferOrderValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptProcessBatchValidation\ReceiptProcessBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptValidation\ReceiptValidationBrowse.htm" />
+    <Content Include="Source\Validations\VenueValidation\VenueValidationBrowse.htm" />
     <Content Include="Source\Validations\UnretiredReasonValidation\UnretiredReasonValidationBrowse.htm" />
     <Content Include="Source\Validations\PhysicalInventoryValidation\PhysicalInventoryValidationBrowse.htm" />
     <Content Include="Source\Validations\WarehouseCodeValidation\WarehouseCodeValidationBrowse.htm" />
