@@ -1902,7 +1902,7 @@ class Quote extends OrderBase {
                     const $quoteTab = jQuery(`#${$form.closest('.tabpage').attr('data-tabid')}`);
                     FwTabs.removeTab($quoteTab);
                     const uniqueids: any = {
-                        OrderId: response.OrderId
+                        OrderId: response.Order.OrderId
                     };
                     const $orderform = OrderController.loadForm(uniqueids);
                     FwModule.openModuleTab($orderform, "", true, 'FORM', true);

@@ -146,7 +146,7 @@ namespace WebApi.Modules.Agent.Quote
         // POST api/v1/quote/createorder
         [HttpPost("createorder")]
         [FwControllerMethod(Id: "jzLmFvzdy5hE1", ActionType: FwControllerActionTypes.Option, Caption: "Create Order")]
-        public async Task<ActionResult<OrderLogic>> CreateOrder([FromBody]QuoteToOrderRequest request)
+        public async Task<ActionResult<QuoteToOrderResponse>> CreateOrder([FromBody]QuoteToOrderRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -159,12 +159,8 @@ namespace WebApi.Modules.Agent.Quote
                 quote.QuoteId = request.QuoteId;
                 if (await quote.LoadAsync<QuoteLogic>())
                 {
-                    QuoteToOrderResponse response = await OrderFunc.QuoteToOrder(AppConfig, UserSession, request);
-                    OrderLogic order = new OrderLogic();
-                    order.SetDependencies(AppConfig, UserSession);
-                    order.OrderId = response.OrderId;
-                    bool x = await order.LoadAsync<OrderLogic>();
-                    return order;
+                    QuoteToOrderResponse response = await OrderFunc.QuoteToOrder(AppConfig, UserSession, quote, request);
+                    return new OkObjectResult(response);
                 }
                 else
                 {

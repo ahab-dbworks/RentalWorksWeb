@@ -8,6 +8,11 @@ using WebApi.Logic;
 using WebApi.Modules.HomeControls.OrderItem;
 using WebApi.Modules.HomeControls.SubPurchaseOrderItem;
 using WebApi;
+using WebApi.Modules.Agent.Quote;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using FwStandard.AppManager;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -176,15 +181,18 @@ namespace WebApi.Modules.Agent.Order
 
     public class QuoteToOrderRequest
     {
+        [Required]
         public string QuoteId { get; set; }
+        [Required]
         public string LocationId { get; set; }
+        [Required]
         public string WarehouseId { get; set; }
     }
     public class QuoteToOrderResponse : TSpStatusResponse
     {
-        public string OrderId { get; set; }
+        //public string OrderId { get; set; }
+        public OrderLogic Order { get; set; }
     }
-
 
 
     public static class OrderFunc
@@ -641,20 +649,118 @@ namespace WebApi.Modules.Agent.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<QuoteToOrderResponse> QuoteToOrder(FwApplicationConfig appConfig, FwUserSession userSession, QuoteToOrderRequest request)
+        public static async Task<QuoteToOrderResponse> QuoteToOrder(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote, QuoteToOrderRequest request)
         {
             QuoteToOrderResponse response = new QuoteToOrderResponse();
+            //using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            //{
+            //    FwSqlCommand qry = new FwSqlCommand(conn, "quotetoorder", appConfig.DatabaseSettings.QueryTimeout);
+            //    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.QuoteId);
+            //    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            //    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.LocationId);
+            //    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+            //    qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
+            //    await qry.ExecuteNonQueryAsync();
+            //    response.OrderId = qry.GetParameter("@neworderid").ToString();
+            //}
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if ((!quote.Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (!(quote.Status.Equals(RwConstants.QUOTE_STATUS_ACTIVE) || quote.Status.Equals(RwConstants.QUOTE_STATUS_RESERVED))))
+                {
+                    response.msg = "Only ACTIVE or RESERVED Quotes can be converted to Orders.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if (string.IsNullOrEmpty(quote.DealId))
+                {
+                    response.msg = "Deal is required before converting a Quote into an Order.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if ((!request.LocationId.Equals(quote.OfficeLocationId)) || (!request.WarehouseId.Equals(quote.WarehouseId)))
+                {
+                    response.msg = "Cannot create an Order from a Quote associated to a different Office/Warehouse.";
+                }
+            }
+
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "quotetoorder", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.QuoteId);
-                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.LocationId);
-                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
-                qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync();
-                response.OrderId = qry.GetParameter("@neworderid").ToString();
+                await conn.OpenAsync();
+                conn.BeginTransaction();
+
+                OrderLogic order = new OrderLogic();
+                order.SetDependencies(appConfig, userSession);
+
+                if (string.IsNullOrEmpty(response.msg))
+                {
+                    OfficeLocationLogic location = new OfficeLocationLogic();
+                    location.SetDependencies(appConfig, userSession);
+                    location.LocationId = request.LocationId;
+                    await location.LoadAsync<OrderLogic>();
+
+                    //use reflection to copy all peroperties from Quote to Order
+                    PropertyInfo[] quoteProperties = quote.GetType().GetProperties();
+                    PropertyInfo[] orderProperties = order.GetType().GetProperties();
+                    foreach (PropertyInfo quoteProperty in quoteProperties)
+                    {
+                        if (quoteProperty.IsDefined(typeof(FwLogicPropertyAttribute)))
+                        {
+                            foreach (Attribute attribute in quoteProperty.GetCustomAttributes())
+                            {
+                                if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
+                                {
+                                    foreach (PropertyInfo orderProperty in orderProperties)
+                                    {
+                                        if (orderProperty.Name.Equals(quoteProperty.Name))
+                                        {
+                                            orderProperty.SetValue(order, quoteProperty.GetValue(quote));
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    order.Type = RwConstants.ORDER_TYPE_ORDER;
+                    order.OrderId = "";
+                    order.OutDeliveryId = "";
+                    order.InDeliveryId = "";
+                    order.BillToAddressId = "";
+                    order.TaxId = "";
+                    //order.OrderDate = FwConvert.ToUSShortDate(DateTime.Today);
+                    //order.Status = RwConstants.ORDER_STATUS_CONFIRMED;
+                    order.OrderNumber = quote.QuoteNumber;
+                    if (!location.UseSameNumberForQuoteAndOrder.GetValueOrDefault(false))
+                    {
+                        order.OrderNumber = await AppFunc.GetNextModuleCounterAsync(appConfig, userSession, RwConstants.MODULE_ORDER, request.LocationId, conn);
+                    }
+                    
+                    // set pointers between quote and order
+
+                    await order.SaveAsync(original: null, conn: conn);
+
+                    // set quote status to ORDERED
+
+                    //activity dates
+                    //copy order notes
+                    //copy multi po's/
+                    //copy documents?
+                    //copy contacts
+
+                }
+
+                conn.CommitTransaction();
+
+                response.Order = order;
+
             }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
