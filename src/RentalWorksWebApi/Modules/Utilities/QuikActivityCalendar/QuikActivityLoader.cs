@@ -124,6 +124,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
             string officeLocationId = GetUniqueIdAsString("OfficeLocationId", request) ?? "";
             string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
             string departmentId = GetUniqueIdAsString("DepartmentId", request) ?? "";
+            string dealId = GetUniqueIdAsString("DealId", request) ?? "";
             string activityTypeId = GetUniqueIdAsString("ActivityTypeId", request) ?? "";
             string assignedToUserId = GetUniqueIdAsString("AssignedToUserId", request) ?? "";
             bool includeCompleted = GetUniqueIdAsBoolean("IncludeCompleted", request).GetValueOrDefault(false);
@@ -140,6 +141,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
                     qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, officeLocationId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
                     qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, departmentId);
+                    qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, dealId);
                     qry.AddParameter("@activitytypeid", SqlDbType.NVarChar, ParameterDirection.Input, activityTypeId);
                     qry.AddParameter("@assignedtousersid", SqlDbType.NVarChar, ParameterDirection.Input, assignedToUserId);
                     qry.AddParameter("@includecompleted", SqlDbType.NVarChar, ParameterDirection.Input, includeCompleted);
