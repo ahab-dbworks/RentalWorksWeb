@@ -450,7 +450,8 @@ var Constants = {
                         FacilityScheduleStatus: { id: '8QjijODAMJt', caption: 'Facility Schedule Status', nav: 'settings/facilitysettings/facilityschedulestatus', nodetype: 'Module', description: '' },
                         FacilityStatus: { id: 'xJ4UyFe61kC', caption: 'Facility Status', nav: 'settings/facilitysettings/facilitystatus', nodetype: 'Module', description: '' },
                         FacilityType: { id: 'sp3q4geu1RZM', caption: 'Facility Type', nav: 'settings/facilitysettings/facilitytype', nodetype: 'Module', description: '' },
-                        SpaceType: { id: 'lVjqEX5l2s8ZS', caption: 'Facility Space Type', nav: 'settings/facilitysettings/facilityspacetype', nodetype: 'Module', description: '' }
+                        SpaceType: { id: 'lVjqEX5l2s8ZS', caption: 'Facility Space Type', nav: 'settings/facilitysettings/facilityspacetype', nodetype: 'Module', description: '' },
+                        Venue: { id: 'dzfHYYraDfbPx', caption: 'Venue', nav: 'settings/facilitysettings/venue', nodetype: 'Module', description: '' },
                     }
                 },
                 FiscalYearSettings: {
