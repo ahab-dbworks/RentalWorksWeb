@@ -313,6 +313,10 @@ namespace WebApi.Modules.HomeControls.DealOrder
         public string ScannableInventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "quoteorderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string QuoteOrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
@@ -334,9 +338,6 @@ public string Estrentto { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)] 
 public string Esttotime { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "quoteorderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
-public string QuoteorderId { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer, sqltype: "numeric")] 
 public int? Versionno { get; set; } 

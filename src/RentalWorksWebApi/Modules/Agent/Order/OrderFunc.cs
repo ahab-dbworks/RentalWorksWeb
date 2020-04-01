@@ -733,32 +733,53 @@ namespace WebApi.Modules.Agent.Order
                     order.InDeliveryId = "";
                     order.BillToAddressId = "";
                     order.TaxId = "";
-                    //order.OrderDate = FwConvert.ToUSShortDate(DateTime.Today);
-                    //order.Status = RwConstants.ORDER_STATUS_CONFIRMED;
                     order.OrderNumber = quote.QuoteNumber;
                     if (!location.UseSameNumberForQuoteAndOrder.GetValueOrDefault(false))
                     {
                         order.OrderNumber = await AppFunc.GetNextModuleCounterAsync(appConfig, userSession, RwConstants.MODULE_ORDER, request.LocationId, conn);
                     }
-                    
+
                     // set pointers between quote and order
 
                     await order.SaveAsync(original: null, conn: conn);
 
-                    // set quote status to ORDERED
+                    //set the original Quote to Ordered
+                    quote.Status = RwConstants.QUOTE_STATUS_ORDERED;
+                    quote.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                    quote.ConvertedToOrderId = order.OrderId;
+                    quote.SetDependencies(appConfig, userSession);
+                    await quote.SaveAsync(conn: conn);
 
-                    //activity dates
+                    // copy all items
+                    BrowseRequest itemBrowseRequest = new BrowseRequest();
+                    itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                    itemBrowseRequest.uniqueids.Add("OrderId", quote.QuoteId);
+                    itemBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
+
+                    OrderItemLogic item = new OrderItemLogic();
+                    item.SetDependencies(appConfig, userSession);
+                    List<OrderItemLogic> items = item.SelectAsync<OrderItemLogic>(itemBrowseRequest, conn).Result;
+
+                    foreach (OrderItemLogic i in items)
+                    {
+                        i.SetDependencies(appConfig, userSession);
+                        i.OrderId = order.OrderId;
+                        i.OrderItemId = "";
+                        //i.ParentId = ""??
+                        await i.SaveAsync(conn: conn);
+                    }
+
                     //copy order notes
                     //copy multi po's/
                     //copy documents?
                     //copy contacts
+
 
                 }
 
                 conn.CommitTransaction();
 
                 response.Order = order;
-
             }
 
             return response;

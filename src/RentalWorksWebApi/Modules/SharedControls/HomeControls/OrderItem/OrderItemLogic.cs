@@ -1306,7 +1306,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         {
             if (Notes != null)
             {
-                bool saved = orderItem.SaveNoteASync(Notes).Result;
+                bool saved = orderItem.SaveNoteASync(Notes, e.SqlConnection).Result;
             }
             if ((InventoryId != null) && (WarehouseId != null))
             {

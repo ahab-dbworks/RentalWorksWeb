@@ -37,6 +37,11 @@ namespace WebApi.Modules.Agent.Quote
         [FwLogicProperty(Id: "cVKvrBbjaH2B", DisableDirectModify: true)]
         public int? VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
 
+        [FwLogicProperty(Id: "Vm6yP2w0ywVGu")]
+        public string ConvertedToOrderId { get { return dealOrder.QuoteOrderId; } set { dealOrder.QuoteOrderId = value; } }
+
+
+
         //------------------------------------------------------------------------------------
         public override void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
