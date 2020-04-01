@@ -601,7 +601,7 @@ class OrderItemGrid {
         const populateDefaults = ($tr: any, recType: string, customRatesResponse?: any) => {
             let customRates;
             if (typeof customRatesResponse != 'undefined') {
-                if (customRatesResponse.success) {
+                if (customRatesResponse.success && customRatesResponse.CustomRates.HasDiscount) {
                     customRates = customRatesResponse.CustomRates;
                 }
             }
@@ -655,8 +655,12 @@ class OrderItemGrid {
                         rate = 0;
                     } else {
                         cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
-                        if (customRates != 'undefined') {
-                            rate = customRates[rateFieldName];
+                        if (typeof customRates != 'undefined') {
+                            if (customRates[rateFieldName] != null) {
+                                rate = customRates[rateFieldName];
+                            } else {
+                                rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                            }
                         } else {
                             rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
                         }
@@ -669,7 +673,7 @@ class OrderItemGrid {
                 if (recType == 'R' && rateFieldName == 'UseDefault') {
                     rate = FwBrowse.getValueByDataField($control, $tr, 'UnitValue');
                 } else {
-                    if (customRates != 'undefined') {
+                    if (typeof customRates != 'undefined') {
                         if (customRates[rateFieldName] != null) {
                             rate = customRates[rateFieldName];
                         } else {
@@ -688,6 +692,24 @@ class OrderItemGrid {
 
             const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
             FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable });
+
+            if (typeof customRates != 'undefined') {
+                const fields: any = ['DiscountPercent', 'MarginPercent', 'MarkupPercent', 'DaysPerWeek'];
+
+                for (let i = 0; i < fields.length; i++) {
+                    const value = customRates[fields[i]];
+                    if (value != null) {
+                        if (fields[i] == 'DiscountPercent') {
+                            if (customRates['ApplyDiscountToCustomRate']) {
+                                FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: value, text: value });
+                                FwBrowse.setFieldValue($control, $generatedtr, fields[i], { value: value, text: value });
+                            }
+                        } else {
+                            FwBrowse.setFieldValue($control, $generatedtr, fields[i], { value: value, text: value });
+                        }
+                    }
+                }
+            }
 
             calculateExtended('Extended');
         };
