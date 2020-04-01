@@ -16,6 +16,7 @@ namespace FwStandard.SqlServer
         DecimalString2Digits,
         DecimalString3Digits,
         DecimalString4Digits,
+        DecimalString8Digits,
         Boolean,
         CurrencyString,
         CurrencyStringNoDollarSign,

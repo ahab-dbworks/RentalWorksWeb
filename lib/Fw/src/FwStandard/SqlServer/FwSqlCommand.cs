@@ -1332,6 +1332,7 @@ namespace FwStandard.SqlServer
             else if (t.Equals(FwDataTypes.DecimalString2Digits)) { isDecimal = true; numberFormat.NumberDecimalDigits = 2; }
             else if (t.Equals(FwDataTypes.DecimalString3Digits)) { isDecimal = true; numberFormat.NumberDecimalDigits = 3; }
             else if (t.Equals(FwDataTypes.DecimalString4Digits)) { isDecimal = true; numberFormat.NumberDecimalDigits = 4; }
+            else if (t.Equals(FwDataTypes.DecimalString8Digits)) { isDecimal = true; numberFormat.NumberDecimalDigits = 8; }
             else if (t.Equals(FwDataTypes.DecimalStringNoTrailingZeros)) { isDecimal = true; }
             else if (t.Equals(FwDataTypes.CurrencyString)) { isDecimal = true; numberFormat.NumberDecimalDigits = 2; }
             else if (t.Equals(FwDataTypes.CurrencyStringNoDollarSign)) { isDecimal = true; numberFormat.NumberDecimalDigits = 2; }
@@ -1453,6 +1454,17 @@ namespace FwStandard.SqlServer
                     break;
                 case FwDataTypes.DecimalString4Digits:
                     numberFormat = "F4";
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = reader.GetDecimal(columnIndex).ToString(numberFormat);
+                    }
+                    else
+                    {
+                        data = 0.0m.ToString(numberFormat);
+                    }
+                    break;
+                case FwDataTypes.DecimalString8Digits:
+                    numberFormat = "F8";
                     if (!reader.IsDBNull(columnIndex))
                     {
                         data = reader.GetDecimal(columnIndex).ToString(numberFormat);
