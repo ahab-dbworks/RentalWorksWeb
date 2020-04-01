@@ -60,7 +60,7 @@ namespace WebApi.Modules.HomeControls.MasterWarehouse
         [FwSqlDataField(column: "qtyallocated", modeltype: FwDataTypes.Decimal)]
         public decimal? QtyAllocated { get; set; }
         [FwSqlDataField(column: "qtyintransit", modeltype: FwDataTypes.Decimal)]
-        public decimal? QtyInTrnasit { get; set; }
+        public decimal? QtyInTransit { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
         public decimal? Cost { get; set; }
