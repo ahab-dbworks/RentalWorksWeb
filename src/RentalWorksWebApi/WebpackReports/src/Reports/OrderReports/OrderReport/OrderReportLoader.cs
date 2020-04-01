@@ -101,16 +101,16 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "weeklyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "weeklytax", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "weeklytax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string WeeklyTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "weeklytaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "weeklytaxsubtotal", modeltype: FwDataTypes.DecimalString8Digits)]
         public string WeeklyTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "weeklyextendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "weeklyextendedwithtax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string WeeklyExtendedWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "weeklyextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "weeklyextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString8Digits)]
         public string WeeklyExtendedWithTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
 
@@ -143,16 +143,16 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "monthlyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string MonthlyExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "monthlytax", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "monthlytax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string MonthlyTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "monthlytaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "monthlytaxsubtotal", modeltype: FwDataTypes.DecimalString8Digits)]
         public string MonthlyTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "monthlyextendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "monthlyextendedwithtax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string MonthlyExtendedWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "monthlyextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "monthlyextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString8Digits)]
         public string MonthlyExtendedWithTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
 
@@ -176,16 +176,16 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "periodextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PeriodExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string PeriodTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "periodtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "periodtaxsubtotal", modeltype: FwDataTypes.DecimalString8Digits)]
         public string PeriodTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "periodextendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "periodextendedwithtax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string PeriodExtendedWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "periodextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "periodextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString8Digits)]
         public string PeriodExtendedWithTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
 
@@ -250,6 +250,13 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         FwDataTypes propType = dt.Columns[columnIndex].DataType;
                         bool isDecimal = false;
                         NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+
+                        // we need the 8-digit precision for summing above. But now that we have our sums, we need to go back down to 2-digit display
+                        if (propType.Equals(FwDataTypes.DecimalString8Digits))
+                        {
+                            propType = FwDataTypes.DecimalString2Digits;
+                        }
+
                         FwSqlCommand.FwDataTypeIsDecimal(propType, value, ref isDecimal, ref numberFormat);
                         if (isDecimal)
                         {
