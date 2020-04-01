@@ -598,7 +598,14 @@ class OrderItemGrid {
             }
         });
 
-        const populateDefaults = ($tr: any, recType: string, customRates?: any) => {
+        const populateDefaults = ($tr: any, recType: string, customRatesResponse?: any) => {
+            let customRates;
+            if (typeof customRatesResponse != 'undefined') {
+                if (customRatesResponse.success) {
+                    customRates = customRatesResponse.CustomRates;
+                }
+            }
+
             let costFieldName;
             let rateFieldName;
             const rateType = FwFormField.getValueByDataField($form, 'RateType');
@@ -648,7 +655,7 @@ class OrderItemGrid {
                         rate = 0;
                     } else {
                         cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
-                        if (typeof customRates != 'undefined') {
+                        if (customRates != 'undefined') {
                             rate = customRates[rateFieldName];
                         } else {
                             rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
@@ -662,8 +669,8 @@ class OrderItemGrid {
                 if (recType == 'R' && rateFieldName == 'UseDefault') {
                     rate = FwBrowse.getValueByDataField($control, $tr, 'UnitValue');
                 } else {
-                    if (typeof customRates != 'undefined') {
-                        if (customRates[rateFieldName]) {
+                    if (customRates != 'undefined') {
+                        if (customRates[rateFieldName] != null) {
                             rate = customRates[rateFieldName];
                         } else {
                             rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
