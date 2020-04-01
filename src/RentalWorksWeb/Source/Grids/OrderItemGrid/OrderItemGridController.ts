@@ -544,17 +544,64 @@ class OrderItemGrid {
 
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', $tr => {
             const recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
-            const rateType = FwFormField.getValueByDataField($form, 'RateType');
             const description = FwBrowse.getValueByDataField($control, $tr, 'Description');
             FwBrowse.setFieldValue($control, $generatedtr, 'Description', { value: description, text: description });
             FwBrowse.setFieldValue($control, $generatedtr, 'QuantityOrdered', { value: '1', text: '1' });
             FwBrowse.setFieldValue($control, $generatedtr, 'ItemId', { value: '', text: '' });
-            //$generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-            //$generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-            //$generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
-            //$generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+
+            if ($generatedtr.hasClass("newmode")) {
+                const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+                $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
+                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
+                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
+                const warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
+                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
+                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
+
+                if (controller == 'OrderController' || controller == 'QuoteController' || controller == 'PurchaseOrderController') {
+                    if (recType == 'R' || recType == 'S') {
+                        const classification = FwBrowse.getValueByDataField($control, $tr, 'Classification');
+                        if (classification == 'M') {
+                            $generatedtr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+                            $generatedtr.find('[data-browsedatafield="Description"] input.value').remove();
+                            $generatedtr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
+                            $generatedtr.find('[data-browsedatafield="Description"] .btnpeek').hide();
+                            $generatedtr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
+                            $generatedtr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
+                        }
+                    }
+                }
+            }
+
+            if (controller === 'QuoteController' || controller === 'OrderController') {
+                let inventoryId;
+                if (recType === 'R' || recType === 'S') {
+                    inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
+                } else if (recType === 'M' || recType === 'L') {
+                    inventoryId = FwBrowse.getValueByDataField($control, $tr, 'RateId');
+                }
+
+                let idFieldName = controller === 'OrderController' ? 'Order' : 'Quote';
+
+                const request: any = {
+                    OrderId: FwFormField.getValueByDataField($form, `${idFieldName}Id`),
+                    InventoryId: inventoryId,
+                    RecType: recType
+                };
+                FwAppData.apiMethod(true, 'POST', `api/v1/${idFieldName}/getcustomrates/`, request, FwServices.defaultTimeout,
+                    response => {
+                        populateDefaults($tr, recType, response);
+                    }, ex => FwFunc.showError(ex), $form);
+            } else {
+                populateDefaults($tr, recType);
+            }
+        });
+
+        const populateDefaults = ($tr: any, recType: string, customRates?: any) => {
             let costFieldName;
             let rateFieldName;
+            const rateType = FwFormField.getValueByDataField($form, 'RateType');
             switch (recType) {
                 case 'P':
                 case 'S':
@@ -585,7 +632,6 @@ class OrderItemGrid {
                     costFieldName = 'UnitValue';
                     rateFieldName = 'ReplacementCost';
                     break;
-
             }
 
             let rate;
@@ -602,7 +648,11 @@ class OrderItemGrid {
                         rate = 0;
                     } else {
                         cost = FwBrowse.getValueByDataField($control, $tr, costFieldName);
-                        rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                        if (typeof customRates != 'undefined') {
+                            rate = customRates[rateFieldName];
+                        } else {
+                            rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                        }
                     }
                 }
             } else {
@@ -612,7 +662,15 @@ class OrderItemGrid {
                 if (recType == 'R' && rateFieldName == 'UseDefault') {
                     rate = FwBrowse.getValueByDataField($control, $tr, 'UnitValue');
                 } else {
-                    rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                    if (typeof customRates != 'undefined') {
+                        if (customRates[rateFieldName]) {
+                            rate = customRates[rateFieldName];
+                        } else {
+                            rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                        }
+                    } else {
+                        rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                    }
                 }
             }
 
@@ -624,54 +682,8 @@ class OrderItemGrid {
             const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
             FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable });
 
-            if ($generatedtr.hasClass("newmode")) {
-                //const inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
-                const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                //FwAppData.apiMethod(true, 'GET', `api/v1/pricing/${inventoryId}/${warehouseId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                //    switch (rateType) {
-                //        case 'DAILY':
-                //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
-                //            break;
-                //        case 'WEEKLY':
-                //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].WeeklyRate);
-                //            break;
-                //        case 'MONTHLY':
-                //            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].MonthlyRate);
-                //            break;
-                //    }
-                //}, null, $form);
-
-                //const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-                //FwAppData.apiMethod(true, 'GET', `api/v1/taxable/${inventoryId}/${officeLocationId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                //    if (response[0].Taxable) {
-                //        $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
-                //    }
-                //}, null, $form);
-                $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-                $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
-                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
-                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
-                const warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
-                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
-                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
-
-                if (controller == 'OrderController' || controller == 'QuoteController' || controller == 'PurchaseOrderController') {
-                    if (recType == 'R' || recType == 'S') {
-                        const classification = FwBrowse.getValueByDataField($control, $tr, 'Classification');
-                        if (classification == 'M') {
-                            $generatedtr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
-                            $generatedtr.find('[data-browsedatafield="Description"] input.value').remove();
-                            $generatedtr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
-                            $generatedtr.find('[data-browsedatafield="Description"] .btnpeek').hide();
-                            $generatedtr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
-                            $generatedtr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
-                        }
-                    }
-                }
-            }
-
             calculateExtended('Extended');
-        });
+        };
 
         $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input.value', function ($tr) {
             calculateExtended('Extended');

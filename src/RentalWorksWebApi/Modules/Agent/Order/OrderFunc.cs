@@ -564,11 +564,12 @@ namespace WebApi.Modules.Agent.Order
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("select *");
-                qry.Add(" from dbo.webgetcustomrates(@orderid, @masterid, @rectype");
+                qry.Add(" from dbo.webgetcustomrates(@orderid, @masterid, @rectype)");
                 qry.AddParameter("@orderid", request.OrderId);
                 qry.AddParameter("@masterid", request.InventoryId);
                 qry.AddParameter("@rectype", request.RecType);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+                if (dt.TotalRows > 0) { 
                 response.HasDiscount = FwConvert.ToBoolean(dt.Rows[0][dt.GetColumnNo("hasdiscount")].ToString());
                 response.ApplyDiscountToCustomRate = FwConvert.ToBoolean(dt.Rows[0][dt.GetColumnNo("applydiscounttocustomrate")].ToString());
                 response.DailyRate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("dailyrate")].ToString());
@@ -582,6 +583,7 @@ namespace WebApi.Modules.Agent.Order
                 response.DiscountPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("discountpct")].ToString());
                 response.MarkupPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("markuppct")].ToString());
                 response.MarginPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("marginpct")].ToString());
+                }
             }
             return response;
         }
