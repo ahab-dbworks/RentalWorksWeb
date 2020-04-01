@@ -1647,6 +1647,7 @@ class Order extends OrderBase {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="OutDeliveryToLocation"></div>
+                          <div data-control="FwFormField" data-type="validation" data-validationname="VenueValidation" class="fwcontrol fwformfield" data-caption="Venue" data-datafield="OutDeliveryToVenueId" data-displayfield="OutDeliveryToVenue" style="flex:1 1 200px;display:none;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="OutDeliveryToAttention"></div>
@@ -1714,6 +1715,7 @@ class Order extends OrderBase {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="InDeliveryToLocation"></div>
+                          <div data-control="FwFormField" data-type="validation" data-validationname="VenueValidation" class="fwcontrol fwformfield" data-caption="Venue" data-datafield="InDeliveryToVenueId" data-displayfield="InDeliveryToVenue" style="flex:1 1 200px;display:none;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="InDeliveryToAttention"></div>

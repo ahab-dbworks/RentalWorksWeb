@@ -271,7 +271,7 @@ class OrderBase {
                 rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
             },
             onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
-                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
+                OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });
 
@@ -2235,6 +2235,15 @@ class OrderBase {
         $form.find('.delivery-type-radio').on('change', event => {
             this.deliveryTypeAddresses($form, event);
         });
+        $form.find('div[data-datafield="InDeliveryToVenueId"]').data('onchange', event => {
+            this.fillDeliveryAddressFieldsforVenue($form, 'In');
+        });
+        $form.find('div[data-datafield="OutDeliveryToVenueId"]').data('onchange', event => {
+            this.fillDeliveryAddressFieldsforVenue($form, 'Out');
+        });
+        $form.find('.delivery-type-radio').on('change', event => {
+            this.deliveryTypeAddresses($form, event);
+        });
         // Quote Address - Issue To radio -  Billing
         $form.find('[data-datafield="PrintIssuedToAddressFrom"]').on('change', event => {
             this.issueToAddresses($form, event);
@@ -2822,6 +2831,11 @@ class OrderBase {
                 this.getWarehouseAddress($form, 'Out');
             } else if (value === 'DEAL') {
                 this.fillDeliveryAddressFieldsforDeal($form, 'Out');
+            } else if (value === 'VENUE') {
+                this.fillDeliveryAddressFieldsforVenue($form, 'Out');
+            } else if (value === 'OTHER') {
+                $form.find(`div[data-datafield="OutDeliveryToLocation"]`).show();
+                $form.find(`div[data-datafield="OutDeliveryToVenueId"]`).hide();
             }
         }
         else if ($element.attr('data-datafield') === 'InDeliveryAddressType') {
@@ -2830,6 +2844,11 @@ class OrderBase {
                 this.getWarehouseAddress($form, 'In');
             } else if (value === 'DEAL') {
                 this.fillDeliveryAddressFieldsforDeal($form, 'In');
+            } else if (value === 'VENUE') {
+                this.fillDeliveryAddressFieldsforVenue($form, 'In');
+            } else if (value === 'OTHER') {
+                $form.find(`div[data-datafield="InDeliveryToLocation"]`).show();
+                $form.find(`div[data-datafield="InDeliveryToVenueId"]`).hide();
             }
         }
     }
@@ -2869,6 +2888,8 @@ class OrderBase {
     getWarehouseAddress($form: any, prefix: string): void {
         //const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid; - J.Pace :: changed from user warehouse to order warehouse at request of mgmt 12/31/19
         const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        $form.find(`div[data-datafield="${prefix}DeliveryToLocation"]`).show();
+        $form.find(`div[data-datafield="${prefix}DeliveryToLocationId"]`).hide();
 
         let WHresponse: any = {};
 
@@ -2908,12 +2929,14 @@ class OrderBase {
                     })
                 }, null, null);
             } else {
-                FwNotification.renderNotification('INFO', 'No Warehouse chosen on Order.');
+                FwNotification.renderNotification('INFO', `No Warehouse chosen on ${this.Module}.`);
             }
         }
     }
     //----------------------------------------------------------------------------------------------
     fillDeliveryAddressFieldsforDeal($form: any, prefix: string, response?: any): void {
+        $form.find(`div[data-datafield="${prefix}DeliveryToLocation"]`).show();
+        $form.find(`div[data-datafield="${prefix}DeliveryToVenueId"]`).hide();
         if (!response) {
             const dealId = FwFormField.getValueByDataField($form, 'DealId');
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, res => {
@@ -2935,6 +2958,67 @@ class OrderBase {
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, response.ShipState);
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, response.ShipZipCode);
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.ShipCountryId, response.ShipCountry);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    fillDeliveryAddressFieldsforVenue($form: any, prefix: string): void {
+        $form.find(`div[data-datafield="${prefix}DeliveryToLocation"]`).hide();
+        $form.find(`div[data-datafield="${prefix}DeliveryToVenueId"]`).show();
+
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, '');
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, '');
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, '');
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, '');
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, '');
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, '');
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, '', '');
+        const venueId = FwFormField.getValueByDataField($form, `${prefix}DeliveryToVenueId`);
+
+        if (venueId) {
+            let venueRes: any = {};
+            if ($form.data('venueAddress')) {
+                venueRes = $form.data('venueAddress');
+                if (venueRes.VenueId === venueId) {
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, venueRes.PrimaryContact);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, venueRes.Address1);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, venueRes.Address2);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, venueRes.City);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, venueRes.State);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, venueRes.Zip);
+                    FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, venueRes.CountryId, venueRes.Country);
+                } else {
+                    getVenueAddress($form, venueId, prefix);
+                }
+            } else {
+                getVenueAddress($form, venueId, prefix);
+            }
+        } else {
+            FwNotification.renderNotification('INFO', `No Venue chosen on ${this.Module}.`);
+        }
+
+        function getVenueAddress($form, venueId, prefix) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/venue/${venueId}`, null, FwServices.defaultTimeout, response => {
+                const venueRes = response;
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, response.PrimaryContact);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, response.Address1);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, response.Address2);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, response.City);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, response.State);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, response.Zip);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.CountryId, venueRes.Country);
+                // Preventing unnecessary API calls once warehouse addresses have been requested once
+                $form.data('venueAddress', {
+                    'VenueId': response.VenueId,
+                    'Attention': response.PrimaryContact,
+                    'Address1': response.Address1,
+                    'Address2': response.Address2,
+                    'City': response.City,
+                    'State': response.State,
+                    'Zip': response.Zip,
+                    'CountryId': response.CountryId,
+                    'Country': response.Country
+                })
+            }, null, null);
         }
     }
     //----------------------------------------------------------------------------------------------
