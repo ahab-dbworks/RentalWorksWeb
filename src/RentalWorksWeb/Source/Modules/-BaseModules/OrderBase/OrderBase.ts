@@ -2834,7 +2834,8 @@ class OrderBase {
             } else if (value === 'VENUE') {
                 this.fillDeliveryAddressFieldsforVenue($form, 'Out');
             } else if (value === 'OTHER') {
-                this.showHideDeliveryLocationField($form);
+                $form.find(`div[data-datafield="OutDeliveryToLocation"]`).show();
+                $form.find(`div[data-datafield="OutDeliveryToVenueId"]`).hide();
             }
         }
         else if ($element.attr('data-datafield') === 'InDeliveryAddressType') {
@@ -2846,7 +2847,8 @@ class OrderBase {
             } else if (value === 'VENUE') {
                 this.fillDeliveryAddressFieldsforVenue($form, 'In');
             } else if (value === 'OTHER') {
-                this.showHideDeliveryLocationField($form);
+                $form.find(`div[data-datafield="InDeliveryToLocation"]`).show();
+                $form.find(`div[data-datafield="InDeliveryToVenueId"]`).hide();
             }
         }
     }
@@ -2886,7 +2888,8 @@ class OrderBase {
     getWarehouseAddress($form: any, prefix: string): void {
         //const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid; - J.Pace :: changed from user warehouse to order warehouse at request of mgmt 12/31/19
         const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-        this.showHideDeliveryLocationField($form);
+        $form.find(`div[data-datafield="${prefix}DeliveryToLocation"]`).show();
+        $form.find(`div[data-datafield="${prefix}DeliveryToLocationId"]`).hide();
 
         let WHresponse: any = {};
 
@@ -2932,7 +2935,8 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     fillDeliveryAddressFieldsforDeal($form: any, prefix: string, response?: any): void {
-        this.showHideDeliveryLocationField($form);
+        $form.find(`div[data-datafield="${prefix}DeliveryToLocation"]`).show();
+        $form.find(`div[data-datafield="${prefix}DeliveryToVenueId"]`).hide();
         if (!response) {
             const dealId = FwFormField.getValueByDataField($form, 'DealId');
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, res => {
@@ -2958,7 +2962,8 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     fillDeliveryAddressFieldsforVenue($form: any, prefix: string): void {
-        this.showHideDeliveryLocationField($form);
+        $form.find(`div[data-datafield="${prefix}DeliveryToLocation"]`).hide();
+        $form.find(`div[data-datafield="${prefix}DeliveryToVenueId"]`).show();
 
         FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, '');
         FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, '');
@@ -3014,25 +3019,6 @@ class OrderBase {
                     'Country': response.Country
                 })
             }, null, null);
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    showHideDeliveryLocationField($form) {
-        const inDeliveryAddressType = FwFormField.getValueByDataField($form, 'InDeliveryAddressType');
-        if (inDeliveryAddressType === 'VENUE') {
-            $form.find(`div[data-datafield="InDeliveryToLocation"]`).hide();
-            $form.find(`div[data-datafield="InDeliveryToVenueId"]`).show();
-        } else {
-            $form.find(`div[data-datafield="InDeliveryToLocation"]`).show();
-            $form.find(`div[data-datafield="InDeliveryToVenueId"]`).hide();
-        }
-        const outDeliveryAddressType = FwFormField.getValueByDataField($form, 'OutDeliveryAddressType');
-        if (outDeliveryAddressType === 'VENUE') {
-            $form.find(`div[data-datafield="OutDeliveryToLocation"]`).hide();
-            $form.find(`div[data-datafield="OutDeliveryToVenueId"]`).show();
-        } else {
-            $form.find(`div[data-datafield="InDeliveryToLocation"]`).show();
-            $form.find(`div[data-datafield="InDeliveryToVenueId"]`).hide();
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -3827,7 +3813,6 @@ class OrderBase {
 
         const isManualSort = FwFormField.getValueByDataField($form, 'IsManualSort');
         $form.data('ismanualsort', isManualSort);
-        this.showHideDeliveryLocationField($form);
     }
     //----------------------------------------------------------------------------------------------
     billingPeriodEvents($form) {
