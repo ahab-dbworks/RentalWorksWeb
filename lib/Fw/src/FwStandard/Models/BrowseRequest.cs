@@ -26,8 +26,10 @@ namespace FwStandard.Models
         public string activeview { get; set; } = string.Empty;
         public bool emptyobject { get; set; }  // send emptyobject=true to get a browse response with structure only, no data
         public bool forexcel { get; set; } = false;
-        public bool includeidcolumns { get; set; } = true;
-        public bool includecolorcolumns { get; set; } = true;
+        //public bool includeallcolumns { get; set; } = true;
+        //public bool includecolorcolumns { get; set; } = true;
+        //public bool includeidcolumns { get; set; } = true;
+        public CheckBoxListItems excelfields { get; set; } = new CheckBoxListItems();
         public List<string> totalfields { get; set; } = new List<string>();
         public Dictionary<string, List<string>> activeviewfields { get; set; } = new Dictionary<string, List<string>>();
         public BrowseRequest()

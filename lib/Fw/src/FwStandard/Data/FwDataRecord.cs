@@ -1374,6 +1374,54 @@ namespace FwStandard.Data
             afterBrowseArgs.DataTable = dt;
             AfterBrowse?.Invoke(this, afterBrowseArgs);
 
+            if (request.forexcel)
+            {
+                //if specific fields were requested in the Excel download, remove all non-requested fields here
+                if ((request.excelfields != null) && (request.excelfields.Count > 0))
+                {
+                    List<int> removeIndexes = new List<int>();
+
+                    for (int c = 0; c < dt.Columns.Count; c++)
+                    {
+                        bool fieldInExcel = false;
+                        foreach (CheckBoxListItem item in request.excelfields)
+                        {
+                            if (item.selected.GetValueOrDefault(false))
+                            {
+                                if (item.value.Equals(dt.ColumnNameByIndex[c]))
+                                {
+                                    fieldInExcel = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!fieldInExcel)
+                        {
+                            removeIndexes.Add(c);
+                        }
+                    }
+
+                    for (int i = removeIndexes.Count - 1; i >= 0; i--)
+                    {
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            row.RemoveAt(removeIndexes[i]);
+                        }
+                        dt.Columns.RemoveAt(removeIndexes[i]);
+                    }
+                    dt.ResetColumnIndexes();
+
+                }
+
+                //columns need to be made "visible" to be included in the Excel file
+                for (int c = 0; c < dt.Columns.Count; c++)
+                {
+                    dt.Columns[c].IsVisible = true;
+                }
+            }
+
+
             return dt;
         }
         //------------------------------------------------------------------------------------

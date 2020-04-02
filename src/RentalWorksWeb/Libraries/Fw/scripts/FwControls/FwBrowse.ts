@@ -3916,9 +3916,11 @@ class FwBrowseClass {
         const totalNumberofRowsStr = totalNumberofRows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         if (totalNumberofRows >= 1) {
             const $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
-            $confirmation.find('.fwconfirmationbox').css('width', '450px');
+            $confirmation.find('.fwconfirmationbox').css('width', '564px');
             const html: Array<string> = [];
             html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="flexrow">');
+            html.push('  <div class="flexcolumn">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
             html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Download all ${totalNumberofRowsStr} Records" data-datafield="" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
@@ -3933,10 +3935,19 @@ class FwBrowseClass {
             html.push('  <span style="margin:18px 0px 0px 0px;">Records</span>');
             html.push(' </div>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield ID-col" data-caption="Include ID columns" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-col" data-caption="Include All fields" data-datafield="" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield color-col" data-caption="Include Color columns" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  <div class="flexrow fieldsrow" style="display:none;">');
+            html.push('  <div class="flexcolumn">');
+            html.push('  <div class="flexrow" style="padding:0 20px 0 7px;">');
+            html.push('  <div><div class="check-uncheck" style="color:#2626f3;cursor:pointer;float:left;">Uncheck All</div><div class="sort-list" style="color:#2626f3;cursor:pointer; float:right;">Sort List By Name</div></div>');
+            html.push('  </div>');
+            html.push('  <div class="flexrow">');
+            html.push(`    <div data-control="FwFormField" class="fwcontrol fwformfield" data-checkboxlist="persist" data-type="checkboxlist" data-sortable="true" data-orderby="false" data-caption="Include these fields" data-datafield="FieldList" style="flex:1 1 550px;"></div>`);
+            html.push('  </div>');
+            html.push('  </div>');
+            html.push('  </div>');
+            html.push('  </div>');
             html.push('  </div>');
             html.push('</div>');
 
@@ -3952,9 +3963,10 @@ class FwBrowseClass {
             }
 
             $confirmation.find('.all-records input').prop('checked', true);
+            $confirmation.find('.all-col input').prop('checked', true);
 
-            $confirmation.find('.all-records input').on('change', function () {
-                const $this = jQuery(this);
+            $confirmation.find('.all-records input').on('change', e => {
+                const $this = jQuery(e.currentTarget);
                 if ($this.prop('checked') === true) {
                     $confirmation.find('.user-defined-records input').prop('checked', false);
                 }
@@ -3963,8 +3975,8 @@ class FwBrowseClass {
                 }
             });
 
-            $confirmation.find('.user-defined-records input').on('change', function () {
-                const $this = jQuery(this);
+            $confirmation.find('.user-defined-records input').on('change', e => {
+                const $this = jQuery(e.currentTarget);
                 if ($this.prop('checked') === true) {
                     $confirmation.find('.all-records input').prop('checked', false);
                 }
@@ -3973,26 +3985,98 @@ class FwBrowseClass {
                 }
             });
 
-            $confirmation.find('.user-defined-records-input input').keypress(function () {
+            $confirmation.find('.all-col input').on('change', e => {
+                const $this = jQuery(e.currentTarget);
+                if ($this.prop('checked') === true) {
+                    $confirmation.find('.fieldsrow').hide();
+                }
+                else {
+                    $confirmation.find('.fieldsrow').show();
+                    if ($confirmation.find('div[data-datafield="FieldList"]').attr('api-req') !== 'true') {
+                        renderColumnPopup($confirmation, controller);
+                    }
+                }
+            });
+
+            $confirmation.find('.check-uncheck').on('click', e => {
+                if ($confirmation.find('.check-uncheck').text() === 'Check All Fields') {
+                    // caption uncheck all
+                    $confirmation.find('.check-uncheck').text('Uncheck All Fields');
+                    if ($confirmation.find('.sort-list').text() === 'Sort List By Name') {
+                        // check all, sorted
+                        const fields = $confirmation.find('.fieldsrow').data('fieldsAllCheckedUnsorted');
+                        FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                    } else {
+                        // check all, unsorted
+                        const fields = $confirmation.find('.fieldsrow').data('fieldsAllCheckedSorted');
+                        FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                    }
+                } else {
+                    //caption check all
+                    $confirmation.find('.check-uncheck').text('Check All Fields');
+                    if ($confirmation.find('.sort-list').text() === 'Sort List By Name') {
+                        // uncheck all, unsorted
+                        const fields = $confirmation.find('.fieldsrow').data('fieldsNoneCheckedUnsorted');
+                        FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                    } else {
+                        // uncheck all, unsorted
+                        const fields = $confirmation.find('.fieldsrow').data('fieldsNoneCheckedSorted');
+                        FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                    }
+                }
+            });
+            $confirmation.find('.sort-list').on('click', e => {
+                if ($confirmation.find('.sort-list').text() === 'Sort List By Name') {
+                    //caption unsort
+                    $confirmation.find('.sort-list').text('Unsort List By Name')
+                    if ($confirmation.find('.check-uncheck').text() === 'Check All Fields') {
+                        // uncheck all, sorted
+                        const fields = $confirmation.find('.fieldsrow').data('fieldsNoneCheckedSorted');
+                        FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                    } else {
+                        // check all, sorted
+                        const fields = $confirmation.find('.fieldsrow').data('fieldsAllCheckedSorted');
+                        FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                    }
+                } else {
+                    //caption sort
+                    $confirmation.find('.sort-list').text('Sort List By Name')
+                    if ($confirmation.find('.check-uncheck').text() === 'Check All Fields') {
+                        // uncheck all, unsorted
+                        const fields = $confirmation.find('.fieldsrow').data('fieldsNoneCheckedUnsorted');
+                        FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                    } else {
+                        // check all, unsorted
+                        const fields = $confirmation.find('.fieldsrow').data('fieldsAllCheckedUnsorted');
+                        FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                    }
+                }
+            });
+
+            $confirmation.find('.user-defined-records-input input').keypress(() => {
                 $confirmation.find('.user-defined-records input').prop('checked', true);
                 $confirmation.find('.all-records input').prop('checked', false);
             });
 
-            let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
-            $yes.on('click', () => {
+            $yes.on('click', e => {
+                const $existingNotification = jQuery('body').find(".fwnotification.advisory.info .message:contains('Downloading Excel Workbook...')");
+                if ($existingNotification.length > 0) {
+                    $existingNotification.parent().remove();
+                }
                 const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Downloading Excel Workbook...');
+                let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
                 request.pagesize = userDefinedNumberofRows;
-                let includeIdColumns: boolean;
-                $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
-                request.IncludeIdColumns = includeIdColumns;
-                let includeColorColumns: boolean;
-                $confirmation.find('.color-col input').prop('checked') === true ? includeColorColumns = true : includeColorColumns = false;
-                request.IncludeColorColumns = includeColorColumns;
+                let includeallcolumns: boolean;
+                let excelfields: any;
+                if ($confirmation.find('.all-col input').prop('checked') === true) {
+                    request.includeallcolumns = true;
+                } else {
+                    request.includeallcolumns = false;
+                    request.excelfields = FwFormField.getValueByDataField($confirmation, 'FieldList');
+                }
 
-                const module = (<any>window)[controller].Module;
                 const apiurl = (<any>window)[controller].apiurl;
-
                 const timeout = 7200; // 2 hour timeout for the ajax request
 
                 FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx`, request, timeout, function (response) {
@@ -4009,6 +4093,40 @@ class FwBrowseClass {
                 }, null, null);
                 FwConfirmation.destroyConfirmation($confirmation);
             });
+            // ----------
+            function renderColumnPopup($confirmation, controller) {
+                FwAppData.apiMethod(true, 'GET', `${(<any>window[controller]).apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    const fieldsAllCheckedUnsorted = [];
+                    const fieldsNoneCheckedUnsorted = [];
+
+                    for (let key in response) {
+                        if (!key.startsWith('_')) {
+                            fieldsAllCheckedUnsorted.push({
+                                'value': key,
+                                'text': key,
+                                'selected': 'T',
+                            });
+                            fieldsNoneCheckedUnsorted.push({
+                                'value': key,
+                                'text': key,
+                                'selected': 'F',
+                            })
+                        }
+                    }
+                    FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fieldsAllCheckedUnsorted, false);
+                    $confirmation.find('div[data-datafield="FieldList"]').attr('api-req', 'true');
+                    $confirmation.find('.fieldsrow').data('fieldsAllCheckedUnsorted', fieldsAllCheckedUnsorted)
+                    $confirmation.find('.fieldsrow').data('fieldsNoneCheckedUnsorted', fieldsNoneCheckedUnsorted);
+
+                    const allChecked = fieldsAllCheckedUnsorted.slice();
+                    $confirmation.find('.fieldsrow').data('fieldsAllCheckedSorted', allChecked.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); }));
+                    const noneChecked = fieldsNoneCheckedUnsorted.slice();
+                    $confirmation.find('.fieldsrow').data('fieldsNoneCheckedSorted', noneChecked.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); }));
+
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, null);
+            }
         } else {
             FwNotification.renderNotification('WARNING', 'There are no records to export.');
         }
