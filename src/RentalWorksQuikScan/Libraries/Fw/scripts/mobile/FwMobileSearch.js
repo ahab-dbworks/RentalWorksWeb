@@ -33,27 +33,6 @@
             var html = [];
             this.$element.addClass('fwmobilesearch');
 
-            html.push('<div class="searchheader" style="color:#ffffff;background-color: #333333;">');
-            html.push('  <div class="pagingcontrols" style="flex:1 1 0;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;">');
-            html.push('    <i class="material-icons btnrefresh" style="font-size:2em;padding:.2em;cursor:pointer;color:#ffffff;">&#xE5D5;</i>');
-            html.push('    <i class="material-icons btnfirst" data-enabled="false" style="font-size:2em;padding:.2em;">&#xE5DC;</i>');
-            html.push('    <i class="material-icons btnprev" data-enabled="false" style="font-size:2em;padding:.2em;">&#xE5CB;</i>');
-            html.push('    <input class="pageno" value="-" style="width:30px;text-align:center;" />');
-            html.push('    <span style="padding:0 .5em;">of</span> <span class="totalpages">-</span>');
-            html.push('    <i class="material-icons btnnext" data-enabled="false" style="font-size:2em;padding:.2em;">&#xE5CC;</i>');
-            html.push('    <i class="material-icons btnlast" data-enabled="false" style="font-size:2em;padding:.2em;">&#xE5DD;</i>');
-            html.push('  </div >');
-            html.push('  <div class="paginginfo" style="flex:0 0 auto;min-width:170px;box-sizing:border-box;padding:.2em;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;color:#aaaaaa;font-size:.8em;">');
-            html.push('    <span class="rowstart">-</span>');
-            html.push('    <span style="padding:0 .5em;">to</span>');
-            html.push('    <span class="rowend">-</span>');
-            html.push('    <span style="padding:0 .5em;">of</span>');
-            html.push('    <span class="totalrows">-</span>');
-            html.push('    <select class="pagesize" style="margin: 0 1em 0 1em;"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="100">100</option><option value="200">200</option><option value="500">500</option><option value="1000">1000</option></select>');
-            //html.push('    <i class="material-icons btntogglesearch" style="font-size:1.8em;padding:.05em;">&#xE313</i>');
-            html.push('  </div >');
-            html.push('</div>');
-
             if (this._options.searchModes.length > 0) {
                 html.push('<div class="searchinput">');
                 html.push('  <i class="material-icons md-dark">&#xE8B6;</i>'); //search
@@ -63,6 +42,36 @@
                 html.push('<div class="options"></div>');
             }
 
+            html.push('<div class="searchheader" style="color:#ffffff;background-color: #333333;">');
+            html.push('  <div class="pager">');
+            html.push('    <div class="pagingcontrols" style="flex:1 1 0;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;">');
+            html.push('      <div style="flex:1 1 0">');
+            html.push('        <i class="material-icons btnrefresh" style="font-size:2em;padding:.1em;cursor:pointer;color:#ffffff;">&#xE5D5;</i>');
+            html.push('      </div > ');
+            html.push('      <i class="material-icons btnfirst" data-enabled="false" style="flex:0 0 auto;font-size:2em;padding:.1em;">&#xE5DC;</i>');
+            html.push('      <i class="material-icons btnprev" data-enabled="false" style="flex:0 0 auto;font-size:2em;padding:.1em;">&#xE5CB;</i>');
+            html.push('      <input class="pageno" value="-" style="flex:0 0 auto;width:30px;text-align:center;" />');
+            html.push('      <span style="flex:0 0 auto;padding:0 .5em;">of</span> <span class="totalpages">-</span>');
+            html.push('      <i class="material-icons btnnext" data-enabled="false" style="flex:0 0 auto;font-size:2em;padding:.1em;">&#xE5CC;</i>');
+            html.push('      <i class="material-icons btnlast" data-enabled="false" style="flex:0 0 auto;font-size:2em;padding:.1em;">&#xE5DD;</i>');
+            html.push('      <div style="flex:1 1 0;text-align:right;">');
+            html.push('        <i class="material-icons btntogglepaginginfo" data-expanded="false" style="font-size:2em;padding:.1em;cursor:pointer;color:#ffffff;">&#xE313;</i>');
+            html.push('      </div>');
+            html.push('    </div >');
+            html.push('    <div class="paginginfo" style="display:none;">');
+            html.push('      <div style="flex:0 0 auto;min-width:170px;box-sizing:border-box;padding:.2em;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;color:#aaaaaa;font-size:.8em;">');
+            html.push('        <span class="rowstart">-</span>');
+            html.push('        <span style="padding:0 .5em;">to</span>');
+            html.push('        <span class="rowend">-</span>');
+            html.push('        <span style="padding:0 .5em;">of</span>');
+            html.push('        <span class="totalrows">-</span>');
+            html.push('        <select class="pagesize" style="margin: 0 1em 0 1em;"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="100">100</option><option value="200">200</option><option value="500">500</option><option value="1000">1000</option></select>');
+            //html.push('        <i class="material-icons btntogglesearch" style="font-size:1.8em;padding:.05em;">&#xE313</i>');
+            html.push('      </div >');
+            html.push('    </div >');
+            html.push('  </div >');
+            html.push('</div>');
+
             html.push('<div class="searchresults"></div>');
             this.$element.append(html.join(''));
 
@@ -70,7 +79,24 @@
 
             this.$element.find('.searchheader .pagesize').val(this._options.pageSize);
 
-            this.$element.on('click', '.btnrefresh', (event) => {
+            this.$element.on('click', '.searchheader .btntogglepaginginfo', (e) => {
+                try {
+                    const $btn = jQuery(e.currentTarget);
+                    const $paginginfo = this.$element.find('.paginginfo');
+                    const isEnabled = $btn.attr('data-enabled') === 'true';
+                    $btn.attr('data-enabled', !isEnabled);
+                    if (isEnabled) {
+                        $btn.html('&#xE313;');
+                        $paginginfo.hide();
+                    } else {
+                        $btn.html('&#xE316;');
+                        $paginginfo.show();
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            this.$element.on('click', '.btnrefresh', (e) => {
                 try {
                     //this._blankOutSearchHeader();
                     //this.$element.find('.searchheader .pagingcontrols .pageno').val('-');
@@ -158,7 +184,7 @@
 
                 //Set the first option
                 jQuery(this.$element.find('.option')[0]).addClass('active');
-                this._options.currentMode = jQuery(this.$element.find('.option')[0]).attr('data-value');
+                this.setsearchmode(jQuery(this.$element.find('.option')[0]).attr('data-value'));
                 this.$element.find('.searchbox').attr('placeholder', jQuery(this.$element.find('.option')[0]).attr('data-placeholder'));
             }
 
@@ -172,18 +198,13 @@
                 $document = jQuery(document);
 
             plugin.$element
-                .on('click', '.option', function () {
+                .on('click', '.option', function (e) {
                     try {
-                        var $this = jQuery(this);
-                        $this.siblings().removeClass('active');
-                        $this.addClass('active');
-                        plugin._options.currentMode = $this.attr('data-value');
-                        plugin.$element.attr('data-mode', plugin._options.currentMode);
-                        plugin.$element.find('.searchbox').attr('placeholder', $this.attr('data-placeholder'))
-                            .select();
-                        //plugin._clearSearchResults();
+                        const $this = jQuery(e.currentTarget);
+                        const searchMode = $this.attr('data-value');
+                        plugin.setsearchmode(searchMode);
                         if (typeof plugin._searchModesLookup[plugin._options.currentMode].click === 'function') {
-                            plugin._searchModesLookup[plugin._options.currentMode].click();
+                            plugin._searchModesLookup[plugin._options.currentMode].click(plugin);
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -191,13 +212,9 @@
                 })
                 .on('change', '.searchbox', function () {
                     try {
-                        if (this.value !== '') {
-                            plugin.$element.find('.clear').addClass('visible');
-                        } else {
-                            plugin.$element.find('.clear').removeClass('visible');
-                        }
+                        plugin.setSearchText(this.value);
                         if (plugin._searchCalled !== true) {
-                            plugin._clearSearchResults();
+                            //plugin._clearSearchResults();
                             plugin._search();
                         }
                     } catch (ex) {
@@ -213,11 +230,7 @@
                 })
                 .on('input', '.searchbox', function () {
                     try {
-                        if (this.value !== '') {
-                            plugin.$element.find('.clear').addClass('visible');
-                        } else {
-                            plugin.$element.find('.clear').removeClass('visible');
-                        }
+                        plugin.setSearchText(this.value);
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
@@ -226,16 +239,9 @@
                     try {
                         if (event.keyCode === 13) {
                             plugin._searchCalled = true;
-                            plugin._clearSearchResults();
+                            //plugin._clearSearchResults();
                             plugin._search();
                         }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                })
-                .on('click', '.pager', function () {
-                    try {
-                        plugin._nextpage();
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
@@ -244,7 +250,7 @@
                     try {
                         plugin.$element.find('.searchbox').val('').focus();
                         $(this).removeClass('visible');
-                        plugin._clearSearchResults();
+                        //plugin._clearSearchResults();
                         plugin._search();
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -286,7 +292,7 @@
                     //    }, plugin._throttleDelay);
                     //});
                 //}
-                this.$element.find('.searchresults').empty();
+                this.$element.find('.searchresults').empty().toggle(searchresults.Rows.length > 0);
                 for (var rowno = 0; rowno < searchresults.Rows.length; rowno++) {
                     var itemmodel = {};
                     for (var colname in searchresults.ColumnIndex) {
@@ -297,7 +303,7 @@
                     } else {
                         $record = jQuery(Mustache.render(this._options.itemTemplate(itemmodel, searchresults, rowno), itemmodel));
                     }
-                    if ($record.attr('class').length === 0) {
+                    if (typeof $record.attr('class') === 'undefined' || $record.attr('class').length === 0) {
                         $record.attr('class', 'item');
                     } else {
                         $record.attr('class', `item ${$record.attr('class')}`);
@@ -403,14 +409,17 @@
             plugin.$element.find('.searchbox').blur();
             plugin._options.beforeSearch();
             var funcCustomSearch = null;
-            if ((typeof plugin._options.currentMode === 'string') && (typeof plugin._searchModesLookup[typeof plugin._options.currentMode] === 'object')) {
-                plugin._searchModesLookup[plugin._options.currentMode].search;
+            if ((typeof plugin._options.currentMode === 'string') && (typeof plugin._searchModesLookup[plugin._options.currentMode] === 'object')) {
+                funcCustomSearch = plugin._searchModesLookup[plugin._options.currentMode].search;
             }
             var hasCustomSearch = typeof funcCustomSearch === 'function';
             var searchvalue = plugin.$element.find('.searchbox').val();
+            let doNormalSearch = true;
             if (hasCustomSearch) {
-                funcCustomSearch(searchvalue);
-            } else {
+                const result = funcCustomSearch(searchvalue, this);
+                doNormalSearch = (typeof result === 'boolean' && result)
+            }
+            if (doNormalSearch) {
                 plugin._options.request = plugin._options.getRequest();
                 plugin._options.request.searchvalue = searchvalue;
                 plugin._options.request.searchmode = plugin._options.currentMode;
@@ -422,6 +431,7 @@
                         plugin._load(response.searchresults);
                         plugin._options.afterLoad(plugin, response);
                     } catch (ex) {
+                        this._toggleWaitIcons(false);
                         FwFunc.showError(ex);
                     }
                 });
@@ -469,23 +479,60 @@
         destroy: function () {
             jQuery(window).off('scroll');
         },
-        setsearchmode: function (searchmode) {
-            this.$element.find('.option[data-value="' + searchmode + '"]').trigger('click');
+        setsearchmode: function (searchmodeValue) {
+            this._options.currentMode = searchmodeValue;
+            const searchMode = this._searchModesLookup[this._options.currentMode];
+            this.$element.attr('data-mode', this._options.currentMode);
+
+            var $option = this.$element.find(`.option[data-value="${searchmodeValue}"]`);
+            $option.siblings().removeClass('active');
+            $option.addClass('active');
+
+            //this.$element.find('.option[data-value="' + searchmodeValue + '"]').trigger('click');
+            this.$element.find('.searchbox').attr('placeholder', searchMode.placeholder);
+                //.select();
+            if (typeof searchMode.hasVirtualNumpad !== 'undfined' && searchMode.hasVirtualNumpad === true) {
+                RwVirtualNumpad.init(this.$element.find('.searchbox'));
+            } else {
+                this.$element.find('.numpad').remove();
+            }
+            if (typeof this._searchModesLookup[this._options.currentMode].onActivate === 'function') {
+                this._searchModesLookup[this._options.currentMode].onActivate(this);
+            }
+            this.togglePager(typeof searchMode.hasPager === 'undefined' || searchMode.hasPager === 'true');
+            this.toggleSearchResults(typeof searchMode.hasSearchResults === 'undefined' || searchMode.hasSearchResults === 'true');
         },
         clearsearchresults: function () {
             this._clearSearchResults();
         },
         clearsearchbox: function () {
-            var plugin = this;
-            plugin.$element.find('.searchbox').val('');
+            this.setSearchText('', false);
         },
         getSearchText: function () {
             var searchText = this.$element.find('.searchbox').val();
             return searchText;
         },
+        setSearchText: function (text, triggerChange) {
+            var $searchbox = this.$element.find('.searchbox');
+            $searchbox.val(text);
+            if (text !== '') {
+                this.$element.find('.clear').addClass('visible');
+            } else {
+                this.$element.find('.clear').removeClass('visible');
+            }
+            if (triggerChange) {
+                $searchbox.change();
+            }
+        },
         getSearchOption: function () {
             var searchOption = this.$element.find('.option.active').attr('data-value');
             return searchOption;
+        },
+        togglePager: function (isVisible) {
+            this.$element.find('.pager').toggle(isVisible);
+        },
+        toggleSearchResults: function (isVisible) {
+            this.$element.find('.searchresults').toggle(isVisible);
         }
     };
 
