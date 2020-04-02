@@ -82,3 +82,51 @@ html.theme-material .fw-grid .grid-pager .pager-control .pager-pages .pager-page
 html.theme-material .fw-grid .grid-pager .pager-control .pager-pages .pager-page.pager-page-selected {background-color:#1565c0;color:#ffffff;}
 html.theme-material .fw-grid .grid-pager .pager-control .pager-pages .pager-page:not(.pager-page-selected):hover {color: rgba(0,0,0,.87);background-color: rgba(0,0,0,.04);cursor:pointer;}
 html.theme-material .fw-grid .grid-pager .pager-sizes {flex: 1 0;text-align:right;margin:0 1em;}
+
+html.theme-material .fw-grid .fw-checkbox {
+    border-radius: 2px;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    line-height: initial;
+    border: 1px solid rgba(0,0,0,.2);
+    outline: 0;
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    -webkit-appearance: none;
+    color: #656565;
+    background-color: #fff;
+}
+html.theme-material .fw-grid .fw-checkbox:hover {
+    cursor:pointer;
+    border-color: rgba(0,0,0,.35);
+}
+html.theme-material .fw-grid .fw-checkbox:focus {
+    border-color: rgba(0,0,0,.35);
+    box-shadow: 0 0 0 2px rgba(0,0,0,.06);
+}
+html.theme-material .fw-grid .fw-checkbox:checked {
+    border-color: #43A047;
+    color: #fff;
+    background-color: #4CAF50;
+}
+html.theme-material .fw-grid .fw-checkbox:before {
+    content: "\2714";
+    font-size: 14px;
+    -webkit-transform: scale(0) translate(-50%,-50%);
+    -ms-transform: scale(0) translate(-50%,-50%);
+    transform: scale(0) translate(-50%,-50%);
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+html.theme-material .fw-grid .fw-checkbox:checked:before {
+    border-radius: 2px;
+    -webkit-transform: scale(1) translate(-50%,-50%);
+    -ms-transform: scale(1) translate(-50%,-50%);
+    transform: scale(1) translate(-50%,-50%);
+}

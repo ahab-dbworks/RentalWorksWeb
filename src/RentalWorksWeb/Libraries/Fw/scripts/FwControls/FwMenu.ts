@@ -1141,7 +1141,7 @@ class FwMenuClass {
                 request.searchfieldvalues = request.searchfieldvalues.concat(advancedSearch.searchfieldvalues);
                 request.searchseparators = request.searchseparators.concat(advancedSearch.searchseparators);
                 request.searchconjunctions = request.searchconjunctions.concat(advancedSearch.searchconjunctions);
-                request.searchfieldtypes.unshift('Text');
+
                 FwServices.module.method(request, request.module, 'Browse', options.$browse, function (response) {
                     try {
                         FwBrowse.beforeDataBindCallBack(options.$browse, request, response);

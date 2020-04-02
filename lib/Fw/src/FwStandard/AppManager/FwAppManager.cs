@@ -892,7 +892,7 @@ namespace FwStandard.AppManager
             // use the datestamp to determine whether or not to use the cached group tree
             using (FwSqlConnection conn = new FwSqlConnection(_sqlServerOptions.ConnectionString))
             {
-                string groupIndex =  $"{groupsid},{applyParentVisibility.ToString().ToLower()}";
+                string groupIndex = $"{groupsid},{applyParentVisibility.ToString().ToLower()}";
                 if (this.GroupTrees.TryGetValue(groupIndex, out groupTree) && groupTree != null && (noCache || groupTree.Expiration < DateTime.Now))
                 {
                     FwSqlCommand qry1 = new FwSqlCommand(conn, _sqlServerOptions.QueryTimeout);
