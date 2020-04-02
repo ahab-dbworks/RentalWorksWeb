@@ -60,7 +60,7 @@ class POReceiveItemGrid {
                                     const msg = `Quantity Received (${response.QuantityReceived}) is greater than Quantity Ordered (${response.QuantityOrdered})`;
                                     $form.find('.error-msg').html(`<div><span style="background-color:#ffff99;color:black;">${msg}</span></div>`);
                                 }
-                            } else {
+                            } else if (response.success === false) {
                                 FwFunc.playErrorSound();
                                 $form.find('.error-msg').html(`<div><span>${response.msg}</span></div>`);
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
@@ -83,7 +83,9 @@ class POReceiveItemGrid {
                                 $form.find('.createcontract[data-type="btnmenu"]').hide();
                             }
                         },
-                        null, null);
+                        function onError(response) {
+                            $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
+                        }, null);
                 }
             });
         });
