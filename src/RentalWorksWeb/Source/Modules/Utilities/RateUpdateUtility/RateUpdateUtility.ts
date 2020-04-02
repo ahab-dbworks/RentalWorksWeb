@@ -36,6 +36,22 @@ class RateUpdateUtility {
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
+        FwFormField.loadItems($form.find('div[data-datafield="Classification"]'), [
+            { value: "I", text: "Item", selected: "F" },
+            { value: "A", text: "Accessory", selected: "F" },
+            { value: "C", text: "Complete", selected: "F" },
+            { value: "K", text: "Kit", selected: "F" },
+            { value: "S", text: "Set", selected: "F" },
+            { value: "W", text: "Wall", selected: "F" }
+        ]);
+
+        FwFormField.loadItems($form.find('div[data-datafield="OrderBy"]'), [
+            { value: "WAREHOUSE", text: "Warehouse", selected: "F" },
+            { value: "DEPARTMENT", text: "Department", selected: "F" },
+            { value: "CATEGORY", text: "Category", selected: "F" },
+            { value: "ICODE", text: "I-Code", selected: "F" }
+        ]);
+
         FwFormField.loadItems($form.find('div[data-datafield="Rank"]'), [
             { value: "A", text: "A", selected: "T" },
             { value: "B", text: "B", selected: "T" },
