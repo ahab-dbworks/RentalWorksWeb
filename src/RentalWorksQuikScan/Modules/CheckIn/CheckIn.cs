@@ -486,8 +486,12 @@ namespace RentalWorksQuikScan.Modules
             select.Parse();
             if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
             {
-                select.AddWhere("description like @searchvalue");
-                select.AddParameter("@searchvalue", "%" + searchValue + "%");
+                string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < searchValues.Length; i++)
+                {
+                    select.AddWhere($"description like @searchvalue{i}");
+                    select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                }
             }
             select.AddOrderBy("orderby");
             select.AddParameter("@contractid", request.contractid);
@@ -655,8 +659,12 @@ namespace RentalWorksQuikScan.Modules
             select.Parse();
             if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
             {
-                select.AddWhere("description like @searchvalue");
-                select.AddParameter("@searchvalue", "%" + searchValue + "%");
+                string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < searchValues.Length; i++)
+                {
+                    select.AddWhere($"description like @searchvalue{i}");
+                    select.AddParameter($"@searchvalue{i}", $"%{searchValue[i]}%");
+                }
             }
             select.AddOrderBy("orderno, itemorder, masterno");
             select.AddParameter("@contractid",      request.contractid);

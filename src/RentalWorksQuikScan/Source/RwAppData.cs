@@ -1109,15 +1109,20 @@ namespace RentalWorksQuikScan.Source
                 qry.AddColumn("missingqty",         false, FwJsonDataTableColumn.DataTypes.Decimal);
                 select.Add("select *");
                 select.Add("from dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)");
-                select.Add("where exceptionflg = 'T'");
-                select.Add("  and (qtyordered > 0 or qtystagedandout > 0)");
-                select.Add("  and ((itemclass = 'C') or (itemclass = 'K') or (itemclass = 'S') or (itemclass = 'N') or missingflg = 'T')");
+                select.Parse();
+                select.AddWhere("exceptionflg = 'T'");
+                select.AddWhere("(qtyordered > 0 or qtystagedandout > 0)");
+                select.AddWhere("((itemclass = 'C') or (itemclass = 'K') or (itemclass = 'S') or (itemclass = 'N') or missingflg = 'T')");
                 if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
-                    select.Add("  and description like @searchvalue");
-                    select.AddParameter("@searchvalue", "%" + searchValue + "%");
+                    string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < searchValues.Length; i++)
+                    {
+                        select.AddWhere($"description like @searchvalue{i}");
+                        select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                    }
                 }
-                select.Add("order by orderby");
+                select.AddOrderBy("orderby");
                 select.AddParameter("@orderid", orderId);
                 select.AddParameter("@warehouseid", warehouseId);
                 select.AddParameter("@contractid", contractId);
