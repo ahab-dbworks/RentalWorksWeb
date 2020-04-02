@@ -2,7 +2,9 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
+using WebApi.Modules.Agent.Contact;
 using WebApi.Modules.HomeControls.Address;
+using WebApi.Modules.HomeControls.CompanyContact;
 
 namespace WebApi.Modules.Settings.FacilitySettings.Venue
 {
@@ -12,11 +14,16 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         //------------------------------------------------------------------------------------ 
         VenueRecord venue = new VenueRecord();
         AddressRecord address = new AddressRecord();
+        ContactRecord contact = new ContactRecord();
+        CompanyContactRecord compContact = new CompanyContactRecord();
         VenueLoader venueLoader = new VenueLoader();
+
         public VenueLogic()
         {
             dataRecords.Add(venue);
             dataRecords.Add(address);
+            dataRecords.Add(contact);
+            dataRecords.Add(compContact);
             dataLoader = venueLoader;
 
             address.BeforeSave += OnBeforeSaveAddress;
@@ -24,13 +31,15 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
 
             BuildingType = RwConstants.BUILDING_TYPE_VENUE;
 
+            BeforeSave += OnBeforeSave;
+
             ForceSave = true;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "YbAvXDsZI8piP", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "YbAvXDsZI8piP", IsPrimaryKey: true)]
         public string VenueId { get { return venue.VenueId; } set { venue.VenueId = value; } }
 
-        [FwLogicProperty(Id: "FN11XbUjJBiVk", IsRecordTitle:true)]
+        [FwLogicProperty(Id: "FN11XbUjJBiVk", IsRecordTitle: true)]
         public string Venue { get { return venue.Venue; } set { venue.Venue = value; } }
 
         [FwLogicProperty(Id: "X36qEs6N1Vk3D")]
@@ -43,7 +52,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         [FwLogicProperty(Id: "dJtOeSFLjxWTU")]
         public string OfficeLocationId { get { return venue.OfficeLocationId; } set { venue.OfficeLocationId = value; } }
 
-        [FwLogicProperty(Id: "TcXV42nf2kTFv", IsReadOnly:true)]
+        [FwLogicProperty(Id: "TcXV42nf2kTFv", IsReadOnly: true)]
         public string OfficeLocation { get; set; }
 
         [FwLogicProperty(Id: "id2kWitqoCAlQ")]
@@ -79,7 +88,13 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         //[FwLogicProperty(Id:"1SpwBUyjOywi")]
         //public string TaxoptionId { get { return building.TaxoptionId; } set { building.TaxoptionId = value; } }
 
-        [FwLogicProperty(Id: "AspLhkonHVWEV")]
+        [FwLogicProperty(Id: "yJi4WTATpF07V")]
+        public string PrimaryContactId { get { return contact.ContactId; } set { contact.ContactId = value; } }
+
+        [FwLogicProperty(Id: "a04by4SzrpOAs", IsReadOnly: true)]
+        public string PrimaryCompanyContactId { get; set; }
+
+        [FwLogicProperty(Id: "AspLhkonHVWEV", IsReadOnly: true)]
         public string PrimaryContact { get; set; }
 
         [FwLogicProperty(Id: "gUDDhOO9kOWQW")]
@@ -91,6 +106,34 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
             if (AddressId.Equals(string.Empty))
             {
                 e.PerformSave = false;
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            //if ContactId is provided
+            if (!string.IsNullOrEmpty(PrimaryContactId))
+            {
+                //if CompanyContactId not provided, go get it from the database
+                if (string.IsNullOrEmpty(PrimaryCompanyContactId))
+                {
+                    string[] columns = new string[] { "compcontactid" };
+                    string[] wherecolumns = new string[] { "contactid", "companyid" };
+                    string[] wherevalues = new string[] { PrimaryContactId, VenueId };
+                    PrimaryCompanyContactId = AppFunc.GetStringDataAsync(AppConfig, "compcontact", wherecolumns, wherevalues, columns).Result[0];
+                }
+
+                //if CompanyContactId not provided or found, then create a new one
+                if (string.IsNullOrEmpty(PrimaryCompanyContactId))
+                {
+                    CompanyContactLogic l3 = new CompanyContactLogic();
+                    l3.SetDependencies(this.AppConfig, this.UserSession);
+                    l3.CompanyId = VenueId;
+                    l3.ContactId = PrimaryContactId;
+                    l3.IsPrimary = true;
+                    int i = l3.SaveAsync(null).Result;
+                    PrimaryCompanyContactId = l3.CompanyContactId; // we need this ID saved and indicated as Primary
+                }
             }
         }
         //------------------------------------------------------------------------------------

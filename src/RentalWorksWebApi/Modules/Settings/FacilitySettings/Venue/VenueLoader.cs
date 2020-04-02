@@ -56,10 +56,16 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text)]
         //public string TaxoptionId { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarycontactid", modeltype: FwDataTypes.Text)]
+        public string PrimaryContactId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarycompcontactid", modeltype: FwDataTypes.Text)]
+        public string PrimaryCompanyContactId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarycontact", modeltype: FwDataTypes.Text)]
         public string PrimaryContact { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
