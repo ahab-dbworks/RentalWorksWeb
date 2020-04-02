@@ -224,8 +224,6 @@ namespace WebApi.Modules.Agent.Order
 
     public class CustomRates
     {
-        public bool? HasDiscount { get; set; }
-        public bool? ApplyDiscountToCustomRate { get; set; }
         public decimal? DailyRate { get; set; }
         public decimal? WeeklyRate { get; set; }
         public decimal? Week2Rate { get; set; }
@@ -233,14 +231,16 @@ namespace WebApi.Modules.Agent.Order
         public decimal? Week4Rate { get; set; }
         public decimal? Week5Rate { get; set; }
         public decimal? MonthlyRate { get; set; }
+    }
+    public class GetCustomRatesResponse : TSpStatusResponse
+    {
+        public bool? HasDiscount { get; set; }
+        public bool? ApplyDiscountToCustomRate { get; set; }
+        public CustomRates CustomRates { get; set; }
         public decimal? DaysPerWeek { get; set; }
         public decimal? DiscountPercent { get; set; }
         public decimal? MarkupPercent { get; set; }
         public decimal? MarginPercent { get; set; }
-    }
-    public class GetCustomRatesResponse : TSpStatusResponse
-    {
-      public CustomRates CustomRates { get; set; }
     }
 
     public static class OrderFunc
@@ -576,8 +576,6 @@ namespace WebApi.Modules.Agent.Order
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
                 if (dt.TotalRows > 0)
                 {
-                    rates.HasDiscount = FwConvert.ToBoolean(dt.Rows[0][dt.GetColumnNo("hasdiscount")].ToString());
-                    rates.ApplyDiscountToCustomRate = FwConvert.ToBoolean(dt.Rows[0][dt.GetColumnNo("applydiscounttocustomrate")].ToString());
                     rates.DailyRate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("dailyrate")].ToString());
                     rates.WeeklyRate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("weeklyrate")].ToString());
                     rates.Week2Rate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("week2rate")].ToString());
@@ -585,12 +583,18 @@ namespace WebApi.Modules.Agent.Order
                     rates.Week4Rate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("week4rate")].ToString());
                     rates.Week5Rate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("week5rate")].ToString());
                     rates.MonthlyRate = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("monthlyrate")].ToString());
-                    rates.DaysPerWeek = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("daysinwk")].ToString());
-                    rates.DiscountPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("discountpct")].ToString());
-                    rates.MarkupPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("markuppct")].ToString());
-                    rates.MarginPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("marginpct")].ToString());
+
+                    response.DaysPerWeek = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("daysinwk")].ToString());
+                    response.HasDiscount = FwConvert.ToBoolean(dt.Rows[0][dt.GetColumnNo("hasdiscount")].ToString());
+                    response.ApplyDiscountToCustomRate = FwConvert.ToBoolean(dt.Rows[0][dt.GetColumnNo("applydiscounttocustomrate")].ToString());
+                    response.DiscountPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("discountpct")].ToString());
+                    response.MarkupPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("markuppct")].ToString());
+                    response.MarginPercent = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("marginpct")].ToString());
                     response.success = true;
                     response.CustomRates = rates;
+                } else
+                {
+                    response.success = false;
                 }
             }
             return response;
