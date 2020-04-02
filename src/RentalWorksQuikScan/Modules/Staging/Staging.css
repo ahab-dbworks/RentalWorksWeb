@@ -6,7 +6,7 @@
 .staging .fwmobilesearch .col1 {flex: 1 1 0;}
 .staging .fwmobilesearch .col2 {flex: 1 1 0;}
 .staging .fwmobilesearch .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex:1 1 0;}
-.staging .fwmobilesearch .caption {flex: 0 0 9em;width:9em;font-size:.625em;color: #aaaaaa;}
+.staging .fwmobilesearch .caption {flex: 0 0 9em;width:9em;font-size:.625em;color: #cccccc;}
 .staging .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;overflow:hidden;text-overflow:ellipsis;}
 
 .staging .page-stagingmenu .migroupheader {height:44px;line-height:44px;font-weight:bold;background-color:#ffffff;color:#000000;border-bottom:1px solid #cccccc;text-align:center;}
@@ -55,10 +55,10 @@
 #staging .itemsearch .searchresults .item.link {cursor:pointer;}
 #staging .itemsearch .searchresults .item .title {flex:1 1 0;font-weight:bold;font-size:12px;padding:2px 5px;background-color:rgba(255,255,255,.1);}
 #staging .itemsearch .searchresults .item.link .title {text-decoration:underline;}
-#staging .itemsearch .searchresults .item .col1 {flex:0 0 90px;text-align:left;padding: 2px 0 2px 5px;}
-#staging .itemsearch .searchresults .item .col2 {flex:1 1 0;text-align:left;padding:2px 10px 2px 2px;}
-#staging .itemsearch .searchresults .item .col3 {flex:0 0 65px;text-align:left;padding: 2px 0 2px 0;}
-#staging .itemsearch .searchresults .item .col4 {flex:0 0 30px;text-align:right;padding: 2px 5px 2px 0;}
+#staging .itemsearch .searchresults .item .col1 {flex:0 0 90px;text-align:left;padding: 1px 0 0 5px;}
+#staging .itemsearch .searchresults .item .col2 {flex:1 1 0;text-align:left;padding:1px 10px 0 2px;}
+#staging .itemsearch .searchresults .item .col3 {flex:0 0 65px;text-align:left;padding: 1px 0 0 0;}
+#staging .itemsearch .searchresults .item .col4 {flex:0 0 30px;text-align:right;padding: 1px 12px 0 0;}
 #staging .itemsearch .searchresults .item .col234 {text-align:left;padding: 2px 5px 2px 5px;}
 #staging .itemsearch .searchresults .item .vendor {color:rgb(255,178,140);}
 #staging .itemsearch .searchresults .item[data-rectype="S"] .rectype.value {color:#ffd800;}
@@ -84,40 +84,7 @@
 #staging #stagedsearch .searchresults .item .staged.caption { font-weight: bold; font-size: 11px; color: rgba(0,200,0,1); }
 #staging #stagedsearch .searchresults .item .staged.value { font-weight: bold; font-size: 11px; color: rgba(0,200,0,1); }
 
-/*#staging #stagedsearch .searchresults { width: 100%; padding: 0; margin: 0; }
-#staging #stagedsearch .searchresults .item {color:#ffffff;margin:0;vertical-align:top;text-align:left;font-size:16px;}
-#staging #stagedsearch .searchresults .item.link:active {background-color:#007acc;}
-#staging #stagedsearch .searchresults .item:last-child {border-bottom:0;}
-#staging #stagedsearch .searchresults .item.normal > td {color:#ffffff;}
-#staging #stagedsearch .searchresults .item.alternate > td {color:#ffffff;}
-#staging #stagedsearch .searchresults .item.link {cursor:pointer;}
-#staging #stagedsearch .searchresults .item > div.description {font-weight:bold;font-size:12px;padding:2px 5px;background-color:rgba(255,255,255,.1);}
-#staging #stagedsearch .searchresults .item.link > div.description {text-decoration:underline;}
-#staging #stagedsearch .searchresults .item[data-itemclass="C"] .description {background-color:#8888ff;border-top:0;}
-#staging #stagedsearch .searchresults .item[data-itemclass="C"],
-#staging #stagedsearch .searchresults .item[data-itemclass="CI"],
-#staging #stagedsearch .searchresults .item[data-itemclass="CO"] {border-left:6px solid #8888ff;}
-#staging #stagedsearch .searchresults .item[data-itemclass="K"] .description {background-color:#03d337;}
-#staging #stagedsearch .searchresults .item[data-itemclass="K"],
-#staging #stagedsearch .searchresults .item[data-itemclass="KI"],
-#staging #stagedsearch .searchresults .item[data-itemclass="KO"] {border-left:6px solid #03d337;}
-#staging #stagedsearch .searchresults .item[data-itemclass="N"] .description {background-color:rgb(255,174,132);}
-#staging #stagedsearch .searchresults .item[data-itemclass="N"],
-#staging #stagedsearch .searchresults .item[data-itemclass="NI"] {border-left:6px solid rgb(255,174,132);}
-#staging #stagedsearch .searchresults .item.lineitemcount > div {text-align:center;font-size:12px;}
-#staging #stagedsearch .searchresults .item > .details {width:100%;font-size:10px;}
-#staging #stagedsearch .searchresults .item > .details .row > div {padding:2px;border:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
-#staging #stagedsearch .searchresults .item > .details .row > div.value {text-align:right;}
-#staging #stagedsearch .searchresults .item > .details .row > div.col1 {text-align:left;width:90px;padding: 0 0 0 5px;}
-#staging #stagedsearch .searchresults .item > .details .row > div.col2 {text-align:left;padding:2px 10px 2px 2px;}
-#staging #stagedsearch .searchresults .item > .details .row > div.col3 {text-align:left;width:65px;}
-#staging #stagedsearch .searchresults .item > .details .row > div.col4 {text-align:right;width:30px;}
-#staging #stagedsearch .searchresults .item > .details .row > div.col234 {text-align:left;}
-#staging #stagedsearch .searchresults .item > .details .row > div.vendor {color:rgb(255,178,140);}
-#staging #stagedsearch .searchresults .item > .details .row > div.staged.key {font-weight:bold;font-size:11px;color:rgba(0,200,0,1);}
-#staging #stagedsearch .searchresults .item > .details .row > div.staged.value {font-weight:bold;font-size:11px;color:rgba(0,200,0,1);}
-#staging #stagedsearch .searchresults .item[data-rectype="S"] .rectype.value { color: #ffd800; }*/
-#staging-stagedList-pnlCreateContract {/*border-top:1px solid rgba(80,80,80,1);*/padding:10px 0;}
+#staging-stagedList-pnlCreateContract {padding:10px 0;}
 
 #staging-popupQty {background-color:rgba(245,245,245,1.0);border-radius:6px;padding:10px;color:#000000;width:250px;}
 #staging-popupQty-description {color:rgba(0,0,0,1);font-size:12px;font-weight:bold;}

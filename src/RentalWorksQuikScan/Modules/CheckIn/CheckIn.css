@@ -1,48 +1,34 @@
-﻿#checkIn .searchresults {padding:5px;}
+﻿#checkIn .searchresults { /*padding:5px;*/ }
 #checkIn .fwmobilesearch .item.link:active {background-color: #455A64;}
 #checkIn .fwmobilesearch .row1 {font-size:12px;font-weight: bold;padding: 2px 5px;background-color: #424242;}
 #checkIn .fwmobilesearch .item.link .row1 {text-decoration:underline;}
 #checkIn .fwmobilesearch .item.link:active .row1 {background-color: #607D8B;}
-#checkIn .fwmobilesearch .item.inrepair .row1 {background-color: #F44336;}
+#checkIn .fwmobilesearch .item[data-inrepair="T"] .row1 {background-color: #F44336;}
 #checkIn .fwmobilesearch .row2 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
 #checkIn .fwmobilesearch .col1 {flex: 1 1 0;}
 #checkIn .fwmobilesearch .col2 {flex: 1 1 0;}
 #checkIn .fwmobilesearch .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
 #checkIn .fwmobilesearch .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
 #checkIn .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;}
-#checkIn .fwmobilesearch .item.inrepair .status .value {color: #F44336;}
+#checkIn .fwmobilesearch .item[data-inrepair="T"] .status .value {color: #F44336;}
 
 #checkIn #checkIn-pendingList {display:none;}
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-C .row1 {background-color:#8888ff;}
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-K .row1 {background-color:#03d337;}
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-N .row1 {background-color:#ffae84;}
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-C,
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-CI,
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-CO {border-left:6px solid #8888ff;}
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-K,
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-KI,
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-KO {border-left:6px solid #03d337;}
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-N,
-#checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-NI {border-left:6px solid #ffae84;}
-#checkIn #checkIn-pendingList .fwmobilesearch .qtystillout .caption,
-#checkIn #checkIn-pendingList .fwmobilesearch .qtystillout .value {color:#ff9800;}
-#checkIn #checkIn-pendingList .fwmobilesearch .vendor .caption {flex: 0 0 9em;color:#ffb28c;}
-#checkIn #checkIn-pendingList .fwmobilesearch .vendor .value {color:#ffb28c;}
-
-#checkIn #checkIn-sessionInList {display:none;}
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-C .row1 {background-color:#8888ff;}
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-K .row1 {background-color:#03d337;}
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-N .row1 {background-color:#ffae84;}
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-C,
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-CI,
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-CO {border-left:6px solid #8888ff;}
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-K,
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-KI,
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-KO {border-left:6px solid #03d337;}
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-N,
-#checkIn #checkIn-sessionInList .fwmobilesearch .item.itemclass-NI {border-left:6px solid #ffae84;}
-#checkIn #checkIn-sessionInList .fwmobilesearch .vendor .caption {flex: 0 0 9em;color:#ffb28c;}
-#checkIn #checkIn-sessionInList .fwmobilesearch .vendor .value {color:#ffb28c;}
+#checkIn #checkIn-sessionInList { display: none; }
+#checkIn .itemsearch .searchresults .item[data-itemclass="C"] .row1 {background-color:#8888ff;}
+#checkIn .itemsearch .searchresults .item[data-itemclass="K"] .row1 {background-color:#03d337;}
+#checkIn .itemsearch .searchresults .item[data-itemclass="N"] .row1 {background-color:#ffae84;}
+#checkIn .itemsearch .searchresults .item[data-itemclass="C"],
+#checkIn .itemsearch .searchresults .item[data-itemclass="CI"],
+#checkIn .itemsearch .searchresults .item[data-itemclass="CO"] {border-left:6px solid #8888ff;}
+#checkIn .itemsearch .searchresults .item[data-itemclass="K"],
+#checkIn .itemsearch .searchresults .item[data-itemclass="KI"],
+#checkIn .itemsearch .searchresults .item[data-itemclass="KO"] {border-left:6px solid #03d337;}
+#checkIn .itemsearch .searchresults .item[data-itemclass="N"],
+#checkIn .itemsearch .searchresults .item[data-itemclass="NI"] {border-left:6px solid #ffae84;}
+#checkIn .itemsearch .searchresults .qtystillout .caption,
+#checkIn .itemsearch .searchresults .qtystillout .value {color:#ff9800;}
+#checkIn .itemsearch .searchresults .vendor .caption {flex: 0 0 9em;color:#ffb28c;}
+#checkIn .itemsearch .searchresults .vendor .value {color:#ffb28c;}
 
 #checkIn #checkIn-extraitems {display:none;}
 #checkIn #checkIn-extraitems .extraitemlist-title {text-align:center;font-size:1em;background-color:#E65100;padding:10px;}

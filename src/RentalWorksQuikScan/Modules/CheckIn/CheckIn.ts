@@ -136,6 +136,7 @@
                     caption:     'Pending',
                     buttonclick: function () {
                         $pending.showscreen();
+                        $pending.find('#pendingsearch').fwmobilesearch('refresh');
                     }
                 },
                 {
@@ -150,6 +151,7 @@
                     caption:     'Session In',
                     buttonclick: function () {
                         $sessionin.showscreen();
+                        $sessionin.find('#sessioninsearch').fwmobilesearch('refresh');
                     }
                 }
             ]
@@ -329,20 +331,39 @@
             ]
         });
 
-        //let showapplyallqtyitems = false; 
         $pending.find('#pendingsearch').fwmobilesearch({
             service: 'CheckIn',
             method: 'PendingSearch',
             searchModes: [
                 {
-                    caption: 'Description', placeholder: 'Description', value: 'description',
-                    search: function (description) {
-                        if (description.length > 0) {
-                            screen.$search.fwmobilesearch('search');
+                    caption: 'Scan (no refresh)',
+                    placeholder: 'Scan Bar Code / I-Code',
+                    value: 'code',
+                    hasVirtualNumpad: true,
+                    //hasPager: false,
+                    //hasSearchResults: false,
+                    search: function (value, plugin) {
+                        if (value.length > 0) {
+                            screen.scanCode(value);
+                            plugin.clearsearchbox();
+                        } else {
+                            return true; // do a normal search
                         }
                     },
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                    }
+                },
+                {
+                    caption: 'Search by Description', placeholder: 'Description', value: 'description',
+                    //search: function (description) {
+                    //    if (description.length > 0) {
+                    //        screen.$search.fwmobilesearch('search');
+                    //    }
+                    //},
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                        //plugin.search();
                     }
                 }
             ],
@@ -354,13 +375,8 @@
             },
             cacheItemTemplate: false,
             itemTemplate: function (model) {
-                //if ((model.trackedby === 'QUANTITY' || model.subbyquantity === 'T') && model.qtystillout > 0) {
-                //    showapplyallqtyitems = true;
-                //}
-                var html: string | string[] = [], masterclass;
-                masterclass = 'item itemclass-' + model.itemclass;
-                masterclass += ((model.trackedby === 'SERIALNO' || model.trackedby === 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0)) ? ' link' : '';
-                html.push('<div class="' + masterclass + '">');
+                var html: string | string[] = [];
+                html.push(`<div data-itemclass="${model.itemclass}">`);
                 html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
                 html.push('  <div class="row2">');
                 html.push('    <div class="col1">');
@@ -407,6 +423,9 @@
                 html = html.join('\n');
                 return html;
             },
+            hasRecordClick: (model: any): boolean => {
+                return ((model.trackedby === 'SERIALNO' || model.trackedby === 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0));
+            },
             recordClick: function(recorddata, $record) {
                 try {
                     if (recorddata.trackedby === 'QUANTITY' || recorddata.subbyquantity === true) {
@@ -451,7 +470,16 @@
             $checkincontrol.fwmobilemodulecontrol('hideButton', '#extraitems');
             screen.properties.currentview = 'PENDING';
             if (screen.getContractId() !== '') {
-                $pending.find('#pendingsearch').fwmobilesearch('search');
+                const searchOption = $pending.find('#pendingsearch').fwmobilesearch('getSearchOption');
+                switch (searchOption) {
+                    case 'code':
+                        $pending.find('#pendingsearch').fwmobilesearch('clearsearchbox');
+                        $pending.find('#pendingsearch').fwmobilesearch('clearsearchresults');
+                        break;
+                    case 'decription':
+                        $pending.find('#pendingsearch').fwmobilesearch('search');
+                        break;
+                }
             }
         };
         $pending.applyallqtyitems = function() {
@@ -690,14 +718,34 @@
             method: 'SessionInSearch',
             searchModes: [
                 {
-                    caption: 'Description', placeholder: 'Description', value: 'description',
-                    search: function (description) {
-                        if (description.length > 0) {
-                            screen.$search.fwmobilesearch('search');
+                    caption: 'Scan (no refresh)',
+                    placeholder: 'Scan Bar Code / I-Code',
+                    value: 'code',
+                    hasVirtualNumpad: true,
+                    //hasPager: false,
+                    //hasSearchResults: false,
+                    search: function (value, plugin) {
+                        if (value.length > 0) {
+                            screen.scanCode(value);
+                            plugin.clearsearchbox();
+                        } else {
+                            return true; // do a normal search
                         }
                     },
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                    }
+                },
+                {
+                    caption: 'Search by Description', placeholder: 'Description', value: 'description',
+                    //search: function (description) {
+                    //    if (description.length > 0) {
+                    //        screen.$search.fwmobilesearch('search');
+                    //    }
+                    //},
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                        //plugin.search();
                     }
                 }
             ],
@@ -709,12 +757,10 @@
             },
             cacheItemTemplate: false,
             itemTemplate: function(model) {
-                var html: string | string[] = [], masterclass, isheader;
-                isheader    = ((model.itemclass === 'N') || (model.sessionin === 0))
-                masterclass = 'item itemclass-' + model.itemclass;
-                masterclass += (!isheader ? ' link' : '');
-                masterclass += (model.inrepair === 'T' ? ' inrepair' : '');
-                html.push('<div class="' + masterclass + '">');
+                var html: string | string[] = [];
+                const isheader    = ((model.itemclass === 'N') || (model.sessionin === 0))
+                const attrInRepair = model.inrepair === 'T' ? ' data-inrepair="T">' : ''
+                html.push(`<div data-itemclass="${model.itemclass}"${attrInRepair}>`);
                 html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
                 if (!isheader) {
                     html.push('  <div class="row2">');
@@ -770,6 +816,10 @@
                 html.push('</div>');
                 html = html.join('\n');
                 return html;
+            },
+            hasRecordClick: (model: any): boolean => {
+                const isheader = ((model.itemclass === 'N') || (model.sessionin === 0));
+                return !isheader;
             },
             recordClick: function(recorddata, $record) {
                 try {
@@ -890,7 +940,16 @@
             $checkincontrol.fwmobilemodulecontrol('hideButton', '#extraitems');
             screen.properties.currentview = 'SESSIONIN';
             if (screen.getContractId() !== '') {
-                $sessionin.find('#sessioninsearch').fwmobilesearch('search');
+                const searchOption = $sessionin.find('#sessioninsearch').fwmobilesearch('getSearchOption');
+                switch (searchOption) {
+                    case 'code':
+                        $sessionin.find('#sessioninsearch').fwmobilesearch('clearsearchbox');
+                        $sessionin.find('#sessioninsearch').fwmobilesearch('clearsearchresults');
+                        break;
+                    case 'decription':
+                        $sessionin.find('#sessioninsearch').fwmobilesearch('search');
+                        break;
+                }
             }
         };
 
@@ -1784,46 +1843,90 @@
             return screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled');
         };
 
-        screen.$view
-            .on('change', '#scanBarcodeView-txtBarcodeData', function() {
-                var barcode, $txtBarcodeData, requestCheckInItem, orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, isAisleShelfBarcode, trackedby;
-                try {
-                    if (!screen.isBarcodeFieldDisabled()) {
-                        screen.disableBarcodeField();
-                        $txtBarcodeData = jQuery(this);
-                        barcode = $txtBarcodeData.val();
-                        if (barcode.length > 0) {
-                            isAisleShelfBarcode = /^[A-z0-9]{4}-[A-z0-9]{4}$/.test(barcode);  // Format: AAAA-SSSS
-                            if (isAisleShelfBarcode) {
-                                let aisleshelfstring = $txtBarcodeData.val().split('-');
-                                let aisleshelfdata   = { 'Aisle': aisleshelfstring[0].toUpperCase(), 'Shelf': aisleshelfstring[1].toUpperCase() };
-
-                                screen._aisleshelfdata(aisleshelfdata);
-
-                                screen.displayAisleShelf(aisleshelfdata.Aisle, aisleshelfdata.Shelf);
-
-                                $txtBarcodeData.val('');
-                                screen.enableBarcodeField();
-                            } else {
-                                orderId        = screen.getOrderId();
-                                masterItemId   = '';
-                                masterId       = '';
-                                code           = RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase());
-                                qty            = 0;
-                                newOrderAction = '';
-                                aisle          = screen._aisleshelfdata()?.Aisle || '';
-                                shelf          = screen._aisleshelfdata()?.Shelf || '';
-                                playStatus     = true;
-                                vendorId       = '';
-                                trackedby      = '';
-                                screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
-                            }
-                        }
-                    }
-                } catch(ex) {
-                    FwFunc.showError(ex);
+        screen.scanCode = function(code) {
+            var orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, isAisleShelfBarcode, trackedby;
+            if (!screen.isBarcodeFieldDisabled()) {
+                switch (screen.properties.currentview) {
+                    case 'PENDING':
+                        //screen.$view.find('#pendingsearch').fwmobilesearch('setsearchmode', 'code');
+                        screen.$view.find('#pendingsearch').fwmobilesearch('setSearchText', code, false);
+                        break;
+                    case 'SESSIONIN':
+                        //screen.$view.find('#sessioninsearch').fwmobilesearch('setsearchmode', 'code');
+                        screen.$view.find('#sessioninsearch').fwmobilesearch('setSearchText', code, false);
+                        break;
                 }
-            })
+                screen.disableBarcodeField();
+                if (code.length > 0) {
+                    isAisleShelfBarcode = /^[A-z0-9]{4}-[A-z0-9]{4}$/.test(code);  // Format: AAAA-SSSS
+                    if (isAisleShelfBarcode) {
+                        let aisleshelfstring = code.split('-');
+                        let aisleshelfdata = { 'Aisle': aisleshelfstring[0].toUpperCase(), 'Shelf': aisleshelfstring[1].toUpperCase() };
+
+                        screen._aisleshelfdata(aisleshelfdata);
+
+                        screen.displayAisleShelf(aisleshelfdata.Aisle, aisleshelfdata.Shelf);
+
+                        //$txtBarcodeData.val('');
+                        screen.enableBarcodeField();
+                    } else {
+                        orderId = screen.getOrderId();
+                        masterItemId = '';
+                        masterId = '';
+                        const barcode = RwAppData.stripBarcode(code.toUpperCase());
+                        qty = 0;
+                        newOrderAction = '';
+                        aisle = screen._aisleshelfdata()?.Aisle || '';
+                        shelf = screen._aisleshelfdata()?.Shelf || '';
+                        playStatus = true;
+                        vendorId = '';
+                        trackedby = '';
+                        screen.checkInItem(orderId, masterItemId, masterId, barcode, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
+                    }
+                }
+            }  
+        }
+
+        screen.$view
+            //.on('change', '#scanBarcodeView-txtBarcodeData', function() {
+            //    var barcode, $txtBarcodeData, requestCheckInItem, orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, isAisleShelfBarcode, trackedby;
+            //    try {
+            //        if (!screen.isBarcodeFieldDisabled()) {
+            //            screen.disableBarcodeField();
+            //            $txtBarcodeData = jQuery(this);
+            //            barcode = $txtBarcodeData.val();
+            //            if (barcode.length > 0) {
+            //                isAisleShelfBarcode = /^[A-z0-9]{4}-[A-z0-9]{4}$/.test(barcode);  // Format: AAAA-SSSS
+            //                if (isAisleShelfBarcode) {
+            //                    let aisleshelfstring = $txtBarcodeData.val().split('-');
+            //                    let aisleshelfdata   = { 'Aisle': aisleshelfstring[0].toUpperCase(), 'Shelf': aisleshelfstring[1].toUpperCase() };
+
+            //                    screen._aisleshelfdata(aisleshelfdata);
+
+            //                    screen.displayAisleShelf(aisleshelfdata.Aisle, aisleshelfdata.Shelf);
+
+            //                    $txtBarcodeData.val('');
+            //                    screen.enableBarcodeField();
+            //                } else {
+            //                    orderId        = screen.getOrderId();
+            //                    masterItemId   = '';
+            //                    masterId       = '';
+            //                    code           = RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase());
+            //                    qty            = 0;
+            //                    newOrderAction = '';
+            //                    aisle          = screen._aisleshelfdata()?.Aisle || '';
+            //                    shelf          = screen._aisleshelfdata()?.Shelf || '';
+            //                    playStatus     = true;
+            //                    vendorId       = '';
+            //                    trackedby      = '';
+            //                    screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
+            //                }
+            //            }
+            //        }
+            //    } catch(ex) {
+            //        FwFunc.showError(ex);
+            //    }
+            //})
             .on('click', '.aisleshelfclear', function() {
                 screen.$view.find('#checkIn-bottomtray .aisleshelf').remove();
                 screen.refreshbottomspacer();
@@ -1966,10 +2069,17 @@
         };
 
         screen.load = function() {
-            program.setScanTarget('#scanBarcodeView-txtBarcodeData');
-            program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData');
+            //program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+            //program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData');
 
-            RwVirtualNumpad.init('#scanBarcodeView-txtBarcodeData');
+            //RwVirtualNumpad.init('#scanBarcodeView-txtBarcodeData');
+
+            program.setScanTarget('');
+            program.setScanTargetLpNearfield('');
+
+            program.onScanBarcode = function (barcode, barcodeType) {
+                screen.scanCode(barcode);
+            }
 
             if (typeof window.TslReader !== 'undefined') {
                 window.TslReader.registerListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen', function() {

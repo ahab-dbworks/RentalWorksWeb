@@ -28,10 +28,6 @@ class StagingControllerClass {
         const combinedViewModel = jQuery.extend({
             captionPageTitle:         pageTitle
           , captionPageSubTitle:      pageSubTitle
-          , htmlScanBarcode:          RwPartialController.getScanBarcodeHtml({
-                captionInstructions: RwLanguages.translate('Select Item to Stage...')
-              , captionBarcodeICode: RwLanguages.translate('Bar Code / I-Code')
-            })
           , captionStage:              RwLanguages.translate('Stage')
           , captionUnstage:            RwLanguages.translate('Unstage')
           , captionCancel:             RwLanguages.translate('Cancel')
@@ -323,14 +319,35 @@ class StagingControllerClass {
             method: 'GetPendingItems',
             searchModes: [
                 {
-                    caption: 'Description', placeholder: 'Description', value: 'description',
-                    search: function (description) {
-                        if (description.length > 0) {
-                            screen.$search.fwmobilesearch('search');
+                    caption: 'Scan (no refresh)',
+                    placeholder: 'Scan Bar Code / I-Code',
+                    value: 'code',
+                    hasVirtualNumpad: true,
+                    //hasPager: false,
+                    //hasSearchResults: false,
+                    search: function (value, plugin) {
+                        if (value.length > 0) {
+                            screen.scanCode(value);
+                            plugin.clearsearchbox();
+                        } else {
+                            return true; // do a normal search
                         }
                     },
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                    }
+                },
+                {
+                    caption: 'Search by Description',
+                    placeholder: 'Description',
+                    value: 'description',
+                    //search: function (description) {
+                    //    if (description.length > 0) {
+                    //        screen.$view.find('#pendingsearch').fwmobilesearch('search');
+                    //    }
+                    //},
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 }
             ],
@@ -532,14 +549,38 @@ class StagingControllerClass {
             method: 'GetStagedItems',
             searchModes: [
                 {
-                    caption: 'Description', placeholder: 'Description', value: 'description',
-                    search: function (description) {
-                        if (description.length > 0) {
-                            screen.$search.fwmobilesearch('search');
+                    caption: 'Scan (no refresh)',
+                    placeholder: 'Scan Bar Code / I-Code',
+                    value: 'code',
+                    hasVirtualNumpad: true,
+                    //hasPager: false,
+                    //hasSearchResults: false,
+                    search: function (value, plugin) {
+                        if (value.length > 0) {
+                            screen.scanCode(value);
+                            plugin.clearsearchbox();
+                        } else {
+                            return true;
                         }
                     },
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        try {
+                            plugin.clearsearchbox();
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    }
+                },
+                {
+                    caption: 'Search by Description',
+                    placeholder: 'Search by Description',
+                    value: 'description',
+                    click: function (plugin) {
+                        try {
+                            plugin.clearsearchbox();
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
                     }
                 }
             ],
@@ -589,13 +630,12 @@ class StagingControllerClass {
                     html.push(
 `    <div class="row">
       <div class="col1 caption trackedby">Tracked By:</div>
-      <div class="col2 value trackedby"{{trackedby}}</div>
+      <div class="col2 value trackedby">{{trackedby}}</div>
     </div>`);
                 }
                 if (model.barcode !== '') {
                     html.push('    <div class="row">');
-                    var trackedby = model.trackedby;
-                    switch (trackedby) {
+                    switch (model.trackedby) {
                         case 'BARCODE':
                             html.push('      <div class="col1 caption barcode">Barcode:</div>');
                             break;
@@ -753,35 +793,36 @@ class StagingControllerClass {
             case 'Order':
                 searchModes.push({
                     caption: 'Order No', placeholder: 'Scan Order No Barcode', value: 'orderno',
-                    search: function (orderno) {
-                        if (orderno.length > 0) {
-                            screen.selectOrder(orderno, false);
-                        }
-                    },
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
-                        //screen.$search.fwmobilesearch('clearsearchresults');
+                    //search: function (orderno) {
+                    //    if (orderno.length > 0) {
+                    //        screen.selectOrder(orderno, false);
+                    //    } else {
+                    //        return true;
+                    //    }
+                    //},
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Description', placeholder: 'Description', value: 'orderdesc',
-                    click: function () {
-                        //screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        //plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Deal', placeholder: 'Deal', value: 'deal',
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Suspended Sessions', placeholder: 'Session No', value: 'sessionno',
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
                 break;
@@ -793,23 +834,22 @@ class StagingControllerClass {
                             screen.selectOrder(orderno, false);
                         }
                     },
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
-                        //screen.$search.fwmobilesearch('clearsearchresults');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Description', placeholder: 'Description', value: 'orderdesc',
-                    click: function () {
-                        //screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        //plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Suspended Sessions', placeholder: 'Session No', value: 'sessionno',
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
                 break;
@@ -821,23 +861,22 @@ class StagingControllerClass {
                             screen.selectOrder(orderno, false);
                         }
                     },
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
-                        //screen.$search.fwmobilesearch('clearsearchresults');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Description', placeholder: 'Description', value: 'orderdesc',
-                    click: function () {
-                        //screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        //plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Suspended Sessions', placeholder: 'Session No', value: 'sessionno',
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
                 break;
@@ -1067,9 +1106,9 @@ class StagingControllerClass {
             searchModes: [
                 {
                     caption: 'Suspended Sessions', placeholder: 'Session No', value: 'sessionno', visible: false,
-                    click: function () {
-                        screen.$ordersuspendedsessions.fwmobilesearch('clearsearchbox');
-                        screen.$ordersuspendedsessions.fwmobilesearch('search');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                        plugin.search();
                     }
                 }
             ],
@@ -2232,57 +2271,64 @@ class StagingControllerClass {
             return screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled');
         };
 
-        screen.$view
-            .on('change', '#scanBarcodeView-txtBarcodeData', function() {
-                try {
-                    var $this = jQuery(this);
-                    if (!screen.isBarcodeFieldDisabled()) {
-                        screen.disableBarcodeField();
-                        var code = RwAppData.stripBarcode((<string>jQuery(this).val()).toUpperCase());
-                        if (code.length > 0) {
-                            var requestStageItem = {
-                                orderid:               screen.getOrderId(),
-                                code:                  code,
-                                masteritemid:          '',
-                                qty:                   0,
-                                additemtoorder:        false,
-                                addcompletetoorder:    false,
-                                releasefromrepair:     false,
-                                unstage:               false,
-                                vendorid:              '',
-                                meter:                 0,
-                                location:              '',
-                                locationdata:          screen._locationdata(),
-                                addcontainertoorder:   false,
-                                overridereservation:   false,
-                                stageconsigned:        false,
-                                transferrepair:        false,
-                                removefromcontainer:   false,
-                                contractid:            screen.getContractId(),
-                                ignoresuspendedin:     false,
-                                consignorid:           '',
-                                consignoragreementid:  '',
-                                playStatus:            true
-                            };
-
-                            // trying to prevent duplicate scans
-                            FwAppData.jsonPost(true, 'services.ashx?path=/order/pdastageitem', requestStageItem, null,
-                                function success(responseStageItem) {
-                                    screen.enableBarcodeField();
-                                    properties.responseStageItem = responseStageItem;
-                                    screen.pdastageitemCallback(responseStageItem);
-                                },
-                                function fail(response) {
-                                    screen.enableBarcodeField();
-                                    FwFunc.showError(response);
-                                },
-                                null);
-                        }
-                    }
-                } catch(ex) {
-                    FwFunc.showError(ex);
+        screen.scanCode = function (code: string) {
+            var strippedCode = RwAppData.stripBarcode(code.toUpperCase());
+            if (screen.getCurrentPage().name === 'search') {
+                screen.$view.find('.search').fwmobilesearch('setsearchmode', 'orderno');
+                screen.$view.find('.search').fwmobilesearch('setSearchtext', strippedCode, true);
+            }
+            if (screen.getCurrentPage().name === 'staging') {
+                const scanMode = jQuery('#staging-scan').attr('data-mode');
+                if (scanMode === 'PENDING') {
+                    screen.$view.find('#pendingsearch').fwmobilesearch('setsearchmode', 'code');
+                    screen.$view.find('#pendingsearch').fwmobilesearch('setSearchText', strippedCode, false);
+                } else if (scanMode === 'STAGEDLIST') {
+                    screen.$view.find('#stagedsearch').fwmobilesearch('setsearchmode', 'code');
+                    screen.$view.find('#stagedsearch').fwmobilesearch('setSearchText', strippedCode, false);
                 }
-            })
+                if (strippedCode.length > 0) {
+                    var requestStageItem = {
+                        orderid: screen.getOrderId(),
+                        code: strippedCode,
+                        masteritemid: '',
+                        qty: 0,
+                        additemtoorder: false,
+                        addcompletetoorder: false,
+                        releasefromrepair: false,
+                        unstage: false,
+                        vendorid: '',
+                        meter: 0,
+                        location: '',
+                        locationdata: screen._locationdata(),
+                        addcontainertoorder: false,
+                        overridereservation: false,
+                        stageconsigned: false,
+                        transferrepair: false,
+                        removefromcontainer: false,
+                        contractid: screen.getContractId(),
+                        ignoresuspendedin: false,
+                        consignorid: '',
+                        consignoragreementid: '',
+                        playStatus: true
+                    };
+
+                    // trying to prevent duplicate scans
+                    FwAppData.jsonPost(true, 'services.ashx?path=/order/pdastageitem', requestStageItem, null,
+                        function success(responseStageItem) {
+                            screen.enableBarcodeField();
+                            properties.responseStageItem = responseStageItem;
+                            screen.pdastageitemCallback(responseStageItem);
+                        },
+                        function fail(response) {
+                            screen.enableBarcodeField();
+                            FwFunc.showError(response);
+                        },
+                        null);
+                }
+            }
+        };
+
+        screen.$view
             .on('click', '.rfid-item', function() {
                 var $this, $selectedrfiditem;
                 $this             = jQuery(this);
@@ -3106,17 +3152,9 @@ class StagingControllerClass {
             program.setScanTarget('');
             program.setScanTargetLpNearfield('');
 
-            RwVirtualNumpad.init('#scanBarcodeView-txtBarcodeData');
-
             program.onScanBarcode = function (barcode, barcodeType) {
                 try {
-                    if (screen.getCurrentPage().name === 'search') {
-                        screen.$view.find('.search').fwmobilesearch('setsearchmode', 'orderno');
-                        screen.$view.find('.search .searchbox').val(barcode).change();
-                    }
-                    if (screen.getCurrentPage().name === 'staging') {
-                        screen.$view.find('#scanBarcodeView-txtBarcodeData').val(barcode).change();
-                    }
+                    screen.scanCode(barcode);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
