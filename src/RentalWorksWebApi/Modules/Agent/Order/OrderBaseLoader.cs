@@ -100,7 +100,7 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "testtime", modeltype: FwDataTypes.Text)]
         public string TestTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        
+
 
 
         //------------------------------------------------------------------------------------
@@ -942,6 +942,11 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "manualsort", modeltype: FwDataTypes.Boolean)]
         public bool? IsManualSort { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "quoteorderid", modeltype: FwDataTypes.Text)]
+        public string RelatedQuoteOrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
 
 

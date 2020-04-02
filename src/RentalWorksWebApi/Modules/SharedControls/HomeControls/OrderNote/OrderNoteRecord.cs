@@ -51,9 +51,9 @@ namespace WebApi.Modules.HomeControls.OrderNote
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> SaveNoteASync(string Note)
+        public async Task<bool> SaveNoteASync(string Note, FwSqlConnection conn = null)
         {
-            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, OrderId, OrderNoteId, "", Note);
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, OrderId, OrderNoteId, "", Note, conn: conn);
         }
         //-------------------------------------------------------------------------------------------------------
     }

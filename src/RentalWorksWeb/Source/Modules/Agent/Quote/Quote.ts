@@ -1684,14 +1684,31 @@ class Quote extends OrderBase {
         var $confirmationbox = jQuery('.fwconfirmationbox');
         function createNewVersion() {
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/createnewversion/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'New Version Successfully Created.');
-                FwConfirmation.destroyConfirmation($confirmation);
-                let uniqueids: any = {};
-                uniqueids.QuoteId = response.QuoteId;
-                var $quoteform = QuoteController.loadForm(uniqueids);
-                FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+                //FwNotification.renderNotification('SUCCESS', 'New Version Successfully Created.');
+                //FwConfirmation.destroyConfirmation($confirmation);
+                //let uniqueids: any = {};
+                //uniqueids.QuoteId = response.QuoteId;
+                //var $quoteform = QuoteController.loadForm(uniqueids);
+                //FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+                //
+                //FwModule.refreshForm($form);
 
-                FwModule.refreshForm($form);
+                if (response.success === true) {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+
+                    const uniqueids: any = {
+                        QuoteId: response.NewVersion.QuoteId
+                    };
+                    var $quoteform = QuoteController.loadForm(uniqueids);
+                    FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+                    FwNotification.renderNotification('SUCCESS', 'New Version Successfully Created.');
+
+                } else if (response.success === false) {
+                    FwNotification.renderNotification(`ERROR`, `${response.msg}`);
+                }
+
+
             }, null, $confirmationbox);
         }
     };
@@ -1751,17 +1768,31 @@ class Quote extends OrderBase {
 
             const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Operation Completed');
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form);
-            }, function onError(response) {
-                $yes.on('click', reserve);
-                $yes.text('Complete');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form);
-            }, $realConfirm);
+            //    FwNotification.renderNotification('SUCCESS', 'Operation Completed');
+            //    FwConfirmation.destroyConfirmation($confirmation);
+            //    FwModule.refreshForm($form);
+            //}, function onError(response) {
+            //    $yes.on('click', reserve);
+            //    $yes.text('Complete');
+            //    FwFunc.showError(response);
+            //    FwFormField.enable($confirmation.find('.fwformfield'));
+            //    FwFormField.enable($yes);
+            //    FwModule.refreshForm($form);
+
+                if (response.success === true) {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+                    FwNotification.renderNotification('SUCCESS', 'Operation Completed.');
+                } else if (response.success === false) {
+                    $yes.on('click', reserve);
+                    $yes.text('Complete');
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                    FwNotification.renderNotification(`ERROR`, `${response.msg}`);
+                }
+
+
+            }, null, $realConfirm);
         };
     }
     //-----------------------------------------------------------------------------------------------------
@@ -1825,18 +1856,34 @@ class Quote extends OrderBase {
                 $yes.text('Canceling...');
                 $yes.off('click');
 
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
                 FwAppData.apiMethod(true, 'POST', `api/v1/quote/cancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Cancelled');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form);
-                }, function onError(response) {
-                    $yes.on('click', cancelQuote);
-                    $yes.text('Cancel');
-                    FwFunc.showError(response);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                    FwModule.refreshForm($form);
-                }, $confirmation);
+                    //    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Cancelled');
+                    //    FwConfirmation.destroyConfirmation($confirmation);
+                    //    FwModule.refreshForm($form);
+                    //}, function onError(response) {
+                    //    $yes.on('click', cancelQuote);
+                    //    $yes.text('Cancel');
+                    //    FwFunc.showError(response);
+                    //    FwFormField.enable($confirmation.find('.fwformfield'));
+                    //    FwFormField.enable($yes);
+                    //    FwModule.refreshForm($form);
+
+                    if (response.success === true) {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwModule.refreshForm($form);
+                        FwNotification.renderNotification('SUCCESS', 'Quote Successfully Cancelled.');
+                    } else if (response.success === false) {
+                        $yes.on('click', cancelQuote);
+                        $yes.text('Cancel');
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        FwNotification.renderNotification(`ERROR`, `${response.msg}`);
+                    }
+
+                }, null, $realConfirm);
             };
 
             function uncancelQuote() {
@@ -1847,18 +1894,34 @@ class Quote extends OrderBase {
                 $yes.text('Retrieving...');
                 $yes.off('click');
 
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
                 FwAppData.apiMethod(true, 'POST', `api/v1/quote/uncancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Retrieved');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form);
-                }, function onError(response) {
-                    $yes.on('click', uncancelQuote);
-                    $yes.text('Cancel');
-                    FwFunc.showError(response);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                    FwModule.refreshForm($form);
-                }, $confirmation);
+                    //    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Retrieved');
+                    //    FwConfirmation.destroyConfirmation($confirmation);
+                    //    FwModule.refreshForm($form);
+                    //}, function onError(response) {
+                    //    $yes.on('click', uncancelQuote);
+                    //    $yes.text('Cancel');
+                    //    FwFunc.showError(response);
+                    //    FwFormField.enable($confirmation.find('.fwformfield'));
+                    //    FwFormField.enable($yes);
+                    //    FwModule.refreshForm($form);
+
+                    if (response.success === true) {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwModule.refreshForm($form);
+                        FwNotification.renderNotification('SUCCESS', 'Quote Successfully Uncancelled.');
+                    } else if (response.success === false) {
+                        $yes.on('click', cancelQuote);
+                        $yes.text('Cancel');
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        FwNotification.renderNotification(`ERROR`, `${response.msg}`);
+                    }
+
+                }, null, $realConfirm);
             };
         } else {
             FwNotification.renderNotification('WARNING', 'Select a Quote to perform this action.');
@@ -1898,15 +1961,20 @@ class Quote extends OrderBase {
                     WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
                 }
                 FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    const $quoteTab = jQuery(`#${$form.closest('.tabpage').attr('data-tabid')}`);
-                    FwTabs.removeTab($quoteTab);
-                    const uniqueids: any = {
-                        OrderId: response.OrderId
-                    };
-                    const $orderform = OrderController.loadForm(uniqueids);
-                    FwModule.openModuleTab($orderform, "", true, 'FORM', true);
-                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
+                    if (response.success === true) {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwModule.refreshForm($form);
+
+                        const uniqueids: any = {
+                            OrderId: response.Order.OrderId
+                        };
+                        const $orderform = OrderController.loadForm(uniqueids);
+                        FwModule.openModuleTab($orderform, "", true, 'FORM', true);
+                        FwNotification.renderNotification(`SUCCESS`, `Order ${response.Order.OrderNumber} Successfully Created.`);
+
+                    } else if (response.success === false) {
+                        FwNotification.renderNotification(`ERROR`, `${response.msg}`);
+                    }
                 }, null, $realConfirm);
             });
         } else {

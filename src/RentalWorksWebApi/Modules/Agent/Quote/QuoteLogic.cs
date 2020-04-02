@@ -37,6 +37,11 @@ namespace WebApi.Modules.Agent.Quote
         [FwLogicProperty(Id: "cVKvrBbjaH2B", DisableDirectModify: true)]
         public int? VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
 
+        [FwLogicProperty(Id: "Vm6yP2w0ywVGu")]
+        public string RelatedQuoteOrderId { get { return dealOrder.QuoteOrderId; } set { dealOrder.QuoteOrderId = value; } }
+
+
+
         //------------------------------------------------------------------------------------
         public override void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
@@ -46,7 +51,10 @@ namespace WebApi.Modules.Agent.Quote
                 StatusDate = FwConvert.ToString(DateTime.Today);
                 QuoteDate = FwConvert.ToString(DateTime.Today);
                 Status = ((string.IsNullOrEmpty(DealId)) ? RwConstants.QUOTE_STATUS_PROSPECT : RwConstants.QUOTE_STATUS_ACTIVE);
-                VersionNumber = 1;
+                if ((VersionNumber == null) || (VersionNumber.Equals(0)))
+                {
+                    VersionNumber = 1;
+                }
                 if (this.UserSession.UserType == "CONTACT")
                 {
                     Status = RwConstants.QUOTE_STATUS_NEW;
@@ -95,31 +103,31 @@ namespace WebApi.Modules.Agent.Quote
             bool b2 = dealOrder.UpdateOrderTotal(e.SqlConnection).Result;
         }
         //------------------------------------------------------------------------------------    
-        public async Task<QuoteLogic> CancelQuoteASync()
-        {
-            await dealOrder.CancelQuote();
-            await LoadAsync<QuoteLogic>();
-            return this;
-        }
+        //public async Task<QuoteLogic> CancelQuoteASync()
+        //{
+        //    await dealOrder.CancelQuote();
+        //    await LoadAsync<QuoteLogic>();
+        //    return this;
+        //}
         //------------------------------------------------------------------------------------
-        public async Task<QuoteLogic> UncancelQuoteASync()
-        {
-            await dealOrder.UncancelQuote();
-            await LoadAsync<QuoteLogic>();
-            return this;
-        }
+        //public async Task<QuoteLogic> UncancelQuoteASync()
+        //{
+        //    await dealOrder.UncancelQuote();
+        //    await LoadAsync<QuoteLogic>();
+        //    return this;
+        //}
         //------------------------------------------------------------------------------------    
-        public async Task<QuoteLogic> CreateNewVersionASync()
-        {
-            string newQuoteId = await dealOrder.CreateNewVersion();
-
-            string[] keys = { newQuoteId };
-            QuoteLogic l = new QuoteLogic();
-            l.SetDependencies(AppConfig, UserSession);
-            bool x = await l.LoadAsync<QuoteLogic>(keys);
-
-            return l;
-        }
+        //public async Task<QuoteLogic> CreateNewVersionASync()
+        //{
+        //    string newQuoteId = await dealOrder.CreateNewVersion();
+        //
+        //    string[] keys = { newQuoteId };
+        //    QuoteLogic l = new QuoteLogic();
+        //    l.SetDependencies(AppConfig, UserSession);
+        //    bool x = await l.LoadAsync<QuoteLogic>(keys);
+        //
+        //    return l;
+        //}
         //------------------------------------------------------------------------------------    
         public async Task<TSpStatusResponse> MakeQuoteActiveAsync()
         {
@@ -137,10 +145,10 @@ namespace WebApi.Modules.Agent.Quote
             return this;
         }
         //------------------------------------------------------------------------------------
-        public async Task<ReserveQuoteResponse> Reserve()
-        {
-            return await dealOrder.Reserve();
-        }
+        //public async Task<ReserveQuoteResponse> Reserve()
+        //{
+        //    return await dealOrder.Reserve();
+        //}
         //------------------------------------------------------------------------------------
         public async Task<QuoteLogic> ActivateQuoteRequestASync()
         {

@@ -8,6 +8,14 @@ using WebApi.Logic;
 using WebApi.Modules.HomeControls.OrderItem;
 using WebApi.Modules.HomeControls.SubPurchaseOrderItem;
 using WebApi;
+using WebApi.Modules.Agent.Quote;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using FwStandard.AppManager;
+using WebApi.Modules.HomeControls.OrderNote;
+using WebApi.Modules.HomeControls.OrderContact;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -173,16 +181,38 @@ namespace WebApi.Modules.Agent.Order
     }
 
 
+    public enum QuoteOrderCopyMode
+    {
+        QuoteToOrder,
+        NewVersion,
+        Copy
+    }
 
     public class QuoteToOrderRequest
     {
+        [Required]
         public string QuoteId { get; set; }
+        [Required]
         public string LocationId { get; set; }
+        [Required]
         public string WarehouseId { get; set; }
     }
     public class QuoteToOrderResponse : TSpStatusResponse
     {
-        public string OrderId { get; set; }
+        public OrderLogic Order { get; set; }
+    }
+
+    public class QuoteNewVersionResponse : TSpStatusResponse
+    {
+        public QuoteLogic NewVersion { get; set; }
+    }
+    public class ReserveUnreserveQuoteResponse : TSpStatusResponse
+    {
+        public QuoteLogic Quote { get; set; } = null;
+    }
+    public class CancelUncancelQuoteResponse : TSpStatusResponse
+    {
+        public QuoteLogic Quote { get; set; } = null;
     }
 
 
@@ -641,24 +671,401 @@ namespace WebApi.Modules.Agent.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<QuoteToOrderResponse> QuoteToOrder(FwApplicationConfig appConfig, FwUserSession userSession, QuoteToOrderRequest request)
+        private static async Task<OrderBaseLogic> CopyQuoteOrder(FwApplicationConfig appConfig, FwUserSession userSession, OrderBaseLogic from, string toType, QuoteOrderCopyMode copyMode, string newLocationId = "", string newWarehouseId = "")
         {
-            QuoteToOrderResponse response = new QuoteToOrderResponse();
+            OrderBaseLogic to = null;
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "quotetoorder", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.QuoteId);
-                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.LocationId);
-                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
-                qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync();
-                response.OrderId = qry.GetParameter("@neworderid").ToString();
+                await conn.OpenAsync();
+                conn.BeginTransaction();
+
+                if (string.IsNullOrEmpty(toType))
+                {
+                    toType = from.Type;
+                }
+                if (toType.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                {
+                    to = new QuoteLogic();
+                }
+                else //if (toType.Equals(RwConstants.ORDER_TYPE_ORDER))
+                {
+                    to = new OrderLogic();
+                }
+                to.SetDependencies(appConfig, userSession);
+
+                if (string.IsNullOrEmpty(newLocationId))
+                {
+                    newLocationId = from.OfficeLocationId;
+                }
+                if (string.IsNullOrEmpty(newWarehouseId))
+                {
+                    newWarehouseId = from.WarehouseId;
+                }
+
+                OfficeLocationLogic location = new OfficeLocationLogic();
+                location.SetDependencies(appConfig, userSession);
+                location.LocationId = newLocationId;
+                await location.LoadAsync<OrderLogic>();
+
+                //use reflection to copy all peroperties from Quote to Order
+                PropertyInfo[] fromProperties = from.GetType().GetProperties();
+                PropertyInfo[] toProperties = to.GetType().GetProperties();
+                foreach (PropertyInfo fromProperty in fromProperties)
+                {
+                    if (fromProperty.IsDefined(typeof(FwLogicPropertyAttribute)))
+                    {
+                        foreach (Attribute attribute in fromProperty.GetCustomAttributes())
+                        {
+                            if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
+                            {
+                                foreach (PropertyInfo toProperty in toProperties)
+                                {
+                                    if (toProperty.Name.Equals(fromProperty.Name))
+                                    {
+                                        toProperty.SetValue(to, fromProperty.GetValue(from));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //manually set these fields after the reflection copy
+                to.Type = toType;
+                to.SetPrimaryKeys(new string[] { "" });
+                to.OutDeliveryId = "";
+                to.InDeliveryId = "";
+                to.BillToAddressId = "";
+                to.TaxId = "";
+                to.OfficeLocationId = newLocationId;
+                to.WarehouseId = newWarehouseId;
+
+                if (copyMode.Equals(QuoteOrderCopyMode.QuoteToOrder))
+                {
+                    ((OrderLogic)to).OrderNumber = ((QuoteLogic)from).QuoteNumber;
+                    if (!location.UseSameNumberForQuoteAndOrder.GetValueOrDefault(false))
+                    {
+                        ((OrderLogic)to).OrderNumber = await AppFunc.GetNextModuleCounterAsync(appConfig, userSession, RwConstants.MODULE_ORDER, newLocationId, conn);
+                    }
+                }
+                else if (copyMode.Equals(QuoteOrderCopyMode.NewVersion))
+                {
+                    ((QuoteLogic)to).QuoteNumber = ((QuoteLogic)from).QuoteNumber;
+
+                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                    qry.Add("select newversionno = (max(o.versionno) + 1)");
+                    qry.Add(" from  dealorder o with (nolock)");
+                    qry.Add(" where o.orderno   = @quoteno");
+                    qry.Add(" and   o.ordertype = @ordertype");
+                    qry.AddParameter("@quoteno", ((QuoteLogic)from).QuoteNumber);
+                    qry.AddParameter("@ordertype", RwConstants.ORDER_TYPE_QUOTE);
+                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+                    if (dt.TotalRows > 0)
+                    {
+                        ((QuoteLogic)to).VersionNumber = FwConvert.ToInt32(dt.Rows[0][dt.GetColumnNo("newversionno")].ToString());
+                    }
+                }
+
+
+                //save the new 
+                await to.SaveAsync(original: null, conn: conn);
+
+                // copy all items
+                BrowseRequest itemBrowseRequest = new BrowseRequest();
+                itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                itemBrowseRequest.uniqueids.Add("OrderId", from.GetPrimaryKeys()[0]);
+                itemBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
+
+                OrderItemLogic itemSelector = new OrderItemLogic();
+                itemSelector.SetDependencies(appConfig, userSession);
+                List<OrderItemLogic> items = await itemSelector.SelectAsync<OrderItemLogic>(itemBrowseRequest, conn);
+
+                // dictionary of ID's to map old OrderItemId value to new OrderItemId for parents
+                Dictionary<string, string> ids = new Dictionary<string, string>();
+
+                foreach (OrderItemLogic i in items)
+                {
+                    string oldId = i.OrderItemId;
+                    string newId = "";
+                    i.SetDependencies(appConfig, userSession);
+                    i.OrderId = to.GetPrimaryKeys()[0].ToString();
+                    i.OrderItemId = "";
+                    if (!string.IsNullOrEmpty(i.ParentId))
+                    {
+                        if (!(i.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || i.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || i.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER)))
+                        {
+                            string newParentId = "";
+                            ids.TryGetValue(i.ParentId, out newParentId);
+                            i.ParentId = newParentId;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(i.NestedOrderItemId))
+                    {
+                        string newGrandParentId = "";
+                        ids.TryGetValue(i.NestedOrderItemId, out newGrandParentId);
+                        i.NestedOrderItemId = newGrandParentId;
+                    }
+
+                    i.copying = true; // don't perform the typical checking in BeforeSaves
+                    await i.SaveAsync(conn: conn);
+                    newId = i.OrderItemId;
+                    ids.Add(oldId, newId);
+                }
+
+
+                // copy all Notes
+                BrowseRequest noteBrowseRequest = new BrowseRequest();
+                noteBrowseRequest.uniqueids = new Dictionary<string, object>();
+                noteBrowseRequest.uniqueids.Add("OrderId", from.GetPrimaryKeys()[0]);
+
+                OrderNoteLogic noteSelector = new OrderNoteLogic();
+                noteSelector.SetDependencies(appConfig, userSession);
+                List<OrderNoteLogic> notes = await noteSelector.SelectAsync<OrderNoteLogic>(noteBrowseRequest, conn);
+
+                foreach (OrderNoteLogic n in notes)
+                {
+                    n.SetDependencies(appConfig, userSession);
+                    n.OrderId = to.GetPrimaryKeys()[0].ToString();
+                    n.OrderNoteId = "";
+                    await n.SaveAsync(conn: conn);
+                }
+
+                //copy contacts
+                BrowseRequest contactBrowseRequest = new BrowseRequest();
+                contactBrowseRequest.uniqueids = new Dictionary<string, object>();
+                contactBrowseRequest.uniqueids.Add("OrderId", from.GetPrimaryKeys()[0]);
+
+                OrderContactLogic contactSelector = new OrderContactLogic();
+                contactSelector.SetDependencies(appConfig, userSession);
+                List<OrderContactLogic> contacts = await contactSelector.SelectAsync<OrderContactLogic>(contactBrowseRequest, conn);
+
+                foreach (OrderContactLogic n in contacts)
+                {
+                    n.SetDependencies(appConfig, userSession);
+                    n.OrderId = to.GetPrimaryKeys()[0].ToString();
+                    n.OrderContactId = null;
+                    await n.SaveAsync(conn: conn);
+                }
+
+                //copy multi po's/
+                //copy documents?
+
+
+                if (copyMode.Equals(QuoteOrderCopyMode.QuoteToOrder))
+                {
+                    //set the original Quote to Ordered, update pointer to new OrderId
+                    QuoteLogic q2 = new QuoteLogic();
+                    q2.SetDependencies(appConfig, userSession);
+                    q2.QuoteId = from.GetPrimaryKeys()[0].ToString();
+                    q2.Status = RwConstants.QUOTE_STATUS_ORDERED;
+                    q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                    q2.RelatedQuoteOrderId = to.GetPrimaryKeys()[0].ToString();
+                    await q2.SaveAsync(original: from, conn: conn);
+                }
+                else if (copyMode.Equals(QuoteOrderCopyMode.NewVersion))
+                {
+                    //set the original Quote to Closed
+                    QuoteLogic q2 = new QuoteLogic();
+                    q2.SetDependencies(appConfig, userSession);
+                    q2.QuoteId = from.GetPrimaryKeys()[0].ToString();
+                    q2.Status = RwConstants.QUOTE_STATUS_CLOSED;
+                    q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                    await q2.SaveAsync(original: from, conn: conn);
+                }
+
+                conn.CommitTransaction();
+
             }
+
+            return to;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<QuoteToOrderResponse> QuoteToOrder(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote, QuoteToOrderRequest request)
+        {
+            QuoteToOrderResponse response = new QuoteToOrderResponse();
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if ((!quote.Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (!(quote.Status.Equals(RwConstants.QUOTE_STATUS_ACTIVE) || quote.Status.Equals(RwConstants.QUOTE_STATUS_RESERVED))))
+                {
+                    response.msg = "Only ACTIVE or RESERVED Quotes can be converted to Orders.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if (string.IsNullOrEmpty(quote.DealId))
+                {
+                    response.msg = "Deal is required before converting a Quote into an Order.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if ((!request.LocationId.Equals(quote.OfficeLocationId)) || (!request.WarehouseId.Equals(quote.WarehouseId)))
+                {
+                    response.msg = "Cannot create an Order from a Quote associated to a different Office/Warehouse.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                OrderLogic order = (OrderLogic)(await CopyQuoteOrder(appConfig, userSession, quote, RwConstants.ORDER_TYPE_ORDER, QuoteOrderCopyMode.QuoteToOrder, request.LocationId, request.WarehouseId));
+                response.Order = order;
+                response.success = true;
+            }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<QuoteNewVersionResponse> QuoteNewVersion(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote)
+        {
+            QuoteNewVersionResponse response = new QuoteNewVersionResponse();
 
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if (!quote.Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                {
+                    response.msg = "Only Quotes can have new versions created.";
+                }
+            }
 
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if (quote.Status.Equals(RwConstants.QUOTE_STATUS_ORDERED))
+                {
+                    response.msg = "Cannot create new versions of " + RwConstants.QUOTE_STATUS_ORDERED + " Quotes.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                QuoteLogic newVersion = (QuoteLogic)(await CopyQuoteOrder(appConfig, userSession, quote, RwConstants.ORDER_TYPE_QUOTE, QuoteOrderCopyMode.NewVersion));
+                response.NewVersion = newVersion;
+                response.success = true;
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> QuoteOrderAvailabilityRequestRecalc(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        {
+            bool success = false;
+            // request availability recalculation on all rental and sale items
+            BrowseRequest itemBrowseRequest = new BrowseRequest();
+            itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+            itemBrowseRequest.uniqueids.Add("OrderId", orderId);
+            itemBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
+            itemBrowseRequest.uniqueids.Add("RecType", RwConstants.RECTYPE_RENTAL + "," + RwConstants.RECTYPE_SALE);
+
+            OrderItemLogic itemSelector = new OrderItemLogic();
+            itemSelector.SetDependencies(appConfig, userSession);
+            List<OrderItemLogic> items = await itemSelector.SelectAsync<OrderItemLogic>(itemBrowseRequest);
+
+            foreach (OrderItemLogic i in items)
+            {
+                InventoryAvailabilityFunc.RequestRecalc(i.InventoryId, i.WarehouseId, i.InventoryClass);
+            }
+            success = true;
+
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<ReserveUnreserveQuoteResponse> ReserveQuote(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote)
+        {
+            ReserveUnreserveQuoteResponse response = new ReserveUnreserveQuoteResponse();
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if ((!quote.Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (!(quote.Status.Equals(RwConstants.QUOTE_STATUS_ACTIVE) || quote.Status.Equals(RwConstants.QUOTE_STATUS_RESERVED))))
+                {
+                    response.msg = "Only ACTIVE or RESERVED Quotes can be reserved/unreserved.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if (string.IsNullOrEmpty(quote.DealId))
+                {
+                    response.msg = "Deal is required before reserving a Quote.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                //update the quote status
+                QuoteLogic q2 = new QuoteLogic();
+                q2.SetDependencies(appConfig, userSession);
+                q2.QuoteId = quote.QuoteId;
+                q2.Status = (quote.Status.Equals(RwConstants.QUOTE_STATUS_RESERVED) ? RwConstants.QUOTE_STATUS_ACTIVE : RwConstants.QUOTE_STATUS_RESERVED);
+                q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                await q2.SaveAsync(original: quote);
+                await QuoteOrderAvailabilityRequestRecalc(appConfig, userSession, quote.QuoteId);
+                response.Quote = q2;
+                response.success = true;
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<CancelUncancelQuoteResponse> CancelQuote(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote)
+        {
+            CancelUncancelQuoteResponse response = new CancelUncancelQuoteResponse();
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if ((!quote.Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (!(quote.Status.Equals(RwConstants.QUOTE_STATUS_NEW) || quote.Status.Equals(RwConstants.QUOTE_STATUS_PROSPECT) || quote.Status.Equals(RwConstants.QUOTE_STATUS_ACTIVE) || quote.Status.Equals(RwConstants.QUOTE_STATUS_RESERVED))))
+                {
+                    response.msg = "Only NEW, PROSPECT, ACTIVE, or RESERVED Quotes can be cancelled.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                //update the quote status
+                QuoteLogic q2 = new QuoteLogic();
+                q2.SetDependencies(appConfig, userSession);
+                q2.QuoteId = quote.QuoteId;
+                q2.Status = RwConstants.QUOTE_STATUS_CANCELLED;
+                q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                await q2.SaveAsync(original: quote);
+                await QuoteOrderAvailabilityRequestRecalc(appConfig, userSession, quote.QuoteId);
+                response.Quote = q2;
+                response.success = true;
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<CancelUncancelQuoteResponse> UncancelQuote(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote)
+        {
+            CancelUncancelQuoteResponse response = new CancelUncancelQuoteResponse();
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if ((!quote.Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (!quote.Status.Equals(RwConstants.QUOTE_STATUS_CANCELLED)))
+                {
+                    response.msg = "Only CANCELLED Quotes can be uncancelled.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                //update the quote status
+                QuoteLogic q2 = new QuoteLogic();
+                q2.SetDependencies(appConfig, userSession);
+                q2.QuoteId = quote.QuoteId;
+                q2.Status = ((string.IsNullOrEmpty(quote.DealId)) ? RwConstants.QUOTE_STATUS_PROSPECT : RwConstants.QUOTE_STATUS_ACTIVE);
+                q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                await q2.SaveAsync(original: quote);
+                await QuoteOrderAvailabilityRequestRecalc(appConfig, userSession, quote.QuoteId);
+                response.Quote = q2;
+                response.success = true;
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
 }

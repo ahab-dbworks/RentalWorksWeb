@@ -162,7 +162,7 @@ namespace WebApi.Modules.HomeControls.OrderContact
                     l4.SetDependencies(this.AppConfig, this.UserSession);
                     l4.ContactId = ContactId;
                     l4.MobilePhone = MobilePhone;
-                    int i = l4.SaveAsync(null).Result; // save the MobilePhone to the Contact
+                    int i = l4.SaveAsync(null, conn: e.SqlConnection).Result; // save the MobilePhone to the Contact
                 }
             }
         }

@@ -313,6 +313,10 @@ namespace WebApi.Modules.HomeControls.DealOrder
         public string ScannableInventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "quoteorderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string QuoteOrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
@@ -334,9 +338,6 @@ public string Estrentto { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)] 
 public string Esttotime { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "quoteorderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
-public string QuoteorderId { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer, sqltype: "numeric")] 
 public int? Versionno { get; set; } 
@@ -962,10 +963,10 @@ public string DateStamp { get; set; }
         {
             public PurchaseOrderLogic purchaseOrder { get; set; } = null;
         }
-        public class ReserveQuoteResponse : TSpStatusResponse
-        {
-            public QuoteLogic quote { get; set; } = null;
-        }
+        //public class ReserveQuoteResponse : TSpStatusResponse
+        //{
+        //    public QuoteLogic quote { get; set; } = null;
+        //}
 
         //------------------------------------------------------------------------------------
         public async Task<bool> SavePoASync(string origPoNumber, string PoNumber, decimal? PoAmount, FwSqlConnection conn = null)
@@ -1190,39 +1191,39 @@ public string DateStamp { get; set; }
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<bool> CancelQuote()
-        {
-            bool success = false;
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "cancelquote", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync();
-                    success = true;
-                }
-            }
-            return success;
-        }
+        //public async Task<bool> CancelQuote()
+        //{
+        //    bool success = false;
+        //    if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
+        //    {
+        //        using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+        //        {
+        //            FwSqlCommand qry = new FwSqlCommand(conn, "cancelquote", this.AppConfig.DatabaseSettings.QueryTimeout);
+        //            qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+        //            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+        //            await qry.ExecuteNonQueryAsync();
+        //            success = true;
+        //        }
+        //    }
+        //    return success;
+        //}
         //-------------------------------------------------------------------------------------------------------
-        public async Task<bool> UncancelQuote()
-        {
-            bool success = false;
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "uncancelquote", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync();
-                    success = true;
-                }
-            }
-            return success;
-        }
+        //public async Task<bool> UncancelQuote()
+        //{
+        //    bool success = false;
+        //    if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
+        //    {
+        //        using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+        //        {
+        //            FwSqlCommand qry = new FwSqlCommand(conn, "uncancelquote", this.AppConfig.DatabaseSettings.QueryTimeout);
+        //            qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+        //            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+        //            await qry.ExecuteNonQueryAsync();
+        //            success = true;
+        //        }
+        //    }
+        //    return success;
+        //}
         //-------------------------------------------------------------------------------------------------------
         public async Task<bool> CancelOrder()
         {
@@ -1281,24 +1282,24 @@ public string DateStamp { get; set; }
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<string> CreateNewVersion()
-        {
-            string newId = "";
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    //jh 08/28/2019 #922 posted hotfix 067 to fix this bug
-                    FwSqlCommand qry = new FwSqlCommand(conn, "quotenewver", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    newId = qry.GetParameter("@neworderid").ToString();
-                }
-            }
-            return newId;
-        }
+        //public async Task<string> CreateNewVersion()
+        //{
+        //    string newId = "";
+        //    if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
+        //    {
+        //        using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+        //        {
+        //            //jh 08/28/2019 #922 posted hotfix 067 to fix this bug
+        //            FwSqlCommand qry = new FwSqlCommand(conn, "quotenewver", this.AppConfig.DatabaseSettings.QueryTimeout);
+        //            qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+        //            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+        //            qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
+        //            await qry.ExecuteNonQueryAsync();
+        //            newId = qry.GetParameter("@neworderid").ToString();
+        //        }
+        //    }
+        //    return newId;
+        //}
         //-------------------------------------------------------------------------------------------------------
         public async Task<TSpStatusResponse> MakeQuoteActive()
         {
@@ -1406,27 +1407,27 @@ public string DateStamp { get; set; }
             return response;  // return the entire object which either has a success=true or has success=false and an error message
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<ReserveQuoteResponse> Reserve()
-        {
-            ReserveQuoteResponse response = new ReserveQuoteResponse();
-
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "togglereservequoteweb", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    response.status = qry.GetParameter("@status").ToInt32();
-                    response.msg = qry.GetParameter("@msg").ToString();
-                    response.success = (response.status == 0);
-                }
-            }
-            return response;
-        }
+        //public async Task<ReserveQuoteResponse> Reserve()
+        //{
+        //    ReserveQuoteResponse response = new ReserveQuoteResponse();
+        //
+        //    if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
+        //    {
+        //        using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+        //        {
+        //            FwSqlCommand qry = new FwSqlCommand(conn, "togglereservequoteweb", this.AppConfig.DatabaseSettings.QueryTimeout);
+        //            qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+        //            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+        //            qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+        //            qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+        //            await qry.ExecuteNonQueryAsync();
+        //            response.status = qry.GetParameter("@status").ToInt32();
+        //            response.msg = qry.GetParameter("@msg").ToString();
+        //            response.success = (response.status == 0);
+        //        }
+        //    }
+        //    return response;
+        //}
         //-------------------------------------------------------------------------------------------------------
         public async Task<ChangeOrderOfficeLocationResponse> ChangeOfficeLocationASync(ChangeOrderOfficeLocationRequest request)
         {

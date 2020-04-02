@@ -368,21 +368,22 @@ namespace WebApi.Logic
             return counter;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<bool> SaveNoteAsync(FwApplicationConfig appConfig, FwUserSession userSession, string uniqueId1, string uniqueId2, string uniqueId3, string note)
+        public static async Task<bool> SaveNoteAsync(FwApplicationConfig appConfig, FwUserSession userSession, string uniqueId1, string uniqueId2, string uniqueId3, string note, FwSqlConnection conn = null)
         {
             bool saved = false;
             if (note != null)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                if (conn == null)
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", appConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, uniqueId1);
-                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, uniqueId2);
-                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, uniqueId3);
-                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, note);
-                    await qry.ExecuteNonQueryAsync();
-                    saved = true;
+                    conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
                 }
+                FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, uniqueId1);
+                qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, uniqueId2);
+                qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, uniqueId3);
+                qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, note);
+                await qry.ExecuteNonQueryAsync();
+                saved = true;
             }
             return saved;
         }
