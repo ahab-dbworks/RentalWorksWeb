@@ -1374,43 +1374,53 @@ namespace FwStandard.Data
             afterBrowseArgs.DataTable = dt;
             AfterBrowse?.Invoke(this, afterBrowseArgs);
 
-            //if specific fields were requested in the Excel download, remove all non-requested fields here
-            if ((request.forexcel) && (request.excelfields != null) && (request.excelfields.Count > 0))
+            if (request.forexcel)
             {
-                List<int> removeIndexes = new List<int>();
-
-                for (int c = 0; c < dt.Columns.Count; c++)
+                //if specific fields were requested in the Excel download, remove all non-requested fields here
+                if ((request.excelfields != null) && (request.excelfields.Count > 0))
                 {
-                    bool fieldInExcel = false;
-                    foreach (CheckBoxListItem item in request.excelfields)
+                    List<int> removeIndexes = new List<int>();
+
+                    for (int c = 0; c < dt.Columns.Count; c++)
                     {
-                        if (item.selected.GetValueOrDefault(false))
+                        bool fieldInExcel = false;
+                        foreach (CheckBoxListItem item in request.excelfields)
                         {
-                            if (item.value.Equals(dt.ColumnNameByIndex[c]))
+                            if (item.selected.GetValueOrDefault(false))
                             {
-                                fieldInExcel = true;
-                                break;
+                                if (item.value.Equals(dt.ColumnNameByIndex[c]))
+                                {
+                                    fieldInExcel = true;
+                                    break;
+                                }
                             }
+                        }
+
+                        if (!fieldInExcel)
+                        {
+                            removeIndexes.Add(c);
                         }
                     }
 
-                    if (!fieldInExcel)
+                    for (int i = removeIndexes.Count - 1; i >= 0; i--)
                     {
-                        removeIndexes.Add(c);
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            row.RemoveAt(removeIndexes[i]);
+                        }
+                        dt.Columns.RemoveAt(removeIndexes[i]);
                     }
+                    dt.ResetColumnIndexes();
+
                 }
 
-                for (int i = removeIndexes.Count - 1; i >= 0; i--)
+                //columns need to be made "visible" to be included in the Excel file
+                for (int c = 0; c < dt.Columns.Count; c++)
                 {
-                    foreach (List<object> row in dt.Rows)
-                    {
-                        row.RemoveAt(removeIndexes[i]);
-                    }
-                    dt.Columns.RemoveAt(removeIndexes[i]);
+                    dt.Columns[c].IsVisible = true;
                 }
-                dt.ResetColumnIndexes();
-
             }
+
 
             return dt;
         }
