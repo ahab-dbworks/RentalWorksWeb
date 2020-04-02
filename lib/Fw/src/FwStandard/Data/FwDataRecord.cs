@@ -413,62 +413,6 @@ namespace FwStandard.Data
             Dictionary<string, string> columns = new Dictionary<string, string>();
             string fullFieldName = "";
 
-            if (request != null)
-            {
-                if ((request.forexcel) && (request.excelfields != null) && (request.excelfields.Count > 0))
-                {
-
-
-                    List<PropertyInfo> selectedProperties = new List<PropertyInfo>();
-                    List<string> selectedFields = new List<string>();
-                    foreach (CheckBoxListItem item in request.excelfields.GetSelectedItems())
-                    {
-                        selectedFields.Add(item.value);
-                    }
-
-
-                    if (request.searchfields.Count > 0)
-                    {
-                        for (int i = 0; i < request.searchfields.Count; i++)
-                        {
-                            if (!selectedFields.Contains(request.searchfields[i]))
-                            {
-                                selectedFields.Add(request.searchfields[i]);
-                            }
-                        }
-                    }
-
-
-                    List<string> tokens = new List<string>(request.orderby.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries));
-                    foreach (string token in tokens)
-                    {
-                        if ((!token.Equals("asc")) && (!token.Equals("desc")))
-                        {
-                            if (!selectedFields.Contains(token))
-                            {
-                                selectedFields.Add(token);
-                            }
-                        }
-                    }
-
-
-
-
-                    foreach (string selectedField in selectedFields)
-                    {
-                        for (int p = 0; p <= properties.Length - 1; p++)
-                        {
-                            if (selectedField.Equals(properties[p].Name))
-                            {
-                                selectedProperties.Add(properties[p]);
-                            }
-                        }
-                    }
-                    properties = selectedProperties.ToArray();
-                }
-            }
-
-
             int maxFieldNameLength = 0;
             foreach (PropertyInfo property in properties)
             {
@@ -1429,6 +1373,44 @@ namespace FwStandard.Data
             afterBrowseArgs.Request = request;
             afterBrowseArgs.DataTable = dt;
             AfterBrowse?.Invoke(this, afterBrowseArgs);
+
+            //if specific fields were requested in the Excel download, remove all non-requested fields here
+            if ((request.forexcel) && (request.excelfields != null) && (request.excelfields.Count > 0))
+            {
+                List<int> removeIndexes = new List<int>();
+
+                for (int c = 0; c < dt.Columns.Count; c++)
+                {
+                    bool fieldInExcel = false;
+                    foreach (CheckBoxListItem item in request.excelfields)
+                    {
+                        if (item.selected.GetValueOrDefault(false))
+                        {
+                            if (item.value.Equals(dt.ColumnNameByIndex[c]))
+                            {
+                                fieldInExcel = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!fieldInExcel)
+                    {
+                        removeIndexes.Add(c);
+                    }
+                }
+
+                for (int i = removeIndexes.Count - 1; i >= 0; i--)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row.RemoveAt(removeIndexes[i]);
+                    }
+                    dt.Columns.RemoveAt(removeIndexes[i]);
+                }
+                dt.ResetColumnIndexes();
+
+            }
 
             return dt;
         }

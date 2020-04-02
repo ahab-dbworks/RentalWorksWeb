@@ -94,8 +94,8 @@ namespace FwCore.Controllers
                 // Delete any existing excel files belonginng to this user
                 FwDownloadController.DeleteCurrentWebUserDownloads(userSession.WebUsersId);
 
-                bool includeColorColumns = browseRequest.includecolorcolumns;
-                bool includeIdColumns = browseRequest.includeidcolumns;
+                bool includeColorColumns = false;// browseRequest.includecolorcolumns;  // these fields of BrowseRequest are no longer used 
+                bool includeIdColumns = false;//browseRequest.includeidcolumns;  // these fields of BrowseRequest are no longer used 
 
                 if (!includeIdColumns || !includeColorColumns)
                 {

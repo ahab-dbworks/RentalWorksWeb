@@ -1185,10 +1185,11 @@ namespace FwStandard.SqlServer
                     }
                     readerColumns = null;
                     dt.Rows = new List<List<object>>();
-                    for (int i = 0; i < columns.Count; i++)
-                    {
-                        dt.ColumnIndex[columns[i].DataField] = i;
-                    }
+                    //for (int i = 0; i < columns.Count; i++)
+                    //{
+                    //    dt.ColumnIndex[columns[i].DataField] = i;
+                    //}
+                    dt.ResetColumnIndexes();
 
                     // default all requested totals to zero
                     for (int i = 0; i < totalFields.Count; i++)

@@ -94,6 +94,15 @@ namespace FwStandard.SqlServer
             return result;
         }
         //---------------------------------------------------------------------------------------------
+        public void ResetColumnIndexes()
+        {
+            ColumnIndex.Clear();
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                ColumnIndex[Columns[i].DataField] = i;
+            }
+        }
+        //---------------------------------------------------------------------------------------------
         /// <summary>
         /// Writes the data table to a file in the Excel .xlsx format
         /// </summary>
