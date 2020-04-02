@@ -38,7 +38,7 @@ namespace WebApi.Modules.Agent.Quote
         public int? VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
 
         [FwLogicProperty(Id: "Vm6yP2w0ywVGu")]
-        public string ConvertedToOrderId { get { return dealOrder.QuoteOrderId; } set { dealOrder.QuoteOrderId = value; } }
+        public string RelatedQuoteOrderId { get { return dealOrder.QuoteOrderId; } set { dealOrder.QuoteOrderId = value; } }
 
 
 
@@ -51,7 +51,10 @@ namespace WebApi.Modules.Agent.Quote
                 StatusDate = FwConvert.ToString(DateTime.Today);
                 QuoteDate = FwConvert.ToString(DateTime.Today);
                 Status = ((string.IsNullOrEmpty(DealId)) ? RwConstants.QUOTE_STATUS_PROSPECT : RwConstants.QUOTE_STATUS_ACTIVE);
-                VersionNumber = 1;
+                if ((VersionNumber == null) || (VersionNumber.Equals(0)))
+                {
+                    VersionNumber = 1;
+                }
                 if (this.UserSession.UserType == "CONTACT")
                 {
                     Status = RwConstants.QUOTE_STATUS_NEW;
@@ -114,17 +117,17 @@ namespace WebApi.Modules.Agent.Quote
             return this;
         }
         //------------------------------------------------------------------------------------    
-        public async Task<QuoteLogic> CreateNewVersionASync()
-        {
-            string newQuoteId = await dealOrder.CreateNewVersion();
-
-            string[] keys = { newQuoteId };
-            QuoteLogic l = new QuoteLogic();
-            l.SetDependencies(AppConfig, UserSession);
-            bool x = await l.LoadAsync<QuoteLogic>(keys);
-
-            return l;
-        }
+        //public async Task<QuoteLogic> CreateNewVersionASync()
+        //{
+        //    string newQuoteId = await dealOrder.CreateNewVersion();
+        //
+        //    string[] keys = { newQuoteId };
+        //    QuoteLogic l = new QuoteLogic();
+        //    l.SetDependencies(AppConfig, UserSession);
+        //    bool x = await l.LoadAsync<QuoteLogic>(keys);
+        //
+        //    return l;
+        //}
         //------------------------------------------------------------------------------------    
         public async Task<TSpStatusResponse> MakeQuoteActiveAsync()
         {

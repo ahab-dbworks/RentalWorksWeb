@@ -1282,24 +1282,24 @@ public string DateStamp { get; set; }
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<string> CreateNewVersion()
-        {
-            string newId = "";
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    //jh 08/28/2019 #922 posted hotfix 067 to fix this bug
-                    FwSqlCommand qry = new FwSqlCommand(conn, "quotenewver", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    newId = qry.GetParameter("@neworderid").ToString();
-                }
-            }
-            return newId;
-        }
+        //public async Task<string> CreateNewVersion()
+        //{
+        //    string newId = "";
+        //    if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
+        //    {
+        //        using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+        //        {
+        //            //jh 08/28/2019 #922 posted hotfix 067 to fix this bug
+        //            FwSqlCommand qry = new FwSqlCommand(conn, "quotenewver", this.AppConfig.DatabaseSettings.QueryTimeout);
+        //            qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+        //            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+        //            qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
+        //            await qry.ExecuteNonQueryAsync();
+        //            newId = qry.GetParameter("@neworderid").ToString();
+        //        }
+        //    }
+        //    return newId;
+        //}
         //-------------------------------------------------------------------------------------------------------
         public async Task<TSpStatusResponse> MakeQuoteActive()
         {

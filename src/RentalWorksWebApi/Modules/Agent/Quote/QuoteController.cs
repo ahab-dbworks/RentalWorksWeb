@@ -216,7 +216,7 @@ namespace WebApi.Modules.Agent.Quote
         // POST api/v1/quote/createnewversion/A0000001
         [HttpPost("createnewversion/{id}")]
         [FwControllerMethod(Id: "6KMadUFDT4cX4", ActionType: FwControllerActionTypes.Option, Caption: "Create New Version")]
-        public async Task<ActionResult<QuoteLogic>> CreateNewVersion([FromRoute]string id)
+        public async Task<ActionResult<QuoteNewVersionResponse>> CreateNewVersion([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -229,8 +229,12 @@ namespace WebApi.Modules.Agent.Quote
                 quote.SetDependencies(AppConfig, UserSession);
                 if (await quote.LoadAsync<QuoteLogic>(ids))
                 {
-                    QuoteLogic newVersion = await quote.CreateNewVersionASync();
-                    return new OkObjectResult(newVersion);
+                    //QuoteLogic newVersion = await quote.CreateNewVersionASync();
+                    //return new OkObjectResult(newVersion);
+
+                    QuoteNewVersionResponse response = await OrderFunc.QuoteNewVersion(AppConfig, UserSession, quote);
+                    return new OkObjectResult(response);
+
                 }
                 else
                 {

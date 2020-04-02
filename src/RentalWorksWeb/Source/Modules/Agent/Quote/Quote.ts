@@ -1684,14 +1684,31 @@ class Quote extends OrderBase {
         var $confirmationbox = jQuery('.fwconfirmationbox');
         function createNewVersion() {
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/createnewversion/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'New Version Successfully Created.');
-                FwConfirmation.destroyConfirmation($confirmation);
-                let uniqueids: any = {};
-                uniqueids.QuoteId = response.QuoteId;
-                var $quoteform = QuoteController.loadForm(uniqueids);
-                FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+                //FwNotification.renderNotification('SUCCESS', 'New Version Successfully Created.');
+                //FwConfirmation.destroyConfirmation($confirmation);
+                //let uniqueids: any = {};
+                //uniqueids.QuoteId = response.QuoteId;
+                //var $quoteform = QuoteController.loadForm(uniqueids);
+                //FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+                //
+                //FwModule.refreshForm($form);
 
-                FwModule.refreshForm($form);
+                if (response.success === true) {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+
+                    const uniqueids: any = {
+                        QuoteId: response.NewVersion.QuoteId
+                    };
+                    var $quoteform = QuoteController.loadForm(uniqueids);
+                    FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+                    FwNotification.renderNotification('SUCCESS', 'New Version Successfully Created.');
+
+                } else if (response.success === false) {
+                    FwNotification.renderNotification(`ERROR`, `${response.msg}`);
+                }
+
+
             }, null, $confirmationbox);
         }
     };
