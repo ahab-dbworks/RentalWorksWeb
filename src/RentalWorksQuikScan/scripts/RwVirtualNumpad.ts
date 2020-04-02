@@ -1,6 +1,13 @@
 ﻿class RwVirtualNumpadClass {
-    init(inputSelector: string) {
-        jQuery(inputSelector)
+    init(inputSelector: string|JQuery) {
+        let $txt = null;
+        if (typeof inputSelector === 'string') {
+            $txt = jQuery(inputSelector);
+        }
+        else if (typeof inputSelector === 'object') {
+            $txt = inputSelector;
+        }
+        $txt
            .keyboard({
                 openOn : '',
                 stayOpen : true,
@@ -40,21 +47,29 @@
                 }
             });
         if (inputSelector === '#scanBarcodeView-txtBarcodeData') {
-            var $numPadButton = jQuery('<div class="numpad" style="display: block;"><i class="material-icons">\uE0BC</i><!--cancel--></div>')
-                .on('click', function() {
-                    var kb = jQuery('#scanBarcodeView-txtBarcodeData').val('').getkeyboard();
-	                // close the keyboard if the keyboard is visible and the button is clicked a second time
-	                if ( kb.isOpen ) {
-		                kb.close();
-	                } else {
-		                kb.reveal();
-	                }
-                });
             let $barcodewrapper = jQuery('#scanBarcodeView .barcodewrapper');
-            if ($barcodewrapper.find('.numpad').length === 0) {
-                jQuery('#scanBarcodeView .barcodewrapper').append($numPadButton);
-            }
+            this.addNumPadButton($barcodewrapper, $txt);
         }
+        else if ($txt.closest('.fwmobilesearch').length > 0) {
+            const $element = $txt.closest('.searchinput');
+            this.addNumPadButton($element, $txt);
+        }
+    }
+
+    addNumPadButton($element: JQuery, $txt: JQuery) {
+        if (typeof $element === 'object' && typeof $element.length === 'number' && $element.length > 0 && $element.find('.numpad').length === 0) {
+            var $numPadButton = jQuery('<div class="numpad" style="display: block;color:#000000;"><i class="material-icons">\uE0BC</i><!--cancel--></div>')
+                .on('click', function () {
+                    var kb = $txt.val('').getkeyboard();
+                    // close the keyboard if the keyboard is visible and the button is clicked a second time
+                    if (kb.isOpen) {
+                        kb.close();
+                    } else {
+                        kb.reveal();
+                    }
+                });
+            $element.append($numPadButton);
+        }    
     }
 }
 
