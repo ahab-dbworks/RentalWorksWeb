@@ -798,6 +798,7 @@ var Constants = {
                 MigrateOrders:             { id: '8NYSNibMVoO',   caption: 'Migrate Orders',          nav: 'module/migrateorders', nodetype: 'Module' },
                 QuikActivityCalendar:      { id: 'yhYOLhLE92IT',  caption: 'QuikActivity Calendar',   nav: 'module/quikactivitycalendar', nodetype: 'Module' },
                 QuikSearch:                { id: '0q9EEmHe5xXO',  caption: 'QuikSearch',              nav: 'module/quiksearch', nodetype: 'Module' },
+                RateUpdateUtility:         { id: 'MUIYTomUGshV',  caption: 'Rate Update Utility',     nav: 'module/rateupdateutility', nodetype: 'Module' },
                 ReceiptProcessBatch:       { id: 'ThKpggGlj1hqd', caption: 'Process Receipts',        nav: 'module/receiptprocessbatch', nodetype: 'Module' },
                 RefreshGLHistory:          { id: 'UuKB0PPalR9p',  caption: 'Refresh G/L History',     nav: 'module/refreshglhistory', nodetype: 'Module' },
                 VendorInvoiceProcessBatch: { id: 'gRjYvLD2qZ6NR', caption: 'Process Vendor Invoices', nav: 'module/vendorinvoiceprocessbatch', nodetype: 'Module' },

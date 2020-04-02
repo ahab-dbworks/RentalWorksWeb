@@ -135,6 +135,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Utilities.children.VendorInvoiceProcessBatch,
                     Constants.Modules.Utilities.children.QuikActivityCalendar,
                     Constants.Modules.Utilities.children.QuikSearch,
+                    Constants.Modules.Utilities.children.RateUpdateUtility,
                     Constants.Modules.Utilities.children.RefreshGLHistory,
                 ]
             };
