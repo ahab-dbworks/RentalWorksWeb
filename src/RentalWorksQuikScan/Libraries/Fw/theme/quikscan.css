@@ -145,8 +145,9 @@ html[connectionstate="CONNECTED"] #master #master-footer {background-color:green
 /***************************
 FwMobileLogin
 ***************************/
-.mobileloginpage .programlogo {text-align:center;padding-top: 50px;font-size: 40px;color: #2f2f2f;}
-.mobileloginpage .mobilelogin-fields {/*margin-top:10em;*/margin-top:25vh;font-size:14px;}
+.mobileloginpage { width: 100vw; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+.mobileloginpage .programlogo { text-align: center; /*padding-top: 50px;*/ font-size: 40px; color: #2f2f2f; }
+.mobileloginpage .mobilelogin-fields {/*margin-top:10em;*//*margin-top:25vh;*/margin:44px 0 0 0;font-size:14px;}
 .mobileloginpage .mobilelogin-fields .mobilelogin-email {width:80%;margin:0 auto;}
 .mobileloginpage .mobilelogin-fields .mobilelogin-email .mobilelogin-email-caption {color:rgba(20,20,20,.6);padding:0 6px;}
 .mobileloginpage .mobilelogin-fields .mobilelogin-email.error .mobilelogin-email-caption {color:red;-webkit-animation: shake .5s linear;}
