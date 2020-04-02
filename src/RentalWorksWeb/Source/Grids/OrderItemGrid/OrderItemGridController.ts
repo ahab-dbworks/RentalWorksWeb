@@ -193,7 +193,7 @@ class OrderItemGrid {
             let checkedCount = 0;
             $checkboxes.each((i, e) => {
                 const dataField = jQuery(e).attr('data-datafield');
-                const val = $tr.find(`.field[data-browsedatafield="${dataField}"]`).attr('data-originalvalue') === 'true';
+                const val = $tr.find(`.field[data-browsedatafield="${dataField}"] input`).prop('checked');
                 val === true ? checkedCount++ : '';
                 FwFormField.setValueByDataField($confirmation, dataField, val);
             });
