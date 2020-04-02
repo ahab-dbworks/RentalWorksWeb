@@ -965,7 +965,10 @@ namespace WebApi.Modules.Agent.Order
 
             foreach (OrderItemLogic i in items)
             {
-                InventoryAvailabilityFunc.RequestRecalc(i.InventoryId, i.WarehouseId, i.InventoryClass);
+                if ((!string.IsNullOrEmpty(i.InventoryId)) && (!string.IsNullOrEmpty(i.WarehouseId)) && (i.QuantityOrdered != 0))
+                {
+                    InventoryAvailabilityFunc.RequestRecalc(i.InventoryId, i.WarehouseId, i.InventoryClass);
+                }
             }
             success = true;
 
