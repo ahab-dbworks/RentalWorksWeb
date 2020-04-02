@@ -21,6 +21,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
         OrderItemLoader orderItemLoader = new OrderItemLoader();
 
+        public bool copying = false;
+
         public OrderItemLogic()
         {
             dataRecords.Add(orderItem);
@@ -326,7 +328,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public string Notes { get; set; }
 
         [FwLogicProperty(Id: "Qlong658w5Mh", IsReadOnly: true)]
-        public string ItemOrder { get; set; }
+        public string ItemOrder { get { return orderItem.ItemOrder; } set { orderItem.ItemOrder = value; } }
 
 
         [FwLogicProperty(Id: "wEauLrU45GML")]
@@ -1170,134 +1172,138 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            OrderItemLogic orig = null;
-            if (e.Original != null)
+            if (!copying)
             {
-                orig = (OrderItemLogic)e.Original;
-            }
 
-            string inventoryId = InventoryId;
-            if (string.IsNullOrEmpty(inventoryId))
-            {
-                if (orig != null)
+                OrderItemLogic orig = null;
+                if (e.Original != null)
                 {
-                    inventoryId = orig.InventoryId;
+                    orig = (OrderItemLogic)e.Original;
                 }
-            }
 
-            string inventoryClass = "";
-            string inventoryAvailFor = "";
-            string inventoryDescription = "";
-            if (!string.IsNullOrEmpty(inventoryId))
-            {
-                string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { inventoryId }, new string[] { "class", "master", "availfor" }).Result;
-                inventoryClass = inventoryData[0];
-                inventoryDescription = inventoryData[1];
-                inventoryAvailFor = inventoryData[2];
-            }
-
-            if (e.SaveMode == TDataRecordSaveMode.smInsert)
-            {
-                if ((inventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (inventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                string inventoryId = InventoryId;
+                if (string.IsNullOrEmpty(inventoryId))
                 {
-                    // inserting a new record, it is a Complete or Kit, so call this procedure to add the entire Complete/Kit
-                    OrderItemId = OrderFunc.InsertPackage(AppConfig, UserSession, this).Result;
-                    e.PerformSave = false;  // all framework save functions will be skipped
-                }
-                if ((!inventoryClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS)) && (!(inventoryAvailFor.Equals(RwConstants.RATE_AVAILABLE_FOR_LABOR) || inventoryAvailFor.Equals(RwConstants.RATE_AVAILABLE_FOR_MISC))))
-                {
-                    Description = inventoryDescription; // don't let user change the description on a new row, unless MISC, or unless Misc/Labor
-                }
-                ItemClass = inventoryClass;
-                ItemOrder = "";
-                DetailOnly = true;
-            }
-            else  // updating
-            {
-                // don't let user change the description on existing row, unless MISC, GROUPHEADING, TEXT, or SUBTOTAL, or unless Misc/Labor
-                if (orig != null)
-                {
-                    if (!(orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL) || orig.RecType.Equals(RwConstants.RECTYPE_LABOR) || orig.RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)))
+                    if (orig != null)
                     {
-                        if (!inventoryId.Equals(orig.InventoryId))
-                        {
-                            Description = inventoryDescription; 
-                        }
-                        else
-                        {
-                            Description = orig.Description;
-                        }
+                        inventoryId = orig.InventoryId;
                     }
                 }
 
-                if ((orig != null) && (orig.Locked.GetValueOrDefault(false)))
+                string inventoryClass = "";
+                string inventoryAvailFor = "";
+                string inventoryDescription = "";
+                if (!string.IsNullOrEmpty(inventoryId))
                 {
-                    Price = orig.Price;
-                    Price2 = orig.Price2;
-                    Price3 = orig.Price3;
-                    Price4 = orig.Price4;
-                    Price5 = orig.Price5;
-                    DiscountPercent = orig.DiscountPercent;
-                    DaysPerWeek = orig.DaysPerWeek;
+                    string[] inventoryData = AppFunc.GetStringDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { inventoryId }, new string[] { "class", "master", "availfor" }).Result;
+                    inventoryClass = inventoryData[0];
+                    inventoryDescription = inventoryData[1];
+                    inventoryAvailFor = inventoryData[2];
                 }
 
-                if ((orig != null) && (Mute.GetValueOrDefault(false) || (orig.Mute.GetValueOrDefault(false))))
+                if (e.SaveMode == TDataRecordSaveMode.smInsert)
                 {
-                    Price = 0;
-                    Price2 = 0;
-                    Price3 = 0;
-                    Price4 = 0;
-                    Price5 = 0;
-                }
-
-                if ((orig != null) && ((orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))))
-                {
-                    Price = 0;
-                    Price2 = 0;
-                    Price3 = 0;
-                    Price4 = 0;
-                    Price5 = 0;
-                }
-
-                if (RowsRolledUp.GetValueOrDefault(false))
-                {
-                    InsteadOfSave += SaveRolledUpRow;
-                }
-                else
-                {
+                    if ((inventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (inventoryClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                    {
+                        // inserting a new record, it is a Complete or Kit, so call this procedure to add the entire Complete/Kit
+                        OrderItemId = OrderFunc.InsertPackage(AppConfig, UserSession, this).Result;
+                        e.PerformSave = false;  // all framework save functions will be skipped
+                    }
+                    if ((!inventoryClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS)) && (!(inventoryAvailFor.Equals(RwConstants.RATE_AVAILABLE_FOR_LABOR) || inventoryAvailFor.Equals(RwConstants.RATE_AVAILABLE_FOR_MISC))))
+                    {
+                        Description = inventoryDescription; // don't let user change the description on a new row, unless MISC, or unless Misc/Labor
+                    }
+                    ItemClass = inventoryClass;
+                    ItemOrder = "";
                     DetailOnly = true;
                 }
-
-                if ((orig != null) && (orig.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || orig.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                else  // updating
                 {
-                    if ((QuantityOrdered != null) && (orig.QuantityOrdered != QuantityOrdered))
+                    // don't let user change the description on existing row, unless MISC, GROUPHEADING, TEXT, or SUBTOTAL, or unless Misc/Labor
+                    if (orig != null)
                     {
-                        bool b2 = OrderFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
-                    }
-                    if ((SubQuantity != null) && (orig.SubQuantity != SubQuantity))
-                    {
-                        bool b2 = OrderFunc.UpdatePackageSubQuantities(AppConfig, UserSession, this).Result;
-                    }
-
-
-                    // request availability recalculation on all accessories
-                    {
-                        BrowseRequest accessoryBrowseRequest = new BrowseRequest();
-                        accessoryBrowseRequest.uniqueids = new Dictionary<string, object>();
-                        accessoryBrowseRequest.uniqueids.Add("OrderId", OrderId);
-                        accessoryBrowseRequest.uniqueids.Add("ParentId", OrderItemId);
-                        accessoryBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
-
-                        OrderItemLogic acc = new OrderItemLogic();
-                        acc.SetDependencies(AppConfig, UserSession);
-                        List<OrderItemLogic> accessories = acc.SelectAsync<OrderItemLogic>(accessoryBrowseRequest, e.SqlConnection).Result;
-
-                        foreach (OrderItemLogic a in accessories)
+                        if (!(orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL) || orig.RecType.Equals(RwConstants.RECTYPE_LABOR) || orig.RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)))
                         {
-                            InventoryAvailabilityFunc.RequestRecalc(a.InventoryId, a.WarehouseId, a.InventoryClass);
+                            if (!inventoryId.Equals(orig.InventoryId))
+                            {
+                                Description = inventoryDescription;
+                            }
+                            else
+                            {
+                                Description = orig.Description;
+                            }
                         }
                     }
 
+                    if ((orig != null) && (orig.Locked.GetValueOrDefault(false)))
+                    {
+                        Price = orig.Price;
+                        Price2 = orig.Price2;
+                        Price3 = orig.Price3;
+                        Price4 = orig.Price4;
+                        Price5 = orig.Price5;
+                        DiscountPercent = orig.DiscountPercent;
+                        DaysPerWeek = orig.DaysPerWeek;
+                    }
+
+                    if ((orig != null) && (Mute.GetValueOrDefault(false) || (orig.Mute.GetValueOrDefault(false))))
+                    {
+                        Price = 0;
+                        Price2 = 0;
+                        Price3 = 0;
+                        Price4 = 0;
+                        Price5 = 0;
+                    }
+
+                    if ((orig != null) && ((orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))))
+                    {
+                        Price = 0;
+                        Price2 = 0;
+                        Price3 = 0;
+                        Price4 = 0;
+                        Price5 = 0;
+                    }
+
+                    if (RowsRolledUp.GetValueOrDefault(false))
+                    {
+                        InsteadOfSave += SaveRolledUpRow;
+                    }
+                    else
+                    {
+                        DetailOnly = true;
+                    }
+
+                    if ((orig != null) && (orig.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || orig.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                    {
+                        if ((QuantityOrdered != null) && (orig.QuantityOrdered != QuantityOrdered))
+                        {
+                            bool b2 = OrderFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
+                        }
+                        if ((SubQuantity != null) && (orig.SubQuantity != SubQuantity))
+                        {
+                            bool b2 = OrderFunc.UpdatePackageSubQuantities(AppConfig, UserSession, this).Result;
+                        }
+
+
+                        // request availability recalculation on all accessories
+                        {
+                            BrowseRequest accessoryBrowseRequest = new BrowseRequest();
+                            accessoryBrowseRequest.uniqueids = new Dictionary<string, object>();
+                            accessoryBrowseRequest.uniqueids.Add("OrderId", OrderId);
+                            accessoryBrowseRequest.uniqueids.Add("ParentId", OrderItemId);
+                            accessoryBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
+
+                            OrderItemLogic acc = new OrderItemLogic();
+                            acc.SetDependencies(AppConfig, UserSession);
+                            List<OrderItemLogic> accessories = acc.SelectAsync<OrderItemLogic>(accessoryBrowseRequest, e.SqlConnection).Result;
+
+                            foreach (OrderItemLogic a in accessories)
+                            {
+                                InventoryAvailabilityFunc.RequestRecalc(a.InventoryId, a.WarehouseId, a.InventoryClass);
+                            }
+                        }
+
+                    }
                 }
             }
         }

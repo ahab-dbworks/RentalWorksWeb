@@ -1898,15 +1898,20 @@ class Quote extends OrderBase {
                     WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
                 }
                 FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    const $quoteTab = jQuery(`#${$form.closest('.tabpage').attr('data-tabid')}`);
-                    FwTabs.removeTab($quoteTab);
-                    const uniqueids: any = {
-                        OrderId: response.Order.OrderId
-                    };
-                    const $orderform = OrderController.loadForm(uniqueids);
-                    FwModule.openModuleTab($orderform, "", true, 'FORM', true);
-                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
+                    if (response.success === true) {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwModule.refreshForm($form);
+
+                        const uniqueids: any = {
+                            OrderId: response.Order.OrderId
+                        };
+                        const $orderform = OrderController.loadForm(uniqueids);
+                        FwModule.openModuleTab($orderform, "", true, 'FORM', true);
+                        FwNotification.renderNotification(`SUCCESS`, `Order ${response.Order.OrderNumber} Successfully Created.`);
+
+                    } else if (response.success === false) {
+                        FwNotification.renderNotification(`ERROR`, `${response.msg}`);
+                    }
                 }, null, $realConfirm);
             });
         } else {

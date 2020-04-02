@@ -73,7 +73,7 @@ namespace WebApi.Modules.HomeControls.OrderNote
             }
             if (doSaveNote)
             {
-                bool saved = orderNote.SaveNoteASync(Notes).Result;
+                bool saved = orderNote.SaveNoteASync(Notes, e.SqlConnection).Result;
                 if (saved)
                 {
                     e.RecordsAffected++;
