@@ -176,7 +176,7 @@ namespace WebApi.Modules.Agent.Quote
         // POST api/v1/quote/reserve/A0000001
         [HttpPost("reserve/{id}")]
         [FwControllerMethod(Id: "1oBE7m2rBjxhm", ActionType: FwControllerActionTypes.Option, Caption: "Reserve")]
-        public async Task<ActionResult<QuoteLogic>> Reserve([FromRoute]string id)
+        public async Task<ActionResult<ReserveQuoteResponse>> Reserve([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -185,22 +185,12 @@ namespace WebApi.Modules.Agent.Quote
             try
             {
                 string[] ids = id.Split('~');
-                QuoteLogic l = new QuoteLogic();
-                l.SetDependencies(AppConfig, UserSession);
-                if (await l.LoadAsync<QuoteLogic>(ids))
+                QuoteLogic quote = new QuoteLogic();
+                quote.SetDependencies(AppConfig, UserSession);
+                if (await quote.LoadAsync<QuoteLogic>(ids))
                 {
-                    ReserveQuoteResponse response = await l.Reserve();
-                    if (response.success)
-                    {
-                        await l.LoadAsync<QuoteLogic>(ids);
-                        response.quote = l;
-                        return new OkObjectResult(response);
-                    }
-                    else
-                    {
-                        throw new Exception(response.msg);
-                    }
-
+                    ReserveQuoteResponse response = await OrderFunc.ReserveQuote(AppConfig, UserSession, quote);
+                    return new OkObjectResult(response);
                 }
                 else
                 {
@@ -229,12 +219,8 @@ namespace WebApi.Modules.Agent.Quote
                 quote.SetDependencies(AppConfig, UserSession);
                 if (await quote.LoadAsync<QuoteLogic>(ids))
                 {
-                    //QuoteLogic newVersion = await quote.CreateNewVersionASync();
-                    //return new OkObjectResult(newVersion);
-
                     QuoteNewVersionResponse response = await OrderFunc.QuoteNewVersion(AppConfig, UserSession, quote);
                     return new OkObjectResult(response);
-
                 }
                 else
                 {

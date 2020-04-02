@@ -963,10 +963,10 @@ public string DateStamp { get; set; }
         {
             public PurchaseOrderLogic purchaseOrder { get; set; } = null;
         }
-        public class ReserveQuoteResponse : TSpStatusResponse
-        {
-            public QuoteLogic quote { get; set; } = null;
-        }
+        //public class ReserveQuoteResponse : TSpStatusResponse
+        //{
+        //    public QuoteLogic quote { get; set; } = null;
+        //}
 
         //------------------------------------------------------------------------------------
         public async Task<bool> SavePoASync(string origPoNumber, string PoNumber, decimal? PoAmount, FwSqlConnection conn = null)
@@ -1407,27 +1407,27 @@ public string DateStamp { get; set; }
             return response;  // return the entire object which either has a success=true or has success=false and an error message
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<ReserveQuoteResponse> Reserve()
-        {
-            ReserveQuoteResponse response = new ReserveQuoteResponse();
-
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "togglereservequoteweb", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    response.status = qry.GetParameter("@status").ToInt32();
-                    response.msg = qry.GetParameter("@msg").ToString();
-                    response.success = (response.status == 0);
-                }
-            }
-            return response;
-        }
+        //public async Task<ReserveQuoteResponse> Reserve()
+        //{
+        //    ReserveQuoteResponse response = new ReserveQuoteResponse();
+        //
+        //    if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
+        //    {
+        //        using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+        //        {
+        //            FwSqlCommand qry = new FwSqlCommand(conn, "togglereservequoteweb", this.AppConfig.DatabaseSettings.QueryTimeout);
+        //            qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+        //            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+        //            qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+        //            qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+        //            await qry.ExecuteNonQueryAsync();
+        //            response.status = qry.GetParameter("@status").ToInt32();
+        //            response.msg = qry.GetParameter("@msg").ToString();
+        //            response.success = (response.status == 0);
+        //        }
+        //    }
+        //    return response;
+        //}
         //-------------------------------------------------------------------------------------------------------
         public async Task<ChangeOrderOfficeLocationResponse> ChangeOfficeLocationASync(ChangeOrderOfficeLocationRequest request)
         {

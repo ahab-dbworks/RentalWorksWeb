@@ -1768,17 +1768,31 @@ class Quote extends OrderBase {
 
             const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Operation Completed');
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form);
-            }, function onError(response) {
-                $yes.on('click', reserve);
-                $yes.text('Complete');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form);
-            }, $realConfirm);
+            //    FwNotification.renderNotification('SUCCESS', 'Operation Completed');
+            //    FwConfirmation.destroyConfirmation($confirmation);
+            //    FwModule.refreshForm($form);
+            //}, function onError(response) {
+            //    $yes.on('click', reserve);
+            //    $yes.text('Complete');
+            //    FwFunc.showError(response);
+            //    FwFormField.enable($confirmation.find('.fwformfield'));
+            //    FwFormField.enable($yes);
+            //    FwModule.refreshForm($form);
+
+                if (response.success === true) {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+                    FwNotification.renderNotification('SUCCESS', 'Operation Completed.');
+                } else if (response.success === false) {
+                    $yes.on('click', reserve);
+                    $yes.text('Complete');
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                    FwNotification.renderNotification(`ERROR`, `${response.msg}`);
+                }
+
+
+            }, null, $realConfirm);
         };
     }
     //-----------------------------------------------------------------------------------------------------

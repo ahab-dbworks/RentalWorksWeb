@@ -145,10 +145,10 @@ namespace WebApi.Modules.Agent.Quote
             return this;
         }
         //------------------------------------------------------------------------------------
-        public async Task<ReserveQuoteResponse> Reserve()
-        {
-            return await dealOrder.Reserve();
-        }
+        //public async Task<ReserveQuoteResponse> Reserve()
+        //{
+        //    return await dealOrder.Reserve();
+        //}
         //------------------------------------------------------------------------------------
         public async Task<QuoteLogic> ActivateQuoteRequestASync()
         {

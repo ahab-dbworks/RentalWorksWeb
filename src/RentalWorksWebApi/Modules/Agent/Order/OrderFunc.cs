@@ -15,6 +15,7 @@ using System.Reflection;
 using FwStandard.AppManager;
 using WebApi.Modules.HomeControls.OrderNote;
 using WebApi.Modules.HomeControls.OrderContact;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -205,6 +206,11 @@ namespace WebApi.Modules.Agent.Order
     {
         public QuoteLogic NewVersion { get; set; }
     }
+    public class ReserveQuoteResponse : TSpStatusResponse
+    {
+        public QuoteLogic Quote { get; set; } = null;
+    }
+
 
 
     public static class OrderFunc
@@ -933,6 +939,60 @@ namespace WebApi.Modules.Agent.Order
             {
                 QuoteLogic newVersion = (QuoteLogic)(await CopyQuoteOrder(appConfig, userSession, quote, RwConstants.ORDER_TYPE_QUOTE, QuoteOrderCopyMode.NewVersion));
                 response.NewVersion = newVersion;
+                response.success = true;
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+        public static async Task<ReserveQuoteResponse> ReserveQuote(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote)
+        {
+            ReserveQuoteResponse response = new ReserveQuoteResponse();
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if ((!quote.Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (!(quote.Status.Equals(RwConstants.QUOTE_STATUS_ACTIVE) || quote.Status.Equals(RwConstants.QUOTE_STATUS_RESERVED))))
+                {
+                    response.msg = "Only ACTIVE or RESERVED Quotes can be reserved/unreserved.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if (string.IsNullOrEmpty(quote.DealId))
+                {
+                    response.msg = "Deal is required before reserving a Quote.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                //update the quote status
+                QuoteLogic q2 = new QuoteLogic();
+                q2.SetDependencies(appConfig, userSession);
+                q2.QuoteId = quote.QuoteId;
+                q2.Status = (quote.Status.Equals(RwConstants.QUOTE_STATUS_RESERVED) ? RwConstants.QUOTE_STATUS_ACTIVE : RwConstants.QUOTE_STATUS_RESERVED);
+                q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                await q2.SaveAsync(original: quote);
+
+                // request availability recalculation on all rental and sale items
+                BrowseRequest itemBrowseRequest = new BrowseRequest();
+                itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                itemBrowseRequest.uniqueids.Add("OrderId", quote.QuoteId);
+                itemBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
+                itemBrowseRequest.uniqueids.Add("RecType", RwConstants.RECTYPE_RENTAL + "," + RwConstants.RECTYPE_SALE);
+
+                OrderItemLogic itemSelector = new OrderItemLogic();
+                itemSelector.SetDependencies(appConfig, userSession);
+                List<OrderItemLogic> items = await itemSelector.SelectAsync<OrderItemLogic>(itemBrowseRequest);
+
+                foreach (OrderItemLogic i in items)
+                {
+                    InventoryAvailabilityFunc.RequestRecalc(i.InventoryId, i.WarehouseId, i.InventoryClass);
+                }
+
+                response.Quote = q2;
                 response.success = true;
             }
 
