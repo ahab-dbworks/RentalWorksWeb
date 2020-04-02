@@ -206,7 +206,11 @@ namespace WebApi.Modules.Agent.Order
     {
         public QuoteLogic NewVersion { get; set; }
     }
-    public class ReserveQuoteResponse : TSpStatusResponse
+    public class ReserveUnreserveQuoteResponse : TSpStatusResponse
+    {
+        public QuoteLogic Quote { get; set; } = null;
+    }
+    public class CancelUncancelQuoteResponse : TSpStatusResponse
     {
         public QuoteLogic Quote { get; set; } = null;
     }
@@ -945,10 +949,32 @@ namespace WebApi.Modules.Agent.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-
-        public static async Task<ReserveQuoteResponse> ReserveQuote(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote)
+        public static async Task<bool> QuoteOrderAvailabilityRequestRecalc(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
         {
-            ReserveQuoteResponse response = new ReserveQuoteResponse();
+            bool success = false;
+            // request availability recalculation on all rental and sale items
+            BrowseRequest itemBrowseRequest = new BrowseRequest();
+            itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+            itemBrowseRequest.uniqueids.Add("OrderId", orderId);
+            itemBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
+            itemBrowseRequest.uniqueids.Add("RecType", RwConstants.RECTYPE_RENTAL + "," + RwConstants.RECTYPE_SALE);
+
+            OrderItemLogic itemSelector = new OrderItemLogic();
+            itemSelector.SetDependencies(appConfig, userSession);
+            List<OrderItemLogic> items = await itemSelector.SelectAsync<OrderItemLogic>(itemBrowseRequest);
+
+            foreach (OrderItemLogic i in items)
+            {
+                InventoryAvailabilityFunc.RequestRecalc(i.InventoryId, i.WarehouseId, i.InventoryClass);
+            }
+            success = true;
+
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<ReserveUnreserveQuoteResponse> ReserveQuote(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote)
+        {
+            ReserveUnreserveQuoteResponse response = new ReserveUnreserveQuoteResponse();
 
             if (string.IsNullOrEmpty(response.msg))
             {
@@ -975,23 +1001,7 @@ namespace WebApi.Modules.Agent.Order
                 q2.Status = (quote.Status.Equals(RwConstants.QUOTE_STATUS_RESERVED) ? RwConstants.QUOTE_STATUS_ACTIVE : RwConstants.QUOTE_STATUS_RESERVED);
                 q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
                 await q2.SaveAsync(original: quote);
-
-                // request availability recalculation on all rental and sale items
-                BrowseRequest itemBrowseRequest = new BrowseRequest();
-                itemBrowseRequest.uniqueids = new Dictionary<string, object>();
-                itemBrowseRequest.uniqueids.Add("OrderId", quote.QuoteId);
-                itemBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
-                itemBrowseRequest.uniqueids.Add("RecType", RwConstants.RECTYPE_RENTAL + "," + RwConstants.RECTYPE_SALE);
-
-                OrderItemLogic itemSelector = new OrderItemLogic();
-                itemSelector.SetDependencies(appConfig, userSession);
-                List<OrderItemLogic> items = await itemSelector.SelectAsync<OrderItemLogic>(itemBrowseRequest);
-
-                foreach (OrderItemLogic i in items)
-                {
-                    InventoryAvailabilityFunc.RequestRecalc(i.InventoryId, i.WarehouseId, i.InventoryClass);
-                }
-
+                await QuoteOrderAvailabilityRequestRecalc(appConfig, userSession, quote.QuoteId);
                 response.Quote = q2;
                 response.success = true;
             }
@@ -999,5 +1009,63 @@ namespace WebApi.Modules.Agent.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<CancelUncancelQuoteResponse> CancelQuote(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote)
+        {
+            CancelUncancelQuoteResponse response = new CancelUncancelQuoteResponse();
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if ((!quote.Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (!(quote.Status.Equals(RwConstants.QUOTE_STATUS_NEW) || quote.Status.Equals(RwConstants.QUOTE_STATUS_PROSPECT) || quote.Status.Equals(RwConstants.QUOTE_STATUS_ACTIVE) || quote.Status.Equals(RwConstants.QUOTE_STATUS_RESERVED))))
+                {
+                    response.msg = "Only NEW, PROSPECT, ACTIVE, or RESERVED Quotes can be cancelled.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                //update the quote status
+                QuoteLogic q2 = new QuoteLogic();
+                q2.SetDependencies(appConfig, userSession);
+                q2.QuoteId = quote.QuoteId;
+                q2.Status = RwConstants.QUOTE_STATUS_CANCELLED;
+                q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                await q2.SaveAsync(original: quote);
+                await QuoteOrderAvailabilityRequestRecalc(appConfig, userSession, quote.QuoteId);
+                response.Quote = q2;
+                response.success = true;
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<CancelUncancelQuoteResponse> UncancelQuote(FwApplicationConfig appConfig, FwUserSession userSession, QuoteLogic quote)
+        {
+            CancelUncancelQuoteResponse response = new CancelUncancelQuoteResponse();
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                if ((!quote.Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (!quote.Status.Equals(RwConstants.QUOTE_STATUS_CANCELLED)))
+                {
+                    response.msg = "Only CANCELLED Quotes can be uncancelled.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.msg))
+            {
+                //update the quote status
+                QuoteLogic q2 = new QuoteLogic();
+                q2.SetDependencies(appConfig, userSession);
+                q2.QuoteId = quote.QuoteId;
+                q2.Status = ((string.IsNullOrEmpty(quote.DealId)) ? RwConstants.QUOTE_STATUS_PROSPECT : RwConstants.QUOTE_STATUS_ACTIVE);
+                q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                await q2.SaveAsync(original: quote);
+                await QuoteOrderAvailabilityRequestRecalc(appConfig, userSession, quote.QuoteId);
+                response.Quote = q2;
+                response.success = true;
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
 }

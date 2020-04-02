@@ -176,7 +176,7 @@ namespace WebApi.Modules.Agent.Quote
         // POST api/v1/quote/reserve/A0000001
         [HttpPost("reserve/{id}")]
         [FwControllerMethod(Id: "1oBE7m2rBjxhm", ActionType: FwControllerActionTypes.Option, Caption: "Reserve")]
-        public async Task<ActionResult<ReserveQuoteResponse>> Reserve([FromRoute]string id)
+        public async Task<ActionResult<ReserveUnreserveQuoteResponse>> Reserve([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -189,7 +189,7 @@ namespace WebApi.Modules.Agent.Quote
                 quote.SetDependencies(AppConfig, UserSession);
                 if (await quote.LoadAsync<QuoteLogic>(ids))
                 {
-                    ReserveQuoteResponse response = await OrderFunc.ReserveQuote(AppConfig, UserSession, quote);
+                    ReserveUnreserveQuoteResponse response = await OrderFunc.ReserveQuote(AppConfig, UserSession, quote);
                     return new OkObjectResult(response);
                 }
                 else
@@ -273,7 +273,7 @@ namespace WebApi.Modules.Agent.Quote
         // POST api/v1/quote/cancel/A0000001
         [HttpPost("cancel/{id}")]
         [FwControllerMethod(Id: "dpH0uCuEp3E89", ActionType: FwControllerActionTypes.Option, Caption: "Cancel Quote")]
-        public async Task<ActionResult<QuoteLogic>> CancelQuote([FromRoute]string id)
+        public async Task<ActionResult<CancelUncancelQuoteResponse>> CancelQuote([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -286,8 +286,8 @@ namespace WebApi.Modules.Agent.Quote
                 quote.SetDependencies(AppConfig, UserSession);
                 if (await quote.LoadAsync<QuoteLogic>(ids))
                 {
-                    await quote.CancelQuoteASync();
-                    return new OkObjectResult(quote);
+                    CancelUncancelQuoteResponse response = await OrderFunc.CancelQuote(AppConfig, UserSession, quote);
+                    return new OkObjectResult(response);
                 }
                 else
                 {
@@ -303,7 +303,7 @@ namespace WebApi.Modules.Agent.Quote
         // POST api/v1/quote/uncancel/A0000001
         [HttpPost("uncancel/{id}")]
         [FwControllerMethod(Id: "i3Lb6rWQdXHSm", ActionType: FwControllerActionTypes.Option, Caption: "Uncancel Quote")]
-        public async Task<ActionResult<QuoteLogic>> UncancelQuote([FromRoute]string id)
+        public async Task<ActionResult<CancelUncancelQuoteResponse>> UncancelQuote([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -316,8 +316,8 @@ namespace WebApi.Modules.Agent.Quote
                 quote.SetDependencies(AppConfig, UserSession);
                 if (await quote.LoadAsync<QuoteLogic>(ids))
                 {
-                    await quote.UncancelQuoteASync();
-                    return new OkObjectResult(quote);
+                    CancelUncancelQuoteResponse response = await OrderFunc.UncancelQuote(AppConfig, UserSession, quote);
+                    return new OkObjectResult(response);
                 }
                 else
                 {

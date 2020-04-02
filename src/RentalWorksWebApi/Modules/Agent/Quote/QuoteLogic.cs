@@ -103,19 +103,19 @@ namespace WebApi.Modules.Agent.Quote
             bool b2 = dealOrder.UpdateOrderTotal(e.SqlConnection).Result;
         }
         //------------------------------------------------------------------------------------    
-        public async Task<QuoteLogic> CancelQuoteASync()
-        {
-            await dealOrder.CancelQuote();
-            await LoadAsync<QuoteLogic>();
-            return this;
-        }
+        //public async Task<QuoteLogic> CancelQuoteASync()
+        //{
+        //    await dealOrder.CancelQuote();
+        //    await LoadAsync<QuoteLogic>();
+        //    return this;
+        //}
         //------------------------------------------------------------------------------------
-        public async Task<QuoteLogic> UncancelQuoteASync()
-        {
-            await dealOrder.UncancelQuote();
-            await LoadAsync<QuoteLogic>();
-            return this;
-        }
+        //public async Task<QuoteLogic> UncancelQuoteASync()
+        //{
+        //    await dealOrder.UncancelQuote();
+        //    await LoadAsync<QuoteLogic>();
+        //    return this;
+        //}
         //------------------------------------------------------------------------------------    
         //public async Task<QuoteLogic> CreateNewVersionASync()
         //{
