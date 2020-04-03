@@ -23,7 +23,17 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
     public class PurchaseOrderReportController : AppReportController
     {
         public PurchaseOrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(PurchaseOrderReportLoader); }
-        protected override string GetReportFileName(FwReportRenderRequest request) { return "PurchaseOrderReport"; }
+        //------------------------------------------------------------------------------------ 
+        protected override string GetReportFileName(FwReportRenderRequest request)
+        {
+            //return "PurchaseOrderReport"; 
+            PurchaseOrderLogic purchaseOrder = new PurchaseOrderLogic();
+            purchaseOrder.SetDependencies(AppConfig, UserSession);
+            purchaseOrder.PurchaseOrderId = GetUniqueId(request);
+            bool b = purchaseOrder.LoadAsync<PurchaseOrderLogic>().Result;
+            string fileName = purchaseOrder.PurchaseOrderNumber + " " + purchaseOrder.Description;
+            return fileName;
+        }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Purchase Order Report"; }
         //------------------------------------------------------------------------------------ 
