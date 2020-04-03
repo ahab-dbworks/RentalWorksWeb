@@ -2,21 +2,20 @@
 {{#ifEquals NewPagePerType false}}
 <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexcolumn">
-    <span class="header-left" style="font-weight:600">{{Company}}</span>
-    <span class="header-left"><span style="font-weight:600;">Warehouse:</span> {{Warehouse}}</span>
-    <span class="header-left"><span style="font-weight:600;">Delivery Type:</span> {{DeliverType}}</span>
-    <span class="header-left"><span style="font-weight:600;">Assigned To:</span> {{Agent}}</span>
-    <span class="header-left"><span style="font-weight:600;">Pick Date:</span> {{PickDate}} {{PickTime}}</span>
+    <span class="header-left" style="padding:2px 0px;font-weight:600">{{Company}}</span>
+    <span class="header-left" style="padding:2px 0px;"><span style="font-weight:600;">Warehouse:</span> {{Warehouse}}</span>
+    <span class="header-left" style="padding:2px 0px;"><span style="font-weight:600;">Delivery Type:</span> {{DeliverType}}</span>
+    <span class="header-left" style="padding:2px 0px;"><span style="font-weight:600;">Assigned To:</span> {{Agent}}</span>
+    <span class="header-left" style="padding:2px 0px;"><span style="font-weight:600;">Pick Date:</span> {{PickDate}} {{PickTime}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="title">{{Report}}</span>
+    <span style="font-size:17px;align-self:center;">No: {{PickNumber}}</span>
     <span class="header-center">Required By: {{RequiredDate}}</span>
     <span class="header-center">Target Ship: {{TargetShipDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
-    <span class="header-right" style="font-size:20px;">Pick Number: </span>
-    <span class="header-right" style="font-size:20px;border:1.25px solid black;padding:2px;">{{PickNumber}}</span>
-    <span class="header-right" style="font-size:20px;">{{Type}} Number: </span>
+    <span class="header-right" style="padding-right:16px;font-size:16px;">{{Type}} No: </span>
     {{#ifEquals BarCodeStyle "1D"}}
     <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{OrderNumber}}*</span> <!-- We need to wrap this in * so that the barcode works -->
     {{/ifEquals}}
@@ -25,31 +24,64 @@
     {{/ifEquals}}
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:30px;">
-  <table class="sub-header">
-    <tr>
-      <td class="header-left">{{Type}}: {{OrderNumber}}</td>
-      <td class="header-center">Description: <span style="font-weight:600;">{{OrderDescription}}</span></td>
-      <td class="header-right">PO No: {{PoNumber}}</td>
-    </tr>
-    <tr>
-      <td class="header-left"></td>
-      <td class="header-center">Customer: {{Customer}}</td>
-      <td class="header-right">Project Manager: {{ProjectManager}}</td>
-    </tr>
-    <tr>
-      <td class="header-left"></td>
-      <td class="header-center">Deal: {{Deal}}</td>
-      <td class="header-right">Outside Sales Rep: {{OutsideSalesRepresentative}}</td>
-    </tr>
-    <tr>
-    <tr>
-      <td class="header-left">Start Rental: {{EstimatedStartDate}} {{EstimatedStartTime}}</td>
-      <td class="header-center">End Rental: {{EstimatedStopDate}} {{EstimatedStopTime}}</td>
-      <td class="header-right">Agent: {{Agent}}</td>
-    </tr>
-  </table>
+<!-- Order details -->
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <div class="rpt-flexcolumn" style="flex:0 0 450px;border-top: 2px solid #212121;margin-right:10px;">
+    <table>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">{{Type}}: </td>
+        <td class="" style="font-weight:700;">{{OrderNumber}}</td>
+      </tr>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">Description:</td>
+        <td class="" style="font-weight:700;">{{OrderDescription}}</td>
+      </tr>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">Customer:</td>
+        <td class="">{{Customer}}</td>
+      </tr>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">Deal:</td>
+        <td class="">{{Deal}}</td>
+      </tr>
+    </table>
+  </div>
+  <!-- Rental Start / Stop -->
+  <div class="rpt-flexcolumn" style="flex:0 0 220px;border-top: 2px solid #212121;margin:0px 10px;">
+    <table>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">Start Rental:</td>
+        <td class="">{{EstimatedStartDate}} {{EstimatedStartTime}}</td>
+      </tr>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">Stop Rental:</td>
+        <td class="">{{EstimatedStopDate}} {{EstimatedStopTime}}</td>
+      </tr>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">PO No:</td>
+        <td class="">{{PoNumber}}</td>
+      </tr>
+    </table>
+  </div>
+  <!-- Agent / Project Manager / Outside Sales Rep -->
+  <div class="rpt-flexcolumn" style="flex:0 0 394px;border-top: 2px solid #212121;margin-left:10px;">
+    <table>
+      <tr>
+        <td style="width:140px;font-weight:700;background-color:#eeeeee;">Agent:</td>
+        <td class="">{{Agent}}</td>
+      </tr>
+      <tr>
+        <td style="width:140px;font-weight:700;background-color:#eeeeee;">Project Manager:</td>
+        <td class="">{{ProjectManager}}</td>
+      </tr>
+      <tr>
+        <td style="width:140px;font-weight:700;background-color:#eeeeee;">Outside Sales Rep:</td>
+        <td class="">{{OutsideSalesRepresentative}}</td>
+      </tr>
+    </table>
+  </div>
 </div>
+<!-- Items -->
 <div class="rpt-flexrow" style="margin-top:30px;">
   <table>
     <thead>
@@ -58,7 +90,6 @@
         <th>I-Code</th>
         <th>Description</th>
         <th>Vendor</th>
-        <th>Aisle/Shelf</th>
         <th class="number">Ordered</th>
         <th class="number">Out</th>
         <th class="number">Pick</th>
@@ -70,104 +101,169 @@
       {{#each Items}}
       <tr data-rowtype={{RowType}} data-itemclass="{{ItemClass}}" data-isbold="{{Bold}}">
         {{#ifEquals RowType "RecTypeDisplayheader"}}
-        <td colspan="8" style="text-decoration:underline; font-weight:bold;text-align:left;">{{RecTypeDisplay}}&nbsp;</td>
+        <td colspan="9" style="text-decoration:underline;font-weight:bold;text-align:center;font-size:20px;background-color:#eeeeee;border-top:1px solid #000000;border-bottom:1px solid #000000;">{{RecTypeDisplay}}&nbsp;</td>
         {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="8" style="font-weight:bold;text-align:left;padding:11px 0px 5px 5px">{{InventoryType}}&nbsp;</td>
+        <td colspan="9" style="font-weight:bold;text-align:left;padding:5px;border-top:1px solid #000000;background-color:#eeeeee;">{{InventoryType}}&nbsp;</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="text boxcol">{{OrderNumber}}</td>
-        <td class="text boxcol">{{ICode}}</td>
-        <td class="text boxcol">{{Description}}
-        {{#ifNotEquals Notes ""}}
-        <br /> <b>Notes: </b>{{Notes}}
-        {{/ifNotEquals}}
-        </td>
+        <td class="text boxcol" style="min-width:70px;">{{ICode}}</td>
+        <td class="text boxcol">{{Description}}</td>
         <td class="text boxcol">{{SubVendor}}</td>
-        <td class="text boxcol">{{AisleShelfLocation}}</td>
         <td class="number boxcol">{{QuantityOrdered}}</td>
         <td class="number boxcol">{{OutQuantity}}</td>
-        <td class="number boxcol">{{PickQuantity}}</td>
-        <td class="number boxcol"></td>
-        <td class="number boxcol"></td>
+        <td class="number boxcol" style="font-weight:bold;">{{PickQuantity}}</td>
+        <td style="border:1px solid #000000;" class="number boxcol"></td>
+        <td style="border:1px solid #000000;" class="number boxcol"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="7" class="total-name">{{InventoryType}}&nbsp;</td>
-        <td class="total-val" data-value="{{PickQuantity}}"></td>
+        <td colspan="6" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td style="padding-right:12px;" class="total-val" data-value="{{PickQuantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "RecTypeDisplayfooter"}}
-        <td colspan="7" class="total-name">{{RecTypeDisplay}}&nbsp;</td>
-        <td class="total-val" data-value="{{PickQuantity}}"></td>
+        <td colspan="6" class="total-name">{{RecTypeDisplay}}&nbsp;</td>
+        <td style="padding-right:12px;" class="total-val" data-value="{{PickQuantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{PickQuantity}}"></td>
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
+        <td style="padding-right:12px;" class="total-val" data-value="{{PickQuantity}}"></td>
         {{/ifEquals}}
       </tr>
+      {{#if Notes}}
+      <tr data-rowtype={{RowType}} data-itemclass="{{ItemClass}}" data-isbold="{{Bold}}">
+        <td colspan="2"></td>
+        {{#ifEquals ItemClass "CI"}}
+        <td colspan="5" style="border:1px dashed #000000;text-indent: 0px;padding-left: 22px;">
+          <span style="font-weight:700;">Notes: </span><span style="font-weight:400;">{{Notes}}</span>
+        </td>
+        {{else}}
+        {{#ifEquals ItemClass "KI"}}
+        <td colspan="5" style="border:1px dashed #000000;text-indent: 0px;padding-left: 22px;">
+          <span style="font-weight:700;">Notes: </span><span style="font-weight:400;">{{Notes}}</span>
+        </td>
+        {{else}}
+        {{#ifEquals ItemClass "NI"}}
+        <td colspan="5" style="border:1px dashed #000000;text-indent: 0px;padding-left: 22px;">
+          <span style="font-weight:700;">Notes: </span><span style="font-weight:400;">{{Notes}}</span>
+        </td>
+        {{else}}
+        <td colspan="5" style="border:1px dashed #000000;text-indent: 0px;padding-left:12px;">
+          <span style="font-weight:700;">Notes: </span><span style="font-weight:400;">{{Notes}}</span>
+        </td>
+        {{/ifEquals}}
+        {{/ifEquals}}
+        {{/ifEquals}}
+        <td colspan="2"></td>
+      </tr>
+      {{/if}}
       {{/each}}
+    </tbody>
+  </table>
+</div>
+<div class="rpt-flexrow" style="margin-top:50px;">
+  <table>
+    <tbody>
       <tr>
-        <td colspan="4" rowspan="3" class="total-name">PICKED BY:</td>
-        <td colspan="6" rowspan="3" class="picked-by"></td>
+        <td style="min-width:600px;"></td>
+        <td style="min-width:150px;" class="total-name">PICKED BY:</td>
+        <td style="min-width:350px;" class="picked-by"></td>
       </tr>
     </tbody>
   </table>
 </div>
 {{/ifEquals}}
+
+<!-- Paginate by Inventory Type -->
 {{#ifEquals NewPagePerType true}}
 {{#each Items}}
 {{#ifEquals RowType "InventoryTypeheader"}}
 {{#ifNotEquals IsFirstInventoryTypeHeader true}}
 <div style="page-break-after: always !important"></div>
 {{/ifNotEquals}}
+<!-- Pick List Header -->
 <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexcolumn">
-    <span class="header-left" style="font-weight:600">{{../Company}}</span>
-    <span class="header-left"><span style="font-weight:600;">Warehouse:</span> {{../Warehouse}}</span>
-    <span class="header-left"><span style="font-weight:600;">Delivery Type:</span> {{../DeliverType}}</span>
-    <span class="header-left"><span style="font-weight:600;">Assigned To:</span> {{../Agent}}</span>
-    <span class="header-left"><span style="font-weight:600;">Pick Date:</span> {{../PickDate}} {{../PickTime}}</span>
+    <span class="header-left" style="padding:2px 0px;font-weight:600">{{../Company}}</span>
+    <span class="header-left" style="padding:2px 0px;"><span style="font-weight:600;">Warehouse:</span> {{../Warehouse}}</span>
+    <span class="header-left" style="padding:2px 0px;"><span style="font-weight:600;">Delivery Type:</span> {{../DeliverType}}</span>
+    <span class="header-left" style="padding:2px 0px;"><span style="font-weight:600;">Assigned To:</span> {{../Agent}}</span>
+    <span class="header-left" style="padding:2px 0px;"><span style="font-weight:600;">Pick Date:</span> {{../PickDate}} {{../PickTime}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="title">{{../Report}}</span>
+    <span style="font-size:17px;align-self:center;">No: {{../PickNumber}}</span>
     <span class="header-center">Required By: {{../RequiredDate}}</span>
     <span class="header-center">Target Ship: {{../TargetShipDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
-    <span class="header-right" style="font-size:20px;">Pick Number: </span>
-    <span class="header-right" style="font-size:20px;border:1.25px solid black;padding:2px;">{{../PickNumber}}</span>
-    <span class="header-right" style="font-size:20px;">{{../Type}} Number: </span>
+    <span class="header-right" style="padding-right:16px;font-size:16px;">{{../Type}} No: </span>
     {{#ifEquals ../BarCodeStyle "1D"}}
-    <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{../OrderNumber}}*</span>
+    <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{../OrderNumber}}*</span> <!-- We need to wrap this in * so that the barcode works -->
     {{/ifEquals}}
     {{#ifEquals ../BarCodeStyle "2D"}}
     <span class="header-right qrcode">{{{../QrCode}}}</span>
     {{/ifEquals}}
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:30px;">
-  <table class="sub-header">
-    <tr>
-      <td class="header-left">{{../Type}}: {{../OrderNumber}}</td>
-      <td class="header-center">Description: <span style="font-weight:600;">{{../OrderDescription}}</span></td>
-      <td class="header-right">PO No: {{../PoNumber}}</td>
-    </tr>
-    <tr>
-      <td class="header-left"></td>
-      <td class="header-center">Customer: {{../Customer}}</td>
-      <td class="header-right">Project Manager: {{../ProjectManager}}</td>
-    </tr>
-    <tr>
-      <td class="header-left"></td>
-      <td class="header-center">Deal: {{../Deal}}</td>
-      <td class="header-right">Outside Sales Rep: {{../OutsideSalesRepresentative}}</td>
-    </tr>
-    <tr>
-      <td class="header-left">Start Rental: {{../EstimatedStartDate}} {{../EstimatedStartTime}}</td>
-      <td class="header-center">End Rental: {{../EstimatedStopDate}} {{../EstimatedStopTime}}</td>
-      <td class="header-right">Agent: {{../Agent}}</td>
-    </tr>
-  </table>
+<!-- Order Details -->
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <div class="rpt-flexcolumn" style="flex:0 0 450px;border-top: 2px solid #212121;margin-right:10px;">
+    <table>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">{{../Type}}: </td>
+        <td class="" style="font-weight:700;">{{../OrderNumber}}</td>
+      </tr>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">Description:</td>
+        <td class="" style="font-weight:700;">{{../OrderDescription}}</td>
+      </tr>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">Customer:</td>
+        <td class="">{{../Customer}}</td>
+      </tr>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">Deal:</td>
+        <td class="">{{../Deal}}</td>
+      </tr>
+    </table>
+  </div>
+  <!-- Rental Start / Stop -->
+  <div class="rpt-flexcolumn" style="flex:0 0 220px;border-top: 2px solid #212121;margin:0px 10px;">
+    <table>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">Start Rental:</td>
+        <td class="">{{../EstimatedStartDate}} {{../EstimatedStartTime}}</td>
+      </tr>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">Stop Rental:</td>
+        <td class="">{{../EstimatedStopDate}} {{../EstimatedStopTime}}</td>
+      </tr>
+      <tr>
+        <td style="width:90px;font-weight:700;background-color:#eeeeee;">PO No:</td>
+        <td class="">{{../PoNumber}}</td>
+      </tr>
+    </table>
+  </div>
+  <!-- Agent / Project Manager / Outside Sales Rep -->
+  <div class="rpt-flexcolumn" style="flex:0 0 394px;border-top: 2px solid #212121;margin-left:10px;">
+    <table>
+      <tr>
+        <td style="width:140px;font-weight:700;background-color:#eeeeee;">Agent:</td>
+        <td class="">{{../Agent}}</td>
+      </tr>
+      <tr>
+        <td style="width:140px;font-weight:700;background-color:#eeeeee;">Project Manager:</td>
+        <td class="">{{../ProjectManager}}</td>
+      </tr>
+      <tr>
+        <td style="width:140px;font-weight:700;background-color:#eeeeee;">Outside Sales Rep:</td>
+        <td class="">{{../OutsideSalesRepresentative}}</td>
+      </tr>
+    </table>
+  </div>
 </div>
+<!-- Items -->
 <div class="rpt-flexrow" style="margin-top:30px;">
   <table>
     <thead>
@@ -176,7 +272,6 @@
         <th>I-Code</th>
         <th>Description</th>
         <th>Vendor</th>
-        <th>Aisle/Shelf</th>
         <th class="number">Ordered</th>
         <th class="number">Out</th>
         <th class="number">Pick</th>
@@ -186,38 +281,69 @@
     </thead>
     <tbody>
       <tr data-rowtype="RecTypeDisplayheader">
-        <td colspan="8" style="text-decoration:underline; font-weight:bold;text-align:left;">{{RecTypeDisplay}}&nbsp;</td>
+        <td colspan="9" style="text-decoration:underline;font-weight:bold;text-align:center;font-size:20px;background-color:#eeeeee;border-top:1px solid #000000;border-bottom:1px solid #000000;">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr data-rowtype={{RowType}}>
-        <td colspan="8" style="font-weight:bold;text-align:left;padding:11px 0px 5px 5px">{{InventoryType}}&nbsp;</td>
+        <td colspan="9" style="font-weight:bold;text-align:left;padding:5px;border-top:1px solid #000000;background-color:#eeeeee;">{{InventoryType}}&nbsp;</td>
       </tr>
       {{/ifEquals}}
+
       {{#ifEquals RowType "detail"}}
       <tr data-rowtype={{RowType}} data-itemclass="{{ItemClass}}" data-isbold="{{Bold}}">
         <td class="text boxcol">{{OrderNumber}}</td>
-        <td class="text boxcol">{{ICode}}</td>
-        <td class="text boxcol">{{Description}}
-        {{#ifNotEquals Notes ""}}
-        <br /> <b>Notes: </b>{{Notes}}
-        {{/ifNotEquals}}
-        </td>
+        <td class="text boxcol" style="min-width:70px;">{{ICode}}</td>
+        <td class="text boxcol">{{Description}}</td>
         <td class="text boxcol">{{SubVendor}}</td>
-        <td class="text boxcol">{{AisleShelfLocation}}</td>
         <td class="number boxcol">{{QuantityOrdered}}</td>
         <td class="number boxcol">{{OutQuantity}}</td>
-        <td class="number boxcol">{{PickQuantity}}</td>
-        <td class="number boxcol"></td>
-        <td class="number boxcol"></td>
+        <td class="number boxcol" style="font-weight:bold;">{{PickQuantity}}</td>
+        <td style="border:1px solid #000000;" class="number boxcol"></td>
+        <td style="border:1px solid #000000;" class="number boxcol"></td>
       </tr>
+      {{#if Notes}}
+      <tr data-rowtype={{RowType}} data-itemclass="{{ItemClass}}" data-isbold="{{Bold}}">
+        <td colspan="2"></td>
+        {{#ifEquals ItemClass "CI"}}
+        <td colspan="5" style="border:1px dashed #000000;text-indent: 0px;padding-left: 22px;">
+          <span style="font-weight:700;">Notes: </span><span style="font-weight:400;">{{Notes}}</span>
+        </td>
+        {{else}}
+        {{#ifEquals ItemClass "KI"}}
+        <td colspan="5" style="border:1px dashed #000000;text-indent: 0px;padding-left: 22px;">
+          <span style="font-weight:700;">Notes: </span><span style="font-weight:400;">{{Notes}}</span>
+        </td>
+        {{else}}
+        {{#ifEquals ItemClass "NI"}}
+        <td colspan="5" style="border:1px dashed #000000;text-indent: 0px;padding-left: 22px;">
+          <span style="font-weight:700;">Notes: </span><span style="font-weight:400;">{{Notes}}</span>
+        </td>
+        {{else}}
+        <td colspan="5" style="border:1px dashed #000000;text-indent: 0px;padding-left:12px;">
+          <span style="font-weight:700;">Notes: </span><span style="font-weight:400;">{{Notes}}</span>
+        </td>
+        {{/ifEquals}}
+        {{/ifEquals}}
+        {{/ifEquals}}
+        <td colspan="2"></td>
+      </tr>
+      {{/if}}
       {{/ifEquals}}
+
       {{#ifEquals RowType "InventoryTypefooter"}}
       <tr data-rowtype={{RowType}}>
-        <td colspan="7" class="total-name">{{InventoryType}}&nbsp;</td>
-        <td class="total-val" data-value="{{PickQuantity}}"></td>
+        <td colspan="6" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td style="padding-right:12px;" class="total-val" data-value="{{PickQuantity}}"></td>
       </tr>
+    </tbody>
+  </table>
+</div>
+<div class="rpt-flexrow" style="margin-top:50px;">
+  <table>
+    <tbody>
       <tr>
-        <td colspan="4" rowspan="3" class="total-name">PICKED BY:</td>
-        <td colspan="6" rowspan="3" class="picked-by"></td>
+        <td style="min-width:600px;"></td>
+        <td style="min-width:150px;" class="total-name">PICKED BY:</td>
+        <td style="min-width:350px;" class="picked-by"></td>
       </tr>
     </tbody>
   </table>
