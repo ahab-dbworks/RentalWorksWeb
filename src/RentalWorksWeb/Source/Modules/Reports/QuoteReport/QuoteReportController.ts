@@ -53,6 +53,10 @@ class QuoteReport extends FwWebApiReport {
     openForm() {
         const $form = this.getFrontEnd();
         $form.attr('data-reportname', 'QuoteReport');
+        // Store info for emailing subject line
+        $form.find('div[data-datafield="QuoteId"]').data('onchange', $tr => {
+            $form.attr('data-caption', `Quote ${$tr.find('.field[data-formdatafield="QuoteNumber"]').attr('data-originalvalue')} ${$tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue')}`);
+        });
         return $form;
     }
     //----------------------------------------------------------------------------------------------

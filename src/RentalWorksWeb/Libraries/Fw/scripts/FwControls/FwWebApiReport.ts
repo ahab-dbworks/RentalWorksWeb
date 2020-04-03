@@ -345,7 +345,7 @@ abstract class FwWebApiReport {
                         request.email.from = '[me]';
                         request.email.to = '[me]';
                         request.email.cc = '';
-                        request.email.subject = '[reportname]';
+                        request.email.subject = $form.attr('data-caption');
                         request.email.body = '';
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
@@ -397,7 +397,7 @@ abstract class FwWebApiReport {
                             $btnSend.css({ 'pointer-events': 'none', 'background-color': 'light-gray' });
                         }
                         FwFormField.setValueByDataField($confirmation, 'from', email);
-                        FwFormField.setValueByDataField($confirmation, 'subject', FwTabs.getTabByElement($form).attr('data-caption'));
+                        FwFormField.setValueByDataField($confirmation, 'subject', $form.attr('data-caption'));
 
                         $btnSend.click(async (event: JQuery.Event) => {
                             try {

@@ -53,6 +53,11 @@ class PurchaseOrderReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         const $form = this.getFrontEnd();
+        // Store info for emailing subject line
+        $form.find('div[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
+            $form.attr('data-caption', `Purchase Order ${$tr.find('.field[data-formdatafield="PurchaseOrderNumber"]').attr('data-originalvalue')} ${$tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue')}`);
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------

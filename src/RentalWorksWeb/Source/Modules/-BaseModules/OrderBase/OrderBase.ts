@@ -2565,7 +2565,7 @@ class OrderBase {
 
             var printTab = jQuery('.tab.submodule.active');
             printTab.find('.caption').html(`Print ${module}`);
-            printTab.attr('data-caption', `${module} ${recordTitle}`);
+            $report.attr('data-caption', `${module} ${recordTitle}`);
         } catch (ex) {
             FwFunc.showError(ex);
         }
