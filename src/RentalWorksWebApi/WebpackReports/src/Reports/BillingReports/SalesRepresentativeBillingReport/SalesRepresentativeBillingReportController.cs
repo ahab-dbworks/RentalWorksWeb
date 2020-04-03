@@ -44,7 +44,7 @@ namespace WebApi.Modules.Reports.Billing.SalesRepresentativeBillingReport
         //------------------------------------------------------------------------------------ 
         public SalesRepresentativeBillingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SalesRepresentativeBillingReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "SalesRepresentativeBillingReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "SalesRepresentativeBillingReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sales Representative Billing Report"; }
         //------------------------------------------------------------------------------------ 

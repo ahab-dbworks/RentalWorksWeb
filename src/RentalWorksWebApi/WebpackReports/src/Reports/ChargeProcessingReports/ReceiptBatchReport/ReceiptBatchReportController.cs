@@ -29,7 +29,7 @@ namespace WebApi.Modules.Reports.ChargeProcessingReports.ReceiptBatchReport
     public class ReceiptBatchReportController : AppReportController
     {
         public ReceiptBatchReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ReceiptBatchReportLoader); }
-        protected override string GetReportFileName() { return "ReceiptBatchReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "ReceiptBatchReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Receipt Batch"; }
         //------------------------------------------------------------------------------------ 

@@ -40,7 +40,7 @@ namespace WebApi.Modules.Reports.OrderReports.SubSalesStagedItemsReport
     public class SubSalesStagedItemsReportController : AppReportController
     {
         public SubSalesStagedItemsReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SubSalesStagedItemsReportLoader); }
-        protected override string GetReportFileName() { return "SubSalesStagedItemsReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "SubSalesStagedItemsReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sub-Sales Staged Items Report"; }
         //------------------------------------------------------------------------------------ 

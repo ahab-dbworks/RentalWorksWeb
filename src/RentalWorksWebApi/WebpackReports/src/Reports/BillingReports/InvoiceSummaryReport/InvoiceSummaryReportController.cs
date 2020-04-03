@@ -43,7 +43,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceSummaryReport
     {
         public InvoiceSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(InvoiceSummaryReportLoader); }
 
-        protected override string GetReportFileName() { return "InvoiceSummaryReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "InvoiceSummaryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Invoice Summary Report"; }
         //------------------------------------------------------------------------------------ 

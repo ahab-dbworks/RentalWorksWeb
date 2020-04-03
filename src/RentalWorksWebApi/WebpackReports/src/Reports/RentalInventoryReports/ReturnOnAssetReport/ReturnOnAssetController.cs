@@ -46,7 +46,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ReturnOnAssetReport
     public class ReturnOnAssetReportController : AppReportController
     {
         public ReturnOnAssetReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ReturnOnAssetByDateRangeReportLoader); }
-        protected override string GetReportFileName() { return "ReturnOnAssetReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "ReturnOnAssetReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Return On Asset"; }
         //------------------------------------------------------------------------------------ 

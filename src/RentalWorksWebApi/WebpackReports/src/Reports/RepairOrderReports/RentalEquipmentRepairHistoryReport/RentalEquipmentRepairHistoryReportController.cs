@@ -37,7 +37,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RentalEquipmentRepairHistory
     public class RentalEquipmentRepairHistoryReportController : AppReportController
     {
         public RentalEquipmentRepairHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalEquipmentRepairHistoryReportLoader); }
-        protected override string GetReportFileName() { return "RentalEquipmentRepairHistoryReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "RentalEquipmentRepairHistoryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Equipment Repair History Report"; }
         //------------------------------------------------------------------------------------ 

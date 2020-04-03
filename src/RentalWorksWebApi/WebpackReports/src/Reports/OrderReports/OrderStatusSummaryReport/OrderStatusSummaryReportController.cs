@@ -26,7 +26,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderStatusSummaryReport
     public class OrderStatusSummaryReportController : AppReportController
     {
         public OrderStatusSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrderStatusSummaryReportLoader); }
-        protected override string GetReportFileName() { return "OrderStatusSummaryReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "OrderStatusSummaryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Order Status"; }
         //------------------------------------------------------------------------------------ 

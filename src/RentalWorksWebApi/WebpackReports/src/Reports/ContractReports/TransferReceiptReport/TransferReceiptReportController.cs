@@ -25,7 +25,7 @@ namespace WebApi.Modules.Reports.ContractReports.TransferReceiptReport
         //------------------------------------------------------------------------------------ 
         public TransferReceiptReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(TransferReceiptReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "TransferReceiptReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "TransferReceiptReport"; }
         protected override string GetReportFriendlyName() { return "Lost Contract Report"; }
         protected override PdfOptions GetPdfOptions()
         {

@@ -41,7 +41,7 @@ namespace WebApi.Modules.Reports.VendorReports.SubRentalBillingAnalysisReport
     public class SubRentalBillingAnalysisReportController : AppReportController
     {
         public SubRentalBillingAnalysisReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SubRentalBillingAnalysisReportLoader); }
-        protected override string GetReportFileName() { return "SubRentalBillingAnalysisReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "SubRentalBillingAnalysisReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sub-Rental Billing Analysis Report"; }
         //------------------------------------------------------------------------------------ 

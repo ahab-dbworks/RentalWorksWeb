@@ -41,7 +41,7 @@ namespace WebApi.Modules.Reports.Billing.AgentBillingReport
         //------------------------------------------------------------------------------------ 
         public AgentBillingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(AgentBillingReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "AgentBillingReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "AgentBillingReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Agent Billing Report"; }
         //------------------------------------------------------------------------------------ 

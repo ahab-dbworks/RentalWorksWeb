@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseInboundReport
     public class WarehouseInboundReportController : AppReportController
     {
         public WarehouseInboundReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "WarehouseInboundReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "WarehouseInboundReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Warehouse Inbound Report"; }
         //------------------------------------------------------------------------------------ 

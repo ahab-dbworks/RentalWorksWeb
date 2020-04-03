@@ -9,7 +9,7 @@ const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
 export class QuoteReport extends WebpackReport {
-    order: Order = null;
+    quote: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
@@ -17,8 +17,8 @@ export class QuoteReport extends WebpackReport {
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<Order>(`${apiUrl}/api/v1/quotereport/runreport`, authorizationHeader, parameters)
-                        .then((response: Order) => {
+                    Ajax.post<any>(`${apiUrl}/api/v1/quotereport/runreport`, authorizationHeader, parameters)
+                        .then((response: any) => {
                             const data: any = response;
                             //data.Items = DataTable.toObjectList(response.Items);
                             //data.RentalItems = DataTable.toObjectList(response.RentalItems);
@@ -68,7 +68,7 @@ export class QuoteReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: Order): string {
+    renderFooterHtml(model: any): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
@@ -76,7 +76,8 @@ export class QuoteReport extends WebpackReport {
 
 (<any>window).report = new QuoteReport();
 
-class Order {
+/*
+class Quote {
     _Custom = new Array<CustomField>();
     Report: string;
     Company: string;
@@ -244,3 +245,5 @@ class Order {
     LaborItems: any;
     PrintTime: string;
 }
+
+    */

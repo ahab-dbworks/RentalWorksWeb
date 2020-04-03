@@ -31,7 +31,7 @@ namespace WebApi.Modules.Reports.Billing.CreateInvoiceProcessReport
     public class CreateInvoiceProcessReportController : AppReportController
     {
         public CreateInvoiceProcessReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(CreateInvoiceProcessReportLoader); }
-        protected override string GetReportFileName() { return "CreateInvoiceProcessReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "CreateInvoiceProcessReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Create Invoice Process Report"; }
         //------------------------------------------------------------------------------------ 

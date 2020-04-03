@@ -22,7 +22,7 @@ namespace WebApi.Modules.Reports.ContractReports.ReceiveContractReport
         //------------------------------------------------------------------------------------ 
         public ReceiveContractReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ReceiveContractReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "ReceiveContractReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "ReceiveContractReport"; }
         protected override string GetReportFriendlyName() { return "Receive Contract Report"; }
         protected override PdfOptions GetPdfOptions()
         {

@@ -35,7 +35,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderSummaryReport
     public class PurchaseOrderSummaryReportController : AppReportController
     {
         public PurchaseOrderSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(PurchaseOrderSummaryReportLoader); }
-        protected override string GetReportFileName() { return "PurchaseOrderSummaryReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "PurchaseOrderSummaryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Purchase Order Summary Report"; }
         //------------------------------------------------------------------------------------ 

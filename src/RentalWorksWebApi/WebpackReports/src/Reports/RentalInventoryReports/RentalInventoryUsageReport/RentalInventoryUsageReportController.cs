@@ -42,7 +42,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryUsageRepo
     public class RentalInventoryUsageReportController : AppReportController
     {
         public RentalInventoryUsageReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalInventoryUsageReportLoader); }
-        protected override string GetReportFileName() { return "RentalInventoryUsageReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "RentalInventoryUsageReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Inventory Usage Report"; }
         //------------------------------------------------------------------------------------ 

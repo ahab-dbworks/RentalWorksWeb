@@ -25,7 +25,7 @@ namespace WebApi.Modules.Reports.ContractReports.ExchangeContractReport
         //------------------------------------------------------------------------------------ 
         public ExchangeContractReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ExchangeContractReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "ExchangeContractReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "ExchangeContractReport"; }
         protected override string GetReportFriendlyName() { return "Exchange Contract Report"; }
         protected override PdfOptions GetPdfOptions()
         {

@@ -40,7 +40,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceDiscountReport
     public class InvoiceDiscountReportController : AppReportController
     {
         public InvoiceDiscountReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(InvoiceDiscountReportLoader); }
-        protected override string GetReportFileName() { return "InvoiceDiscountReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "InvoiceDiscountReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Invoice Discount Report"; }
         //------------------------------------------------------------------------------------ 

@@ -45,7 +45,7 @@ namespace WebApi.Modules.Reports.Billing.BillingProgressReport
     public class BillingProgressReportController : AppReportController
     {
         public BillingProgressReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(BillingProgressReportLoader); }
-        protected override string GetReportFileName() { return "BillingProgressReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "BillingProgressReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Billing Progress Report"; }
         //------------------------------------------------------------------------------------ 

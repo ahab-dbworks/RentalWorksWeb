@@ -26,7 +26,16 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
     public class OrderReportController : AppReportController
     {
         public OrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrderReportLoader); }
-        protected override string GetReportFileName() { return "OrderReport"; }
+        //------------------------------------------------------------------------------------ 
+        protected override string GetReportFileName(FwReportRenderRequest request) {
+            //return "OrderReport"; 
+            OrderLogic order = new OrderLogic();
+            order.SetDependencies(AppConfig, UserSession);
+            order.OrderId = GetUniqueId(request);
+            bool b = order.LoadAsync<OrderLogic>().Result;
+            string fileName = order.OrderNumber + " " + order.Description;
+            return fileName;
+        }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Order Report"; }
         //------------------------------------------------------------------------------------ 

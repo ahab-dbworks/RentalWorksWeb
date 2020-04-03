@@ -53,7 +53,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairOrderStatusReport
     public class RepairOrderStatusReportController : AppReportController
     {
         public RepairOrderStatusReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RepairOrderStatusReportLoader); }
-        protected override string GetReportFileName() { return "RepairOrderStatusReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "RepairOrderStatusReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Repair Order Status Report"; }
         //------------------------------------------------------------------------------------ 

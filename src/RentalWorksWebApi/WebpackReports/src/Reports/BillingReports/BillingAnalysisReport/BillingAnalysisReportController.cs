@@ -40,7 +40,7 @@ namespace WebApi.Modules.Reports.Billing.BillingAnalysisReport
     public class BillingAnalysisReportController : AppReportController
     {
         public BillingAnalysisReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(BillingAnalysisReportLoader); }
-        protected override string GetReportFileName() { return "BillingAnalysisReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "BillingAnalysisReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Billing Analysis Report"; }
         //------------------------------------------------------------------------------------ 

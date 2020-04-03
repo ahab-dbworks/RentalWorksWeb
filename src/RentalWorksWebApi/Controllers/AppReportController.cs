@@ -1,5 +1,6 @@
 ﻿using FwCore.Controllers;
 using FwStandard.Models;
+using FwStandard.Reporting;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,51 +32,53 @@ namespace WebApi.Controllers
         //    return StatusCode(jsonException.StatusCode, jsonException);
         //}
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(FwJsonDataTable dt, string worksheetName = "", bool includeIdColumns = true)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                if (string.IsNullOrEmpty(worksheetName))
-                {
-                    worksheetName = GetReportFileName();
-                }
-
-                string strippedWorksheetName = new string(worksheetName.Where(c => char.IsLetterOrDigit(c)).ToArray());
-                string downloadFileName = $"{strippedWorksheetName}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}";
-                string filename = $"{this.UserSession.WebUsersId}_{strippedWorksheetName}_{Guid.NewGuid().ToString().Replace("-", string.Empty)}_xlsx";
-                string directory = FwDownloadController.GetDownloadsDirectory();
-                string path = Path.Combine(directory, filename);
-
-                // Delete any existing excel files belonginng to this user
-                FwDownloadController.DeleteCurrentWebUserDownloads(this.UserSession.WebUsersId);
-
-                if (!includeIdColumns)
-                {
-                    foreach (FwJsonDataTableColumn col in dt.Columns)
-                    {
-                        string dataField = col.DataField.ToUpper();
-                        if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")))
-                        {
-                            col.IsVisible = false;
-                        }
-                    }
-                }
-
-                dt.ToExcelXlsxFile(worksheetName, path);
-                DoExportExcelXlsxExportFileAsyncResult result = new DoExportExcelXlsxExportFileAsyncResult();
-                result.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}.xlsx";
-                await Task.CompletedTask; // get rid of the no async call warning
-                return new OkObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                return GetApiExceptionResult(ex);
-            }
-        }
+        
+        //justin hoffman 04/03/2020 moved to FwReportController
+        //protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(FwJsonDataTable dt, string worksheetName = "", bool includeIdColumns = true)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(worksheetName))
+        //        {
+        //            worksheetName = GetReportFriendlyName();
+        //        }
+        //
+        //        string strippedWorksheetName = new string(worksheetName.Where(c => char.IsLetterOrDigit(c)).ToArray());
+        //        string downloadFileName = $"{strippedWorksheetName}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}";
+        //        string filename = $"{this.UserSession.WebUsersId}_{strippedWorksheetName}_{Guid.NewGuid().ToString().Replace("-", string.Empty)}_xlsx";
+        //        string directory = FwDownloadController.GetDownloadsDirectory();
+        //        string path = Path.Combine(directory, filename);
+        //
+        //        // Delete any existing excel files belonginng to this user
+        //        FwDownloadController.DeleteCurrentWebUserDownloads(this.UserSession.WebUsersId);
+        //
+        //        if (!includeIdColumns)
+        //        {
+        //            foreach (FwJsonDataTableColumn col in dt.Columns)
+        //            {
+        //                string dataField = col.DataField.ToUpper();
+        //                if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")))
+        //                {
+        //                    col.IsVisible = false;
+        //                }
+        //            }
+        //        }
+        //
+        //        dt.ToExcelXlsxFile(worksheetName, path);
+        //        DoExportExcelXlsxExportFileAsyncResult result = new DoExportExcelXlsxExportFileAsyncResult();
+        //        result.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}.xlsx";
+        //        await Task.CompletedTask; // get rid of the no async call warning
+        //        return new OkObjectResult(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return GetApiExceptionResult(ex);
+        //    }
+        //}
         //------------------------------------------------------------------------------------
     }
 }

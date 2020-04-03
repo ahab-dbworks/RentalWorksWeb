@@ -42,7 +42,7 @@ namespace WebApi.Modules.Reports.DealReports.CustomerRevenueByMonthReport
     public class CustomerRevenueByMonthReportController : AppReportController
     {
         public CustomerRevenueByMonthReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(CustomerRevenueByMonthReportLoader); }
-        protected override string GetReportFileName() { return "CustomerRevenueByMonthReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "CustomerRevenueByMonthReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Customer Revenue By Month Report"; }
         //------------------------------------------------------------------------------------ 

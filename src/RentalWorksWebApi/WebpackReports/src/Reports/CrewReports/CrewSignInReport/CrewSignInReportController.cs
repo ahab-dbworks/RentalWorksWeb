@@ -41,7 +41,7 @@ namespace WebApi.Modules.Reports.CrewReports.CrewSignInReport
         //------------------------------------------------------------------------------------ 
         public CrewSignInReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(CrewSignInReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "CrewSignInReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "CrewSignInReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Crew Sign-In Report"; }
         //------------------------------------------------------------------------------------ 

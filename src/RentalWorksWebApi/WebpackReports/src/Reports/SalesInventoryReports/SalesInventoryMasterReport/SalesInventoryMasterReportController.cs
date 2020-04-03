@@ -39,7 +39,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesInventoryMasterRepor
     public class SalesInventoryMasterReportController : AppReportController
     {
         public SalesInventoryMasterReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SalesInventoryMasterReportLoader); }
-        protected override string GetReportFileName() { return "SalesInventoryMasterReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "SalesInventoryMasterReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sales Inventory Master Report"; }
         //------------------------------------------------------------------------------------ 

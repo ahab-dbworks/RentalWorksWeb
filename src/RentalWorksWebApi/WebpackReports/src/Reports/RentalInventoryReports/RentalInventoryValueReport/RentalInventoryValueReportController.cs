@@ -46,7 +46,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryValueRepo
     public class RentalInventoryValueReportController : AppReportController
     {
         public RentalInventoryValueReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalInventoryValueReportLoader); }
-        protected override string GetReportFileName() { return "RentalInventoryValueReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "RentalInventoryValueReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Inventory Value Report"; }
         //------------------------------------------------------------------------------------ 

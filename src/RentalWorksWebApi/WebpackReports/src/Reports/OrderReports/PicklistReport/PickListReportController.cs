@@ -27,7 +27,7 @@ namespace WebApi.Modules.Reports.OrderReports.PickListReport
     public class PickListReportController : AppReportController
     {
         public PickListReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(PickListReportLoader); }
-        protected override string GetReportFileName() { return "PickListReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "PickListReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Pick List Report"; }
         //------------------------------------------------------------------------------------ 

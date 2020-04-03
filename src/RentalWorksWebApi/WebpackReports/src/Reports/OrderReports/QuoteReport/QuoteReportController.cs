@@ -8,18 +8,35 @@ using PuppeteerSharp;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Data;
 using WebApi.Modules.Agent.Quote;
 using WebApi.Modules.Reports.OrderReports.OrderReport;
 
 namespace WebApi.Modules.Reports.OrderReports.QuoteReport
 {
+
+    public class QuoteReportRequest : AppReportRequest
+    {
+        public string QuoteId { get; set; }
+    }
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "SZ80uvR5NjI7")]
     public class QuoteReportController : AppReportController
     {
         public QuoteReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(QuoteReportLoader); }
-        protected override string GetReportFileName() { return "QuoteReport"; }
+        //------------------------------------------------------------------------------------ 
+        protected override string GetReportFileName(FwReportRenderRequest request)
+        {
+            //return "QuoteReport"; 
+            QuoteLogic quote = new QuoteLogic();
+            quote.SetDependencies(AppConfig, UserSession);
+            quote.QuoteId = GetUniqueId(request);
+            bool b = quote.LoadAsync<QuoteLogic>().Result;
+            string fileName = quote.QuoteNumber + " " + quote.Description;
+            return fileName;
+        }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Quote Report"; }
         //------------------------------------------------------------------------------------ 
@@ -48,7 +65,7 @@ namespace WebApi.Modules.Reports.OrderReports.QuoteReport
         // POST api/v1/quotereport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "uSkWW0LRLNXF")]
-        public async Task<ActionResult<QuoteReportLoader>> RunReportAsync([FromBody]OrderReportRequest request)
+        public async Task<ActionResult<QuoteReportLoader>> RunReportAsync([FromBody]QuoteReportRequest request)
         {
             if (!ModelState.IsValid)
             {

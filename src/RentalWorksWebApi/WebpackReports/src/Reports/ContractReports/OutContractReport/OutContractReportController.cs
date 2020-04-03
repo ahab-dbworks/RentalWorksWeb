@@ -23,7 +23,7 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
         //------------------------------------------------------------------------------------ 
         public OutContractReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OutContractReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "OutContractReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "OutContractReport"; }
         protected override string GetReportFriendlyName() { return "Out Contract Report"; }
         protected override PdfOptions GetPdfOptions()
         {

@@ -30,7 +30,7 @@ namespace WebApi.Modules.Reports.ChargeProcessingReports.DealInvoiceBatchReport
     public class DealInvoiceBatchReportController : AppReportController
     {
         public DealInvoiceBatchReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(DealInvoiceBatchReportLoader); }
-        protected override string GetReportFileName() { return "DealInvoiceBatchReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "DealInvoiceBatchReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Deal Invoice Batch"; }
         //------------------------------------------------------------------------------------ 

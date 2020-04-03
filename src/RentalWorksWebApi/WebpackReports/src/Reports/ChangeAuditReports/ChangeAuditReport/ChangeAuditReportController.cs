@@ -29,7 +29,7 @@ namespace WebApi.Modules.Reports.ChangeAuditReports.ChangeAuditReport
     public class ChangeAuditReportController : AppReportController
     {
         public ChangeAuditReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ChangeAuditReportLoader); }
-        protected override string GetReportFileName() { return "ChangeAuditReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "ChangeAuditReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Change Audit Report"; }
         //------------------------------------------------------------------------------------ 

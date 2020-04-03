@@ -41,7 +41,7 @@ namespace WebApi.Modules.Reports.DealReports.DealInvoiceDetailReport
     public class DealInvoiceDetailReportController : AppReportController
     {
         public DealInvoiceDetailReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(DealInvoiceDetailReportLoader); }
-        protected override string GetReportFileName() { return "DealInvoiceDetailReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "DealInvoiceDetailReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Deal Invoice Detail Report"; }
         //------------------------------------------------------------------------------------ 

@@ -30,7 +30,7 @@ namespace WebApi.Modules.Reports.ManifestReport
     public class ManifestReportController : AppReportController
     {
         public ManifestReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ManifestReportLoader); }
-        protected override string GetReportFileName() { return "ManifestReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "ManifestReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Manifest"; }
         //------------------------------------------------------------------------------------ 

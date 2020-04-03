@@ -40,7 +40,7 @@ namespace WebApi.Modules.Reports.AccountingReports.GlDistributionReport
         //------------------------------------------------------------------------------------ 
         public GlDistributionReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(GlDistributionReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "GlDistributionReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "GlDistributionReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "G/L Distribution Report"; }
         //------------------------------------------------------------------------------------ 

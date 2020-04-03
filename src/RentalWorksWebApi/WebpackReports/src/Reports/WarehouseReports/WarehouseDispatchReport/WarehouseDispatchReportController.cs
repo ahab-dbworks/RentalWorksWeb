@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispatchReport
     public class WarehouseDispatchReportController : AppReportController
     {
         public WarehouseDispatchReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "WarehouseDispatchReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "WarehouseDispatchReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Warehouse Dispatch Report"; }
         //------------------------------------------------------------------------------------ 

@@ -43,7 +43,7 @@ namespace WebApi.Modules.Reports.OrderReports.LateReturnsReport
     public class LateReturnsReportController : AppReportController
     {
         public LateReturnsReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(LateReturnsReportLoader); }
-        protected override string GetReportFileName() { return "LateReturnsReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "LateReturnsReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Late Returns Report"; }
         //------------------------------------------------------------------------------------ 

@@ -23,7 +23,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
     public class PurchaseOrderReportController : AppReportController
     {
         public PurchaseOrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(PurchaseOrderReportLoader); }
-        protected override string GetReportFileName() { return "PurchaseOrderReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "PurchaseOrderReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Purchase Order Report"; }
         //------------------------------------------------------------------------------------ 

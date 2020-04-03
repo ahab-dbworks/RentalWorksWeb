@@ -23,7 +23,7 @@ namespace WebApi.Modules.Reports.ContractReports.LostContractReport
         //------------------------------------------------------------------------------------ 
         public LostContractReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(LostContractReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "LostContractReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "LostContractReport"; }
         protected override string GetReportFriendlyName() { return "Lost Contract Report"; }
         protected override PdfOptions GetPdfOptions()
         {

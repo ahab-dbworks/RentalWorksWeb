@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
+using static FwCore.Controllers.FwDataController;
 
 namespace FwCore.Controllers
 {
@@ -21,7 +23,7 @@ namespace FwCore.Controllers
         //---------------------------------------------------------------------------------------------
         protected Type logicType = null;
         //---------------------------------------------------------------------------------------------
-        protected abstract string GetReportFileName();
+        protected abstract string GetReportFileName(FwReportRenderRequest request);
         //---------------------------------------------------------------------------------------------
         protected abstract string GetReportFriendlyName();
         //---------------------------------------------------------------------------------------------
@@ -32,10 +34,13 @@ namespace FwCore.Controllers
             Console.WriteLine($"baseurl: {baseUrl}");
             string guid = Guid.NewGuid().ToString().Replace("-", string.Empty);
             //string baseFileName = $"{this.GetReportFileName()}{this.UserSession.WebUsersId}_{guid}";
-            string baseFileName = $"{this.GetReportFileName()}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}";
+            string reportFileName = this.GetReportFileName(request).Replace(" ", "_").Replace("/", "_").Replace("-", "_");
+            string baseFileName = $"{reportFileName}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}";
             string htmlFileName = $"{baseFileName}.html";
             //string pathHtmlReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), htmlFileName);
-            string urlHtmlReport = $"{baseUrl}/Reports/{this.GetReportFileName()}/index.html?nocache={Guid.NewGuid().ToString().Replace("-", "")}";
+            //string urlHtmlReport = $"{baseUrl}/Reports/{reportFileName}/index.html?nocache={Guid.NewGuid().ToString().Replace("-", "")}";
+            string reportName = this.GetType().Name.Replace("Controller", "");
+            string urlHtmlReport = $"{baseUrl}/Reports/{reportName}/index.html?nocache={Guid.NewGuid().ToString().Replace("-", "")}";
             Console.WriteLine($"urlHtmlReport: {urlHtmlReport}");
             //string urlHtmlReport = $"{baseUrl}/temp/downloads/{htmlFileName}";
             string authorizationHeader = HttpContext.Request.Headers["Authorization"];
@@ -46,7 +51,18 @@ namespace FwCore.Controllers
             }
             else if (request.renderMode == "Pdf" || request.renderMode == "Email")
             {
-                string pdfFileName = $"{baseFileName}.pdf";
+                //string pdfFileName = $"{baseFileName}.pdf";
+                string pdfFileName = "";
+
+                if ((string.IsNullOrEmpty(reportFileName)) || (reportFileName.Equals(reportName)))  // default
+                {
+                    pdfFileName = $"{baseFileName}.pdf";
+                }
+                else 
+                { 
+                    pdfFileName = $"{reportFileName}.pdf";
+                }
+
                 string pathPdfReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), pdfFileName);
                 response.pdfReportUrl = $"{baseUrl}/temp/downloads/{pdfFileName}";
                 response.consoleOutput = await FwReport.GeneratePdfFromUrlAsync(baseUrl, urlHtmlReport, pathPdfReport, authorizationHeader, request.parameters, GetPdfOptions());
@@ -95,6 +111,55 @@ namespace FwCore.Controllers
         }
 
         //------------------------------------------------------------------------------------ 
+
+        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(FwJsonDataTable dt, string worksheetName = "", bool includeIdColumns = true)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (string.IsNullOrEmpty(worksheetName))
+                {
+                    worksheetName = GetReportFriendlyName();
+                }
+
+                string strippedWorksheetName = new string(worksheetName.Where(c => char.IsLetterOrDigit(c)).ToArray());
+                string downloadFileName = $"{strippedWorksheetName}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}";
+                string filename = $"{this.UserSession.WebUsersId}_{strippedWorksheetName}_{Guid.NewGuid().ToString().Replace("-", string.Empty)}_xlsx";
+                string directory = FwDownloadController.GetDownloadsDirectory();
+                string path = Path.Combine(directory, filename);
+
+                // Delete any existing excel files belonginng to this user
+                FwDownloadController.DeleteCurrentWebUserDownloads(this.UserSession.WebUsersId);
+
+                if (!includeIdColumns)
+                {
+                    foreach (FwJsonDataTableColumn col in dt.Columns)
+                    {
+                        string dataField = col.DataField.ToUpper();
+                        if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")))
+                        {
+                            col.IsVisible = false;
+                        }
+                    }
+                }
+
+                dt.ToExcelXlsxFile(worksheetName, path);
+                DoExportExcelXlsxExportFileAsyncResult result = new DoExportExcelXlsxExportFileAsyncResult();
+                result.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}.xlsx";
+                await Task.CompletedTask; // get rid of the no async call warning
+                return new OkObjectResult(result);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+
+        //------------------------------------------------------------------------------------ 
+
         [HttpGet("emptyobject")]
         [FwControllerMethod("", FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public ActionResult<FwJsonDataTable> GetEmptyObject()

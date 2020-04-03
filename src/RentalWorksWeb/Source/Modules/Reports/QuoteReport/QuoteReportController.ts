@@ -65,8 +65,8 @@ class QuoteReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        parameters.OrderId = parameters.QuoteId;
-        parameters.isQuote = true;
+        //parameters.QuoteId = parameters.QuoteId;
+        //parameters.isQuote = true;
         return parameters;
     }
     //----------------------------------------------------------------------------------------------

@@ -39,7 +39,7 @@ namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
     public class QuikActivityReportController : AppReportController
     {
         public QuikActivityReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(QuikActivityReportLoader); }
-        protected override string GetReportFileName() { return "QuikActivityReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "QuikActivityReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "QuikActivity Report"; }
         //------------------------------------------------------------------------------------ 

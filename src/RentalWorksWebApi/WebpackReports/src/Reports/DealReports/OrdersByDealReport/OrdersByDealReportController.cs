@@ -52,7 +52,7 @@ namespace WebApi.Modules.Reports.DealReports.OrdersByDealReport
     public class OrdersByDealReportController : AppReportController
     {
         public OrdersByDealReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrdersByDealReportLoader); }
-        protected override string GetReportFileName() { return "OrdersByDealReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "OrdersByDealReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Orders By Deal Report"; }
         //------------------------------------------------------------------------------------ 

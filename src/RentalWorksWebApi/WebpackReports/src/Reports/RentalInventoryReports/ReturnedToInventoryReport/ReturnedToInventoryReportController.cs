@@ -41,7 +41,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ReturnedToInventoryRepor
     public class ReturnedToInventoryReportController : AppReportController
     {
         public ReturnedToInventoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ReturnedToInventoryReportLoader); }
-        protected override string GetReportFileName() { return "ReturnedToInventoryReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "ReturnedToInventoryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Returned To Inventory Report"; }
         //------------------------------------------------------------------------------------ 

@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.ContractReports.ContractRevisionReport
     public class ContractRevisionReportController : AppReportController
     {
         public ContractRevisionReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ContractRevisionReportLoader); }
-        protected override string GetReportFileName() { return "ContractRevisionReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "ContractRevisionReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Contract Revision Report"; }
         //------------------------------------------------------------------------------------ 

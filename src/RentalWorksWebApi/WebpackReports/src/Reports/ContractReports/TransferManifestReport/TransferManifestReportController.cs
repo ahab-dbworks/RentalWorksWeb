@@ -25,7 +25,7 @@ namespace WebApi.Modules.Reports.ContractReports.TransferManifestReport
         //------------------------------------------------------------------------------------ 
         public TransferManifestReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(TransferManifestReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "TransferManifestReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "TransferManifestReport"; }
         protected override string GetReportFriendlyName() { return "Lost Contract Report"; }
         protected override PdfOptions GetPdfOptions()
         {

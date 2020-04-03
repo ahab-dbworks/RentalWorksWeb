@@ -45,7 +45,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesHistoryReport
     public class SalesHistoryReportController : AppReportController
     {
         public SalesHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SalesHistoryReportLoader); }
-        protected override string GetReportFileName() { return "SalesHistoryReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "SalesHistoryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sales History Report"; }
         //------------------------------------------------------------------------------------ 

@@ -22,7 +22,7 @@ namespace WebApi.Modules.Reports.ContractReports.ReturnContractReport
         //------------------------------------------------------------------------------------ 
         public ReturnContractReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ReturnContractReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "ReturnContractReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "ReturnContractReport"; }
         protected override string GetReportFriendlyName() { return "Lost Contract Report"; }
         protected override PdfOptions GetPdfOptions()
         {

@@ -50,7 +50,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderConflictReport
     public class OrderConflictReportController : AppReportController
     {
         public OrderConflictReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrderConflictReportLoader); }
-        protected override string GetReportFileName() { return "OrderConflictReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "OrderConflictReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Order Conflict Report"; }
         //------------------------------------------------------------------------------------ 

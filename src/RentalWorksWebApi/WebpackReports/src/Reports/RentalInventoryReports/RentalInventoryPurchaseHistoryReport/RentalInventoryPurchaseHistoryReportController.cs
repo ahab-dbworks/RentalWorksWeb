@@ -26,7 +26,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryPurchaseH
     public class RentalInventoryPurchaseHistoryReportController : AppReportController
     {
         public RentalInventoryPurchaseHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalInventoryPurchaseHistoryReportLoader); }
-        protected override string GetReportFileName() { return "RentalInventoryPurchaseHistoryReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "RentalInventoryPurchaseHistoryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Inventory Purchase History Report"; }
         //------------------------------------------------------------------------------------ 

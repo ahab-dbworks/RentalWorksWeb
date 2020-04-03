@@ -42,7 +42,7 @@ namespace WebApi.Modules.Reports.VendorReports.SubItemStatusReport
     public class SubItemStatusReportController : AppReportController
     {
         public SubItemStatusReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SubItemStatusReportLoader); }
-        protected override string GetReportFileName() { return "SubItemStatusReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "SubItemStatusReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sub Item Status Report"; }
         //------------------------------------------------------------------------------------ 
