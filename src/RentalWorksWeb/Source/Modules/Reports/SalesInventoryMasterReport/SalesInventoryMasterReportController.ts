@@ -146,6 +146,7 @@ class SalesInventoryMasterReport extends FwWebApiReport {
         $form.find('[data-datafield="RevenueFilterMode"]').on('change', e => {
             const filterMode = FwFormField.getValueByDataField($form, 'RevenueFilterMode');
             const $filterAmountField = $form.find('[data-datafield="RevenueFilterAmount"]');
+            $filterAmountField.removeClass('error');
             if (filterMode === "ALL") {
                 FwFormField.disable($filterAmountField);
                 $filterAmountField.attr('data-required', "false");
