@@ -2987,8 +2987,6 @@ class OrderBase {
             } else {
                 getVenueAddress($form, venueId, prefix);
             }
-        } else {
-            FwNotification.renderNotification('INFO', `No Venue chosen on ${this.Module}.`);
         }
 
         function getVenueAddress($form, venueId, prefix) {
@@ -3001,7 +2999,7 @@ class OrderBase {
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, response.State);
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, response.Zip);
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.CountryId, venueRes.Country);
-                // Preventing unnecessary API calls once warehouse addresses have been requested once
+                // Preventing unnecessary API calls once venue addresses have been requested once
                 $form.data('venueAddress', {
                     'VenueId': response.VenueId,
                     'Attention': response.PrimaryContact,
