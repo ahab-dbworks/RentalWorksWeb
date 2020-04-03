@@ -651,3 +651,5 @@ html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbo
 [data-controller="RateUpdateUtilityController"] [data-datafield="ActivityType"] div.fwformfield-control div[data-value] {margin:auto;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="Classification"] ol {display:flex; width:700px !important; min-height:1em !important;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="Classification"] ol li {margin:auto; padding:.5em;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] ol {display:flex; width:700px !important; min-height:1em !important;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] ol li {margin:auto; padding:.5em;}

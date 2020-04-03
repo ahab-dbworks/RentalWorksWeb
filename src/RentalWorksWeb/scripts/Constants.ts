@@ -983,6 +983,7 @@ var Constants = {
         PurchaseVendorGrid: { id: '15yjeHiHe1x99', caption: 'Purchase Vendor' },
         PurchaseVendorInvoiceItemGrid: { id: 'NlKSJj2fN0ly', caption: 'Purchase Vendor Invoice Item' },
         QuikActivityGrid: { id: 'yhYOLhLE92IT', caption: 'QuikActivity' },
+        RateUpdateUtilityGrid: { id: 'MUIYTomUGshV', caption: 'Rate Update Utility' },
         RateLocationTaxGrid: { id: 'Bm6TN9A4IRIuT', caption: 'Rate Location Tax' },
         RateWarehouseGrid: { id: 'oVjmeqXtHEJCm', caption: 'Rate Warehouse' },
         RentalInventoryWarehouseGrid: { id: 'g8sCuKjUVrW1', caption: 'Rental Inventory Warehouse' },

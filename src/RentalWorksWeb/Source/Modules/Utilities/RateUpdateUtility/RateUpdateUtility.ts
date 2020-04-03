@@ -172,5 +172,19 @@ class RateUpdateUtility {
         }
     }
     //----------------------------------------------------------------------------------------------
+    renderGrids($form: JQuery) {
+        FwBrowse.renderGrid({
+            nameGrid: 'RateUpdateUtilityGrid',
+            gridSecurityId: 'MUIYTomUGshV',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                //request.uniqueids = {
+                   
+                //};
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
 }
 var RateUpdateUtilityController = new RateUpdateUtility();
