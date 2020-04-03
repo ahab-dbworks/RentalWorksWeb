@@ -1,17 +1,17 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.SqlServer;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Agent.Vendor;
+using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.InventorySettings.RentalCategory;
+using WebApi.Modules.Settings.InventorySettings.Unit;
 using WebApi.Modules.Settings.SubCategory;
-using WebApi.Modules.Inventory.RentalInventory;
-using WebApi.Modules.Agent.Deal;
-using WebApi.Modules.Agent.Order;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 
 namespace WebApi.Modules.Utilities.RateUpdateUtility
 {
@@ -22,61 +22,62 @@ namespace WebApi.Modules.Utilities.RateUpdateUtility
     {
         public RateUpdateUtilityController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/rateupdateutility/validatewarehouse/browse
-        //[HttpPost("validatewarehouse/browse")]
-        //[FwControllerMethod(Id: "E02zWPojmQC4", ActionType: FwControllerActionTypes.Browse)]
-        //public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
-        //{
-        //    return await DoBrowseAsync<WarehouseLogic>(browseRequest);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/availabilityconflicts/validateinventorytype/browse
-        //[HttpPost("validateinventorytype/browse")]
-        //[FwControllerMethod(Id: "0jJSwmeFhM6P", ActionType: FwControllerActionTypes.Browse)]
-        //public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
-        //{
-        //    return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/availabilityconflicts/validatecategory/browse
-        //[HttpPost("validatecategory/browse")]
-        //[FwControllerMethod(Id: "lfEazYkJFybg", ActionType: FwControllerActionTypes.Browse)]
-        //public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        //{
-        //    return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/availabilityconflicts/validatesubcategory/browse
-        //[HttpPost("validatesubcategory/browse")]
-        //[FwControllerMethod(Id: "hw7VBRkPJUno", ActionType: FwControllerActionTypes.Browse)]
-        //public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        //{
-        //    return await DoBrowseAsync<SubCategoryLogic>(browseRequest);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/availabilityconflicts/validateinventory/browse
-        //[HttpPost("validateinventory/browse")]
-        //[FwControllerMethod(Id: "AVk9yGY13mpR", ActionType: FwControllerActionTypes.Browse)]
-        //public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        //{
-        //    return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
-        //}
-        ////------------------------------------------------------------------------------------
-        //// POST api/v1/availabilityconflicts/validateorder/browse
-        //[HttpPost("validateorder/browse")]
-        //[FwControllerMethod(Id: "mnTxG3zChDL9", ActionType: FwControllerActionTypes.Browse)]
-        //public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
-        //{
-        //    return await DoBrowseAsync<OrderLogic>(browseRequest);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/availabilityconflicts/validatedeal/browse
-        //[HttpPost("validatedeal/browse")]
-        //[FwControllerMethod(Id: "ptdzBrgz3qKM", ActionType: FwControllerActionTypes.Browse)]
-        //public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
-        //{
-        //    return await DoBrowseAsync<DealLogic>(browseRequest);
-        //}
+        // POST api/v1/rateupdateutility/validatewarehouse/browse
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "2C78FvM73Uiu", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rateupdateutility/validateinventorytype/browse
+        [HttpPost("validateinventorytype/browse")]
+        [FwControllerMethod(Id: "JtBywX0TyX1L", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rateupdateutility/validatecategory/browse
+        [HttpPost("validatecategory/browse")]
+        [FwControllerMethod(Id: "Bda8ZijNCD4G", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rateupdateutility/validatesubcategory/browse
+        [HttpPost("validatesubcategory/browse")]
+        [FwControllerMethod(Id: "2GSzMtXga27N", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SubCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rateupdateutility/validateinventory/browse
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "cCIxiEY5nxe0", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rateupdateutility/validateunit/browse
+        [HttpPost("validateunit/browse")]
+        [FwControllerMethod(Id: "LOEVQa16fR7G", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUnitBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UnitLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rateupdateutility/validatemanufacturer/browse
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "feL1B77ZtfoQ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateManufacturerBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }
 

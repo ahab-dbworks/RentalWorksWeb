@@ -70,20 +70,31 @@ class RateUpdateUtility {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        let availFor = FwFormField.getValueByDataField($form, 'AvailableFor');
+        let activityType = FwFormField.getValueByDataField($form, 'ActivityType');
         let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
         let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
         let subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
         switch (datafield) {
             case 'InventoryTypeId':
-                if (availFor === "R") {
+                if (activityType === 'R') {
                     request.uniqueids = {
                         Rental: true,
                     };
-                }
-                else if (availFor === "S") {
+                } else if (activityType === 'S') {
                     request.uniqueids = {
                         Sales: true,
+                    };
+                } else if (activityType === 'P') {
+                    request.uniqueids = {
+                        Parts: true,
+                    };
+                } else if (activityType === 'L') {
+                    request.uniqueids = {
+                        Labor: true,
+                    };
+                } else if (activityType === 'M') {
+                    request.uniqueids = {
+                        Misc: true,
                     };
                 }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
@@ -110,9 +121,9 @@ class RateUpdateUtility {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
             case 'InventoryId':
-                if (availFor) {
+                if (activityType) {
                     request.uniqueids = {
-                        AvailFor: availFor,
+                        AvailFor: activityType,
                     };
                 }
                 if (inventoryTypeId) {
@@ -135,11 +146,11 @@ class RateUpdateUtility {
             case 'WarehouseId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                 break;
-            case 'DealId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+            case 'UnitId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateunit`);
                 break;
-            case 'OrderId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+            case 'ManufacturerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemanufacturer`);
                 break;
 
         }
