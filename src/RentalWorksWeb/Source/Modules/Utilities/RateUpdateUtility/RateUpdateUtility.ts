@@ -67,6 +67,22 @@ class RateUpdateUtility {
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery) {
+        $form.on('change', '[data-datafield="ActivityType"]', e => {
+            const activityType = FwFormField.getValueByDataField($form, 'ActivityType');
+
+            $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').removeAttr('disabled');
+            $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'true');
+            
+            switch (activityType) {
+                case 'S':
+                    $form.find('[data-datafield="Classification"]').find('[data-value="S"], [data-value="W"]').find('input').attr('disabled', 'disabled');
+                    break;
+                case 'L':
+                    $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').attr('disabled', 'disabled');
+                    $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'false');
+                    break;
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
