@@ -103,6 +103,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSaveAddress(object sender, BeforeSaveDataRecordEventArgs e)
         {
+            address.UniqueId1 = VenueId;
             if (AddressId.Equals(string.Empty))
             {
                 e.PerformSave = false;
@@ -111,29 +112,49 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         //------------------------------------------------------------------------------------
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (e.Original != null)
+                {
+                    VenueLogic orig = ((VenueLogic)e.Original);
+                    AddressId = orig.AddressId;
+                }
+            }
+
+
             //if ContactId is provided
-            if (!string.IsNullOrEmpty(PrimaryContactId))
+            if (PrimaryContactId != null)
             {
                 //if CompanyContactId not provided, go get it from the database
                 if (string.IsNullOrEmpty(PrimaryCompanyContactId))
                 {
                     string[] columns = new string[] { "compcontactid" };
-                    string[] wherecolumns = new string[] { "contactid", "companyid" };
-                    string[] wherevalues = new string[] { PrimaryContactId, VenueId };
+                    string[] wherecolumns = new string[] { "companyid", "primaryflag" };
+                    string[] wherevalues = new string[] { VenueId , "T"};
                     PrimaryCompanyContactId = AppFunc.GetStringDataAsync(AppConfig, "compcontact", wherecolumns, wherevalues, columns).Result[0];
                 }
 
                 //if CompanyContactId not provided or found, then create a new one
-                if (string.IsNullOrEmpty(PrimaryCompanyContactId))
+                if ((string.IsNullOrEmpty(PrimaryCompanyContactId)) && (!string.IsNullOrEmpty(PrimaryContactId)))
                 {
                     CompanyContactLogic l3 = new CompanyContactLogic();
                     l3.SetDependencies(this.AppConfig, this.UserSession);
                     l3.CompanyId = VenueId;
                     l3.ContactId = PrimaryContactId;
                     l3.IsPrimary = true;
-                    int i = l3.SaveAsync(null).Result;
+                    int i1 = l3.SaveAsync(null).Result;
                     PrimaryCompanyContactId = l3.CompanyContactId; // we need this ID saved and indicated as Primary
                 }
+
+                CompanyContactLogic l4 = new CompanyContactLogic();
+                l4.SetDependencies(this.AppConfig, this.UserSession);
+                l4.CompanyContactId = PrimaryCompanyContactId;
+                l4.ContactId = PrimaryContactId;
+                l4.IsPrimary = true;
+                int i2 = l4.SaveAsync(null).Result;
+
+
             }
         }
         //------------------------------------------------------------------------------------

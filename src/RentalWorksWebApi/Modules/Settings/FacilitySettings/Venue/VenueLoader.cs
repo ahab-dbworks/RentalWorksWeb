@@ -27,6 +27,9 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
         public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "appaddressid", modeltype: FwDataTypes.Text)]
+        public string AddressId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
         public string Address1 { get; set; }
         //------------------------------------------------------------------------------------ 
