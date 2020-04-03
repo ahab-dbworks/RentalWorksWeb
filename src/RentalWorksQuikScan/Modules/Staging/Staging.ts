@@ -2274,10 +2274,10 @@ class StagingControllerClass {
         screen.scanCode = function (code: string) {
             var strippedCode = RwAppData.stripBarcode(code.toUpperCase());
             if (screen.getCurrentPage().name === 'search') {
-                screen.$view.find('.search').fwmobilesearch('setsearchmode', 'orderno');
-                screen.$view.find('.search').fwmobilesearch('setSearchtext', strippedCode, true);
+                screen.$search.fwmobilesearch('setsearchmode', 'orderno');
+                screen.$search.fwmobilesearch('setSearchText', strippedCode, true);
             }
-            if (screen.getCurrentPage().name === 'staging') {
+            else if (screen.getCurrentPage().name === 'staging') {
                 const scanMode = jQuery('#staging-scan').attr('data-mode');
                 if (scanMode === 'PENDING') {
                     screen.$view.find('#pendingsearch').fwmobilesearch('setsearchmode', 'code');
