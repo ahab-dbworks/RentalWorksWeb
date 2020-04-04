@@ -686,9 +686,9 @@ class OrderItemGrid {
             }
 
             if (recType != 'R') {
-                FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost, text: cost });
+                FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost.toString() });
             }
-            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate, text: rate });
+            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
 
             const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
             FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable });
@@ -698,8 +698,8 @@ class OrderItemGrid {
                     if (customRates[rateFieldName]) {
                         if (customRatesResponse.ApplyDiscountToCustomRate) {
                             const discountPercent = customRatesResponse.DiscountPercent;
-                            FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent, text: discountPercent });
-                            FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent, text: discountPercent });
+                            FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
+                            FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
                         }
                     }
 
@@ -707,8 +707,7 @@ class OrderItemGrid {
                     for (let i = 0; i < fields.length; i++) {
                         const value = customRatesResponse[fields[i]];
                         if (value != null) {
-
-                            FwBrowse.setFieldValue($control, $generatedtr, fields[i], { value: value, text: value });
+                            FwBrowse.setFieldValue($control, $generatedtr, fields[i], { value: value });
                         }
                     }
                 }
