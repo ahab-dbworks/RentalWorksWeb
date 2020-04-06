@@ -528,6 +528,12 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "outdeliveryonlineorderstatus", modeltype: FwDataTypes.Text)]
         public string OutDeliveryOnlineOrderStatus { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliveryvenue", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryVenue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliveryvenueid", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryVenueId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliverydatestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string OutDeliveryDateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -709,8 +715,15 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "indeliveryonlineorderstatus", modeltype: FwDataTypes.Text)]
         public string InDeliveryOnlineOrderStatus { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "indeliveryvenue", modeltype: FwDataTypes.Text)]
+        public string InDeliveryVenue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "indeliveryvenueid", modeltype: FwDataTypes.Text)]
+        public string InDeliveryVenueId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliverydatestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string InDeliveryDateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         //------------------------------------------------------------------------------------ 

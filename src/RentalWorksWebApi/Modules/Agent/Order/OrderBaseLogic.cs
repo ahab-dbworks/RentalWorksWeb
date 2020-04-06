@@ -764,6 +764,12 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "kpI60XQfsvgI")]
         public string OutDeliveryOnlineOrderStatus { get { return outDelivery.OnlineOrderStatus; } set { outDelivery.OnlineOrderStatus = value; } }
 
+        [FwLogicProperty(Id: "Cj3UdRaUFdh8p", IsReadOnly: true)]
+        public string OutDeliveryVenue { get; set; }
+
+        [FwLogicProperty(Id: "UvcuBfdi7i3o1")]
+        public string OutDeliveryVenueId { get { return outDelivery.VenueId; } set { outDelivery.VenueId = value; } }
+
         [FwLogicProperty(Id: "vWD0zGG3Tn4K")]
         public string OutDeliveryDateStamp { get { return outDelivery.DateStamp; } set { outDelivery.DateStamp = value; } }
 
@@ -940,6 +946,12 @@ namespace WebApi.Modules.Agent.Order
 
         [FwLogicProperty(Id: "JDBCfhU2JRKZ")]
         public string InDeliveryOnlineOrderStatus { get { return inDelivery.OnlineOrderStatus; } set { inDelivery.OnlineOrderStatus = value; } }
+
+        [FwLogicProperty(Id: "EGUw7RLqqDpLt", IsReadOnly: true)]
+        public string InDeliveryVenue { get; set; }
+
+        [FwLogicProperty(Id: "Ghma7fPzk95M3")]
+        public string InDeliveryVenueId { get { return inDelivery.VenueId; } set { inDelivery.VenueId = value; } }
 
         [FwLogicProperty(Id: "uVFMwXKlKv8G")]
         public string InDeliveryDateStamp { get { return inDelivery.DateStamp; } set { inDelivery.DateStamp = value; } }

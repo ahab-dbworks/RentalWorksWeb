@@ -164,6 +164,9 @@ namespace WebApi.Modules.HomeControls.Delivery
         [FwSqlDataField(column: "onlineorderstatus", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
         public string OnlineOrderStatus { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "venueid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string VenueId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
