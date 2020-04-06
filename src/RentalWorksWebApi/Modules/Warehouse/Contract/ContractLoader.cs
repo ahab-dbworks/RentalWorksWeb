@@ -223,6 +223,12 @@ namespace WebApi.Modules.Warehouse.Contract
         [FwSqlDataField(column: "deliveryonlineorderstatus", modeltype: FwDataTypes.Text)]
         public string DeliveryOnlineOrderStatus { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deliveryvenue", modeltype: FwDataTypes.Text)]
+        public string DeliveryToVenue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deliveryvenueid", modeltype: FwDataTypes.Text)]
+        public string DeliveryToVenueId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deliverydatestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DeliveryDateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

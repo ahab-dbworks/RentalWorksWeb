@@ -318,6 +318,12 @@ namespace WebApi.Modules.Warehouse.Contract
         [FwLogicProperty(Id: "hLcQPDb8i2o9A")]
         public string DeliveryOnlineOrderStatus { get { return delivery.OnlineOrderStatus; } set { delivery.OnlineOrderStatus = value; } }
 
+        [FwLogicProperty(Id: "n5H7G0Vj6QU5x", IsReadOnly: true)]
+        public string DeliveryToVenue { get; set; }
+
+        [FwLogicProperty(Id: "gBrl4F8sPm32c")]
+        public string DeliveryToVenueId { get { return delivery.VenueId; } set { delivery.VenueId = value; } }
+
         [FwLogicProperty(Id: "nlru0JZhiNUkX")]
         public string DeliveryDateStamp { get { return delivery.DateStamp; } set { delivery.DateStamp = value; } }
 
