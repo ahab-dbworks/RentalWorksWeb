@@ -670,7 +670,7 @@ abstract class ContractBase {
     //----------------------------------------------------------------------------------------------
     getWarehouseAddress($form: any): void {
         let WHresponse: any = {};
-
+        this.showHideDeliveryLocationField($form);
         if ($form.data('whAddress')) {
             WHresponse = $form.data('whAddress');
             FwFormField.setValueByDataField($form, `DeliveryToLocation`, WHresponse.Warehouse);
@@ -710,6 +710,7 @@ abstract class ContractBase {
     }
     //----------------------------------------------------------------------------------------------
     fillDeliveryAddressFieldsforDeal($form: any): void {
+        this.showHideDeliveryLocationField($form);
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
         FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, res => {
             FwFormField.setValueByDataField($form, `DeliveryToLocation`, res.Deal);
