@@ -1694,6 +1694,10 @@ namespace FwStandard.BusinessLogic
                                 {
                                     valueChanged = (Convert.ToInt32(newValue) != 0);
                                 }
+                                else if ((propertyType == typeof(decimal?)) || (propertyType == typeof(Decimal)))
+                                {
+                                    valueChanged = (Convert.ToDecimal(newValue) != 0);
+                                }
                                 else if (propertyType == typeof(string))
                                 {
                                     valueChanged = (!string.IsNullOrWhiteSpace(newValue.ToString()));
@@ -1701,6 +1705,10 @@ namespace FwStandard.BusinessLogic
                                 else if ((propertyType == typeof(Boolean?)) || (propertyType == typeof(bool)))
                                 {
                                     valueChanged = (bool)newValue;
+                                }
+                                else if ((propertyType == typeof(DateTime?)) || (propertyType == typeof(DateTime)))
+                                {
+                                    valueChanged = ((newValue != null) && (Convert.ToDateTime(newValue) != DateTime.MinValue));
                                 }
                                 else
                                 {
