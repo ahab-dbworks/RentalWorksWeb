@@ -2235,10 +2235,10 @@ class OrderBase {
         $form.find('.delivery-type-radio').on('change', event => {
             this.deliveryTypeAddresses($form, event);
         });
-        $form.find('div[data-datafield="InDeliveryVenueId"]').data('onchange', event => {
+        $form.find('div[data-datafield="InDeliveryToVenueId"]').data('onchange', event => {
             this.fillDeliveryAddressFieldsforVenue($form, 'In');
         });
-        $form.find('div[data-datafield="OutDeliveryVenueId"]').data('onchange', event => {
+        $form.find('div[data-datafield="OutDeliveryToVenueId"]').data('onchange', event => {
             this.fillDeliveryAddressFieldsforVenue($form, 'Out');
         });
         $form.find('.delivery-type-radio').on('change', event => {
@@ -2967,7 +2967,7 @@ class OrderBase {
         FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, '');
         FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, '');
         FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, '', '');
-        const venueId = FwFormField.getValueByDataField($form, `${prefix}DeliveryVenueId`);
+        const venueId = FwFormField.getValueByDataField($form, `${prefix}DeliveryToVenueId`);
 
         if (venueId) {
             let venueRes: any = {};
@@ -3813,18 +3813,18 @@ class OrderBase {
         const inDeliveryAddressType = FwFormField.getValueByDataField($form, 'InDeliveryAddressType');
         if (inDeliveryAddressType === 'VENUE') {
             $form.find(`div[data-datafield="InDeliveryToLocation"]`).hide();
-            $form.find(`div[data-datafield="InDeliveryVenueId"]`).show();
+            $form.find(`div[data-datafield="InDeliveryToVenueId"]`).show();
         } else {
             $form.find(`div[data-datafield="InDeliveryToLocation"]`).show();
-            $form.find(`div[data-datafield="InDeliveryVenueId"]`).hide();
+            $form.find(`div[data-datafield="InDeliveryToVenueId"]`).hide();
         }
         const outDeliveryAddressType = FwFormField.getValueByDataField($form, 'OutDeliveryAddressType');
         if (outDeliveryAddressType === 'VENUE') {
             $form.find(`div[data-datafield="OutDeliveryToLocation"]`).hide();
-            $form.find(`div[data-datafield="OutDeliveryVenueId"]`).show();
+            $form.find(`div[data-datafield="OutDeliveryToVenueId"]`).show();
         } else {
             $form.find(`div[data-datafield="OutDeliveryToLocation"]`).show();
-            $form.find(`div[data-datafield="OutDeliveryVenueId"]`).hide();
+            $form.find(`div[data-datafield="OutDeliveryToVenueId"]`).hide();
         }
     }
     //----------------------------------------------------------------------------------------------

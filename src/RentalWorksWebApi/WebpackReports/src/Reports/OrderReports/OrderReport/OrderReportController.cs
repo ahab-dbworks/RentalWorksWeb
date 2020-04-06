@@ -22,12 +22,13 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id:"Q89Ni6FvVL92")]
+    [FwController(Id: "Q89Ni6FvVL92")]
     public class OrderReportController : AppReportController
     {
         public OrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrderReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName(FwReportRenderRequest request) {
+        protected override string GetReportFileName(FwReportRenderRequest request)
+        {
             //return "OrderReport"; 
             OrderLogic order = new OrderLogic();
             order.SetDependencies(AppConfig, UserSession);
@@ -49,12 +50,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
-            return request.parameters["OrderId"].ToString().TrimEnd(); 
+            return request.parameters["OrderId"].ToString().TrimEnd();
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id:"T8c0DKhRVZhF")]
+        [FwControllerMethod(Id: "T8c0DKhRVZhF")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
@@ -63,7 +64,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id:"lZEgjy5NkBDm")]
+        [FwControllerMethod(Id: "lZEgjy5NkBDm")]
         public async Task<ActionResult<OrderReportLoader>> RunReportAsync([FromBody]OrderReportRequest request)
         {
             if (!ModelState.IsValid)
@@ -74,7 +75,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             {
                 OrderReportLoader l = new OrderReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                return new OkObjectResult(await l.RunReportAsync(request));               
+                return new OkObjectResult(await l.RunReportAsync(request));
             }
             catch (Exception ex)
             {

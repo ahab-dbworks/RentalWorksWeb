@@ -529,10 +529,10 @@ namespace WebApi.Modules.Agent.Order
         public string OutDeliveryOnlineOrderStatus { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliveryvenue", modeltype: FwDataTypes.Text)]
-        public string OutDeliveryVenue { get; set; }
+        public string OutDeliveryToVenue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliveryvenueid", modeltype: FwDataTypes.Text)]
-        public string OutDeliveryVenueId { get; set; }
+        public string OutDeliveryToVenueId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliverydatestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string OutDeliveryDateStamp { get; set; }
@@ -716,16 +716,13 @@ namespace WebApi.Modules.Agent.Order
         public string InDeliveryOnlineOrderStatus { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliveryvenue", modeltype: FwDataTypes.Text)]
-        public string InDeliveryVenue { get; set; }
+        public string InDeliveryToVenue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliveryvenueid", modeltype: FwDataTypes.Text)]
-        public string InDeliveryVenueId { get; set; }
+        public string InDeliveryToVenueId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliverydatestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string InDeliveryDateStamp { get; set; }
-        //------------------------------------------------------------------------------------ 
-
-
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentaldaysinwk", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalDaysPerWeek { get; set; }

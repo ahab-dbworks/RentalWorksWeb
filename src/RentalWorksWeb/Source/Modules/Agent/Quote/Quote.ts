@@ -1429,7 +1429,7 @@ class Quote extends OrderBase {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="OutDeliveryToLocation"></div>
-                          <div data-control="FwFormField" data-type="validation" data-validationname="VenueValidation" class="fwcontrol fwformfield" data-caption="Venue" data-datafield="OutDeliveryVenueId" data-displayfield="OutDeliveryVenue" style="flex:1 1 200px;display:none;"></div>
+                          <div data-control="FwFormField" data-type="validation" data-validationname="VenueValidation" class="fwcontrol fwformfield" data-caption="Venue" data-datafield="OutDeliveryToVenueId" data-displayfield="OutDeliveryToVenue" style="flex:1 1 200px;display:none;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="OutDeliveryToAttention"></div>
@@ -1497,7 +1497,7 @@ class Quote extends OrderBase {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="InDeliveryToLocation"></div>
-                          <div data-control="FwFormField" data-type="validation" data-validationname="VenueValidation" class="fwcontrol fwformfield" data-caption="Venue" data-datafield="InDeliveryVenueId" data-displayfield="InDeliveryVenue" style="flex:1 1 200px;display:none;"></div>
+                          <div data-control="FwFormField" data-type="validation" data-validationname="VenueValidation" class="fwcontrol fwformfield" data-caption="Venue" data-datafield="InDeliveryToVenueId" data-displayfield="InDeliveryToVenue" style="flex:1 1 200px;display:none;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="InDeliveryToAttention"></div>
@@ -1770,16 +1770,16 @@ class Quote extends OrderBase {
 
             const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            //    FwNotification.renderNotification('SUCCESS', 'Operation Completed');
-            //    FwConfirmation.destroyConfirmation($confirmation);
-            //    FwModule.refreshForm($form);
-            //}, function onError(response) {
-            //    $yes.on('click', reserve);
-            //    $yes.text('Complete');
-            //    FwFunc.showError(response);
-            //    FwFormField.enable($confirmation.find('.fwformfield'));
-            //    FwFormField.enable($yes);
-            //    FwModule.refreshForm($form);
+                //    FwNotification.renderNotification('SUCCESS', 'Operation Completed');
+                //    FwConfirmation.destroyConfirmation($confirmation);
+                //    FwModule.refreshForm($form);
+                //}, function onError(response) {
+                //    $yes.on('click', reserve);
+                //    $yes.text('Complete');
+                //    FwFunc.showError(response);
+                //    FwFormField.enable($confirmation.find('.fwformfield'));
+                //    FwFormField.enable($yes);
+                //    FwModule.refreshForm($form);
 
                 if (response.success === true) {
                     FwConfirmation.destroyConfirmation($confirmation);
