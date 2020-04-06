@@ -54,8 +54,10 @@ namespace WebApi.Modules.Reports.ManifestReport
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
-            ActionResult<FwReportRenderResponse> response = await DoRender(request);
-            return new OkObjectResult(response);
+            //ActionResult<FwReportRenderResponse> response = await DoRender(request);
+            //return new OkObjectResult(response);
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
         }
         ////------------------------------------------------------------------------------------ 
         //// POST api/v1/manifestreport/exportexcelxlsx/filedownloadname 
