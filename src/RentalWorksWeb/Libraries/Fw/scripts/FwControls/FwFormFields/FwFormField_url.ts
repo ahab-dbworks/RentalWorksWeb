@@ -26,10 +26,24 @@
         $control.html(html.join(''));
 
         $control.find('span.material-icons').on('click', e => {
-            const url = $control.find('input').val();
-            if (url !== '') {
+            let url = `${$control.find('input').val()}`;
+            if (!url.match(/^https?:\/\//i) && !url.match(/^https?:\/\//i)) {
+                url = `http://${url}`;
+            }
+
+            if (isValidURL(url)) {
                 const win = window.open(url.toString(), '_blank');
                 win.focus();
+            }
+
+            function isValidURL(str) {
+                    const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+                        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+                        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+                    return pattern.test(str);
             }
         });
     }
