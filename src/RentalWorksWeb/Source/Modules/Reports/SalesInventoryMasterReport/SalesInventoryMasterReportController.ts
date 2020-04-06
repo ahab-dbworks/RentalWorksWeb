@@ -134,8 +134,18 @@ class SalesInventoryMasterReport extends FwWebApiReport {
         $form.find('[data-datafield="IncludePeriodRevenue"]').on('change', e => {
             const isChecked = FwFormField.getValueByDataField($form, 'IncludePeriodRevenue');
             const $dateRangeFields = $form.find('.toggle-enable[data-type="date"]');
+            const filterMode = FwFormField.getValueByDataField($form, 'RevenueFilterMode');
+
             if (isChecked) {
-                FwFormField.enable($form.find('.toggle-enable'));
+                const $filterAmountField = $form.find('[data-datafield="RevenueFilterAmount"]');
+                if (filterMode === "ALL") {
+                    FwFormField.disable($filterAmountField);
+                    $filterAmountField.attr('data-required', "false");
+                } else {
+                    FwFormField.enable($filterAmountField);
+                    $filterAmountField.attr('data-required', "true");
+                }
+                FwFormField.enable($form.find('.toggle-enable:not(.filter-amount)'));
                 $dateRangeFields.attr('data-required', "true");
             } else {
                 FwFormField.disable($form.find('.toggle-enable'));
