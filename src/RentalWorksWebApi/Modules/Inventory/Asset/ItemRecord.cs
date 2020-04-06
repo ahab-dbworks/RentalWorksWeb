@@ -184,6 +184,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "oldrfid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string OldRfid { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lotno", modeltype: FwDataTypes.Text)]
+        public string LotNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string InputByUsersId { get; set; }
         //------------------------------------------------------------------------------------ 

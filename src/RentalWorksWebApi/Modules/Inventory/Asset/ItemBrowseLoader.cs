@@ -513,6 +513,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "currentorderestrentto", modeltype: FwDataTypes.Date)]
         public string CurrentOrderToDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lotno", modeltype: FwDataTypes.Text)]
+        public string LotNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -517,6 +517,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "Wdh8QYoEVZJ8", IsReadOnly: true)]
         public string CurrentOrderToDate { get; set; }
 
+        [FwLogicProperty(Id: "2lYpo5LZMFofe", IsReadOnly: true)]
+        public string LotNumber { get { return item.LotNumber; } set { item.LotNumber = value; } }
+
         [FwLogicProperty(Id: "SvyWFcSXLQqq")]
         public bool? Inactive { get; set; }
 

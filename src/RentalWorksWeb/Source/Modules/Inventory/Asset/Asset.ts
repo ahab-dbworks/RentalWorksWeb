@@ -654,9 +654,18 @@ class RwAsset {
                     </div>
                   </div>
                   <div class="formrow">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Shelf Life" style="width:150px;">
-                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Expiration Date" data-datafield="ShelfLifeExpirationDate" style="float:left;width:125px;"></div>
+                    <div class="formcolumn" style="width:275px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Lot Number">
+                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Lot Number" data-datafield="LotNumber" style="float:left;width:250px;"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="formcolumn" style="width:200px;padding-left:1px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Shelf Life">
+                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Expiration Date" data-datafield="ShelfLifeExpirationDate" style="float:left;width:125px;"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
