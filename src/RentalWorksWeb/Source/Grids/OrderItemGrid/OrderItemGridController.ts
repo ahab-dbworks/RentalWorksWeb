@@ -695,13 +695,19 @@ class OrderItemGrid {
 
             if (typeof customRatesResponse != 'undefined') {
                 if (customRatesResponse.success) {
-                    if (customRates[rateFieldName]) {
-                        if (customRatesResponse.ApplyDiscountToCustomRate) {
-                            const discountPercent = customRatesResponse.DiscountPercent;
-                            FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
-                            FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
+                    let applyDiscount: boolean = true;
+                    if (typeof customRates != 'undefined') {
+                        if (customRates[rateFieldName]) {
+                            applyDiscount = customRatesResponse.ApplyDiscountToCustomRate;
                         }
                     }
+
+                    if (applyDiscount) {
+                        const discountPercent = customRatesResponse.DiscountPercent;
+                        FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
+                    }
+
 
                     const fields: any = ['MarginPercent', 'MarkupPercent', 'DaysPerWeek'];
                     for (let i = 0; i < fields.length; i++) {
