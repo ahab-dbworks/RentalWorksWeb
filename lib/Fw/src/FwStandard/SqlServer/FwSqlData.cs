@@ -695,5 +695,45 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
+        static public async Task<bool> StartMeter(FwSqlConnection conn, SqlServerConfig dbConfig, string sessionId, string caption, int steps)
+        {
+            bool success = false;
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.insertspmeter", dbConfig.QueryTimeout))
+            {
+                sp.AddParameter("@sessionid", sessionId);
+                sp.AddParameter("@caption", caption);
+                sp.AddParameter("@steps", steps);
+                await sp.ExecuteAsync();
+                success = true;
+            }
+            return success;
+        }
+        //-----------------------------------------------------------------------------
+        static public async Task<bool> StepMeter(FwSqlConnection conn, SqlServerConfig dbConfig, string sessionId, string newCaption = "", int steps = 1)
+        {
+            bool success = false;
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.stepspmeter", dbConfig.QueryTimeout))
+            {
+                sp.AddParameter("@sessionid", sessionId);
+                sp.AddParameter("@newcaption", newCaption);
+                sp.AddParameter("@steps", steps);
+                await sp.ExecuteAsync();
+                success = true;
+            }
+            return success;
+        }
+        //-----------------------------------------------------------------------------
+        static public async Task<bool> FinishMeter(FwSqlConnection conn, SqlServerConfig dbConfig, string sessionId)
+        {
+            bool success = false;
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.finishspmeter", dbConfig.QueryTimeout))
+            {
+                sp.AddParameter("@sessionid", sessionId);
+                await sp.ExecuteAsync();
+                success = true;
+            }
+            return success;
+        }
+        //-----------------------------------------------------------------------------
     }
 }
