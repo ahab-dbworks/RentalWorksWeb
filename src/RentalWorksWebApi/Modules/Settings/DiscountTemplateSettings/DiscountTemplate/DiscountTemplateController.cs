@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers; 
 using System.Threading.Tasks;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using System;
 
 namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
 {
@@ -73,6 +74,36 @@ namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
             return await DoDeleteAsync<DiscountTemplateLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/discounttemplate/addallitems
+        [HttpPost("addallitems")]
+        [FwControllerMethod(Id: "2HmNCikXNV8fi", ActionType: FwControllerActionTypes.Option, Caption: "Add All Items")]
+        public async Task<ActionResult<AddAllDiscountTemplateItemsResponse>> AddAllItems([FromBody]AddAllDiscountTemplateItemsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                DiscountTemplateLogic discountTemplate = new DiscountTemplateLogic();
+                discountTemplate.SetDependencies(AppConfig, UserSession);
+                discountTemplate.DiscountTemplateId = request.DiscountTemplateId;
+                if (await discountTemplate.LoadAsync<DiscountTemplateLogic>())
+                {
+                    AddAllDiscountTemplateItemsResponse response = await DiscountTemplateFunc.AddAllItems(AppConfig, UserSession, request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------        
         // POST api/v1/discounttemplate/validateofficeloaction/browse
         [HttpPost("validateofficelocation/browse")]
         [FwControllerMethod(Id: "pFUaLCtHlr6S", ActionType: FwControllerActionTypes.Browse)]
@@ -80,5 +111,6 @@ namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
         {
             return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------        
     }
 }
