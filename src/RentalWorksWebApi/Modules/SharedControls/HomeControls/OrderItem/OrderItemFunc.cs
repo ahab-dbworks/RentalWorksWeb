@@ -561,7 +561,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     }
                     else if (RateType.Equals(RwConstants.RATE_TYPE_3WEEK))
                     {
-                        throw new Exception($"RateType: {RateType} not programmed yet.");
+                        BillablePeriods = Weeks;
                     }
                     else if (RateType.Equals(RwConstants.RATE_TYPE_MONTHLY))
                     {
@@ -614,7 +614,26 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 }
                 else if (RateType.Equals(RwConstants.RATE_TYPE_3WEEK))
                 {
-                    throw new Exception($"RateType: {RateType} not programmed yet.");
+                    BillablePeriods = Weeks;
+
+                    WeeklyDiscountAmount = Quantity * Rate * (DiscountPercent / 100);
+                    WeeklyExtended = Quantity * Rate * ((100 - DiscountPercent) / 100);
+
+                    decimal w = Weeks.GetValueOrDefault(0);
+                    decimal weeksRate1 = (w > 0) ? 1 : 0;
+                    decimal weeksRate2 = (w > 1) ? 1 : 0;
+                    decimal weeksRate3 = (w > 2) ? 1 : 0;
+                    decimal weeksRate4 = (w > 3) ? (w - 3) : 0;
+
+                    PeriodDiscountAmount = (Quantity * Rate * weeksRate1 * (DiscountPercent / 100)) +   // 1
+                                           (Quantity * Rate2 * weeksRate2 * (DiscountPercent / 100)) +  // 2
+                                           (Quantity * Rate3 * weeksRate3 * (DiscountPercent / 100)) +  // 3
+                                           (Quantity * Rate4 * weeksRate4 * (DiscountPercent / 100));   // 4
+
+                    PeriodExtended = (Quantity * Rate * weeksRate1 * ((100 - DiscountPercent) / 100)) +   // 1
+                                     (Quantity * Rate2 * weeksRate2 * ((100 - DiscountPercent) / 100)) +  // 2
+                                     (Quantity * Rate3 * weeksRate3 * ((100 - DiscountPercent) / 100)) +  // 3
+                                     (Quantity * Rate4 * weeksRate4 * ((100 - DiscountPercent) / 100));   // 4
                 }
                 else if (RateType.Equals(RwConstants.RATE_TYPE_MONTHLY))
                 {
@@ -759,7 +778,51 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 }
                 else if (RateType.Equals(RwConstants.RATE_TYPE_3WEEK))
                 {
-                    //    throw new Exception($"RateType: {RateType} not programmed yet.");
+                    if (Quantity == 0)
+                    {
+                        throw new Exception("Cannot determine Discount Percent because Quantity is zero.");
+                    }
+                    else
+                    {
+                        decimal w = Weeks.GetValueOrDefault(0);
+                        decimal weeksRate1 = (w > 0) ? 1 : 0;
+                        decimal weeksRate2 = (w > 1) ? 1 : 0;
+                        decimal weeksRate3 = (w > 2) ? 1 : 0;
+                        decimal weeksRate4 = (w > 3) ? (w - 3) : 0;
+
+                        decimal? oldPeriodExtended = (Quantity * Rate * weeksRate1 * ((100 - DiscountPercent) / 100)) +   // 1
+                                                    (Quantity * Rate2 * weeksRate2 * ((100 - DiscountPercent) / 100)) +  // 2
+                                                    (Quantity * Rate3 * weeksRate3 * ((100 - DiscountPercent) / 100)) +  // 3
+                                                    (Quantity * Rate4 * weeksRate4 * ((100 - DiscountPercent) / 100));   // 4
+
+                        if (PeriodExtended != null)
+                        {
+                            DiscountPercent = (100 - ((100 * PeriodExtended) / oldPeriodExtended));
+                        }
+                        else if (PeriodDiscountAmount != null)
+                        {
+                            DiscountPercent = ((100 * PeriodDiscountAmount) / oldPeriodExtended);
+                        }
+                        else if (WeeklyExtended != null)
+                        {
+                            DiscountPercent = (100 - ((100 * WeeklyExtended) / (Quantity * Rate)));
+                        }
+                        else if (WeeklyDiscountAmount != null)
+                        {
+                            DiscountPercent = ((100 * WeeklyDiscountAmount) / (Quantity * Rate));
+                        }
+                        else if (UnitExtended != null)
+                        {
+                            DiscountPercent = (100 - ((100 * UnitExtended) / Rate));
+                        }
+                        else if (UnitDiscountAmount != null)
+                        {
+                            DiscountPercent = ((100 * UnitDiscountAmount) / Rate);
+                        }
+                        CalculateExtendeds();
+                    }
+
+
                 }
                 else if (RateType.Equals(RwConstants.RATE_TYPE_MONTHLY))
                 {

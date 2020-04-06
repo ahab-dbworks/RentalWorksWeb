@@ -3437,6 +3437,12 @@ class OrderBase {
                 $rentalGrid.find('.weekextended').parent().show();
             }
 
+            if (orderTypeData.hiddenRentals.indexOf('Rate') === -1 && rateType === '3WEEK') {
+                $rentalGrid.find('.3week').parent().show();
+                $rentalGrid.find('.price').find('.caption').text('Week 1 Rate');
+                $rentalGrid.find('.price4').find('.caption').text('Week 4+ Rate');
+            }
+
             const weeklyType = $form.find(".weeklyType");
             const monthlyType = $form.find(".monthlyType");
             const rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
