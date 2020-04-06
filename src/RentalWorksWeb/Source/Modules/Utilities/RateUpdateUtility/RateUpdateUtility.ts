@@ -174,7 +174,7 @@ class RateUpdateUtility {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
         FwBrowse.renderGrid({
-            nameGrid: 'RateUpdateUtilityGrid',
+            nameGrid: 'RateUpdateItemGrid',
             gridSecurityId: 'MUIYTomUGshV',
             moduleSecurityId: this.id,
             $form: $form,
