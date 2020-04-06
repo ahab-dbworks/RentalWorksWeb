@@ -2884,7 +2884,6 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     getWarehouseAddress($form: any, prefix: string): void {
-        //const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid; - J.Pace :: changed from user warehouse to order warehouse at request of mgmt 12/31/19
         const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         this.showHideDeliveryLocationField($form);
 

@@ -682,7 +682,7 @@ abstract class ContractBase {
             FwFormField.setValueByDataField($form, `DeliveryToZipCode`, WHresponse.Zip);
             FwFormField.setValueByDataField($form, `DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
         } else {
-            const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+            const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${warehouseId}`, null, FwServices.defaultTimeout, response => {
                 WHresponse = response;
                 FwFormField.setValueByDataField($form, `DeliveryToLocation`, WHresponse.Warehouse);
