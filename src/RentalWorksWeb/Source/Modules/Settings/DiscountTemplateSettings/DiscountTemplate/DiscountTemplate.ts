@@ -56,28 +56,24 @@
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        //const $discountItemRentalGrid = $form.find('div[data-grid="DiscountItemRentalGrid"]');
-        //const $discountItemRentalGridControl = FwBrowse.loadGridFromTemplate('DiscountItemRentalGrid');
-        //$discountItemRentalGrid.empty().append($discountItemRentalGridControl);
-        //$discountItemRentalGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
-        //        RecType: "R"
-        //    };
-        //})
-        //$discountItemRentalGridControl.data('beforesave', request => {
-        //    request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-        //    request.RecType = "R";
-        //})
-        //FwBrowse.init($discountItemRentalGridControl);
-        //FwBrowse.renderRuntimeHtml($discountItemRentalGridControl);
-
         //Discount Item Rental Grid
         FwBrowse.renderGrid({
             nameGrid: 'DiscountItemRentalGrid',
             gridSecurityId: 'UMKuETy6vOLA',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'Add All Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.addAllItems($form, 'Rental');
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
@@ -90,31 +86,24 @@
             }
         });
         //-------------------------------------------------------------------------------------------------------------
-
-        //const $discountItemSalesGrid = $form.find('div[data-grid="DiscountItemSalesGrid"]');
-        //const $discountItemSalesGridControl = FwBrowse.loadGridFromTemplate('DiscountItemSalesGrid');
-        //$discountItemSalesGrid.empty().append($discountItemSalesGridControl);
-        //$discountItemSalesGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
-        //        RecType: "S"
-        //    };
-        //})
-        //$discountItemSalesGridControl.data('beforesave', request => {
-        //    request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-        //    request.RecType = "S";
-        //})
-        //FwBrowse.init($discountItemSalesGridControl);
-        //FwBrowse.renderRuntimeHtml($discountItemSalesGridControl);
-
-        //FwBrowse.renderRuntimeHtml($discountItemRentalGridControl);
-
         //Discount Item Sales Grid
         FwBrowse.renderGrid({
             nameGrid: 'DiscountItemSalesGrid',
             gridSecurityId: 'UMKuETy6vOLA',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'Add All Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.addAllItems($form, 'Sales');
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
@@ -127,28 +116,24 @@
             }
         });
         //-------------------------------------------------------------------------------------------------------------
-        //const $discountItemLaborGrid = $form.find('div[data-grid="DiscountItemLaborGrid"]');
-        //const $discountItemLaborGridControl = FwBrowse.loadGridFromTemplate('DiscountItemLaborGrid');
-        //$discountItemLaborGrid.empty().append($discountItemLaborGridControl);
-        //$discountItemLaborGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
-        //        RecType: "L"
-        //    };
-        //})
-        //$discountItemLaborGridControl.data('beforesave', request => {
-        //    request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-        //    request.RecType = "L";
-        //})
-        //FwBrowse.init($discountItemLaborGridControl);
-        //FwBrowse.renderRuntimeHtml($discountItemLaborGridControl);
-        
         //Discount Item Labor Grid
         FwBrowse.renderGrid({
             nameGrid: 'DiscountItemLaborGrid',
             gridSecurityId: 'UMKuETy6vOLA',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'Add All Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.addAllItems($form, 'Labor');
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
@@ -162,28 +147,24 @@
         });
 
         //-------------------------------------------------------------------------------------------------------------
-        //const $discountItemMiscGrid = $form.find('div[data-grid="DiscountItemMiscGrid"]');
-        //const $discountItemMiscGridControl = FwBrowse.loadGridFromTemplate('DiscountItemMiscGrid');
-        //$discountItemMiscGrid.empty().append($discountItemMiscGridControl);
-        //$discountItemMiscGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
-        //        RecType: "M"
-        //    };
-        //})
-        //$discountItemMiscGridControl.data('beforesave', request => {
-        //    request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-        //    request.RecType = "M";
-        //})
-        //FwBrowse.init($discountItemMiscGridControl);
-        //FwBrowse.renderRuntimeHtml($discountItemMiscGridControl);
-
         //Discount Item Misc Grid
         FwBrowse.renderGrid({
             nameGrid: 'DiscountItemMiscGrid',
             gridSecurityId: 'UMKuETy6vOLA',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'Add All Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.addAllItems($form, 'Misc');
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
@@ -195,7 +176,6 @@
                 request.RecType = "M";
             }
         });
-
         //-------------------------------------------------------------------------------------------------------------
     }
     //-------------------------------------------------------------------------------------------------------------
@@ -222,6 +202,33 @@
         //const spaceDays = parseFloat(FwFormField.getValueByDataField($form, 'SpaceDaysPerWeek'));
         //const spaceDecimals = spaceDays.toFixed(3);
         //FwFormField.setValueByDataField($form, 'SpaceDaysPerWeek', spaceDecimals);
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    addAllItems($form: JQuery, recType: string) {
+        let $confirmation;
+        const discountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+        const $grid = $form.find(`[data-name="DiscountItem${recType}Grid"]`);
+        $confirmation = FwConfirmation.renderConfirmation('Add All Items',
+            `Add ALL ${recType} items to this Discount Template? This cannot be undone.`);
+        const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+        FwConfirmation.addButton($confirmation, 'No');
+        $yes.on('click', () => {
+            const request: any = {
+                DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
+                WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
+                RecType: recType.charAt(0)
+            };
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/discounttemplate/addallitems`, request, FwServices.defaultTimeout,
+                response => {
+                    try {
+                        FwBrowse.search($grid);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }, ex => FwFunc.showError(ex), $grid, discountTemplateId);
+        });
     }
     //-------------------------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
