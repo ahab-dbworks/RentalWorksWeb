@@ -21,8 +21,17 @@
             html.push(' disabled="disabled"');
         }
         html.push(' />');
+        html.push('<span class="material-icons" style="cursor:pointer;">link</span>');
         html.push('</div>');
         $control.html(html.join(''));
+
+        $control.find('span.material-icons').on('click', e => {
+            const url = $control.find('input').val();
+            if (url !== '') {
+                const win = window.open(url.toString(), '_blank');
+                win.focus();
+            }
+        });
     }
     //---------------------------------------------------------------------------------
     loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
