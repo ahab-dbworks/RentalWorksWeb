@@ -139,6 +139,9 @@ abstract class ContractBase {
         $form.find('div[data-datafield="DeliveryAddressType"]').on('change', event => {
             this.deliveryTypeAddresses($form, event);
         });
+        $form.find('div[data-datafield="DeliveryToVenueId"]').data('onchange', event => {
+            this.fillDeliveryAddressFieldsforVenue($form);
+        });
         // Stores previous value for DeliveryDeliveryType
         $form.find('div[data-datafield="DeliveryDeliveryType"]').on('click', event => {
             const $element = jQuery(event.currentTarget);
@@ -161,6 +164,64 @@ abstract class ContractBase {
             }
             $form.find('div[data-datafield="DeliveryAddressType"]').change();
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    fillDeliveryAddressFieldsforVenue($form: any): void {
+        this.showHideDeliveryLocationField($form);
+
+        FwFormField.setValueByDataField($form, `DeliveryToAttention`, '');
+        FwFormField.setValueByDataField($form, `DeliveryToAddress1`, '');
+        FwFormField.setValueByDataField($form, `DeliveryToAddress2`, '');
+        FwFormField.setValueByDataField($form, `DeliveryToCity`, '');
+        FwFormField.setValueByDataField($form, `DeliveryToState`, '');
+        FwFormField.setValueByDataField($form, `DeliveryToZipCode`, '');
+        FwFormField.setValueByDataField($form, `DeliveryToCountryId`, '', '');
+        const venueId = FwFormField.getValueByDataField($form, `DeliveryToVenueId`);
+
+        if (venueId) {
+            let venueRes: any = {};
+            if ($form.data('venueAddress')) {
+                venueRes = $form.data('venueAddress');
+                if (venueRes.VenueId === venueId) {
+                    FwFormField.setValueByDataField($form, `DeliveryToAttention`, venueRes.PrimaryContact);
+                    FwFormField.setValueByDataField($form, `DeliveryToAddress1`, venueRes.Address1);
+                    FwFormField.setValueByDataField($form, `DeliveryToAddress2`, venueRes.Address2);
+                    FwFormField.setValueByDataField($form, `DeliveryToCity`, venueRes.City);
+                    FwFormField.setValueByDataField($form, `DeliveryToState`, venueRes.State);
+                    FwFormField.setValueByDataField($form, `DeliveryToZipCode`, venueRes.Zip);
+                    FwFormField.setValueByDataField($form, `DeliveryToCountryId`, venueRes.CountryId, venueRes.Country);
+                } else {
+                    getVenueAddress($form, venueId);
+                }
+            } else {
+                getVenueAddress($form, venueId);
+            }
+        }
+
+        function getVenueAddress($form, venueId) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/venue/${venueId}`, null, FwServices.defaultTimeout, response => {
+                const venueRes = response;
+                FwFormField.setValueByDataField($form, `DeliveryToAttention`, response.PrimaryContact);
+                FwFormField.setValueByDataField($form, `DeliveryToAddress1`, response.Address1);
+                FwFormField.setValueByDataField($form, `DeliveryToAddress2`, response.Address2);
+                FwFormField.setValueByDataField($form, `DeliveryToCity`, response.City);
+                FwFormField.setValueByDataField($form, `DeliveryToState`, response.State);
+                FwFormField.setValueByDataField($form, `DeliveryToZipCode`, response.Zip);
+                FwFormField.setValueByDataField($form, `DeliveryToCountryId`, response.CountryId, venueRes.Country);
+                // Preventing unnecessary API calls once venue addresses have been requested once
+                $form.data('venueAddress', {
+                    'VenueId': response.VenueId,
+                    'Attention': response.PrimaryContact,
+                    'Address1': response.Address1,
+                    'Address2': response.Address2,
+                    'City': response.City,
+                    'State': response.State,
+                    'Zip': response.Zip,
+                    'CountryId': response.CountryId,
+                    'Country': response.Country
+                })
+            }, null, null);
+        }
     }
     //----------------------------------------------------------------------------------------------
     printContract($form: JQuery): void {
@@ -286,7 +347,7 @@ abstract class ContractBase {
                         ex => FwFunc.showError(ex), $confirmation.find('.fwconfirmationbox'));
 
                 }, ex => FwFunc.showError(ex), $form);
-            }); 
+            });
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -580,6 +641,18 @@ abstract class ContractBase {
             $form.find('.date-change-reason').hide();
             FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
         }
+        this.showHideDeliveryLocationField($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    showHideDeliveryLocationField($form) {
+        const deliveryAddressType = FwFormField.getValueByDataField($form, 'DeliveryAddressType');
+        if (deliveryAddressType === 'VENUE') {
+            $form.find(`div[data-datafield="DeliveryToLocation"]`).hide();
+            $form.find(`div[data-datafield="DeliveryToVenueId"]`).show();
+        } else {
+            $form.find(`div[data-datafield="DeliveryToLocation"]`).show();
+            $form.find(`div[data-datafield="DeliveryToVenueId"]`).hide();
+        }
     }
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
@@ -588,6 +661,10 @@ abstract class ContractBase {
             this.getWarehouseAddress($form);
         } else if (value === 'DEAL') {
             this.fillDeliveryAddressFieldsforDeal($form);
+        } else if (value === 'VENUE') {
+            this.fillDeliveryAddressFieldsforVenue($form);
+        } else if (value === 'OTHER') {
+            this.showHideDeliveryLocationField($form);
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -813,6 +890,7 @@ abstract class ContractBase {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="DeliveryToLocation"></div>
+                          <div data-control="FwFormField" data-type="validation" data-validationname="VenueValidation" class="fwcontrol fwformfield" data-caption="Venue" data-datafield="DeliveryToVenueId" data-displayfield="DeliveryToVenue" style="flex:1 1 200px;display:none;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="DeliveryToAttention"></div>
