@@ -213,6 +213,7 @@
         const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
         FwConfirmation.addButton($confirmation, 'No');
         $yes.on('click', () => {
+            FwConfirmation.destroyConfirmation($confirmation);
             const request: any = {
                 DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
                 WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
@@ -222,6 +223,7 @@
             FwAppData.apiMethod(true, 'POST', `api/v1/discounttemplate/addallitems`, request, FwServices.defaultTimeout,
                 response => {
                     try {
+
                         FwBrowse.search($grid);
                     }
                     catch (ex) {
