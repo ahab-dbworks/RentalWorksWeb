@@ -67,6 +67,38 @@ class RateUpdateUtility {
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery) {
+        //Search button to refresh grid with filters
+        $form.on('click', '.search', e => {
+            const $rateUpdateItemGrid = $form.find('[data-name="RateUpdateItemGrid"]');
+            const searchRequest = {
+                RecType: FwFormField.getValueByDataField($form, 'ActivityType'),
+                Classification: FwFormField.getValueByDataField($form, 'Classification'),
+                OrderBy: FwFormField.getValueByDataField($form, 'OrderBy'),
+                InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                Description: FwFormField.getValueByDataField($form, 'Description'),
+                InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
+                CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+                SubCategoryId: FwFormField.getValueByDataField($form, 'SubCategoryId'),
+                Rank: FwFormField.getValueByDataField($form, 'Rank'),
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                UnitId: FwFormField.getValueByDataField($form, 'UnitId'),
+                ManufacturerId: FwFormField.getValueByDataField($form, 'ManufacturerId'),
+                ShowPendingModifications: FwFormField.getValueByDataField($form, 'ShowPendingModifications')
+            };
+
+            if ($rateUpdateItemGrid) {
+                const databind = $rateUpdateItemGrid.data('ondatabind');
+                if (typeof databind === 'function') {
+                    $rateUpdateItemGrid.data('ondatabind', request => {
+                        databind(request);
+                        request.uniqueids = searchRequest;
+                    });
+                    FwBrowse.search($rateUpdateItemGrid);
+                }
+            }
+        });
+
+        //Enable/Disable fields based on Activity Type
         $form.on('change', '[data-datafield="ActivityType"]', e => {
             const activityType = FwFormField.getValueByDataField($form, 'ActivityType');
 
@@ -175,13 +207,10 @@ class RateUpdateUtility {
     renderGrids($form: JQuery) {
         FwBrowse.renderGrid({
             nameGrid: 'RateUpdateItemGrid',
-            gridSecurityId: 'MUIYTomUGshV',
+            gridSecurityId: 'QQwyjnERS0Jx',
             moduleSecurityId: this.id,
             $form: $form,
             onDataBind: (request: any) => {
-                //request.uniqueids = {
-                   
-                //};
             }
         });
     }

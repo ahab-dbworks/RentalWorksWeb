@@ -13,7 +13,7 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "J1n135Cf0ZQI")]
-        public string MasterId { get { return rateUpdateItem.MasterId; } set { rateUpdateItem.MasterId = value; } }
+        public string InventoryId { get { return rateUpdateItem.InventoryId; } set { rateUpdateItem.InventoryId = value; } }
         [FwLogicProperty(Id: "qyo8o5YEgnRC")]
         public string WarehouseId { get { return rateUpdateItem.WarehouseId; } set { rateUpdateItem.WarehouseId = value; } }
         [FwLogicProperty(Id: "MzJtgJByqaoz")]

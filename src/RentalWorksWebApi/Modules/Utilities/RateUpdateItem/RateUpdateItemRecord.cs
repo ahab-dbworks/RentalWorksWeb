@@ -8,7 +8,7 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", isPrimaryKey: true, modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string MasterId { get; set; }
+        public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", isPrimaryKey: true, modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string WarehouseId { get; set; }
