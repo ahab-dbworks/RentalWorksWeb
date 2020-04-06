@@ -49,6 +49,7 @@ namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
                 qry.Add("                    from  discountitem di with(nolock)                                 ");
                 qry.Add("                    where di.discounttemplateid = @discounttemplateid                  ");
                 qry.Add("                    and   di.masterid           = m.masterid)                          ");
+                qry.Add(" order by m.master                                                                     ");
                 qry.AddParameter("@rectype", request.RecType);
                 qry.AddParameter("@discounttemplateid", request.DiscountTemplateId);
                 qry.AddParameter("@warehouseid", request.WarehouseId);
