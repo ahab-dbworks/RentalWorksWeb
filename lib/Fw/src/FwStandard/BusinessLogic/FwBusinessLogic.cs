@@ -896,12 +896,15 @@ namespace FwStandard.BusinessLogic
                                                 //var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
                                                 //searchFieldVals.Add(databaseValue.ToString());
                                                 valueToCompare = l2.GetType().GetProperty(property.Name).GetValue(l2);
+                                                int datatypeIndex = Array.IndexOf(fields, fieldName);
+                                                searchFieldTypes.Add(datatypes[datatypeIndex].ToLower());
                                             }
                                             else
                                             {
                                                 searchFieldVals.Add("");
                                                 searchOperators.Add("=");
                                                 valueToCompare = "";
+                                                searchFieldTypes.Add("text");
                                             }
                                         }
 
@@ -929,6 +932,11 @@ namespace FwStandard.BusinessLogic
                                                 searchFieldVals.Add(valueToCompare.ToString());
                                                 searchOperators.Add(">");
                                             }
+                                        }
+
+                                        if (propertyFound)
+                                        {
+                                            break;
                                         }
 
 
@@ -1017,7 +1025,11 @@ namespace FwStandard.BusinessLogic
                                     //pkFound = (indexOfId >= 0);
                                     foreach (object objField in dt.Rows[r])
                                     {
-                                        string strField = objField.ToString();
+                                        string strField = string.Empty;
+                                        if (objField != null)
+                                        {
+                                            objField.ToString();
+                                        }
                                         if (strField.Equals(idString))
                                         {
                                             pkFound = true;
