@@ -702,7 +702,7 @@ namespace FwStandard.SqlServer
             {
                 sp.AddParameter("@sessionid", sessionId);
                 sp.AddParameter("@caption", caption);
-                sp.AddParameter("@steps", steps);
+                sp.AddParameter("@totalsteps", steps);
                 await sp.ExecuteAsync();
                 success = true;
             }
