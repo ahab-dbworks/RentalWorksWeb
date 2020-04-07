@@ -1005,45 +1005,52 @@ class CustomForm {
                                     jQuery(originalHtml).attr(`${attribute}`, `${value}`);
                             }
                         } else if (type === 'Form') {
-                            if (attribute === 'data-datafield') {
-                                isCustomField = $form.find(`option[value="${value}"]`).attr('data-iscustomfield');
+                            switch (attribute) {
+                                case 'data-datafield':
+                                    isCustomField = $form.find(`option[value="${value}"]`).attr('data-iscustomfield');
 
-                                //update caption when datafield is changed
-                                jQuery(originalHtml).attr('data-caption', value);
-                                jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
-                                $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
+                                    //update caption when datafield is changed
+                                    jQuery(originalHtml).attr('data-caption', value);
+                                    jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
+                                    $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
 
-                                if (isCustomField === "true") {
-                                    //update datatype
-                                    let datatype = $form.find(`option[value="${value}"]`).attr('data-type');
-                                    switch (datatype) {
-                                        case 'integer':
-                                            datatype = "number";
-                                            break;
-                                        case 'float':
-                                            datatype = "decimal";
-                                            break;
-                                        case 'date':
-                                            datatype = "date";
-                                            break;
-                                        case 'true/false':
-                                            datatype = "checkbox";
-                                            break;
-                                        default:
-                                            datatype = "text";
-                                            break;
+                                    if (isCustomField === "true") {
+                                        //update datatype
+                                        let datatype = $form.find(`option[value="${value}"]`).attr('data-type');
+                                        switch (datatype) {
+                                            case 'integer':
+                                                datatype = "number";
+                                                break;
+                                            case 'float':
+                                                datatype = "decimal";
+                                                break;
+                                            case 'date':
+                                                datatype = "date";
+                                                break;
+                                            case 'true/false':
+                                                datatype = "checkbox";
+                                                break;
+                                            default:
+                                                datatype = "text";
+                                                break;
+                                        }
+                                        jQuery(originalHtml).attr('data-type', datatype);
+                                        $form.find(`#controlProperties .propname:contains('data-type')`).siblings('.propval').find('select').val(datatype);
+                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-type', datatype);
+                                        jQuery(originalHtml).attr('data-customfield', 'true');
+                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
                                     }
-                                    jQuery(originalHtml).attr('data-type', datatype);
-                                    $form.find(`#controlProperties .propname:contains('data-type')`).siblings('.propval').find('select').val(datatype);
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-type', datatype);
-                                    jQuery(originalHtml).attr('data-customfield', 'true');
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
-                                }
-                                jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
-                            }
-
-                            if (attribute === 'data-caption') {
-                                jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
+                                    break;
+                                case 'data-caption':
+                                    jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
+                                    break;
+                                case 'data-type':
+                                    jQuery(originalHtml).attr('data-type', value);
+                                    if (typeof jQuery(originalHtml).data('rendered') === 'boolean') {
+                                        jQuery(originalHtml).data('rendered', false)
+                                    }
+                                    break;
                             }
 
                             let isTab = jQuery(originalHtml).attr('data-type');
@@ -1055,7 +1062,6 @@ class CustomForm {
                             };
 
                             jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
-
                         }
                     } else {
                         if (attribute !== "data-datafield") { //for adding new fields
@@ -1069,13 +1075,16 @@ class CustomForm {
                     }
 
                     switch (type) {
-                        case 'Form': let a = 0;
-                            a += (controlType == 'FwFormField') ? 1 : 0;
-                            a += (controlType == 'FwContainer') ? 1 : 0;
-
-                            if (a) {
+                        case 'Form': 
+                            if (controlType == 'FwFormField' || controlType == 'FwContainer') {
                                 FwControl.init(jQuery(originalHtml));
                                 FwControl.renderRuntimeHtml(jQuery(originalHtml));
+
+                                if (attribute === 'data-type' && value === 'radio') {
+                                    const $radioControl = jQuery(originalHtml).find('> .fwformfield-control')
+                                    $radioControl.find('.fwformfield-caption').remove();
+                                    $radioControl.find('label').text('Option');
+                                }
                             }
                             break;
                         case 'Browse':
