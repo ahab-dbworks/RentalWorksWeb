@@ -319,6 +319,7 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         });
+        // Jump to Date
         $control.on('click', '.btndate', e => {
             try {
                 const $this = jQuery(e.currentTarget);
