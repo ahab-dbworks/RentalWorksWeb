@@ -645,13 +645,15 @@ abstract class ContractBase {
     }
     //----------------------------------------------------------------------------------------------
     showHideDeliveryLocationField($form) {
-        const deliveryAddressType = FwFormField.getValueByDataField($form, 'DeliveryAddressType');
-        if (deliveryAddressType === 'VENUE') {
-            $form.find(`div[data-datafield="DeliveryToLocation"]`).hide();
-            $form.find(`div[data-datafield="DeliveryToVenueId"]`).show();
-        } else {
-            $form.find(`div[data-datafield="DeliveryToLocation"]`).show();
-            $form.find(`div[data-datafield="DeliveryToVenueId"]`).hide();
+        if (this.Module === 'Contract') {
+            const deliveryAddressType = FwFormField.getValueByDataField($form, 'DeliveryAddressType');
+            if (deliveryAddressType === 'VENUE') {
+                $form.find(`div[data-datafield="DeliveryToLocation"]`).hide();
+                $form.find(`div[data-datafield="DeliveryToVenueId"]`).show();
+            } else {
+                $form.find(`div[data-datafield="DeliveryToLocation"]`).show();
+                $form.find(`div[data-datafield="DeliveryToVenueId"]`).hide();
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
