@@ -121,7 +121,7 @@ class Customer {
                 }
             });
         }
-        
+
         // Quote submodule
         let nodeQuote = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'jFkSBEur1dluU');
         if (nodeQuote !== undefined && nodeQuote.properties.visible === 'T') {
@@ -185,7 +185,7 @@ class Customer {
         if (nodeInvoice !== undefined && nodeInvoice.properties.visible === 'T') {
             FwTabs.showTab($form.find('.invoicetab'));
         }
-        
+
 
         $form.find('[data-datafield="UseDiscountTemplate"] .fwformfield-value').on('change', function () {
             const $this = jQuery(this);
@@ -619,7 +619,7 @@ class Customer {
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Parent Customer" data-datafield="ParentCustomerId" data-displayfield="ParentCustomer" data-validationname="CustomerValidation" data-validationpeek="true" style="flex:1 1 350px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web Address" data-datafield="WebAddress" data-allcaps="false" style="flex:1 1 225px;"></div>
+                          <div data-control="FwFormField" data-type="url" class="fwcontrol fwformfield" data-caption="Web Address" data-datafield="WebAddress" data-allcaps="false" style="flex:1 1 225px;"></div>
                         </div>
                       </div>
                     </div>

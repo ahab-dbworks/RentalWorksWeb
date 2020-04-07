@@ -454,7 +454,7 @@ class Contact {
                       <div class="flexrow">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="General Details">
                           <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Information" data-datafield="Info"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web Site" data-datafield="Website"></div>
+                          <div data-control="FwFormField" data-type="url" class="fwcontrol fwformfield" data-caption="Web Site" data-datafield="Website"></div>
                         </div>
                       </div>
                       <div class="flexrow">

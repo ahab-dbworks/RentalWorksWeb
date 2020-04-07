@@ -117,16 +117,16 @@ class Vendor {
             const $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
             $form.find('.purchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
         }
-        
-        
+
+
         let nodeVendorInvoice = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Fq9aOe0yWfY');
         if (nodeVendorInvoice !== undefined && nodeVendorInvoice.properties.visible === 'T') {
             FwTabs.showTab($form.find('.vendorinvoicetab'));
             const $submoduleVendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
             $form.find('.vendorInvoiceSubModule').append($submoduleVendorInvoiceBrowse);
         }
-        
-        
+
+
         return $form;
     }
     //---------------------------------------------------------------------------------
@@ -508,7 +508,7 @@ class Vendor {
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Federal ID No" data-datafield="FederalIdNumber" style="flex:1 1 100px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web Address" data-datafield="WebAddress" data-allcaps="false" style="flex:1 1 275px;"></div>
+                        <div data-control="FwFormField" data-type="url" class="fwcontrol fwformfield" data-caption="Web Address" data-datafield="WebAddress" data-allcaps="false" style="flex:1 1 275px;"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email" data-datafield="Email" data-allcaps="false" style="flex:1 1 275px;"></div>
