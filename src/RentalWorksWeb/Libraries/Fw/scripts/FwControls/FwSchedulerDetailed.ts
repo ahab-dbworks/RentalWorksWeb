@@ -69,6 +69,7 @@ class FwSchedulerDetailedClass {
             try {
                 const today = new DayPilot.Date();
                 FwSchedulerDetailed.navigate($control, today);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -81,6 +82,7 @@ class FwSchedulerDetailedClass {
                 const currentDay = navscheduler.startDate;
                 const nextMonth = currentDay.addMonths(1).firstDayOfMonth()
                 FwSchedulerDetailed.navigate($control, nextMonth);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -93,7 +95,7 @@ class FwSchedulerDetailedClass {
                 const currentDay = navscheduler.startDate;
                 const previousMonth = currentDay.addMonths(-1).firstDayOfMonth();
                 FwSchedulerDetailed.navigate($control, previousMonth);
-
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
                 //const $calendarControl = $control.parents().find('.calendar');
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -108,6 +110,7 @@ class FwSchedulerDetailedClass {
                 if ($calendarControl.length > 0) {
                     FwScheduler.refresh($calendarControl);
                 }
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -125,8 +128,7 @@ class FwSchedulerDetailedClass {
         $control.on('change', '.jumpdate input', e => {
             try {
                 const $this = jQuery(e.currentTarget);
-                const val = `${$this.val()}`;
-                const realDate = new Date(val);
+                const realDate = new Date(`${$this.val()}`);
                 const date = new DayPilot.Date(realDate);
                 FwSchedulerDetailed.navigate($control, date)
             } catch (ex) {
