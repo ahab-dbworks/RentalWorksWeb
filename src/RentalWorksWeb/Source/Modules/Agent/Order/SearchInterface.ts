@@ -651,7 +651,7 @@ class SearchInterface {
         $popup.find('.refresh-availability').hide();
 
         if (response.Rows.length == 0) {
-            $inventoryContainer.append('<div style="font-weight: bold; font-size:1.3em;text-align: center;padding-top: 50px;">0 Items Found</div>');
+            $inventoryContainer.append('<div style="flex: auto; font-weight: bold; font-size:1.3em;text-align: center;padding-top: 50px;">0 Items Found</div>');
         }
 
         const inventoryType = FwFormField.getValueByDataField($popup, 'InventoryType');
@@ -1113,10 +1113,11 @@ class SearchInterface {
             }
         });
 
-        $popup.on('dblclick', '#inventory .item-container .item-info', e => {
-            let $iteminfo = jQuery(e.currentTarget);
-            $iteminfo.find('.incrementQuantity').click();
-        });
+        //double-click to increment quantity
+        //$popup.on('dblclick', '#inventory .item-container .item-info', e => {
+        //    let $iteminfo = jQuery(e.currentTarget);
+        //    $iteminfo.find('.incrementQuantity').click();
+        //});
 
         $popup.on('click', '.toggleaccessories', e => {
             let $el = jQuery(e.currentTarget);
