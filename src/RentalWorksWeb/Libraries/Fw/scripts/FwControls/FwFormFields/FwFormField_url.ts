@@ -41,7 +41,7 @@
             }
 
             if (isValidURL(url)) {
-                const win = window.open(url.toString(), '_blank');
+                const win = window.open(url, '_blank');
                 win.focus();
             } else {
                 FwNotification.renderNotification('WARNING', 'URL is not valid');
