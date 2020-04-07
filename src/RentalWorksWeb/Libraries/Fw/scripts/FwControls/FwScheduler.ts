@@ -85,6 +85,8 @@ class FwSchedulerClass {
         schedulerbtns.push('    <button class="btnRefreshCalendar">Refresh</button><button class="btnToday">Today</button><button class="btnPrev">&lt;</button><button class="btnNext">&gt;</button>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="datecallout"></div>');
+        schedulerbtns.push('  <div class="jumpdate fwformfield" style="display:inline;padding:.9em .3em .3em 1.3em;"><span style="line-height: 41px;">Jump To: <input style="width:75px;" class="value" type="text" data-type="text" /><i class="material-icons btndate" style="cursor:pointer;position:absolute;top:12px;">&#xE8DF;</i></span></div>');
+
         schedulerbtns.push('</div>');
         const $schedulerbtns: any = schedulerbtns.join('\n');
         FwMenu.addCustomContent($menucontrol, $schedulerbtns);
@@ -108,6 +110,15 @@ class FwSchedulerClass {
         $control.find('.btnMonth').toggle($control.attr('data-hidemonthview') !== 'true');
         $control.find('.btnYear').toggle($control.attr('data-hideyearview') !== 'true');
         $control.find('.btnSchedule').toggle($control.attr('data-showeventview') == 'true');
+
+        // menu date input
+        const $datebtn = $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value')
+        $datebtn.inputmask('mm/dd/yyyy');
+        $datebtn.datepicker({
+            autoclose: true,
+            format: "m/d/yyyy",
+            todayHighlight: true
+        }).off('focus');
     };
     //---------------------------------------------------------------------------------
     init($control) {
@@ -304,6 +315,14 @@ class FwSchedulerClass {
                 if ($schedulerControl.length > 0) {
                     FwSchedulerDetailed.refresh($schedulerControl);
                 }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        $control.on('click', '.btndate', e => {
+            try {
+                const $this = jQuery(e.currentTarget);
+                $this.closest('.jumpdate').find('input').datepicker('show');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
