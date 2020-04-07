@@ -119,7 +119,7 @@ class Contact {
             FwTabs.showTab($form.find('.ordertab'));
             $form.find('.orderSubModule').append(this.openOrderBrowse($form));
         }
-        
+
         if (FwApplicationTree.isVisibleInSecurityTree('jFkSBEur1dluU')) {
             FwTabs.showTab($form.find('.quotetab'));
             $form.find('.quoteSubModule').append(this.openQuoteBrowse($form));
@@ -390,16 +390,16 @@ class Contact {
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contact Numbers">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Office" data-datafield="OfficePhone" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Office" data-datafield="OfficePhone" style="flex:1 1 125px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Ext" data-datafield="OfficeExtension" data-maxlength="6" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Direct" data-datafield="DirectPhone" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Cellular" data-datafield="MobilePhone" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Direct" data-datafield="DirectPhone" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Cellular" data-datafield="MobilePhone" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Home" data-datafield="HomePhone" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Home" data-datafield="HomePhone" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 125px;"></div>
                         </div>
                       </div>
                     </div>
@@ -416,7 +416,7 @@ class Contact {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="State" data-datafield="State" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="zipcode" class="fwcontrol fwformfield" data-caption="Zip / Postal" data-datafield="ZipCode" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip / Postal" data-datafield="ZipCode" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="CountryId" data-displayfield="Country" data-validationname="CountryValidation" style="flex:1 1 125px;"></div>
