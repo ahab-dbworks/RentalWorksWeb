@@ -206,7 +206,7 @@ abstract class InventoryBase {
                     let warehouseId;
                     let allWh;
 
-                    if ($form.is('tr')) {
+                    if ($form.is('tr') || $form.data('fromQuikSearch')) {
                         allWh = $form.data('allwarehousesfilter');
                     } else if ($form.find('[data-datafield="AllWarehouses"]').length > 0) {
                         allWh = FwFormField.getValueByDataField($form, 'AllWarehouses');
@@ -217,7 +217,7 @@ abstract class InventoryBase {
                     if (allWh && allWh != 'F') {
                         warehouseId = '';
                     } else {
-                        if ($form.is('tr')) {
+                        if ($form.is('tr') || $form.data('fromQuikSearch')) {
                             if (typeof $form.data('warehousefilter') === 'string') {
                                 warehouseId = $form.data('warehousefilter');
                             } else {
@@ -257,7 +257,7 @@ abstract class InventoryBase {
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryMonthlyRate"]', response.InventoryData.InventoryWarehouse.MonthlyRate);
                         FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarevents);
 
-                        if ($form.is('tr')) {
+                        if ($form.is('tr') || $form.data('fromQuikSearch')) {
                             $form = jQuery('#availabilityCalendarPopup');
                         }
                         this.loadInventoryDataTotals($form, response.InventoryData);
@@ -308,7 +308,7 @@ abstract class InventoryBase {
                     let warehouseId;
                     let allWh;
 
-                    if ($form.is('tr')) {
+                    if ($form.is('tr') || $form.data('fromQuikSearch')) {
                         allWh = $form.data('allwarehousesfilter');
                     } else if ($form.find('[data-datafield="AllWarehouses"]').length > 0) {
                         allWh = FwFormField.getValueByDataField($form, 'AllWarehouses');
@@ -319,7 +319,7 @@ abstract class InventoryBase {
                     if (allWh && allWh != 'F') { //checkbox values return strings sometimes instead of booleans
                         warehouseId = '';
                     } else {
-                        if ($form.is('tr')) {
+                        if ($form.is('tr') || $form.data('fromQuikSearch')) {
                             if (typeof $form.data('warehousefilter') === 'string') {
                                 warehouseId = $form.data('warehousefilter');
                             } else {
