@@ -327,6 +327,15 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         });
+        $control.on('change', '.jumpdate input', e => {
+            try {
+                const $this = jQuery(e.currentTarget);
+                const value = $this.val();
+                FwScheduler.navigate($control, value)
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         //$control.on('onactivatetab', () => {
         //    const $form = $control.closest('.fwform');
 
