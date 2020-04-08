@@ -38,4 +38,10 @@ html.theme-material .fwscheduler .changeview[data-selected="true"] {background-c
 html.theme-material .fwscheduler .topnavigation button {border-top:4px solid transparent;line-height: 36px;}
 html.theme-material .fwscheduler .topnavigation button:hover{border-top:4px solid #2e7d32;}
 
+html.theme-material .fwscheduler div.jumpdate { display:inline;padding:.9em .3em .3em 1.3em; }
+html.theme-material .fwscheduler div.jumpdate span { line-height: 41px; }
+html.theme-material .fwscheduler div.jumpdate input { width:75px;height:20px; }
+html.theme-material .fwscheduler div.jumpdate i { cursor:pointer;position:absolute;top:12px; }
+
+
 html.theme-material div[data-control="FwSchedulerDetailed"] .scheduler_default_event_inner { border-radius: 6px;margin: 4px 0 0 0; } 

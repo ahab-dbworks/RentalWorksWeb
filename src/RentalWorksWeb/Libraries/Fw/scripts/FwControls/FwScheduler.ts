@@ -85,7 +85,7 @@ class FwSchedulerClass {
         schedulerbtns.push('    <button class="btnRefreshCalendar">Refresh</button><button class="btnToday">Today</button><button class="btnPrev">&lt;</button><button class="btnNext">&gt;</button>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="datecallout"></div>');
-        schedulerbtns.push('  <div class="jumpdate fwformfield" style="display:inline;padding:.9em .3em .3em 1.3em;"><span style="line-height: 41px;">Jump To: <input style="width:75px;" class="value" type="text" data-type="text" /><i class="material-icons btndate" style="cursor:pointer;position:absolute;top:12px;">&#xE8DF;</i></span></div>');
+        schedulerbtns.push('  <div class="jumpdate fwformfield"><span>Jump To: <input class="value" type="text" data-type="text" /><i class="material-icons btndate">&#xE8DF;</i></span></div>');
 
         schedulerbtns.push('</div>');
         const $schedulerbtns: any = schedulerbtns.join('\n');
@@ -339,10 +339,16 @@ class FwSchedulerClass {
             }
         });
         $control.on('change', '.jumpdate input', e => {
+            e.stopImmediatePropagation();
             try {
-                const $this = jQuery(e.currentTarget);
-                const value = $this.val();
-                FwScheduler.navigate($control, value)
+                const date = new Date(`${jQuery(e.currentTarget).val()}`);
+                const dayPilotDate = new DayPilot.Date(date);
+                FwScheduler.navigate($control, dayPilotDate);
+
+                const $schedulerControl = $control.parents().find('.realscheduler');
+                if ($schedulerControl.length > 0) {
+                    FwSchedulerDetailed.navigate($schedulerControl, dayPilotDate)
+                }
             } catch (ex) {
                 FwFunc.showError(ex);
             }
