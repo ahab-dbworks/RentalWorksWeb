@@ -1080,7 +1080,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
                             if (_orderType.Equals(RwConstants.ORDER_TYPE_TRANSFER))
                             { 
-                                itemAvailToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                                itemAvailToDateTime = InventoryAvailabilityFunc.TransferAvailabilityToDateTime;
                             }
 
 
@@ -1135,7 +1135,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
                         if (_orderType.Equals(RwConstants.ORDER_TYPE_TRANSFER))
                         {
-                            itemAvailToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                            itemAvailToDateTime = InventoryAvailabilityFunc.TransferAvailabilityToDateTime;
                         }
 
 

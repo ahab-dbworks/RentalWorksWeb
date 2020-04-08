@@ -1020,6 +1020,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         private static int LastNeedRecalcId = 0;
         public static int availabilityDaysToCache = 0;
         public static DateTime LateDateTime = DateTime.MaxValue;  // This is a temporary value.  Actual value gets set in InitializeService
+        public static DateTime TransferAvailabilityToDateTime = DateTime.MinValue;  // This is a temporary value.  Actual value gets set in InitializeService
         private static TAvailabilityCache AvailabilityCache = new TAvailabilityCache();
         private static bool hourlyInitialized = false;
         private static bool dailyInitialized = false;
@@ -1184,6 +1185,9 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     RequestRecalc(inventoryId, warehouseId, classification, preCache);
                 }
             }
+
+            TransferAvailabilityToDateTime = DateTime.Today.AddDays(45);
+
             dailyInitialized = true;
             return success;
         }
