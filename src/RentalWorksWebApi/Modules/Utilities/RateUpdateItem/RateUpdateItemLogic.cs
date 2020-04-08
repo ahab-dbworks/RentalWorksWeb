@@ -33,7 +33,7 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         [FwLogicProperty(Id: "F6tt94SwSzyC", IsReadOnly: true)]
         public string Rank { get; set; }
         [FwLogicProperty(Id: "ft32BAyeROQS", IsReadOnly: true)]
-        public string Class { get; set; }
+        public string Classification { get; set; }
         [FwLogicProperty(Id: "zLNzBjF9z3KY", IsReadOnly: true)]
         public string InventoryTypeId { get; set; }
         [FwLogicProperty(Id: "tsONHDyZlXRD", IsReadOnly: true)]

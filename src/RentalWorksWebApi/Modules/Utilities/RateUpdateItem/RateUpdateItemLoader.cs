@@ -28,7 +28,7 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         public bool? Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
-        public string Class { get; set; }
+        public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
