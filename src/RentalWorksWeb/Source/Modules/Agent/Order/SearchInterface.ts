@@ -763,6 +763,15 @@ class SearchInterface {
 
         $popup.find('#itemlist').attr('data-view', 'GRID');
 
+        FwFormField.loadItems($popup.find('div[data-datafield="DefaultSelect"]'), [
+            { value: '', text: 'All' },
+            { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
+            { value: 'CK', text: 'Complete/Kit' },
+            { value: 'N', text: 'Container' },
+            { value: 'I', text: 'Item' },
+            { value: 'A', text: 'Accessory' }
+        ], true);
+
         //this.saveViewSettings($popup);
     }
     //----------------------------------------------------------------------------------------------
