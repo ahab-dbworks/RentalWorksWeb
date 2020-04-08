@@ -192,7 +192,7 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
             string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
             string description = GetUniqueIdAsString("Description", request) ?? "";
 
-            SelectedCheckBoxListItems ranks = request.uniqueids.Rank;
+            //SelectedCheckBoxListItems ranks = request.uniqueids.Rank;
             //StringBuilder sb = new StringBuilder();
             //foreach (var item in request.uniqueids.Rank)
             //{
