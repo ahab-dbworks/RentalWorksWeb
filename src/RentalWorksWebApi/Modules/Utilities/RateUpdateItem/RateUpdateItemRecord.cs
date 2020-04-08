@@ -12,9 +12,9 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", isPrimaryKey: true, modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string WarehouseId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 40)]
-        public string Description { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 40)]
+        //public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hourlyrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         public decimal? HourlyRate { get; set; }

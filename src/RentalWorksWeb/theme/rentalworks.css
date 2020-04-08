@@ -647,8 +647,8 @@ html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbo
 html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr td div[data-mappedfield="VendorPeriodExtended"] { border-right: 2px solid #ffd666; }
 
 /*Rate Update Utility*/
-[data-controller="RateUpdateUtilityController"] [data-datafield="ActivityType"] div.fwformfield-control {display:flex !important;}
-[data-controller="RateUpdateUtilityController"] [data-datafield="ActivityType"] div.fwformfield-control div[data-value] {margin:auto;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="AvailableFor"] div.fwformfield-control {display:flex !important;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="AvailableFor"] div.fwformfield-control div[data-value] {margin:auto;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="Classification"] ol {display:flex; width:700px !important; min-height:1em !important;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="Classification"] ol li {margin:auto; padding:.5em;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] ol {display:flex; width:700px !important; min-height:1em !important;}

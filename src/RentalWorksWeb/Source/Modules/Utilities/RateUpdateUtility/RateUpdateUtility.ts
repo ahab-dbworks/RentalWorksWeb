@@ -46,10 +46,10 @@ class RateUpdateUtility {
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="OrderBy"]'), [
-            { value: "WAREHOUSE", text: "Warehouse", selected: "F" },
-            { value: "DEPARTMENT", text: "Department", selected: "F" },
-            { value: "CATEGORY", text: "Category", selected: "F" },
-            { value: "ICODE", text: "I-Code", selected: "F" }
+            { value: "warehouse", text: "Warehouse", selected: "F" },
+            { value: "inventorydepartment", text: "Department", selected: "F" },
+            { value: "category", text: "Category", selected: "F" },
+            { value: "icode", text: "I-Code", selected: "F" }
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="Rank"]'), [
@@ -70,37 +70,38 @@ class RateUpdateUtility {
         //Search button to refresh grid with filters
         $form.on('click', '.search', e => {
             const $rateUpdateItemGrid = $form.find('[data-name="RateUpdateItemGrid"]');
-            const searchRequest = {
-                RecType: FwFormField.getValueByDataField($form, 'ActivityType'),
-                Classification: FwFormField.getValueByDataField($form, 'Classification'),
-                OrderBy: FwFormField.getValueByDataField($form, 'OrderBy'),
-                InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
-                Description: FwFormField.getValueByDataField($form, 'Description'),
-                InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
-                CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
-                SubCategoryId: FwFormField.getValueByDataField($form, 'SubCategoryId'),
-                Rank: FwFormField.getValueByDataField($form, 'Rank'),
-                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
-                UnitId: FwFormField.getValueByDataField($form, 'UnitId'),
-                ManufacturerId: FwFormField.getValueByDataField($form, 'ManufacturerId'),
-                ShowPendingModifications: FwFormField.getValueByDataField($form, 'ShowPendingModifications')
-            };
+            //const searchRequest = {
+            //    AvailableFor: FwFormField.getValueByDataField($form, 'AvailableFor'),
+            //    Classification: FwFormField.getValueByDataField($form, 'Classification'),
+            //    OrderBy: FwFormField.getValueByDataField($form, 'OrderBy'),
+            //    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
+            //    Description: FwFormField.getValueByDataField($form, 'Description'),
+            //    InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
+            //    CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+            //    SubCategoryId: FwFormField.getValueByDataField($form, 'SubCategoryId'),
+            //    Rank: FwFormField.getValueByDataField($form, 'Rank'),
+            //    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+            //    UnitId: FwFormField.getValueByDataField($form, 'UnitId'),
+            //    ManufacturerId: FwFormField.getValueByDataField($form, 'ManufacturerId'),
+            //    ShowPendingModifications: FwFormField.getValueByDataField($form, 'ShowPendingModifications')
+            //};
 
-            if ($rateUpdateItemGrid) {
-                const databind = $rateUpdateItemGrid.data('ondatabind');
-                if (typeof databind === 'function') {
-                    $rateUpdateItemGrid.data('ondatabind', request => {
-                        databind(request);
-                        request.uniqueids = searchRequest;
-                    });
-                    FwBrowse.search($rateUpdateItemGrid);
-                }
-            }
+            //if ($rateUpdateItemGrid) {
+            //    const databind = $rateUpdateItemGrid.data('ondatabind');
+            //    if (typeof databind === 'function') {
+            //        $rateUpdateItemGrid.data('ondatabind', request => {
+            //            databind(request);
+            //            request.uniqueids = searchRequest;
+            //        });
+            //        FwBrowse.search($rateUpdateItemGrid);
+            //    }
+            //}
+            FwBrowse.search($rateUpdateItemGrid);
         });
 
         //Enable/Disable fields based on Activity Type
-        $form.on('change', '[data-datafield="ActivityType"]', e => {
-            const activityType = FwFormField.getValueByDataField($form, 'ActivityType');
+        $form.on('change', '[data-datafield="AvailableFor"]', e => {
+            const activityType = FwFormField.getValueByDataField($form, 'AvailableFor');
 
             $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').removeAttr('disabled');
             $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'true');
@@ -118,29 +119,29 @@ class RateUpdateUtility {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        let activityType = FwFormField.getValueByDataField($form, 'ActivityType');
+        let availableFor = FwFormField.getValueByDataField($form, 'AvailableFor');
         let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
         let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
         let subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
         switch (datafield) {
             case 'InventoryTypeId':
-                if (activityType === 'R') {
+                if (availableFor === 'R') {
                     request.uniqueids = {
                         Rental: true,
                     };
-                } else if (activityType === 'S') {
+                } else if (availableFor === 'S') {
                     request.uniqueids = {
                         Sales: true,
                     };
-                } else if (activityType === 'P') {
+                } else if (availableFor === 'P') {
                     request.uniqueids = {
                         Parts: true,
                     };
-                } else if (activityType === 'L') {
+                } else if (availableFor === 'L') {
                     request.uniqueids = {
                         Labor: true,
                     };
-                } else if (activityType === 'M') {
+                } else if (availableFor === 'M') {
                     request.uniqueids = {
                         Misc: true,
                     };
@@ -169,9 +170,9 @@ class RateUpdateUtility {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
             case 'InventoryId':
-                if (activityType) {
+                if (availableFor) {
                     request.uniqueids = {
-                        AvailFor: activityType,
+                        AvailableFor: availableFor,
                     };
                 }
                 if (inventoryTypeId) {
@@ -211,7 +212,24 @@ class RateUpdateUtility {
             moduleSecurityId: this.id,
             $form: $form,
             onDataBind: (request: any) => {
-            }
+                request.uniqueids = {
+                    AvailableFor: FwFormField.getValueByDataField($form, 'AvailableFor'),
+                    Classification: FwFormField.getValueByDataField($form, 'Classification'),
+                    OrderBy: FwFormField.getValueByDataField($form, 'OrderBy'),
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                    Description: FwFormField.getValueByDataField($form, 'Description'),
+                    InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
+                    CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+                    SubCategoryId: FwFormField.getValueByDataField($form, 'SubCategoryId'),
+                    Rank: FwFormField.getValueByDataField($form, 'Rank'),
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                    UnitId: FwFormField.getValueByDataField($form, 'UnitId'),
+                    ManufacturerId: FwFormField.getValueByDataField($form, 'ManufacturerId'),
+                    ShowPendingModifications: FwFormField.getValueByDataField($form, 'ShowPendingModifications')}
+            },
+            //afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+             
+            //}
         });
     }
     //----------------------------------------------------------------------------------------------

@@ -3,6 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 namespace WebApi.Modules.Utilities.RateUpdateItem
@@ -30,21 +31,21 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/rateupdateitem 
-        //[HttpGet]
-        //[FwControllerMethod(Id: "", ActionType: FwControllerActionTypes.Browse)]
-        //public async Task<ActionResult<IEnumerable<RateUpdateItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        //{
-        //    return await DoGetAsync<RateUpdateItemLogic>(pageno, pagesize, sort);
-        //}
+        // GET api/v1/rateupdateitem 
+        [HttpGet]
+        [FwControllerMethod(Id: "IY0vmxRY0LML", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<IEnumerable<RateUpdateItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        {
+            return await DoGetAsync<RateUpdateItemLogic>(pageno, pagesize, sort);
+        }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/rateupdateitem/A0000001 
-        //[HttpGet("{id}")]
-        //[FwControllerMethod(Id: "", ActionType: FwControllerActionTypes.View)]
-        //public async Task<ActionResult<RateUpdateItemLogic>> GetOneAsync([FromRoute]string id)
-        //{
-        //    return await DoGetAsync<RateUpdateItemLogic>(id);
-        //}
+        [HttpGet("{id}")]
+        [FwControllerMethod(Id: "JtHFU6RLESDt", ActionType: FwControllerActionTypes.View)]
+        public async Task<ActionResult<RateUpdateItemLogic>> GetOneAsync([FromRoute]string id)
+        {
+            return await DoGetAsync<RateUpdateItemLogic>(id);
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rateupdateitem 
         //[HttpPost]

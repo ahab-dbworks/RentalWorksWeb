@@ -19,9 +19,8 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         public string InventoryId { get { return rateUpdateItem.InventoryId; } set { rateUpdateItem.InventoryId = value; } }
         [FwLogicProperty(Id: "qyo8o5YEgnRC")]
         public string WarehouseId { get { return rateUpdateItem.WarehouseId; } set { rateUpdateItem.WarehouseId = value; } }
-        [FwLogicProperty(Id: "RD0YTpsLQLCn")]
-        public string Description { get { return rateUpdateItem.Description; } set { rateUpdateItem.Description = value; } }
-
+        [FwLogicProperty(Id: "RD0YTpsLQLCn", IsReadOnly: true)]
+        public string Description { get; set; }
         [FwLogicProperty(Id: "MzJtgJByqaoz", IsReadOnly: true)]
         public string ICode { get; set; }
         [FwLogicProperty(Id: "6Fl8x1jNZdrc", IsReadOnly: true)]
@@ -40,8 +39,12 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         public string InventoryType { get; set; }
         [FwLogicProperty(Id: "uAOA2Mcry74J", IsReadOnly: true)]
         public string CategoryId { get; set; }
+        [FwLogicProperty(Id: "L4IhM0XsL2WT", IsReadOnly: true)]
+        public string Category { get; set; }
         [FwLogicProperty(Id: "FxPTd16ERBcx", IsReadOnly: true)]
         public string SubCategoryId { get; set; }
+        [FwLogicProperty(Id: "4tl5PMtSp36O", IsReadOnly: true)]
+        public string SubCategory { get; set; }
         [FwLogicProperty(Id: "k2KjgP1RHqB2", IsReadOnly: true)]
         public string UnitId { get; set; }
         [FwLogicProperty(Id: "9O51vzxfEMUa", IsReadOnly: true)]
