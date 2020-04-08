@@ -744,6 +744,7 @@ export class FwModuleBase {
                     case 'timepicker':
                     case 'password':
                     case 'text':
+                    case 'url':
                         currentValue = await this.getDataFieldValue(fieldToPopulate);
                         if (currentValue != "") {
                             await this.clearInputField(fieldToPopulate);
@@ -837,6 +838,7 @@ export class FwModuleBase {
                     case 'timepicker':
                     case 'password':
                     case 'key':
+                    case 'url':
                         value = await this.getDataFieldValue(dataField);
                         record[dataField] = value;
                         break;
