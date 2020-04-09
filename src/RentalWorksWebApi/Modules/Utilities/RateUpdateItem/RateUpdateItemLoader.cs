@@ -188,30 +188,74 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
-            string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            addFilterToSelect("AvailableFor", "availfor", select, request);
+            addFilterToSelect("WarehouseId", "warehouseid", select, request);
+            addFilterToSelect("InventoryId", "masterid", select, request);
+            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
+            addFilterToSelect("CategoryId", "categoryid", select, request);
+            addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
+            addFilterToSelect("UnitId", "unitid", select, request);
+            addFilterToSelect("ManufacturerId", "manufacturerid", select, request);
+
             string description = GetUniqueIdAsString("Description", request) ?? "";
-
-            SelectedCheckBoxListItems ranks = new SelectedCheckBoxListItems();
-            foreach (var rank in request.uniqueids.Rank)
+            if (!string.IsNullOrEmpty(description))
             {
-                SelectedCheckBoxListItem item = new SelectedCheckBoxListItem(rank.value);
-                ranks.Add(item);
+                select.AddWhere("master like @master");
+                select.AddParameter("@master", "%" + description.Trim() + "%");
             }
 
-            SelectedCheckBoxListItems classification = new SelectedCheckBoxListItems();
-            foreach (var c in request.uniqueids.Classification)
+            if (request.uniqueids.Rank != null)
             {
-                SelectedCheckBoxListItem item = new SelectedCheckBoxListItem(c.value);
-                classification.Add(item);
+                SelectedCheckBoxListItems ranks = new SelectedCheckBoxListItems();
+                foreach (var rank in request.uniqueids.Rank)
+                {
+                    SelectedCheckBoxListItem item = new SelectedCheckBoxListItem(rank.value);
+                    ranks.Add(item);
+                }
+                select.AddWhereIn("rank", ranks);
             }
 
-            string inventoryTypeId = GetUniqueIdAsString("InventoryTypeId", request) ?? "";
-            string categoryId = GetUniqueIdAsString("CategoryId", request) ?? "";
-            string subCategoryId = GetUniqueIdAsString("SubCategoryId", request) ?? "";
-            string unitId = GetUniqueIdAsString("UnitId", request) ?? "";
-            //string manufacturerId = GetUniqueIdAsString("ManufacturerId", request) ?? "";
-            //bool showPendingModifications = GetUniqueIdAsBoolean("ShowPendingModifications", request) ?? false;
+            if (request.uniqueids.Classification != null)
+            {
+                SelectedCheckBoxListItems classification = new SelectedCheckBoxListItems();
+                foreach (var c in request.uniqueids.Classification)
+                {
+                    SelectedCheckBoxListItem item = new SelectedCheckBoxListItem(c.value);
+                    classification.Add(item);
+                }
+                select.AddWhereIn("class", classification);
+            }
+
+            bool showPendingModifications = GetUniqueIdAsBoolean("ShowPendingModifications", request) ?? false;
+            if (showPendingModifications)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("(");
+                sb.Append("  (newhourlyrate <> 0) or");
+                sb.Append("  (newhourlycost <> 0) or");
+                sb.Append("  (newdailyrate <> 0) or");
+                sb.Append("  (newdailycost <> 0) or");
+                sb.Append("  (newweeklyrate <> 0) or");
+                sb.Append("  (newweeklycost <> 0) or");
+                sb.Append("  (newweek2rate <> 0) or");
+                sb.Append("  (newweek3rate <> 0) or");
+                sb.Append("  (newweek4rate <> 0) or");
+                sb.Append("  (newweek5rate <> 0) or");
+                sb.Append("  (newmonthlyrate <> 0) or");
+                sb.Append("  (newmonthlycost <> 0) or");
+                sb.Append("  (newmanifestvalue <> 0) or");
+                sb.Append("  (newreplacementcost <> 0) or");
+                sb.Append("  (newretail <> 0) or");
+                sb.Append("  (newprice <> 0) or");
+                sb.Append("  (newdefaultcost <> 0) or");
+                sb.Append("  (newmaxdiscount <> 0) or");
+                sb.Append("  (newmindw <> 0)");
+                sb.Append(")");
+                select.AddWhere(sb.ToString());
+            }
+
 
             //StringBuilder sb = new StringBuilder();
             //foreach (var item in request.uniqueids.OrderBy)
@@ -223,58 +267,6 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
             //    sb.Append(item.value);
             //}
             //string orderBy = sb.ToString();
-
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            addFilterToSelect("AvailableFor", "availfor", select, request);
-
-            if (!string.IsNullOrEmpty(warehouseId))
-            {
-                addFilterToSelect("WarehouseId", "warehouseid", select, request);
-            }
-
-            if (!string.IsNullOrEmpty(inventoryId))
-            {
-                addFilterToSelect("InventoryId", "masterid", select, request);
-            }
-
-            if (!string.IsNullOrEmpty(description))
-            {
-                select.AddWhere("master like @master");
-                select.AddParameter("@master", "%" + description.Trim() + "%");
-            }
-
-            select.AddWhereIn("rank", ranks);
-            select.AddWhereIn("class", classification);
-
-            if (!string.IsNullOrEmpty(inventoryTypeId))
-            {
-                addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
-            }
-
-            if (!string.IsNullOrEmpty(categoryId))
-            {
-                addFilterToSelect("CategoryId", "categoryid", select, request);
-            }
-
-            if (!string.IsNullOrEmpty(subCategoryId))
-            {
-                addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
-            }
-
-            if (!string.IsNullOrEmpty(unitId))
-            {
-                addFilterToSelect("UnitId", "unitid", select, request);
-            }
-
-            //if (!string.IsNullOrEmpty(manufacturerId))
-            //{
-            //    addFilterToSelect("ManufacturerId", "manufacturerid", select, request);
-            //}
-
-            //if (showPendingModifications)
-            //{
-            //}
 
 
             //if (!string.IsNullOrEmpty(orderBy))

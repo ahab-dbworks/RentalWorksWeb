@@ -213,19 +213,20 @@ class RateUpdateUtility {
             $form: $form,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    AvailableFor: FwFormField.getValueByDataField($form, 'AvailableFor'),
-                    Classification: FwFormField.getValueByDataField($form, 'Classification'),
-                    OrderBy: FwFormField.getValueByDataField($form, 'OrderBy'),
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
-                    Description: FwFormField.getValueByDataField($form, 'Description'),
-                    InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
-                    CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
-                    SubCategoryId: FwFormField.getValueByDataField($form, 'SubCategoryId'),
-                    Rank: FwFormField.getValueByDataField($form, 'Rank'),
-                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
-                    UnitId: FwFormField.getValueByDataField($form, 'UnitId'),
-                    ManufacturerId: FwFormField.getValueByDataField($form, 'ManufacturerId'),
-                    ShowPendingModifications: FwFormField.getValueByDataField($form, 'ShowPendingModifications')}
+                    AvailableFor: FwFormField.getValueByDataField($form, 'AvailableFor')
+                };
+                if (FwFormField.getValueByDataField($form, 'Classification')) request.uniqueids.Classification = FwFormField.getValueByDataField($form, 'Classification');
+                if (FwFormField.getValueByDataField($form, 'InventoryId')) request.uniqueids.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                if (FwFormField.getValueByDataField($form, 'Description')) request.uniqueids.Description = FwFormField.getValueByDataField($form, 'Description');
+                if (FwFormField.getValueByDataField($form, 'InventoryTypeId')) request.uniqueids.InventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+                if (FwFormField.getValueByDataField($form, 'CategoryId')) request.uniqueids.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+                if (FwFormField.getValueByDataField($form, 'SubCategoryId')) request.uniqueids.SubCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+                if (FwFormField.getValueByDataField($form, 'Rank')) request.uniqueids.Rank = FwFormField.getValueByDataField($form, 'Rank');
+                if (FwFormField.getValueByDataField($form, 'WarehouseId')) request.uniqueids.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                if (FwFormField.getValueByDataField($form, 'UnitId')) request.uniqueids.UnitId = FwFormField.getValueByDataField($form, 'UnitId');
+                if (FwFormField.getValueByDataField($form, 'ManufacturerId')) request.uniqueids.ManufacturerId = FwFormField.getValueByDataField($form, 'ManufacturerId');
+                if (FwFormField.getValueByDataField($form, 'ShowPendingModifications')) request.uniqueids.ShowPendingModifications = FwFormField.getValueByDataField($form, 'ShowPendingModifications');
+                if (FwFormField.getValueByDataField($form, 'OrderBy')) request.uniqueids.OrderBy = FwFormField.getValueByDataField($form, 'OrderBy');
             },
             //afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
              
