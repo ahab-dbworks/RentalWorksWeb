@@ -19,7 +19,8 @@ namespace WebApi.Modules.Administrator.Update
         public bool OnlyIncludeNewerVersions { get; set; }
     }
 
-    public class AvailableVersionsResponse : TSpStatusResponse {
+    public class AvailableVersionsResponse : TSpStatusResponse
+    {
         public List<string> Versions { get; set; } = new List<string>();
     }
 
@@ -59,10 +60,9 @@ namespace WebApi.Modules.Administrator.Update
             }
             else
             {
-                string systemName = "RentalWorksWeb";
-                string currentMajorMinorRelease = request.CurrentVersion.Substring(0, request.CurrentVersion.LastIndexOf('.'));
+                string[] versionPieces = request.CurrentVersion.Split(".");
 
-                if (string.IsNullOrEmpty(currentMajorMinorRelease))
+                if ((string.IsNullOrEmpty(versionPieces[0])) || (string.IsNullOrEmpty(versionPieces[1])) || (string.IsNullOrEmpty(versionPieces[2])))
                 {
                     response.msg = "Invalid format for CurrentVersion (" + request.CurrentVersion + ").  Cannot determine Major, Minor, and Release.";
                 }
@@ -70,6 +70,8 @@ namespace WebApi.Modules.Administrator.Update
                 {
                     try
                     {
+                        string systemName = "RentalWorksWeb";
+                        string currentMajorMinorRelease = versionPieces[0] + "." + versionPieces[1] + "." + versionPieces[2];
                         string ftpDirectory = "ftp://ftp.dbworks.com/" + systemName + "/" + currentMajorMinorRelease;
                         FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(ftpDirectory);
                         ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
@@ -88,7 +90,7 @@ namespace WebApi.Modules.Administrator.Update
                             if ((fileName.EndsWith("zip")) && (fileName.Contains("/rentalworksweb_")))
                             {
                                 string version = fileName;
-                                version = version.Replace(currentMajorMinorRelease + "/rentalworksweb_", ""); 
+                                version = version.Replace(currentMajorMinorRelease + "/rentalworksweb_", "");
                                 version = version.Replace(".zip", "");
                                 version = version.Replace("_", ".");
 
@@ -100,6 +102,7 @@ namespace WebApi.Modules.Administrator.Update
                                 }
                             }
                         }
+                        response.success = true;
                     }
                     catch (Exception e)
                     {
