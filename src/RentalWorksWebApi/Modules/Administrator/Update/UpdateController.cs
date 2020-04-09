@@ -6,14 +6,34 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 
-namespace WebApi.Modules.Utilities.Update
+namespace WebApi.Modules.Administrator.Update
 {
     [Route("api/v1/[controller]")]
-    [ApiExplorerSettings(GroupName = "utilities-v1")]
+    [ApiExplorerSettings(GroupName = "administrator-v1")]
     [FwController(Id: "QBpkw2MKnb4yp")]
     public class UpdateController : AppDataController
     {
         public UpdateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) {  }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/update/availableversions/2019.1.2.3
+        [HttpGet("availableversions/{currentversion}")]
+        [FwControllerMethod(Id: "Q2YnR3ZeEPtlX", ActionType: FwControllerActionTypes.View)]
+        public async Task<ActionResult<AvailableVersionsResponse>> GetAvailableVersions(string currentversion)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                AvailableVersionsResponse response = await UpdateFunc.GetAvailableVersions(AppConfig, UserSession, currentversion);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/update/applyupdate
         [HttpPost("applyupdate")]

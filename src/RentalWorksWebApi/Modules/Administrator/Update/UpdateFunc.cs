@@ -5,9 +5,16 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net;
+using System.IO;
+using System.Linq;
 
-namespace WebApi.Modules.Utilities.Update
+namespace WebApi.Modules.Administrator.Update
 {
+
+    public class AvailableVersionsResponse : List<string> { }
+
 
     public class ApplyUpdateRequest
     {
@@ -29,6 +36,44 @@ namespace WebApi.Modules.Utilities.Update
 
     public static class UpdateFunc
     {
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<AvailableVersionsResponse> GetAvailableVersions(FwApplicationConfig appConfig, FwUserSession userSession, string currentVersion)
+        {
+            AvailableVersionsResponse versions = new AvailableVersionsResponse();
+
+            try
+            {
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://ftp.dbworks.com/RentalWorksWeb/2019.1.2");    // need to use "currentVersion" to determine this path
+                request.Method = WebRequestMethods.Ftp.ListDirectory;
+                request.Credentials = new NetworkCredential("update", "update");
+                FtpWebResponse ftpResponse = (FtpWebResponse)request.GetResponse();
+                Stream responseStream = ftpResponse.GetResponseStream();
+                StreamReader reader = new StreamReader(responseStream);
+                string names = reader.ReadToEnd();
+
+                reader.Close();
+                ftpResponse.Close();
+
+                foreach (string name in names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList())
+                {
+                    string fileName = name.ToLower();
+                    if ((fileName.EndsWith("zip")) && (fileName.Contains("/rentalworksweb_")))
+                    {
+                        string version = fileName;
+                        version = version.Replace("2019.1.2/rentalworksweb_", "");   // need to use "currentVersion" to determine this replace
+                        version = version.Replace(".zip", "");
+                        version = version.Replace("_", ".");
+                        versions.Add(version);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return versions;
+        }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<ApplyUpdateResponse> ApplyUpdate(FwApplicationConfig appConfig, FwUserSession userSession, ApplyUpdateRequest request)
         {
