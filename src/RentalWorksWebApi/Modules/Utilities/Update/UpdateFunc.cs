@@ -1,13 +1,10 @@
 ﻿using FwStandard.Models;
-using FwStandard.SqlServer;
 using System;
-using System.Data;
 using System.Data.SqlClient;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using Newtonsoft.Json;
-using Microsoft.Web.Administration;
 
 namespace WebApi.Modules.Utilities.Update
 {
@@ -39,48 +36,44 @@ namespace WebApi.Modules.Utilities.Update
 
             SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder(appConfig.DatabaseSettings.ConnectionString);
 
-            UpdaterRequest uRequest = new UpdaterRequest();
-            uRequest.ToVersion = request.ToVersion;
-            uRequest.SQLServerName = connectionStringBuilder.DataSource;
-            uRequest.DatabaseName = connectionStringBuilder.InitialCatalog;
-            uRequest.ApiApplicationPool = GetCurrentApiApplicationPoolName();
-            uRequest.ApiInstallPath = GetCurrentApiApplicationPath();
-            uRequest.WebApplicationPool = GetCurrentWebApplicationPoolName();
-            uRequest.WebInstallPath = GetCurrentWebApplicationPath();
+            UpdaterRequest updaterRequest = new UpdaterRequest();
+            updaterRequest.ToVersion = request.ToVersion;
+            updaterRequest.SQLServerName = connectionStringBuilder.DataSource;
+            updaterRequest.DatabaseName = connectionStringBuilder.InitialCatalog;
+            updaterRequest.ApiApplicationPool = appConfig.ApplicationPool;
+            updaterRequest.ApiInstallPath = GetCurrentApiApplicationPath();
+            updaterRequest.WebApplicationPool = GetCurrentWebApplicationPoolName(appConfig.ApplicationPool);
+            updaterRequest.WebInstallPath = GetCurrentWebApplicationPath();
 
-            ////temporary
-            //uRequest.ApiApplicationPool = "rentalworkswebapi";
-            //uRequest.ApiInstallPath = @"c:\inetpub\wwwroot\rentalworkswebapi";
-            //uRequest.WebApplicationPool = "rentalworksweb";
-            //uRequest.WebInstallPath = @"c:\inetpub\wwwroot\rentalworksweb";
-
-
-            if (string.IsNullOrEmpty(uRequest.ApiApplicationPool))
+            if (string.IsNullOrEmpty(updaterRequest.ApiApplicationPool))
             {
-                response.msg = "Could not determine API Application Pool.";
+                response.msg = "Could not determine API Application Pool from appsettings.json.";
             }
-            else if (string.IsNullOrEmpty(uRequest.ApiInstallPath))
+            else if (string.IsNullOrEmpty(updaterRequest.ApiInstallPath))
             {
                 response.msg = "Could not determine API Installation path.";
             }
-            else if (string.IsNullOrEmpty(uRequest.WebApplicationPool))
+            else if (string.IsNullOrEmpty(updaterRequest.WebApplicationPool))
             {
                 response.msg = "Could not determine Web Application Pool.";
             }
-            else if (string.IsNullOrEmpty(uRequest.WebInstallPath))
+            else if (string.IsNullOrEmpty(updaterRequest.WebInstallPath))
             {
                 response.msg = "Could not determine Web Installation path.";
             }
-            else if (string.IsNullOrEmpty(uRequest.SQLServerName))
+            else if (string.IsNullOrEmpty(updaterRequest.SQLServerName))
             {
-                response.msg = "Could not determine SQL Server name.";
+                response.msg = "Could not determine SQL Server name from appsettings.json.";
             }
-            else if (string.IsNullOrEmpty(uRequest.DatabaseName))
+            else if (string.IsNullOrEmpty(updaterRequest.DatabaseName))
             {
-                response.msg = "Could not determine Database name.";
+                response.msg = "Could not determine Database name from appsettings.json.";
             }
             else
             {
+
+                // need to first apply all hotfixes here
+
                 try
                 {
                     string server = "127.0.0.1";
@@ -88,10 +81,9 @@ namespace WebApi.Modules.Utilities.Update
 
                     TcpClient client = new TcpClient(server, port);
                     JsonSerializer serializer = new JsonSerializer();
-                    string message = JsonConvert.SerializeObject(uRequest);
+                    string updaterRequestSt = JsonConvert.SerializeObject(updaterRequest);
 
-                    Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
-
+                    Byte[] data = System.Text.Encoding.ASCII.GetBytes(updaterRequestSt);
 
                     NetworkStream stream = client.GetStream();
                     stream.Write(data, 0, data.Length);
@@ -101,14 +93,12 @@ namespace WebApi.Modules.Utilities.Update
                     // the following "Read" command is here temporarily to cause a delay
 
                     data = new Byte[256];
-                    string responseData = string.Empty;
-
                     Int32 bytes = stream.Read(data, 0, data.Length);
-                    responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                    string updaterResponseStr = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
 
-                    Console.WriteLine("Response received: {0}", responseData);
+                    Console.WriteLine("Response received: {0}", updaterResponseStr);
 
-                    response = JsonConvert.DeserializeObject<ApplyUpdateResponse>(responseData);
+                    response = JsonConvert.DeserializeObject<ApplyUpdateResponse>(updaterResponseStr);
 
                     stream.Close();
                     client.Close();
@@ -142,38 +132,17 @@ namespace WebApi.Modules.Utilities.Update
             string webAppPath = "";
             if (apiAppPath.ToLower().EndsWith("api"))
             {
-                webAppPath = apiAppPath.Substring(0, apiAppPath.Length - 3 - 1);
+                webAppPath = apiAppPath.Substring(0, apiAppPath.Length - 3);
             }
             return webAppPath;
         }
         //-------------------------------------------------------------------------------------------------------
-        private static string GetCurrentApiApplicationPoolName()
+        private static string GetCurrentWebApplicationPoolName(string apiAppPoolName)
         {
-            ServerManager manager = new ServerManager();
-            string DefaultSiteName = "Default Web Site";// System.Web.Hosting.HostingEnvironment.ApplicationHost.GetSiteName();
-            Site defaultSite = manager.Sites[DefaultSiteName];
-            string appVirtualPath = GetCurrentApiApplicationPath();// HttpRuntime.AppDomainAppVirtualPath;
-
-            string appPoolName = string.Empty;
-            foreach (Application app in defaultSite.Applications)
-            {
-                string appPath = app.Path;
-                if (appPath == appVirtualPath)
-                {
-                    appPoolName = app.ApplicationPoolName;
-                }
-            }
-
-            return appPoolName;
-        }
-        //-------------------------------------------------------------------------------------------------------
-        private static string GetCurrentWebApplicationPoolName()
-        {
-            string apiAppPoolName = GetCurrentApiApplicationPoolName();  // "rentalworkswebapi"
             string webAppPoolName = "";
-            if (apiAppPoolName.ToLower().EndsWith("api"))
+            if (apiAppPoolName.ToLower().EndsWith("api"))   //rentalworkswebapi
             {
-                webAppPoolName = apiAppPoolName.Substring(0, apiAppPoolName.Length - 3 - 1);
+                webAppPoolName = apiAppPoolName.Substring(0, apiAppPoolName.Length - 3);
             }
             return webAppPoolName;
         }
