@@ -15,10 +15,10 @@ namespace WebApi.Modules.Administrator.Update
     {
         public UpdateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) {  }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/update/availableversions/2019.1.2.3
-        [HttpGet("availableversions/{currentversion}")]
+        // POST api/v1/update/availableversions
+        [HttpPost("availableversions")]
         [FwControllerMethod(Id: "Q2YnR3ZeEPtlX", ActionType: FwControllerActionTypes.View)]
-        public async Task<ActionResult<AvailableVersionsResponse>> GetAvailableVersions(string currentversion)
+        public async Task<ActionResult<AvailableVersionsResponse>> GetAvailableVersions([FromBody] AvailableVersionsRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -26,7 +26,7 @@ namespace WebApi.Modules.Administrator.Update
             }
             try
             {
-                AvailableVersionsResponse response = await UpdateFunc.GetAvailableVersions(AppConfig, UserSession, currentversion);
+                AvailableVersionsResponse response = await UpdateFunc.GetAvailableVersions(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

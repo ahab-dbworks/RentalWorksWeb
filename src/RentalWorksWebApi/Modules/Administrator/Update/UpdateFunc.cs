@@ -13,7 +13,15 @@ using System.Linq;
 namespace WebApi.Modules.Administrator.Update
 {
 
-    public class AvailableVersionsResponse : List<string> { }
+    public class AvailableVersionsRequest
+    {
+        public string CurrentVersion { get; set; }
+        public bool OnlyIncludeNewerVersions { get; set; }
+    }
+
+    public class AvailableVersionsResponse : TSpStatusResponse {
+        public List<string> Versions { get; set; } = new List<string>();
+    }
 
 
     public class ApplyUpdateRequest
@@ -37,42 +45,70 @@ namespace WebApi.Modules.Administrator.Update
     public static class UpdateFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<AvailableVersionsResponse> GetAvailableVersions(FwApplicationConfig appConfig, FwUserSession userSession, string currentVersion)
+        public static async Task<AvailableVersionsResponse> GetAvailableVersions(FwApplicationConfig appConfig, FwUserSession userSession, AvailableVersionsRequest request)
         {
-            AvailableVersionsResponse versions = new AvailableVersionsResponse();
+            AvailableVersionsResponse response = new AvailableVersionsResponse();
 
-            try
+            if (string.IsNullOrEmpty(request.CurrentVersion))
             {
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://ftp.dbworks.com/RentalWorksWeb/2019.1.2");    // need to use "currentVersion" to determine this path
-                request.Method = WebRequestMethods.Ftp.ListDirectory;
-                request.Credentials = new NetworkCredential("update", "update");
-                FtpWebResponse ftpResponse = (FtpWebResponse)request.GetResponse();
-                Stream responseStream = ftpResponse.GetResponseStream();
-                StreamReader reader = new StreamReader(responseStream);
-                string names = reader.ReadToEnd();
+                response.msg = "Supply a value for CurrentVersion in the request.";
+            }
+            else if (request.CurrentVersion.Split(".").Length != 4)
+            {
+                response.msg = "Invalid format for CurrentVersion (" + request.CurrentVersion + ").  Format must be Major.Minor.Release.Build";
+            }
+            else
+            {
+                string systemName = "RentalWorksWeb";
+                string currentMajorMinorRelease = request.CurrentVersion.Substring(0, request.CurrentVersion.LastIndexOf('.'));
 
-                reader.Close();
-                ftpResponse.Close();
-
-                foreach (string name in names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList())
+                if (string.IsNullOrEmpty(currentMajorMinorRelease))
                 {
-                    string fileName = name.ToLower();
-                    if ((fileName.EndsWith("zip")) && (fileName.Contains("/rentalworksweb_")))
+                    response.msg = "Invalid format for CurrentVersion (" + request.CurrentVersion + ").  Cannot determine Major, Minor, and Release.";
+                }
+                else
+                {
+                    try
                     {
-                        string version = fileName;
-                        version = version.Replace("2019.1.2/rentalworksweb_", "");   // need to use "currentVersion" to determine this replace
-                        version = version.Replace(".zip", "");
-                        version = version.Replace("_", ".");
-                        versions.Add(version);
+                        string ftpDirectory = "ftp://ftp.dbworks.com/" + systemName + "/" + currentMajorMinorRelease;
+                        FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(ftpDirectory);
+                        ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
+                        ftpRequest.Credentials = new NetworkCredential("update", "update");
+                        FtpWebResponse ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
+                        Stream responseStream = ftpResponse.GetResponseStream();
+                        StreamReader reader = new StreamReader(responseStream);
+                        string names = reader.ReadToEnd();
+
+                        reader.Close();
+                        ftpResponse.Close();
+
+                        foreach (string name in names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList())
+                        {
+                            string fileName = name.ToLower();
+                            if ((fileName.EndsWith("zip")) && (fileName.Contains("/rentalworksweb_")))
+                            {
+                                string version = fileName;
+                                version = version.Replace(currentMajorMinorRelease + "/rentalworksweb_", ""); 
+                                version = version.Replace(".zip", "");
+                                version = version.Replace("_", ".");
+
+                                bool includeVersion = ((!request.OnlyIncludeNewerVersions) || (version.CompareTo(request.CurrentVersion) > 0));
+
+                                if (includeVersion)
+                                {
+                                    response.Versions.Add(version);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        response.msg = e.ToString();
                     }
                 }
             }
-            catch (Exception)
-            {
-                throw;
-            }
 
-            return versions;
+            return response;
         }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<ApplyUpdateResponse> ApplyUpdate(FwApplicationConfig appConfig, FwUserSession userSession, ApplyUpdateRequest request)
