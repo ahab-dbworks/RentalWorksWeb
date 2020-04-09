@@ -1420,28 +1420,26 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     renderPrintButton($form: any) {
-        var self = this;
-        var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
+        const $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
         $print.prepend('<i class="material-icons">print</i>');
-        $print.on('click', function () {
-            self.printQuoteOrder($form);
+        $print.on('click', e => {
+            this.printQuoteOrder($form);
         });
     }
     //----------------------------------------------------------------------------------------------
     renderSearchButton($form: any) {
-        var self = this;
-        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'QuikSearch', 'searchbtn');
+        const $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'QuikSearch', 'searchbtn');
         $search.prepend('<i class="material-icons">search</i>');
-        $search.on('click', function () {
+        $search.on('click', e => {
             try {
-                let $form = jQuery(this).closest('.fwform');
-                let orderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+                const $form = jQuery(e.currentTarget).closest('.fwform');
+                const orderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
 
                 if (orderId == "") {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-                } else if (!jQuery(this).hasClass('disabled')) {
-                    let search = new SearchInterface();
-                    search.renderSearchPopup($form, orderId, self.Module);
+                } else if (!jQuery(e.currentTarget).hasClass('disabled')) {
+                    const search = new SearchInterface();
+                    search.renderSearchPopup($form, orderId, this.Module);
                 }
             }
             catch (ex) {
@@ -1502,33 +1500,33 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     activityCheckboxEvents($form: any, mode: string) {
-        let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
-            , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
-            , miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]')
-            , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
-            , lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss & Damage"]')
-            , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
-
         $form.find('[data-datafield="Rental"] input').on('change', e => {
+            const $rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]');
+            const $subRentalTab = $form.find('[data-type="tab"][data-caption="Sub-Rental"]');
+
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
-                    rentalTab.show();
+                    $rentalTab.show();
+                    $subRentalTab.show();
                     $form.find('.rental-pl').show()
                     FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
                 } else {
-                    rentalTab.hide();
+                    $rentalTab.hide();
+                    $subRentalTab.hide();
                     $form.find('.rental-pl').hide();
                     FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
                 }
             } else {
-                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                const combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
-                        rentalTab.show();
+                        $rentalTab.show();
+                        $subRentalTab.show();
                         $form.find('.rental-pl').show();
                         FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
                     } else {
-                        rentalTab.hide();
+                        $rentalTab.hide();
+                        $subRentalTab.hide();
                         $form.find('.rental-pl').hide();
                         FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
                     }
@@ -1536,65 +1534,79 @@ class OrderBase {
             }
         });
         $form.find('[data-datafield="Sales"] input').on('change', e => {
+            const $salesTab = $form.find('[data-type="tab"][data-caption="Sales"]');
+            const $subSalesTab = $form.find('[data-type="tab"][data-caption="Sub-Sales"]');
+
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
-                    salesTab.show();
+                    $salesTab.show();
+                    $subSalesTab.show();
                     $form.find('.sales-pl').show();
                 } else {
-                    salesTab.hide();
+                    $salesTab.hide();
+                    $subSalesTab.hide();
                     $form.find('.sales-pl').hide();
                 }
             } else {
-                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                const combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
-                        salesTab.show();
+                        $salesTab.show();
+                        $subSalesTab.show();
                         $form.find('.sales-pl').show();
                     } else {
-                        salesTab.hide();
+                        $salesTab.hide();
+                        $subSalesTab.hide();
                         $form.find('.sales-pl').hide();
                     }
                 }
             }
         });
         $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
+            const $miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]');
+            const $subMiscTab = $form.find('[data-type="tab"][data-caption="Sub-Miscellaneous"]');
+
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
-                    miscTab.show();
+                    $miscTab.show();
+                    $subMiscTab.show();
                     $form.find('.misc-pl').show();
                 } else {
-                    miscTab.hide();
+                    $miscTab.hide();
+                    $subMiscTab.hide();
                     $form.find('.misc-pl').hide();
                 }
             } else {
-                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                const combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
-                        miscTab.show();
+                        $miscTab.show();
+                        $subMiscTab.show();
                         $form.find('.misc-pl').show();
                     } else {
-                        miscTab.hide();
+                        $miscTab.hide();
+                        $subMiscTab.hide();
                         $form.find('.misc-pl').hide();
                     }
                 }
             }
         });
 
-        //const quikSearchMenuId = this.menuSearchId;
         $form.find('[data-datafield="LossAndDamage"] input').on('change', e => {
+            const $lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss & Damage"]');
+
             if (jQuery(e.currentTarget).prop('checked')) {
-                lossDamageTab.show();
+                $lossDamageTab.show();
                 $form.find('[data-securityid="searchbtn"]').addClass('disabled');
                 //$form.find(`.submenu-btn[data-securityid="${quikSearchMenuId}"]`).attr('data-enabled', 'false');
                 FwFormField.disable($form.find('[data-datafield="Rental"]'));
                 FwFormField.disable($form.find('[data-datafield="Sales"]'));
                 FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             } else {
-                lossDamageTab.hide();
+                $lossDamageTab.hide();
                 console.log('in change b4: ', $form.data('antiLD'))
                 $form.find('[data-securityid="searchbtn"]').removeClass('disabled');
-                //$form.find(`.submenu-btn[data-securityid="${quikSearchMenuId}"]`).attr('data-enabled', 'true');
-                //if ()
+
                 FwFormField.enable($form.find('[data-datafield="Rental"]'));
                 FwFormField.enable($form.find('[data-datafield="Sales"]'));
                 FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
@@ -1604,13 +1616,12 @@ class OrderBase {
         });
         // Determine previous values for enabled / disabled checkboxes
         $form.find('[data-datafield="LossAndDamage"]').click(e => {
-            // e.stopImmediatePropagation()
-            let LossAndDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage')
-            console.log('losdamageval', LossAndDamageVal)
+            // e.stopImmediatePropagation();
+            const LossAndDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage')
             if (LossAndDamageVal === false) {
-                let salesEnabled = $form.find('[data-datafield="Sales"]').attr('data-enabled');
-                let rentalEnabled = $form.find('[data-datafield="Rental"]').attr('data-enabled');
-                let rentalSalesEnabled = $form.find('[data-datafield="RentalSale"]').attr('data-enabled');
+                const salesEnabled = $form.find('[data-datafield="Sales"]').attr('data-enabled');
+                const rentalEnabled = $form.find('[data-datafield="Rental"]').attr('data-enabled');
+                const rentalSalesEnabled = $form.find('[data-datafield="RentalSale"]').attr('data-enabled');
                 $form.data('antiLD', {
                     "salesEnabled": salesEnabled,
                     "rentalEnabled": rentalEnabled,
@@ -1619,22 +1630,29 @@ class OrderBase {
             }
         });
         $form.find('[data-datafield="Labor"] input').on('change', e => {
+            const $laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+            const $subLaborTab = $form.find('[data-type="tab"][data-caption="Sub-Labor"]');
+
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
-                    laborTab.show();
+                    $laborTab.show();
+                    $subLaborTab.show();
                     $form.find('.labor-pl').show();
                 } else {
-                    laborTab.hide();
+                    $laborTab.hide();
+                    $subLaborTab.hide();
                     $form.find('.labor-pl').hide();
                 }
             } else {
-                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                const combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
-                        laborTab.show();
+                        $laborTab.show();
+                        $subLaborTab.show();
                         $form.find('.labor-pl').show();
                     } else {
-                        laborTab.hide();
+                        $laborTab.hide();
+                        $subLaborTab.hide();
                         $form.find('.labor-pl').hide();
                     }
                 }
@@ -1642,25 +1660,27 @@ class OrderBase {
         });
 
         $form.find('[data-datafield="RentalSale"] input').on('change', e => {
+            const $usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
-                    usedSaleTab.show();
+                    $usedSaleTab.show();
                     $form.find('.usedsale-pl').show();
                     FwFormField.disable($form.find('[data-datafield="Rental"]'));
                 } else {
-                    usedSaleTab.hide();
+                    $usedSaleTab.hide();
                     $form.find('.usedsale-pl').hide();
                     FwFormField.enable($form.find('[data-datafield="Rental"]'));
                 }
             } else {
-                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                const combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
-                        usedSaleTab.show();
+                        $usedSaleTab.show();
                         $form.find('.usedsale-pl').show();
                         FwFormField.disable($form.find('[data-datafield="Rental"]'));
                     } else {
-                        usedSaleTab.hide();
+                        $usedSaleTab.hide();
                         $form.find('.usedsale-pl').hide();
                         FwFormField.enable($form.find('[data-datafield="Rental"]'));
                     }
@@ -1670,9 +1690,9 @@ class OrderBase {
         // Loss and Damage disable against Rental, Sales, Used Sale
         // Also in AfterLoad
         $form.find('.anti-LD').on('change', e => {
-            let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
-            let salesVal = FwFormField.getValueByDataField($form, 'Sales');
-            let usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
+            const rentalVal = FwFormField.getValueByDataField($form, 'Rental');
+            const salesVal = FwFormField.getValueByDataField($form, 'Sales');
+            const usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
             if (rentalVal === true || salesVal === true || usedSaleVal === true) {
                 FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
             } else if (rentalVal === false && salesVal === false && usedSaleVal === false) {
