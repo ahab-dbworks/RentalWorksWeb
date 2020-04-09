@@ -77,7 +77,7 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         public string OrderBillingPeriodEnd { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderratetype", modeltype: FwDataTypes.Text)]
-        public string OrderRatetype { get; set; }
+        public string OrderRateType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderhiatusdiscfrom", modeltype: FwDataTypes.Text)]
         public string OrderHiatusDiscountFrom { get; set; }
@@ -173,7 +173,7 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         public string PurchaseOrderStatus { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "podate", modeltype: FwDataTypes.Date)]
-        public string PurchaseOrderDdate { get; set; }
+        public string PurchaseOrderDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poestrentfrom", modeltype: FwDataTypes.Date)]
         public string PurchaseOrderEstimatedStartDate { get; set; }

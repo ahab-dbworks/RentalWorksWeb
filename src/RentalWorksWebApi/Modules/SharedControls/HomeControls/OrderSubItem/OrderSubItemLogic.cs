@@ -59,7 +59,7 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         [FwLogicProperty(Id: "klBZClvpIJyOs", IsReadOnly: true)]
         public string OrderBillingPeriodEnd { get; set; }
         [FwLogicProperty(Id: "klLlsoyhacpk4", IsReadOnly: true)]
-        public string OrderRatetype { get; set; }
+        public string OrderRateType { get; set; }
         [FwLogicProperty(Id: "kmtgb9YYX6OfN", IsReadOnly: true)]
         public string OrderHiatusDiscountFrom { get; set; }
         [FwLogicProperty(Id: "KnFuHGKN1A3yl", IsReadOnly: true)]
@@ -123,7 +123,7 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         [FwLogicProperty(Id: "KW6JCvFWaklJH", IsReadOnly: true)]
         public string PurchaseOrderStatus { get; set; }
         [FwLogicProperty(Id: "kwDWQSS9sja3w", IsReadOnly: true)]
-        public string PurchaseOrderDdate { get; set; }
+        public string PurchaseOrderDate { get; set; }
         [FwLogicProperty(Id: "Kwm7KtqE4M8Pf", IsReadOnly: true)]
         public string PurchaseOrderEstimatedStartDate { get; set; }
         [FwLogicProperty(Id: "kWzxrvqMNO6eB", IsReadOnly: true)]

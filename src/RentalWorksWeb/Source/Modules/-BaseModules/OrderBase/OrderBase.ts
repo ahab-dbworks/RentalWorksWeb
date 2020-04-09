@@ -3380,13 +3380,41 @@ class OrderBase {
 
                 // show/hide tabs based on Activity boxes checked
                 const $rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]');
-                $form.find('[data-datafield="Rental"] input').prop('checked') ? $rentalTab.show() : $rentalTab.hide();
+                const $subRentalTab = $form.find('[data-type="tab"][data-caption="Sub-Rental"]');
+                if ($form.find('[data-datafield="Rental"] input').prop('checked')) {
+                    $rentalTab.show();
+                    $subRentalTab.show();
+                } else {
+                    $rentalTab.hide();
+                    $subRentalTab.hide();
+                }
                 const $salesTab = $form.find('[data-type="tab"][data-caption="Sales"]');
-                $form.find('[data-datafield="Sales"] input').prop('checked') ? $salesTab.show() : $salesTab.hide();
+                const $subSalesTab = $form.find('[data-type="tab"][data-caption="Sub-Sales"]');
+                if ($form.find('[data-datafield="Sales"] input').prop('checked')) {
+                    $salesTab.show();
+                    $subSalesTab.show();
+                } else {
+                    $salesTab.hide();
+                    $subSalesTab.hide();
+                }
                 const $miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]');
-                $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? $miscTab.show() : $miscTab.hide();
+                const $subMiscTab = $form.find('[data-type="tab"][data-caption="Sub-Miscellaneous"]');
+                if ($form.find('[data-datafield="Miscellaneous"] input').prop('checked')) {
+                    $miscTab.show();
+                    $subMiscTab.show();
+                } else {
+                    $miscTab.hide();
+                    $subMiscTab.hide();
+                }
                 const $laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
-                $form.find('[data-datafield="Labor"] input').prop('checked') ? $laborTab.show() : $laborTab.hide();
+                const $subLaborTab = $form.find('[data-type="tab"][data-caption="Sub-Labor"]');
+                if ($form.find('[data-datafield="Labor"] input').prop('checked')) {
+                    $laborTab.show();
+                    $subLaborTab.show();
+                } else {
+                    $laborTab.hide();
+                    $subLaborTab.hide();
+                }
                 const $usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
                 $form.find('[data-datafield="RentalSale"] input').prop('checked') ? $usedSaleTab.show() : $usedSaleTab.hide();
                 if ($lossDamageTab !== undefined) {
