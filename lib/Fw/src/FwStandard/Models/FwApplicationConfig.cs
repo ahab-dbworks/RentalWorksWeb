@@ -9,6 +9,7 @@
         public FwJwtIssuerOptions JwtIssuerOptions { get; set; }
         public DebuggingConfig Debugging { get; set; } = new DebuggingConfig();
         public bool EnableAvailabilityService { get; set; } = true;
+        public string ApplicationPool { get; set; } = string.Empty;
     }
 
     public class SqlServerConfig
