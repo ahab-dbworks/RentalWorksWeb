@@ -84,7 +84,7 @@ namespace WebApi.Modules.Utilities.Update
                 try
                 {
                     string server = "127.0.0.1";
-                    int port = 8081;
+                    int port = 18811;
 
                     TcpClient client = new TcpClient(server, port);
                     JsonSerializer serializer = new JsonSerializer();
