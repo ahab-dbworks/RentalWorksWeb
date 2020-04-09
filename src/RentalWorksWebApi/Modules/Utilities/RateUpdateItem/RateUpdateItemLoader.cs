@@ -27,8 +27,8 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
         public string AvailableFor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean)]
-        public bool? Rank { get; set; }
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
         public string Classification { get; set; }
@@ -192,28 +192,19 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
             string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
             string description = GetUniqueIdAsString("Description", request) ?? "";
 
-            //SelectedCheckBoxListItems ranks = request.uniqueids.Rank;
-            //StringBuilder sb = new StringBuilder();
-            //foreach (var item in request.uniqueids.Rank)
-            //{
-            //    if (!sb.Length.Equals(0))
-            //    {
-            //        sb.Append(",");
-            //    }
-            //    sb.Append(item.value);
-            //}
-            //string ranks = sb.ToString();
+            SelectedCheckBoxListItems ranks = new SelectedCheckBoxListItems();
+            foreach (var rank in request.uniqueids.Rank)
+            {
+                SelectedCheckBoxListItem item = new SelectedCheckBoxListItem(rank.value);
+                ranks.Add(item);
+            }
 
-            //StringBuilder sb2 = new StringBuilder();
-            //foreach (var item in request.uniqueids.Classification)
-            //{
-            //    if (!sb2.Length.Equals(0))
-            //    {
-            //        sb2.Append(",");
-            //    }
-            //    sb2.Append(item.value);
-            //}
-            //string classification = sb2.ToString();
+            SelectedCheckBoxListItems classification = new SelectedCheckBoxListItems();
+            foreach (var c in request.uniqueids.Classification)
+            {
+                SelectedCheckBoxListItem item = new SelectedCheckBoxListItem(c.value);
+                classification.Add(item);
+            }
 
             string inventoryTypeId = GetUniqueIdAsString("InventoryTypeId", request) ?? "";
             string categoryId = GetUniqueIdAsString("CategoryId", request) ?? "";
@@ -222,17 +213,16 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
             //string manufacturerId = GetUniqueIdAsString("ManufacturerId", request) ?? "";
             //bool showPendingModifications = GetUniqueIdAsBoolean("ShowPendingModifications", request) ?? false;
 
-            //StringBuilder sb3 = new StringBuilder();
+            //StringBuilder sb = new StringBuilder();
             //foreach (var item in request.uniqueids.OrderBy)
             //{
-            //    if (!sb3.Length.Equals(0))
+            //    if (!sb.Length.Equals(0))
             //    {
-            //        sb3.Append(",");
+            //        sb.Append(",");
             //    }
-            //    sb3.Append(item.value);
+            //    sb.Append(item.value);
             //}
-            //string OrderBy = sb3.ToString();
-
+            //string orderBy = sb.ToString();
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
@@ -248,24 +238,14 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
                 addFilterToSelect("InventoryId", "masterid", select, request);
             }
 
-            //if (!string.IsNullOrEmpty(classification))
-            //{
-            //    addFilterToSelect("Classification", "class", select, request);
-            //}
-            //select.AddWhereIn("class", classification);
-
             if (!string.IsNullOrEmpty(description))
             {
                 select.AddWhere("master like @master");
                 select.AddParameter("@master", "%" + description.Trim() + "%");
             }
 
-            //if (!string.IsNullOrEmpty(ranks))
-            //{
-            //    addFilterToSelect("Rank", "rank", select, request);
-            //}
-            //select.AddWhereIn("rank", ranks);
-
+            select.AddWhereIn("rank", ranks);
+            select.AddWhereIn("class", classification);
 
             if (!string.IsNullOrEmpty(inventoryTypeId))
             {
@@ -296,7 +276,11 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
             //{
             //}
 
-            //select.AddOrderBy(OrderBy);
+
+            //if (!string.IsNullOrEmpty(orderBy))
+            //{ 
+            //    select.AddOrderBy(orderBy);
+            //}
         }
         //------------------------------------------------------------------------------------ 
     }
