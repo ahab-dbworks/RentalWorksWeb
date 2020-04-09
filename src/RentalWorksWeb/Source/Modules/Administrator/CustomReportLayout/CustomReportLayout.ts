@@ -361,8 +361,27 @@ class CustomReportLayout {
 
         //tabName === 'Designer' ? renderFormHere = 'designerContent' : renderFormHere = 'previewWebForm';
 
-        //let html = FwFormField.getValueByDataField($form, 'Html');
-        //$form.find(`#${renderFormHere}`).empty().append(html);
+        let html = FwFormField.getValueByDataField($form, 'Html');
+
+        const $table = jQuery(html).find('table');
+        //const report = Handlebars.compile(html);
+
+        $form.find(`#reportDesigner`).empty().append($table);
+
+        //$table.find('th').attr('data-sortable', 'true');
+        ////create sortable list
+        //Sortable.create($table.find('.sortable').get(0), {
+        //    onEnd: function (evt) {
+        //        //$form.attr('data-modified', 'true');
+        //        //$form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+
+        //        ////hide checkboxes when moving item from "selected modules" to "available modules"
+        //        //const $parentField = jQuery(evt.item.parentElement).parents('[data-type="checkboxlist"]');
+        //        //if ($parentField.hasClass('available-modules')) {
+        //        //    jQuery(evt.item).find('input').css('display', 'none');
+        //        //}
+        //    }
+        //});
 
         ////render forms
         //let $customForm = $form.find(`#${renderFormHere}`);

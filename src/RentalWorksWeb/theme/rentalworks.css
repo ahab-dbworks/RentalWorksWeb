@@ -646,3 +646,6 @@ html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbo
 [data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] {max-width:75px; margin-left:1em;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] ol {min-height:1em !important;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="OrderBy"] {max-height :70px; margin-left:2em;}
+
+/*Custom Report Layout*/
+#reportDesigner table td:after { content: attr(data-value); }
