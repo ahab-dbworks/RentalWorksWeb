@@ -85,6 +85,8 @@ class FwSchedulerClass {
         schedulerbtns.push('    <button class="btnRefreshCalendar">Refresh</button><button class="btnToday">Today</button><button class="btnPrev">&lt;</button><button class="btnNext">&gt;</button>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="datecallout"></div>');
+        schedulerbtns.push('  <div class="jumpdate fwformfield"><span>Jump To: <input class="value" type="text" data-type="text" /><i class="material-icons btndate">&#xE8DF;</i></span></div>');
+
         schedulerbtns.push('</div>');
         const $schedulerbtns: any = schedulerbtns.join('\n');
         FwMenu.addCustomContent($menucontrol, $schedulerbtns);
@@ -108,6 +110,15 @@ class FwSchedulerClass {
         $control.find('.btnMonth').toggle($control.attr('data-hidemonthview') !== 'true');
         $control.find('.btnYear').toggle($control.attr('data-hideyearview') !== 'true');
         $control.find('.btnSchedule').toggle($control.attr('data-showeventview') == 'true');
+
+        // menu date input
+        const $datebtn = $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value')
+        $datebtn.inputmask('mm/dd/yyyy');
+        $datebtn.datepicker({
+            autoclose: true,
+            format: "m/d/yyyy",
+            todayHighlight: true
+        }).off('focus');
     };
     //---------------------------------------------------------------------------------
     init($control) {
@@ -127,6 +138,7 @@ class FwSchedulerClass {
             try {
                 const today = new DayPilot.Date();
                 FwScheduler.navigate($control, today);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -136,6 +148,7 @@ class FwSchedulerClass {
 
             try {
                 FwScheduler.showDayView($control);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -145,6 +158,7 @@ class FwSchedulerClass {
 
             try {
                 FwScheduler.showWeekView($control);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -154,6 +168,7 @@ class FwSchedulerClass {
 
             try {
                 FwScheduler.show5WeekView($control);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -163,6 +178,7 @@ class FwSchedulerClass {
 
             try {
                 FwScheduler.showMonthView($control);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -172,6 +188,7 @@ class FwSchedulerClass {
 
             try {
                 FwScheduler.showYearView($control);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -181,6 +198,7 @@ class FwSchedulerClass {
 
             try {
                 FwScheduler.showScheduleView($control);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -237,6 +255,7 @@ class FwSchedulerClass {
                     nextMonth = currentDay.addMonths(1);
                     FwScheduler.navigate($control, nextMonth);
                 }
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -293,6 +312,7 @@ class FwSchedulerClass {
                     previousMonth = currentDay.addMonths(-1);
                     FwScheduler.navigate($control, previousMonth);
                 }
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -304,6 +324,33 @@ class FwSchedulerClass {
                 if ($schedulerControl.length > 0) {
                     FwSchedulerDetailed.refresh($schedulerControl);
                 }
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        // Jump to Date
+        $control.on('click', '.btndate', e => {
+            try {
+                const $this = jQuery(e.currentTarget);
+                $this.closest('.jumpdate').find('input').datepicker('show');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        $control.on('change', '.jumpdate input', e => {
+            e.stopPropagation();
+            try {
+                const date = new Date(`${jQuery(e.currentTarget).val()}`);
+                const dayPilotDate = new DayPilot.Date(date);
+                FwScheduler.navigate($control, dayPilotDate);
+
+                const $schedulerControl = $control.parents().find('.realscheduler');
+                if ($schedulerControl.length > 0) {
+                    FwSchedulerDetailed.navigate($schedulerControl, dayPilotDate)
+                }
+                $schedulerControl.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val(`${jQuery(e.currentTarget).val()}`);
+
             } catch (ex) {
                 FwFunc.showError(ex);
             }

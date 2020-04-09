@@ -29,6 +29,7 @@ class FwSchedulerDetailedClass {
         schedulerbtns.push('    <button class="btnRefreshScheduler">Refresh</button><button class="btnToday">Today</button><button class="btnPrev">&lt;</button><button class="btnNext">&gt;</button>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="datecallout"></div>');
+        schedulerbtns.push('  <div class="jumpdate fwformfield"><span>Jump To: <input class="value" type="text" data-type="text" /><i class="material-icons btndate">&#xE8DF;</i></span></div>');
         schedulerbtns.push('</div>');
         FwMenu.addCustomContent($menucontrol, jQuery(schedulerbtns.join('\n')));
 
@@ -37,6 +38,14 @@ class FwSchedulerDetailedClass {
         if ((typeof controller !== 'undefined') && (typeof controller.addSchedulerMenuItems !== 'undefined')) {
             controller.addSchedulerMenuItems($menucontrol, $form);
         }
+        // menu date input
+        const $datebtn = $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value')
+        $datebtn.inputmask('mm/dd/yyyy');
+        $datebtn.datepicker({
+            autoclose: true,
+            format: "m/d/yyyy",
+            todayHighlight: true
+        }).off('focus');
 
         //let viewCount = 0;
         //if ($control.attr('data-hidedayview') != 'true') viewCount++;
@@ -60,6 +69,7 @@ class FwSchedulerDetailedClass {
             try {
                 const today = new DayPilot.Date();
                 FwSchedulerDetailed.navigate($control, today);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -72,6 +82,7 @@ class FwSchedulerDetailedClass {
                 const currentDay = navscheduler.startDate;
                 const nextMonth = currentDay.addMonths(1).firstDayOfMonth()
                 FwSchedulerDetailed.navigate($control, nextMonth);
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -84,7 +95,7 @@ class FwSchedulerDetailedClass {
                 const currentDay = navscheduler.startDate;
                 const previousMonth = currentDay.addMonths(-1).firstDayOfMonth();
                 FwSchedulerDetailed.navigate($control, previousMonth);
-
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
                 //const $calendarControl = $control.parents().find('.calendar');
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -99,6 +110,33 @@ class FwSchedulerDetailedClass {
                 if ($calendarControl.length > 0) {
                     FwScheduler.refresh($calendarControl);
                 }
+                $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val('');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+        // Jump to Date
+        $control.on('click', '.btndate', e => {
+            try {
+                const $this = jQuery(e.currentTarget);
+                $this.closest('.jumpdate').find('input').datepicker('show');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        $control.on('change', '.jumpdate input', e => {
+            e.stopPropagation();
+            try {
+                const date = new Date(`${jQuery(e.currentTarget).val()}`);
+                const dayPilotDate = new DayPilot.Date(date);
+                FwSchedulerDetailed.navigate($control, dayPilotDate);
+
+                const $calendarControl = $control.parents().find('.calendar');
+                if ($calendarControl.length > 0) {
+                    FwScheduler.navigate($calendarControl, dayPilotDate);
+                }
+                $calendarControl.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val(`${jQuery(e.currentTarget).val()}`);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
