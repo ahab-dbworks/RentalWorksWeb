@@ -154,6 +154,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Administrator.children.Hotfix,
                     Constants.Modules.Administrator.children.Reports,
                     Constants.Modules.Administrator.children.Settings,
+                    Constants.Modules.Administrator.children.SystemUpdate,
                     Constants.Modules.Administrator.children.User
                 ]
             };

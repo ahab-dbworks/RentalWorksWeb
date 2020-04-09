@@ -531,6 +531,7 @@
     <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomForm\CustomForm.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\SystemUpdate\SystemUpdate.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.ts" />

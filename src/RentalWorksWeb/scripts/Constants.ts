@@ -27,6 +27,7 @@ var Constants = {
                 Hotfix:             { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',               nav: 'module/hotfix',               nodetype: 'Module' },
                 Reports:            { id: 'Reports',       caption: 'Reports',              nav: 'module/reports',              nodetype: 'Module' },
                 Settings:           { id: 'Settings',      caption: 'Settings',             nav: 'module/settings',             nodetype: 'Module' },
+                SystemUpdate:       { id: 'QBpkw2MKnb4yp', caption: 'System Update',        nav: 'module/update',               nodetype: 'Module' },
                 User:               { id: 'r1fKvn1KaFd0u', caption: 'User',                 nav: 'module/user',                 nodetype: 'Module' }
             }
         },
