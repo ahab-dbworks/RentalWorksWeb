@@ -521,7 +521,6 @@ class Order extends OrderBase {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                     RecType: 'SR'
                 };
-                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -551,7 +550,6 @@ class Order extends OrderBase {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                     RecType: 'SS'
                 };
-                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -581,7 +579,6 @@ class Order extends OrderBase {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                     RecType: 'SM'
                 };
-                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -612,7 +609,6 @@ class Order extends OrderBase {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                     RecType: 'SL'
                 };
-                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
