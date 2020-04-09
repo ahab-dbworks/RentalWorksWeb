@@ -1,4 +1,5 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
@@ -70,6 +71,16 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         //{
         //    return await DoDeleteAsync<RateUpdateItemLogic>(id);
         //}
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rateupdateutility/many
+        [HttpPost("many")]
+        [FwControllerMethod(Id: "KnQRxyPTjttq", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<List<ActionResult<RateUpdateItemLogic>>> PostAsync([FromBody]List<RateUpdateItemLogic> l)
+        {
+            FwBusinessLogicList l2 = new FwBusinessLogicList();
+            l2.AddRange(l);
+            return await DoPostAsync<RateUpdateItemLogic>(l2);
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

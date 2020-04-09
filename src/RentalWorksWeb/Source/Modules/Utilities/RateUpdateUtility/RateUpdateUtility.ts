@@ -70,32 +70,6 @@ class RateUpdateUtility {
         //Search button to refresh grid with filters
         $form.on('click', '.search', e => {
             const $rateUpdateItemGrid = $form.find('[data-name="RateUpdateItemGrid"]');
-            //const searchRequest = {
-            //    AvailableFor: FwFormField.getValueByDataField($form, 'AvailableFor'),
-            //    Classification: FwFormField.getValueByDataField($form, 'Classification'),
-            //    OrderBy: FwFormField.getValueByDataField($form, 'OrderBy'),
-            //    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
-            //    Description: FwFormField.getValueByDataField($form, 'Description'),
-            //    InventoryTypeId: FwFormField.getValueByDataField($form, 'InventoryTypeId'),
-            //    CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
-            //    SubCategoryId: FwFormField.getValueByDataField($form, 'SubCategoryId'),
-            //    Rank: FwFormField.getValueByDataField($form, 'Rank'),
-            //    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
-            //    UnitId: FwFormField.getValueByDataField($form, 'UnitId'),
-            //    ManufacturerId: FwFormField.getValueByDataField($form, 'ManufacturerId'),
-            //    ShowPendingModifications: FwFormField.getValueByDataField($form, 'ShowPendingModifications')
-            //};
-
-            //if ($rateUpdateItemGrid) {
-            //    const databind = $rateUpdateItemGrid.data('ondatabind');
-            //    if (typeof databind === 'function') {
-            //        $rateUpdateItemGrid.data('ondatabind', request => {
-            //            databind(request);
-            //            request.uniqueids = searchRequest;
-            //        });
-            //        FwBrowse.search($rateUpdateItemGrid);
-            //    }
-            //}
             FwBrowse.search($rateUpdateItemGrid);
         });
 
@@ -105,7 +79,7 @@ class RateUpdateUtility {
 
             $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').removeAttr('disabled');
             $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'true');
-            
+
             switch (activityType) {
                 case 'S':
                     $form.find('[data-datafield="Classification"]').find('[data-value="S"], [data-value="W"]').find('input').attr('disabled', 'disabled');
@@ -124,6 +98,29 @@ class RateUpdateUtility {
         let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
         let subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
         switch (datafield) {
+            case 'InventoryId':
+                if (availableFor) {
+                    request.uniqueids = {
+                        AvailFor: availableFor,
+                    };
+                }
+                if (inventoryTypeId) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    };
+                }
+                if (categoryId) {
+                    request.uniqueids = {
+                        CategoryId: categoryId,
+                    };
+                }
+                if (subCategoryId) {
+                    request.uniqueids = {
+                        SubCategoryId: subCategoryId,
+                    };
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
             case 'InventoryTypeId':
                 if (availableFor === 'R') {
                     request.uniqueids = {
@@ -169,29 +166,6 @@ class RateUpdateUtility {
                 }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
-            case 'InventoryId':
-                if (availableFor) {
-                    request.uniqueids = {
-                        AvailableFor: availableFor,
-                    };
-                }
-                if (inventoryTypeId) {
-                    request.uniqueids = {
-                        InventoryTypeId: inventoryTypeId,
-                    };
-                }
-                if (categoryId) {
-                    request.uniqueids = {
-                        CategoryId: categoryId,
-                    };
-                }
-                if (subCategoryId) {
-                    request.uniqueids = {
-                        SubCategoryId: subCategoryId,
-                    };
-                }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
-                break;
             case 'WarehouseId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                 break;
@@ -201,7 +175,6 @@ class RateUpdateUtility {
             case 'ManufacturerId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemanufacturer`);
                 break;
-
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -228,11 +201,28 @@ class RateUpdateUtility {
                 if (FwFormField.getValueByDataField($form, 'ShowPendingModifications')) request.uniqueids.ShowPendingModifications = FwFormField.getValueByDataField($form, 'ShowPendingModifications');
                 if (FwFormField.getValueByDataField($form, 'OrderBy')) request.uniqueids.OrderBy = FwFormField.getValueByDataField($form, 'OrderBy');
             },
-            //afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-             
-            //}
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.renderWideGridColumns($form.find('[data-name="RateUpdateItemGrid"]'));
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
+    renderWideGridColumns($grid: JQuery) {
+        if ($grid.find('thead tr').length < 2) {
+            const $thead = $grid.find('thead tr').clone(false);
+            $thead.find('[data-sort]').removeAttr('data-sort');
+            $thead.find('td div.divselectrow').hide();
+            $thead.find('td div.field:not([data-sharedcolumn])').hide();
+            const $sharedColumnTds = $thead.find('td div[data-sharedcolumn]:even').parents('td');
+            for (let i = 0; i < $sharedColumnTds.length; i++) {
+                const $td = jQuery($sharedColumnTds[i]);
+                const caption = $td.find('div[data-sharedcolumn]').attr('data-sharedcolumn');
+                $td.find('.caption').text(caption);
+            }
+            $sharedColumnTds.attr('colspan', 2);
+            $thead.find('td div[data-sharedcolumn]:odd').parents().remove();
+            $grid.find('thead').prepend($thead);
+        }
+    }
 }
 var RateUpdateUtilityController = new RateUpdateUtility();

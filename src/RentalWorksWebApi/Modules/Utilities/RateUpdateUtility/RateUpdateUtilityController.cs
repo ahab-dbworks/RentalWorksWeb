@@ -71,7 +71,7 @@ namespace WebApi.Modules.Utilities.RateUpdateUtility
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rateupdateutility/validatemanufacturer/browse
-        [HttpPost("validateinventory/browse")]
+        [HttpPost("validatemanufacturer/browse")]
         [FwControllerMethod(Id: "feL1B77ZtfoQ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateManufacturerBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
