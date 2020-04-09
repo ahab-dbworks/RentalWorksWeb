@@ -101,11 +101,11 @@
     //---------------------------------------------------------------------------------------------- 
     renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
         var me = this;
-        var html = [], $reportsPageModules, $rowBody, $modulecontainer, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
+        var $rowBody, $body, browseKeys = [], rowId, screen = { 'moduleCaptions': {} };
 
-        $modulecontainer = $control.find('#' + moduleName);
-        $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-
+        const $modulecontainer = $control.find(`#${moduleName}`);
+        const $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+        const html = [];
         html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
@@ -133,11 +133,11 @@
         html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
         html.push('  </div>');
         html.push('</div>');
-        $reportsPageModules = jQuery(html.join(''));
 
+        const $reportsPageModules = jQuery(html.join(''));
         $control.find('.well').append($reportsPageModules);
 
-        $reportsPageModules.on('click', '.btn', function (e) {
+        $reportsPageModules.on('click', '.btn', e => {
             $reportsPageModules.find('.heading-menu').next().css('display', 'none');
             $body = $control.find('#' + moduleName + '.panel-body');
         });
@@ -152,14 +152,13 @@
 
         $reportsPageModules
             .on('click', '.panel-heading', function (e) {
-                var $this, moduleName, $reports, $body;
 
-                $this = jQuery(this);
-                moduleName = $this.closest('.panel-group').attr('id');
-                $body = $control.find('#' + moduleName + '.panel-body');
+                const $this = jQuery(this);
+                const moduleName = $this.closest('.panel-group').attr('id');
+                const $body = $control.find('#' + moduleName + '.panel-body');
 
                 if ($body.is(':empty')) {
-                    $reports = window[moduleName + 'Controller'].openForm();
+                    const $reports = window[moduleName + 'Controller'].openForm();
                     window[moduleName + 'Controller'].onLoadForm($reports);
                     $body.append($reports);
 
@@ -237,7 +236,7 @@
                     me.getCaptions(screen);
                 }
 
-                filter = [];
+                const filter = [];
                 const $reportDescriptions = jQuery('small#description');
                 const $reportTitles = jQuery('a#title');
                 const $reports = jQuery('.panel-group');
@@ -347,22 +346,18 @@
                     }
                 }
             }
+            jQuery(this).focus();
         });
-
         return $reportsPageModules;
     };
     //---------------------------------------------------------------------------------------------- 
     getHeaderView($control) {
-        var $view;
+        const $view = jQuery('<div class="menu-container" data-control="FwFileMenu" data-version="2" data-rendermode="template"><div class="menu"></div></div>');
 
-        $view = jQuery('<div class="menu-container" data-control="FwFileMenu" data-version="2" data-rendermode="template"><div class="menu"></div></div>');
-
-        var baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
-
-        baseiconurl = 'theme/images/icons/home/';
         this.generateDropDownModuleBtn($view, $control, 'All Reports ID', 'All Reports', null, null);
         //const nodeReports = FwApplicationTree.getNodeByFuncRecursive(FwApplicationTree.tree, {}, (node: any, args: any) => node.id === 'Reports');
         const constNodeReports = (<any>window).Constants.Modules.Reports;
+        let dropDownMenuItems;
         for (const keyCategory in constNodeReports.children) {
             const constNodeCategory = constNodeReports.children[keyCategory];
             dropDownMenuItems = [];

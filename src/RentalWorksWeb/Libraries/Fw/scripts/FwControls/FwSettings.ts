@@ -1215,6 +1215,7 @@ class FwSettingsClass {
                             }
                         }
                     }
+                    jQuery(this).focus();
                 });
 
                 $control.on('click', '.appmenu', function (e) {
