@@ -126,7 +126,7 @@ class FwSchedulerDetailedClass {
             }
         });
         $control.on('change', '.jumpdate input', e => {
-            e.stopImmediatePropagation();
+            e.stopPropagation();
             try {
                 const date = new Date(`${jQuery(e.currentTarget).val()}`);
                 const dayPilotDate = new DayPilot.Date(date);
@@ -136,6 +136,7 @@ class FwSchedulerDetailedClass {
                 if ($calendarControl.length > 0) {
                     FwScheduler.navigate($calendarControl, dayPilotDate);
                 }
+                $calendarControl.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value').val(`${jQuery(e.currentTarget).val()}`);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
