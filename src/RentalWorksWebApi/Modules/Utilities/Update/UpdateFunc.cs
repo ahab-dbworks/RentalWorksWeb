@@ -48,6 +48,13 @@ namespace WebApi.Modules.Utilities.Update
             uRequest.WebApplicationPool = GetCurrentWebApplicationPoolName();
             uRequest.WebInstallPath = GetCurrentWebApplicationPath();
 
+            ////temporary
+            //uRequest.ApiApplicationPool = "rentalworkswebapi";
+            //uRequest.ApiInstallPath = @"c:\inetpub\wwwroot\rentalworkswebapi";
+            //uRequest.WebApplicationPool = "rentalworksweb";
+            //uRequest.WebInstallPath = @"c:\inetpub\wwwroot\rentalworksweb";
+
+
             if (string.IsNullOrEmpty(uRequest.ApiApplicationPool))
             {
                 response.msg = "Could not determine API Application Pool.";
@@ -101,7 +108,8 @@ namespace WebApi.Modules.Utilities.Update
 
                     Console.WriteLine("Response received: {0}", responseData);
 
-                    response.msg = responseData;
+                    response = JsonConvert.DeserializeObject<ApplyUpdateResponse>(responseData);
+
                     stream.Close();
                     client.Close();
                 }
