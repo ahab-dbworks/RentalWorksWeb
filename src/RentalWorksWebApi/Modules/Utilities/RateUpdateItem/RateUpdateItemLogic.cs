@@ -49,6 +49,10 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         public string UnitId { get; set; }
         [FwLogicProperty(Id: "9O51vzxfEMUa", IsReadOnly: true)]
         public string PartNumber { get; set; }
+        [FwLogicProperty(Id: "3Wqq2ticMtHI", IsReadOnly: true)]
+        public string ManufacturerId { get; set; }
+        [FwLogicProperty(Id: "pHdzQF3jcQCw", IsReadOnly: true)]
+        public string Manufacturer { get; set; }
 
         [FwLogicProperty(Id: "31Vzzc6ITOvz")]
         public decimal? Cost { get { return rateUpdateItem.Cost; } set { rateUpdateItem.Cost = value; } }

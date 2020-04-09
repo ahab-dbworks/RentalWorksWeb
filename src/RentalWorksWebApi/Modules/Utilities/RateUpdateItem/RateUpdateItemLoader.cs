@@ -2,8 +2,6 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using System;
-using System.Collections.Generic;
 using System.Text;
 using WebApi.Data;
 namespace WebApi.Modules.Utilities.RateUpdateItem
@@ -56,6 +54,12 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgid", modeltype: FwDataTypes.Text)]
+        public string ManufacturerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manufacturer", modeltype: FwDataTypes.Text)]
+        public string Manufacturer { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text)]
         public string UnitId { get; set; }
