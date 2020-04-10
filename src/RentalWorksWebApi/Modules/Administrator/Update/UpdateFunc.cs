@@ -19,9 +19,17 @@ namespace WebApi.Modules.Administrator.Update
         public bool OnlyIncludeNewerVersions { get; set; }
     }
 
+    public class AvailableVersion
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+
+    }
+
     public class AvailableVersionsResponse : TSpStatusResponse
     {
-        public List<string> Versions { get; set; } = new List<string>();
+        public List<string> VersionsList { get; set; } = new List<string>();
+        public List<AvailableVersion> Versions { get; set; } = new List<AvailableVersion>();
     }
 
 
@@ -98,7 +106,11 @@ namespace WebApi.Modules.Administrator.Update
 
                                 if (includeVersion)
                                 {
-                                    response.Versions.Add(version);
+                                    AvailableVersion v = new AvailableVersion();
+                                    v.text = version;
+                                    v.value = version;
+                                    response.Versions.Add(v);
+                                    response.VersionsList.Add(version);
                                 }
                             }
                         }
