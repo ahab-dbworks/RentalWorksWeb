@@ -64,31 +64,8 @@ class SystemUpdate {
                         program.getModule('logoff');
                     }, 1000);
                 }, jQuery(app));
-
-                // launchObserver(app);
             } else {
                 FwNotification.renderNotification('WARNING', 'Select a version in order to update RentalWorks.')
-            }
-
-            function launchObserver(app) {
-                let observer;
-                // Listen for DOM element creation for Overpayment workflow for new Receipts
-
-                observer = new MutationObserver(() => {
-                    const message = jQuery(app).find('.advisory .fwconfirmationbox .body .message').text();
-                    if (message.startsWith("Amount to Apply exceeds the Invoice Amounts provided")) {
-                        $form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
-                        setTimeout(() => {
-                            program.getModule('logoff');
-                        }, 1000)
-                    }
-                });
-                // Start observing the target node for configured mutations
-                observer.observe(app, { attributes: true, childList: true, subtree: true });
-
-                if (observer) {
-                    setTimeout(() => { observer.disconnect(); }, 3000)
-                }
             }
         });
     }
