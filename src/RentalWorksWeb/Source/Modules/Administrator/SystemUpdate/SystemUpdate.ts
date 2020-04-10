@@ -53,15 +53,15 @@ class SystemUpdate {
                 };
                 FwAppData.apiMethod(true, 'POST', `api/v1/update/applyupdate`, request, FwServices.defaultTimeout, response => {
                     $form.find('.flexrow.msg').html('');
-                    if (response.msg) {
-                        FwFunc.playErrorSound();
-                        $form.find('.error-msg').html(`<div><span>${response.msg}</span></div>`);
-                    } else {
-                        $form.find('.sucess-msg').html(`<div><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
+                    //if (response.msg) {
+                    //    FwFunc.playErrorSound();
+                    //    $form.find('.error-msg').html(`<div style="margin:0 0 0 0;"><span>${response.msg}</span></div>`);
+                    //} else {
+                        $form.find('.sucess-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
                         setTimeout(() => {
                             FwModule.refreshForm($form);
                         }, 1000)
-                    }
+                   // }
                 }, function onError(response) {
                     FwFunc.showError(response);
                 }, null);
@@ -101,6 +101,7 @@ class SystemUpdate {
               <div id="systemupdateform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div class="tabpages">
                   <div class="flexrow">
+                    <div class="flexcolumn" style="margin: 0 0 0 8px;">
                     <div class="flexcolumn" style="max-width:135px;">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Current Version" data-datafield="CurrentVersion" data-enabled="false" style="flex: 0 1 135px;"></div>
@@ -112,9 +113,10 @@ class SystemUpdate {
                         <div class="update-now fwformcontrol" data-type="button" style="float:right;margin-top:15px;">Update Now</div>
                       </div>
                     </div>
-                    <div class="flexrow msg error-msg"></div>
-                    <div class="flexrow msg sucess-msg"></div>
+                    <div class="flexrow msg error-msg" style="margin:4px 0 0 0;"></div>
+                    <div class="flexrow msg sucess-msg" style="margin:4px 0 0 0;"></div>
                   </div>
+                </div>
                 </div>
               </div>
             </div>`;
