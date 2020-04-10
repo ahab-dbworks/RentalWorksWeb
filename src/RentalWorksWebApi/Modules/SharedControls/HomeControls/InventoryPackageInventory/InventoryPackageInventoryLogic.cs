@@ -118,11 +118,57 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         public string DateStamp { get { return inventoryPackageInventory.DateStamp; } set { inventoryPackageInventory.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        private string GetPackageClassification(FwSqlConnection conn = null)
+        {
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
+            }
+            string packageClassification = FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "master", "masterid", PackageId, "class").Result;
+            return packageClassification;
+        }
+        //------------------------------------------------------------------------------------ 
+        private bool GetPackageHasAccessories(FwSqlConnection conn = null)
+        {
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
+            }
+
+            BrowseRequest req = new BrowseRequest();
+            InventoryPackageInventoryLogic p = new InventoryPackageInventoryLogic();
+            p.AppConfig = this.AppConfig;
+            req.uniqueids = new Dictionary<string, object>();
+            req.uniqueids.Add("PackageId", this.PackageId);
+            List<InventoryPackageInventoryLogic> inv = p.SelectAsync<InventoryPackageInventoryLogic>(req, conn).Result;
+            bool hasAccessories = (inv.Count > 0);
+
+            return hasAccessories;
+        }
+        //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
 
-            if (saveMode == TDataRecordSaveMode.smUpdate)
+            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                if (GetPackageClassification().Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE))
+                {
+                    if (!GetPackageHasAccessories())
+                    {
+                        if (DefaultQuantity == null)
+                        {
+                            DefaultQuantity = 1;
+                        }
+                        if (DefaultQuantity != 1)
+                        {
+                            isValid = false;
+                            validateMsg = "The Default Quantity of the Primary item must be 1.";
+                        }
+                    }
+                }
+            }
+            else //(saveMode == TDataRecordSaveMode.smUpdate)
             {
                 if (((InventoryPackageInventoryLogic)original).IsPrimary.GetValueOrDefault(false))
                 {
@@ -138,23 +184,9 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
-                FwSqlConnection conn = e.SqlConnection;
-                if (conn == null)
+                if (GetPackageClassification(e.SqlConnection).Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE))
                 {
-                    conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
-                }
-                string invClassification = FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "master", "masterid", PackageId, "class").Result;
-
-                if (invClassification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE))
-                {
-                    BrowseRequest req = new BrowseRequest();
-                    InventoryPackageInventoryLogic p = new InventoryPackageInventoryLogic();
-                    p.AppConfig = this.AppConfig;
-                    req.uniqueids = new Dictionary<string, object>();
-                    req.uniqueids.Add("PackageId", this.PackageId);
-                    List<InventoryPackageInventoryLogic> inv = p.SelectAsync<InventoryPackageInventoryLogic>(req).Result;
-
-                    if (inv.Count.Equals(0))
+                    if (!GetPackageHasAccessories(e.SqlConnection))
                     {
                         IsPrimary = true;
                     }
