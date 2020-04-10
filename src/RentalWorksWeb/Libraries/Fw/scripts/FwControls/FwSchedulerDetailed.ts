@@ -29,7 +29,7 @@ class FwSchedulerDetailedClass {
         schedulerbtns.push('    <button class="btnRefreshScheduler">Refresh</button><button class="btnToday">Today</button><button class="btnPrev">&lt;</button><button class="btnNext">&gt;</button>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="datecallout"></div>');
-        schedulerbtns.push('  <div class="jumpdate fwformfield"><span>Jump To: <input class="value" type="text" data-type="text" /><i class="material-icons btndate">&#xE8DF;</i></span></div>');
+        schedulerbtns.push('  <div class="jumpdate"><span>Jump To: <input class="value" type="text" data-type="text" /><i class="material-icons btndate">&#xE8DF;</i></span></div>');
         schedulerbtns.push('</div>');
         FwMenu.addCustomContent($menucontrol, jQuery(schedulerbtns.join('\n')));
 
