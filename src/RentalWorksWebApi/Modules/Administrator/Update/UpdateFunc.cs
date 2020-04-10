@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.IO;
 using System.Linq;
+using FwStandard.SqlServer;
+using System.Data;
 
 namespace WebApi.Modules.Administrator.Update
 {
@@ -141,9 +143,13 @@ namespace WebApi.Modules.Administrator.Update
             updaterRequest.WebApplicationPool = GetCurrentWebApplicationPoolName(appConfig.ApplicationPool);
             updaterRequest.WebInstallPath = GetCurrentWebApplicationPath();
 
+            string hotfixInstallerConnectionString = "Server=" + connectionStringBuilder.DataSource + ";Database=" + connectionStringBuilder.InitialCatalog + ";User Id=dbworks;Password=db2424;";  // user/pass hard-coded for now
+            string updaterServer = "127.0.0.1";
+            int updaterPort = 18811;
+
             if (string.IsNullOrEmpty(updaterRequest.ApiApplicationPool))
             {
-                response.msg = "Could not determine API Application Pool from appsettings.json.";
+                response.msg = "Could determine API Application Pool from appsettings.json.";
             }
             else if (string.IsNullOrEmpty(updaterRequest.ApiInstallPath))
             {
@@ -168,46 +174,102 @@ namespace WebApi.Modules.Administrator.Update
             else
             {
 
-                // need to first apply all hotfixes here
+                response.success = true;
 
-                try
+                // attempt to connect to the database with dbworks account to confirm credentials
+                if (response.success)
                 {
-                    string server = "127.0.0.1";
-                    int port = 18811;
-
-                    TcpClient client = new TcpClient(server, port);
-                    JsonSerializer serializer = new JsonSerializer();
-                    string updaterRequestSt = JsonConvert.SerializeObject(updaterRequest);
-
-                    Byte[] data = System.Text.Encoding.ASCII.GetBytes(updaterRequestSt);
-
-                    NetworkStream stream = client.GetStream();
-                    stream.Write(data, 0, data.Length);
-                    response.success = true;
-
-                    // once this command is sent to the updater service, this API service will be bounced
-                    // the following "Read" command is here temporarily to cause a delay
-
-                    data = new Byte[256];
-                    Int32 bytes = stream.Read(data, 0, data.Length);
-                    string updaterResponseStr = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-
-                    Console.WriteLine("Response received: {0}", updaterResponseStr);
-
-                    response = JsonConvert.DeserializeObject<ApplyUpdateResponse>(updaterResponseStr);
-
-                    stream.Close();
-                    client.Close();
+                    try
+                    {
+                        // using native SqlConnection object here to bypass block on the "dbworks" login
+                        using (SqlConnection conn = new SqlConnection(hotfixInstallerConnectionString))
+                        {
+                            conn.Open();
+                            conn.Close();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        response.success = false;
+                        response.msg = "Cannot connect to the database to install hotfixes.";
+                    }
                 }
-                catch (ArgumentNullException e)
+
+
+
+                // attempt to connect to the updater service to confirm connectivity
+                if (response.success)
                 {
-                    response.msg = "ArgumentNullException: " + e.ToString();
-                    Console.WriteLine(response.msg);
+                    try
+                    {
+                        TcpClient client = new TcpClient(updaterServer, updaterPort);
+                        client.Close();
+                    }
+                    catch (Exception)
+                    {
+                        response.msg = "There is no RentalWorksWeb Updater Service available.";
+                        response.success = false;
+                    }
                 }
-                catch (SocketException e)
+
+                // apply all hotfixes here
+                if (response.success)
                 {
-                    response.msg = "There is no RentalWorksWeb Updater Service available.";
-                    Console.WriteLine(response.msg);
+                    try
+                    {
+                        // using native SqlConnection object here to bypass block on the "dbworks" login
+                        using (SqlConnection conn = new SqlConnection(hotfixInstallerConnectionString))
+                        {
+                            SqlCommand qry = new SqlCommand("fw_installhotfixes", conn);
+                            qry.CommandTimeout = 60000;
+                            qry.CommandType = CommandType.StoredProcedure;
+                            qry.Parameters.Add("@includepreview", SqlDbType.VarChar).Value = "O";
+                            conn.Open();
+                            await qry.ExecuteNonQueryAsync();
+                            conn.Close();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        response.success = false;
+                        response.msg = "Failed to install Hotfixes.";
+                    }
+                }
+
+                // if hotfixess were installed successfully, then request the API/Web update
+                if (response.success)
+                {
+                    try
+                    {
+                        TcpClient client = new TcpClient(updaterServer, updaterPort);
+                        JsonSerializer serializer = new JsonSerializer();
+                        string updaterRequestSt = JsonConvert.SerializeObject(updaterRequest);
+                        Byte[] data = System.Text.Encoding.ASCII.GetBytes(updaterRequestSt);
+                        NetworkStream stream = client.GetStream();
+                        stream.Write(data, 0, data.Length);
+
+                        // once the above command is sent to the updater service, this API service will be bounced
+                        // the following "Read" command is here only to cause a delay to the page continues to show the Please Wait pop-up until the API service is bounced
+                        // the page should quit waiting at that point with a "No Response" status from this API 
+                        // the page will then log the user out and refresh the application
+
+                        data = new Byte[256];
+                        Int32 bytes = stream.Read(data, 0, data.Length);
+                        string updaterResponseStr = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                        response = JsonConvert.DeserializeObject<ApplyUpdateResponse>(updaterResponseStr);
+                        stream.Close();
+                        client.Close();
+                    }
+                    catch (ArgumentNullException e)
+                    {
+                        response.msg = "ArgumentNullException: " + e.ToString();
+                        response.success = false;
+                    }
+                    catch (SocketException e)
+                    {
+                        response.msg = "There is no RentalWorksWeb Updater Service available.";
+                        response.success = false;
+                    }
                 }
             }
 
