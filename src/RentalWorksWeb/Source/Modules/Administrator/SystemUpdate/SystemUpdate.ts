@@ -37,15 +37,10 @@ class SystemUpdate {
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
-        FwFormField.loadItems($form.find('div[data-datafield="ToVersion"]'), [
-            { value: '2019.1.2.94', text: '2019.1.2.94' },
-            { value: '2019.1.2.95', text: '2019.1.2.95' },
-            { value: '2019.1.2.96', text: '2019.1.2.96' },
-            { value: '2019.1.2.97', text: '2019.1.2.97' },
-        ]);
 
         $form.find('div[data-control="FwTabs"] .tabs').hide();
         this.events($form);
+        this.getCurrentVersions($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -57,7 +52,16 @@ class SystemUpdate {
                     ToVersion: toVersion,
                 };
                 FwAppData.apiMethod(true, 'POST', `api/v1/update/applyupdate`, request, FwServices.defaultTimeout, response => {
-                   
+                    $form.find('.flexrow.msg').html('');
+                    if (response.msg) {
+                        FwFunc.playErrorSound();
+                        $form.find('.error-msg').html(`<div><span>${response.msg}</span></div>`);
+                    } else {
+                        $form.find('.sucess-msg').html(`<div><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
+                        setTimeout(() => {
+                            FwModule.refreshForm($form);
+                        }, 1000)
+                    }
                 }, function onError(response) {
                     FwFunc.showError(response);
                 }, null);
@@ -75,6 +79,22 @@ class SystemUpdate {
         // ----------
     }
     //----------------------------------------------------------------------------------------------
+    getCurrentVersions($form: JQuery): void {
+        const request: any = {
+            CurrentVersion: sessionStorage.getItem('serverVersion'),
+            OnlyIncludeNewerVersions: false,
+        };
+        FwAppData.apiMethod(true, 'POST', `api/v1/update/availableversions`, request, FwServices.defaultTimeout, response => {
+            if (response.Versions) {
+                FwFormField.loadItems($form.find('div[data-datafield="ToVersion"]'), response.Versions);
+            } else {
+                FwNotification.renderNotification('WARNING', 'There was a problem retrieving available versions.')
+            }
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, null);
+    }
+    //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
             <div id="systemupdateform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="System Update" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="SystemUpdateController">
@@ -83,15 +103,17 @@ class SystemUpdate {
                   <div class="flexrow">
                     <div class="flexcolumn" style="max-width:135px;">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Current Version" data-datafield="CurrentVersion" data-enabled="false" style="flex: 0 1 135px;">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Current Version" data-datafield="CurrentVersion" data-enabled="false" style="flex: 0 1 135px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Update to Version" data-datafield="ToVersion" style="flex: 0 1 135px;">
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Update to Version" data-datafield="ToVersion" style="flex: 0 1 135px;"></div>
                       </div>
                       <div class="flexrow">
                         <div class="update-now fwformcontrol" data-type="button" style="float:right;margin-top:15px;">Update Now</div>
                       </div>
                     </div>
+                    <div class="flexrow msg error-msg"></div>
+                    <div class="flexrow msg sucess-msg"></div>
                   </div>
                 </div>
               </div>
