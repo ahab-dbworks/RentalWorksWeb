@@ -63,7 +63,7 @@ class SystemUpdate {
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
-                }, null);
+                }, $form);
             } else {
                 FwNotification.renderNotification('WARNING', 'Select a version in order to update RentalWorks.')
             }
@@ -92,7 +92,7 @@ class SystemUpdate {
             }
         }, function onError(response) {
             FwFunc.showError(response);
-        }, null);
+        }, $form);
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
