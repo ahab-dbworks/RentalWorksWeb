@@ -149,7 +149,7 @@ namespace WebApi.Modules.Administrator.Update
 
             if (string.IsNullOrEmpty(updaterRequest.ApiApplicationPool))
             {
-                response.msg = "Could determine API Application Pool from appsettings.json.";
+                response.msg = "Could not determine API Application Pool from appsettings.json.";
             }
             else if (string.IsNullOrEmpty(updaterRequest.ApiInstallPath))
             {
@@ -197,12 +197,21 @@ namespace WebApi.Modules.Administrator.Update
 
 
 
-                // attempt to connect to the updater service to confirm connectivity
+                // attempt to connect to the updater service to confirm send/receive connectivity
                 if (response.success)
                 {
                     try
                     {
                         TcpClient client = new TcpClient(updaterServer, updaterPort);
+                        JsonSerializer serializer = new JsonSerializer();
+                        string testRequestStr = "TESTCHECK";
+                        Byte[] data = System.Text.Encoding.ASCII.GetBytes(testRequestStr);
+                        NetworkStream stream = client.GetStream();
+                        stream.Write(data, 0, data.Length);
+                        data = new Byte[256];
+                        Int32 bytes = stream.Read(data, 0, data.Length);
+                        string testResponseStr = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                        stream.Close();
                         client.Close();
                     }
                     catch (Exception)
