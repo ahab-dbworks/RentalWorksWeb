@@ -1,5 +1,6 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using Newtonsoft.Json;
 using System;
 using WebApi.Logic;
 using WebApi.Modules.Inventory.ItemStatus;
@@ -32,6 +33,14 @@ namespace WebApi.Modules.Inventory.Asset
 
             UseTransactionToSave = true;
         }
+
+        [JsonIgnore]
+        public override string BusinessLogicModuleName
+        {
+            get { return "Asset"; }
+        }
+
+
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "ow9igbdLMgEw", IsPrimaryKey: true)]
         public virtual string ItemId { get { return item.ItemId; } set { item.ItemId = value; itemStatus.ItemId = value; } }
