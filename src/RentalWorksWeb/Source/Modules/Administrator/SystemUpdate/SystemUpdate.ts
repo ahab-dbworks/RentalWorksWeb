@@ -50,22 +50,45 @@ class SystemUpdate {
                 const request: any = {
                     ToVersion: toVersion,
                 };
+
+                const app = document.getElementById('application');
                 FwAppData.apiMethod(true, 'POST', `api/v1/update/applyupdate`, request, FwServices.defaultTimeout, response => {
                     $form.find('.flexrow.msg').html('');
                     if (response.msg) {
                         FwFunc.playErrorSound();
                         $form.find('.error-msg').html(`<div style="margin:0 0 0 0;"><span>${response.msg}</span></div>`);
-                    } else {
+                    }
+                }, function onError(response) {
+                    $form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
+                    setTimeout(() => {
+                        program.getModule('logoff');
+                    }, 1000);
+                }, jQuery(app));
+
+                // launchObserver(app);
+            } else {
+                FwNotification.renderNotification('WARNING', 'Select a version in order to update RentalWorks.')
+            }
+
+            function launchObserver(app) {
+                let observer;
+                // Listen for DOM element creation for Overpayment workflow for new Receipts
+
+                observer = new MutationObserver(() => {
+                    const message = jQuery(app).find('.advisory .fwconfirmationbox .body .message').text();
+                    if (message.startsWith("Amount to Apply exceeds the Invoice Amounts provided")) {
                         $form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
                         setTimeout(() => {
                             program.getModule('logoff');
                         }, 1000)
                     }
-                }, function onError(response) {
-                    FwFunc.showError(response);
-                }, $form);
-            } else {
-                FwNotification.renderNotification('WARNING', 'Select a version in order to update RentalWorks.')
+                });
+                // Start observing the target node for configured mutations
+                observer.observe(app, { attributes: true, childList: true, subtree: true });
+
+                if (observer) {
+                    setTimeout(() => { observer.disconnect(); }, 3000)
+                }
             }
         });
     }
