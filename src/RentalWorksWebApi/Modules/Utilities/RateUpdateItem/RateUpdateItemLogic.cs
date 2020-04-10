@@ -15,9 +15,9 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         }
 
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "J1n135Cf0ZQI")]
+        [FwLogicProperty(Id: "J1n135Cf0ZQI", IsPrimaryKey: true)]
         public string InventoryId { get { return rateUpdateItem.InventoryId; } set { rateUpdateItem.InventoryId = value; } }
-        [FwLogicProperty(Id: "qyo8o5YEgnRC")]
+        [FwLogicProperty(Id: "qyo8o5YEgnRC", IsPrimaryKey: true)]
         public string WarehouseId { get { return rateUpdateItem.WarehouseId; } set { rateUpdateItem.WarehouseId = value; } }
         [FwLogicProperty(Id: "RD0YTpsLQLCn", IsReadOnly: true)]
         public string Description { get; set; }
