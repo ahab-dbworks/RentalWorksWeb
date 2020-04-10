@@ -37,7 +37,6 @@ class SystemUpdate {
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
-
         $form.find('div[data-control="FwTabs"] .tabs').hide();
         this.events($form);
         this.getCurrentVersions($form);
@@ -53,15 +52,15 @@ class SystemUpdate {
                 };
                 FwAppData.apiMethod(true, 'POST', `api/v1/update/applyupdate`, request, FwServices.defaultTimeout, response => {
                     $form.find('.flexrow.msg').html('');
-                    //if (response.msg) {
-                    //    FwFunc.playErrorSound();
-                    //    $form.find('.error-msg').html(`<div style="margin:0 0 0 0;"><span>${response.msg}</span></div>`);
-                    //} else {
-                        $form.find('.sucess-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
+                    if (response.msg) {
+                        FwFunc.playErrorSound();
+                        $form.find('.error-msg').html(`<div style="margin:0 0 0 0;"><span>${response.msg}</span></div>`);
+                    } else {
+                        $form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
                         setTimeout(() => {
-                            FwModule.refreshForm($form);
+                            program.getModule('logoff');
                         }, 1000)
-                   // }
+                    }
                 }, function onError(response) {
                     FwFunc.showError(response);
                 }, null);
@@ -80,6 +79,7 @@ class SystemUpdate {
     }
     //----------------------------------------------------------------------------------------------
     getCurrentVersions($form: JQuery): void {
+        FwFormField.setValueByDataField($form, 'CurrentVersion', sessionStorage.getItem('serverVersion'));
         const request: any = {
             CurrentVersion: sessionStorage.getItem('serverVersion'),
             OnlyIncludeNewerVersions: false,
@@ -114,7 +114,7 @@ class SystemUpdate {
                       </div>
                     </div>
                     <div class="flexrow msg error-msg" style="margin:4px 0 0 0;"></div>
-                    <div class="flexrow msg sucess-msg" style="margin:4px 0 0 0;"></div>
+                    <div class="flexrow msg success-msg" style="margin:4px 0 0 0;"></div>
                   </div>
                 </div>
                 </div>
