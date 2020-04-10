@@ -52,17 +52,24 @@ class SystemUpdate {
                 };
 
                 const app = document.getElementById('application');
+
+                FwFormField.disable($form.find('.update-now'));
                 FwAppData.apiMethod(true, 'POST', `api/v1/update/applyupdate`, request, FwServices.defaultTimeout, response => {
                     $form.find('.flexrow.msg').html('');
                     if (response.msg) {
                         FwFunc.playErrorSound();
                         $form.find('.error-msg').html(`<div style="margin:0 0 0 0;"><span>${response.msg}</span></div>`);
+                        FwFormField.enable($form.find('.update-now'));
                     }
                 }, function onError(response) {
-                    $form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
+                     $form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
+
+                     // can you add a loop here that will hit the API every second and only proceed once responses are received?
+                     // the restart takes some time to complete (mayabe 1 minute or so?)
+
                     setTimeout(() => {
                         program.getModule('logoff');
-                    }, 1000);
+                    }, 15000);  //15 seconds is arbitrary.  Put batck to 1000 once the above is programmed
                 }, jQuery(app));
             } else {
                 FwNotification.renderNotification('WARNING', 'Select a version in order to update RentalWorks.')
