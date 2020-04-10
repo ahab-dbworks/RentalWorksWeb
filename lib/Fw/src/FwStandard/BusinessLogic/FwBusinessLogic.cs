@@ -173,7 +173,7 @@ namespace FwStandard.BusinessLogic
         }
 
         [JsonIgnore]
-        public string BusinessLogicModuleName
+        public virtual string BusinessLogicModuleName
         {
             get { return GetType().Name.Replace("Logic", ""); }
         }
@@ -1016,19 +1016,17 @@ namespace FwStandard.BusinessLogic
                             isDuplicate = true;
                             if (saveMode == TDataRecordSaveMode.smUpdate)
                             {
-                                //var dtToArray = dt.Rows[r].Select(i => i.ToString()).ToArray();
-                                bool pkFound = true;
+                                bool pkFound = false;
                                 foreach (object id in ids)
                                 {
+                                    pkFound = false;
                                     string idString = id.ToString();
-                                    //int indexOfId = Array.IndexOf(dtToArray, idString);
-                                    //pkFound = (indexOfId >= 0);
                                     foreach (object objField in dt.Rows[r])
                                     {
                                         string strField = string.Empty;
                                         if (objField != null)
                                         {
-                                            objField.ToString();
+                                            strField = objField.ToString();
                                         }
                                         if (strField.Equals(idString))
                                         {
