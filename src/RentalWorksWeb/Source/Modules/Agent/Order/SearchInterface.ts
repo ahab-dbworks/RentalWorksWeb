@@ -736,21 +736,26 @@ class SearchInterface {
     listGridView($popup) {
         //custom display/sequencing for columns
         let columnsToHide = $popup.find('#itemsearch').data('columnstohide');
-        $popup.find('.columnDescriptions .columnorder, .item-info .columnorder').css('display', '');
-        if (columnsToHide.length) {
-            for (let i = 0; i < columnsToHide.length; i++) {
-                $popup.find(`.columnDescriptions [data-column="${columnsToHide[i]}"], .item-info [data-column="${columnsToHide[i]}"]`).hide();
+        if (typeof columnsToHide != 'undefined') {
+            $popup.find('.columnDescriptions .columnorder, .item-info .columnorder').css('display', '');
+            if (columnsToHide.length) {
+                for (let i = 0; i < columnsToHide.length; i++) {
+                    $popup.find(`.columnDescriptions [data-column="${columnsToHide[i]}"], .item-info [data-column="${columnsToHide[i]}"]`).hide();
+                }
             }
         }
+       
         let type = $popup.find('#itemsearch').attr('data-moduletype');
         if (type === 'PurchaseOrder' || type === 'Template') {
             $popup.find('.hideColumns').css('display', 'none');
         }
 
         let columnOrder = $popup.find('#itemsearch').data('columnorder');
-        if (columnOrder.length) {
-        for (let i = 0; i < columnOrder.length; i++) {
-            $popup.find(`.columnDescriptions [data-column="${columnOrder[i]}"], .item-info [data-column="${columnOrder[i]}"]`).css('order', i);
+        if (typeof columnOrder != 'undefined') {
+            if (columnOrder.length) {
+                for (let i = 0; i < columnOrder.length; i++) {
+                    $popup.find(`.columnDescriptions [data-column="${columnOrder[i]}"], .item-info [data-column="${columnOrder[i]}"]`).css('order', i);
+                }
             }
         }
     }
@@ -1771,14 +1776,18 @@ class SearchInterface {
 
                     //custom display/sequencing for columns
                     let columnsToHide = $popup.find('#itemsearch').data('columnstohide');
-                    $popup.find('.item-accessories .columnorder').css('display', '');
-                    for (let i = 0; i < columnsToHide.length; i++) {
-                        $popup.find(`.item-accessories [data-column="${columnsToHide[i]}"]`).hide();
+                    if (typeof columnsToHide != 'undefined') {
+                        $popup.find('.item-accessories .columnorder').css('display', '');
+                        for (let i = 0; i < columnsToHide.length; i++) {
+                            $popup.find(`.item-accessories [data-column="${columnsToHide[i]}"]`).hide();
+                        }
                     }
 
                     let columnOrder = $popup.find('#itemsearch').data('columnorder');
-                    for (let i = 0; i < columnOrder.length; i++) {
-                        $popup.find(`.item-accessories [data-column="${columnOrder[i]}"]`).css('order', i);
+                    if (typeof columnOrder != 'undefined') {
+                        for (let i = 0; i < columnOrder.length; i++) {
+                            $popup.find(`.item-accessories [data-column="${columnOrder[i]}"]`).css('order', i);
+                        }
                     }
 
                     let type = $popup.find('#itemsearch').attr('data-moduletype');
