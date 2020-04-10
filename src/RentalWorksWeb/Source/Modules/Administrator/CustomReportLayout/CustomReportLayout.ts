@@ -37,8 +37,8 @@ class CustomReportLayout {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        let userid = JSON.parse(sessionStorage.getItem('userid'));
-        FwFormField.setValueByDataField($form, 'WebUserId', userid.webusersid);
+        const webUsersId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+        FwFormField.setValueByDataField($form, 'WebUserId', webUsersId);
 
         if (mode == 'NEW') {
             FwFormField.enable($form.find('[data-datafield="BaseReport"]'));
@@ -55,9 +55,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="CustomReportLayoutId"] input').val(uniqueids.CustomReportLayoutId);
         FwModule.loadForm(this.Module, $form);
 
@@ -101,7 +99,7 @@ class CustomReportLayout {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         //toggles "Assign To" grids
-        let assignTo = FwFormField.getValueByDataField($form, 'AssignTo');
+        const assignTo = FwFormField.getValueByDataField($form, 'AssignTo');
         switch (assignTo) {
             case 'GROUPS':
                 $form.find('.groupGrid').show();
@@ -123,7 +121,7 @@ class CustomReportLayout {
 
         //Loads html for code editor
         if (!$form.find('[data-datafield="Html"]').hasClass('reload')) {
-            let html = $form.find('[data-datafield="Html"] textarea').val();
+            const html = $form.find('[data-datafield="Html"] textarea').val();
             if (typeof html !== 'undefined') {
                 this.codeMirror.setValue(html);
             } else {
@@ -131,7 +129,7 @@ class CustomReportLayout {
             }
         }
 
-        let reportName: any = FwFormField.getValueByDataField($form, 'BaseReport');
+        const reportName: any = FwFormField.getValueByDataField($form, 'BaseReport');
         this.addValidFields($form, reportName);
         this.renderTab($form, 'Designer');
 
@@ -144,7 +142,7 @@ class CustomReportLayout {
     //----------------------------------------------------------------------------------------------
     codeMirrorEvents($form) {
         //Creates an instance of CodeMirror
-        let textArea = $form.find('#codeEditor').get(0);
+        const textArea = $form.find('#codeEditor').get(0);
         var codeMirror = CodeMirror.fromTextArea(textArea,
             {
                 mode: "xml"
@@ -179,7 +177,7 @@ class CustomReportLayout {
         //Updates value for form fields
         $form.find('#codeEditor').on('change', e => {
             codeMirror.save();
-            let html = $form.find('textarea#codeEditor').val();
+            const html = $form.find('textarea#codeEditor').val();
             FwFormField.setValueByDataField($form, 'Html', html);
         });
     }
@@ -192,7 +190,7 @@ class CustomReportLayout {
             response => {
                 let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                 let allValidFields: any = [];
-                for (const key of Object.keys(response)) {
+                for (let key of Object.keys(response)) {
                     if (key != 'DateStamp' && key != 'RecordTitle' && key != '_Custom' && key != '_Fields') {
                         if (Array.isArray(response[key])) {
                             const unorderedItems = response[key][0];
