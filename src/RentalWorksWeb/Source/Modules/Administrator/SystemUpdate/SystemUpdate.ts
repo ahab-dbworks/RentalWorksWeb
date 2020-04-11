@@ -61,15 +61,9 @@ class SystemUpdate {
                         $form.find('.error-msg').html(`<div style="margin:0 0 0 0;"><span>${response.msg}</span></div>`);
                         FwFormField.enable($form.find('.update-now'));
                     }
-                }, function onError(response) {
-                     $form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will now be logged out of RentalWorks.</span></div>`);
-
-                     // can you add a loop here that will hit the API every second and only proceed once responses are received?
-                     // the restart takes some time to complete (mayabe 1 minute or so?)
-
-                    setTimeout(() => {
-                        program.getModule('logoff');
-                    }, 15000);  //15 seconds is arbitrary.  Put batck to 1000 once the above is programmed
+                }, errResponse => {
+                    $form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will be logged out of RentalWorks when complete.</span></div>`);
+                    this.showProgressBar($form);
                 }, jQuery(app));
             } else {
                 FwNotification.renderNotification('WARNING', 'Select a version in order to update RentalWorks.')
@@ -100,6 +94,55 @@ class SystemUpdate {
         }, function onError(response) {
             FwFunc.showError(response);
         }, $form);
+    }
+    //----------------------------------------------------------------------------------------------
+    showProgressBar($appendToElement: JQuery): JQuery {
+        let currentStep: number = 0;
+        let totalSteps: number = 100;
+        let caption: string;
+        let percentage: any;
+
+        const fullurl = `${applicationConfig.apiurl}api/v1/deal/emptyobject`;
+        let progressCompleted: boolean = false;
+
+        const ajaxOptions: JQuery.AjaxSettings<any> = {
+            method: 'GET',
+            url: fullurl,
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('apiToken')}`
+            },
+            context: {
+                requestid: FwAppData.generateUUID()
+            },
+        };
+        const html: Array<string> = [];
+        html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
+        html.push(`<div class="progress_bar_text"></div>`);
+        html.push(`<div class="progress_bar_caption">Initiating your request...</div>`);
+
+        const $moduleoverlay = jQuery(`<div class="progress_bar">`);
+        $moduleoverlay.html(html.join(''));
+        $appendToElement.css('position', 'relative').append($moduleoverlay);
+
+        let handle: number = window.setInterval(() => {
+            if ($moduleoverlay) {
+                caption = 'Please Standby...';
+                currentStep += 0.5;
+                $moduleoverlay.find('progress').val(currentStep);
+                $moduleoverlay.find('progress').attr('max', 100);
+                $moduleoverlay.find('.progress_bar_caption').text(caption);
+            }
+            jQuery.ajax(ajaxOptions)
+                .done(response => {
+                    window.clearInterval(handle);
+                    handle = 0;
+                    program.getModule('logoff');
+                });
+        }, 500);
+
+        return $moduleoverlay;
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
