@@ -37,6 +37,7 @@ namespace WebApi.Modules.Administrator.Update
 
     public class ApplyUpdateRequest
     {
+        public string CurrentVersion { get; set; }
         public string ToVersion { get; set; } // if left blank, then just update to the latest available version
     }
 
@@ -147,6 +148,8 @@ namespace WebApi.Modules.Administrator.Update
             string updaterServer = "127.0.0.1";
             int updaterPort = 18811;
 
+            bool doInstallHotfixes = (request.ToVersion.CompareTo(request.CurrentVersion) > 0);  // only apply hotfixes if upgrading, not downgrading
+
             if (string.IsNullOrEmpty(updaterRequest.ApiApplicationPool))
             {
                 response.msg = "Could not determine API Application Pool from appsettings.json.";
@@ -179,22 +182,24 @@ namespace WebApi.Modules.Administrator.Update
                 // attempt to connect to the database with dbworks account to confirm credentials
                 if (response.success)
                 {
-                    try
+                    if (doInstallHotfixes)
                     {
-                        // using native SqlConnection object here to bypass block on the "dbworks" login
-                        using (SqlConnection conn = new SqlConnection(hotfixInstallerConnectionString))
+                        try
                         {
-                            conn.Open();
-                            conn.Close();
+                            // using native SqlConnection object here to bypass block on the "dbworks" login
+                            using (SqlConnection conn = new SqlConnection(hotfixInstallerConnectionString))
+                            {
+                                conn.Open();
+                                conn.Close();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            response.success = false;
+                            response.msg = "Cannot connect to the database to install hotfixes.";
                         }
                     }
-                    catch (Exception)
-                    {
-                        response.success = false;
-                        response.msg = "Cannot connect to the database to install hotfixes.";
-                    }
                 }
-
 
 
                 // attempt to connect to the updater service to confirm send/receive connectivity
@@ -224,24 +229,27 @@ namespace WebApi.Modules.Administrator.Update
                 // apply all hotfixes here
                 if (response.success)
                 {
-                    try
+                    if (doInstallHotfixes)
                     {
-                        // using native SqlConnection object here to bypass block on the "dbworks" login
-                        using (SqlConnection conn = new SqlConnection(hotfixInstallerConnectionString))
+                        try
                         {
-                            SqlCommand qry = new SqlCommand("fw_installhotfixes", conn);
-                            qry.CommandTimeout = 60000;
-                            qry.CommandType = CommandType.StoredProcedure;
-                            qry.Parameters.Add("@includepreview", SqlDbType.VarChar).Value = "O";
-                            conn.Open();
-                            await qry.ExecuteNonQueryAsync();
-                            conn.Close();
+                            // using native SqlConnection object here to bypass block on the "dbworks" login
+                            using (SqlConnection conn = new SqlConnection(hotfixInstallerConnectionString))
+                            {
+                                SqlCommand qry = new SqlCommand("fw_installhotfixes", conn);
+                                qry.CommandTimeout = 60000;
+                                qry.CommandType = CommandType.StoredProcedure;
+                                qry.Parameters.Add("@includepreview", SqlDbType.VarChar).Value = "O";
+                                conn.Open();
+                                await qry.ExecuteNonQueryAsync();
+                                conn.Close();
+                            }
                         }
-                    }
-                    catch (Exception)
-                    {
-                        response.success = false;
-                        response.msg = "Failed to install Hotfixes.";
+                        catch (Exception)
+                        {
+                            response.success = false;
+                            response.msg = "Failed to install Hotfixes.";
+                        }
                     }
                 }
 

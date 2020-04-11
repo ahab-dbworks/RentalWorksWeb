@@ -47,7 +47,9 @@ class SystemUpdate {
         $form.find('div[data-type="button"].update-now').on('click', e => {
             const toVersion = FwFormField.getValueByDataField($form, 'ToVersion');
             if (toVersion !== '') {
+                const currentVersion = FwFormField.getValueByDataField($form, 'CurrentVersion');
                 const request: any = {
+                    CurrentVersion: currentVersion,
                     ToVersion: toVersion,
                 };
 
@@ -62,7 +64,7 @@ class SystemUpdate {
                         FwFormField.enable($form.find('.update-now'));
                     }
                 }, errResponse => {
-                    $form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will be logged out of RentalWorks when complete.</span></div>`);
+                    //$form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will be logged out of RentalWorks when complete.</span></div>`);
                     this.showProgressBar($form);
                 }, jQuery(app));
             } else {
@@ -109,11 +111,19 @@ class SystemUpdate {
             context: {
                 requestid: FwAppData.generateUUID()
             },
+            statusCode: {
+                401: function () {
+                    //proceed if a 401 (unauthorized) response is received.  Will get here when upgrading or downgrading and service is back online
+                    window.clearInterval(handle);
+                    handle = 0;
+                    program.getModule('logoff');
+                }
+            }
         };
         const html: Array<string> = [];
         html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
         html.push(`<div class="progress_bar_text"></div>`);
-        html.push(`<div class="progress_bar_caption">Initiating your request...</div>`);
+        html.push(`<div class="progress_bar_caption">Initiating update...</div>`);
 
         const $moduleoverlay = jQuery(`<div class="progress_bar">`);
         $moduleoverlay.html(html.join(''));
@@ -123,14 +133,15 @@ class SystemUpdate {
         let caption: string;
         let handle: number = window.setInterval(() => {
             if ($moduleoverlay) {
-                caption = 'Please Standby...';
+                caption = 'Update in progress.  Please Standby...';
                 currentStep += 0.5;
                 $moduleoverlay.find('progress').val(currentStep);
-                $moduleoverlay.find('progress').attr('max', 100);
+                $moduleoverlay.find('progress').attr('max', 200);
                 $moduleoverlay.find('.progress_bar_caption').text(caption);
             }
             jQuery.ajax(ajaxOptions)
                 .done(response => {
+                    //proceed if a valid response is received.  Will only get here when re-installing the same version as currentVersion
                     window.clearInterval(handle);
                     handle = 0;
                     program.getModule('logoff');
