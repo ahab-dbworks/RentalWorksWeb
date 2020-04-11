@@ -97,14 +97,7 @@ class SystemUpdate {
     }
     //----------------------------------------------------------------------------------------------
     showProgressBar($appendToElement: JQuery): JQuery {
-        let currentStep: number = 0;
-        let totalSteps: number = 100;
-        let caption: string;
-        let percentage: any;
-
         const fullurl = `${applicationConfig.apiurl}api/v1/deal/emptyobject`;
-        let progressCompleted: boolean = false;
-
         const ajaxOptions: JQuery.AjaxSettings<any> = {
             method: 'GET',
             url: fullurl,
@@ -126,6 +119,8 @@ class SystemUpdate {
         $moduleoverlay.html(html.join(''));
         $appendToElement.css('position', 'relative').append($moduleoverlay);
 
+        let currentStep: number = 0;
+        let caption: string;
         let handle: number = window.setInterval(() => {
             if ($moduleoverlay) {
                 caption = 'Please Standby...';
