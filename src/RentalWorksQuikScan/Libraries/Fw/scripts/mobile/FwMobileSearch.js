@@ -27,6 +27,9 @@
             this._searchModesLookup = {};
             for (var i = 0; i < this._options.searchModes.length; i++) {
                 this._searchModesLookup[this._options.searchModes[i].value] = this._options.searchModes[i];
+                if (typeof this._searchModesLookup[this._options.searchModes[i].value].placeholder === 'undefined' && typeof this._searchModesLookup[this._options.searchModes[i].value].caption === 'string') {
+                    this._searchModesLookup[this._options.searchModes[i].value].placeholder = this._searchModesLookup[this._options.searchModes[i].value].caption;
+                }
             }
         },
         _renderControl: function () {
