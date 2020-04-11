@@ -81,6 +81,48 @@ RwRFID.registerEvents = function(callbackfunction) {
         });
     }
 
+    if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
+        window.ZebraRFIDAPI3.registerListener('barcodeReceived', 'barcodeReceived_rwrfidjs', function (barcode, barcodetype, source, platform) {
+            program.onBarcodeData(barcode);
+        });
+        window.ZebraRFIDAPI3.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function (epcs, count) {
+            RwRFID.isConnected = true;
+            callbackfunction(epcs);
+            if (jQuery('.tagCountPopup').length) {
+                FwConfirmation.destroyConfirmation(jQuery('.tagCountPopup'));
+            }
+        });
+        window.ZebraRFIDAPI3.registerListener('epcReceived', 'epcReceived_rwrfidjs', function (epc, count) {
+            RwRFID.isConnected = true;
+            if (jQuery('.tagCountPopup').length > 0) {
+                jQuery('.tagCount').html(count);
+                //var epcs = jQuery('.tagCountPopup').data('epcs');
+                //epcs.push(epc);
+                //jQuery('.rwrfid-epc').html(epcs.join('<br>'));
+            } else {
+                var html = [];
+                html.push('<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
+                //html.push('<div class="rwrfid-epc" style="text-align:center;"></div>');
+                var $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', html.join('\n'));
+                var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
+                $confirmation.data('epcs', [epc]);
+                $confirmation.addClass('tagCountPopup');
+                $confirmation.find('.tagCount').html(count);
+                $confirmation.find('.epc').html(epc);
+                if (me.isPerformingSoftwareSinglePress) {
+                    var $btnstop = FwConfirmation.addButton($confirmation, 'Stop', true);
+                    $btnstop.on('click', function () {
+                        try {
+                            me.tslAbort();
+                        } catch (ex) {
+                            FwFunc.show(ex);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     //if (typeof window.ZebraRFIDScanner !== 'undefined') {
     //    window.ZebraRFIDScanner.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function(epcs) {
     //        callbackfunction(epcs);

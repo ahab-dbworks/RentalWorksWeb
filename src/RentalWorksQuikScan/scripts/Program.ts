@@ -246,6 +246,73 @@ class Program extends FwApplication {
                             delete window.TslReader;
                         }
                     }
+
+                    if (typeof window.ZebraRFIDAPI3 === 'object') {
+                        if (typeof window.ZebraRFIDAPI3.startListening === 'function') {
+                            window.ZebraRFIDAPI3.startListening();
+                            window.ZebraRFIDAPI3.registerListener('triggerMode', 'triggerMode_programts', function (triggerMode) {
+                                let $notificationWrapper = jQuery('<div></div>')
+                                    .css({
+                                        'position': 'absolute',
+                                        'top': '0',
+                                        'right': '0',
+                                        'bottom': '0',
+                                        'left': '0',
+                                        'display': 'flex',
+                                        'flex-direction': 'column',
+                                        'align-items': 'center',
+                                        'justify-content': 'center',
+                                        'z-index': FwFunc.getMaxZ('*')
+                                    });
+                                let $notification = jQuery(`<div>${triggerMode}</div>`)
+                                    .css({
+                                        'background-color': '#000000',
+                                        'font-size': '22px',
+                                        'color': '#ffffff',
+                                        'padding': '10px',
+                                        'opacity': '.8'
+                                    });
+                                $notificationWrapper.append($notification);
+                                jQuery('body').append($notificationWrapper);
+                                window.setTimeout(() => {
+                                    $notificationWrapper.remove();
+                                }, 500);
+                            });
+                            window.ZebraRFIDAPI3.registerListener('deviceConnected', 'deviceConnected_programts', function () {
+                                RwRFID.isConnected = true;
+                                program.showRfidStatusIcon = true;
+                                FwMobileMasterController.generateDeviceStatusIcons();
+                                //FwNotification.renderNotification('SUCCESS', 'RFID Reader Connected');
+                            });
+                            window.ZebraRFIDAPI3.registerListener('deviceDisconnected', 'deviceDisconnected_programts', function () {
+                                if ((program.browserVersionMajor > 2018) ||
+                                    (program.browserVersionMajor === 2018 && program.browserVersionMinor > 1) ||
+                                    (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision > 4) ||
+                                    (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision === 4 && program.browserVersionBuild >= 2)) {
+                                    //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
+                                    RwRFID.isConnected = false;
+                                } else {
+                                    // the TSL plugin was firing this event for any connected device, so this was firing incorrectly when linea was unplugged.
+                                    if (RwRFID.isConnected === true) {
+                                        //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
+                                        RwRFID.isConnected = false;
+                                    }
+                                }
+                                program.showRfidStatusIcon = false;
+                                FwMobileMasterController.generateDeviceStatusIcons();
+                            });
+                            window.ZebraRFIDAPI3.connectDevice(function connectDeviceSuccess(isConnected) {
+                                program.showRfidStatusIcon = true;
+                                RwRFID.isConnected = isConnected;
+                                FwMobileMasterController.generateDeviceStatusIcons();
+                            }, function () {
+                                RwRFID.isConnected = false;
+                                program.showRfidStatusIcon = false;
+                            });
+                        } else {
+                            delete window.ZebraRFIDAPI3;
+                        }
+                    }
                     
 
                     if (typeof window.ZebraEmdk !== 'undefined') {
