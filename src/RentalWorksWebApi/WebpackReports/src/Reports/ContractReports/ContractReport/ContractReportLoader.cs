@@ -162,6 +162,12 @@ namespace WebApi.Modules.Reports.ContractReports.ContractReport
         [FwSqlDataField(column: "pendingexchange", modeltype: FwDataTypes.Boolean)]
         public bool? HasPendingExchange { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRental { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
+        public bool? HasSales { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputbyusersid", modeltype: FwDataTypes.Text)]
         public string InputByUserId { get; set; }
         //------------------------------------------------------------------------------------ 
