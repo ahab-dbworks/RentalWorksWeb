@@ -2,7 +2,7 @@
 
 class SystemUpdate {
     Module: string = 'SystemUpdate';
-    apiurl: string = 'api/v1/update';
+    apiurl: string = 'api/v1/systemupdate';
     caption: string = Constants.Modules.Administrator.children.SystemUpdate.caption;
     nav: string = Constants.Modules.Administrator.children.SystemUpdate.nav;
     id: string = Constants.Modules.Administrator.children.SystemUpdate.id;
@@ -56,7 +56,7 @@ class SystemUpdate {
                 const app = document.getElementById('application');
 
                 FwFormField.disable($form.find('.update-now'));
-                FwAppData.apiMethod(true, 'POST', `api/v1/update/applyupdate`, request, FwServices.defaultTimeout, response => {
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/applyupdate`, request, FwServices.defaultTimeout, response => {
                     $form.find('.flexrow.msg').html('');
                     if (response.msg) {
                         FwFunc.playErrorSound();
@@ -87,7 +87,7 @@ class SystemUpdate {
             CurrentVersion: sessionStorage.getItem('serverVersion'),
             OnlyIncludeNewerVersions: false,
         };
-        FwAppData.apiMethod(true, 'POST', `api/v1/update/availableversions`, request, FwServices.defaultTimeout, response => {
+        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/availableversions`, request, FwServices.defaultTimeout, response => {
             if (response.Versions) {
                 FwFormField.loadItems($form.find('div[data-datafield="ToVersion"]'), response.Versions);
             } else {

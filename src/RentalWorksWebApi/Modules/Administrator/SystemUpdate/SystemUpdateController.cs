@@ -6,19 +6,20 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 
-namespace WebApi.Modules.Administrator.Update
+namespace WebApi.Modules.Administrator.SystemUpdate
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
     [FwController(Id: "QBpkw2MKnb4yp")]
-    public class UpdateController : AppDataController
+    public class SystemUpdateController : AppDataController
     {
-        public UpdateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) {  }
+        public SystemUpdateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) {  }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/update/availableversions
+        // POST api/v1/systemupdate/availableversions
         [HttpPost("availableversions")]
         [FwControllerMethod(Id: "Q2YnR3ZeEPtlX", ActionType: FwControllerActionTypes.View)]
-        public async Task<ActionResult<AvailableVersionsResponse>> GetAvailableVersions([FromBody] AvailableVersionsRequest request)
+        //public async Task<ActionResult<AvailableVersionsResponse>> GetAvailableVersions([FromBody] AvailableVersionsRequest request)
+        public ActionResult<AvailableVersionsResponse> GetAvailableVersions([FromBody] AvailableVersionsRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -26,7 +27,8 @@ namespace WebApi.Modules.Administrator.Update
             }
             try
             {
-                AvailableVersionsResponse response = await UpdateFunc.GetAvailableVersions(AppConfig, UserSession, request);
+                //AvailableVersionsResponse response = await SystemUpdateFunc.GetAvailableVersions(AppConfig, UserSession, request);
+                AvailableVersionsResponse response = SystemUpdateFunc.GetAvailableVersions(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -35,7 +37,7 @@ namespace WebApi.Modules.Administrator.Update
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/update/applyupdate
+        // POST api/v1/systemupdate/applyupdate
         [HttpPost("applyupdate")]
         [FwControllerMethod(Id: "TxeVikkpb8dws", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<ApplyUpdateResponse>> ApplyUpdate([FromBody]ApplyUpdateRequest request)
@@ -46,7 +48,7 @@ namespace WebApi.Modules.Administrator.Update
             }
             try
             {
-                ApplyUpdateResponse response = await UpdateFunc.ApplyUpdate(AppConfig, UserSession, request);
+                ApplyUpdateResponse response = await SystemUpdateFunc.ApplyUpdate(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

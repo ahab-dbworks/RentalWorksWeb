@@ -11,8 +11,9 @@ using System.IO;
 using System.Linq;
 using FwStandard.SqlServer;
 using System.Data;
+using WebApi.Modules.Administrator.SystemUpdateHistory;
 
-namespace WebApi.Modules.Administrator.Update
+namespace WebApi.Modules.Administrator.SystemUpdate
 {
 
     public class AvailableVersionsRequest
@@ -38,14 +39,14 @@ namespace WebApi.Modules.Administrator.Update
     public class ApplyUpdateRequest
     {
         public string CurrentVersion { get; set; }
-        public string ToVersion { get; set; } // if left blank, then just update to the latest available version
+        public string ToVersion { get; set; } 
     }
 
     public class ApplyUpdateResponse : TSpStatusResponse { }
 
     public class UpdaterRequest
     {
-        public string ToVersion { get; set; } // if left blank, then just update to the latest available version
+        public string ToVersion { get; set; } 
         public string SQLServerName { get; set; }
         public string DatabaseName { get; set; }
         public string WebApplicationPool { get; set; }
@@ -54,10 +55,11 @@ namespace WebApi.Modules.Administrator.Update
         public string ApiInstallPath { get; set; }
     }
 
-    public static class UpdateFunc
+    public static class SystemUpdateFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<AvailableVersionsResponse> GetAvailableVersions(FwApplicationConfig appConfig, FwUserSession userSession, AvailableVersionsRequest request)
+        //public static async Task<AvailableVersionsResponse> GetAvailableVersions(FwApplicationConfig appConfig, FwUserSession userSession, AvailableVersionsRequest request)
+        public static AvailableVersionsResponse GetAvailableVersions(FwApplicationConfig appConfig, FwUserSession userSession, AvailableVersionsRequest request)
         {
             AvailableVersionsResponse response = new AvailableVersionsResponse();
 
@@ -133,6 +135,13 @@ namespace WebApi.Modules.Administrator.Update
         {
             ApplyUpdateResponse response = new ApplyUpdateResponse();
 
+            SystemUpdateHistoryLogic h = new SystemUpdateHistoryLogic();
+            h.SetDependencies(appConfig, userSession);
+            h.UsersId = userSession.UsersId;
+            h.FromVersion = request.CurrentVersion;
+            h.ToVersion = request.ToVersion;
+            h.UpdateDateTime = DateTime.Now;
+
             SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder(appConfig.DatabaseSettings.ConnectionString);
 
             UpdaterRequest updaterRequest = new UpdaterRequest();
@@ -174,9 +183,16 @@ namespace WebApi.Modules.Administrator.Update
             {
                 response.msg = "Could not determine Database name from appsettings.json.";
             }
+            else if (string.IsNullOrEmpty(request.CurrentVersion))
+            {
+                response.msg = "Current Version cannot be blank.";
+            }
+            else if (string.IsNullOrEmpty(request.ToVersion))
+            {
+                response.msg = "Update To Version cannot be blank.";
+            }
             else
             {
-
                 response.success = true;
 
                 // attempt to connect to the database with dbworks account to confirm credentials
@@ -265,6 +281,8 @@ namespace WebApi.Modules.Administrator.Update
                         NetworkStream stream = client.GetStream();
                         stream.Write(data, 0, data.Length);
 
+                        await h.SaveAsync();
+
                         // once the above command is sent to the updater service, this API service will be bounced
                         // the following "Read" command is here only to cause a delay to the page continues to show the Please Wait pop-up until the API service is bounced
                         // the page should quit waiting at that point with a "No Response" status from this API 
@@ -289,6 +307,9 @@ namespace WebApi.Modules.Administrator.Update
                     }
                 }
             }
+
+            h.ErrorMessage = response.msg;
+            await h.SaveAsync();
 
             return response;
         }
