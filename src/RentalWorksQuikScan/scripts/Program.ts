@@ -315,17 +315,17 @@ class Program extends FwApplication {
                     }
                     
 
-                    if (typeof window.ZebraEmdk !== 'undefined') {
-                        window.ZebraEmdk.startHardRead(function (barcodeInfo) {
-                            try {
-                                me.onBarcodeData(barcodeInfo.barcode);
-                                //barcodeInfo.barcodeType
-                            }
-                            catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        })
-                    }
+                    //if (typeof window.ZebraEmdk !== 'undefined') {
+                    //    window.ZebraEmdk.startHardRead(function (barcodeInfo) {
+                    //        try {
+                    //            me.onBarcodeData(barcodeInfo.barcode);
+                    //            //barcodeInfo.barcodeType
+                    //        }
+                    //        catch (ex) {
+                    //            FwFunc.showError(ex);
+                    //        }
+                    //    })
+                    //}
 
                     //if (typeof window.Zebra2DScanner === 'object') {
                         //window.Zebra2DScanner.startListening();
