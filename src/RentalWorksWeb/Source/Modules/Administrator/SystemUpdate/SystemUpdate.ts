@@ -53,8 +53,7 @@ class SystemUpdate {
                     ToVersion: toVersion,
                 };
 
-                const app = document.getElementById('application');
-
+                const app = jQuery('#application');
                 FwFormField.disable($form.find('.update-now'));
                 FwAppData.apiMethod(true, 'POST', `${this.apiurl}/applyupdate`, request, FwServices.defaultTimeout, response => {
                     $form.find('.flexrow.msg').html('');
@@ -64,9 +63,8 @@ class SystemUpdate {
                         FwFormField.enable($form.find('.update-now'));
                     }
                 }, errResponse => {
-                    //$form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will be logged out of RentalWorks when complete.</span></div>`);
                     this.showProgressBar($form);
-                }, jQuery(app));
+                }, app);
             } else {
                 FwNotification.renderNotification('WARNING', 'Select a version in order to update RentalWorks.')
             }
@@ -99,6 +97,7 @@ class SystemUpdate {
     }
     //----------------------------------------------------------------------------------------------
     showProgressBar($appendToElement: JQuery): JQuery {
+        //$form.find('.success-msg').html(`<div style="margin:0 0 0 0;"><span>Version Update Initiated. You will be logged out of RentalWorks when complete.</span></div>`);
         const fullurl = `${applicationConfig.apiurl}api/v1/deal/emptyobject`;
         const ajaxOptions: JQuery.AjaxSettings<any> = {
             method: 'GET',
@@ -120,6 +119,7 @@ class SystemUpdate {
                 }
             }
         };
+
         const html: Array<string> = [];
         html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
         html.push(`<div class="progress_bar_text"></div>`);
