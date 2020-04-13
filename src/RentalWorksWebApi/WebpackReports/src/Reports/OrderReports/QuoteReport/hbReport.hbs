@@ -188,6 +188,7 @@
     </table>
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 321px;margin-left:10px;">
+    {{#ifCond RentalItems.length '>' 0}}
     <table id="incoming">
       <tr>
         <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Incoming ({{InDeliveryType}})</th>
@@ -219,6 +220,8 @@
       </tr>
       {{/ifCond}}
     </table>
+    {{/ifCond}}
+
   </div>
 </div>
 <!-- Rental Items -->
@@ -441,7 +444,7 @@
 
 <!-- Sales Items -->
 <div class="rpt-flexrow">
-  <table >
+  <table>
     {{#each SalesItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
