@@ -1,4 +1,4 @@
-class CheckInControllerClass {
+﻿class CheckInControllerClass {
     //----------------------------------------------------------------------------------------------
     getOrderSuspendedSessionPopup(suspendedInContracts) {'use strict';
         var result, html, statusdate, sessionno, orderno, orderdesc, deal, username, status, rowView, rowModel;
@@ -135,6 +135,7 @@ class CheckInControllerClass {
                     id:          'pendingtab',
                     caption:     'Pending',
                     buttonclick: function () {
+                        program.setScanTargetLpNearfield('#pendingsearch .searchbox');
                         $pending.showscreen();
                         $pending.find('#pendingsearch').fwmobilesearch('refresh');
                     }
@@ -143,6 +144,7 @@ class CheckInControllerClass {
                     id:          'rfidtab',
                     caption:     'RFID',
                     buttonclick: function () {
+                        program.setScanTargetLpNearfield('');
                         $rfid.showscreen();
                     }
                 },
@@ -150,6 +152,7 @@ class CheckInControllerClass {
                     id:          'sessiontab',
                     caption:     'Session In',
                     buttonclick: function () {
+                        program.setScanTargetLpNearfield('#sessioninsearch .searchbox');
                         $sessionin.showscreen();
                         $sessionin.find('#sessioninsearch').fwmobilesearch('refresh');
                     }
@@ -2070,11 +2073,6 @@ class CheckInControllerClass {
         };
 
         screen.load = function() {
-            //program.setScanTarget('#scanBarcodeView-txtBarcodeData');
-            //program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData');
-
-            //RwVirtualNumpad.init('#scanBarcodeView-txtBarcodeData');
-
             program.setScanTarget('');
             program.setScanTargetLpNearfield('');
 

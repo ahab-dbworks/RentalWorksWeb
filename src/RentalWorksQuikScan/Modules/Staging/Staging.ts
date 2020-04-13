@@ -731,6 +731,7 @@ class StagingControllerClass {
                             jQuery('#staging-pendingList').show();
                             jQuery('#staging-scan').attr('data-mode', 'PENDING');
                             RwRFID.unregisterEvents();
+                            program.setScanTargetLpNearfield('#pendingsearch .searchbox');
                             screen.$view.find('#pendingsearch').fwmobilesearch('refresh');
                         } catch (ex) {
                             FwFunc.showError(ex);
@@ -776,6 +777,7 @@ class StagingControllerClass {
                             jQuery('#staging-stagedList').show();
                             jQuery('#staging-scan').attr('data-mode', 'STAGEDLIST');
                             RwRFID.unregisterEvents();
+                            program.setScanTargetLpNearfield('#stagedsearch .searchbox');
                             screen.$view.find('#stagedsearch').fwmobilesearch('refresh');
                         } catch (ex) {
                             FwFunc.showError(ex);
@@ -1493,7 +1495,6 @@ class StagingControllerClass {
                     screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
                     screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#selectorderlocation');
                     screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
-                    program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData');
                     screen.toggleRfid();
                 },
                 forward: function() {
