@@ -663,7 +663,7 @@ class SearchInterface {
         let rateType;
         if (moduleType === 'Main') {
             rateType = FwFormField.getValueByDataField($popup.find('#addToTab'), 'RateType');
-        } else if (moduleType === 'Order' || moduleType === 'Quote'){
+        } else if (moduleType === 'Order' || moduleType === 'Quote') {
             if (typeof $popup.data('ratetype') != 'undefined') {
                 rateType = $popup.data('ratetype');
             }
@@ -684,22 +684,26 @@ class SearchInterface {
                         rate = Number(response.Rows[i][weeklyRateIndex]).toFixed(2);
                     } else if (rateType == 'MONTHLY') {
                         rate = Number(response.Rows[i][monthlyRateIndex]).toFixed(2);
+                    } else {
+                        rate = Number(response.Rows[i][priceIndex]).toFixed(2);
                     }
                     break;
                 case 'L':
                 case 'M':
                     const laborMiscRateType = response.Rows[i][laborMiscRateTypeIndex];
-                    if (laborMiscRateType == 'SINGLE') {
-                        rate = Number(response.Rows[i][priceIndex]).toFixed(2);
-                    } else if (laborMiscRateType == 'RECURRING') {
+                    if (laborMiscRateType == 'RECURRING') {
                         if (rateType == 'DAILY') {
                             rate = Number(response.Rows[i][dailyRateIndex]).toFixed(2);
                         } else if (rateType == 'WEEKLY' || rateType === '3WEEK') {
                             rate = Number(response.Rows[i][weeklyRateIndex]).toFixed(2);
                         } else if (rateType == 'MONTHLY') {
                             rate = Number(response.Rows[i][monthlyRateIndex]).toFixed(2);
+                        } else {
+                            rate = Number(response.Rows[i][priceIndex]).toFixed(2);
                         }
-                    }
+                    } else if (laborMiscRateType == 'RECURRING') {
+                        rate = Number(response.Rows[i][priceIndex]).toFixed(2);
+                    } 
             }
 
             let conflictdate = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
