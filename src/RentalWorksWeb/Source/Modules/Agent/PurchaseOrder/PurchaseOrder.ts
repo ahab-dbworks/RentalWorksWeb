@@ -441,6 +441,14 @@ class PurchaseOrder implements IModule {
                         FwFunc.showError(ex);
                     }
                 });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
                 FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => {
@@ -518,6 +526,14 @@ class PurchaseOrder implements IModule {
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -604,6 +620,14 @@ class PurchaseOrder implements IModule {
                         FwFunc.showError(ex);
                     }
                 });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
                 FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => {
@@ -679,6 +703,14 @@ class PurchaseOrder implements IModule {
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -765,6 +797,14 @@ class PurchaseOrder implements IModule {
                         FwFunc.showError(ex);
                     }
                 });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
                 FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => {
@@ -846,6 +886,14 @@ class PurchaseOrder implements IModule {
                         FwFunc.showError(ex);
                     }
                 });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
                 FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => {
@@ -919,10 +967,17 @@ class PurchaseOrder implements IModule {
                         FwFunc.showError(ex);
                     }
                 });
-
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -1002,6 +1057,14 @@ class PurchaseOrder implements IModule {
                         FwFunc.showError(ex);
                     }
                 });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
                 FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => {
@@ -1044,26 +1107,6 @@ class PurchaseOrder implements IModule {
         });
         // ----------
         FwBrowse.renderGrid({
-            nameGrid: 'OrderContactGrid',
-            gridSecurityId: 'B9CzDEmYe1Zf',
-            moduleSecurityId: this.id,
-            $form: $form,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
-                };
-            },
-            beforeSave: (request: any) => {
-                let companyId = FwFormField.getValueByDataField($form, 'VendorId');
-                if (companyId === '') {
-                    companyId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-                }
-                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-                request.CompanyId = companyId;
-            }
-        });
-        // ----------
-        FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.submiscgrid div[data-grid="OrderItemGrid"]',
             gridSecurityId: 'RFgCJpybXoEb',
@@ -1092,6 +1135,14 @@ class PurchaseOrder implements IModule {
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Mute / Unmute Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.muteUnmute(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -1136,6 +1187,26 @@ class PurchaseOrder implements IModule {
             onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
+        });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderContactGrid',
+            gridSecurityId: 'B9CzDEmYe1Zf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                let companyId = FwFormField.getValueByDataField($form, 'VendorId');
+                if (companyId === '') {
+                    companyId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                }
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                request.CompanyId = companyId;
+            }
         });
         // ----------
         FwBrowse.renderGrid({
@@ -2030,8 +2101,8 @@ class PurchaseOrder implements IModule {
 
             //justin hoffman 03/16/2020 - only change the RateType and BillingCycle when the PO is NEW
             if ($form.attr('data-mode') === 'NEW') {
-               FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
-               FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
+                FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
+                FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
             }
 
             const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
