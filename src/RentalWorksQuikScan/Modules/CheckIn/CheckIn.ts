@@ -1,4 +1,4 @@
-﻿class CheckInControllerClass {
+class CheckInControllerClass {
     //----------------------------------------------------------------------------------------------
     getOrderSuspendedSessionPopup(suspendedInContracts) {'use strict';
         var result, html, statusdate, sessionno, orderno, orderdesc, deal, username, status, rowView, rowModel;
@@ -1715,6 +1715,7 @@
             screen.$popupQty.find('#checkIn-popupQty-genericMsg').html(responseCheckInItem.webCheckInItem.genericMsg);
             screen.$popupQty.find('#checkIn-popupQty-msg').html(responseCheckInItem.webCheckInItem.msg);
             screen.$popupQty.find('#checkIn-popupQty-masterNo').html(responseCheckInItem.webCheckInItem.masterNo);
+            screen.$popupQty.find('#checkIn-popupQty-code').html(responseCheckInItem.request.code).toggle(responseCheckInItem.request.code.length > 0);
             screen.$popupQty.find('#checkIn-popupQty-description').html(responseCheckInItem.webCheckInItem.description).show();
             valTxtQty = (isScannedICode) ? '' : String(responseCheckInItem.webCheckInItem.stillOut);
             screen.$popupQty.find('.fwformfield[data-datafield="qty"] .fwformfield-value').val(valTxtQty);

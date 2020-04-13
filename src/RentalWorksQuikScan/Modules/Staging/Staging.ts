@@ -1863,6 +1863,7 @@ class StagingControllerClass {
             jQuery('#staging-popupQty-msg')         .html(responseStageItem.webStageItem.msg);
             jQuery('#staging-popupQty-masterNo')    .html(responseStageItem.webStageItem.masterNo);
             jQuery('#staging-popupQty-description') .html(responseStageItem.webStageItem.description).show();
+            jQuery('#staging-popupQty-code')        .html(responseStageItem.request.code).toggle(responseStageItem.request.code.length > 0);
             jQuery('#staging-popupQty-orderDesc')   .html(screen.getOrderDesc());
             jQuery('#staging-popupQty-qtyOrdered')  .html(String(responseStageItem.webStageItem.qtyOrdered));
             jQuery('#staging-popupQty-qtySub')      .html(String(responseStageItem.webStageItem.qtySub));
