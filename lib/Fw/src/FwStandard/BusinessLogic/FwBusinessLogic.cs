@@ -864,27 +864,13 @@ namespace FwStandard.BusinessLogic
                                     if (property.Name.Equals(fieldName))
                                     {
                                         propertyFound = true;
-                                        //var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
                                         object value = this.GetType().GetProperty(property.Name).GetValue(this);
                                         object valueToCompare = null;
-
-                                        //if (value != null)
-                                        //{
-                                        //    if (!considerBlanks)
-                                        //    {
-                                        //        if (string.IsNullOrWhiteSpace(value.ToString()))
-                                        //        {
-                                        //            updatedFieldList.Remove(fieldName);
-                                        //            break;
-                                        //        }
-                                        //    }
-                                        //}
+                                        string searchFieldType = "text";
 
                                         if (value != null)
                                         {
                                             valueToCompare = value;
-                                            //searchFieldVals.Add(value.ToString());
-                                            //searchOperators.Add("=");
                                             int datatypeIndex = Array.IndexOf(fields, fieldName);
                                             searchFieldTypes.Add(datatypes[datatypeIndex].ToLower());
                                         }
@@ -893,57 +879,29 @@ namespace FwStandard.BusinessLogic
                                             if (saveMode == TDataRecordSaveMode.smUpdate)
                                             {
                                                 bool b = await l2.LoadAsync<Type>(ids);
-                                                //var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
-                                                //searchFieldVals.Add(databaseValue.ToString());
                                                 valueToCompare = l2.GetType().GetProperty(property.Name).GetValue(l2);
                                                 int datatypeIndex = Array.IndexOf(fields, fieldName);
-                                                searchFieldTypes.Add(datatypes[datatypeIndex].ToLower());
+                                                searchFieldType = datatypes[datatypeIndex].ToLower();
                                             }
                                             else
                                             {
-                                                searchFieldVals.Add("");
-                                                searchOperators.Add("=");
                                                 valueToCompare = "";
-                                                searchFieldTypes.Add("text");
+                                                searchFieldType = "text";
                                             }
                                         }
 
-
-                                        //if ((!string.IsNullOrWhiteSpace(valueToCompare.ToString())) || (considerBlanks))
-                                        //{
-                                        //    searchFieldVals.Add(valueToCompare.ToString());
-                                        //    searchOperators.Add("=");
-                                        //}
-
-                                        if (!string.IsNullOrWhiteSpace(valueToCompare.ToString()))
+                                        if (!string.IsNullOrWhiteSpace(valueToCompare.ToString()) || considerBlanks)
                                         {
                                             searchFieldVals.Add(valueToCompare.ToString());
                                             searchOperators.Add("=");
+                                            searchFieldTypes.Add(searchFieldType);
                                         }
-                                        else  // (valueToCompare is blank)
-                                        {
-                                            if (considerBlanks)
-                                            {
-                                                searchFieldVals.Add(valueToCompare.ToString());
-                                                searchOperators.Add("=");
-                                            }
-                                            else
-                                            {
-                                                searchFieldVals.Add(valueToCompare.ToString());
-                                                searchOperators.Add(">");
-                                            }
-                                        }
+
 
                                         if (propertyFound)
                                         {
                                             break;
                                         }
-
-
-                                        //if (searchOperators.Count == searchFieldVals.Count)
-                                        //{
-                                        //    break;
-                                        //}
                                     }
                                 }
                             }
@@ -1001,51 +959,56 @@ namespace FwStandard.BusinessLogic
                                 }
                             }
                         }
-                        browseRequest2.searchfieldtypes = searchFieldTypes;
-                        browseRequest2.searchfields = updatedFieldList;
-                        browseRequest2.searchfieldoperators = searchOperators;
-                        browseRequest2.searchfieldvalues = searchFieldVals;
-                        FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
-                        l3.AppConfig = dataRecords[0].AppConfig;
-                        l3.UserSession = dataRecords[0].UserSession;
-                        FwJsonDataTable dt = await l3.BrowseAsync(browseRequest2);
 
                         bool isDuplicate = false;
-                        for (int r = 0; r <= dt.Rows.Count - 1; r++)
+                        if (searchFieldVals.Count > 0)
                         {
-                            isDuplicate = true;
-                            if (saveMode == TDataRecordSaveMode.smUpdate)
+                            browseRequest2.searchfieldtypes = searchFieldTypes;
+                            browseRequest2.searchfields = updatedFieldList;
+                            browseRequest2.searchfieldoperators = searchOperators;
+                            browseRequest2.searchfieldvalues = searchFieldVals;
+                            FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
+                            l3.AppConfig = dataRecords[0].AppConfig;
+                            l3.UserSession = dataRecords[0].UserSession;
+                            FwJsonDataTable dt = await l3.BrowseAsync(browseRequest2);
+
+                            for (int r = 0; r <= dt.Rows.Count - 1; r++)
                             {
-                                bool pkFound = false;
-                                foreach (object id in ids)
+                                isDuplicate = true;
+                                if (saveMode == TDataRecordSaveMode.smUpdate)
                                 {
-                                    pkFound = false;
-                                    string idString = id.ToString();
-                                    foreach (object objField in dt.Rows[r])
+                                    bool pkFound = false;
+                                    foreach (object id in ids)
                                     {
-                                        string strField = string.Empty;
-                                        if (objField != null)
+                                        pkFound = false;
+                                        string idString = id.ToString();
+                                        foreach (object objField in dt.Rows[r])
                                         {
-                                            strField = objField.ToString();
+                                            string strField = string.Empty;
+                                            if (objField != null)
+                                            {
+                                                strField = objField.ToString();
+                                            }
+                                            if (strField.Equals(idString))
+                                            {
+                                                pkFound = true;
+                                                break;
+                                            }
                                         }
-                                        if (strField.Equals(idString))
+                                        if (!pkFound)
                                         {
-                                            pkFound = true;
                                             break;
                                         }
                                     }
-                                    if (!pkFound)
-                                    {
-                                        break;
-                                    }
+                                    isDuplicate = (!pkFound);
                                 }
-                                isDuplicate = (!pkFound);
-                            }
-                            if (isDuplicate)
-                            {
-                                break;
+                                if (isDuplicate)
+                                {
+                                    break;
+                                }
                             }
                         }
+
                         if (isDuplicate)
                         {
                             result.IsValid = false;

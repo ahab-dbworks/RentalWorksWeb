@@ -615,6 +615,10 @@ namespace FwStandard.Data
                         {
                             doUpper = false;
                         }
+                        if (searchFieldValue.Equals(string.Empty))
+                        {
+                            doUpper = false;
+                        }
                         if ((searchFieldType.ToLower().Equals("date")) || (searchFieldType.ToLower().Equals("number")) || (searchFieldType.ToLower().Equals("integer")) || (searchFieldType.ToLower().Equals("boolean")) || (searchFieldType.ToLower().Equals("true/false")))
                         {
                             doUpper = false;
