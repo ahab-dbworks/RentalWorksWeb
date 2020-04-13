@@ -92,6 +92,9 @@ namespace WebApi.Modules.HomeControls.StageQuantityItem
         [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text)]
         public string NestedOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
+        public string Notes { get; set; }
+        //------------------------------------------------------------------------------------
         private string getICodeColor(string itemClass)
         {
             return AppFunc.GetItemClassICodeColor(itemClass);

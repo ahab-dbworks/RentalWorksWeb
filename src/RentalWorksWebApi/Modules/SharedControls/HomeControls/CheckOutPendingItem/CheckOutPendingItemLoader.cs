@@ -160,6 +160,9 @@ namespace WebApi.Modules.HomeControls.CheckOutPendingItem
         [FwSqlDataField(column: "scannablemasterid", modeltype: FwDataTypes.Text)]
         public string ScannableInventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
+        public string Notes { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;

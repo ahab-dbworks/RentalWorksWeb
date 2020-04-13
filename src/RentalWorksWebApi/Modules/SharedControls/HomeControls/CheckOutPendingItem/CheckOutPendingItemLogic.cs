@@ -123,6 +123,9 @@ namespace WebApi.Modules.HomeControls.CheckOutPendingItem
         [FwLogicProperty(Id:"NWmiHhC4ncwR", IsReadOnly:true)]
         public string ScannableInventoryId { get; set; }
 
+        [FwLogicProperty(Id: "1oInmrgNwzDDF", IsReadOnly: true)]
+        public string Notes { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }

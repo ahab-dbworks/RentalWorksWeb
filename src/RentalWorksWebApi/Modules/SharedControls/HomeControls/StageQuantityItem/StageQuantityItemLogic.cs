@@ -79,6 +79,9 @@ namespace WebApi.Modules.HomeControls.StageQuantityItem
         [FwLogicProperty(Id:"Jm7DMApXOFpF")]
         public string NestedOrderItemId { get; set; }
 
+        [FwLogicProperty(Id: "OtPliEHMyIhQR")]
+        public string Notes { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }
