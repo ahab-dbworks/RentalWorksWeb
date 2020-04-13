@@ -1006,6 +1006,7 @@ var Constants = {
         SubCategoryGrid: { id: 'vHMa0l5PUysXo', caption: 'Sub-Category' },
         SubPurchaseOrderItemGrid: { id: '8orfHWAhottty', caption: 'Sub-Purchase Order Items' },
         SystemNumberGrid: { id: 'aUMum8mzxVrWc', caption: 'System Numbers' },
+        SystemUpdateHistoryGrid: { id: 'M9KMnPVOQgT43', caption: 'System History' },
         TransferOrderItemGrid: { id: 'RFgCJpybXoEb', caption: 'Transfer Order Item',
             menuItems: {
                 QuikSearch: { id: '{16CD0101-28D7-49E2-A3ED-43C03152FEE6}' },

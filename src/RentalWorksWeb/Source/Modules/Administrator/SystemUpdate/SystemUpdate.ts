@@ -31,13 +31,12 @@ class SystemUpdate {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
-        let $form = jQuery(this.getFormTemplate());
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
-        $form.find('div[data-control="FwTabs"] .tabs').hide();
         this.events($form);
         this.getCurrentVersions($form);
         return $form;
@@ -72,11 +71,48 @@ class SystemUpdate {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
+        //Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"]', e => {
+            const tabname = jQuery(e.currentTarget).attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
 
+            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if ($gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    const $gridcontrol = jQuery($gridControls[i]);
+                    FwBrowse.search($gridcontrol);
+                }
+            }
+
+            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if ($browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    const $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
+                }
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'SystemUpdateHistoryGrid',
+            gridSecurityId: 'M9KMnPVOQgT43',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    //SystemUpdateHistoryId: FwFormField.getValueByDataField($form, 'SystemUpdateHistoryId')
+                };
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     getCurrentVersions($form: JQuery): void {
@@ -155,7 +191,13 @@ class SystemUpdate {
         return `
             <div id="systemupdateform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="System Update" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="SystemUpdateController">
               <div id="systemupdateform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+                <div class="tabs">
+                  <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="System Update"></div>
+                  <div data-type="tab" id="builddoctab" class="builddoctab tab" data-tabpageid="builddoctabpage" data-caption="Build Documents"></div>
+                  <div data-type="tab" id="updatehistorytab" class="updatehistorytab tab" data-tabpageid="updatehistorytabpage" data-caption="Update History"></div>
+                </div>
                 <div class="tabpages">
+      <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
                   <div class="flexrow">
                     <div class="flexcolumn" style="margin: 0 0 0 8px;">
                     <div class="flexcolumn" style="max-width:135px;">

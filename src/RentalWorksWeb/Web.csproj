@@ -163,6 +163,7 @@
     <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
+    <Content Include="Source\Grids\SystemUpdateHistoryGrid\SystemUpdateHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\InventorySequenceItemsGrid\InventorySequenceItemsGridBrowse.htm" />
     <Content Include="Source\Grids\InventorySequenceCategoryGrid\InventorySequenceCategoryGridBrowse.htm" />
     <Content Include="Source\Grids\ContractHistoryGrid\ContractHistoryGridBrowse.htm" />
@@ -334,6 +335,7 @@
     <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\SystemUpdateHistoryGrid\SystemUpdateHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventorySequenceItemsGrid\InventorySequenceItemsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventorySequenceCategoryGrid\InventorySequenceCategoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContractHistoryGrid\ContractHistoryGridController.ts" />
@@ -713,6 +715,7 @@
     <TypeScriptCompile Include="Source\Modules\Agent\Order\SearchInterface.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\Repair\Repair.ts" />
+    <Content Include="Source\Modules\Administrator\SystemUpdate\SystemUpdateForm.htm" />
     <Content Include="Source\Modules\Agent\Order\Order.css" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetBrowse.htm" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetForm.htm" />

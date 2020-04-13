@@ -1,0 +1,44 @@
+﻿<div id="systemupdateform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="System Update" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="SystemUpdateController">
+  <div id="systemupdateform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+    <div class="tabs">
+      <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="System Update"></div>
+      <div data-type="tab" id="builddoctab" class="builddoctab tab" data-tabpageid="builddoctabpage" data-caption="Build Documents"></div>
+      <div data-type="tab" id="updatehistorytab" class="updatehistorytab tab" data-tabpageid="updatehistorytabpage" data-caption="Update History"></div>
+    </div>
+    <div class="tabpages">
+      <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
+        <div class="flexrow">
+          <div class="flexcolumn" style="margin: 0 0 0 8px;">
+            <div class="flexcolumn" style="max-width:135px;">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Current Version" data-datafield="CurrentVersion" data-enabled="false" style="flex: 0 1 135px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Update to Version" data-datafield="ToVersion" style="flex: 0 1 135px;"></div>
+              </div>
+              <div class="flexrow">
+                <div class="update-now fwformcontrol" data-type="button" style="float:right;margin-top:15px;">Update Now</div>
+              </div>
+            </div>
+            <div class="flexrow msg error-msg" style="margin:4px 0 0 0;"></div>
+            <div class="flexrow msg success-msg" style="margin:4px 0 0 0;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="builddoctabpage" class="tabpage" data-tabid="builddoctab">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div data-control="FwGrid" data-grid="CheckInOrderGrid" data-securitycaption=""></div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="updatehistorytabpage" class="tabpage" data-tabid="updatehistorytabpage">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div data-control="FwGrid" data-grid="SystemUpdateHistoryGrid" data-securitycaption=""></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
