@@ -55,7 +55,7 @@ namespace WebApi.Controllers.SharedControls.AppImage
 
         // POST api/v1/appimage/repositionimage
         [HttpPost("repositionimage")]
-        [FwControllerMethod(Id: "OFOzYGj2Lppbd")]
+        [FwControllerMethod(Id: "OFOzYGj2Lppbd", ValidateSecurityGroup: false)]
         public async Task<ActionResult> RepositionAsync([FromBody]RepositionAsyncRequest request)
         {
             return await base.DoRepositionAsync(request.AppImageId, request.OrderBy);
