@@ -35,18 +35,37 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         public List<AvailableVersion> Versions { get; set; } = new List<AvailableVersion>();
     }
 
+    public class BuildDocument
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+
+    }
+
+    public class BuildDocumentsRequest
+    {
+        public string CurrentVersion { get; set; }
+        public bool OnlyIncludeNewerVersions { get; set; }
+    }
+
+    public class BuildDocumentsResponse : TSpStatusResponse
+    {
+        public List<string> DocumentsList { get; set; } = new List<string>();
+        public List<BuildDocument> Documents { get; set; } = new List<BuildDocument>();
+    }
+
 
     public class ApplyUpdateRequest
     {
         public string CurrentVersion { get; set; }
-        public string ToVersion { get; set; } 
+        public string ToVersion { get; set; }
     }
 
     public class ApplyUpdateResponse : TSpStatusResponse { }
 
     public class UpdaterRequest
     {
-        public string ToVersion { get; set; } 
+        public string ToVersion { get; set; }
         public string SQLServerName { get; set; }
         public string DatabaseName { get; set; }
         public string WebApplicationPool { get; set; }
@@ -116,6 +135,78 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                                     v.value = version;
                                     response.Versions.Add(v);
                                     response.VersionsList.Add(version);
+                                }
+                            }
+                        }
+                        response.success = true;
+                    }
+                    catch (Exception e)
+                    {
+                        response.msg = e.ToString();
+                    }
+                }
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static BuildDocumentsResponse GetBuildDocuments(FwApplicationConfig appConfig, FwUserSession userSession, BuildDocumentsRequest request)
+        {
+            BuildDocumentsResponse response = new BuildDocumentsResponse();
+
+            if (string.IsNullOrEmpty(request.CurrentVersion))
+            {
+                response.msg = "Supply a value for CurrentVersion in the request.";
+            }
+            else if (request.CurrentVersion.Split(".").Length != 4)
+            {
+                response.msg = "Invalid format for CurrentVersion (" + request.CurrentVersion + ").  Format must be Major.Minor.Release.Build";
+            }
+            else
+            {
+                string[] docuemntPieces = request.CurrentVersion.Split(".");
+
+                if ((string.IsNullOrEmpty(docuemntPieces[0])) || (string.IsNullOrEmpty(docuemntPieces[1])) || (string.IsNullOrEmpty(docuemntPieces[2])))
+                {
+                    response.msg = "Invalid format for CurrentVersion (" + request.CurrentVersion + ").  Cannot determine Major, Minor, and Release.";
+                }
+                else
+                {
+                    try
+                    {
+                        string systemName = "RentalWorksWeb";
+                        string currentMajorMinorRelease = docuemntPieces[0] + "." + docuemntPieces[1] + "." + docuemntPieces[2];
+                        string ftpDirectory = "ftp://ftp.dbworks.com/" + systemName + "/" + currentMajorMinorRelease;
+                        FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(ftpDirectory);
+                        ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
+                        ftpRequest.Credentials = new NetworkCredential("update", "update");
+                        FtpWebResponse ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
+                        Stream responseStream = ftpResponse.GetResponseStream();
+                        StreamReader reader = new StreamReader(responseStream);
+                        string names = reader.ReadToEnd();
+
+                        reader.Close();
+                        ftpResponse.Close();
+
+                        foreach (string name in names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList())
+                        {
+                            string fileName = name.ToLower();
+                            if ((fileName.EndsWith("pdf")) && (fileName.Contains("/rentalworksweb_")))
+                            {
+                                string version = fileName;
+                                version = version.Replace(currentMajorMinorRelease + "/rentalworksweb_", "");
+                                version = version.Replace(".pdf", "");
+                                version = version.Replace("_", ".");
+
+                                bool includeDocument = ((!request.OnlyIncludeNewerVersions) || (version.CompareTo(request.CurrentVersion) > 0));
+
+                                if (includeDocument)
+                                {
+                                    BuildDocument v = new BuildDocument();
+                                    v.text = version;
+                                    v.value = version;
+                                    response.Documents.Add(v);
+                                    response.DocumentsList.Add(version);
                                 }
                             }
                         }

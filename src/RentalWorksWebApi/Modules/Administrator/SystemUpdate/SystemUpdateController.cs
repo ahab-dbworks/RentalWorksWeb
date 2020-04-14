@@ -13,7 +13,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
     [FwController(Id: "QBpkw2MKnb4yp")]
     public class SystemUpdateController : AppDataController
     {
-        public SystemUpdateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) {  }
+        public SystemUpdateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/systemupdate/availableversions
         [HttpPost("availableversions")]
@@ -29,6 +29,26 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             {
                 //AvailableVersionsResponse response = await SystemUpdateFunc.GetAvailableVersions(AppConfig, UserSession, request);
                 AvailableVersionsResponse response = SystemUpdateFunc.GetAvailableVersions(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/systemupdate/builddocuments
+        [HttpPost("builddocuments")]
+        [FwControllerMethod(Id: "MNxZry7QZjjRa", ActionType: FwControllerActionTypes.View)]
+        public ActionResult<BuildDocumentsResponse> GetBuildDocuments([FromBody] BuildDocumentsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                BuildDocumentsResponse response = SystemUpdateFunc.GetBuildDocuments(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
