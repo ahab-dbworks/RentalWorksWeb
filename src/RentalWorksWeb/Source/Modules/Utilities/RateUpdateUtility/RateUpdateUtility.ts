@@ -46,10 +46,10 @@ class RateUpdateUtility {
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="OrderBy"]'), [
-            { value: "warehouse", text: "Warehouse", selected: "F" },
-            { value: "inventorydepartment", text: "Department", selected: "F" },
-            { value: "category", text: "Category", selected: "F" },
-            { value: "icode", text: "I-Code", selected: "F" }
+            { value: "Warehouse", text: "Warehouse", selected: "F" },
+            { value: "InventoryType", text: "Department", selected: "F" },
+            { value: "Category", text: "Category", selected: "F" },
+            { value: "ICode", text: "I-Code", selected: "F" }
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="Rank"]'), [
@@ -199,7 +199,17 @@ class RateUpdateUtility {
                 if (FwFormField.getValueByDataField($form, 'UnitId')) request.uniqueids.UnitId = FwFormField.getValueByDataField($form, 'UnitId');
                 if (FwFormField.getValueByDataField($form, 'ManufacturerId')) request.uniqueids.ManufacturerId = FwFormField.getValueByDataField($form, 'ManufacturerId');
                 if (FwFormField.getValueByDataField($form, 'ShowPendingModifications')) request.uniqueids.ShowPendingModifications = FwFormField.getValueByDataField($form, 'ShowPendingModifications');
-                if (FwFormField.getValueByDataField($form, 'OrderBy')) request.uniqueids.OrderBy = FwFormField.getValueByDataField($form, 'OrderBy');
+                if (FwFormField.getValueByDataField($form, 'OrderBy').length) {
+                    const $checkboxlist = FwFormField.getValueByDataField($form, 'OrderBy');
+                    let orderBy: string = "";
+                    for (let i = 0; i < $checkboxlist.length; i++) {
+                        if (i != 0 && i < $checkboxlist.length) {
+                            orderBy = orderBy.concat(',');
+                        }
+                            orderBy = orderBy.concat(`${$checkboxlist[i].value.toString()}`);
+                    }
+                    request.orderby = orderBy;
+                }
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.renderWideGridColumns($form.find('[data-name="RateUpdateItemGrid"]'));
