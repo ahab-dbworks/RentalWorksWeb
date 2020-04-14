@@ -164,9 +164,9 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             }
             else
             {
-                string[] docuemntPieces = request.CurrentVersion.Split(".");
+                string[] documentPieces = request.CurrentVersion.Split(".");
 
-                if ((string.IsNullOrEmpty(docuemntPieces[0])) || (string.IsNullOrEmpty(docuemntPieces[1])) || (string.IsNullOrEmpty(docuemntPieces[2])))
+                if ((string.IsNullOrEmpty(documentPieces[0])) || (string.IsNullOrEmpty(documentPieces[1])) || (string.IsNullOrEmpty(documentPieces[2])))
                 {
                     response.msg = "Invalid format for CurrentVersion (" + request.CurrentVersion + ").  Cannot determine Major, Minor, and Release.";
                 }
@@ -175,7 +175,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                     try
                     {
                         string systemName = "RentalWorksWeb";
-                        string currentMajorMinorRelease = docuemntPieces[0] + "." + docuemntPieces[1] + "." + docuemntPieces[2];
+                        string currentMajorMinorRelease = documentPieces[0] + "." + documentPieces[1] + "." + documentPieces[2];
                         string ftpDirectory = "ftp://ftp.dbworks.com/" + systemName + "/" + currentMajorMinorRelease;
                         FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(ftpDirectory);
                         ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
