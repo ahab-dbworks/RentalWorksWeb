@@ -211,28 +211,28 @@ class RateUpdateUtility {
                     request.orderby = orderBy;
                 }
             },
-            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.renderWideGridColumns($form.find('[data-name="RateUpdateItemGrid"]'));
-            }
+            //afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+            //    this.renderWideGridColumns($form.find('[data-name="RateUpdateItemGrid"]'));
+            //}
         });
     }
     //----------------------------------------------------------------------------------------------
-    renderWideGridColumns($grid: JQuery) {
-        if ($grid.find('thead tr').length < 2) {
-            const $thead = $grid.find('thead tr').clone(false);
-            $thead.find('[data-sort]').removeAttr('data-sort');
-            $thead.find('td div.divselectrow').hide();
-            $thead.find('td div.field:not([data-sharedcolumn])').hide();
-            const $sharedColumnTds = $thead.find('td div[data-sharedcolumn]:even').parents('td');
-            for (let i = 0; i < $sharedColumnTds.length; i++) {
-                const $td = jQuery($sharedColumnTds[i]);
-                const caption = $td.find('div[data-sharedcolumn]').attr('data-sharedcolumn');
-                $td.find('.caption').text(caption);
-            }
-            $sharedColumnTds.attr('colspan', 2);
-            $thead.find('td div[data-sharedcolumn]:odd').parents().remove();
-            $grid.find('thead').prepend($thead);
-        }
-    }
+    //renderWideGridColumns($grid: JQuery) {
+    //    if ($grid.find('thead tr').length < 2) {
+    //        const $thead = $grid.find('thead tr').clone(false);
+    //        $thead.find('[data-sort]').removeAttr('data-sort');
+    //        $thead.find('td div.divselectrow').hide();
+    //        $thead.find('td div.field:not([data-sharedcolumn])').hide();
+    //        const $sharedColumnTds = $thead.find('td div[data-sharedcolumn]:even').parents('td');
+    //        for (let i = 0; i < $sharedColumnTds.length; i++) {
+    //            const $td = jQuery($sharedColumnTds[i]);
+    //            const caption = $td.find('div[data-sharedcolumn]').attr('data-sharedcolumn');
+    //            $td.find('.caption').text(caption);
+    //        }
+    //        $sharedColumnTds.attr('colspan', 2);
+    //        $thead.find('td div[data-sharedcolumn]:odd').parents().remove();
+    //        $grid.find('thead').prepend($thead);
+    //    }
+    //}
 }
 var RateUpdateUtilityController = new RateUpdateUtility();
