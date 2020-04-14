@@ -263,8 +263,19 @@ class SearchInterface {
         }
 
         $popup.find('#itemsearch').data('parentformid', id);
-        let warehouseId = (type === 'Transfer' || type === 'Complete' || type === 'Kit' || type === 'Container' || type === 'Main') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
+        let warehouseId;
+        let warehouseText;
+        
+        if (type === 'Transfer' || type === 'Complete' || type === 'Kit' || type === 'Container' || type === 'Main') {
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            warehouseId = warehouse.warehouseid;
+            warehouseText = warehouse.warehouse;
+        } else {
+            warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            warehouseText = FwFormField.getTextByDataField($form, 'WarehouseId');
+        }
         $popup.find('#itemsearch').data('warehouseid', warehouseId);
+        $popup.find('#itemsearch').data('warehousetext', warehouseText);
 
         this.getViewSettings($popup);
 
@@ -873,6 +884,7 @@ class SearchInterface {
     events($popup, $form, id) {
         let hasItemInGrids = false;
         let warehouseId    = $popup.find('#itemsearch').data('warehouseid');
+        let warehouseText  = $popup.find('#itemsearch').data('warehousetext');
         let $searchpopup   = $popup.find('#searchpopup');
 
         $popup
@@ -1464,6 +1476,133 @@ class SearchInterface {
         }
 
         $popup.find('[data-datafield="SearchBox"] input').focus();
+
+        //availability calendar popup
+        $popup.on('click', '#inventory [data-column="Available"] .value', e => {
+            const $item = jQuery(e.currentTarget).parents('[data-inventoryid]');
+            $item.data('warehouseid', warehouseId);
+            $item.data('warehousetext', warehouseText);
+            this.renderAvailabilityPopup($item);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    renderAvailabilityPopup($item: JQuery) {
+        const inventoryId = $item.attr('data-inventoryid');
+        if (inventoryId) {
+            let $popup = jQuery(`
+                        <div>
+                            <div class="close-modal" style="background-color:white;top:.8em;right:.1em; padding-right:.5em; border-radius:.2em;justify-content:flex-end;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                            <div id="availabilityCalendarPopup" class="fwform fwcontrol fwcontainer" data-control="FwContainer" data-type="form" style="overflow:auto;max-height:90vh;max-width:90vw;background-color:white; margin-top:2em; border:2px solid gray;">
+                              <div class="flexrow" style="overflow:auto;">
+                                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
+                                  <div class="flexrow">
+                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-enabled="false" style="flex:0 1 100px;"></div>
+                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:0 1 500px;"></div>
+                                  </div>
+                                        <div class="flexrow inv-data-totals">
+                                            <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
+                                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="flex:0 1 150px; margin-top:.5em; margin-left: 1em;"></div>                                      
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="InContainer" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="Staged" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="Out" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="InRepair" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="InTransit" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
+                                        </div>
+                                      <div class="flexrow" style="overflow:auto;">
+                                        <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
+                                      </div>
+                                      <div class="flexrow schedulerrow" style="display:block;">
+                                        <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
+                                        <div class="fwbrowse"><div class="legend"></div></div>
+                                     </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>`);
+            FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
+            $popup = FwPopup.renderPopup($popup, { ismodal: true });
+            FwPopup.showPopup($popup);
+            //$form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
+
+            $popup.find('.close-modal').on('click', e => {
+                FwPopup.detachPopup($popup);
+            });
+
+            $item.data('fromQuikSearch', true);
+            const warehouseId = $item.data('warehouseid');
+            const warehouseText = $item.data('warehousetext');
+            FwFormField.setValue2($popup.find('.warehousefilter'), warehouseId, warehouseText);
+            $item.data('warehousefilter', warehouseId);
+            $item.data('allwarehousesfilter', 'F');
+            let iCode;
+            if ($item.hasClass('item-accessory-info')) {
+                iCode = $item.find('[data-column="ICode"]').text();
+            } else {
+                iCode = $item.find('[data-column="ICode"] .value').text();
+            }
+            FwFormField.setValue2($popup.find('div[data-datafield="ICode"]'), iCode);
+            const description = $item.find('.description').text().trim();
+            FwFormField.setValue2($popup.find('div[data-datafield="Description"]'), description);
+
+
+            const $calendar = $popup.find('.calendar');
+            FwScheduler.renderRuntimeHtml($calendar);
+            FwScheduler.init($calendar);
+            RentalInventoryController.addCalSchedEvents($item, $calendar, inventoryId);
+            FwScheduler.loadControl($calendar);
+            const schddate = FwScheduler.getTodaysDate();
+            FwScheduler.navigate($calendar, schddate);
+            FwScheduler.refresh($calendar);
+           
+            const $scheduler = $popup.find('.realscheduler');
+            FwSchedulerDetailed.renderRuntimeHtml($scheduler);
+            FwSchedulerDetailed.init($scheduler);
+            RentalInventoryController.addCalSchedEvents($item, $scheduler, inventoryId);
+            FwSchedulerDetailed.loadControl($scheduler);
+            FwSchedulerDetailed.navigate($scheduler, schddate, 35);
+            FwSchedulerDetailed.refresh($scheduler);
+
+            try {
+                if ($scheduler.hasClass('legend-loaded') === false) {
+                    FwAppData.apiMethod(true, 'GET', 'api/v1/rentalinventory/availabilitylegend', null, FwServices.defaultTimeout,
+                        response => {
+                            for (let key in response) {
+                                FwBrowse.addLegend($popup.find('.schedulerrow .fwbrowse'), key, response[key]);
+                            }
+                            $scheduler.addClass('legend-loaded');
+                        }, ex => {
+                            FwFunc.showError(ex);
+                        }, $scheduler);
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+
+            $popup.on('change', '.warehousefilter', e => {
+                const whFilter = FwFormField.getValue2($popup.find('.warehousefilter'));
+                $item.data('warehousefilter', whFilter);
+                FwScheduler.refresh($calendar);
+                FwSchedulerDetailed.refresh($scheduler);
+            });
+
+            $popup.on('change', '[data-datafield="AllWarehouses"]', e => {
+                const $this = jQuery(e.currentTarget);
+                const allWh = FwFormField.getValue2($this);
+                if (allWh == 'T') {
+                    FwFormField.disable($popup.find('[data-datafield="WarehouseId"]'));
+                } else {
+                    FwFormField.enable($popup.find('[data-datafield="WarehouseId"]'));
+                }
+                $item.data('allwarehousesfilter', allWh);
+                const $calendar = $popup.find('.calendar');
+                const $realScheduler = $popup.find('.realscheduler');
+                FwSchedulerDetailed.refresh($realScheduler);
+                FwScheduler.refresh($calendar);
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
     addToOrder($popup: JQuery, $form: JQuery, actionType: string) {
