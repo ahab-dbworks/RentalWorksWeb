@@ -74,20 +74,64 @@ class RateUpdateUtility {
         });
 
         //Enable/Disable fields based on Activity Type
+        $form.data('activitytype', 'R');
+        const rentalColumns: Array<string> = ['PartNumber', 'DailyRate', 'WeeklyRate', 'Week2Rate', 'Week3Rate', 'Week4Rate', 'MonthlyRate', 'MaxDiscount', 'MinimumDaysPerWeek', 'DailyCost', 'WeeklyCost', 'MonthlyCost'];
+        const salesColumns: Array<string> = ['PartNumber', 'Retail', /*'Sell',*/ 'DefaultCost', 'MaxDiscount']; //same columns for Parts
+        const laborColumns: Array<string> = ['HourlyRate', 'DailyRate', 'WeeklyRate', 'MonthlyRate', 'hourlyCost', 'DailyCost', 'WeeklyCost', 'MonthlyCost']; //same columns for Misc
         $form.on('change', '[data-datafield="AvailableFor"]', e => {
+            const cachedType = $form.data('activitytype');
             const activityType = FwFormField.getValueByDataField($form, 'AvailableFor');
+            const $rateUpdateItemGrid = $form.find('[data-name="RateUpdateItemGrid"]');
 
+            //enables previously disabled fields
             $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').removeAttr('disabled');
             $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'true');
 
             switch (activityType) {
+                case 'R':
+                    break;
                 case 'S':
+                case 'P':
                     $form.find('[data-datafield="Classification"]').find('[data-value="S"], [data-value="W"]').find('input').attr('disabled', 'disabled');
                     break;
+                case 'M':
                 case 'L':
                     $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').attr('disabled', 'disabled');
                     $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'false');
                     break;
+            }
+
+            const toggleColumns = (type: string, show: boolean) => {
+                switch (type) {
+                    case 'R':
+                        activityTypeColumnDisplay(rentalColumns, show);
+                        break;
+                    case 'S':
+                    case 'P':
+                        activityTypeColumnDisplay(salesColumns, show);
+                        break;
+                    case 'M':
+                    case 'L':
+                        activityTypeColumnDisplay(laborColumns, show);
+                        break;
+                }
+            }
+
+            const activityTypeColumnDisplay = (columns: Array<string>, showColumns: boolean) => {
+                for (let i = 0; i < columns.length; i++) {
+                    const $td = $rateUpdateItemGrid.find(`[data-browsedatafield="${columns[i]}"]`).parents('td');
+                    if (showColumns) {
+                        $td.show();
+                    } else {
+                        $td.hide();
+                    }
+                }
+            }
+
+            if (cachedType != activityType) {
+                toggleColumns(cachedType, false); //hides cached type's columns
+                toggleColumns(activityType, true); //shows selected type's columns
+                $form.data('activitytype', activityType); //updates cached type
             }
         });
     }
@@ -206,33 +250,35 @@ class RateUpdateUtility {
                         if (i != 0 && i < $checkboxlist.length) {
                             orderBy = orderBy.concat(',');
                         }
-                            orderBy = orderBy.concat(`${$checkboxlist[i].value.toString()}`);
+                        orderBy = orderBy.concat(`${$checkboxlist[i].value.toString()}`);
                     }
                     request.orderby = orderBy;
                 }
             },
-            //afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-            //    this.renderWideGridColumns($form.find('[data-name="RateUpdateItemGrid"]'));
-            //}
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.renderWideGridColumns($form.find('[data-name="RateUpdateItemGrid"]'));
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
-    //renderWideGridColumns($grid: JQuery) {
-    //    if ($grid.find('thead tr').length < 2) {
-    //        const $thead = $grid.find('thead tr').clone(false);
-    //        $thead.find('[data-sort]').removeAttr('data-sort');
-    //        $thead.find('td div.divselectrow').hide();
-    //        $thead.find('td div.field:not([data-sharedcolumn])').hide();
-    //        const $sharedColumnTds = $thead.find('td div[data-sharedcolumn]:even').parents('td');
-    //        for (let i = 0; i < $sharedColumnTds.length; i++) {
-    //            const $td = jQuery($sharedColumnTds[i]);
-    //            const caption = $td.find('div[data-sharedcolumn]').attr('data-sharedcolumn');
-    //            $td.find('.caption').text(caption);
-    //        }
-    //        $sharedColumnTds.attr('colspan', 2);
-    //        $thead.find('td div[data-sharedcolumn]:odd').parents().remove();
-    //        $grid.find('thead').prepend($thead);
-    //    }
-    //}
+    renderWideGridColumns($grid: JQuery) {
+        if ($grid.find('thead tr').length < 2) {
+            const $thead = $grid.find('thead tr').clone(false);
+            $thead.find('[data-sort]').removeAttr('data-sort');
+            $thead.find('td div.divselectrow').hide();
+            $thead.find('td div.field:not([data-sharedcolumn])').hide();
+            //const $sharedColumnTds = $thead.find('td div[data-sharedcolumn]:even').parents('td');
+            const $sharedColumnTds = $thead.find('td div[data-widerow]').parents('td');
+            for (let i = 0; i < $sharedColumnTds.length; i++) {
+                const $td = jQuery($sharedColumnTds[i]);
+                const caption = $td.find('div[data-sharedcolumn]').attr('data-sharedcolumn');
+                $td.find('.caption').text(caption);
+            }
+            //$sharedColumnTds.attr('colspan', 2);
+            $sharedColumnTds.css('text-align', 'center');
+            //$thead.find('td div[data-sharedcolumn]:odd').parents().remove();
+            $grid.find('thead').prepend($thead);
+        }
+    }
 }
 var RateUpdateUtilityController = new RateUpdateUtility();
