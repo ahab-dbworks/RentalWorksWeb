@@ -1422,16 +1422,16 @@ class Deal {
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Valid Through" data-datafield="InsuranceCertificationValidThrough" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Liability Amount" data-datafield="InsuranceCoverageLiability" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="number" data-digits="0" class="fwcontrol fwformfield" data-caption="Liability Amount" data-datafield="InsuranceCoverageLiability" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Liability Deductible" data-datafield="InsuranceCoverageLiabilityDeductible" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="number" data-digits="0" class="fwcontrol fwformfield" data-caption="Liability Deductible" data-datafield="InsuranceCoverageLiabilityDeductible" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Property Value Amount" data-datafield="InsuranceCoverageProperty" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="number" data-digits="0" class="fwcontrol fwformfield" data-caption="Property Value Amount" data-datafield="InsuranceCoverageProperty" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Property Value Deductible" data-datafield="InsuranceCoveragePropertyDeductible" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="number" data-digits="0" class="fwcontrol fwformfield" data-caption="Property Value Deductible" data-datafield="InsuranceCoveragePropertyDeductible" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Certification on File" data-datafield="InsuranceCertification" style="flex:0 1 175px;"></div>
