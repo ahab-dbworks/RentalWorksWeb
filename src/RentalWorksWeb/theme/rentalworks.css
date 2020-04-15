@@ -605,6 +605,8 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
     pointer-events: none;
 }
 
+
+
 /* Custom Reports */
 #reportDesigner #columnHeader table { border-collapse: collapse; }
 #reportDesigner #columnHeader tr th { height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
@@ -618,31 +620,9 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner td.total-val { height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ffffff;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 #reportDesigner td.total-name { height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ffffff;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 
-    #reportDesigner .fwform-body [data-control="FwContainer"] {
-    border: 1px solid darkblue;
-}
 
-#reportDesigner div.flexrow,
-#reportDesigner div.flexcolumn {
-    border: 1px solid lightblue;
-}
 
-#designerContent div.emptyContainer {
-    min-height: 50px;
-}
-
-#designerContent [data-control="FwFormField"] {
-    border: 1px solid #dcdcdc;
-}
-
-#designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field * {
-    pointer-events: none;
-}
-
-#designerContent [data-type="tabpage"] div.fwformfield * {
-    pointer-events: none;
-}
-
+/*Control Properties*/
 #controlProperties .propertyContainer div.properties {
     width: 100%;
     display: flex;
