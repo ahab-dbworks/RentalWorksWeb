@@ -19,7 +19,7 @@ namespace WebApi.Modules.Administrator.SystemUpdateHistory
         [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
         public string UserName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "updatedatetime", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "updatedatetime", modeltype: FwDataTypes.DateTime)]
         public DateTime UpdateDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fromversion", modeltype: FwDataTypes.Text)]

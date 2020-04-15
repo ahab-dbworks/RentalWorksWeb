@@ -14,7 +14,7 @@ namespace WebApi.Modules.Administrator.SystemUpdateHistory
         [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string UsersId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "updatedatetime", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        [FwSqlDataField(column: "updatedatetime", modeltype: FwDataTypes.DateTime, sqltype: "datetime")]
         public DateTime UpdateDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fromversion", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
