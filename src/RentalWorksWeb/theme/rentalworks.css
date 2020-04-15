@@ -585,6 +585,79 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #controlProperties .show-advanced-properties {color:blue; text-decoration:underline;cursor:pointer;}
 #controlProperties .propertyContainer div.properties.adv-property {display:none;}
 
+#designerContent div.flexrow,
+#designerContent div.flexcolumn{
+    border: 1px solid lightblue;
+}
+
+#designerContent div.emptyContainer {
+    min-height:50px;
+}
+
+#designerContent [data-control="FwFormField"] {
+    border: 1px solid #dcdcdc;
+}
+
+#designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field *{
+    pointer-events: none;
+}
+#designerContent [data-type="tabpage"] div.fwformfield * {
+    pointer-events: none;
+}
+
+/* Custom Reports */
+#reportDesigner #columnHeader tr th:hover {
+    box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+#reportDesigner #columnHeader tr th:hover {
+    margin: 5px;
+}
+
+#reportDesigner .fwform-body [data-control="FwContainer"] {
+    border: 1px solid darkblue;
+}
+
+#reportDesigner div.flexrow,
+#reportDesigner div.flexcolumn {
+    border: 1px solid lightblue;
+}
+
+#designerContent div.emptyContainer {
+    min-height: 50px;
+}
+
+#designerContent [data-control="FwFormField"] {
+    border: 1px solid #dcdcdc;
+}
+
+#designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field * {
+    pointer-events: none;
+}
+
+#designerContent [data-type="tabpage"] div.fwformfield * {
+    pointer-events: none;
+}
+
+#controlProperties .propertyContainer div.properties {
+    width: 100%;
+    display: flex;
+    padding-bottom: 3px;
+}
+
+    #controlProperties .propertyContainer div.properties div {
+        width: 50%;
+        font-size: .9em;
+        text-indent:5px;
+    }
+
+#controlProperties .propertyContainer div input:disabled {
+    background-color: whitesmoke;
+    border-color: inherit;
+    border-style: solid;
+}
+
 .modulefields div {cursor:pointer;}
 .modulefields div:nth-child(odd) {background-color: #f1f1f1;}
 
