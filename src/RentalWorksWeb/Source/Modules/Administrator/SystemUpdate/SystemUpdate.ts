@@ -38,7 +38,9 @@ class SystemUpdate {
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         this.events($form);
-        this.getVersionsDocuments($form);
+        this.getVersions($form);
+        this.getDocuments($form);
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -70,30 +72,15 @@ class SystemUpdate {
             }
         });
         // ----------
-        $form.find('div[data-type="button"].download-now').on('click', e => {
-            const toVersion = FwFormField.getValueByDataField($form, 'ToVersion');
-            if (toVersion !== '') {
-                const currentVersion = FwFormField.getValueByDataField($form, 'CurrentVersion');
-                const request: any = {
-                    CurrentVersion: currentVersion,
-                    ToVersion: toVersion,
-                };
+        $form.find('li.pdf').on('click', e => {
+            console.log('pdf');
+            const request: any = {
 
-                const app = jQuery('#application');
-                FwFormField.disable($form.find('.download-now'));
-                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/downloaddocuments`, request, FwServices.defaultTimeout, response => {
-                    $form.find('.flexrow.msg').html('');
-                    //if (response.msg) {
-                    //    FwFunc.playErrorSound();
-                    //    $form.find('.error-msg').html(`<div style="margin:0 0 0 0;"><span>${response.msg}</span></div>`);
-                    //    FwFormField.enable($form.find('.download-now'));
-                    //}
-                }, errResponse => {
-                    //this.showProgressBar($form);
-                }, app);
-            } else {
-                FwNotification.renderNotification('WARNING', 'Select a document to download.')
             }
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/downloaddocuments`, request, FwServices.defaultTimeout, response => {
+
+            }, errResponse => {
+            }, $form);
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -142,7 +129,7 @@ class SystemUpdate {
         });
     }
     //----------------------------------------------------------------------------------------------
-    getVersionsDocuments($form: JQuery): void {
+    getVersions($form: JQuery): void {
         FwFormField.setValueByDataField($form, 'CurrentVersion', sessionStorage.getItem('serverVersion'));
         const request: any = {
             CurrentVersion: sessionStorage.getItem('serverVersion'),
@@ -157,16 +144,33 @@ class SystemUpdate {
         }, function onError(response) {
             FwFunc.showError(response);
         }, $form);
-        // ----------
+    }
+    //----------------------------------------------------------------------------------------------
+    getDocuments($form: JQuery): void {
+        const request: any = {
+            CurrentVersion: sessionStorage.getItem('serverVersion'),
+            OnlyIncludeNewerVersions: false,
+        };
+
         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/builddocuments`, request, FwServices.defaultTimeout, response => {
-            if (response.Documents) {
-                FwFormField.loadItems($form.find('div[data-datafield="BuildDocuments"]'), response.Documents);
+            if (response.Documents.length) {
+                loadDocuments($form, response.Documents);
             } else {
-                FwNotification.renderNotification('WARNING', 'There was a problem retrieving available documents.')
+                FwNotification.renderNotification('WARNING', 'There was a problem retrieving build documents.')
             }
         }, function onError(response) {
             FwFunc.showError(response);
         }, $form);
+        // ----------
+        function loadDocuments($form, documents) {
+            const $container = $form.find('#buildDocuments');
+            const html = [];
+            for (let i = 0; i < documents.length; i++) {
+                html.push(`<li class="pdf">${documents[i].name}<span class="material-icons">picture_as_pdf</span></li>`)
+            }
+
+            $container.html(html.join(''));
+        }
     }
     //----------------------------------------------------------------------------------------------
     showProgressBar($appendToElement: JQuery): JQuery {
