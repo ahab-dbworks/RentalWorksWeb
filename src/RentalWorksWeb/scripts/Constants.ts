@@ -786,7 +786,8 @@ var Constants = {
             caption: 'Utilities',
             nodetype: 'Category',
             children: {
-                ChangeOrderStatus:         { id: 'SjkAsallYxwNq', caption: 'Change Order Status', nav: 'module/changeorderstatus', nodetype: 'Module' },
+                ChangeICodeUtility:        { id: '',              caption: 'Change I-Code',           nav: 'module/changeicodeutility', nodetype: 'Module' },
+                ChangeOrderStatus:         { id: 'SjkAsallYxwNq', caption: 'Change Order Status',     nav: 'module/changeorderstatus', nodetype: 'Module' },
                 Dashboard:                 { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'home', nodetype: 'Module' },
                 DashboardSettings:         { id: 'lXpomto7a29v',  caption: 'Dashboard Settings', nav: 'module/dashboardsettings', nodetype: 'Module' },
                 InventoryPurchaseUtility:  { id: 'sOxbXBmCPc9y',  caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility', nodetype: 'Module' },
