@@ -519,15 +519,15 @@ class Order extends OrderBase {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                    RecType: 'SR'
+                    RecType: 'R'
                 };
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-                request.RecType = 'SR';
+                request.RecType = 'R';
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
-                $fwgrid.addClass('SR');
+                $fwgrid.addClass('R');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => { },
         });
@@ -548,15 +548,15 @@ class Order extends OrderBase {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                    RecType: 'SS'
+                    RecType: 'S'
                 };
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-                request.RecType = 'SS';
+                request.RecType = 'S';
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
-                $fwgrid.addClass('SS');
+                $fwgrid.addClass('S');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => { },
         });
@@ -577,15 +577,15 @@ class Order extends OrderBase {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                    RecType: 'SM'
+                    RecType: 'M'
                 };
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-                request.RecType = 'SM';
+                request.RecType = 'M';
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
-                $fwgrid.addClass('SM');
+                $fwgrid.addClass('M');
                 $fwgrid.find('div[data-datatype="date"]').hide();
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => { },
@@ -607,15 +607,15 @@ class Order extends OrderBase {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                    RecType: 'SL'
+                    RecType: 'L'
                 };
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-                request.RecType = 'SL';
+                request.RecType = 'L';
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
-                $fwgrid.addClass('SL');
+                $fwgrid.addClass('L');
                 $fwgrid.find('div[data-datatype="date"]').hide();
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => { },
