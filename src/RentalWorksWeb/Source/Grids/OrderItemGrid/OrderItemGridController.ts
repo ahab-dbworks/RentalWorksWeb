@@ -574,7 +574,7 @@ class OrderItemGrid {
                 }
             }
 
-            if (controller === 'QuoteController' || controller === 'OrderController') {
+            if (recType != 'RS' && (controller === 'QuoteController' || controller === 'OrderController')) {
                 let inventoryId;
                 if (recType === 'R' || recType === 'S') {
                     inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
