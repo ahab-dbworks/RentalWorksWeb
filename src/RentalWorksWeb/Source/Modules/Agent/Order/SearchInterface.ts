@@ -239,6 +239,7 @@ class SearchInterface {
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);
                 stopDate = FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]');
                 FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
+                $popup.data('ratetype', FwFormField.getValueByDataField($form, 'RateType'));
                 break;
             case 'PurchaseOrder':
                 $popup.find('[data-datafield="PickDate"], [data-datafield="FromDate"], [data-datafield="ToDate"]').hide();
@@ -350,7 +351,7 @@ class SearchInterface {
                                     <div data-control="FwFormField" data-type="text" class="deal-fields po-hide fwcontrol fwformfield" data-caption="Deal No." data-datafield="DealNumber" data-enabled="false" style="flex:1 1 100px;"></div>
                                     <div data-control="FwFormField" data-type="validation" class="deal-fields po-show fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" data-required="true" style="flex:1 1 275px; display:none;"></div>                               
                                     <div data-control="FwFormField" data-type="validation" class="deal-fields po-hide fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 275px;"></div>
-                                    <div data-control="FwFormField" data-type="validation" class="deal-fields fwcontrol fwformfield" data-caption="Rate" data-datafield="RateType" data-displayfield="RateType" data-validationname="RateTypeValidation" data-required="true" style="flex:1 1 175px;"></div>
+                                    <div data-control="FwFormField" data-type="validation" class="deal-fields fwcontrol fwformfield" data-caption="Rate" data-datafield="RateType" data-displayfield="RateType" data-validationname="RateTypeValidation" data-validationpeek="false" data-required="true" style="flex:1 1 175px;"></div>
                                     <div data-control="FwFormField" data-type="validation" class="po-hide deal-fields fwcontrol fwformfield" data-caption="Type" data-datafield="OrderTypeId" data-displayfield="OrderType" data-validationname="OrderTypeValidation" data-required="true" style="flex:1 1 175px;"></div>                                 
                                     <div data-control="FwFormField" data-type="validation" class="po-show fwcontrol fwformfield" data-caption="Type" data-datafield="PoTypeId" data-displayfield="PoType" data-validationname="POTypeValidation" data-required="true" style="display:none;flex:1 1 175px;"></div>                                 
                                 </div>
@@ -639,7 +640,6 @@ class SearchInterface {
             quantityIn                  = response.ColumnIndex.QuantityIn,
             quantityQcRequired          = response.ColumnIndex.QuantityQcRequired,
             quantity                    = response.ColumnIndex.Quantity,
-            dailyRate                   = response.ColumnIndex.DailyRate,
             priceIndex                  = response.ColumnIndex.Price,
             inventoryId                 = response.ColumnIndex.InventoryId,
             thumbnail                   = response.ColumnIndex.Thumbnail,
@@ -655,7 +655,11 @@ class SearchInterface {
             qtyIsStaleIndex             = response.ColumnIndex.QuantityAvailableIsStale,
             icode                       = response.ColumnIndex.ICode,
             partNumber                  = response.ColumnIndex.ManufacturerPartNumber,
-            note                        = response.ColumnIndex.Note;
+            note                        = response.ColumnIndex.Note,
+            dailyRateIndex              = response.ColumnIndex.DailyRate,
+            weeklyRateIndex             = response.ColumnIndex.WeeklyRate,
+            monthlyRateIndex            = response.ColumnIndex.MonthlyRate,
+            laborMiscRateTypeIndex      = response.ColumnIndex.RateType;  
 
         $inventoryContainer.empty();
         $popup.find('.refresh-availability').hide();
@@ -666,14 +670,51 @@ class SearchInterface {
 
         const inventoryType = FwFormField.getValueByDataField($popup, 'InventoryType');
 
+        const moduleType = $popup.find('#itemsearch').attr('data-moduletype');
+        let rateType;
+        if (moduleType === 'Main') {
+            rateType = FwFormField.getValueByDataField($popup.find('#addToTab'), 'RateType');
+        } else if (moduleType === 'Order' || moduleType === 'Quote') {
+            if (typeof $popup.data('ratetype') != 'undefined') {
+                rateType = $popup.data('ratetype');
+            }
+        }
+
         for (let i = 0; i < response.Rows.length; i++) {
             let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
             let imageId        = response.Rows[i][appImageId] ? response.Rows[i][appImageId] : '';
             let rate;
-            if (inventoryType === 'S' || inventoryType === 'L' || inventoryType === 'M') {
-                rate = Number(response.Rows[i][priceIndex]).toFixed(2);
-            } else {
-                rate = Number(response.Rows[i][dailyRate]).toFixed(2);
+            switch (inventoryType) {
+                case 'S':
+                    rate = Number(response.Rows[i][priceIndex]).toFixed(2);
+                        break;
+                case 'R':
+                    if (rateType == 'DAILY') {
+                        rate = Number(response.Rows[i][dailyRateIndex]).toFixed(2);
+                    } else if (rateType == 'WEEKLY' || rateType === '3WEEK') {
+                        rate = Number(response.Rows[i][weeklyRateIndex]).toFixed(2);
+                    } else if (rateType == 'MONTHLY') {
+                        rate = Number(response.Rows[i][monthlyRateIndex]).toFixed(2);
+                    } else {
+                        rate = Number(response.Rows[i][priceIndex]).toFixed(2);
+                    }
+                    break;
+                case 'L':
+                case 'M':
+                    const laborMiscRateType = response.Rows[i][laborMiscRateTypeIndex];
+                    if (laborMiscRateType == 'RECURRING') {
+                        if (rateType == 'DAILY') {
+                            rate = Number(response.Rows[i][dailyRateIndex]).toFixed(2);
+                        } else if (rateType == 'WEEKLY' || rateType === '3WEEK') {
+                            rate = Number(response.Rows[i][weeklyRateIndex]).toFixed(2);
+                        } else if (rateType == 'MONTHLY') {
+                            rate = Number(response.Rows[i][monthlyRateIndex]).toFixed(2);
+                        } else {
+                            rate = Number(response.Rows[i][priceIndex]).toFixed(2);
+                        }
+                    } else if (laborMiscRateType == 'RECURRING') {
+                        rate = Number(response.Rows[i][priceIndex]).toFixed(2);
+                    } 
             }
 
             let conflictdate = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
