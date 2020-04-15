@@ -1,92 +1,4 @@
 ﻿<!--A/R Aging Report-->
-<!--<div class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">As of {{AsOfDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
-  </div>
-</div>
-<div class="rpt-flexrow" style="margin-top:40px;">
-  <table>
-    <thead>
-      <tr>
-        <th>Invoice No.</th>
-        <th>Invoice Date</th>
-        <th>Order No.</th>
-        <th>Invoice Description</th>
-        <th class="number">Total</th>
-        <th class="number">Current</th>
-        <th class="number">31-60</th>
-        <th class="number">61-90</th>
-        <th class="number">>90</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this}}
-      <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="12" class="header-row">Office Location: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerheader"}}
-        <td colspan="12" class="lower header-row">Customer: {{Customer}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealheader"}}
-        <td colspan="12" class="lower header-row">Deal: {{Deal}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td data-value="{{InvoiceNumber}}"></td>
-        <td data-value="{{InvoiceDate}}"></td>
-        <td data-value="{{OrderNumber}}"></td>
-        <td data-value="{{InvoiceDescription}}"></td>
-        <td class="number" data-value="{{Total}}"></td>
-        <td class="number" data-value="{{Total0030}}"></td>
-        <td class="number" data-value="{{Total3160}}"></td>
-        <td class="number" data-value="{{Total6190}}"></td>
-        <td class="number" data-value="{{Total91x}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="4" class="total-name">{{Deal}}</td>
-        <td class="total-val" data-value="{{Total}}"></td>
-        <td class="total-val" data-value="{{Total0030}}"></td>
-        <td class="total-val" data-value="{{Total3160}}"></td>
-        <td class="total-val" data-value="{{Total6190}}"></td>
-        <td class="total-val" data-value="{{Total91x}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="4" class="total-name">{{Customer}}</td>
-        <td class="total-val" data-value="{{Total}}"></td>
-        <td class="total-val" data-value="{{Total0030}}"></td>
-        <td class="total-val" data-value="{{Total3160}}"></td>
-        <td class="total-val" data-value="{{Total6190}}"></td>
-        <td class="total-val" data-value="{{Total91x}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="4" class="total-name">{{OfficeLocation}}</td>
-        <td class="total-val" data-value="{{Total}}"></td>
-        <td class="total-val" data-value="{{Total0030}}"></td>
-        <td class="total-val" data-value="{{Total3160}}"></td>
-        <td class="total-val" data-value="{{Total6190}}"></td>
-        <td class="total-val" data-value="{{Total91x}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Total}}"></td>
-        <td class="total-val" data-value="{{Total0030}}"></td>
-        <td class="total-val" data-value="{{Total3160}}"></td>
-        <td class="total-val" data-value="{{Total6190}}"></td>
-        <td class="total-val" data-value="{{Total91x}}"></td>
-        {{/ifEquals}}
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>-->
-<!--A/R Aging Report-->
 <div class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
@@ -101,8 +13,8 @@
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr id="columnHeader">
+    <thead id="columnHeader">
+      <tr>
         <th>Invoice No.</th>
         <th>Invoice Date</th>
         <th>Order No.</th>
