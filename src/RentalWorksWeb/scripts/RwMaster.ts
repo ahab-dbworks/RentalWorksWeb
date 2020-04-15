@@ -121,6 +121,7 @@ class RwMaster extends WebMaster {
                 caption: 'Utilities',
                 id: 'Utilities',
                 children: [
+                    Constants.Modules.Utilities.children.ChangeICodeUtility,
                     Constants.Modules.Utilities.children.ChangeOrderStatus,
                     Constants.Modules.Utilities.children.Dashboard,
                     Constants.Modules.Utilities.children.DashboardSettings,

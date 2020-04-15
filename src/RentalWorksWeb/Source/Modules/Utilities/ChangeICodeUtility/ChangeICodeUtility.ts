@@ -36,7 +36,6 @@ class ChangeICodeUtility {
 
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
-        FwFormField.setValueByDataField($form, 'Quantity', 1);
 
         this.events($form);
         return $form;
@@ -47,18 +46,15 @@ class ChangeICodeUtility {
             if (FwModule.validateForm($form)) {
                 const request: any = {};
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-                request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
-                request.Notes = FwFormField.getValueByDataField($form, 'Notes');
-                request.RetiredReasonId = FwFormField.getValueByDataField($form, 'RetiredReasonId');
+               // request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+                //request.Notes = FwFormField.getValueByDataField($form, 'Notes');
                 request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
 
-                FwAppData.apiMethod(true, 'POST', 'api/v1/inventoryretireutility/retireinventory', request, FwServices.defaultTimeout, response => {
+                FwAppData.apiMethod(true, 'POST', 'api/v1/changeicodeutility/changeicode', request, FwServices.defaultTimeout, response => {
                     if (response.success) {
-                        FwNotification.renderNotification('SUCCESS', 'Retired Successfully');
+                        FwNotification.renderNotification('SUCCESS', 'I-Code Changed Successfully');
                         $form.find('.fwformfield input').val('');
                         $form.find('.fwformfield textarea').val('');
-                        FwFormField.setValueByDataField($form, 'Quantity', 1);
                         FwModule.refreshForm($form);
                     } else {
                     }
@@ -116,17 +112,11 @@ class ChangeICodeUtility {
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:0 1 200px;"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
                       </div>
+                      //<div class="flexrow">
+                      //  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Change Notes" data-datafield="Notes" style="max-width:960px;"></div>
+                      //</div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Change Reason" data-datafield="RetiredReasonId" data-displayfield="RetiredReason" data-validationname="RetiredReasonValidation" data-required="true" style="flex:0 1 200px;"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty" data-datafield="Quantity" data-required="true" style="flex:0 1 125px;"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Change Notes" data-datafield="Notes" style="max-width:960px;"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div class="fwformcontrol ch-inv-btn" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Change Items</div>
+                        <div class="fwformcontrol ch-inv-btn" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Change I-Code</div>
                       </div>
                   </div>
                 </div>

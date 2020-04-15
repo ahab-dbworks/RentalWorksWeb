@@ -40,6 +40,18 @@ namespace WebApi.Modules.Inventory.Inventory
         public int BarCodesCreated { get; set; }
     }
 
+    public class ChangeICodeRequest
+    {
+        public string InventoryId { get; set; }
+        public string WarehouseId { get; set; }
+        public string ItemId { get; set; }
+        public string Notes { get; set; }
+    }
+
+    public class ChangeICodeResponse : TSpStatusResponse
+    {
+        public string InventoryId { get; set; }
+    }
 
     public class RetireInventoryRequest
     {
@@ -193,5 +205,27 @@ namespace WebApi.Modules.Inventory.Inventory
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<ChangeICodeResponse> ChangeICode(FwApplicationConfig appConfig, FwUserSession userSession, ChangeICodeRequest request, FwSqlConnection conn = null)
+        {
+            ChangeICodeResponse response = new ChangeICodeResponse();
+
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+            FwSqlCommand qry = new FwSqlCommand(conn, "changeicode", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@newmasterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+            qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Input, request.ItemId);
+            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            //qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+            //qry.AddParameter("@notes", SqlDbType.NVarChar, ParameterDirection.Input, request.Notes);
+            qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+            qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            response.success = (qry.GetParameter("@status").ToInt32() == 0);
+            response.msg = qry.GetParameter("@msg").ToString();
+            response.success = true;
+            return response;
+        }
     }
 }
