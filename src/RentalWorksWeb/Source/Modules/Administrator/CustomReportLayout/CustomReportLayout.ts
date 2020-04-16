@@ -356,22 +356,24 @@ class CustomReportLayout {
 
         let html = FwFormField.getValueByDataField($form, 'Html');
         const $table = jQuery(html).find('table');
-
         $form.find(`#reportDesigner`).empty().append($table);
-
+   
         //create sortable for headers
         Sortable.create($table.find('#columnHeader tr').get(0), {
             //onStart: e => {
 
             //},
             onEnd: e => {
-                let $wrapper = jQuery('<div class="custom-report-wrapper"></div>');         //create a wrapper      -- Jason H. 04/16/20
-                $wrapper.append(html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
-                const newHeaderHTML = e.currentTarget.innerHTML;                            //get the new header HTML
-                $wrapper.find('table #columnHeader tr').html(newHeaderHTML);                //replace old headers
-                const newReportLayoutHTML = $wrapper.get(0).innerHTML;                      //get new report HTML
-                FwFormField.setValueByDataField($form, 'Html', newReportLayoutHTML);
-                this.codeMirror.setValue(newReportLayoutHTML);                              //update codemirror (HTML tab) with new HTML
+                //removed for now due to handlebars being displaced (handlebars only work as attributes or in tds and are not valid in a table structure on the same level as theads/tbody)
+                //to-do: try a global replace in the html string for the handlebar characters
+
+                //let $wrapper = jQuery('<div class="custom-report-wrapper"></div>');         //create a wrapper      -- Jason H. 04/16/20
+                //$wrapper.append(html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
+                //const newHeaderHTML = e.currentTarget.innerHTML;                            //get the new header HTML
+                //$wrapper.find('table #columnHeader tr').html(newHeaderHTML);                //replace old headers
+                //const newReportLayoutHTML = $wrapper.get(0).innerHTML;                      //get new report HTML
+                //FwFormField.setValueByDataField($form, 'Html', newReportLayoutHTML);
+                //this.codeMirror.setValue(newReportLayoutHTML);                              //update codemirror (HTML tab) with new HTML
 
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
@@ -388,117 +390,9 @@ class CustomReportLayout {
         //    for (let i = 0; i < $divs.length; i++) {
         //        let div = jQuery($divs[i]);
         //        div.attr('data-index', i);
-
-        //        //add browse and grid column container attributes
-        //        if (type === 'Grid' || type === 'Browse') {
-        //            if (div.hasClass('column')) {
-        //                let isVisible = div.attr('data-visible');
-        //                let width = div.attr('data-width');
-        //                div.find('.field').attr({ 'data-visible': isVisible, 'data-width': width });
-        //            }
-        //        }
-
-        //        if ((div.hasClass('flexrow') || div.hasClass('flexcolumn')) && div.children().length === 0) {
-        //            div.addClass('emptyContainer');
-        //        }
         //    }
         //    $customFormClone = $customForm.get(0).cloneNode(true);
         //}
-
-        //let $fwcontrols = $customForm.find('.fwcontrol');
-        //if (type === 'Form' || type === 'Browse') {
-        //    FwControl.init($fwcontrols);
-        //}
-        //FwControl.renderRuntimeHtml($fwcontrols);
-
-        //render grids
-        //let $grids = $customForm.find('[data-control="FwGrid"]');
-        //for (let i = 0; i < $grids.length; i++) {
-        //    let $this = jQuery($grids[i]);
-        //    let gridName = $this.attr('data-grid');
-        //    let $gridControl = FwBrowse.loadGridFromTemplate(gridName);
-        //    $this.empty().append($gridControl);
-        //    FwBrowse.init($gridControl);
-        //    FwBrowse.renderRuntimeHtml($gridControl);
-        //}
-
-        //function disableControls() {
-        //    FwFormField.disable($customForm.find(`[data-type="validation"], [data-control="FwAppImage"]`));
-        //    $customForm.find('[data-type="Browse"], [data-type="Grid"]').find('.pager').hide();
-        //    $customForm.find('[data-type="Browse"] tbody, [data-type="Browse"] tfoot, [data-type="Grid"] tbody, [data-type="Grid"] tfoot').hide();
-        //    FwFormField.disable($customForm.find('[data-type="Browse"], [data-type="Grid"]'));
-        //    $customForm.find('tr.fieldnames .column >, .submenu-btn').off('click');
-
-        //    //disables availability calendar
-        //    $customForm.find('[data-control="FwSchedulerDetailed"]').unbind('onactivatetab');
-        //    $customForm.find('[data-control="FwScheduler"]').unbind('onactivatetab');
-
-        //    //disable and add placeholder text for togglebutton controls
-        //    if (type === 'Form') {
-        //        const $toggleButtons = $customForm.find('[data-type="togglebuttons"]');
-        //        FwFormField.disable($toggleButtons);
-        //        $toggleButtons.text('[Toggle Buttons]');
-        //    }
-        //}
-        //disableControls();
-
-        //Design mode borders & events
-        //        if (tabName == 'Designer') {
-        //            let originalHtml;
-        //            let controlType;
-        //            $form.find('#controlProperties')
-        //                .empty();  //clear properties upon loading design tab
-
-        //            $customForm.find('.tabpages .formpage').css('overflow', 'auto');
-
-        //            //displays hidden columns in grids/browses
-        //            function showHiddenColumns($control) {
-        //                let hiddenColumns = $control.find('td[data-visible="false"]');
-        //                for (let i = 0; i < hiddenColumns.length; i++) {
-        //                    let self = jQuery(hiddenColumns[i]);
-        //                    let caption = self.find('.caption')[0].textContent;
-
-        //                    if (caption !== 'undefined') {
-        //                        self.find('.caption')[0].textContent = `${caption} [Hidden]`;
-        //                    } else {
-        //                        if (type === 'Grid') {
-        //                            let datafield = self.find('.field').attr('data-datafield');
-        //                            self.find('.caption')[0].textContent = `${datafield} [Hidden]`;
-        //                        } else if (type === 'Browse') {
-        //                            let datafield = self.find('.field').attr('data-browsedatafield');
-        //                            self.find('.caption')[0].textContent = `${datafield} [Hidden]`;
-        //                        }
-        //                    }
-        //                    self.find('.fieldcaption').css(`background-color`, `#f9f9f9`);
-        //                    self.css('display', 'table-cell');
-        //                    self.find('.caption').css('color', 'red');
-        //                }
-        //            }
-
-        //            if (type === 'Grid' || type === 'Browse') {
-        //                showHiddenColumns($customForm);
-        //                $form.find('.addColumn[data-type="button"]')
-        //                    .css('margin-left', '27%')
-        //                    .show();
-        //                $form.find('.addColumn[data-type="btnmenu"]').hide();
-        //            } else if (type === 'Form') {
-        //                $form.find('.addColumn[data-type="btnmenu"]')
-        //                    //.css({ 'width': '177px', 'margin-left': '27%' })
-        //                    .css({ 'display': 'flex', 'margin-left': '27%' })
-        //                    .show();
-        //                $form.find('.addColumn[data-type="button"]').hide();
-        //                $form.find('.addColumn .btnmenuoption:contains("ADD NEW CONTAINER")').addClass('addNewContainer');
-        //                $form.find('.addColumn .btnmenuoption:contains("ADD NEW TAB")').addClass('addNewTab');
-        //            };
-
-        //            //updates information for HTML tab
-        //            function updateHtml() {
-        //                let $modifiedClone = $customFormClone.cloneNode(true);
-        //                jQuery($modifiedClone).find('div').removeAttr('data-index');
-        //                jQuery($modifiedClone).find('.emptyContainer').removeClass('emptyContainer');
-        //                FwFormField.setValueByDataField($form, 'Html', $modifiedClone.innerHTML);
-        //                self.codeMirror.setValue($modifiedClone.innerHTML);
-        //            };
 
         //adds select options for datafields
         function addDatafields() {
@@ -557,244 +451,6 @@ class CustomReportLayout {
         //                        <div class="addpropval" style="padding:3px; border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add value"></div>
         //                    </div>
         //                 </div>`; //closing div for propertyContainer
-
-        //            let deleteComponentHtml = '<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:27%; margin-top:15px;">Delete Component</div>';
-
-        //            let lastIndex = Number(jQuery($customFormClone).find('div:last').attr('data-index'));
-
-        //            //drag and drop
-        //            let $draggableElements;
-        //            if (type === 'Grid' || type === 'Browse') {
-        //                let indexDrag;
-        //                let indexDrop;
-        //                let $elementDragged;
-        //                let $preview;
-        //                let domIndexDrag;
-        //                let domIndexDrop;
-        //                $draggableElements = $customForm.find('tr.fieldnames td.column:not(.tdselectrow):not(.browsecontextmenucell)');
-        //                $draggableElements.attr('draggable', 'true');
-        //                $customForm
-        //                    .off('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
-        //                    .on('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
-        //                        let $this = jQuery(e.currentTarget);
-        //                        e.originalEvent.dataTransfer.effectAllowed = "move";
-        //                        $draggableElements = $customForm.find('tr.fieldnames td.column:not(.tdselectrow):not(.browsecontextmenucell)');
-        //                        indexDrag = $this.find('.field').attr('data-index');
-        //                        $elementDragged = $draggableElements
-        //                            .find('.field')
-        //                            .filter(function () {
-        //                                return jQuery(this).attr("data-index") === indexDrag;
-        //                            });
-        //                        domIndexDrag = $this.index();
-        //                    })
-        //                    .off('dragenter', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
-        //                    .on('dragenter', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
-        //                        let $this = jQuery(e.currentTarget);
-        //                        domIndexDrop = $this.index();
-        //                        indexDrop = $this.find('.field').attr('data-index');
-        //                        $customForm.find('td.placeholder').remove();
-        //                        if (domIndexDrag !== domIndexDrop) {
-        //                            $preview = jQuery(`<td class="placeholder" style="min-width:100px; min-height:30px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 50px; border: 2px dashed gray">Drop here</td>`);
-        //                            if (domIndexDrag > domIndexDrop) {
-        //                                $preview.insertBefore($this);
-        //                            } else if (domIndexDrag < domIndexDrop) {
-        //                                $preview.insertAfter($this);
-        //                            }
-        //                        }
-        //                    })
-        //                    .off('dragover', 'td.placeholder')
-        //                    .on('dragover', 'td.placeholder', e => {
-        //                        e.preventDefault();
-        //                        e.stopPropagation();
-        //                        e.originalEvent.dataTransfer.dropEffect = "move";
-        //                    })
-        //                    .off('drop', 'td.placeholder')
-        //                    .on('drop', 'td.placeholder', e => {
-        //                        let $this = jQuery(e.currentTarget);
-
-        //                        //for updating the formfield and codemirror
-        //                        let firstColumn = jQuery($customFormClone).find(`[data-index="${indexDrag}"]`).parent();
-        //                        let secondColumn = jQuery($customFormClone).find(`[data-index="${indexDrop}"]`).parent();
-        //                        $this.replaceWith($elementDragged.parent());
-        //                        if (domIndexDrag < domIndexDrop) {
-        //                            firstColumn.insertAfter(secondColumn);
-        //                        } else if (domIndexDrag > domIndexDrop) {
-        //                            firstColumn.insertBefore(secondColumn);
-        //                        }
-        //                        updateHtml();
-        //                    })
-        //                    .off('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
-        //                    .on('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
-        //                        $customForm.find('td.placeholder').remove();
-        //                    })
-        //                    .off('dragend')
-        //                    .on('dragend', e => {
-        //                        $customForm.find('td.placeholder').remove();
-        //                    });
-        //            } else if (type === 'Form') {
-        //                let indexDrag;
-        //                let indexDrop;
-        //                let $elementDragged;
-        //                let $preview;
-        //                let $parent;
-        //                $draggableElements = $customForm.find('div.fwformfield, div.flexrow, div.flexcolumn, div[data-type="tab"]');
-        //                $draggableElements.attr('draggable', 'true');
-
-        //                //find empty flexrows and add min-heights and allow dropping into
-        //                let flexRows = $customForm.find('div.flexrow');
-        //                for (let t = 0; t < flexRows.length; t++) {
-        //                    let $thisContainer = jQuery(flexRows[t]);
-        //                    if ($thisContainer.children().length === 0) {
-        //                        $thisContainer.addClass('emptyContainer');
-        //                    }
-        //                }
-
-        //                $customForm
-        //                    .off('dragstart', 'div.fwformfield, div.flexrow, div.flexcolumn')
-        //                    .on('dragstart', 'div.fwformfield, div.flexrow, div.flexcolumn', e => {
-        //                        e.stopPropagation();
-        //                        e.originalEvent.dataTransfer.effectAllowed = "move";
-        //                        let $this = jQuery(e.currentTarget);
-        //                        indexDrag = $this.attr('data-index');
-        //                        $elementDragged = $draggableElements
-        //                            .filter(function () {
-        //                                return jQuery(this).attr("data-index") === indexDrag;
-        //                            });
-        //                        $parent = $elementDragged.parent();
-        //                    })
-        //                    .off('dragover')
-        //                    .on('dragover', e => {
-        //                        e.preventDefault();
-        //                        e.originalEvent.dataTransfer.dropEffect = "none";
-        //                    })
-        //                    .off('dragover', 'div.fwformfield, div.flexrow, div.flexcolumn')
-        //                    .on('dragover', 'div.fwformfield, div.flexrow, div.flexcolumn', e => {
-        //                        e.preventDefault();
-        //                        e.stopPropagation();
-        //                        if ($elementDragged.attr('data-type') !== "tab") {
-        //                            let $this = jQuery(e.currentTarget);
-        //                            indexDrop = $this.attr('data-index');
-        //                            $customForm.find('div.placeholder').remove();
-        //                            $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
-
-        //                            let offset = $this.offset();
-        //                            let halfElementWidth = e.currentTarget.offsetWidth / 2;
-        //                            let x = e.pageX - offset.left;
-        //                            if (indexDrag !== indexDrop) {
-        //                                if (x < halfElementWidth) {
-        //                                    $preview.insertBefore($this);
-        //                                    $preview.addClass('addedBefore');
-        //                                } else if (x > halfElementWidth) {
-        //                                    $preview.insertAfter($this);
-        //                                    $preview.addClass('addedAfter');
-        //                                }
-        //                            }
-        //                        }
-        //                    })
-        //                    .off('dragover', 'div.placeholder')
-        //                    .on('dragover', 'div.placeholder', e => {
-        //                        e.preventDefault();
-        //                        e.stopPropagation();
-        //                        e.originalEvent.dataTransfer.dropEffect = "move";
-        //                    })
-        //                    .off('dragover', '[data-type="tab"]')
-        //                    .on('dragover', '[data-type="tab"]', e => {
-        //                        e.originalEvent.dataTransfer.dropEffect = "none";
-        //                        if ($elementDragged.attr('data-type') === "tab") {
-        //                            let $this = jQuery(e.currentTarget);
-        //                            indexDrop = $this.attr('data-index');
-        //                            $customForm.find('div.placeholder').remove();
-        //                            $preview = jQuery(`<div class="placeholder" style="min-height:40px; line-height:40px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
-        //                            let offset = $this.offset();
-        //                            let halfElementHeight = e.currentTarget.offsetHeight / 2;
-        //                            let y = e.pageY - offset.top;
-        //                            if (indexDrag !== indexDrop) {
-        //                                if (y < halfElementHeight) {
-        //                                    $preview.insertBefore($this);
-        //                                    $preview.addClass('addedBefore');
-        //                                } else if (y > halfElementHeight) {
-        //                                    $preview.insertAfter($this);
-        //                                    $preview.addClass('addedAfter');
-        //                                }
-        //                            }
-        //                        } else {
-        //                            let $displayedTab = $customForm.find('.active[data-type="tab"]');
-        //                            let displayedTabId = $displayedTab.attr('data-tabpageid');
-        //                            let tabToDisplayId = e.currentTarget.getAttribute('data-tabpageid');
-        //                            if (displayedTabId !== tabToDisplayId) {
-        //                                $displayedTab.removeClass('active').addClass('inactive');
-        //                                $customForm.find(`#${displayedTabId}`).removeClass('active').addClass('inactive').hide();
-        //                                jQuery(e.currentTarget).removeClass('inactive').addClass('active');
-        //                                $customForm.find(`#${tabToDisplayId}`).removeClass('inactive').addClass('active').show();
-        //                            }
-        //                        }
-        //                    })
-        //                    .off('dragover', 'div.emptyContainer')
-        //                    .on('dragover', 'div.emptyContainer', e => {
-        //                        let $this = jQuery(e.currentTarget);
-        //                        $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
-        //                        if ($this.children().length === 0) {
-        //                            $customForm.find('div.placeholder').remove();
-        //                            $this.append($preview);
-        //                            indexDrop = $this.attr('data-index');
-        //                        }
-        //                    })
-        //                    .off('drop', 'div.placeholder')
-        //                    .on('drop', 'div.placeholder', e => {
-        //                        let $this = jQuery(e.currentTarget);
-
-        //                        //for updating the formfield and codemirror
-        //                        let firstColumn = jQuery($customFormClone).find(`[data-index="${indexDrag}"]`);
-        //                        let secondColumn = jQuery($customFormClone).find(`[data-index="${indexDrop}"]`);
-
-        //                        //check to see if dropping into empty div
-        //                        if ($this.parent().hasClass('emptyContainer')) {
-        //                            secondColumn.append(firstColumn);
-        //                            $this.parent().removeClass('emptyContainer');
-        //                        } else {
-        //                            if ($this.hasClass('addedBefore')) {
-        //                                firstColumn.insertBefore(secondColumn);
-        //                            } else if ($this.hasClass('addedAfter')) {
-        //                                firstColumn.insertAfter(secondColumn);
-        //                            }
-        //                        };
-
-        //                        $this.replaceWith($elementDragged);
-
-        //                        if ($elementDragged.attr('data-type') !== "tab") {
-        //                            if ($parent.children().length === 0) {
-        //                                $parent.addClass('emptyContainer');
-        //                            }
-        //                        }
-        //                        updateHtml();
-        //                    })
-        //                    .off('drop', 'div.fwformfield')
-        //                    .on('drop', 'div.fwformfield', e => {
-        //                        $customForm.find('div.placeholder').remove();
-        //                    })
-        //                    .off('dragend')
-        //                    .on('dragend', e => {
-        //                        $customForm.find('div.placeholder').remove();
-        //                    })
-        //                    .off('dragstart', 'div[data-type="tab"]')
-        //                    .on('dragstart', 'div[data-type="tab"]', e => {
-        //                        e.stopPropagation();
-        //                        let $this = jQuery(e.currentTarget);
-
-        //                        indexDrag = $this.attr('data-index');
-        //                        $elementDragged = $draggableElements
-        //                            .filter(function () {
-        //                                return jQuery(this).attr("data-index") === indexDrag;
-        //                            });
-        //                    });
-        //            }
-        //            //changes cursor when element is dragged anywhere in the document
-        //            let $page: any = jQuery(document);
-        //            $page
-        //                .off('dragover')
-        //                .on('dragover', e => {
-        //                    e.originalEvent.dataTransfer.dropEffect = "none";
-        //                });
 
         //            $customForm
         //                //build properties section
