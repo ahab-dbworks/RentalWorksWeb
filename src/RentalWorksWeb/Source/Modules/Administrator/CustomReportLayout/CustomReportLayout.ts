@@ -352,32 +352,23 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     renderTab($form, tabName: string) {
-        //let renderFormHere;
-        //let self = this;
-        //let type = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
 
-        //tabName === 'Designer' ? renderFormHere = 'designerContent' : renderFormHere = 'previewWebForm';
-
         let html = FwFormField.getValueByDataField($form, 'Html');
-
         const $table = jQuery(html).find('table');
-        //const report = Handlebars.compile(html);
 
         $form.find(`#reportDesigner`).empty().append($table);
 
-        $table.find('th').attr('data-sortable', 'true');
-        //create sortable list
-        Sortable.create($table.find('#columnHeader th').get(0), {
-            onEnd: function (evt) {
+        //create sortable for headers
+        Sortable.create($table.find('#columnHeader tr').get(0), {
+            //onStart: e => {
+
+            //},
+            onEnd: e => {
+                const newHeaderHTML = e.currentTarget.innerHTML;
+                //jQuery(html).find('table #columnHeader tr').html(newHeaderHTML);
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-
-                //hide checkboxes when moving item from "selected modules" to "available modules"
-                const $parentField = jQuery(evt.item.parentElement).parents('[data-type="checkboxlist"]');
-                if ($parentField.hasClass('available-modules')) {
-                    jQuery(evt.item).find('input').css('display', 'none');
-                }
             }
         });
 
