@@ -191,12 +191,11 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                         foreach (string name in names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList())
                         {
                             string fileName = name.ToLower();
-                            if ((fileName.EndsWith("pdf")) && (fileName.Contains("/rentalworksweb_")))
+                            if ((fileName.EndsWith("pdf")) && (fileName.Contains("/v" + currentMajorMinorRelease)))
                             {
                                 string version = fileName;
-                                version = version.Replace(currentMajorMinorRelease + "/rentalworksweb_", "");
+                                version = version.Replace(currentMajorMinorRelease + "/v", "");
                                 version = version.Replace(".pdf", "");
-                                version = version.Replace("_", ".");
 
                                 bool includeDocument = ((!request.OnlyIncludeNewerVersions) || (version.CompareTo(request.CurrentVersion) > 0));
 
@@ -391,7 +390,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                         response.msg = "ArgumentNullException: " + e.ToString();
                         response.success = false;
                     }
-                    catch (SocketException e)
+                    catch (SocketException)
                     {
                         response.msg = "There is no RentalWorksWeb Updater Service available.";
                         response.success = false;
