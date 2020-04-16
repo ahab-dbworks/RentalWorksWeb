@@ -340,6 +340,12 @@ Form tables
     position: relative;
 }
 
+/*Build Documents in System Update*/
+#buildDocuments { margin: 0 0 0 -15px; }
+#buildDocuments li.pdf { list-style-type:none;padding:3px;width:fit-content;}
+#buildDocuments li.pdf:hover { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);cursor:pointer;margin:5px;border-radius:4px; }
+#buildDocuments span.material-icons { top:5px;position:relative; }
+
 /*#region Search Interface*/
 #searchpopup {
     background-color: white;

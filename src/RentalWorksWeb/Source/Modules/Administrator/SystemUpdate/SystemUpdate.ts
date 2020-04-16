@@ -72,15 +72,16 @@ class SystemUpdate {
             }
         });
         // ----------
-        $form.find('li.pdf').on('click', e => {
-            console.log('pdf');
+        $form.on('click', '#buildDocuments li.pdf', e => {
+            const $this = jQuery(e.currentTarget);
+            console.log('pdf: ', $this.attr('data-buildnumber'));
             const request: any = {
-
+                BuildNumber: $this.attr('data-buildnumber'),
             }
-            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/downloaddocuments`, request, FwServices.defaultTimeout, response => {
+            //FwAppData.apiMethod(true, 'POST', `${this.apiurl}/downloaddocuments`, request, FwServices.defaultTimeout, response => {
 
-            }, errResponse => {
-            }, $form);
+            //}, errResponse => {
+            //}, $form);
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -154,7 +155,7 @@ class SystemUpdate {
 
         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/builddocuments`, request, FwServices.defaultTimeout, response => {
             if (response.Documents.length) {
-                loadDocuments($form, response.Documents);
+                loadDocuments($form, response.DocumentsList);
             } else {
                 FwNotification.renderNotification('WARNING', 'There was a problem retrieving build documents.')
             }
@@ -165,8 +166,8 @@ class SystemUpdate {
         function loadDocuments($form, documents) {
             const $container = $form.find('#buildDocuments');
             const html = [];
-            for (let i = 0; i < documents.length; i++) {
-                html.push(`<li class="pdf">${documents[i].name}<span class="material-icons">picture_as_pdf</span></li>`)
+            for (let i = documents.length - 1; i >= 0; i--) {
+                html.push(`<li class="pdf" data-buildnumber="${documents[i]}">${documents[i]}<span class="material-icons">picture_as_pdf</span></li>`)
             }
 
             $container.html(html.join(''));

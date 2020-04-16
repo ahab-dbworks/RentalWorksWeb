@@ -35,13 +35,6 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         public List<AvailableVersion> Versions { get; set; } = new List<AvailableVersion>();
     }
 
-    public class BuildDocument
-    {
-        public string value { get; set; }
-        public string text { get; set; }
-
-    }
-
     public class BuildDocumentsRequest
     {
         public string CurrentVersion { get; set; }
@@ -51,7 +44,6 @@ namespace WebApi.Modules.Administrator.SystemUpdate
     public class BuildDocumentsResponse : TSpStatusResponse
     {
         public List<string> DocumentsList { get; set; } = new List<string>();
-        public List<BuildDocument> Documents { get; set; } = new List<BuildDocument>();
     }
 
 
@@ -201,10 +193,6 @@ namespace WebApi.Modules.Administrator.SystemUpdate
 
                                 if (includeDocument)
                                 {
-                                    BuildDocument v = new BuildDocument();
-                                    v.text = version;
-                                    v.value = version;
-                                    response.Documents.Add(v);
                                     response.DocumentsList.Add(version);
                                 }
                             }
