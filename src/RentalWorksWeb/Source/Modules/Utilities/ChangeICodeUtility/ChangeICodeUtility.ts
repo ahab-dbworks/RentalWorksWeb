@@ -63,15 +63,18 @@ class ChangeICodeUtility {
         });
 
         // Set Description from I-Code validation
-        $form.find('[data-datafield="InventoryId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+        $form.find('[data-datafield="InventoryId"].currentvalue').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="ItemDescription"].currentvalue', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+        });
+        $form.find('[data-datafield="InventoryId"].newvalue').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="ItemDescription"].newvalue', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
         });
         $form.find('.itemid').data('onchange', $tr => {
             const itemId = jQuery($tr.find('.field[data-formdatafield="ItemId"]')).attr('data-originalvalue');
             FwFormField.setValue($form, '.itemid[data-displayfield="BarCode"]', itemId, $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
             FwFormField.setValue($form, '.itemid[data-displayfield="SerialNumber"]', itemId, $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'))
-            FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-displayfield="ICode"]', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="ItemDescription"].currentvalue', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-displayfield="ICode"].currentvalue', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -109,16 +112,22 @@ class ChangeICodeUtility {
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial No." data-datafield="ItemId" data-displayfield="SerialNumber" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:0 1 200px;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield currentvalue" data-caption="Current I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" data-enabled="false" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield currentvalue" data-caption="Current Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
                       </div>
-                      //<div class="flexrow">
-                      //  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Change Notes" data-datafield="Notes" style="max-width:960px;"></div>
-                      //</div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield newvalue" data-caption="Change To I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield newvalue" data-caption="Change To Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
+                      </div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Utility Note" style="max-width:900px">
+                      <div class="flexrow">
+                        <div>This utility will add an "X" to the end of the current Bar Code number and retire the Asset using the "Change I-Code" Retired Reason.  A new Asset record will be created with the existing Bar Code number.  All Location, Manufacturer, and Purchase data copied to the new Asset record.  All Retire History, Transfer History, Order History, Revenue History, and Repair History data will remain with the retired Asset related to its prior I-Code.</div>
+                      </div>
                       <div class="flexrow">
                         <div class="fwformcontrol ch-inv-btn" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Change I-Code</div>
                       </div>
-                  </div>
+                    </div>
                 </div>
               </div>
             </div>`;
