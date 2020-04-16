@@ -365,8 +365,14 @@ class CustomReportLayout {
 
             //},
             onEnd: e => {
-                const newHeaderHTML = e.currentTarget.innerHTML;
-                //jQuery(html).find('table #columnHeader tr').html(newHeaderHTML);
+                let $wrapper = jQuery('<div class="custom-report-wrapper"></div>');         //create a wrapper      -- Jason H. 04/16/20
+                $wrapper.append(html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
+                const newHeaderHTML = e.currentTarget.innerHTML;                            //get the new header HTML
+                $wrapper.find('table #columnHeader tr').html(newHeaderHTML);                //replace old headers
+                const newReportLayoutHTML = $wrapper.get(0).innerHTML;                      //get new report HTML
+                FwFormField.setValueByDataField($form, 'Html', newReportLayoutHTML);
+                this.codeMirror.setValue(newReportLayoutHTML);                              //update codemirror (HTML tab) with new HTML
+
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
