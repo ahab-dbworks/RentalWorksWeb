@@ -44,37 +44,37 @@ class ChangeICodeUtility {
     events($form) {
         $form.find('.ch-inv-btn').on('click', $tr => {
             if (FwModule.validateForm($form)) {
-                const request: any = {};
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-               // request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-                //request.Notes = FwFormField.getValueByDataField($form, 'Notes');
-                request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
+                const request: any = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'NewInventoryId'),
+                    ItemId: FwFormField.getValueByDataField($form, 'ItemId'),
+                };
 
                 FwAppData.apiMethod(true, 'POST', 'api/v1/changeicodeutility/changeicode', request, FwServices.defaultTimeout, response => {
                     if (response.success) {
                         FwNotification.renderNotification('SUCCESS', 'I-Code Changed Successfully');
                         $form.find('.fwformfield input').val('');
-                        $form.find('.fwformfield textarea').val('');
+                        FwFormField.disable($form.find('div[data-datafield="NewInventoryId"]'));
                         FwModule.refreshForm($form);
-                    } else {
                     }
                 }, ex => FwFunc.showError(ex), $form);
             }
         });
 
         // Set Description from I-Code validation
-        $form.find('[data-datafield="InventoryId"].currentvalue').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="ItemDescription"].currentvalue', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+        $form.find('[data-datafield="CurrentInventoryId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="CurrentItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
         });
-        $form.find('[data-datafield="InventoryId"].newvalue').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="ItemDescription"].newvalue', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+        $form.find('[data-datafield="NewInventoryId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="NewItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
         });
         $form.find('.itemid').data('onchange', $tr => {
             const itemId = jQuery($tr.find('.field[data-formdatafield="ItemId"]')).attr('data-originalvalue');
             FwFormField.setValue($form, '.itemid[data-displayfield="BarCode"]', itemId, $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
             FwFormField.setValue($form, '.itemid[data-displayfield="SerialNumber"]', itemId, $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'))
-            FwFormField.setValue($form, 'div[data-datafield="ItemDescription"].currentvalue', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-displayfield="ICode"].currentvalue', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="CurrentItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-displayfield="CurrentICode"]', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'TrackedBy', $tr.find('.field[data-formdatafield="TrackedBy"]').attr('data-originalvalue'));
+            FwFormField.enable($form.find('div[data-datafield="NewInventoryId"]'));
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -87,14 +87,14 @@ class ChangeICodeUtility {
         switch (datafield) {
             case 'ItemId':
                 request.uniqueids = {
-                    WarehouseId: warehouse.warehouseid
+                    WarehouseId: warehouse.warehouseid,
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateitem`);
                 break;
-            case 'InventoryId':
+            case 'NewInventoryId':
                 request.uniqueids = {
                     WarehouseId: warehouse.warehouseid,
-                    TrackedBy: 'QUANTITY',
+                    TrackedBy: FwFormField.getValueByDataField($form, 'TrackedBy'),
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
         }
@@ -110,14 +110,15 @@ class ChangeICodeUtility {
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code No." data-datafield="ItemId" data-displayfield="BarCode" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial No." data-datafield="ItemId" data-displayfield="SerialNumber" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracked By" data-datafield="TrackedBy" data-enabled="false" style="flex:0 1 400px;display:none;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield currentvalue" data-caption="Current I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" data-enabled="false" style="flex:0 1 200px;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield currentvalue" data-caption="Current Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Current I-Code" data-datafield="CurrentInventoryId" data-displayfield="CurrentICode" data-validationname="RentalInventoryValidation" data-enabled="false" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Current Item Description" data-datafield="CurrentItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield newvalue" data-caption="Change To I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:0 1 200px;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield newvalue" data-caption="Change To Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Change To I-Code" data-datafield="NewInventoryId" data-displayfield="NewICode" data-validationname="RentalInventoryValidation"  data-enabled="false" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Change To Item Description" data-datafield="NewItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Utility Note" style="max-width:900px">
