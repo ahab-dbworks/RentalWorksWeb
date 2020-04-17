@@ -68,6 +68,10 @@ namespace FwCore.Controllers
             {
                 contentType = "text/csv";
             }
+            else if (whitelistFileName.EndsWith("_pdf") || whitelistFileName.EndsWith(".pdf"))
+            {
+                contentType = "application/pdf";
+            }
             else
             {
                 return BadRequest();
