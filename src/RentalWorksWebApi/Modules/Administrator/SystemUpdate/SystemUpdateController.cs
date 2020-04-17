@@ -57,6 +57,26 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/systemupdate/downloadbuilddocument/2019.1.2.85
+        [HttpPost("downloadbuilddocument/{buildnumber}")]
+        [FwControllerMethod(Id: "MNxZry7QZjjRa", ActionType: FwControllerActionTypes.Option)]
+        public ActionResult<DownloadBuildDocumentResponse> GetBuildDocuments([FromBody] DownloadBuildDocumentRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                DownloadBuildDocumentResponse response = SystemUpdateFunc.DownloadBuildDocument(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/systemupdate/applyupdate
         [HttpPost("applyupdate")]
         [FwControllerMethod(Id: "TxeVikkpb8dws", ActionType: FwControllerActionTypes.Option)]

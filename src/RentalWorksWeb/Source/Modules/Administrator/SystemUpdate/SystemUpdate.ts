@@ -154,7 +154,7 @@ class SystemUpdate {
         };
 
         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/builddocuments`, request, FwServices.defaultTimeout, response => {
-            if (response.Documents.length) {
+            if (response.DocumentsList.length) {
                 loadDocuments($form, response.DocumentsList);
             } else {
                 FwNotification.renderNotification('WARNING', 'There was a problem retrieving build documents.')

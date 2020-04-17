@@ -66,6 +66,18 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         public string ApiInstallPath { get; set; }
     }
 
+    public class DownloadBuildDocumentRequest
+    {
+        public string Version { get; set; }
+    }
+
+    public class DownloadBuildDocumentResponse
+    {
+        public string downloadUrl { get; set; }
+    }
+
+
+
     public static class SystemUpdateFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -206,6 +218,12 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                 }
             }
 
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static DownloadBuildDocumentResponse DownloadBuildDocument(FwApplicationConfig appConfig, FwUserSession userSession, DownloadBuildDocumentRequest request) {
+            DownloadBuildDocumentResponse response = new DownloadBuildDocumentResponse();
+            response.downloadUrl = "";// $"api/v1/download/{filename}?downloadasfilename={downloadFileName}.xlsx";
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
