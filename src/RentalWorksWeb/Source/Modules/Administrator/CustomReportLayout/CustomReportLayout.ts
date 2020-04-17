@@ -5,6 +5,7 @@ class CustomReportLayout {
     nav: string = Constants.Modules.Administrator.children.CustomReportLayout.nav;
     id: string = Constants.Modules.Administrator.children.CustomReportLayout.id;
     codeMirror: any;
+    html: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
@@ -353,10 +354,9 @@ class CustomReportLayout {
     //----------------------------------------------------------------------------------------------
     renderTab($form, tabName: string) {
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
+        this.html = FwFormField.getValueByDataField($form, 'Html');
 
-        let html = FwFormField.getValueByDataField($form, 'Html');
-
-        const $table = jQuery(html).find('table');
+        const $table = jQuery(this.html).find('table');
         $form.find(`#reportDesigner`).empty().append($table);
 
         //create sortable for headers
@@ -365,13 +365,14 @@ class CustomReportLayout {
 
             //},
             onEnd: e => {
-                html = this.updateHTML($form, e, html);
+                const $tr = jQuery(e.currentTarget);
+                this.updateHTML($form, $tr);
 
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
         });
-        this.designerEvents($form);
+        this.designerEvents($form, $table);
 
         //adds select options for datafields
         function addDatafields() {
@@ -397,38 +398,54 @@ class CustomReportLayout {
         addDatafields();
     }
     //----------------------------------------------------------------------------------------------
-    updateHTML($form: JQuery, event: JQuery, html: string) {
-        html = html.split('{{').join('<!--{{').split('}}').join('}}-->');           //comments out handlebars as a work-around for the displacement by the HTML parser 
-        let $wrapper = jQuery('<div class="custom-report-wrapper"></div>');         //create a wrapper      -- Jason H. 04/16/20
-        $wrapper.append(html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
-        const newHeaderHTML = event.currentTarget.innerHTML;                        //get the new header HTML
-        $wrapper.find('table #columnHeader tr').html(newHeaderHTML);                //replace old headers
-        html = $wrapper.get(0).innerHTML;                                           //get new report HTML
-        html = html.split('<!--{{').join('{{').split('}}-->').join('}}');           //un-comment handlebars
-        FwFormField.setValueByDataField($form, 'Html', html);
-        this.codeMirror.setValue(html);                                             //update codemirror (HTML tab) with new HTML
-        return html;
+    updateHTML($form: JQuery, $tr: JQuery) {
+        this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser 
+        let $wrapper = jQuery('<div class="custom-report-wrapper"></div>');              //create a wrapper      -- Jason H. 04/16/20
+        $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
+        const newHeaderHTML = $tr.get(0).innerHTML;                                      //get the new header HTML       
+        $wrapper.find('table #columnHeader tr').html(newHeaderHTML);                     //replace old headers
+        this.html = $wrapper.get(0).innerHTML;                                           //get new report HTML
+        this.html = this.html.split('<!--{{').join('{{').split('}}-->').join('}}');      //un-comment handlebars
+        FwFormField.setValueByDataField($form, 'Html', this.html);
+        this.codeMirror.setValue(this.html);                                             //update codemirror (HTML tab) with new HTML
     }
     //----------------------------------------------------------------------------------------------
-    designerEvents($form: JQuery) {
+    designerEvents($form: JQuery, $table: JQuery) {
         const $addColumn = $form.find('.addColumn');
         $addColumn.show();
+        let $th;
 
         $addColumn.on('click', e => {
             // add to table or add into a container that can be dragged into a table?  (for reports with multiple tables)
+            $table.find('#columnHeader tr').append('<th data-columndatafield="">New Column</th>');
+            this.updateHTML($form, $table.find('#columnHeader tr'));
         });
         
         $form.on('click', '#reportDesigner table thead tr th', e => {
-            const $th = jQuery(e.currentTarget);
+            $th = jQuery(e.currentTarget);
             $form.find('#controlProperties').empty().append(this.addControlProperties($th));
         });
 
 
         //control properties events
-        $form.on('change', '#controlProperties propval', e => {
-            const columnName = jQuery(e.currentTarget).val();
+        $form.on('change', '#controlProperties .propval', e => {
+            const $property = jQuery(e.currentTarget);
+            const fieldname = $property.attr('data-field');
+            const value = $property.find('input').val();
+            switch (fieldname) {
+                case 'columnname':
+                    $th.text(value);
+                    break;
+                case 'columndatafield': //to-do: add columndatafield properties to all headers
+                    $th.attr('data-columndatafield', value);
+                    break;
+            }
+            this.updateHTML($form, $table.find('#columnHeader tr'));
+        });
 
-            //add logic for changing handlebars data field
+        $form.on('click', '.delete-column', e => {
+            $th.remove();
+            this.updateHTML($form, $table.find('#columnHeader tr'));
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -440,14 +457,14 @@ class CustomReportLayout {
                                     </div>
                                     <div class="properties">
                                                   <div class="propname">Column Name</div>
-                                                  <div class="propval"><input value="${$th.text()}"></div>
+                                                  <div class="propval" data-field="columnname"><input value="${$th.text()}"></div>
                                     </div>
                                     <div class="properties">
                                                   <div class="propname">Data Field</div>
-                                                  <div class="propval"><input value=""></div>
+                                                  <div class="propval" data-field="columndatafield"><input placeholder="value" value=""></div>
                                     </div>
                                     <div style="text-align:center;">
-                                        <div class="fwformcontrol delete-column" data-type="button" style="margin-left:27%; margin-top:15px;">Delete Column</div>
+                                        <div class="fwformcontrol delete-column" data-type="button">Delete Column</div>
                                     </div>
                                  </div>`);
         return $properties;
