@@ -176,7 +176,7 @@ class SystemUpdate {
             const $container = $form.find('#buildDocuments');
             const html = [];
             for (let i = documents.length - 1; i >= 0; i--) {
-                html.push(`<li class="pdf" title="Download..." data-buildnumber="${documents[i]}">${documents[i]}<span class="material-icons">picture_as_pdf</span></li>`)
+                html.push(`<li class="pdf" data-buildnumber="${documents[i]}">${documents[i]}<span class="material-icons">picture_as_pdf</span></li>`)
             }
 
             $container.html(html.join(''));
