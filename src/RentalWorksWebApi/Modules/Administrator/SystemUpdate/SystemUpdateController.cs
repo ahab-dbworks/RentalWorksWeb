@@ -57,9 +57,9 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/systemupdate/downloadbuilddocument/2019.1.2.85
-        [HttpPost("downloadbuilddocument/{buildnumber}")]
-        [FwControllerMethod(Id: "MNxZry7QZjjRa", ActionType: FwControllerActionTypes.Option)]
+        // POST api/v1/systemupdate/downloadbuilddocument {Version: "2019.1.2.85"}
+        [HttpPost("downloadbuilddocument")]
+        [FwControllerMethod(Id: "QRuaJ4G1A85FU", ActionType: FwControllerActionTypes.Option)]
         public ActionResult<DownloadBuildDocumentResponse> GetBuildDocuments([FromBody] DownloadBuildDocumentRequest request)
         {
             if (!ModelState.IsValid)

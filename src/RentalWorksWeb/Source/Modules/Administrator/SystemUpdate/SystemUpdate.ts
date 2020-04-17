@@ -76,12 +76,22 @@ class SystemUpdate {
             const $this = jQuery(e.currentTarget);
             console.log('pdf: ', $this.attr('data-buildnumber'));
             const request: any = {
-                BuildNumber: $this.attr('data-buildnumber'),
+                Version: $this.attr('data-buildnumber'),
             }
-            //FwAppData.apiMethod(true, 'POST', `${this.apiurl}/downloaddocuments`, request, FwServices.defaultTimeout, response => {
-
-            //}, errResponse => {
-            //}, $form);
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/downloadbuilddocument`, request, FwServices.defaultTimeout, response => {
+                if ((response.success) && (response.downloadUrl != "")) {
+                    const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
+                    jQuery('#application').append($iframe);
+                    setTimeout(function () {
+                        $iframe.remove();
+                    }, 500);
+                }
+                else {
+                    FwFunc.showError(response.msg);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
         });
     }
     //----------------------------------------------------------------------------------------------

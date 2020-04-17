@@ -12,6 +12,7 @@ using System.Linq;
 using FwStandard.SqlServer;
 using System.Data;
 using WebApi.Modules.Administrator.SystemUpdateHistory;
+using FwCore.Controllers;
 
 namespace WebApi.Modules.Administrator.SystemUpdate
 {
@@ -71,7 +72,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         public string Version { get; set; }
     }
 
-    public class DownloadBuildDocumentResponse
+    public class DownloadBuildDocumentResponse : TSpStatusResponse
     {
         public string downloadUrl { get; set; }
     }
@@ -223,7 +224,51 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         //-------------------------------------------------------------------------------------------------------
         public static DownloadBuildDocumentResponse DownloadBuildDocument(FwApplicationConfig appConfig, FwUserSession userSession, DownloadBuildDocumentRequest request) {
             DownloadBuildDocumentResponse response = new DownloadBuildDocumentResponse();
-            response.downloadUrl = "";// $"api/v1/download/{filename}?downloadasfilename={downloadFileName}.xlsx";
+
+            if (string.IsNullOrEmpty(request.Version))
+            {
+                response.msg = "Supply a value for Version in the request.";
+            }
+            else if (request.Version.Split(".").Length != 4)
+            {
+                response.msg = "Invalid format for Version (" + request.Version + ").  Format must be Major.Minor.Release.Build";
+            }
+            else
+            {
+                string[] documentPieces = request.Version.Split(".");
+
+                if ((string.IsNullOrEmpty(documentPieces[0])) || (string.IsNullOrEmpty(documentPieces[1])) || (string.IsNullOrEmpty(documentPieces[2])))
+                {
+                    response.msg = "Invalid format for Version (" + request.Version + ").  Cannot determine Major, Minor, and Release.";
+                }
+                else
+                {
+                    try
+                    {
+                        string systemName = "RentalWorksWeb";
+                        string majorMinorRelease = documentPieces[0] + "." + documentPieces[1] + "." + documentPieces[2];
+
+                        string remotePdfFileName = request.Version + ".pdf";
+                        string remotePath = "ftp://ftp.dbworks.com/" + systemName + "/" + majorMinorRelease + "/v" + remotePdfFileName;
+
+                        string localPdfFile = request.Version.Replace('.', '_') + "_pdf";
+                        string localPath = "wwwroot/temp/downloads/" + localPdfFile;
+
+                        WebClient client = new WebClient();
+                        client.Credentials = new NetworkCredential("update", "update");
+                        client.DownloadFile(remotePath, localPath);
+
+                        response.downloadUrl = $"api/v1/download/{localPdfFile}?downloadasfilename={request.Version}.pdf";
+                        response.success = true;
+                    }
+                    catch (Exception e)
+                    {
+                        response.msg = e.ToString();
+                    }
+                }
+            }
+
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
