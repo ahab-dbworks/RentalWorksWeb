@@ -12,6 +12,9 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         {
             dataRecords.Add(rateUpdateItem);
             dataLoader = rateUpdateItemLoader;
+
+            ReloadOnSave = false;
+            LoadOriginalBeforeSaving = false;
         }
 
         //------------------------------------------------------------------------------------ 
