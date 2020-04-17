@@ -358,19 +358,20 @@ class CustomReportLayout {
 
         const $table = jQuery(html).find('table');
         $form.find(`#reportDesigner`).empty().append($table);
-   
+
         //create sortable for headers
         Sortable.create($table.find('#columnHeader tr').get(0), {
             //onStart: e => {
 
             //},
-            onEnd: e => {   
+            onEnd: e => {
                 html = this.updateHTML($form, e, html);
-              
+
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
         });
+        this.designerEvents($form);
 
         //adds select options for datafields
         function addDatafields() {
@@ -394,7 +395,7 @@ class CustomReportLayout {
             }
         };
         addDatafields();
-    } 
+    }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, event: JQuery, html: string) {
         html = html.split('{{').join('<!--{{').split('}}').join('}}-->');           //comments out handlebars as a work-around for the displacement by the HTML parser 
@@ -407,6 +408,49 @@ class CustomReportLayout {
         FwFormField.setValueByDataField($form, 'Html', html);
         this.codeMirror.setValue(html);                                             //update codemirror (HTML tab) with new HTML
         return html;
+    }
+    //----------------------------------------------------------------------------------------------
+    designerEvents($form: JQuery) {
+        const $addColumn = $form.find('.addColumn');
+        $addColumn.show();
+
+        $addColumn.on('click', e => {
+            // add to table or add into a container that can be dragged into a table?  (for reports with multiple tables)
+        });
+        
+        $form.on('click', '#reportDesigner table thead tr th', e => {
+            const $th = jQuery(e.currentTarget);
+            $form.find('#controlProperties').empty().append(this.addControlProperties($th));
+        });
+
+
+        //control properties events
+        $form.on('change', '#controlProperties propval', e => {
+            const columnName = jQuery(e.currentTarget).val();
+
+            //add logic for changing handlebars data field
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    addControlProperties($th: JQuery) {
+        let $properties = jQuery(`<div class="propertyContainer" style="border: 1px solid #bbbbbb; word-break: break-word;">
+                                    <div style="text-indent:5px;">
+                                        <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Name</div>
+                                        <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Value</div>
+                                    </div>
+                                    <div class="properties">
+                                                  <div class="propname">Column Name</div>
+                                                  <div class="propval"><input value="${$th.text()}"></div>
+                                    </div>
+                                    <div class="properties">
+                                                  <div class="propname">Data Field</div>
+                                                  <div class="propval"><input value=""></div>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        <div class="fwformcontrol delete-column" data-type="button" style="margin-left:27%; margin-top:15px;">Delete Column</div>
+                                    </div>
+                                 </div>`);
+        return $properties;
     }
     //----------------------------------------------------------------------------------------------
 };
