@@ -368,6 +368,7 @@ class CustomReportLayout {
                 const $th = jQuery(e.item);
                 $th.removeAttr('draggable');
                 const $tr = jQuery(e.currentTarget);
+                $tr.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
                 this.updateHTML($form, $tr, $th);
 
                 $form.attr('data-modified', 'true');
@@ -404,17 +405,27 @@ class CustomReportLayout {
         this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser 
         let $wrapper = jQuery('<div class="custom-report-wrapper"></div>');              //create a wrapper      -- Jason H. 04/16/20
         $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
-        const newHeaderHTML = $tr.get(0).innerHTML.trim();                               //get the new header HTML       
-        $wrapper.find('table #columnHeader tr').html(newHeaderHTML);                     //replace old headers
+        const newHeaderHTML = $tr.get(0).innerHTML.trim();                               //get the new header HTML                                                         
+
+        const $table = $form.find('#reportDesigner table');
 
         //move corresponding detail columns wip
-        if (typeof $th != 'undefined') { 
-            const columndatafield = $th.attr('data-columndatafield');
-            if (typeof columndatafield != 'undefined') {
-                //find total number of tds and reorganize
-                //take into account colspan attribute
+        if (typeof $tr.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
+            const valuefield = $th.attr('data-valuefield');
+            if (typeof valuefield != 'undefined') {
+                const $columns = $table.find(`tbody tr [data-value="{{${valuefield}}}"]`);
+                //jason h to-do: get last index of tds with consideration to colspans and add to cached object
+                const oldIndex = $tr.data('columnsmoved').oldIndex;
+                const newIndex = $tr.data('columnsmoved').newIndex;
+                for (let i = 0; i < $columns.length; i++) {
+                     //find total number of tds
+                     //get index of td relative to tr
+                     //take into account colspan attribute / check total cells of colspan + tds match
+                }
             }
         }
+
+        $wrapper.find('table #columnHeader tr').html(newHeaderHTML);                     //replace old headers
 
         this.html = $wrapper.get(0).innerHTML;                                           //get new report HTML
         this.html = this.html.split('<!--{{').join('{{').split('}}-->').join('}}');      //un-comment handlebars
@@ -448,8 +459,8 @@ class CustomReportLayout {
                 case 'columnname':
                     $th.text(value);
                     break;
-                case 'columndatafield': //to-do: add columndatafield properties to all headers
-                    $th.attr('data-columndatafield', value);
+                case 'valuefield': //to-do: add columndatafield properties to all headers
+                    $th.attr('data-valuefield', value);
                     break;
             }
             this.updateHTML($form, $table.find('#columnHeader tr'));
@@ -468,12 +479,12 @@ class CustomReportLayout {
                                         <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Value</div>
                                     </div>
                                     <div class="properties">
-                                                  <div class="propname">Column Name</div>
-                                                  <div class="propval" data-field="columnname"><input value="${$th.text()}"></div>
+                                        <div class="propname">Column Name</div>
+                                        <div class="propval" data-field="columnname"><input value="${$th.text()}"></div>
                                     </div>
                                     <div class="properties">
-                                                  <div class="propname">Data Field</div>
-                                                  <div class="propval" data-field="columndatafield"><input placeholder="{{value}}" value=""></div>
+                                        <div class="propname">Value Field</div>
+                                        <div class="propval" data-field="valuefield"><input placeholder="value field" value="${$th.attr('data-valuefield')}"></div>
                                     </div>
                                     <div style="text-align:center;">
                                         <div class="fwformcontrol delete-column" data-type="button">Delete Column</div>
