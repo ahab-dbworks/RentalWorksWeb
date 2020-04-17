@@ -365,8 +365,10 @@ class CustomReportLayout {
 
             //},
             onEnd: e => {
+                const $th = jQuery(e.item);
+                $th.removeAttr('draggable');
                 const $tr = jQuery(e.currentTarget);
-                this.updateHTML($form, $tr);
+                this.updateHTML($form, $tr, $th);
 
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
@@ -398,12 +400,22 @@ class CustomReportLayout {
         addDatafields();
     }
     //----------------------------------------------------------------------------------------------
-    updateHTML($form: JQuery, $tr: JQuery) {
+    updateHTML($form: JQuery, $tr: JQuery, $th?) {
         this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser 
         let $wrapper = jQuery('<div class="custom-report-wrapper"></div>');              //create a wrapper      -- Jason H. 04/16/20
         $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
-        const newHeaderHTML = $tr.get(0).innerHTML;                                      //get the new header HTML       
+        const newHeaderHTML = $tr.get(0).innerHTML.trim();                               //get the new header HTML       
         $wrapper.find('table #columnHeader tr').html(newHeaderHTML);                     //replace old headers
+
+        //move corresponding detail columns wip
+        if (typeof $th != 'undefined') { 
+            const columndatafield = $th.attr('data-columndatafield');
+            if (typeof columndatafield != 'undefined') {
+                //find total number of tds and reorganize
+                //take into account colspan attribute
+            }
+        }
+
         this.html = $wrapper.get(0).innerHTML;                                           //get new report HTML
         this.html = this.html.split('<!--{{').join('{{').split('}}-->').join('}}');      //un-comment handlebars
         FwFormField.setValueByDataField($form, 'Html', this.html);
@@ -420,7 +432,7 @@ class CustomReportLayout {
             $table.find('#columnHeader tr').append('<th data-columndatafield="">New Column</th>');
             this.updateHTML($form, $table.find('#columnHeader tr'));
         });
-        
+
         $form.on('click', '#reportDesigner table thead tr th', e => {
             $th = jQuery(e.currentTarget);
             $form.find('#controlProperties').empty().append(this.addControlProperties($th));
@@ -461,7 +473,7 @@ class CustomReportLayout {
                                     </div>
                                     <div class="properties">
                                                   <div class="propname">Data Field</div>
-                                                  <div class="propval" data-field="columndatafield"><input placeholder="value" value=""></div>
+                                                  <div class="propval" data-field="columndatafield"><input placeholder="{{value}}" value=""></div>
                                     </div>
                                     <div style="text-align:center;">
                                         <div class="fwformcontrol delete-column" data-type="button">Delete Column</div>
