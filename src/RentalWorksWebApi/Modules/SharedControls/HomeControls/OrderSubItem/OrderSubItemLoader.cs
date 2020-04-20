@@ -3,12 +3,18 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
+using System.Collections.Generic;
 using WebApi.Data;
 namespace WebApi.Modules.HomeControls.OrderSubItem
 {
     [FwSqlTable("dbo.funcsubitemstatus(@locationids, @customerids, @dealids, @orderids, @fromdate, @todate, @rectypes, @orderstatus, @datetype)")]
     public class OrderSubItemLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public OrderSubItemLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
@@ -265,6 +271,13 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         [FwSqlDataField(column: "issuspendreceive", modeltype: FwDataTypes.Boolean)]
         public bool? IsReceiveSuspended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ReceiveDateColor
+        {
+            get { return getReceiveDateColor(IsReceiveDateEstimated); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "outdate", modeltype: FwDataTypes.Date)]
         public string OutDate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -274,6 +287,13 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         [FwSqlDataField(column: "issuspendout", modeltype: FwDataTypes.Boolean)]
         public bool? IsOutSuspended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string OutDateColor
+        {
+            get { return getOutDateColor(IsOutDateEstimated); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "indate", modeltype: FwDataTypes.Date)]
         public string InDate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -283,6 +303,13 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         [FwSqlDataField(column: "issuspendin", modeltype: FwDataTypes.Boolean)]
         public bool? IsInSuspended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string InDateColor
+        {
+            get { return getInDateColor(IsInDateEstimated); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "lost", modeltype: FwDataTypes.Boolean)]
         public bool? IsLost { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -295,6 +322,13 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         [FwSqlDataField(column: "issuspendreturn", modeltype: FwDataTypes.Boolean)]
         public bool? IsReturnSuspended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ReturnDateColor
+        {
+            get { return getReturnDateColor(IsReturnDateEstimated); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
         public string ItemOrder { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -358,6 +392,26 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer)]
         public int? OrderSubItemId { get; set; }
         //------------------------------------------------------------------------------------ 
+        private string getReceiveDateColor(bool? isEstimated)
+        {
+            return (isEstimated.GetValueOrDefault(false) ? RwGlobals.ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR : "");
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getOutDateColor(bool? isEstimated)
+        {
+            return (isEstimated.GetValueOrDefault(false) ? RwGlobals.ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR : "");
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getInDateColor(bool? isEstimated)
+        {
+            return (isEstimated.GetValueOrDefault(false) ? RwGlobals.ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR : "");
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getReturnDateColor(bool? isEstimated)
+        {
+            return (isEstimated.GetValueOrDefault(false) ? RwGlobals.ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR : "");
+        }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
@@ -397,5 +451,24 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
             select.AddParameter("@datetype", dateType);
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+
+                        row[dt.GetColumnNo("ReceiveDateColor")] = getReceiveDateColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsReceiveDateEstimated")].ToString()));
+                        row[dt.GetColumnNo("OutDateColor")] = getOutDateColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsOutDateEstimated")].ToString()));
+                        row[dt.GetColumnNo("InDateColor")] = getInDateColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsInDateEstimated")].ToString()));
+                        row[dt.GetColumnNo("ReturnDateColor")] = getReturnDateColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsReturnDateEstimated")].ToString()));
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
-}
+    }

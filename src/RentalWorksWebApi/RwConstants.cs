@@ -125,6 +125,8 @@ namespace WebApi
 
         public const int ORDER_QUANTITY_ADJUSTED_AT_STAGING_COLOR = 7303167;       // light red
 
+        public const int ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR = 33023;      // orange
+
 
         public const string QUOTE_ORDER_DATE_TYPE_ORDER_DATE = "ORDER_DATE";
         public const string QUOTE_ORDER_DATE_TYPE_ESTIMATED_START_DATE = "ESTIMATED_START_DATE";

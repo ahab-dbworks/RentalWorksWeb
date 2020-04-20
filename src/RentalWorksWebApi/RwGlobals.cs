@@ -25,6 +25,9 @@ namespace WebApi
         public static string QC_REQUIRED_COLOR { get; set; }
         public static string SUSPEND_COLOR { get; set; }
 
+        public static string ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR { get; set; }
+
+
 
         //AVAILABILITY
         public static string AVAILABILITY_COLOR_NEEDRECALC { get; set; }
@@ -292,8 +295,10 @@ namespace WebApi
 
 
             USER_DEFINED_ACTIVITY_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.USER_DEFINED_ACTIVITY_COLOR);
+            ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR);
 
-        }
-        //---------------------------------------------------------------------------
+
     }
+    //---------------------------------------------------------------------------
+}
 }
