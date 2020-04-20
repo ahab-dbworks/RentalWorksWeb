@@ -18,12 +18,35 @@ namespace WebApi.Modules.Inventory.RentalInventory
         public RentalInventoryLogic()
         {
             dataLoader = inventoryLoader;
-            ((InventoryBrowseLoader)browseLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
+            //((InventoryBrowseLoader)browseLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
+            ((InventoryLoader)dataLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
             ForceSave = true;  //justin hoffman 12/29/2019
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "EMtstFgQO6Apj")]
         public bool? ExcludeFromReturnOnAsset { get { return master.ExcludeFromReturnOnAsset; } set { master.ExcludeFromReturnOnAsset = value; } }
+
+
+        //set/wall
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "75MyM14LdkPlR")]
+        public string SetOpeningId { get { return master.SetOpeningId; } set { master.SetOpeningId = value; } }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "4KRtq3eIXEBIZ", IsReadOnly: true)]
+        public string SetOpening { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "IpK5TJo7JhCx6")]
+        public string WallTypeId { get { return master.WallTypeId; } set { master.WallTypeId = value; } }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "L6tPPjBy2C3O7", IsReadOnly: true)]
+        public string WallType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "Vjkz8rPVpslfR")]
+        public string SetSurfaceId { get { return master.SetSurfaceId; } set { master.SetSurfaceId = value; } }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "HbO97rimlK10l", IsReadOnly: true)]
+        public string SetSurface { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 

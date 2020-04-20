@@ -11,32 +11,54 @@ namespace WebApi.Modules.Inventory.RentalInventory
     public class RentalInventoryLoader : InventoryLoader
     {
 
+        //set/wall
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "openingid", modeltype: FwDataTypes.Text)]
+        public string SetOpeningId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "opening", modeltype: FwDataTypes.Text)]
+        public string SetOpening { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "walltypeid", modeltype: FwDataTypes.Text)]
+        public string WallTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "walltype", modeltype: FwDataTypes.Text)]
+        public string WallType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "surfaceid", modeltype: FwDataTypes.Text)]
+        public string SetSurfaceId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "surface", modeltype: FwDataTypes.Text)]
+        public string SetSurface { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         // for cusomizing browse 
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
-        public decimal? DailyRate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
-        public decimal? WeeklyRate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
-        public decimal? Week2Rate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
-        public decimal? Week3Rate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
-        public decimal? Week4Rate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
-        public decimal? MonthlyRate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
-        public decimal? UnitValue { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
-        public decimal? ReplacementCost { get; set; }
-        //------------------------------------------------------------------------------------ 
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        //public decimal? DailyRate { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        //public decimal? WeeklyRate { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Week2Rate { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Week3Rate { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Week4Rate { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        //public decimal? MonthlyRate { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        //public decimal? UnitValue { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        //public decimal? ReplacementCost { get; set; }
+        ////------------------------------------------------------------------------------------ 
 
 
         //------------------------------------------------------------------------------------ 

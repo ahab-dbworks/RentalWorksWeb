@@ -25,7 +25,7 @@ namespace WebApi.Modules.HomeControls.Inventory
         {
             dataRecords.Add(primaryDimension);
             dataRecords.Add(secondaryDimension);
-            browseLoader = inventoryBrowseLoader;
+            //browseLoader = inventoryBrowseLoader;
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
@@ -297,6 +297,9 @@ namespace WebApi.Modules.HomeControls.Inventory
 
         [FwLogicProperty(Id: "f3VLTXhIygCC", IsReadOnly: true)]
         public bool? InventoryTypeIsWardrobe { get; set; }
+
+        [FwLogicProperty(Id: "hFc5cCuZ4RYyt", IsReadOnly: true)]
+        public bool? InventoryTypeIsSets { get; set; }
 
         [FwLogicProperty(Id: "HyXBs7SSrseH")]
         public string PatternId { get { return master.PatternId; } set { master.PatternId = value; } }

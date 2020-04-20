@@ -10,65 +10,66 @@ using WebApi.Logic;
 namespace WebApi.Modules.HomeControls.Inventory
 {
     [FwSqlTable("inventoryview")]
-    public class InventoryBrowseLoader : AppDataLoadRecord
+    public class InventoryBrowseLoader : MasterLoader
     {
-        public InventoryBrowseLoader()
-        {
-            AfterBrowse += OnAfterBrowse;
-        }
         //------------------------------------------------------------------------------------ 
+        //public InventoryBrowseLoader()
+        //{
+        //    AfterBrowse += OnAfterBrowse;
+        //}
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InventoryId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
-        public string AvailFor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
-        public string ICode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
-        public string Description { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
+        //public string AvailFor { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
+        //public string ICode { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
+        //public string Description { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
-        public string Category { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
-        public string CategoryId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
-        public string SubCategoryId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subcategory", modeltype: FwDataTypes.Text)]
-        public string SubCategory { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
+        //public string Category { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
+        //public string CategoryId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
+        //public string SubCategoryId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "subcategory", modeltype: FwDataTypes.Text)]
+        //public string SubCategory { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
         public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
-        public string Classification { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "classdesc", modeltype: FwDataTypes.Text)]
-        public string ClassificationDescription { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ClassificationColor
-        {
-            get
-            {
-                return AppFunc.GetItemClassICodeColor(Classification);
-            }
-            set { }
-        }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
+        //public string Classification { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "classdesc", modeltype: FwDataTypes.Text)]
+        //public string ClassificationDescription { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        //public string ClassificationColor
+        //{
+        //    get
+        //    {
+        //        return AppFunc.GetItemClassICodeColor(Classification);
+        //    }
+        //    set { }
+        //}
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
         public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -132,9 +133,9 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "ml.taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool? Inactive { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        //public bool? Inactive { get; set; }
+        ////------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             OverrideFromClause = " from inventoryview [t] with (nolock) " +
@@ -152,7 +153,7 @@ namespace WebApi.Modules.HomeControls.Inventory
                   "              and   ml.locationid = @locationid) ml";
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
+            //select.Parse();
 
             select.AddWhere("(availfor = @availfor)");
             select.AddParameter("@availfor", AvailFor);
@@ -187,21 +188,21 @@ namespace WebApi.Modules.HomeControls.Inventory
             AddActiveViewFieldToSelect("Classification", "class", select, request);
         }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
-        {
-            if (e.DataTable != null)
-            {
-                FwJsonDataTable dt = e.DataTable;
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (List<object> row in dt.Rows)
-                    {
-                        string itemClass = row[dt.GetColumnNo("Classification")].ToString();
-                        row[dt.GetColumnNo("ClassificationColor")] = AppFunc.GetItemClassICodeColor(itemClass);
-                    }
-                }
-            }
-        }
-        //------------------------------------------------------------------------------------
+        //public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        //{
+        //    if (e.DataTable != null)
+        //    {
+        //        FwJsonDataTable dt = e.DataTable;
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            foreach (List<object> row in dt.Rows)
+        //            {
+        //                string itemClass = row[dt.GetColumnNo("Classification")].ToString();
+        //                row[dt.GetColumnNo("ClassificationColor")] = AppFunc.GetItemClassICodeColor(itemClass);
+        //            }
+        //        }
+        //    }
+        //}
+        ////------------------------------------------------------------------------------------
     }
 }

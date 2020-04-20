@@ -13,7 +13,8 @@ namespace WebApi.Modules.Inventory.SalesInventory
         {
             dataLoader = inventoryLoader;
             BeforeSave += OnBeforeSave;
-            ((InventoryBrowseLoader)browseLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_SALE;
+            //((InventoryBrowseLoader)browseLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_SALE;
+            ((InventoryLoader)dataLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_SALE;
         }
         //------------------------------------------------------------------------------------ 
 

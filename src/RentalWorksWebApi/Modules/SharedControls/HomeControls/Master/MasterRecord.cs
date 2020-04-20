@@ -318,6 +318,20 @@ namespace WebApi.Modules.HomeControls.Master
 
 
 
+        //set/wall
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "openingid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string SetOpeningId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "walltypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string WallTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "surfaceid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string SetSurfaceId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
                 public decimal? Replacementcost { get; set; }
@@ -361,9 +375,6 @@ namespace WebApi.Modules.HomeControls.Master
                 [FwSqlDataField(column: "newreplacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
                 public decimal? Newreplacementcost { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "surfaceid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string SurfaceId { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "hastieredcost", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Hastieredcost { get; set; }
                 //------------------------------------------------------------------------------------ 
@@ -387,13 +398,6 @@ namespace WebApi.Modules.HomeControls.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "orbitsplitqty", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Orbitsplitqty { get; set; }
-                //------------------------------------------------------------------------------------ 
-
-                [FwSqlDataField(column: "openingid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string OpeningId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "walltypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string WalltypeId { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "sealeditem", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Sealeditem { get; set; }

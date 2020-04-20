@@ -11,6 +11,7 @@ namespace WebApi.Modules.HomeControls.Master
     [FwSqlTable("inventoryview")]
     public class MasterLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
         public MasterLoader()
         {
             AfterBrowse += OnAfterBrowse;

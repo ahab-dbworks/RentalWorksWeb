@@ -105,6 +105,12 @@ abstract class InventoryBase {
             $form.find('.submenu-btn').filter(() => {
                 return jQuery(this).text() === 'Create Complete';
             }).css({ 'pointer-events': 'none', 'color': '#E0E0E0' });
+
+
+            // hide the set and wall options initially.  will be shown if a Sets InventoryType is selected
+            $form.find('.setradio').hide();
+            $form.find('.wallradio').hide();
+
         }
 
         let inventoryId;
@@ -487,6 +493,53 @@ abstract class InventoryBase {
                 $form.find('.wardrobetab').show();
             } else {
                 $form.find('.wardrobetab').hide();
+            }
+
+            if ($tr.find('.field[data-browsedatafield="Sets"]').attr('data-originalvalue') === 'true') {
+                const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
+                $form.find('.wallsection').hide();
+                $form.find('.settab').hide();
+                $form.find('.optionssection').hide();
+                $form.find('.manufacturersection').hide();
+                if (classificationValue === 'W') {
+                    $form.find('.wallsection').show();
+                }
+                else if (classificationValue === 'S') {
+                    $form.find('.settab').show();
+                }
+            } else {
+                $form.find('.wallsection').hide();
+                $form.find('.settab').hide();
+                $form.find('.optionssection').show();
+                $form.find('.manufacturersection').show();
+            }
+
+
+            if (!FwFormField.getValueByDataField($form, 'InventoryId')) { // new mode
+                if ($tr.find('.field[data-browsedatafield="Sets"]').attr('data-originalvalue') === 'true') {
+                    $form.find('.kitradio').hide();
+                    $form.find('.completeradio').hide();
+                    $form.find('.itemradio').hide();
+                    $form.find('.accessoryradio').hide();
+                    $form.find('.miscradio').hide();
+                    $form.find('.containerradio').hide();
+                    $form.find('.setradio').show();
+                    $form.find('.wallradio').show();
+                    FwFormField.setValueByDataField($form, 'Classification', 'W');
+                    $form.find('[data-datafield="Classification"] .fwformfield-value').change(); // thank you Josh
+                }
+                else {
+                    $form.find('.kitradio').show();
+                    $form.find('.completeradio').show();
+                    $form.find('.itemradio').show();
+                    $form.find('.accessoryradio').show();
+                    $form.find('.miscradio').show();
+                    $form.find('.containerradio').show();
+                    $form.find('.setradio').hide();
+                    $form.find('.wallradio').hide();
+                    FwFormField.setValueByDataField($form, 'Classification', 'I');
+                    $form.find('[data-datafield="Classification"] .fwformfield-value').change(); // thank you Josh
+                }
             }
         })
 
@@ -907,6 +960,10 @@ abstract class InventoryBase {
             $form.find('.containertab').hide();
             $form.find('.completetab').hide();
             $form.find('.kittab').hide();
+            $form.find('.wallsection').hide();
+            $form.find('.optionssection').show();
+            $form.find('.manufacturersection').show();
+            $form.find('.settab').hide();
 
             if ($this.prop('checked') === true && $this.val() === 'I') {
                 FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
@@ -937,6 +994,19 @@ abstract class InventoryBase {
                 $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
             }
             if ($this.prop('checked') === true && $this.val() === 'S') {
+                $form.find('.settab').show();
+                $form.find('.wallsection').hide();
+                $form.find('.optionssection').hide();
+                $form.find('.manufacturersection').hide();
+                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                $form.find('.tracked-by-column').hide();
+                $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
+            }
+            if ($this.prop('checked') === true && $this.val() === 'W') {
+                $form.find('.wallsection').show();
+                $form.find('.optionssection').hide();
+                $form.find('.manufacturersection').hide();
+                $form.find('.settab').hide();
                 FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
                 $form.find('.tracked-by-column').hide();
                 $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
@@ -956,6 +1026,8 @@ abstract class InventoryBase {
             $form.find('.kitradio').hide();
             $form.find('.containerradio').hide();
             $form.find('.miscradio').hide();
+            $form.find('.setradio').hide();
+            $form.find('.wallradio').hide();
         }
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
@@ -966,6 +1038,8 @@ abstract class InventoryBase {
             $form.find('.itemradio').hide();
             $form.find('.accessoryradio').hide();
             $form.find('.miscradio').hide();
+            $form.find('.setradio').hide();
+            $form.find('.wallradio').hide();
             $form.find('.tracked-by-column').hide();
             $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
         }
@@ -977,6 +1051,8 @@ abstract class InventoryBase {
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
             $form.find('.miscradio').hide();
+            $form.find('.setradio').hide();
+            $form.find('.wallradio').hide();
             $form.find('.tracked-by-column').hide();
             $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
 
@@ -989,6 +1065,8 @@ abstract class InventoryBase {
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
             $form.find('.miscradio').hide();
+            $form.find('.setradio').hide();
+            $form.find('.wallradio').hide();
             $form.find('.tracked-by-column').hide();
             $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
 
@@ -1001,6 +1079,8 @@ abstract class InventoryBase {
             $form.find('.itemradio').hide();
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
+            $form.find('.setradio').hide();
+            $form.find('.wallradio').hide();
             FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');
             FwFormField.disable($form.find('div[data-datafield="TrackedBy"]'));
         }
@@ -1010,10 +1090,24 @@ abstract class InventoryBase {
             $form.find('.kitradio').hide();
             $form.find('.itemradio').hide();
             $form.find('.accessoryradio').hide();
+            $form.find('.miscradio').hide();
             $form.find('.containerradio').hide();
             $form.find('.tracked-by-column').hide();
             $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
         }
+
+
+        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'W') {
+            $form.find('.completeradio').hide();
+            $form.find('.kitradio').hide();
+            $form.find('.itemradio').hide();
+            $form.find('.accessoryradio').hide();
+            $form.find('.miscradio').hide();
+            $form.find('.containerradio').hide();
+            $form.find('.tracked-by-column').hide();
+            $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
+        }
+
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -1070,6 +1164,19 @@ abstract class InventoryBase {
 
         if ($form.find('[data-datafield="InventoryTypeIsWardrobe"] .fwformfield-value').prop('checked') === true) {
             $form.find('.wardrobetab').show();
+        }
+
+        if ($form.find('[data-datafield="InventoryTypeIsSets"] .fwformfield-value').prop('checked') === true) {
+            if (classification === 'W') {
+                $form.find('.wallsection').show();
+                $form.find('.optionssection').hide();
+                $form.find('.manufacturersection').hide();
+            }
+            else if (classification === 'S') {
+                $form.find('.settab').show();
+                $form.find('.optionssection').hide();
+                $form.find('.manufacturersection').hide();
+            }
         }
 
         //Enable/disable duplicate fields based on classification
