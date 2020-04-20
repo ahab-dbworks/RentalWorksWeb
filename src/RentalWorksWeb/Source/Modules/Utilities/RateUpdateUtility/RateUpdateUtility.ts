@@ -46,10 +46,10 @@ class RateUpdateUtility {
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="OrderBy"]'), [
-            { value: "Warehouse", text: "Warehouse", selected: "F" },
-            { value: "InventoryType", text: "Department", selected: "F" },
-            { value: "Category", text: "Category", selected: "F" },
-            { value: "ICode", text: "I-Code", selected: "F" }
+            { value: "Warehouse", text: "Warehouse", selected: "T" },
+            { value: "InventoryType", text: "Department", selected: "T" },
+            { value: "Category", text: "Category", selected: "T" },
+            { value: "ICode", text: "I-Code", selected: "T" }
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="Rank"]'), [
@@ -61,6 +61,18 @@ class RateUpdateUtility {
             { value: "F", text: "F", selected: "T" },
             { value: "G", text: "G", selected: "T" }
         ]);
+
+        FwFormField.loadItems($form.find('div[data-datafield="AvailableFor"]'), [
+            { value: "R", caption: "Rental", checked: 'checked'},
+            { value: "S", caption: "Sales" },
+            { value: "P", caption: "Parts" },
+            { value: "L", caption: "Labor" },
+            { value: "M", caption: "Miscellaneous" },
+            { value: "T", caption: "Transportation" }
+        ]);
+
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'))
+        FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
 
         this.events($form);
         return $form;
