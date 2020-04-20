@@ -86,66 +86,78 @@ class RateUpdateUtility {
         });
 
         //Enable/Disable fields based on Activity Type
-        $form.data('activitytype', 'R');
+
+        //$form.on('change', '[data-datafield="AvailableFor"]', e => {
+        //    this.toggleAvailableFor($form);
+        //});
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleAvailableFor($form: JQuery) {
         const rentalColumns: Array<string> = ['PartNumber', 'DailyRate', 'WeeklyRate', 'Week2Rate', 'Week3Rate', 'Week4Rate', 'MonthlyRate', 'MaxDiscount', 'MinimumDaysPerWeek', 'DailyCost', 'WeeklyCost', 'MonthlyCost'];
         const salesColumns: Array<string> = ['PartNumber', 'Retail', /*'Sell',*/ 'DefaultCost', 'MaxDiscount']; //same columns for Parts
-        const laborColumns: Array<string> = ['HourlyRate', 'DailyRate', 'WeeklyRate', 'MonthlyRate', 'hourlyCost', 'DailyCost', 'WeeklyCost', 'MonthlyCost']; //same columns for Misc
-        $form.on('change', '[data-datafield="AvailableFor"]', e => {
-            const cachedType = $form.data('activitytype');
-            const activityType = FwFormField.getValueByDataField($form, 'AvailableFor');
-            const $rateUpdateItemGrid = $form.find('[data-name="RateUpdateItemGrid"]');
+        const laborColumns: Array<string> = ['HourlyRate', 'DailyRate', 'WeeklyRate', 'MonthlyRate', 'HourlyCost', 'DailyCost', 'WeeklyCost', 'MonthlyCost']; //same columns for Misc
 
-            //enables previously disabled fields
-            $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').removeAttr('disabled');
-            $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'true');
+        //const cachedType = $form.data('activitytype');
+        const activityType = FwFormField.getValueByDataField($form, 'AvailableFor');
+        const $rateUpdateItemGrid = $form.find('[data-name="RateUpdateItemGrid"]');
 
-            switch (activityType) {
+        //enables previously disabled fields
+        $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').removeAttr('disabled');
+        $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'true');
+
+        switch (activityType) {
+            case 'R':
+                break;
+            case 'S':
+            case 'P':
+                $form.find('[data-datafield="Classification"]').find('[data-value="S"], [data-value="W"]').find('input').attr('disabled', 'disabled');
+                break;
+            case 'M':
+            case 'L':
+                $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').attr('disabled', 'disabled');
+                $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'false');
+                break;
+        }
+
+        const toggleColumns = (type: string) => {
+            switch (type) {
                 case 'R':
+                    activityTypeColumnDisplay(salesColumns, false);
+                    activityTypeColumnDisplay(laborColumns, false);
+                    activityTypeColumnDisplay(rentalColumns, true);
                     break;
                 case 'S':
                 case 'P':
-                    $form.find('[data-datafield="Classification"]').find('[data-value="S"], [data-value="W"]').find('input').attr('disabled', 'disabled');
+                    activityTypeColumnDisplay(rentalColumns, false);
+                    activityTypeColumnDisplay(laborColumns, false);
+                    activityTypeColumnDisplay(salesColumns, true);
                     break;
                 case 'M':
                 case 'L':
-                    $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').attr('disabled', 'disabled');
-                    $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'false');
+                    activityTypeColumnDisplay(salesColumns, false);
+                    activityTypeColumnDisplay(rentalColumns, false);
+                    activityTypeColumnDisplay(laborColumns, true);
                     break;
             }
+        }
 
-            const toggleColumns = (type: string, show: boolean) => {
-                switch (type) {
-                    case 'R':
-                        activityTypeColumnDisplay(rentalColumns, show);
-                        break;
-                    case 'S':
-                    case 'P':
-                        activityTypeColumnDisplay(salesColumns, show);
-                        break;
-                    case 'M':
-                    case 'L':
-                        activityTypeColumnDisplay(laborColumns, show);
-                        break;
+        const activityTypeColumnDisplay = (columns: Array<string>, showColumns: boolean) => {
+            for (let i = 0; i < columns.length; i++) {
+                const $td = $rateUpdateItemGrid.find(`[data-browsedatafield="${columns[i]}"]`).parents('td');
+                if (showColumns) {
+                    $td.show();
+                } else {
+                    $td.hide();
                 }
             }
+        }
 
-            const activityTypeColumnDisplay = (columns: Array<string>, showColumns: boolean) => {
-                for (let i = 0; i < columns.length; i++) {
-                    const $td = $rateUpdateItemGrid.find(`[data-browsedatafield="${columns[i]}"]`).parents('td');
-                    if (showColumns) {
-                        $td.show();
-                    } else {
-                        $td.hide();
-                    }
-                }
-            }
 
-            if (cachedType != activityType) {
-                toggleColumns(cachedType, false); //hides cached type's columns
-                toggleColumns(activityType, true); //shows selected type's columns
-                $form.data('activitytype', activityType); //updates cached type
-            }
-        });
+        //if (cachedType != activityType) {
+          /*  toggleColumns(cachedType, false);*/ //hides cached type's columns
+            toggleColumns(activityType); //shows selected type's columns
+           /* $form.data('activitytype', activityType);*/ //updates cached type
+        //}
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -268,6 +280,7 @@ class RateUpdateUtility {
                 }
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.toggleAvailableFor($form);
                 this.renderWideGridColumns($form.find('[data-name="RateUpdateItemGrid"]'));
             }
         });
