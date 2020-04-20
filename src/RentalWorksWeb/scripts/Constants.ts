@@ -945,12 +945,13 @@ var Constants = {
         OrderPickListGrid: { id: 'fa0NLEHNkNU0', caption: 'Order Pick List' },
         OrderSnapshotGrid: { id: 'YZQzEHG7tTUP', caption: 'Order Snapshot',
             menuItems: {
-                ViewSnapshot: { id: '{C6633D9A-3800-41F2-8747-BC780663E22F}' }
+                ViewSnapshot: { id: '{C6633D9A-3800-41F2-8747-BC780663E22F}' },
             }
         },
         OrderStatusHistoryGrid: { id: 'lATsdnAx7B4s', caption: 'Order Status History' },
         OrderStatusDetailGrid: { id: '75OyLDxMPa8z', caption: 'Order Status Detail' },
         OrderStatusSummaryGrid: { id: '3NAO1rd02hBF', caption: 'Order Status Summary' },
+        OrderSubItemGrid: { id: 'kaFlpRnRQzIIz', caption: 'Order Sub Item' },
         OrderTypeActivityDatesGrid: { id: 'oMijD9WAL6Bl', caption: 'Order Type Activity Dates' },
         OrderTypeContactTitleGrid: { id: 'HzNQkWcZ8vEC', caption: 'Order Type Contact Title' },
         OrderTypeCoverLetterGrid: { id: 'acguZNBoT1XC', caption: 'Order Type Cover Letter' },

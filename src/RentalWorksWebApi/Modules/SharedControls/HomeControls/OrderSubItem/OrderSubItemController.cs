@@ -31,5 +31,16 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/ordersubitem/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "ykdUoQoA82I7H", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Estimated Date", RwGlobals.ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR) ;
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

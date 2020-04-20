@@ -485,6 +485,124 @@ class Order extends OrderBase {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderSubItemGrid',
+            gridSelector: '.subrentalgrid div[data-grid="OrderSubItemGrid"]',
+            gridSecurityId: 'kaFlpRnRQzIIz',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                options.hasEdit = false;
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                    RecType: 'R'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+                request.RecType = 'R';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('R');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => { },
+        });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderSubItemGrid',
+            gridSelector: '.subsalesgrid div[data-grid="OrderSubItemGrid"]',
+            gridSecurityId: 'kaFlpRnRQzIIz',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                options.hasEdit = false;
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                    RecType: 'S'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+                request.RecType = 'S';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('S');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => { },
+        });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderSubItemGrid',
+            gridSelector: '.submiscgrid div[data-grid="OrderSubItemGrid"]',
+            gridSecurityId: 'kaFlpRnRQzIIz',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                options.hasEdit = false;
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                    RecType: 'M'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+                request.RecType = 'M';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('M');
+                $fwgrid.find('div[data-datatype="date"]').hide();
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => { },
+        });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderSubItemGrid',
+            gridSelector: '.sublaborgrid div[data-grid="OrderSubItemGrid"]',
+            gridSecurityId: 'kaFlpRnRQzIIz',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                options.hasEdit = false;
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                    RecType: 'L'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+                request.RecType = 'L';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('L');
+                $fwgrid.find('div[data-datatype="date"]').hide();
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => { },
+        });
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form, response) {
@@ -635,9 +753,13 @@ class Order extends OrderBase {
             <div class="tabs">
               <div data-type="tab" id="generaltab" class="tab generaltab" data-tabpageid="generaltabpage" data-caption="Order"></div>
               <div data-type="tab" id="rentaltab" class="tab rentaltab notcombinedtab" data-tabpageid="rentaltabpage" data-notOnNew="true" data-caption="Rental"></div>
+              <div data-type="tab" id="subrentaltab" class="tab subrentaltab notcombinedtab" data-tabpageid="subrentaltabpage" data-notOnNew="true" data-caption="Sub-Rental"></div>
               <div data-type="tab" id="salestab" class="tab salestab notcombinedtab" data-tabpageid="salestabpage" data-notOnNew="true" data-caption="Sales"></div>
+              <div data-type="tab" id="subsalestab" class="tab subsalestab notcombinedtab" data-tabpageid="subsalestabpage" data-notOnNew="true" data-caption="Sub-Sales"></div>
               <div data-type="tab" id="misctab" class="tab misctab notcombinedtab" data-tabpageid="misctabpage" data-notOnNew="true" data-caption="Miscellaneous"></div>
+              <div data-type="tab" id="submisctab" class="tab submisctab notcombinedtab" data-tabpageid="submisctabpage" data-notOnNew="true" data-caption="Sub-Miscellaneous"></div>
               <div data-type="tab" id="labortab" class="tab labortab notcombinedtab" data-tabpageid="labortabpage" data-notOnNew="true" data-caption="Labor"></div>
+              <div data-type="tab" id="sublabortab" class="tab sublabortab notcombinedtab" data-tabpageid="sublabortabpage" data-notOnNew="true" data-caption="Sub-Labor"></div>
               <div data-type="tab" id="usedsaletab" class="tab usedsaletab notcombinedtab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
               <div data-type="tab" id="lossdamagetab" class="tab lossdamagetab" data-tabpageid="lossdamagetabpage" data-notOnNew="true" data-caption="Loss &amp; Damage"></div>
               <div data-type="tab" id="alltab" class="tab combinedtab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>
@@ -1111,6 +1233,19 @@ class Order extends OrderBase {
                   </div>
                 </div>
               </div>
+
+            <!-- SUBRENTAL TAB -->
+            <div data-type="tabpage" id="subrentaltabpage" class="subrentalgrid notcombined tabpage" data-tabid="subrentaltab" data-render="false">
+              <div class="wideflexrow">
+                <div class="flexcolumn" style="flex:1 1 600px;">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Rental Items">
+                    <div class="wideflexrow">
+                      <div data-control="FwGrid" data-grid="OrderSubItemGrid" data-securitycaption="Sub-Rental Items"></div>
+                    </div>    
+                  </div>
+                </div>
+              </div>
+            </div>
           
               <!-- SALES TAB -->
               <div data-type="tabpage" id="salestabpage" class="salesgrid notcombined tabpage" data-tabid="salestab" data-render="false">
@@ -1156,65 +1291,18 @@ class Order extends OrderBase {
                   </div>
                 </div>
               </div>
-          
-              <!-- LABOR TAB -->
-              <div data-type="tabpage" id="labortabpage" class="laborgrid notcombined tabpage" data-tabid="labortab" data-render="false">
+
+              <!-- SUBSALES TAB -->
+              <div data-type="tabpage" id="subsalestabpage" class="subsalesgrid notcombined tabpage" data-tabid="subsalestab" data-render="false">
                 <div class="wideflexrow">
                   <div class="flexcolumn" style="flex:1 1 600px;">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Items">
-                      <div class="wide-flexrow">
-                        <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Labor Items"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flexcolumn" style="flex:0 0 auto;">
-                  <div class="flexcolumn labortotals laboradjustments summarySection" style="flex:0 0 200px;padding-right:10px;">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Totals">
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-gridtype="labor" data-caption="View" data-datafield="totalTypeLabor" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow labortotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow labortotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow labortotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow labortotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow labortotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 175px;"></div>
-                      </div>
-                    </div>
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Adjustments">
-                      <div class="flexrow laborAdjustments">
-                        <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom_line_discount" data-caption="Disc. %" data-rectype="L" data-datafield="LaborDiscountPercent" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow laborAdjustments">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom_line_total_tax laborAdjustmentsPeriod" data-caption="Total" data-rectype="L" data-datafield="PeriodLaborTotal" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow laborAdjustments">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom_line_total_tax laborAdjustmentsPeriod" data-caption="Include Tax in Total" data-rectype="L" data-datafield="PeriodLaborTotalIncludesTax" style="flex:1 1 175px;margin-top:10px;"></div>
-                      </div>
-                      <div class="flexrow laborAdjustments">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom_line_total_tax laborAdjustmentsWeekly" data-caption="Total" data-rectype="L" data-datafield="WeeklyLaborTotal" style="flex:1 1 175px; display:none;"></div>
-                      </div>
-                      <div class="flexrow laborAdjustments">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom_line_total_tax laborAdjustmentsWeekly" data-caption="Include Tax in Total" data-rectype="L" data-datafield="WeeklyLaborTotalIncludesTax" style="flex:1 1 175px;margin-top:10px; display:none;"></div>
-                      </div>
-                      <div class="flexrow laborAdjustments">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom_line_total_tax laborAdjustmentsMonthly" data-caption="Total" data-rectype="L" data-datafield="MonthlyLaborTotal" style="flex:1 1 175px; display:none;"></div>
-                      </div>
-                      <div class="flexrow laborAdjustments">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom_line_total_tax laborAdjustmentsMonthly" data-caption="Include Tax in Total" data-rectype="L" data-datafield="MonthlyLaborTotalIncludesTax" style="flex:1 1 175px;margin-top:10px; display:none;"></div>
-                      </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Sales Items">
+                    <div class="wideflexrow">
+                      <div data-control="FwGrid" data-grid="OrderSubItemGrid" data-securitycaption="Sub-Sales Items"></div>
+                    </div>    
                     </div>
                   </div>
                   </div>
-                </div>
               </div>
 
               <!-- MISC TAB -->
@@ -1276,7 +1364,93 @@ class Order extends OrderBase {
                   </div>
                 </div>
               </div>
-          
+
+            <!-- SUBMISC TAB -->
+            <div data-type="tabpage" id="submisctabpage" class="submiscgrid notcombined tabpage" data-tabid="submisctab" data-render="false">
+              <div class="wideflexrow">
+                <div class="flexcolumn" style="flex:1 1 600px;">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Miscellaneous Items">
+                    <div class="wideflexrow">
+                      <div data-control="FwGrid" data-grid="OrderSubItemGrid" data-securitycaption="Sub-Miscellaneous Items"></div>
+                    </div>    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!-- LABOR TAB -->
+              <div data-type="tabpage" id="labortabpage" class="laborgrid notcombined tabpage" data-tabid="labortab" data-render="false">
+                <div class="wideflexrow">
+                  <div class="flexcolumn" style="flex:1 1 600px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Items">
+                      <div class="wide-flexrow">
+                        <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Labor Items"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flexcolumn" style="flex:0 0 auto;">
+                  <div class="flexcolumn labortotals laboradjustments summarySection" style="flex:0 0 200px;padding-right:10px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Totals">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-gridtype="labor" data-caption="View" data-datafield="totalTypeLabor" style="flex:1 1 175px;"></div>
+                      </div>
+                      <div class="flexrow labortotals">
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 175px;"></div>
+                      </div>
+                      <div class="flexrow labortotals">
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 175px;"></div>
+                      </div>
+                      <div class="flexrow labortotals">
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 175px;"></div>
+                      </div>
+                      <div class="flexrow labortotals">
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 175px;"></div>
+                      </div>
+                      <div class="flexrow labortotals">
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 175px;"></div>
+                      </div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Adjustments">
+                      <div class="flexrow laborAdjustments">
+                        <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom_line_discount" data-caption="Disc. %" data-rectype="L" data-datafield="LaborDiscountPercent" style="flex:1 1 175px;"></div>
+                      </div>
+                      <div class="flexrow laborAdjustments">
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom_line_total_tax laborAdjustmentsPeriod" data-caption="Total" data-rectype="L" data-datafield="PeriodLaborTotal" style="flex:1 1 175px;"></div>
+                      </div>
+                      <div class="flexrow laborAdjustments">
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom_line_total_tax laborAdjustmentsPeriod" data-caption="Include Tax in Total" data-rectype="L" data-datafield="PeriodLaborTotalIncludesTax" style="flex:1 1 175px;margin-top:10px;"></div>
+                      </div>
+                      <div class="flexrow laborAdjustments">
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom_line_total_tax laborAdjustmentsWeekly" data-caption="Total" data-rectype="L" data-datafield="WeeklyLaborTotal" style="flex:1 1 175px; display:none;"></div>
+                      </div>
+                      <div class="flexrow laborAdjustments">
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom_line_total_tax laborAdjustmentsWeekly" data-caption="Include Tax in Total" data-rectype="L" data-datafield="WeeklyLaborTotalIncludesTax" style="flex:1 1 175px;margin-top:10px; display:none;"></div>
+                      </div>
+                      <div class="flexrow laborAdjustments">
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom_line_total_tax laborAdjustmentsMonthly" data-caption="Total" data-rectype="L" data-datafield="MonthlyLaborTotal" style="flex:1 1 175px; display:none;"></div>
+                      </div>
+                      <div class="flexrow laborAdjustments">
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom_line_total_tax laborAdjustmentsMonthly" data-caption="Include Tax in Total" data-rectype="L" data-datafield="MonthlyLaborTotalIncludesTax" style="flex:1 1 175px;margin-top:10px; display:none;"></div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SUBLABOR TAB -->
+              <div data-type="tabpage" id="sublabortabpage" class="sublaborgrid notcombined tabpage" data-tabid="sublabortab" data-render="false">
+              <div class="wideflexrow">
+                <div class="flexcolumn" style="flex:1 1 600px;">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Labor Items">
+                    <div class="wideflexrow">
+                      <div data-control="FwGrid" data-grid="OrderSubItemGrid" data-securitycaption="Sub-Labor Items"></div>
+                    </div>    
+                  </div>
+                </div>
+              </div>
+            </div>
+
               <!-- USED SALE TAB -->
               <div data-type="tabpage" id="usedsaletabpage" class="usedsalegrid notcombined tabpage" data-tabid="usedsaletab" data-render="false">
                 <div class="wideflexrow">
