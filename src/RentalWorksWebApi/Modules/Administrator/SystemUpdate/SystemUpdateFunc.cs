@@ -298,7 +298,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             string updaterServer = "127.0.0.1";
             int updaterPort = 18811;
 
-            bool doInstallHotfixes = (request.ToVersion.CompareTo(request.CurrentVersion) > 0);  // only apply hotfixes if upgrading, not downgrading
+            bool doInstallHotfixes = (request.ToVersion.CompareTo(request.CurrentVersion) >= 0);  // only apply hotfixes if upgrading or refreshing current version, not downgrading
 
             if (string.IsNullOrEmpty(updaterRequest.ApiApplicationPool))
             {
@@ -394,7 +394,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                             using (SqlConnection conn = new SqlConnection(hotfixInstallerConnectionString))
                             {
                                 SqlCommand qry = new SqlCommand("fw_installhotfixes", conn);
-                                qry.CommandTimeout = 60000;
+                                qry.CommandTimeout = 1800;  // time-out at 1,800 seconds (30 minutes)  // default is 30 (30 seconds).  0 indicates never timeout
                                 qry.CommandType = CommandType.StoredProcedure;
                                 qry.Parameters.Add("@includepreview", SqlDbType.VarChar).Value = "O";
                                 conn.Open();
