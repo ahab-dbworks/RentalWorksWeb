@@ -229,23 +229,6 @@ class Deal {
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
-
-        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'DealDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${uniqueids.DealId}/document`;
-            },
-            gridSecurityId: '5pVhTJtGXLVx',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'DealId',
-            uniqueid1Name: 'DealId',
-            getUniqueid1Value: () => uniqueids.DealId,
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
-        });
        
         FwModule.loadForm(this.Module, $form);
 
@@ -439,6 +422,25 @@ class Deal {
     afterLoad($form: any): void {
         const $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        // Moved documents grid from loadForm to afterLoad so it loads on new records. - Jason H 04/20/20
+        const dealId = FwFormField.getValueByDataField($form, 'DealId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'DealDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${dealId}/document`;
+            },
+            gridSecurityId: '5pVhTJtGXLVx',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'DealId',
+            uniqueid1Name: 'DealId',
+            getUniqueid1Value: () => dealId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
         //this.useDiscountTemplate(FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));

@@ -306,23 +306,6 @@ class Order extends OrderBase {
             FwTabs.showTab($form.find('.activitytab'));
         }
 
-        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'OrderDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${uniqueids.OrderId}/document`;
-            },
-            gridSecurityId: 'O9wP1M9xrgEY',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'OrderId',
-            uniqueid1Name: 'OrderId',
-            getUniqueid1Value: () => uniqueids.OrderId,
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
-        });
-
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -571,6 +554,24 @@ class Order extends OrderBase {
         } else {
             $form.find('.unassignedsubs').hide();
         }
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        // Moved documents grid from loadForm to afterLoad so it loads on new records. - Jason H 04/20/20
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'OrderDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${orderId}/document`;
+            },
+            gridSecurityId: 'O9wP1M9xrgEY',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'OrderId',
+            uniqueid1Name: 'OrderId',
+            getUniqueid1Value: () => orderId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
     }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {

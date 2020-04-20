@@ -102,23 +102,6 @@ class RwAsset {
         FwFormField.setValueByDataField($form, 'ItemId', uniqueids.ItemId);
         FwModule.loadForm(this.Module, $form);
 
-        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'AssetDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${uniqueids.ItemId}/document`;
-            },
-            gridSecurityId: 'pasdUk6LtsQB',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'ItemId',
-            uniqueid1Name: 'ItemId',
-            getUniqueid1Value: () => uniqueids.ItemId,
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
-        });
-
         $form.find('.repairOrderSubModule').append(this.openRepairOrderBrowse($form));
         $form.find('.orderSubModule').append(this.openOrderBrowse($form));
         $form.find('.transferSubModule').append(this.openTransferBrowse($form));
@@ -394,6 +377,26 @@ class RwAsset {
             }
             $tab.addClass('tabGridsLoaded');
         });
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        // Moved documents grid from loadForm to afterLoad so it loads on new records. - Jason H 04/20/20
+        const itemId = FwFormField.getValueByDataField($form, 'ItemId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'AssetDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${itemId}/document`;
+            },
+            gridSecurityId: 'pasdUk6LtsQB',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'ItemId',
+            uniqueid1Name: 'ItemId',
+            getUniqueid1Value: () => itemId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
     };
     //---------------------------------------------------------------------------------------------
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {

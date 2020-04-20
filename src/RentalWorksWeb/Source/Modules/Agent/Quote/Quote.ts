@@ -248,23 +248,6 @@ class Quote extends OrderBase {
             FwTabs.showTab($form.find('.activitytab'));
         }
 
-        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'QuoteDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${uniqueids.QuoteId}/document`;
-            },
-            gridSecurityId: 'xCSRqSpYe73d',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'QuoteId',
-            uniqueid1Name: 'QuoteId',
-            getUniqueid1Value: () => uniqueids.QuoteId,
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
-        });
-
         FwModule.loadForm(this.Module, $form);
 
         let userType = sessionStorage.getItem('userType');
@@ -1811,6 +1794,24 @@ class Quote extends OrderBase {
                     'color': '#e0e0e0',
                 });
         }
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        // Moved documents grid from loadForm to afterLoad so it loads on new records. - Jason H 04/20/20
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'QuoteDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${quoteId}/document`;
+            },
+            gridSecurityId: 'xCSRqSpYe73d',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'QuoteId',
+            uniqueid1Name: 'QuoteId',
+            getUniqueid1Value: () => quoteId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
     }
     //-----------------------------------------------------------------------------------------------------
     cancelUncancel($form) {

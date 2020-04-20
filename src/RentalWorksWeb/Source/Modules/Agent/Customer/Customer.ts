@@ -240,23 +240,6 @@ class Customer {
         const $form: any = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'CustomerId', uniqueids.CustomerId);
 
-        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'CustomerDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${uniqueids.CustomerId}/document`;
-            },
-            gridSecurityId: '0zkYs0eRgG7E',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'CustomerId',
-            uniqueid1Name: 'CustomerId',
-            getUniqueid1Value: () => uniqueids.CustomerId,
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
-        });
-
         FwModule.loadForm(this.Module, $form);
 
         const nodeContract = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Z8MlDQp7xOqu');
@@ -436,6 +419,25 @@ class Customer {
                     FwBrowse.search($browseControl);
                 }
             }
+        });
+
+        //// Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        // Moved documents grid from loadForm to afterLoad so it loads on new records. - Jason H 04/20/20
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'CustomerDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${customerId}/document`;
+            },
+            gridSecurityId: '0zkYs0eRgG7E',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'CustomerId',
+            uniqueid1Name: 'CustomerId',
+            getUniqueid1Value: () => customerId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
         });
     }
     //----------------------------------------------------------------------------------------------

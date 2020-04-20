@@ -92,23 +92,6 @@ class Vendor {
         const $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'VendorId', uniqueids.VendorId);
 
-        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'VendorDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${uniqueids.VendorId}/document`;
-            },
-            gridSecurityId: 'LGV6fYIyFsgT',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'VendorId',
-            uniqueid1Name: 'VendorId',
-            getUniqueid1Value: () => uniqueids.VendorId,
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
-        });
-
         FwModule.loadForm(this.Module, $form);
 
         let nodePurchaseOrder = FwApplicationTree.getNodeById(FwApplicationTree.tree, '9a0xOMvBM7Uh9');
@@ -201,6 +184,25 @@ class Vendor {
                 }
             }
             $tab.addClass('tabGridsLoaded');
+        });
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        // Moved documents grid from loadForm to afterLoad so it loads on new records. - Jason H 04/20/20
+        const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'VendorDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${vendorId}/document`;
+            },
+            gridSecurityId: 'LGV6fYIyFsgT',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'VendorId',
+            uniqueid1Name: 'VendorId',
+            getUniqueid1Value: () => vendorId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
         });
     }
     //---------------------------------------------------------------------------------

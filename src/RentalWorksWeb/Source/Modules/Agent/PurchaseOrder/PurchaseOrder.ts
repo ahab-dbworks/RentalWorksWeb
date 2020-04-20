@@ -276,23 +276,6 @@ class PurchaseOrder implements IModule {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="PurchaseOrderId"] input').val(uniqueids.PurchaseOrderId);
 
-        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'PurchaseOrderDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${uniqueids.PurchaseOrderId}/document`;
-            },
-            gridSecurityId: 'OCGVS960nEwc',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'PurchaseOrderId',
-            uniqueid1Name: 'PurchaseOrderId',
-            getUniqueid1Value: () => uniqueids.PurchaseOrderId,
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
-        });
-
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -1321,6 +1304,25 @@ class PurchaseOrder implements IModule {
                 applyPurchaseOrderTypeToColumns($form, self.CachedPurchaseOrderTypes[purchaseOrderTypeId]);
             }, null, null);
         }
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        // Moved documents grid from loadForm to afterLoad so it loads on new records. - Jason H 04/20/20
+        const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'PurchaseOrderDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${purchaseOrderId}/document`;
+            },
+            gridSecurityId: 'OCGVS960nEwc',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'PurchaseOrderId',
+            uniqueid1Name: 'PurchaseOrderId',
+            getUniqueid1Value: () => purchaseOrderId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
 
         //sets active tab and opens search interface from a newly saved record 
         //12-12-18 moved here from afterSave Jason H 

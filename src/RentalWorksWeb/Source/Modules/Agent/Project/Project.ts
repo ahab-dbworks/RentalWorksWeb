@@ -126,23 +126,6 @@ class Project {
         let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="ProjectId"] input').val(uniqueids.ProjectId);
 
-        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'ProjectDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${uniqueids.ProjectId}/document`;
-            },
-            gridSecurityId: 'xTTNkaom7t5q',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'ProjectId',
-            uniqueid1Name: 'ProjectId',
-            getUniqueid1Value: () => uniqueids.ProjectId,
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
-        });
-
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -306,6 +289,26 @@ class Project {
             }
             $tab.addClass('tabGridsLoaded');
         });
+
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        // Moved documents grid from loadForm to afterLoad so it loads on new records. - Jason H 04/20/20
+        const projectId = FwFormField.getValueByDataField($form, 'ProjectId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'ProjectDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${projectId}/document`;
+            },
+            gridSecurityId: 'xTTNkaom7t5q',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'ProjectId',
+            uniqueid1Name: 'ProjectId',
+            getUniqueid1Value: () => projectId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
     }
     //-----------------------------------------------------------------------------------------------
     createQuote($form: any) {

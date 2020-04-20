@@ -96,23 +96,6 @@ class Contact {
         let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="ContactId"] input').val(uniqueids.ContactId);
 
-        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
-        FwAppDocumentGrid.renderGrid({
-            $form: $form,
-            caption: 'Documents',
-            nameGrid: 'ContactDocumentGrid',
-            getBaseApiUrl: () => {
-                return `${this.apiurl}/${uniqueids.ContactId}/document`;
-            },
-            gridSecurityId: 'OdKeQWKOM7sL',
-            moduleSecurityId: this.id,
-            parentFormDataFields: 'ContactId',
-            uniqueid1Name: 'ContactId',
-            getUniqueid1Value: () => uniqueids.ContactId,
-            uniqueid2Name: '',
-            getUniqueid2Value: () => ''
-        });
-
         FwModule.loadForm(this.Module, $form);
 
         if (FwApplicationTree.isVisibleInSecurityTree('U8Zlahz3ke9i')) {
@@ -229,6 +212,25 @@ class Contact {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
+        // Documents Grid - Need to put this here, because renderGrids is called from openForm and uniqueid is not available yet on the form
+        // Moved documents grid from loadForm to afterLoad so it loads on new records. - Jason H 04/20/20
+        const contactId = FwFormField.getValueByDataField($form, 'ContactId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'ContactDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${contactId}/document`;
+            },
+            gridSecurityId: 'OdKeQWKOM7sL',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'ContactId',
+            uniqueid1Name: 'ContactId',
+            getUniqueid1Value: () => contactId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+
         //const $contactNoteGrid = $form.find('[data-name="ContactNoteGrid"]');
         //FwBrowse.search($contactNoteGrid);
 
