@@ -31,7 +31,6 @@ namespace WebApi.Modules.HomeControls.Master
         [FwLogicProperty(Id: "w5YezKMiKGXs", IsRecordTitle: true)]
         public string Description { get { return master.Description; } set { master.Description = value; } }
 
-        [JsonIgnore]
         [FwLogicProperty(Id: "L64pgRC1AkoG")]
         public string AvailFor { get { return master.AvailFor; } set { master.AvailFor = value; } }
 
