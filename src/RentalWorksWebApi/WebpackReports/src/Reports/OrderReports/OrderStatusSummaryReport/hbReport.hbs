@@ -36,22 +36,22 @@
     <table>
         {{#each Items}}
         {{#ifEquals RowType "RecTypeDisplayheader"}}
-      <thead data-rowtype="{{RowType}}">
+      <tbody data-rowtype="{{RowType}}">
         <tr><td>&nbsp;</td></tr><!-- spacer row -->
         <tr>
           <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
         </tr>
         <tr>
-          <th style="min-width:80px">I-Code</th>
-          <th style="min-width:375px">Description</th>
-          <th style="min-width:75px" class="number">Ordered</th>
-          <th style="min-width:75px" class="number">Staged</th>
-          <th style="min-width:75px" class="number">Out</th>
-          <th style="min-width:75px" class="number">In</th>
-          <th style="min-width:75px" class="number">Still Out</th>
-          <th style="min-width:90px" class="number">Warehouse</th>
+          <td style="min-width:80px">I-Code</td>
+          <td style="min-width:375px">Description</td>
+          <td style="min-width:75px" class="number">Ordered</td>
+          <td style="min-width:75px" class="number">Staged</td>
+          <td style="min-width:75px" class="number">Out</td>
+          <td style="min-width:75px" class="number">In</td>
+          <td style="min-width:75px" class="number">Still Out</td>
+          <td style="min-width:90px" class="number">Warehouse</td>
         </tr>
-      </thead>
+      </tbody>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <tbody data-rowtype="{{RowType}}">

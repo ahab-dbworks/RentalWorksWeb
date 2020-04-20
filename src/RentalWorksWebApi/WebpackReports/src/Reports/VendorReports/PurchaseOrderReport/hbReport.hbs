@@ -201,24 +201,24 @@
   <table style="table-layout:fixed;">
     {{#each RentalItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:379px;">Description</td>
+        <td style="min-width:90px;" class="number alignRight">Quantity</td>
         {{#ifCond RecTypeDisplay '==' "PURCHASE"}}
-        <th></th>
+        <td></td>
         {{else}}
-        <th style="min-width:75px;" class="number alignRight">Days</th>
+        <td style="min-width:75px;" class="number alignRight">Days</td>
         {{/ifCond}}
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Period Extended</th>
+        <td style="min-width:100px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:140px;" class="number alignRight">Period Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
@@ -391,21 +391,21 @@
   <table style="table-layout:fixed;">
     {{#each SalesItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr><td>&nbsp;</td></tr><!-- Spacer Row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">&nbsp;</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Period Extended</th>
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:379px;">Description</td>
+        <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:100px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:140px;" class="number alignRight">Period Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
@@ -567,21 +567,21 @@
   <table style="table-layout:fixed;">
     {{#each MiscItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr><td>&nbsp;</td></tr><!-- Spacer Row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">&nbsp;</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Period Extended</th>
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:379px;">Description</td>
+        <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:100px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:140px;" class="number alignRight">Period Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
@@ -743,21 +743,21 @@
   <table style="table-layout:fixed;">
     {{#each LaborItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr><td>&nbsp;</td></tr><!-- Spacer Row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">&nbsp;</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Period Extended</th>
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:379px;">Description</td>
+        <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:100px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:140px;" class="number alignRight">Period Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
@@ -919,21 +919,21 @@
   <table style="table-layout:fixed;">
     {{#each FacilityItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr><td>&nbsp;</td></tr><!-- Spacer Row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">&nbsp;</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Period Extended</th>
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:379px;">Description</td>
+        <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:100px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:140px;" class="number alignRight">Period Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">

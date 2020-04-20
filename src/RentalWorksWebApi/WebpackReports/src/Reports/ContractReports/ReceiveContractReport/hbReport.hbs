@@ -97,19 +97,19 @@
   <table>
     {{#each Items}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr>
         <td colspan="6" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
         <td></td>
-        <th>I-Code</th>
-        <th>Description</th>
-        <th class="number">Ordered</th>
-        <th class="number">Received</th>
-        <th class="number">Total Received</th>
+        <td>I-Code</td>
+        <td>Description</td>
+        <td class="number">Ordered</td>
+        <td class="number">Received</td>
+        <td class="number">Total Received</td>
       </tr>
-    </thead>
+    </tbody>
     <tbody>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}

@@ -111,18 +111,18 @@
   <table style="table-layout:fixed;">
     {{#each Items}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr>
         <td colspan="5" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:100px;">I-Code</th>
-        <th style="min-width:600px;">Description</th>
-        <th class="number" style="min-width:100px;">Ordered</th>
-        <th class="number" style="min-width:100px;">Total In</th>
-        <th class="number" style="min-width:100px;">In</th>
+        <td style="min-width:100px;">I-Code</td>
+        <td style="min-width:600px;">Description</td>
+        <td class="number" style="min-width:100px;">Ordered</td>
+        <td class="number" style="min-width:100px;">Total In</td>
+        <td class="number" style="min-width:100px;">In</td>
       </tr>
-    </thead>
+    </tbody>
     <tbody>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}

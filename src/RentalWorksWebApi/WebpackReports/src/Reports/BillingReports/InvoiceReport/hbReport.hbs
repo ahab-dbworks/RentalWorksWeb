@@ -203,20 +203,20 @@
   <table style="table-layout:fixed;">
     {{#each RentalItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">Days</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Extended</th>
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:379px;">Description</td>
+        <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        <td style="min-width:75px;" class="number alignRight">Days</td>
+        <td style="min-width:100px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:140px;" class="number alignRight">Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
@@ -420,7 +420,7 @@
   <table style="table-layout:fixed;">
     {{#each UsedSaleItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr>
         <td>&nbsp;</td>
       </tr><!-- spacer row -->
@@ -428,16 +428,16 @@
         <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:100px;">I-Code</th>
-        <th style="min-width:360px;">Description</th>
-        <th style="min-width:80px;padding-right:15px;" class="number alignRight">Quantity</th>
-        <th style="min-width:85px;" class="">Bar Code</th>
-        <th style="min-width:105px;" class="">Serial Number</th>
-        <th style="min-width:95px;" class="number alignRight">Price</th>
-        <th style="min-width:95px;" class="number alignRight">Discount %</th>
-        <th style="min-width:105px;" class="number alignRight">Extended</th>
+        <td style="min-width:100px;">I-Code</td>
+        <td style="min-width:360px;">Description</td>
+        <td style="min-width:80px;padding-right:15px;" class="number alignRight">Quantity</td>
+        <td style="min-width:85px;" class="">Bar Code</td>
+        <td style="min-width:105px;" class="">Serial Number</td>
+        <td style="min-width:95px;" class="number alignRight">Price</td>
+        <td style="min-width:95px;" class="number alignRight">Discount %</td>
+        <td style="min-width:105px;" class="number alignRight">Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
@@ -647,7 +647,7 @@
   <table style="table-layout:fixed;">
     {{#each LossAndDamageItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr>
         <td>&nbsp;</td>
       </tr><!-- spacer row -->
@@ -655,17 +655,17 @@
         <td colspan="9" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:90px;">Order</th>
-        <th style="min-width:90px;">I-Code</th>
-        <th style="min-width:265px;">Description</th>
-        <th style="min-width:80px;padding-right:15px;" class="number alignRight">Quantity</th>
-        <th style="min-width:85px;" class="">Bar Code</th>
-        <th style="min-width:105px;" class="">Serial Number</th>
-        <th style="min-width:95px;" class="number alignRight">Price</th>
-        <th style="min-width:95px;" class="number alignRight">Discount %</th>
-        <th style="min-width:105px;" class="number alignRight">Extended</th>
+        <td style="min-width:90px;">Order</td>
+        <td style="min-width:90px;">I-Code</td>
+        <td style="min-width:265px;">Description</td>
+        <td style="min-width:80px;padding-right:15px;" class="number alignRight">Quantity</td>
+        <td style="min-width:85px;" class="">Bar Code</td>
+        <td style="min-width:105px;" class="">Serial Number</td>
+        <td style="min-width:95px;" class="number alignRight">Price</td>
+        <td style="min-width:95px;" class="number alignRight">Discount %</td>
+        <td style="min-width:105px;" class="number alignRight">Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
@@ -899,7 +899,7 @@
   <table style="table-layout:fixed;">
     {{#each SalesItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr>
         <td>&nbsp;</td>
       </tr><!-- spacer row -->
@@ -907,15 +907,15 @@
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">&nbsp;</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Extended</th>
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:379px;">Description</td>
+        <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:100px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:140px;" class="number alignRight">Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
@@ -1109,7 +1109,7 @@
   <table style="table-layout:fixed;">
     {{#each LaborItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr>
         <td>&nbsp;</td>
       </tr><!-- spacer row -->
@@ -1117,15 +1117,15 @@
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">Days</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Extended</th>
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:379px;">Description</td>
+        <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        <td style="min-width:75px;" class="number alignRight">Days</td>
+        <td style="min-width:100px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:140px;" class="number alignRight">Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
@@ -1319,7 +1319,7 @@
   <table style="table-layout:fixed;">
     {{#each MiscItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr>
         <td>&nbsp;</td>
       </tr><!-- spacer row -->
@@ -1327,15 +1327,15 @@
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">Days</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Extended</th>
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:379px;">Description</td>
+        <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        <td style="min-width:75px;" class="number alignRight">Days</td>
+        <td style="min-width:100px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:140px;" class="number alignRight">Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
@@ -1529,7 +1529,7 @@
   <table style="table-layout:fixed;">
     {{#each FacilityItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr>
         <td>&nbsp;</td>
       </tr><!-- spacer row -->
@@ -1537,15 +1537,15 @@
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:115px;">I-Code</th>
-        <th style="min-width:379px;">Description</th>
-        <th style="min-width:90px;" class="number alignRight">Quantity</th>
-        <th style="min-width:75px;" class="number alignRight">Days</th>
-        <th style="min-width:100px;" class="number alignRight">Price</th>
-        <th style="min-width:140px;" class="number alignRight">Discount %</th>
-        <th style="min-width:140px;" class="number alignRight">Extended</th>
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:379px;">Description</td>
+        <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        <td style="min-width:75px;" class="number alignRight">Days</td>
+        <td style="min-width:100px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:140px;" class="number alignRight">Extended</td>
       </tr>
-    </thead>
+    </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">

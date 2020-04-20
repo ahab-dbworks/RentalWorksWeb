@@ -77,7 +77,7 @@
     <span style="padding:10px;"></span>
   </div>
   <!-- Order details -->
-  <div class="rpt-flexcolumn"  style="flex:0 0 422px;margin-left:10px;">
+  <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-left:10px;">
     <table class="meta-section" style="border-top:2px solid #027cc5;">
       <tr>
         <td style="width:100px;" class="shaded-block">Description: </td>
@@ -113,20 +113,20 @@
   <table style="table-layout:fixed;">
     {{#each Items}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr><td>&nbsp;</td></tr><!-- spacer row -->
 
       <tr>
         <td colspan="5" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
-        <th style="min-width:100px">I-Code</th>
-        <th style="min-width:600px">Description</th>
-        <th class="number" style="min-width:100px">Ordered</th>
-        <th class="number" style="min-width:100px">Total Out</th>
-        <th class="number" style="min-width:100px">Out</th>
+        <td style="min-width:100px">I-Code</td>
+        <td style="min-width:600px">Description</td>
+        <td class="number" style="min-width:100px">Ordered</td>
+        <td class="number" style="min-width:100px">Total Out</td>
+        <td class="number" style="min-width:100px">Out</td>
       </tr>
-    </thead>
+    </tbody>
     <tbody>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
