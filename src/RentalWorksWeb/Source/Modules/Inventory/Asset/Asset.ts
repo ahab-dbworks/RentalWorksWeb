@@ -85,6 +85,8 @@ class RwAsset {
         } catch (ex) {
             FwFunc.showError(ex);
         }
+        //Show menu dropdown caption change
+        $browse.find('.ddviewbtn .ddviewbtn-dropdown .ddviewbtn-dropdown-btn .ddviewbtn-dropdown-btn-caption:contains("Inactive")').text('Retired');
 
         return $browse;
     };
