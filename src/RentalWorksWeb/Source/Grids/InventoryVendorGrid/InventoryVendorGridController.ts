@@ -11,7 +11,7 @@
                     };
                 } else if ($form.attr('data-controller') === 'SalesInventoryController') {
                     request.uniqueids = {
-                        SubSalet: true,
+                        SubSale: true,
                     };
                 }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
