@@ -74,12 +74,24 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         public string Code { get; set; }
         public string IgnoreId { get; set; }
     }
-    public class CodeExistsResponse : TSpStatusResponse 
+    public class CodeExistsResponse : TSpStatusResponse
     {
         public bool Exists { get; set; }
         public string DefinedIn { get; set; }
         public string UniqueId { get; set; }
     }
+
+    public class BarCodeSerial
+    {
+        public string BarCode { get; set; }
+        public string SerialNumber { get; set; }
+        public BarCodeSerial(string barCode, string serialNumber)
+        {
+            this.BarCode = BarCode;
+            this.SerialNumber = serialNumber;
+        }
+    }
+
 
     public static class InventoryPurchaseUtilityFunc
     {
@@ -124,7 +136,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                     //decrease barcodes
                     int decreaseQty = (existingBarCodes - request.Quantity);
                     response.success = await AppFunc.DeleteDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { request.SessionId }, rowCount: decreaseQty);
-                } 
+                }
                 else
                 {
                     response.success = true;
@@ -218,7 +230,8 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
             string availableFor = inventoryData[0];
             string classification = inventoryData[1];
             string trackedBy = inventoryData[2];
-            List<string> barCodes = new List<string>();
+            List<BarCodeSerial> barCodeSerials = new List<BarCodeSerial>();
+
 
             if (isValidRequest)
             {
@@ -240,11 +253,11 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
 
             if (isValidRequest)
             {
-                if (trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_BAR_CODE) || trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_SERIAL_NO) || trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_RFID))
+                if (trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_BAR_CODE) || trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_RFID))
                 {
                     using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                     {
-                        barCodes.Clear();
+                        barCodeSerials.Clear();
                         FwSqlCommand qryBarCode = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                         qryBarCode.Add("select b.barcode                                                         ");
                         qryBarCode.Add(" from  barcodeholding b                                                  ");
@@ -263,17 +276,54 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                             }
                             else
                             {
-                                barCodes.Add(barCode);
+                                barCodeSerials.Add(new BarCodeSerial(barCode, ""));
                             }
                         }
                     }
 
                     if (isValidRequest)
                     {
-                        if (!barCodes.Count.Equals(request.Quantity))
+                        if (!barCodeSerials.Count.Equals(request.Quantity))
                         {
                             isValidRequest = false;
-                            response.msg = $"Invalid Quantity {request.Quantity.ToString()}, {barCodes.Count.ToString()} Bar Code supplied.";
+                            response.msg = $"Invalid Quantity {request.Quantity.ToString()}, {barCodeSerials.Count.ToString()} Bar Code supplied.";
+                        }
+                    }
+                }
+                else if (trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_SERIAL_NO))
+                {
+                    using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                    {
+                        barCodeSerials.Clear();
+                        FwSqlCommand qryBarCode = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                        qryBarCode.Add("select b.serialno                                                        ");
+                        qryBarCode.Add(" from  barcodeholding b                                                  ");
+                        qryBarCode.Add(" where b.sessionid = @sessionid                                          ");
+                        qryBarCode.Add("order by b.serialno                                                      ");
+                        qryBarCode.AddParameter("@sessionid", request.SessionId);
+                        FwJsonDataTable dtBarCode = await qryBarCode.QueryToFwJsonTableAsync();
+
+                        foreach (List<object> rowBarCode in dtBarCode.Rows)
+                        {
+                            string serialNumber = rowBarCode[dtBarCode.GetColumnNo("serialno")].ToString();
+                            if (string.IsNullOrEmpty(serialNumber))
+                            {
+                                isValidRequest = false;
+                                response.msg = "All items need to have a valid Serial Number supplied.";
+                            }
+                            else
+                            {
+                                barCodeSerials.Add(new BarCodeSerial("", serialNumber));
+                            }
+                        }
+                    }
+
+                    if (isValidRequest)
+                    {
+                        if (!barCodeSerials.Count.Equals(request.Quantity))
+                        {
+                            isValidRequest = false;
+                            response.msg = $"Invalid Quantity {request.Quantity.ToString()}, {barCodeSerials.Count.ToString()} Serial Numbers supplied.";
                         }
                     }
                 }
@@ -295,7 +345,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
 
                         if (trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_BAR_CODE) || trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_SERIAL_NO) || trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_RFID))
                         {
-                            foreach (string barCode in barCodes)
+                            foreach (BarCodeSerial barCodeSerial in barCodeSerials)
                             {
                                 // create a Purchase for each bar code
                                 PurchaseLogic purchase = new PurchaseLogic();
@@ -322,10 +372,11 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                                 item.SetDependencies(appConfig, userSession);
                                 item.PurchaseId = purchase.PurchaseId;
                                 item.InventoryId = purchase.InventoryId;
-                                item.WarehouseId= purchase.WarehouseId;
+                                item.WarehouseId = purchase.WarehouseId;
                                 item.InventoryStatusId = RwGlobals.INVENTORY_STATUS_IN_ID;
                                 item.StatusDate = DateTime.Today.ToString("yyyy-MM-dd");  //?
-                                item.BarCode = barCode;
+                                item.BarCode = barCodeSerial.BarCode;
+                                item.SerialNumber = barCodeSerial.SerialNumber;
                                 item.AisleLocation = request.AisleLocation;
                                 item.ShelfLocation = request.ShelfLocation;
                                 item.ManufacturerId = request.ManufacturerVendorId;

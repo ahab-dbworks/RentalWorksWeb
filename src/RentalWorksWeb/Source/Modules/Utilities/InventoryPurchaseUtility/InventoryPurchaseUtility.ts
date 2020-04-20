@@ -172,7 +172,7 @@ class InventoryPurchaseUtility {
             FwAppData.apiMethod(true, 'POST', 'api/v1/inventorypurchaseutility/completesession', request, FwServices.defaultTimeout,
                 response => {
                     if (response.success) {
-                        FwNotification.renderNotification("SUCCESS", "Purchase(s) Successfully Created");
+                        FwNotification.renderNotification("SUCCESS", "Inventory Purchase Completed Successfully");
                         $form.find('.fwformfield input').val('');
                         $itemGridControl.find('tr.viewmode').empty();
                         $form.removeData('sessionid');
