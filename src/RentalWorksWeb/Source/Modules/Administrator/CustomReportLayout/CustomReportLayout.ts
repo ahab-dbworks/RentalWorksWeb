@@ -361,14 +361,19 @@ class CustomReportLayout {
 
         //create sortable for headers
         Sortable.create($table.find('#columnHeader tr').get(0), {
-            //onStart: e => {
-
-            //},
+            onStart: e => {
+                const valueFieldName = jQuery(e.item).attr('data-valuefield');
+                $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).addClass('highlight-cells');
+            },
             onEnd: e => {
                 const $th = jQuery(e.item);
                 $th.removeAttr('draggable');
+                const valueFieldName = $th.attr('data-valuefield');
+                $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).removeClass('highlight-cells');
+
                 const $tr = jQuery(e.currentTarget);
                 $tr.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
+                $form.data('sectiontoupdate', 'tableheader');
                 this.updateHTML($form, $tr, $th);
 
                 $form.attr('data-modified', 'true');
@@ -402,35 +407,41 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, $tr: JQuery, $th?) {
-        this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser 
-        let $wrapper = jQuery('<div class="custom-report-wrapper"></div>');              //create a wrapper      -- Jason H. 04/16/20
-        $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
-        const newHeaderHTML = $tr.get(0).innerHTML.trim();                               //get the new header HTML                                                         
-
-        const $table = $form.find('#reportDesigner table');
-
-        //move corresponding detail columns wip
-        if (typeof $tr.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
-            const valuefield = $th.attr('data-valuefield');
-            if (typeof valuefield != 'undefined') {
-                const $columns = $table.find(`tbody tr [data-value="{{${valuefield}}}"]`);
-                //jason h to-do: get last index of tds with consideration to colspans and add to cached object
-                const oldIndex = $tr.data('columnsmoved').oldIndex;
-                const newIndex = $tr.data('columnsmoved').newIndex;
-                for (let i = 0; i < $columns.length; i++) {
-                     //find total number of tds
-                     //get index of td relative to tr
-                     //take into account colspan attribute / check total cells of colspan + tds match
+        const sectionToUpdate = $form.data('sectiontoupdate');
+        if (typeof sectionToUpdate != 'undefined' && typeof sectionToUpdate == 'string') {
+            const $wrapper = jQuery('<div class="custom-report-wrapper"></div>');
+            const $table = $form.find('#reportDesigner table');
+            this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser 
+            $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
+            if (sectionToUpdate == 'tableheader') {
+                const newHeaderHTML = $tr.get(0).innerHTML.trim();                               //get the new header HTML       
+                
+                //move corresponding detail columns wip
+                if (typeof $tr.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
+                    const valuefield = $th.attr('data-valuefield');
+                    if (typeof valuefield != 'undefined') {
+                        const $columns = $table.find(`tbody tr [data-value="{{${valuefield}}}"]`);
+                        //jason h to-do: get last index of tds with consideration to colspans and add to cached object
+                        const oldIndex = $tr.data('columnsmoved').oldIndex;
+                        const newIndex = $tr.data('columnsmoved').newIndex;
+                        for (let i = 0; i < $columns.length; i++) {
+                            //find total number of tds
+                            //get index of td relative to tr
+                            //take into account colspan attribute / check total cells of colspan + tds match
+                        }
+                    }
                 }
+
+                $wrapper.find('table #columnHeader tr').html(newHeaderHTML);                     //replace old headers
+            } else if (sectionToUpdate == 'headerrow') {
+                //wip
             }
+            this.html = $wrapper.get(0).innerHTML;                                           //get new report HTML
+            this.html = this.html.split('<!--{{').join('{{').split('}}-->').join('}}');      //un-comment handlebars
+            FwFormField.setValueByDataField($form, 'Html', this.html);
+            this.codeMirror.setValue(this.html);                                             //update codemirror (HTML tab) with new HTML
+            $form.removeData('sectiontoupdate');
         }
-
-        $wrapper.find('table #columnHeader tr').html(newHeaderHTML);                     //replace old headers
-
-        this.html = $wrapper.get(0).innerHTML;                                           //get new report HTML
-        this.html = this.html.split('<!--{{').join('{{').split('}}-->').join('}}');      //un-comment handlebars
-        FwFormField.setValueByDataField($form, 'Html', this.html);
-        this.codeMirror.setValue(this.html);                                             //update codemirror (HTML tab) with new HTML
     }
     //----------------------------------------------------------------------------------------------
     designerEvents($form: JQuery, $table: JQuery) {
@@ -438,9 +449,10 @@ class CustomReportLayout {
         $addColumn.show();
         let $th;
 
+        //add header column
         $addColumn.on('click', e => {
-            // add to table or add into a container that can be dragged into a table?  (for reports with multiple tables)
             $table.find('#columnHeader tr').append('<th data-columndatafield="">New Column</th>');
+            $form.data('sectiontoupdate', 'tableheader');
             this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
@@ -448,7 +460,6 @@ class CustomReportLayout {
             $th = jQuery(e.currentTarget);
             $form.find('#controlProperties').empty().append(this.addControlProperties($th));
         });
-
 
         //control properties events
         $form.on('change', '#controlProperties .propval', e => {
@@ -463,13 +474,27 @@ class CustomReportLayout {
                     $th.attr('data-valuefield', value);
                     break;
             }
+            $form.data('sectiontoupdate', 'tableheader');
             this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
+        //delete column
         $form.on('click', '.delete-column', e => {
             $th.remove();
+            $form.data('sectiontoupdate', 'tableheader');
             this.updateHTML($form, $table.find('#columnHeader tr'));
         });
+
+        //header row  //////wip -- need to update "addControlProperties" to work for controls besides the th
+        $form.on('click', '.header-row', e => {
+            $th = jQuery(e.currentTarget);
+            $form.find('#controlProperties').empty().append(this.addControlProperties($th));
+
+
+            $form.data('sectiontoupdate', 'headerrow');
+            //this.updateHTML($form, $table.find('#columnHeader tr'));
+        });
+
     }
     //----------------------------------------------------------------------------------------------
     addControlProperties($th: JQuery) {
