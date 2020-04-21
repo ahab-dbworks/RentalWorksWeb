@@ -15,31 +15,35 @@
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             const availFor = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailableFor');
-            let type;
+            let inventoryPeekForm;
+            let categoryPeekForm;
             switch (availFor) {
                 case 'R':
-                    type = 'Rental';
+                    inventoryPeekForm = 'RentalInventory';
+                    categoryPeekForm = 'RentalCategory';
                     break;
                 case 'S':
-                    type = 'Sales';
+                    inventoryPeekForm = 'SalesInventory';
+                    categoryPeekForm = 'SalesCategory';
                     break;
                 case 'P':
-                    type = 'Parts';
+                    inventoryPeekForm = 'PartsInventory';
+                    categoryPeekForm = 'PartsCategory';
                     break;
                 case 'M':
-                    type = 'Misc';
+                    inventoryPeekForm = 'MiscRate';
+                    categoryPeekForm = 'MiscCategory';
                     break;
                 case 'L':
-                    type = 'Labor';
+                    inventoryPeekForm = 'LaborRate';
+                    categoryPeekForm = 'LaborCategory';
                     break;
             }
             const $inventoryTd = $generatedtr.find('[data-validationname="GeneralItemValidation"]');
-            if (availFor == 'R' || availFor == 'S' || availFor == 'P') {
-                $inventoryTd.attr('data-peekForm', type + 'Inventory');
-            }
+            $inventoryTd.attr('data-peekForm', inventoryPeekForm);
 
             const $categoryTd = $generatedtr.find('[data-validationname="CategoryValidation"]');
-            $categoryTd.attr('data-peekForm', type + 'Category');
+            $categoryTd.attr('data-peekForm', categoryPeekForm);
         });
     }
 }

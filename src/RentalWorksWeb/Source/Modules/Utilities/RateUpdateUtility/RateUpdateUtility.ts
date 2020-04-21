@@ -87,37 +87,35 @@ class RateUpdateUtility {
 
         //Enable/Disable fields based on Activity Type
 
-        //$form.on('change', '[data-datafield="AvailableFor"]', e => {
-        //    this.toggleAvailableFor($form);
-        //});
+        $form.on('change', '[data-datafield="AvailableFor"]', e => {
+            const activityType = FwFormField.getValueByDataField($form, 'AvailableFor');
+
+            //enables previously disabled fields
+            $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').removeAttr('disabled');
+            $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'true');
+
+            switch (activityType) {
+                case 'R':
+                    break;
+                case 'S':
+                case 'P':
+                    $form.find('[data-datafield="Classification"]').find('[data-value="S"], [data-value="W"]').find('input').attr('disabled', 'disabled');
+                    break;
+                case 'M':
+                case 'L':
+                    $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').attr('disabled', 'disabled');
+                    $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'false');
+                    break;
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     toggleAvailableFor($form: JQuery) {
         const rentalColumns: Array<string> = ['PartNumber', 'DailyRate', 'WeeklyRate', 'Week2Rate', 'Week3Rate', 'Week4Rate', 'MonthlyRate', 'MaxDiscount', 'MinimumDaysPerWeek', 'DailyCost', 'WeeklyCost', 'MonthlyCost'];
         const salesColumns: Array<string> = ['PartNumber', 'Retail', /*'Sell',*/ 'DefaultCost', 'MaxDiscount']; //same columns for Parts
         const laborColumns: Array<string> = ['HourlyRate', 'DailyRate', 'WeeklyRate', 'MonthlyRate', 'HourlyCost', 'DailyCost', 'WeeklyCost', 'MonthlyCost']; //same columns for Misc
-
-        //const cachedType = $form.data('activitytype');
         const activityType = FwFormField.getValueByDataField($form, 'AvailableFor');
         const $rateUpdateItemGrid = $form.find('[data-name="RateUpdateItemGrid"]');
-
-        //enables previously disabled fields
-        $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').removeAttr('disabled');
-        $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'true');
-
-        switch (activityType) {
-            case 'R':
-                break;
-            case 'S':
-            case 'P':
-                $form.find('[data-datafield="Classification"]').find('[data-value="S"], [data-value="W"]').find('input').attr('disabled', 'disabled');
-                break;
-            case 'M':
-            case 'L':
-                $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').attr('disabled', 'disabled');
-                $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'false');
-                break;
-        }
 
         const toggleColumns = (type: string) => {
             switch (type) {
@@ -151,8 +149,6 @@ class RateUpdateUtility {
                 }
             }
         }
-
-
         //if (cachedType != activityType) {
           /*  toggleColumns(cachedType, false);*/ //hides cached type's columns
             toggleColumns(activityType); //shows selected type's columns
@@ -253,16 +249,22 @@ class RateUpdateUtility {
             moduleSecurityId: this.id,
             $form: $form,
             onDataBind: (request: any) => {
+                const availableFor = FwFormField.getValueByDataField($form, 'AvailableFor');
                 request.uniqueids = {
-                    AvailableFor: FwFormField.getValueByDataField($form, 'AvailableFor')
+                    AvailableFor: availableFor
                 };
-                if (FwFormField.getValueByDataField($form, 'Classification')) request.uniqueids.Classification = FwFormField.getValueByDataField($form, 'Classification');
                 if (FwFormField.getValueByDataField($form, 'InventoryId')) request.uniqueids.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 if (FwFormField.getValueByDataField($form, 'Description')) request.uniqueids.Description = FwFormField.getValueByDataField($form, 'Description');
                 if (FwFormField.getValueByDataField($form, 'InventoryTypeId')) request.uniqueids.InventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
                 if (FwFormField.getValueByDataField($form, 'CategoryId')) request.uniqueids.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
                 if (FwFormField.getValueByDataField($form, 'SubCategoryId')) request.uniqueids.SubCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
-                if (FwFormField.getValueByDataField($form, 'Rank')) request.uniqueids.Rank = FwFormField.getValueByDataField($form, 'Rank');
+                if (availableFor == 'L' || availableFor == 'M') {
+                    request.uniqueids.Rank = '';
+                    request.uniqueids.Classification = '';
+                } else {
+                    if (FwFormField.getValueByDataField($form, 'Rank')) request.uniqueids.Rank = FwFormField.getValueByDataField($form, 'Rank');
+                    if (FwFormField.getValueByDataField($form, 'Classification')) request.uniqueids.Classification = FwFormField.getValueByDataField($form, 'Classification');
+                }
                 if (FwFormField.getValueByDataField($form, 'WarehouseId')) request.uniqueids.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 if (FwFormField.getValueByDataField($form, 'UnitId')) request.uniqueids.UnitId = FwFormField.getValueByDataField($form, 'UnitId');
                 if (FwFormField.getValueByDataField($form, 'ManufacturerId')) request.uniqueids.ManufacturerId = FwFormField.getValueByDataField($form, 'ManufacturerId');
