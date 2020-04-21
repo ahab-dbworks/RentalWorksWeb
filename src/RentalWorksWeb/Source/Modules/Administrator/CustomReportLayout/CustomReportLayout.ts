@@ -6,6 +6,7 @@ class CustomReportLayout {
     id: string = Constants.Modules.Administrator.children.CustomReportLayout.id;
     codeMirror: any;
     html: string;
+    TotalColumnCount = 0;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
@@ -415,23 +416,53 @@ class CustomReportLayout {
             $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
             const newHTML = $tr.get(0).innerHTML.trim();
             if (sectionToUpdate == 'tableheader') {
-
-                //move corresponding detail columns wip
                 if (typeof $tr.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
                     const valuefield = $th.attr('data-valuefield');
                     if (typeof valuefield != 'undefined') {
-                        const $columns = $table.find(`tbody tr [data-value="{{${valuefield}}}"]`);
-                        //jason h to-do: get last index of tds with consideration to colspans and add to cached object
-                        const oldIndex = $tr.data('columnsmoved').oldIndex;
-                        const newIndex = $tr.data('columnsmoved').newIndex;
-                        for (let i = 0; i < $columns.length; i++) {
-                            //find total number of tds
-                            //get index of td relative to tr
-                            //take into account colspan attribute / check total cells of colspan + tds match
 
-                            //use css order property + flex?  then loop through and append columns by their order? sort?
+                        ////move corresponding detail columns wip
+                        //const $columns = $table.find(`tbody tr [data-value="{{${valuefield}}}"]`);
+                        ////jason h to-do: get last index of tds with consideration to colspans and add to cached object
+                        //const oldIndex = $tr.data('columnsmoved').oldIndex;
+                        //const newIndex = $tr.data('columnsmoved').newIndex;
+                        //for (let i = 0; i < $columns.length; i++) {
+                        //    //find total number of tds
+                        //    //get index of td relative to tr
+                        //    //take into account colspan attribute / check total cells of colspan + tds match
+
+                        //    //use css order property + flex?  then loop through and append columns by their order? sort?
+
+                    }
+                }
+
+                //delete
+                if (typeof $form.data('deletefield') != 'undefined' && typeof $form.data('deletefield') == 'string') {
+                    const valuefield = $form.data('deletefield');
+
+                    //find # of cols and check if they match
+                    //check headers, footers, detail
+                    const rowTypeSelectors = ['[data-header]', '#detailRow', '[data-footer]'];
+
+                    for (let i = 0; i < rowTypeSelectors.length; i++) {
+                        const selector = `tbody tr${rowTypeSelectors[i]} [data-value="<!--{{${valuefield}}}-->"]`;
+                        const $tds = $wrapper.find(selector);        //search for match tds in all of the rows     Jason hoang - 04/21/20
+                        const tdIsInRow = $tds.length;               
+                        if (tdIsInRow) {                             //if any are found, they will be removed.
+                            for (let j = 0; j < $tds.length; j++) {   
+                                const $td = jQuery($tds[j]);;
+                                $td.remove();                        
+                                $table.find(selector)[j].remove();   
+                                                                      //after deleting, total colspan should match TotalColumnCount
+                            }                                       
+                        } else {                                    
+                                                                    //if it doesn't exist in this row, then total colspan needs to be reduced to match the TotalColumnCount
+
                         }
                     }
+
+                    $wrapper.find(`tbody tr [data-value="<!--{{${valuefield}}}-->"]`).remove();       //deletes for the new HTML
+                    $table.find(`tbody tr [data-value="{{${valuefield}}}"]`).remove();                //deletes for table displayed on designer
+                    //if (this.TotalColumnCount != )
                 }
 
                 $wrapper.find('table #columnHeader tr').html(newHTML);                     //replace old headers
@@ -459,13 +490,15 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     designerEvents($form: JQuery, $table: JQuery) {
+        this.TotalColumnCount = this.getTableHeaderCount($table);
         const $addColumn = $form.find('.addColumn');
         $addColumn.show();
         let $column;
-
+ 
         //add header column
         $addColumn.on('click', e => {
             $table.find('#columnHeader tr').append('<th data-columndatafield="">New Column</th>');
+            this.TotalColumnCount++;
             $form.data('sectiontoupdate', 'tableheader');
             this.updateHTML($form, $table.find('#columnHeader tr'));
         });
@@ -505,14 +538,22 @@ class CustomReportLayout {
             $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).removeClass('hover-cell');
         });
 
-        //delete column
+        //delete table header column
         $form.on('click', '.delete-column', e => {
-            $column.remove();
+            const valuefield = jQuery($column).attr('data-valuefield');
+            if (typeof $column != 'undefined') {
+                $column.remove();
+                this.TotalColumnCount--;
+            }
+
             $form.data('sectiontoupdate', 'tableheader');
+            if (typeof valuefield != 'undefined') {
+                $form.data('deletefield', valuefield);
+            }
             this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
-        //header row  //////wip -- need to update "addControlProperties" to work for controls besides the th
+        //header row
         $form.on('click', '.header-row', e => {
             $column = jQuery(e.currentTarget);
             $form.find('#controlProperties').empty().append(this.addControlProperties($column));
@@ -526,7 +567,6 @@ class CustomReportLayout {
             $form.find('#controlProperties').empty().append(this.addControlProperties($column));
 
             $form.data('sectiontoupdate', 'footerrow');
-            //this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
     }
@@ -550,6 +590,21 @@ class CustomReportLayout {
                                     </div>
                                  </div>`);
         return $properties;
+    }
+    //----------------------------------------------------------------------------------------------
+    getTableHeaderCount($table: JQuery) {
+        let count = 0;
+        const $ths = $table.find('#columnHeader tr th');
+        for (let i = 0; i < $ths.length; i++) {
+            const $th = jQuery($ths[i]);
+            let colspan = 1;
+            if ($th.attr('colspan') != 'undefined' ) {
+                colspan = parseInt($th.attr('colspan'));
+            }
+            count += colspan;
+        }
+
+        return count;
     }
     //----------------------------------------------------------------------------------------------
 };
