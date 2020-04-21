@@ -2047,7 +2047,7 @@ class OrderBase {
             this.bottomLineTotalWithTaxChange($form, event);
         });
         $form.find('.bottom_line_total_tax').on('keyup', event => {
-            if (event.which === 13 || event.which === 9) {
+            if (event.which === 13) {
                 this.bottomLineTotalWithTaxChange($form, event);
             }
         });
