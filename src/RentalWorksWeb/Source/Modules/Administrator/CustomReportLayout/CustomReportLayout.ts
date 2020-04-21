@@ -477,6 +477,14 @@ class CustomReportLayout {
             $form.data('sectiontoupdate', 'tableheader');
             this.updateHTML($form, $table.find('#columnHeader tr'));
         });
+        //hover over header fields
+        $form.find('#columnHeader tr th').hover(e => { //mouseenter
+            const valueFieldName = jQuery(e.currentTarget).attr('data-valuefield');
+            $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).addClass('hover-cell');
+        }, e => { // mouseleave
+            const valueFieldName = jQuery(e.currentTarget).attr('data-valuefield');
+            $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).removeClass('hover-cell');
+        });
 
         //delete column
         $form.on('click', '.delete-column', e => {

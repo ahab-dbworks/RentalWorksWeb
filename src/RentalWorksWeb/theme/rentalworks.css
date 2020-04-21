@@ -608,17 +608,17 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 
 
 /* Custom Reports */
-#reportDesigner table td:after { content: attr(data-value);}
-#reportDesigner table tbody td.highlight-cells {background-color:#d1efd2 !important;border:2px dotted #4caf50 !important;}
+#reportDesigner table td:after { content: attr(data-value); }
+#reportDesigner table tbody td.highlight-cells { background-color:#d1efd2 !important;border:2px dotted #4caf50 !important; }
 #reportDesigner #columnHeader table { border-collapse: collapse; }
-#reportDesigner #columnHeader tr th { height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
+#reportDesigner #columnHeader tr th { font-size:.9em;height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 #reportDesigner #columnHeader tr th:first-of-type { border-left:0; }
 #reportDesigner #columnHeader tr th:last-of-type { border-right:0; }
 #reportDesigner #columnHeader tr th:hover { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);cursor: pointer;margin: 5px; }
 #reportDesigner #columnHeader tr {  }
 
-#reportDesigner #detailRow td { height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ffffff;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
-
+#reportDesigner #detailRow td { font-size:.9em;height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
+#reportDesigner #detailRow td.hover-cell { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);cursor: pointer;margin: 5px; }
 #reportDesigner td.total-val { height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ffffff;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 #reportDesigner td.total-name { height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ffffff;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 
