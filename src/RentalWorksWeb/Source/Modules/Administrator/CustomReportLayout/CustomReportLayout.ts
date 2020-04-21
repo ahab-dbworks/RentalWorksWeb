@@ -413,9 +413,9 @@ class CustomReportLayout {
             const $table = $form.find('#reportDesigner table');
             this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser 
             $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
+            const newHTML = $tr.get(0).innerHTML.trim();
             if (sectionToUpdate == 'tableheader') {
-                const newHeaderHTML = $tr.get(0).innerHTML.trim();                               //get the new header HTML       
-                
+
                 //move corresponding detail columns wip
                 if (typeof $tr.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
                     const valuefield = $th.attr('data-valuefield');
@@ -428,14 +428,28 @@ class CustomReportLayout {
                             //find total number of tds
                             //get index of td relative to tr
                             //take into account colspan attribute / check total cells of colspan + tds match
+
+                            //use css order property + flex?  then loop through and append columns by their order? sort?
                         }
                     }
                 }
 
-                $wrapper.find('table #columnHeader tr').html(newHeaderHTML);                     //replace old headers
+                $wrapper.find('table #columnHeader tr').html(newHTML);                     //replace old headers
+
             } else if (sectionToUpdate == 'headerrow') {
-                //wip
+                const valuefield = $tr.attr('data-valuefield');
+                const $column = $wrapper.find(`table .header-row[data-valuefield="${valuefield}"]`);
+                if ($column.length) {
+                    $column.html(newHTML);
+                }
+            } else if (sectionToUpdate == 'footerrow') {
+                const valuefield = $tr.attr('data-valuefield');
+                const $column = $wrapper.find(`table .total-name[data-valuefield="${valuefield}"]`);
+                if ($column.length) {
+                    $column.html(newHTML);
+                }
             }
+
             this.html = $wrapper.get(0).innerHTML;                                           //get new report HTML
             this.html = this.html.split('<!--{{').join('{{').split('}}-->').join('}}');      //un-comment handlebars
             FwFormField.setValueByDataField($form, 'Html', this.html);
@@ -447,7 +461,7 @@ class CustomReportLayout {
     designerEvents($form: JQuery, $table: JQuery) {
         const $addColumn = $form.find('.addColumn');
         $addColumn.show();
-        let $th;
+        let $column;
 
         //add header column
         $addColumn.on('click', e => {
@@ -456,9 +470,10 @@ class CustomReportLayout {
             this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
-        $form.on('click', '#reportDesigner table thead tr th', e => {
-            $th = jQuery(e.currentTarget);
-            $form.find('#controlProperties').empty().append(this.addControlProperties($th));
+        $form.on('click', '#reportDesigner table thead#columnHeader tr th', e => {
+            $column = jQuery(e.currentTarget);
+            $form.data('sectiontoupdate', 'tableheader');
+            $form.find('#controlProperties').empty().append(this.addControlProperties($column));
         });
 
         //control properties events
@@ -468,14 +483,18 @@ class CustomReportLayout {
             const value = $property.find('input').val();
             switch (fieldname) {
                 case 'columnname':
-                    $th.text(value);
+                    $column.text(value);
                     break;
                 case 'valuefield': //to-do: add columndatafield properties to all headers
-                    $th.attr('data-valuefield', value);
+                    $column.attr('data-valuefield', value);
                     break;
             }
-            $form.data('sectiontoupdate', 'tableheader');
-            this.updateHTML($form, $table.find('#columnHeader tr'));
+            const section = $form.data('sectiontoupdate');
+            if (section == 'tableheader') {
+                this.updateHTML($form, $table.find('#columnHeader tr'));
+            } else if (section == 'headerrow' || section == 'footerrow') {
+                this.updateHTML($form, $column);
+            }
         });
         //hover over header fields
         $form.find('#columnHeader tr th').hover(e => { //mouseenter
@@ -488,18 +507,25 @@ class CustomReportLayout {
 
         //delete column
         $form.on('click', '.delete-column', e => {
-            $th.remove();
+            $column.remove();
             $form.data('sectiontoupdate', 'tableheader');
             this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
         //header row  //////wip -- need to update "addControlProperties" to work for controls besides the th
         $form.on('click', '.header-row', e => {
-            $th = jQuery(e.currentTarget);
-            $form.find('#controlProperties').empty().append(this.addControlProperties($th));
-
+            $column = jQuery(e.currentTarget);
+            $form.find('#controlProperties').empty().append(this.addControlProperties($column));
 
             $form.data('sectiontoupdate', 'headerrow');
+            //this.updateHTML($form, $table.find('#columnHeader tr'));
+        });
+
+        $form.on('click', '.total-name', e => { //need to settle on a name/add a class to the footer rows
+            $column = jQuery(e.currentTarget);
+            $form.find('#controlProperties').empty().append(this.addControlProperties($column));
+
+            $form.data('sectiontoupdate', 'footerrow');
             //this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 

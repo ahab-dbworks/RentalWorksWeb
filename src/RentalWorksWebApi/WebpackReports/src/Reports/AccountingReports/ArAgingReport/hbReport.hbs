@@ -31,19 +31,19 @@
 
       {{#ifEquals RowType "OfficeLocationheader"}}
       <tr data-rowtype="{{RowType}}">
-        <td colspan="12" class="header-row">Office Location: {{OfficeLocation}}</td>
+        <td colspan="12" data-valuefield="OfficeLocation" class="header-row">Office Location: {{OfficeLocation}}</td>
       </tr>
       {{/ifEquals}}
 
       {{#ifEquals RowType "Customerheader"}}
       <tr data-rowtype="{{RowType}}">
-        <td colspan="12" class="lower header-row">Customer: {{Customer}}</td>
+        <td colspan="12" data-valuefield="Customer" class="lower header-row">Customer: {{Customer}}</td>
       </tr>
       {{/ifEquals}}
 
       {{#ifEquals RowType "Dealheader"}}
       <tr data-rowtype="{{RowType}}">
-        <td colspan="12" class="lower header-row">Deal: {{Deal}}</td>
+        <td colspan="12" data-valuefield="Deal" class="lower header-row">Deal: {{Deal}}</td>
       </tr>
       {{/ifEquals}}
 
@@ -85,7 +85,7 @@
 
       {{#ifEquals RowType "OfficeLocationfooter"}}
       <tr data-rowtype="{{RowType}}">
-        <td colspan="4" class="total-name">{{OfficeLocation}}</td>
+        <td colspan="4" class="total-name" data-valuefield="OfficeLocation">{{OfficeLocation}}</td>
         <td class="total-val" data-value="{{Total}}"></td>
         <td class="total-val" data-value="{{Total0030}}"></td>
         <td class="total-val" data-value="{{Total3160}}"></td>
@@ -96,7 +96,7 @@
 
       {{#ifEquals RowType "grandtotal"}}
       <tr data-rowtype="{{RowType}}">
-        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="4" data-valuefield="GrandTotal" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Total}}"></td>
         <td class="total-val" data-value="{{Total0030}}"></td>
         <td class="total-val" data-value="{{Total3160}}"></td>
