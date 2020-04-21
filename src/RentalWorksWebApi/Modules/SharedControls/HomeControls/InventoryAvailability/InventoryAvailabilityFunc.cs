@@ -1513,6 +1513,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add(" from  availabilityitemview a with (nolock)                                             ");
                 qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid = t.masterid)         ");
                 qry.Add(" where t.sessionid = @sessionid                                                         ");
+                qry.Add(" option (recompile)     ");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
