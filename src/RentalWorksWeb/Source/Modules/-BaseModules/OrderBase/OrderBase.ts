@@ -2046,6 +2046,11 @@ class OrderBase {
         $form.find('.bottom_line_total_tax').on('change', event => {
             this.bottomLineTotalWithTaxChange($form, event);
         });
+        $form.find('.bottom_line_total_tax').on('keyup', event => {
+            if (event.which === 13 || event.which === 9) {
+                this.bottomLineTotalWithTaxChange($form, event);
+            }
+        });
         // Bottom Line Discount
         $form.find('.bottom_line_discount').on('change', event => {
             this.bottomLineDiscountChange($form, event);
@@ -2445,8 +2450,8 @@ class OrderBase {
             FwFunc.showError(response);
         }, $form);
     };
-    //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
+        //----------------------------------------------------------------------------------------------
         // Total and With Tax for all OrderItemGrid
         let $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal, isWithTaxCheckbox, totalType, module;
         let request: any = {};
