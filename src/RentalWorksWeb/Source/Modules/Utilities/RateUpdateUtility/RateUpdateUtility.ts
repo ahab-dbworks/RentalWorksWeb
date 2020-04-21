@@ -248,6 +248,10 @@ class RateUpdateUtility {
             gridSecurityId: 'QQwyjnERS0Jx',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
             onDataBind: (request: any) => {
                 const availableFor = FwFormField.getValueByDataField($form, 'AvailableFor');
                 request.uniqueids = {
