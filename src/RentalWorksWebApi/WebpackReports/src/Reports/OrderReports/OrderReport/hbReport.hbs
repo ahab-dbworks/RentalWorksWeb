@@ -101,7 +101,7 @@
   <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-right:10px;">
     <table id="issuedTo">
       <tr>
-        <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Issued To</th>
+        <td class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Issued To</td>
       </tr>
       <tr>
         <td class="" style="font-weight:700;">{{IssuedToCompany}}</td>
@@ -156,7 +156,7 @@
   <div class="rpt-flexcolumn" style="flex:0 0 321px;margin:0px 10px;">
     <table id="outgoing">
       <tr>
-        <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Outgoing ({{OutDeliveryType}})</th>
+        <td class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Outgoing ({{OutDeliveryType}})</td>
       </tr>
       <tr>
         <td class=""><span style="font-weight:700;">Location: </span>{{OutDeliveryLocation}}</td>
@@ -190,7 +190,7 @@
     {{#ifCond RentalItems.length '>' 0}}
     <table id="incoming">
       <tr>
-        <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Incoming ({{InDeliveryType}})</th>
+        <td class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Incoming ({{InDeliveryType}})</td>
       </tr>
       <tr>
         <td class=""><span style="font-weight:700;">Location: </span>{{InDeliveryLocation}}</td>
@@ -232,7 +232,7 @@
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
-      <tr>
+      <tr class="rectype-header">
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
@@ -449,7 +449,7 @@
       <tr>
         <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
-      <tr>
+      <tr class="rectype-header">
         <td style="min-width:100px;">I-Code</td>
         <td style="min-width:355px;">Description</td>
         <td style="min-width:80px;padding-right:15px;" class="number alignRight">Quantity</td>
@@ -674,7 +674,7 @@
       <tr>
         <td colspan="9" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
-      <tr>
+      <tr class="rectype-header">
         <td style="min-width:90px;">Order</td>
         <td style="min-width:90px;">I-Code</td>
         <td style="min-width:255px;">Description</td>
@@ -925,7 +925,7 @@
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
-      <tr>
+      <tr class="rectype-header">
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
@@ -1133,7 +1133,7 @@
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
-      <tr>
+      <tr class="rectype-header">
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
@@ -1341,7 +1341,7 @@
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
-      <tr>
+      <tr class="rectype-header">
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
@@ -1549,7 +1549,7 @@
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
-      <tr>
+      <tr class="rectype-header">
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>

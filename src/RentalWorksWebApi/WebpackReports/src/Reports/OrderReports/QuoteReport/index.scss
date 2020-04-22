@@ -55,16 +55,11 @@ body {
     padding: 10px;
 }
 
-thead {
-    th {
-        font-weight: bold;
-        padding: 5px;
-        white-space: nowrap;
-    }
-
-    th:not(.sub) {
-        border-bottom: 2px solid #000000;
-    }
+.rectype-header td {
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
+    border-bottom: 2px solid #000000;
 }
 
 .sub {
