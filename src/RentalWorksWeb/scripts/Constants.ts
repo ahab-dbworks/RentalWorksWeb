@@ -368,7 +368,7 @@ var Constants = {
                     nodetype: 'Category',
                     children: {
                         ContactEvent: { id: 'KdvGpc1dQINo', caption: 'Contact Event', nav: 'settings/contactsettings/contactevent', nodetype: 'Module', description: '' },
-                        ContactTitle: { id: 'PClZ3w0VUnPt', caption: 'Contact Title', nav: 'settings/contactsettings/contacttitle', description: '' },
+                        ContactTitle: { id: 'PClZ3w0VUnPt', caption: 'Contact Title', nav: 'settings/contactsettings/contacttitle', nodetype: 'Module', description: '' },
                         MailList: { id: 'vUT6JZ1Owu5n', caption: 'Mail List', nav: 'settings/contactsettings/maillist', nodetype: 'Module', description: '' }
                     }
                 },
@@ -838,7 +838,7 @@ var Constants = {
         CheckInQuantityItemsGrid: { id: 'BfClP5w8rjl7', caption: 'Check-In Quantity Items' },
         CheckInSwapGrid: { id: 'hA3FE9ProwUn', caption: 'Check-In Swap' },
         CheckOutPendingItemGrid: { id: 'GO96A3pk0UE', caption: 'Check-Out Pending Items' },
-        CompanyContactGrid: { id: 'gQHuhVDA5Do2', caption: 'Copmany Contact' },
+        CompanyContactGrid: { id: 'gQHuhVDA5Do2', caption: 'Company Contact' },
         CompanyResaleGrid: { id: 'k48X9sulRpmb', caption: 'Company Resale' },
         CompanyTaxOptionGrid: { id: 'B9CzDEmYe1Zf', caption: 'Company Tax Option' },
         ContactCompanyGrid: { id: 'gQHuhVDA5Do2', caption: 'Contact Company' },
