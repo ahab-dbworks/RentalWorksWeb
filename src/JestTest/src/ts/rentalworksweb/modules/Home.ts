@@ -1983,8 +1983,8 @@ export class RentalInventory extends InventoryModule {
 
                     //availability tab
                     NoAvailabilityCheck: TestUtils.randomBoolean(),
-                    SendAvailabilityAlert: TestUtils.randomBoolean(),
-                    AvailabilityManuallyResolveConflicts: TestUtils.randomBoolean(),
+                    //SendAvailabilityAlert: TestUtils.randomBoolean(),
+                    //AvailabilityManuallyResolveConflicts: TestUtils.randomBoolean(),
 
                     //completes/kits
                     DisplayInSummaryModeWhenRateIsZero: TestUtils.randomBoolean(),
@@ -2270,8 +2270,8 @@ export class RentalInventory extends InventoryModule {
 
             //availability tab
             NoAvailabilityCheck: this.newRecordsToCreate[0].record.NoAvailabilityCheck,
-            SendAvailabilityAlert: this.newRecordsToCreate[0].record.SendAvailabilityAlert,
-            AvailabilityManuallyResolveConflicts: this.newRecordsToCreate[0].record.AvailabilityManuallyResolveConflicts,
+            //SendAvailabilityAlert: this.newRecordsToCreate[0].record.SendAvailabilityAlert,
+            //AvailabilityManuallyResolveConflicts: this.newRecordsToCreate[0].record.AvailabilityManuallyResolveConflicts,
 
             //completes/kits
             DisplayInSummaryModeWhenRateIsZero: this.newRecordsToCreate[0].record.DisplayInSummaryModeWhenRateIsZero,
@@ -2451,8 +2451,8 @@ export class SalesInventory extends InventoryModule {
 
                     //availability tab
                     NoAvailabilityCheck: TestUtils.randomBoolean(),
-                    SendAvailabilityAlert: TestUtils.randomBoolean(),
-                    AvailabilityManuallyResolveConflicts: TestUtils.randomBoolean(),
+                    //SendAvailabilityAlert: TestUtils.randomBoolean(),
+                    //AvailabilityManuallyResolveConflicts: TestUtils.randomBoolean(),
 
                     //completes/kits
                     DisplayInSummaryModeWhenRateIsZero: TestUtils.randomBoolean(),
@@ -2672,8 +2672,8 @@ export class SalesInventory extends InventoryModule {
 
             //availability tab
             NoAvailabilityCheck: this.newRecordsToCreate[0].record.NoAvailabilityCheck,
-            SendAvailabilityAlert: this.newRecordsToCreate[0].record.SendAvailabilityAlert,
-            AvailabilityManuallyResolveConflicts: this.newRecordsToCreate[0].record.AvailabilityManuallyResolveConflicts,
+            //SendAvailabilityAlert: this.newRecordsToCreate[0].record.SendAvailabilityAlert,
+            //AvailabilityManuallyResolveConflicts: this.newRecordsToCreate[0].record.AvailabilityManuallyResolveConflicts,
 
             //completes/kits
             DisplayInSummaryModeWhenRateIsZero: this.newRecordsToCreate[0].record.DisplayInSummaryModeWhenRateIsZero,
