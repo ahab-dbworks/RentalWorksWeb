@@ -99,7 +99,7 @@ class Base {
                                     sessionStorage.setItem('applicationtheme', responseSessionInfo.webUser.applicationtheme);
                                     sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
                                     sessionStorage.setItem('serverVersion', responseSessionInfo.serverVersion);
-                                    sessionStorage.setItem('applicationOptions', JSON.stringify(responseSessionInfo.applicationOptions));
+                                    //sessionStorage.setItem('applicationOptions', JSON.stringify(responseSessionInfo.applicationOptions));
                                     sessionStorage.setItem('userType', responseSessionInfo.webUser.usertype);
                                     sessionStorage.setItem('applicationtree', JSON.stringify(responseSessionInfo.applicationtree));
                                     sessionStorage.setItem('clientCode', responseSessionInfo.clientcode);
@@ -176,6 +176,18 @@ class Base {
                                             }
                                         }
                                     });
+
+                                    const promiseGetWarehouses = FwAjax.callWebApi<BrowseRequest, any>({
+                                        httpMethod: 'POST',
+                                        url: `${applicationConfig.apiurl}api/v1/warehouse/browse`,
+                                        $elementToBlock: $loginWindow,
+                                        data: {
+                                            searchfieldoperators: ["<>"],
+                                            searchfields: ["Inactive"],
+                                            searchfieldvalues: ["T"]
+                                        }
+                                    });
+
                                     const promiseGetIsTraining = FwAjax.callWebApi<any, any>({
                                         httpMethod: 'GET',
                                         url: `${applicationConfig.apiurl}api/v1/utilityfunctions/istraining`,
@@ -194,6 +206,7 @@ class Base {
                                         promiseGetDocumentBarCodeSettings,  // 07
                                         promiseGetSystemNumbers,            // 08
                                         promiseGetIsTraining,               // 09
+                                        promiseGetWarehouses,               // 10
                                     ])
                                         .then((values: any) => {
                                             const responseGetUserSettings = values[0];
@@ -206,6 +219,7 @@ class Base {
                                             const responseGetDocumentBarCodeSettings = values[7];
                                             const responseGetSystemNumbers = values[8];
                                             const responseGetIsTraining = values[9];
+                                            const responseGetWarehouses = values[10];
 
                                             let sounds: any = {}, homePage: any = {}, toolbar: any = {};
                                             sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
@@ -291,6 +305,7 @@ class Base {
                                                 , defaultrank: responseGetDefaultSettings.DefaultRank
                                                 , defaulticodemask: responseGetInventorySettings.ICodeMask
                                                 , userassignedicodes: responseGetInventorySettings.UserAssignedICodes
+                                                , enable3weekpricing: responseGetInventorySettings.Enable3WeekPricing
                                                 , sharedealsacrossofficelocations: responseGetSystemSettings.ShareDealsAcrossOfficeLocations
                                                 , systemname: responseGetSystemSettings.SystemName
                                                 , companyname: responseGetSystemSettings.CompanyName
@@ -298,6 +313,7 @@ class Base {
                                                 , userassignedvendornumber: responseGetSystemSettings.IsVendorNumberAssignedByUser
                                                 , userassignedcustomernumber: userassignedcustnum
                                                 , userassigneddealnumber: userassigneddealnum
+                                                , multiwarehouse: (responseGetWarehouses.Rows.length > 1)
                                             }
                                             sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 

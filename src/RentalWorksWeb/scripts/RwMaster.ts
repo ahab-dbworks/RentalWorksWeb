@@ -5,7 +5,7 @@ class RwMaster extends WebMaster {
     //----------------------------------------------------------------------------------------------
     initMainMenu() {
         let userType = sessionStorage.getItem('userType');
-        const applicationOptions = JSON.parse(sessionStorage.getItem('applicationOptions'));
+        //const applicationOptions = JSON.parse(sessionStorage.getItem('applicationOptions'));
         this.navigation = [];
 
         // Agent Menu
@@ -97,7 +97,8 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Transfers.children.TransferStatus,
                 ]
             };
-            if ((applicationOptions.multiwarehouse != undefined) && (applicationOptions.multiwarehouse.enabled != null) && (applicationOptions.multiwarehouse.enabled) && (applicationOptions.multiwarehouse.value !== 1)) {
+            //if ((applicationOptions.multiwarehouse != undefined) && (applicationOptions.multiwarehouse.enabled != null) && (applicationOptions.multiwarehouse.enabled) && (applicationOptions.multiwarehouse.value !== 1)) {
+            if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
                 this.navigation.push(menuTransfers);
             }
 

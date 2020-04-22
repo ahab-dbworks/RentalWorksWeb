@@ -1,7 +1,7 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
 namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
@@ -28,6 +28,9 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwSqlDataField(column: "icodeprefix", modeltype: FwDataTypes.Text)]
         public string ICodePrefix { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enable3weekpricing", modeltype: FwDataTypes.Boolean)]
+        public bool? Enable3WeekPricing { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -39,4 +42,3 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         //------------------------------------------------------------------------------------ 
     }
 }
- 

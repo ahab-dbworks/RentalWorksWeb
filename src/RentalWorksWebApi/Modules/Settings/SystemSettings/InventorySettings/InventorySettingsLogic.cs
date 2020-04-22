@@ -37,6 +37,9 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwLogicProperty(Id: "ntSppR4GkjOc3")]
         public string ICodePrefix { get { return sysControl.Icodeprefix; } set { sysControl.Icodeprefix = value; } }
 
+        [FwLogicProperty(Id: "yzYEXi36QjGvF")]
+        public bool? Enable3WeekPricing { get { return sysControl.Enable3WeekPricing; } set { sysControl.Enable3WeekPricing = value; } }
+
         [FwLogicProperty(Id: "E0PTF3DZXRoNX")]
         public string DateStamp { get { return sysControl.DateStamp; } set { sysControl.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

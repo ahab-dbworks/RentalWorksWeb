@@ -10,7 +10,7 @@ class RwHome {
 
     getHomeScreen() {
         var self = this;
-        var applicationOptions = program.getApplicationOptions();
+        //var applicationOptions = program.getApplicationOptions();
         var screen: any = {};
         screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
 

@@ -560,14 +560,18 @@ class RentalInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form: any): void {
-        const threeWeekPricing = JSON.parse(sessionStorage.getItem('applicationOptions')).threeweekpricing;
+        //const threeWeekPricing = JSON.parse(sessionStorage.getItem('applicationOptions')).threeweekpricing;
+        const threeWeekPricing = JSON.parse(sessionStorage.getItem('controldefaults')).enable3weekpricing;
 
         const $rentalInventoryWarehousePricingGrid = $form.find('div[data-name="RentalInventoryWarehousePricingGrid"]');
-        !threeWeekPricing.enabled ? jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
+        //!threeWeekPricing.enabled ? jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
+        threeWeekPricing ? jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show() : jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide()
         const $inventoryWarehouseCompletePricingGrid = $form.find('div[data-name="InventoryWarehouseCompletePricingGrid"]');
-        !threeWeekPricing.enabled ? jQuery($inventoryWarehouseCompletePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($inventoryWarehouseCompletePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
+        //!threeWeekPricing.enabled ? jQuery($inventoryWarehouseCompletePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($inventoryWarehouseCompletePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
+        threeWeekPricing ? jQuery($inventoryWarehouseCompletePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show() : jQuery($inventoryWarehouseCompletePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide()
         const $inventoryWarehouseKitPricingGrid = $form.find('div[data-name="InventoryWarehouseKitPricingGrid"]');
-        !threeWeekPricing.enabled ? jQuery($inventoryWarehouseKitPricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($inventoryWarehouseKitPricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
+        //!threeWeekPricing.enabled ? jQuery($inventoryWarehouseKitPricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($inventoryWarehouseKitPricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
+        threeWeekPricing ? jQuery($inventoryWarehouseKitPricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show() : jQuery($inventoryWarehouseKitPricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide()
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {

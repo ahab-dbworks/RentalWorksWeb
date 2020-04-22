@@ -1,5 +1,5 @@
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
 namespace WebApi.Modules.Administrator.Control
@@ -529,6 +529,9 @@ namespace WebApi.Modules.Administrator.Control
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultrank", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
         public string DefaultRank { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enable3weekpricing", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? Enable3WeekPricing { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

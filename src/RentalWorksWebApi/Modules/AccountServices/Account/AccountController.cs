@@ -29,7 +29,7 @@ namespace WebApi.Modules.AccountServices.Account
             public AppFunc.SessionUser webUser { get; set; } = null;
             public AppFunc.SessionDeal deal { get; set; } = null;
             public FwAmSecurityTreeNode applicationtree { get; set; } = null;
-            public dynamic applicationOptions { get; set; } = null;
+            //public dynamic applicationOptions { get; set; } = null;
             public string clientcode { get; set; } = string.Empty;
             public string serverVersion { get; set; } = string.Empty;
         }
@@ -59,8 +59,8 @@ namespace WebApi.Modules.AccountServices.Account
             waitList.Add(taskClientCode);
             var taskApplicationTree = FwAppManager.Tree.GetGroupsTreeAsync(this.UserSession.GroupsId, true);
             waitList.Add(taskApplicationTree);
-            var taskApplicationOptions = FwSqlData.GetApplicationOptionsAsync(this.AppConfig.DatabaseSettings);
-            waitList.Add(taskApplicationOptions);
+            //var taskApplicationOptions = FwSqlData.GetApplicationOptionsAsync(this.AppConfig.DatabaseSettings);
+            //waitList.Add(taskApplicationOptions);
 
             // wait for all the queries to finish
 
@@ -82,7 +82,7 @@ namespace WebApi.Modules.AccountServices.Account
             response.department = taskSessionDepartment.Result;
             response.clientcode = taskClientCode.Result;
             response.applicationtree = taskApplicationTree.Result.RootNode;
-            response.applicationOptions = taskApplicationOptions.Result;
+            //response.applicationOptions = taskApplicationOptions.Result;
 
             // get the application version
             bool returnedVersion = false;
