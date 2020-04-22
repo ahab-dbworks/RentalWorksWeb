@@ -379,8 +379,8 @@ Form tables
 #itemsearch #categorycolumns ul:hover:not(.selected) {background-color: #E0E0E0;}
 #itemsearch #categorycolumns #subCategory ul {padding:5px 5px 5px 29px;}
 
-#itemsearch #itemlist {flex: 1 1 0;position:relative;}
-#itemsearch #itemlist #inventory {overflow-y: scroll;position: absolute;top: 32px;left: 0;right: 0;bottom: 0;}
+#itemsearch #itemlist {flex: 1 1 0;position:relative;overflow:auto;}
+#itemsearch #itemlist #inventory {position: absolute;top: 32px;left: 0;right: 0;bottom: 0;}
 
 #itemsearch #itemlist[data-view="GRID"] .columnDescriptions {display:none;}
 #itemsearch #itemlist[data-view="GRID"] {max-width:1950px;}
@@ -415,6 +415,7 @@ Form tables
 #itemsearch #itemlist[data-view="GRID"] .item-accessories {display:none;}
 
 #itemsearch #itemlist[data-view="LIST"] .columnDescriptions {display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
+#itemsearch #itemlist[data-view="LIST"] .columnDescriptions .columnorder:last-of-type {padding-right:2em;} 
 #itemsearch #itemlist[data-view="LIST"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="ItemImage"] {display:none;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Description"] {flex:1 0 250px;margin:0 10px;user-select:text;}
