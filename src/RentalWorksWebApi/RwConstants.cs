@@ -163,6 +163,7 @@ namespace WebApi
         public const string RECTYPE_LOSS_AND_DAMAGE = "F";
         public const string RECTYPE_USED_SALE = "RS";
         public const string RECTYPE_VEHICLE = "V";
+        public const string RECTYPE_ADJUSTMENT = "A";
 
         public const string RECTYPE_RENTAL_DESCRIPTION = "RENTAL";
         public const string RECTYPE_SALE_DESCRIPTION = "SALES";
