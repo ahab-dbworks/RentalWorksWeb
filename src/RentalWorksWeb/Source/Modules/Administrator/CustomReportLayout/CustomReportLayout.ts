@@ -436,37 +436,27 @@ class CustomReportLayout {
                 }
 
                 //delete
-                if (typeof $form.data('deletefield') != 'undefined' && typeof $form.data('deletefield') == 'string') {
-                    const valuefield = $form.data('deletefield');
-
-                    //find # of cols and check if they match
-                    //check headers, footers, detail
-                    const rowTypeSelectors = ['[data-header]', '#detailRow', '[data-footer]'];
-
-                    for (let i = 0; i < rowTypeSelectors.length; i++) {
-                        const selector = `tbody tr${rowTypeSelectors[i]} [data-value="<!--{{${valuefield}}}-->"]`;
-                        const $tds = $wrapper.find(selector);        //search for match tds in all of the rows     Jason hoang - 04/21/20
-                        const tdIsInRow = $tds.length;               
-                        if (tdIsInRow) {                             //if any are found, they will be removed.
-                            for (let j = 0; j < $tds.length; j++) {   
-                                const $td = jQuery($tds[j]);;
-                                $td.remove();                        
-                                $table.find(selector)[j].remove();   
-                                                                      //after deleting, total colspan should match TotalColumnCount
-                            }                                       
-                        } else {                                    
-                                                                    //if it doesn't exist in this row, then total colspan needs to be reduced to match the TotalColumnCount
-
+                if (typeof $form.data('deletefield') != 'undefined') {
+                    const valuefield = $form.data('deletefield').field;
+                    const rowSelector = 'tbody tr';
+                    const $rows = $wrapper.find(rowSelector);
+                    for (let i = 0; i < $rows.length; i++) {
+                        const $row = jQuery($rows[i]);
+                        const $td = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
+                        const tdIsInRow = $td.length;
+                        if (tdIsInRow) {
+                            const rowType = $row.attr('data-row');
+                            $td.remove();
+                            $table.find(`${rowSelector}[data-row="${rowType}"] [data-value="{{${valuefield}}}"]`).remove();
+                        } else {
+                            //if it doesn't exist in this row, then total colspan needs to be reduced to match the TotalColumnCount
+                            const $designerTableRow = jQuery($table.find(`${rowSelector}`)[i]);
+                            this.matchColumnCount($form, $table, $row, $designerTableRow);
                         }
                     }
-
-                    $wrapper.find(`tbody tr [data-value="<!--{{${valuefield}}}-->"]`).remove();       //deletes for the new HTML
-                    $table.find(`tbody tr [data-value="{{${valuefield}}}"]`).remove();                //deletes for table displayed on designer
-                    //if (this.TotalColumnCount != )
+                    $form.removeData('deletefield');
                 }
-
                 $wrapper.find('table #columnHeader tr').html(newHTML);                     //replace old headers
-
             } else if (sectionToUpdate == 'headerrow') {
                 const valuefield = $tr.attr('data-valuefield');
                 const $column = $wrapper.find(`table .header-row[data-valuefield="${valuefield}"]`);
@@ -490,14 +480,15 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     designerEvents($form: JQuery, $table: JQuery) {
-        this.TotalColumnCount = this.getTableHeaderCount($table);
+        this.TotalColumnCount = this.getTotalColumnCount($table, true);
         const $addColumn = $form.find('.addColumn');
         $addColumn.show();
         let $column;
- 
+
         //add header column
         $addColumn.on('click', e => {
-            $table.find('#columnHeader tr').append('<th data-columndatafield="">New Column</th>');
+            $column = jQuery('<th data-columndatafield="">New Column</th>');
+            $table.find('#columnHeader tr').append($column);
             this.TotalColumnCount++;
             $form.data('sectiontoupdate', 'tableheader');
             this.updateHTML($form, $table.find('#columnHeader tr'));
@@ -540,17 +531,18 @@ class CustomReportLayout {
 
         //delete table header column
         $form.on('click', '.delete-column', e => {
-            const valuefield = jQuery($column).attr('data-valuefield');
             if (typeof $column != 'undefined') {
+                const valuefield = jQuery($column).attr('data-valuefield');
+                const colspan = parseInt(jQuery($column).attr('colspan')) || 1;
                 $column.remove();
-                this.TotalColumnCount--;
-            }
+                this.TotalColumnCount -= colspan;
 
-            $form.data('sectiontoupdate', 'tableheader');
-            if (typeof valuefield != 'undefined') {
-                $form.data('deletefield', valuefield);
+                $form.data('sectiontoupdate', 'tableheader');
+                if (typeof valuefield != 'undefined') {
+                    $form.data('deletefield', { 'field': valuefield, 'tdcolspan': colspan });
+                }
+                this.updateHTML($form, $table.find('#columnHeader tr'));
             }
-            this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
         //header row
@@ -562,10 +554,9 @@ class CustomReportLayout {
             //this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
-        $form.on('click', '.total-name', e => { //need to settle on a name/add a class to the footer rows
+        $form.on('click', '.total-name', e => {
             $column = jQuery(e.currentTarget);
             $form.find('#controlProperties').empty().append(this.addControlProperties($column));
-
             $form.data('sectiontoupdate', 'footerrow');
         });
 
@@ -585,26 +576,64 @@ class CustomReportLayout {
                                         <div class="propname">Value Field</div>
                                         <div class="propval" data-field="valuefield"><input placeholder="value field" value="${$th.attr('data-valuefield')}"></div>
                                     </div>
-                                    <div style="text-align:center;">
+                                    <div style="text-align:center; margin:1em;">
                                         <div class="fwformcontrol delete-column" data-type="button">Delete Column</div>
                                     </div>
                                  </div>`);
         return $properties;
     }
     //----------------------------------------------------------------------------------------------
-    getTableHeaderCount($table: JQuery) {
+    getTotalColumnCount($table: JQuery, isTableHeader: boolean, $row?: JQuery) {
         let count = 0;
-        const $ths = $table.find('#columnHeader tr th');
-        for (let i = 0; i < $ths.length; i++) {
-            const $th = jQuery($ths[i]);
-            let colspan = 1;
-            if ($th.attr('colspan') != 'undefined' ) {
-                colspan = parseInt($th.attr('colspan'));
+        let $columns;
+        if (isTableHeader) {
+            $columns = $table.find(`#columnHeader tr th`);
+        } else {
+            $columns = $row.find('td');
+        }
+
+        for (let i = 0; i < $columns.length; i++) {
+            const $column = jQuery($columns[i]);
+            let colspan = parseInt($column.attr('colspan')) || 1;
+            if (typeof $column.attr('colspan') != 'undefined') {
+                colspan = parseInt($column.attr('colspan'));
             }
             count += colspan;
         }
 
         return count;
+    }
+    //----------------------------------------------------------------------------------------------
+    matchColumnCount($form: JQuery, $table: JQuery, $row: JQuery, $designerTableRow: JQuery) {
+        const rowColumnCount = this.getTotalColumnCount($table, false, $row);
+        if (rowColumnCount != this.TotalColumnCount) {
+            //need to decrease by tdColumnSpan
+            const rowType = $row.attr('data-row');
+            const deletedTdColumnSpan = $form.data('deletefield').tdcolspan;
+            let selector;
+            switch (rowType) {
+                case 'header':
+                    selector = '.header-row';
+                    break;
+                case 'footer':
+                    selector = '.total-name';
+                    break;
+                case 'detail':
+                    //
+                    break;
+            }
+
+            const $td = $row.find(selector);
+            let colspan: any = $td.attr('colspan');
+            if (typeof colspan != 'undefined') {
+                colspan = parseInt(colspan);
+                colspan -= deletedTdColumnSpan;
+                $td.attr('colspan', colspan);
+                $designerTableRow.find(selector).attr('colspan', colspan);
+
+                this.matchColumnCount($form, $table, $row, $designerTableRow);
+            }
+        }
     }
     //----------------------------------------------------------------------------------------------
 };
