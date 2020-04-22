@@ -1,12 +1,12 @@
 ﻿/*Invoice Report*/
 body {
-  font-size: 15px;
-  margin: 0;
-  padding: 10px;
+    font-size: 15px;
+    margin: 0;
+    padding: 10px;
 }
 
 tbody[data-rowtype="detail"]:nth-child(even) {
-  /*background-color: #DCDCDC;*/
+    /*background-color: #DCDCDC;*/
 }
 
 .sub-header tr > td {
@@ -51,45 +51,45 @@ tbody[data-rowtype="detail"]:nth-child(even) {
     font-size: 15px;
 }
 
-thead {
-    th {
-        border-bottom: 2px solid #000000;
-        font-weight: bold;
-        padding: 5px;
-        white-space: nowrap;
-    }
+.rectype-header td {
+    border-bottom: 2px solid #000000;
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
 }
+
 .sub {
-  border-top: 2px solid #027cc5;
-  border-bottom: 2px solid #027cc5;
-  background-color: #DCDCDC;
+    border-top: 2px solid #027cc5;
+    border-bottom: 2px solid #027cc5;
+    background-color: #DCDCDC;
 }
+
 .headerRow {
-  background-color: #f1f8e9;
+    background-color: #f1f8e9;
 }
 
 .textRow {
-  font-weight: normal;
-  font-style: italic;
+    font-weight: normal;
+    font-style: italic;
 }
 
 .subTotalRow {
-  background-color: #c8e6c9;
+    background-color: #c8e6c9;
 }
 
 .alignRight {
-  text-align: right;
+    text-align: right;
 }
 
 .grandTotalAllActivities {
-  background-color: #e8f5e9;
-  width: 110px;
-  text-align: right;
-  font-weight: bold;
-  border-top: 1.5px solid black;
-  padding: 10px 0px 6px 0px;
+    background-color: #e8f5e9;
+    width: 110px;
+    text-align: right;
+    font-weight: bold;
+    border-top: 1.5px solid black;
+    padding: 10px 0px 6px 0px;
 }
 
 .tax {
-  padding: 4px 3px 4px 0px;
+    padding: 4px 3px 4px 0px;
 }
