@@ -3,6 +3,7 @@
 tbody tr.description-row:nth-child(odd) {
     background-color: #DCDCDC;
 }
+
 tbody tr.barcode-row:nth-child(even) {
     background-color: #DCDCDC;
 }
@@ -48,12 +49,14 @@ tbody tr.barcode-row:nth-child(even) {
     align-self: flex-start;
     font-size: 16px;
 }
+
 .contract-title {
     align-self: center;
     font-family: Arial, sans-serif;
     font-size: 26px;
     font-weight: bold;
 }
+
 .barcodes {
     padding: 0 0 0 50px;
 
@@ -62,13 +65,11 @@ tbody tr.barcode-row:nth-child(even) {
     }
 }
 
-thead {
-    th {
-        border-bottom: 2px solid #000000;
-        font-weight: bold;
-        padding: 5px;
-        white-space: nowrap;
-    }
+.rectype-header td {
+    border-bottom: 2px solid #000000;
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
 }
 
 fieldset {
@@ -101,4 +102,3 @@ fieldset {
         height: $line-height;
     }
 }
-

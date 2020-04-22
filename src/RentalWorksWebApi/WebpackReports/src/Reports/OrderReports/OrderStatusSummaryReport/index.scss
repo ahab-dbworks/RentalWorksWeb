@@ -8,13 +8,16 @@ tbody {
         padding: 3px;
     }
 }
+
 tbody[data-rowtype="detail"]:nth-child(even) {
     background-color: #DCDCDC;
 }
+
 .sub-header tr > td {
     padding: 0;
     width: 33.3%;
 }
+
 .att-text-align {
     padding-left: 75px;
 }
@@ -22,9 +25,11 @@ tbody[data-rowtype="detail"]:nth-child(even) {
 .sub-header-left {
     align-self: flex-start;
 }
+
 .sub-header-center {
     align-self: center;
 }
+
 .sub-header-right {
     align-self: flex-end;
 }
@@ -51,21 +56,19 @@ body {
     padding: 15px;
 }
 
-thead {
-    th {
-        font-weight: bold;
-        padding: 5px;
-        white-space: nowrap;
-    }
-    th:not(.sub) {
-        border-bottom: 2px solid #000000;
-    }
+.rectype-header td {
+    border-bottom: 2px solid #000000;
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
 }
+
 .sub {
     border-top: 2px solid #027cc5;
     border-bottom: 2px solid #027cc5;
     background-color: #DCDCDC;
 }
+
 span {
     .marker {
         background-color: yellow;

@@ -33,60 +33,60 @@
   </div>
 </div>
 <div class="rpt-flexrow">
-    <table>
-        {{#each Items}}
-        {{#ifEquals RowType "RecTypeDisplayheader"}}
-      <tbody data-rowtype="{{RowType}}">
-        <tr><td>&nbsp;</td></tr><!-- spacer row -->
-        <tr>
-          <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
-        </tr>
-        <tr>
-          <td style="min-width:80px">I-Code</td>
-          <td style="min-width:375px">Description</td>
-          <td style="min-width:75px" class="number">Ordered</td>
-          <td style="min-width:75px" class="number">Staged</td>
-          <td style="min-width:75px" class="number">Out</td>
-          <td style="min-width:75px" class="number">In</td>
-          <td style="min-width:75px" class="number">Still Out</td>
-          <td style="min-width:90px" class="number">Warehouse</td>
-        </tr>
-      </tbody>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <tbody data-rowtype="{{RowType}}">
-          <tr data-isbold="{{Bold}}">
-            <!-- I-code -->
-            {{#ifCond Itemclass '===' "CI"}}
-            <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{ICode}}</td><!-- Complete Accessory -->
-            {{else}}
-            {{#ifCond Itemclass '===' "KI"}}
-            <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{ICode}}</td><!-- Kit Accessory -->
-            {{else}}
-            <td data-itemclass="{{Itemclass}}">{{ICode}}</td><!-- Item -->
-            {{/ifCond}}
-            {{/ifCond}}
+  <table>
+    {{#each Items}}
+    {{#ifEquals RowType "RecTypeDisplayheader"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!-- spacer row -->
+      <tr>
+        <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+      </tr>
+      <tr class="rectype-header">
+        <td style="min-width:80px">I-Code</td>
+        <td style="min-width:375px">Description</td>
+        <td style="min-width:75px" class="number">Ordered</td>
+        <td style="min-width:75px" class="number">Staged</td>
+        <td style="min-width:75px" class="number">Out</td>
+        <td style="min-width:75px" class="number">In</td>
+        <td style="min-width:75px" class="number">Still Out</td>
+        <td style="min-width:90px" class="number">Warehouse</td>
+      </tr>
+    </tbody>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr data-isbold="{{Bold}}">
+        <!-- I-code -->
+        {{#ifCond Itemclass '===' "CI"}}
+        <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{ICode}}</td><!-- Complete Accessory -->
+        {{else}}
+        {{#ifCond Itemclass '===' "KI"}}
+        <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{ICode}}</td><!-- Kit Accessory -->
+        {{else}}
+        <td data-itemclass="{{Itemclass}}">{{ICode}}</td><!-- Item -->
+        {{/ifCond}}
+        {{/ifCond}}
 
-            <!-- Description -->
-            {{#ifCond Itemclass '===' "CI"}}
-            <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{OrderDescription}}</td><!-- Complete Accessory -->
-            {{else}}
-            {{#ifCond Itemclass '===' "KI"}}
-            <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{OrderDescription}}</td><!-- Kit Accessory -->
-            {{else}}
-            <td data-itemclass="{{Itemclass}}">{{OrderDescription}}</td><!-- Item -->
-            {{/ifCond}}
-            {{/ifCond}}
+        <!-- Description -->
+        {{#ifCond Itemclass '===' "CI"}}
+        <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{OrderDescription}}</td><!-- Complete Accessory -->
+        {{else}}
+        {{#ifCond Itemclass '===' "KI"}}
+        <td data-itemclass="{{Itemclass}}" style="text-indent:1em;">{{OrderDescription}}</td><!-- Kit Accessory -->
+        {{else}}
+        <td data-itemclass="{{Itemclass}}">{{OrderDescription}}</td><!-- Item -->
+        {{/ifCond}}
+        {{/ifCond}}
 
-            <td class="number">{{QuantityOrdered}}</td>
-            <td class="number">{{StageQuantity}}</td>
-            <td class="number">{{OutQuantity}}</td>
-            <td class="number">{{InQuantity}}</td>
-            <td class="number">{{StillOutQuantity}}</td>
-            <td class="number">{{WarehouseIcode}}</td>
-          </tr>
-        </tbody>
-        {{/ifEquals}}
-        {{/each}}
-    </table>
+        <td class="number">{{QuantityOrdered}}</td>
+        <td class="number">{{StageQuantity}}</td>
+        <td class="number">{{OutQuantity}}</td>
+        <td class="number">{{InQuantity}}</td>
+        <td class="number">{{StillOutQuantity}}</td>
+        <td class="number">{{WarehouseIcode}}</td>
+      </tr>
+    </tbody>
+    {{/ifEquals}}
+    {{/each}}
+  </table>
 </div>
