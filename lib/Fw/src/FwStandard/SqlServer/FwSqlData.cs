@@ -409,6 +409,8 @@ namespace FwStandard.SqlServer
             int value;
             IDictionary<String, object> resultDic;
 
+            result = new ExpandoObject();
+
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             {
                 qry.Add("select top 1 options");
@@ -417,70 +419,12 @@ namespace FwStandard.SqlServer
                 await qry.ExecuteAsync();
                 optionsStr = qry.GetField("options").ToString();
 
-                encryptedOptions = new List<string>();
-                encryptedOptions.AddRange(optionsStr.Trim().Split(new char[]{'~'}, StringSplitOptions.RemoveEmptyEntries));
-
-                using (FwSqlCommand qry2 = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                if (!optionsStr.Equals(string.Empty))
                 {
-                    qry2.Add("select");
-                    for (int i = 0; i < encryptedOptions.Count; i++)
-                    {
-                        string separator = (i == 0) ? "  " : " ,";
-                        qry2.Add($"{separator}option{i} = dbo.decrypt(@option{i})");
-                        qry2.AddParameter($"@option{i}", encryptedOptions[i]);
-                        qry2.Parameters[i].SqlDbType = SqlDbType.NVarChar;
-                    }
-                    await qry2.ExecuteAsync();
-                    for (int i = 0; i < encryptedOptions.Count; i++)
-                    {
-                        decryptedOptions.Add(qry2.GetField($"option{i}").ToString().TrimEnd());
-                    }
-                }
 
-                result = new ExpandoObject();
-                resultDic = (IDictionary<String, object>)result;
-                for (int i = 0; i < encryptedOptions.Count; i++)
-                {                    
-                    //decryptedOption        = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
-                    decryptedOption = decryptedOptions[i];
-                    description            = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper();
-                    description = description.Replace("3", "THREE");  //justin 07/19/2019 temporary 3weekpricing --> threeweekpricing  
-                    key = description.Replace("-", "").Replace("_", "").ToLower();
-                    enabled                = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T");
-                    value                  = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3));                    
-                    option = new ExpandoObject();
-                    option.description = description;
-                    option.enabled     = enabled;
-                    option.value       = value;
-                    resultDic[key]     = option;
-                }
-                return result;
-            }
-        }
-        //-----------------------------------------------------------------------------
-        public class ApplicationOption
-        {
-            public string Description { get;set; } = string.Empty;
-            public bool Enabled { get;set; } = false;
-            public  int Value { get;set; } = 0; 
-        }
-        public static async Task<Dictionary<string, ApplicationOption>> GetApplicationOptions2Async(FwSqlConnection conn, SqlServerConfig dbConfig)
-        {
-            List<string> encryptedOptions, decryptedOptions = new List<string>();
-            string optionsStr, decryptedOption, key;
-            Dictionary<string, ApplicationOption> options;
-            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))            
-            {
-                qry.Add("select top 1 options");
-                qry.Add("from controlclient with(nolock)");
-                qry.Add("where controlid = '1'");
-                await qry.ExecuteAsync();
-                optionsStr = qry.GetField("options").ToString();
-                encryptedOptions = new List<string>();
-                encryptedOptions.AddRange(optionsStr.Trim().Split(new char[] { '~' }, StringSplitOptions.RemoveEmptyEntries));
-                options = new Dictionary<string, ApplicationOption>();
-                if (encryptedOptions.Count > 0)
-                {
+                    encryptedOptions = new List<string>();
+                    encryptedOptions.AddRange(optionsStr.Trim().Split(new char[] { '~' }, StringSplitOptions.RemoveEmptyEntries));
+
                     using (FwSqlCommand qry2 = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                     {
                         qry2.Add("select");
@@ -497,16 +441,80 @@ namespace FwStandard.SqlServer
                             decryptedOptions.Add(qry2.GetField($"option{i}").ToString().TrimEnd());
                         }
                     }
+
+                    resultDic = (IDictionary<String, object>)result;
                     for (int i = 0; i < encryptedOptions.Count; i++)
                     {
-                        //decryptedOption = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
+                        //decryptedOption        = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
                         decryptedOption = decryptedOptions[i];
-                        ApplicationOption option = new ApplicationOption();
-                        option.Description = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper(); ;
-                        option.Enabled = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T"); ;
-                        option.Value = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3)); ;
-                        key = option.Description.Replace("-", "").Replace("_", "").ToLower();
-                        options[key] = option;
+                        description = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper();
+                        //description = description.Replace("3", "THREE");  //justin 07/19/2019 temporary 3weekpricing --> threeweekpricing  
+                        key = description.Replace("-", "").Replace("_", "").ToLower();
+                        enabled = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T");
+                        value = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3));
+                        option = new ExpandoObject();
+                        option.description = description;
+                        option.enabled = enabled;
+                        option.value = value;
+                        resultDic[key] = option;
+                    }
+                }
+            }
+            return result;
+        }
+        //-----------------------------------------------------------------------------
+        public class ApplicationOption
+        {
+            public string Description { get;set; } = string.Empty;
+            public bool Enabled { get;set; } = false;
+            public  int Value { get;set; } = 0; 
+        }
+        public static async Task<Dictionary<string, ApplicationOption>> GetApplicationOptions2Async(FwSqlConnection conn, SqlServerConfig dbConfig)
+        {
+            List<string> encryptedOptions, decryptedOptions = new List<string>();
+            string optionsStr, decryptedOption, key;
+            Dictionary<string, ApplicationOption> options = new Dictionary<string, ApplicationOption>();
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            {
+                qry.Add("select top 1 options");
+                qry.Add("from controlclient with(nolock)");
+                qry.Add("where controlid = '1'");
+                await qry.ExecuteAsync();
+                optionsStr = qry.GetField("options").ToString();
+                if (!optionsStr.Equals(string.Empty))
+                {
+                    encryptedOptions = new List<string>();
+                    encryptedOptions.AddRange(optionsStr.Trim().Split(new char[] { '~' }, StringSplitOptions.RemoveEmptyEntries));
+                    //options = new Dictionary<string, ApplicationOption>();
+                    if (encryptedOptions.Count > 0)
+                    {
+                        using (FwSqlCommand qry2 = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                        {
+                            qry2.Add("select");
+                            for (int i = 0; i < encryptedOptions.Count; i++)
+                            {
+                                string separator = (i == 0) ? "  " : " ,";
+                                qry2.Add($"{separator}option{i} = dbo.decrypt(@option{i})");
+                                qry2.AddParameter($"@option{i}", encryptedOptions[i]);
+                                qry2.Parameters[i].SqlDbType = SqlDbType.NVarChar;
+                            }
+                            await qry2.ExecuteAsync();
+                            for (int i = 0; i < encryptedOptions.Count; i++)
+                            {
+                                decryptedOptions.Add(qry2.GetField($"option{i}").ToString().TrimEnd());
+                            }
+                        }
+                        for (int i = 0; i < encryptedOptions.Count; i++)
+                        {
+                            //decryptedOption = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
+                            decryptedOption = decryptedOptions[i];
+                            ApplicationOption option = new ApplicationOption();
+                            option.Description = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper(); ;
+                            option.Enabled = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T"); ;
+                            option.Value = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3)); ;
+                            key = option.Description.Replace("-", "").Replace("_", "").ToLower();
+                            options[key] = option;
+                        }
                     }
                 }
                 return options;
