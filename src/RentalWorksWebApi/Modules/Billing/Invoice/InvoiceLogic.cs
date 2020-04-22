@@ -33,6 +33,8 @@ namespace WebApi.Modules.Billing.Invoice
             invoice.BeforeSave += OnBeforeSaveInvoice;
             invoice.AfterSave += OnAfterSaveInvoice;
 
+            ForceSave = true;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "oPBmsLfmVQDA", IsPrimaryKey: true)]
@@ -541,6 +543,13 @@ namespace WebApi.Modules.Billing.Invoice
                 invoice.TaxId = tax.TaxId;
                 int i = invoice.SaveAsync(null).Result;
             }
+
+
+            //after save - do work in the database
+            {
+                TSpStatusResponse r = InvoiceFunc.AfterSaveInvoice(AppConfig, UserSession, InvoiceId, e.SqlConnection).Result;
+            }
+
         }
         //------------------------------------------------------------------------------------ 
 

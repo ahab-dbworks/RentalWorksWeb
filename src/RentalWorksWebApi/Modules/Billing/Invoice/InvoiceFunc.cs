@@ -113,5 +113,27 @@ namespace WebApi.Modules.Billing.Invoice
             }
             return response;
         }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusResponse> AfterSaveInvoice(FwApplicationConfig appConfig, FwUserSession userSession, string invoiceId, FwSqlConnection conn = null)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+
+            FwSqlCommand qry = new FwSqlCommand(conn, "aftersaveinvoiceweb", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, invoiceId);
+            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+            qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            response.status = qry.GetParameter("@status").ToInt32();
+            response.success = (response.status == 0);
+            response.msg = qry.GetParameter("@msg").ToString();
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }
