@@ -71,7 +71,7 @@ class AssignBarCodes {
                 };
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
-                $browse.on('keydown', '[data-browsedatafield="BarCode"]', e => {
+                $browse.on('keydown', '[data-browsedatafield="BarCode"], [data-browsedatafield="SerialNumber"]', e => {
                     const keycode = e.keyCode || e.which;
                     if (keycode === 13) {
                         const $tr = jQuery(e.currentTarget).parents('tr');
