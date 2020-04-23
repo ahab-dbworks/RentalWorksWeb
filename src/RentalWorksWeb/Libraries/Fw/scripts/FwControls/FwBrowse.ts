@@ -4221,10 +4221,8 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     renderAuditHistoryPopup($tr: JQuery): void {
-        let HTML: Array<string> = [], $popupHtml, $popup, $auditHistoryGrid, uniqueId;
-        uniqueId = $tr.find('[data-browsedatatype="key"]').attr('data-originalvalue');
-
-        HTML.push(
+        const html: Array<string> = [];
+        html.push(
             `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Audit History">
               <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
@@ -4246,8 +4244,8 @@ class FwBrowseClass {
                 </div>
               </div>
             </div>`);
-        $popupHtml = HTML.join('');
-        $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
+
+        const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true });
         FwPopup.showPopup($popup);
 
         const controller = $tr.parents('[data-type="Grid"]').attr('data-controller');
@@ -4255,7 +4253,8 @@ class FwBrowseClass {
         if (this.endsWith(module, 'Grid')) {
             module = module.substring(0, module.length - 4);
         }
-        $auditHistoryGrid = FwBrowse.renderGrid({
+
+        const $auditHistoryGrid = FwBrowse.renderGrid({
             nameGrid: 'AuditHistoryGrid',
             gridSecurityId: 'xepjGBf0rdL',
             moduleSecurityId: '',
@@ -4267,9 +4266,18 @@ class FwBrowseClass {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    UniqueId1: uniqueId,
                     ModuleName: module
                 };
+                const keys = $tr.find('[data-browsedatatype="key"]');
+                if (keys.length > 1) {
+                    request.uniqueids.UniqueId1 = jQuery(keys[0]).attr('data-originalvalue');
+                    if (keys[1]) {
+                        request.uniqueids.UniqueId2 = jQuery(keys[1]).attr('data-originalvalue');
+                    }
+                    if (keys[2]) {
+                        request.uniqueids.UniqueId3 = jQuery(keys[2]).attr('data-originalvalue');
+                    }
+                }
             }
         });
         FwBrowse.search($auditHistoryGrid);
