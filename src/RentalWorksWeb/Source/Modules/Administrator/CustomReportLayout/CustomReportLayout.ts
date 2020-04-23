@@ -202,14 +202,16 @@ class CustomReportLayout {
                             });
 
                             allValidFields.push({
-                                'Field': key
-                                , 'IsCustom': 'false'
-                                , 'NestedItems': orderedItems
+                                'value': key,
+                                'text': key,
+                                'IsCustom': 'false',
+                                'NestedItems': orderedItems
                             });
                         } else {
                             allValidFields.push({
-                                'Field': key
-                                , 'IsCustom': 'false'
+                                'value': key,
+                                'text': key,
+                                'IsCustom': 'false'
                             });
                         }
                     }
@@ -217,36 +219,30 @@ class CustomReportLayout {
 
                 for (let i = 0; i < customFields.length; i++) {
                     allValidFields.push({
-                        'Field': customFields[i].fieldname
-                        , 'IsCustom': 'true'
-                        , 'FieldType': customFields[i].fieldtype.toLowerCase()
+                        'value': customFields[i].fieldname,
+                        'text': customFields[i].fieldname,
+                        'IsCustom': 'true',
+                        'FieldType': customFields[i].fieldtype.toLowerCase()
                     });
                 }
 
-                $form.data('validdatafields', allValidFields.sort((a, b) => a.Field < b.Field ? -1 : 1));
+                $form.data('validdatafields', allValidFields.sort((a, b) => a.value < b.value ? -1 : 1));
+
                 for (let i = 0; i < allValidFields.length; i++) {
-                    modulefields.append(`<div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>`);
+                    modulefields.append(`<div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].value}</div>`);
                     if (allValidFields[i].hasOwnProperty("NestedItems")) {
                         for (const key of Object.keys(allValidFields[i].NestedItems)) {
                             if (key != '_Custom') {
-                                modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${allValidFields[i].Field}" style="text-indent:1em;">${key}</div>`);
+                                modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${allValidFields[i].value}" style="text-indent:1em;">${key}</div>`);
                             }
                         }
                     }
                 }
+
+                FwFormField.loadItems($form.find('[data-datafield="ValueField"]'), $form.data('validdatafields'));
+
             }, ex => FwFunc.showError(ex), $form);
     }
-    //----------------------------------------------------------------------------------------------
-    //addButtonMenu($form) {
-    //    let $buttonmenu = $form.find('.addColumn[data-type="btnmenu"]');
-    //    let $addContainer = FwMenu.generateButtonMenuOption('ADD NEW CONTAINER')
-    //        , $addTab = FwMenu.generateButtonMenuOption('ADD NEW TAB');
-
-    //    let menuOptions = [];
-    //    menuOptions.push($addContainer, $addTab);
-
-    //    FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
-    //}
     //----------------------------------------------------------------------------------------------
     loadModules($form) {
         let $moduleSelect = $form.find('.modules');
@@ -298,16 +294,6 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
-        //Load preview on click
-        //$form.on('click', '[data-type="tab"][data-caption="Preview"]', e => {
-        //    this.renderTab($form, 'Preview');
-        //});
-
-        //Load Design Tab
-        //$form.on('click', '[data-type="tab"][data-caption="Designer"]', e => {
-        //    this.renderTab($form, 'Designer');
-        //});
-
         //Refreshes and shows CodeMirror upon clicking HTML tab
         $form.on('click', '[data-type="tab"][data-caption="HTML"]', e => {
             this.codeMirror.refresh();
@@ -382,29 +368,7 @@ class CustomReportLayout {
             }
         });
         this.designerEvents($form, $table);
-
-        //adds select options for datafields
-        function addDatafields() {
-            const validFields = $form.data('validdatafields');
-            if (typeof validFields === 'object') {
-                let datafieldOptions = $form.find('#controlProperties .propval .datafields');
-                for (let z = 0; z < datafieldOptions.length; z++) {
-                    let field = jQuery(datafieldOptions[z]);
-                    field.append(`<option value="" disabled>Select field</option>`)
-                    for (let i = 0; i < validFields.length; i++) {
-                        let $this = validFields[i];
-                        field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}" data-type="${$this.FieldType}">${$this.Field}</option>`);
-                    }
-                    let value = jQuery(field).attr('value');
-                    if (value) {
-                        jQuery(field).find(`option[value="${value}"]`).prop('selected', true);
-                    } else {
-                        jQuery(field).find(`option[disabled]`).prop('selected', true);
-                    };
-                }
-            }
-        };
-        addDatafields();
+        //this.addDataFieldSelect($form);
     }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, $tr: JQuery, $th?) {
@@ -483,7 +447,7 @@ class CustomReportLayout {
                         const $row = jQuery($rows[i]);
                         const $td = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
                         const tdIsInRow = $td.length;
-                        if (tdIsInRow) { //
+                        if (tdIsInRow) {
                             const rowType = $row.attr('data-row');
                             $td.remove();
                             $table.find(`${rowSelector}[data-row="${rowType}"] [data-value="{{${valuefield}}}"]`).remove();
@@ -539,19 +503,40 @@ class CustomReportLayout {
         $form.on('click', '#reportDesigner table thead#columnHeader tr th', e => {
             $column = jQuery(e.currentTarget);
             $form.data('sectiontoupdate', 'tableheader');
-            $form.find('#controlProperties').empty().append(this.addControlProperties($column));
+            //$form.find('#controlProperties').empty().append(this.addControlProperties($column));
+            $form.find('#controlProperties').show();
+            this.setControlValues($form, $column);
         });
 
         //control properties events
-        $form.on('change', '#controlProperties .propval', e => {
+        //$form.on('change', '#controlProperties .propval', e => {
+        //    const $property = jQuery(e.currentTarget);
+        //    const fieldname = $property.attr('data-field');
+        //    const value = $property.find('input').val();
+        //    switch (fieldname) {
+        //        case 'caption':
+        //            $column.text(value);
+        //            break;
+        //        case 'valuefield': //to-do: add valuefield properties to all headers
+        //            $column.attr('data-valuefield', value);
+        //            break;
+        //    }
+        //    const section = $form.data('sectiontoupdate');
+        //    if (section == 'tableheader') {
+        //        this.updateHTML($form, $table.find('#columnHeader tr'));
+        //    } else if (section == 'headerrow' || section == 'footerrow') {
+        //        this.updateHTML($form, $column);
+        //    }
+        //});
+        $form.on('change', '#controlProperties [data-datafield]', e => {
             const $property = jQuery(e.currentTarget);
-            const fieldname = $property.attr('data-field');
-            const value = $property.find('input').val();
+            const fieldname = $property.attr('data-datafield');
+            const value = jQuery(e.target).val();
             switch (fieldname) {
-                case 'columnname':
+                case 'CaptionField':
                     $column.text(value);
                     break;
-                case 'valuefield': //to-do: add valuefield properties to all headers
+                case 'ValueField':
                     $column.attr('data-valuefield', value);
                     break;
             }
@@ -562,6 +547,7 @@ class CustomReportLayout {
                 this.updateHTML($form, $column);
             }
         });
+
         //hover over header fields
         $form.find('#columnHeader tr th').hover(e => { //mouseenter
             const valueFieldName = jQuery(e.currentTarget).attr('data-valuefield');
@@ -590,40 +576,49 @@ class CustomReportLayout {
         //header row
         $form.on('click', '.header-row', e => {
             $column = jQuery(e.currentTarget);
-            $form.find('#controlProperties').empty().append(this.addControlProperties($column));
-
+            //$form.find('#controlProperties').empty().append(this.addControlProperties($column));
+            $form.find('#controlProperties').show();
+            this.setControlValues($form, $column);
             $form.data('sectiontoupdate', 'headerrow');
             //this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
         $form.on('click', '.total-name', e => {
             $column = jQuery(e.currentTarget);
-            $form.find('#controlProperties').empty().append(this.addControlProperties($column));
+            //$form.find('#controlProperties').empty().append(this.addControlProperties($column));
+            $form.find('#controlProperties').show();
+            this.setControlValues($form, $column);
             $form.data('sectiontoupdate', 'footerrow');
         });
 
     }
     //----------------------------------------------------------------------------------------------
-    addControlProperties($th: JQuery) {
-        let $properties = jQuery(`<div class="propertyContainer" style="border: 1px solid #bbbbbb; word-break: break-word;">
-                                    <div style="text-indent:5px;">
-                                        <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Name</div>
-                                        <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Value</div>
-                                    </div>
-                                    <div class="properties">
-                                        <div class="propname">Column Name</div>
-                                        <div class="propval" data-field="columnname"><input value="${$th.text()}"></div>
-                                    </div>
-                                    <div class="properties">
-                                        <div class="propname">Value Field</div>
-                                        <div class="propval" data-field="valuefield"><input placeholder="value field" value="${$th.attr('data-valuefield')}"></div>
-                                    </div>
-                                    <div style="text-align:center; margin:1em;">
-                                        <div class="fwformcontrol delete-column" data-type="button">Delete Column</div>
-                                    </div>
-                                 </div>`);
-        return $properties;
+    setControlValues($form: JQuery, $column: JQuery) {
+        FwFormField.setValueByDataField($form, 'CaptionField', $column.text(), $column.text());
+        FwFormField.setValueByDataField($form, 'ValueField', $column.attr('data-valuefield'), $column.attr('data-valuefield'));
     }
+    //----------------------------------------------------------------------------------------------
+    //addControlProperties($th: JQuery) {
+    //    let $properties = jQuery(`<div class="propertyContainer" style="border: 1px solid #bbbbbb; word-break: break-word;">
+    //                                <div style="text-indent:5px;">
+    //                                    <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Property</div>
+    //                                    <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Value</div>
+    //                                </div>
+    //                                <div class="properties caption-prop">
+    //                                    <div class="propname">Caption</div>
+    //                                    <div class="propval" data-field="caption"><input value="${$th.text()}"></div>
+    //                                </div>
+    //                                <div class="properties value-field-prop">
+    //                                    <div class="propname">Value Field</div>
+    //                                    <div class="propval" data-field="valuefield">
+    //                                    </div>
+    //                                </div>
+    //                                <div style="text-align:center; margin:1em;">
+    //                                    <div class="fwformcontrol delete-column" data-type="button">Delete Column</div>
+    //                                </div>
+    //                             </div>`);
+    //    return $properties;
+    //}
     //----------------------------------------------------------------------------------------------
     getTotalColumnCount($table: JQuery, isTableHeader: boolean, $row?: JQuery) {
         let count = 0;
