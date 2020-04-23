@@ -297,6 +297,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
         public string ToDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcostextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string ReplacementCostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
