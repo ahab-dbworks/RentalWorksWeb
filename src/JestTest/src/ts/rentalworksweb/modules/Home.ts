@@ -2035,7 +2035,7 @@ export class RentalInventory extends InventoryModule {
                     CountryOfOriginId: TestUtils.randomIntegerBetween(1, 5),
 
                     //prep/qc
-                    QcRequired: TestUtils.randomBoolean(),
+                    //QcRequired: TestUtils.randomBoolean(),
                     QcTime: "00:05",
 
                     //attribute / usage
@@ -2322,7 +2322,7 @@ export class RentalInventory extends InventoryModule {
             CountryOfOrigin: ModuleBase.NOTEMPTY,
 
             //prep/qc
-            QcRequired: this.newRecordsToCreate[0].record.QcRequired,
+            //QcRequired: this.newRecordsToCreate[0].record.QcRequired,
             QcTime: this.newRecordsToCreate[0].record.QcTime.toUpperCase(),
 
             //attribute / usage
