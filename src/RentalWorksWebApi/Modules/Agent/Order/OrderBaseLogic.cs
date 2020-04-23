@@ -373,6 +373,9 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "IIlkv0ANAt4H", IsReadOnly: true)]
         public string BillingCycle { get; set; }
 
+        [FwLogicProperty(Id: "kvXhtvz6VXbSj", IsReadOnly: true)]
+        public string BillingCycleType { get; set; }
+
         [FwLogicProperty(Id: "ifznPOB7ZOmJ")]
         public string PaymentTermsId { get { return dealOrder.PaymentTermsId; } set { dealOrder.PaymentTermsId = value; } }
 

@@ -80,6 +80,8 @@ namespace WebApi.Modules.Billing.BillingWorksheet
         public bool? IsAlteredDates { get { return billingWorksheet.IsAlteredDates; } set { billingWorksheet.IsAlteredDates = value; } }
         [FwLogicProperty(Id: "2xNuMRucjpGnR")]
         public string OfficeLocationId { get { return billingWorksheet.OfficeLocationId; } set { billingWorksheet.OfficeLocationId = value; } }
+        [FwLogicProperty(Id: "ipYGtYeWQ2IVW")]
+        public string OfficeLocation { get; set; }
         [FwLogicProperty(Id: "33MLFWm5fZBHC", IsReadOnly: true)]
         public string InputByUserId { get; set; }
         [FwLogicProperty(Id: "37amUdeP2WuNr", IsReadOnly: true)]

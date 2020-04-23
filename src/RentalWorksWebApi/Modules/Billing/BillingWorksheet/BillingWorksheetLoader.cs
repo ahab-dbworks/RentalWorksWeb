@@ -102,6 +102,9 @@ namespace WebApi.Modules.Billing.BillingWorksheet
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string OfficeLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputbyusersid", modeltype: FwDataTypes.Text)]
         public string InputByUserId { get; set; }
         //------------------------------------------------------------------------------------ 
