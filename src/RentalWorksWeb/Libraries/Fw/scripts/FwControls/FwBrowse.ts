@@ -4222,32 +4222,8 @@ class FwBrowseClass {
     //---------------------------------------------------------------------------------
     renderAuditHistoryPopup($tr: JQuery): void {
         const html: Array<string> = [];
-        //html.push(
-        //    `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Audit History">
-        //      <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
-        //      <div class="popuptitle">Audit History</div>
-        //        <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
-        //        <div class="tabpages">
-        //          <div class="formpage">
-        //            <div class="flexrow style="max-width:1275px;">
-        //              <div class="flexrow">
-        //                <div class="formcolumn" style="width:100%;margin-top:50px;">
-        //                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-        //                    <div class="flexrow"></div>
-        //                    <div data-control="FwGrid" class="container">
-        //                      <div class="formrow"><div data-control="FwGrid" data-grid="AuditHistoryGrid" data-securitycaption=""></div></div>
-        //                    </div>
-        //                  </div>
-        //                </div>
-        //              </div>
-        //            </div>
-        //          </div>
-        //        </div>
-        //      </div>
-        //    </div>`);
-
         html.push(
-                `<div class="flexrow body" style="background-color:white;max-width:1275px;">
+            `<div class="flexrow body" style="background-color:white;max-width:1275px;">
                   <div class="formcolumn" style="margin:20px 5px 0 px;">
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div class="flexrow"></div>
@@ -4257,9 +4233,8 @@ class FwBrowseClass {
                     </div>
                   </div>
                 </div>`);
-            
 
-        const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true } , 'Audit History', null);
+        const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, 'Audit History', null);
         FwPopup.showPopup($popup);
 
         const controller = $tr.parents('[data-type="Grid"]').attr('data-controller');
