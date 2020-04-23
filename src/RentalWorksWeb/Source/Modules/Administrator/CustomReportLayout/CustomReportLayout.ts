@@ -444,7 +444,7 @@ class CustomReportLayout {
                         const $row = jQuery($rows[i]);
                         const rowType = $row.attr('data-row');
                         if (rowType == 'detail') {
-                            const $td = jQuery(`<td data-value="<--{{${valueField}}}-->"></td>`);
+                            const $td = jQuery(`<td data-value="<!--{{${valueField}}}-->"></td>`);
                             $row.append($td);  //add to row in wrapper (memory)
                             $table.find(`${rowSelector}[data-row="${rowType}"]`).append(`<td data-value="{{${valueField}}}"></td>`); //add to row on designer
                         } else {   //to-do: add extra options on property section for adding new columns to header/footer rows 
@@ -508,12 +508,13 @@ class CustomReportLayout {
 
         //add header column
         $addColumn.on('click', e => {
-            $column = jQuery(`<th data-columndatafield="NewColumn${newColumnNumber}">New Column</th>`);
+            $column = jQuery(`<th data-valuefield="NewColumn${newColumnNumber}">New Column</th>`);
             $table.find('#columnHeader tr').append($column);
             this.TotalColumnCount++;
             $form.data('sectiontoupdate', 'tableheader');
             $form.data('addcolumn', { 'newcolumnnumber': newColumnNumber, 'tdcolspan': 1 });
             this.updateHTML($form, $table.find('#columnHeader tr'));
+            newColumnNumber++;
         });
 
         $form.on('click', '#reportDesigner table thead#columnHeader tr th', e => {
@@ -531,7 +532,7 @@ class CustomReportLayout {
                 case 'columnname':
                     $column.text(value);
                     break;
-                case 'valuefield': //to-do: add columndatafield properties to all headers
+                case 'valuefield': //to-do: add valuefield properties to all headers
                     $column.attr('data-valuefield', value);
                     break;
             }
@@ -640,7 +641,7 @@ class CustomReportLayout {
                 colspanDelta = 1;
                 actionType = 'add';
             }
-           
+
             let selector;
             switch (rowType) {
                 case 'header':
@@ -658,11 +659,22 @@ class CustomReportLayout {
             let colspan: any = $td.attr('colspan');
             if (typeof colspan != 'undefined') {
                 colspan = parseInt(colspan);
-                if (actionType == 'delete') {
+                //if (actionType == 'delete') {
+                //    if (rowColumnCount > this.TotalColumnCount) {
+                //        colspan -= colspanDelta;
+                //    }
+                //} else if (actionType == 'add') {
+                //    if (rowColumnCount < this.TotalColumnCount) {
+                //        colspan += colspanDelta;
+                //    }
+                //}
+
+                if (rowColumnCount > this.TotalColumnCount) {
                     colspan -= colspanDelta;
-                } else if (actionType == 'add') {
+                } else if (rowColumnCount < this.TotalColumnCount) {
                     colspan += colspanDelta;
                 }
+
                 $td.attr('colspan', colspan);
                 $designerTableRow.find(selector).attr('colspan', colspan);
 
