@@ -4222,30 +4222,44 @@ class FwBrowseClass {
     //---------------------------------------------------------------------------------
     renderAuditHistoryPopup($tr: JQuery): void {
         const html: Array<string> = [];
+        //html.push(
+        //    `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Audit History">
+        //      <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+        //      <div class="popuptitle">Audit History</div>
+        //        <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+        //        <div class="tabpages">
+        //          <div class="formpage">
+        //            <div class="flexrow style="max-width:1275px;">
+        //              <div class="flexrow">
+        //                <div class="formcolumn" style="width:100%;margin-top:50px;">
+        //                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        //                    <div class="flexrow"></div>
+        //                    <div data-control="FwGrid" class="container">
+        //                      <div class="formrow"><div data-control="FwGrid" data-grid="AuditHistoryGrid" data-securitycaption=""></div></div>
+        //                    </div>
+        //                  </div>
+        //                </div>
+        //              </div>
+        //            </div>
+        //          </div>
+        //        </div>
+        //      </div>
+        //    </div>`);
+
         html.push(
-            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Audit History">
-              <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
-                <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
-                <div class="tabpages">
-                  <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Audit History">
-                      <div class="formrow">
-                        <div class="formcolumn" style="width:100%;margin-top:50px;">
-                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div class="fwform-section-title" style="margin-bottom:20px;">Audit History</div>
-                            <div data-control="FwGrid" class="container">
-                              <div class="formrow"><div data-control="FwGrid" data-grid="AuditHistoryGrid" data-securitycaption=""></div></div>
-                            </div>
-                          </div>
-                        </div>
+                `<div class="flexrow body" style="background-color:white;max-width:1275px;">
+                  <div class="formcolumn" style="margin:20px 5px 0 px;">
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div class="flexrow"></div>
+                      <div data-control="FwGrid" class="container">
+                        <div class="formrow"><div data-control="FwGrid" data-grid="AuditHistoryGrid" data-securitycaption=""></div></div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>`);
+                </div>`);
+            
 
-        const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true });
+        const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true } , 'Audit History', null);
         FwPopup.showPopup($popup);
 
         const controller = $tr.parents('[data-type="Grid"]').attr('data-controller');
