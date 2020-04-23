@@ -435,6 +435,26 @@ class CustomReportLayout {
                     }
                 }
 
+                if (typeof $form.data('addcolumn') != 'undefined') {
+                    const newColumnData = $form.data('addcolumn');
+                    const valueField = `NewColumn${newColumnData.newcolumnnumber}`;
+                    const rowSelector = 'tbody tr';
+                    const $rows = $wrapper.find(rowSelector);
+                    for (let i = 0; i < $rows.length; i++) {
+                        const $row = jQuery($rows[i]);
+                        const rowType = $row.attr('data-row');
+                        if (rowType == 'detail') {
+                            const $td = jQuery(`<td data-value="<--{{${valueField}}}-->"></td>`);
+                            $row.append($td);  //add to row in wrapper (memory)
+                            $table.find(`${rowSelector}[data-row="${rowType}"]`).append(`<td data-value="{{${valueField}}}"></td>`); //add to row on designer
+                        } else {   //to-do: add extra options on property section for adding new columns to header/footer rows 
+                            const $designerTableRow = jQuery($table.find(`${rowSelector}`)[i]);
+                            this.matchColumnCount($form, $table, $row, $designerTableRow);
+                        }
+                    }
+                    $form.removeData('addcolumn');
+                }
+
                 //delete
                 if (typeof $form.data('deletefield') != 'undefined') {
                     const valuefield = $form.data('deletefield').field;
@@ -484,13 +504,15 @@ class CustomReportLayout {
         const $addColumn = $form.find('.addColumn');
         $addColumn.show();
         let $column;
+        let newColumnNumber = 1;
 
         //add header column
         $addColumn.on('click', e => {
-            $column = jQuery('<th data-columndatafield="">New Column</th>');
+            $column = jQuery(`<th data-columndatafield="NewColumn${newColumnNumber}">New Column</th>`);
             $table.find('#columnHeader tr').append($column);
             this.TotalColumnCount++;
             $form.data('sectiontoupdate', 'tableheader');
+            $form.data('addcolumn', { 'newcolumnnumber': newColumnNumber, 'tdcolspan': 1 });
             this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
@@ -609,7 +631,16 @@ class CustomReportLayout {
         if (rowColumnCount != this.TotalColumnCount) {
             //need to decrease by tdColumnSpan
             const rowType = $row.attr('data-row');
-            const deletedTdColumnSpan = $form.data('deletefield').tdcolspan;
+            let colspanDelta = 0;
+            let actionType;
+            if (typeof $form.data('deletefield') != 'undefined') {
+                colspanDelta = $form.data('deletefield').tdcolspan;
+                actionType = 'delete';
+            } else if (typeof $form.data('addcolumn') != 'undefined') {
+                colspanDelta = 1;
+                actionType = 'add';
+            }
+           
             let selector;
             switch (rowType) {
                 case 'header':
@@ -627,7 +658,11 @@ class CustomReportLayout {
             let colspan: any = $td.attr('colspan');
             if (typeof colspan != 'undefined') {
                 colspan = parseInt(colspan);
-                colspan -= deletedTdColumnSpan;
+                if (actionType == 'delete') {
+                    colspan -= colspanDelta;
+                } else if (actionType == 'add') {
+                    colspan += colspanDelta;
+                }
                 $td.attr('colspan', colspan);
                 $designerTableRow.find(selector).attr('colspan', colspan);
 
