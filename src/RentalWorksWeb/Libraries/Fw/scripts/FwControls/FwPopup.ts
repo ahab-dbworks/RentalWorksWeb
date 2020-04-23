@@ -44,19 +44,19 @@
         jQuery(`#${$divPopup.attr('data-baseid')}-divOverlay`).remove();
     };
     //----------------------------------------------------------------------------------------------
-    renderPopup($content: JQuery, options: {ismodal?: boolean}, title?: string, popoutModuleId?: string): JQuery {
+    renderPopup($content: JQuery, options: { ismodal?: boolean }, title?: string, popoutModuleId?: string): JQuery {
         let isNewValidation = false;
         if ($content.data('afterSaveNewValidation') !== 'undefined' && typeof $content.data('afterSaveNewValidation') === 'function') {
             isNewValidation = true;
         }
         const html: Array<string> = [];
-        html.push('<div class="fwpopup">');
-        html.push('<div class="fwpopupbox">');
-        if (title !== undefined) {
+        html.push('<div class="fwpopup fwconfirmation">');
+        html.push('<div class="fwpopupbox fwconfirmationbox">');
+        if (title) {
             html.push(`<div class="popuptitle">${title}</div>`);
             html.push('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
         }
-        if (popoutModuleId !== undefined) {
+        if (popoutModuleId) {
             html.push('<div class="popout-modal" style="display:flex; position:absolute; top:10px; right:100px; cursor:pointer;"><i class="material-icons">open_in_new</i><div class="btn-text">Pop-Out</div></div>');
         }
         html.push('</div>');
