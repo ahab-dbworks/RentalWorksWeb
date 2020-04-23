@@ -409,41 +409,73 @@ class OrderItemGrid {
             $generatedtr.find('div[data-browsedatafield="AvailableQuantity"]').on('click', e => {
                 const inventoryId = FwBrowse.getValueByDataField($control, $generatedtr, 'InventoryId');
                 if (inventoryId) {
+                    //let $popup = jQuery(`
+                    //    <div>
+                    //        <div class="close-modal" style="background-color:white;top:.8em;right:.1em; padding-right:.5em; border-radius:.2em;justify-content:flex-end;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                    //        <div id="availabilityCalendarPopup" class="fwform fwcontrol fwcontainer" data-control="FwContainer" data-type="form" style="overflow:auto;max-height:90vh;max-width:90vw;background-color:white; margin-top:2em; border:2px solid gray;">
+                    //          <div class="flexrow" style="overflow:auto;">
+                    //            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
+                    //              <div class="flexrow">
+                    //                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-enabled="false" style="flex:0 1 100px;"></div>
+                    //                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:0 1 500px;"></div>
+                    //              </div>
+                    //                    <div class="flexrow inv-data-totals">
+                    //                        <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
+                    //                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="flex:0 1 150px; margin-top:.5em; margin-left: 1em;"></div>                                      
+                    //                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
+                    //                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
+                    //                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
+                    //                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="InContainer" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
+                    //                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="Staged" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
+                    //                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="Out" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
+                    //                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="InRepair" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
+                    //                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="InTransit" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
+                    //                    </div>
+                    //                  <div class="flexrow" style="overflow:auto;">
+                    //                    <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
+                    //                  </div>
+                    //                  <div class="flexrow schedulerrow" style="display:block;">
+                    //                    <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
+                    //                    <div class="fwbrowse"><div class="legend"></div></div>
+                    //                 </div>
+                    //                </div>
+                    //            </div>
+                    //          </div>
+                    //        </div>`);
+
                     let $popup = jQuery(`
-                        <div>
-                            <div class="close-modal" style="background-color:white;top:.8em;right:.1em; padding-right:.5em; border-radius:.2em;justify-content:flex-end;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
-                            <div id="availabilityCalendarPopup" class="fwform fwcontrol fwcontainer" data-control="FwContainer" data-type="form" style="overflow:auto;max-height:90vh;max-width:90vw;background-color:white; margin-top:2em; border:2px solid gray;">
-                              <div class="flexrow" style="overflow:auto;">
-                                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
+                            <div>
+                              <div id="availabilityCalendarPopup" class="flexrow body">
+                                <div class="flexcolumn">
                                   <div class="flexrow">
-                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-enabled="false" style="flex:0 1 100px;"></div>
-                                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:0 1 500px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-enabled="false" style="flex:0 1 100px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:0 1 500px;"></div>
                                   </div>
-                                        <div class="flexrow inv-data-totals">
-                                            <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
-                                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="flex:0 1 150px; margin-top:.5em; margin-left: 1em;"></div>                                      
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="InContainer" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="Staged" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="Out" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="InRepair" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="InTransit" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
-                                        </div>
-                                      <div class="flexrow" style="overflow:auto;">
-                                        <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
-                                      </div>
-                                      <div class="flexrow schedulerrow" style="display:block;">
-                                        <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
-                                        <div class="fwbrowse"><div class="legend"></div></div>
-                                     </div>
-                                    </div>
+                                  <div class="flexrow inv-data-totals">
+                                    <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:400px; margin-bottom:15px;"></div>
+                                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="flex:0 1 150px; margin-top:.5em; margin-left: 1em;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="Total" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="In" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="QC  Req'd" data-datafield="QcRequired" data-enabled="false" data-totalfield="QcRequired" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Container" data-datafield="InContainer" data-enabled="false" data-totalfield="InContainer" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Staged" data-datafield="Staged" data-enabled="false" data-totalfield="Staged" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Out" data-datafield="Out" data-enabled="false" data-totalfield="Out" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Repair" data-datafield="InRepair" data-enabled="false" data-totalfield="InRepair" style="flex:0 1 85px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In Transit" data-datafield="InTransit" data-enabled="false" data-totalfield="InTransit" style="flex:0 1 85px;"></div>
+                                  </div>
+                                  <div class="flexrow" style="overflow:auto;">
+                                    <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
+                                  </div>
+                                  <div class="flexrow schedulerrow" style="display:block;">
+                                    <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
+                                    <div class="fwbrowse"><div class="legend"></div></div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>`);
+                            </div>
+                                        `);
                     FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
-                    $popup = FwPopup.renderPopup($popup, { ismodal: true });
+                    $popup = FwPopup.renderPopup($popup, { ismodal: true }, 'Audit History');
                     FwPopup.showPopup($popup);
                     $form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
 
