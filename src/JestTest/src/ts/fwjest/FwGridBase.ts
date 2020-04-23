@@ -580,7 +580,19 @@ export class FwGridBase {
         //await ModuleBase.wait(250);  // wait for the grid sub menu to open
         let gridContextMenuDeleteOptionSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToDelete}) .browsecontextmenu .deleteoption`;
         FwLogging.logInfo(`About to wait for delete option: ${gridContextMenuDeleteOptionSelector}`);
-        await page.waitForSelector(gridContextMenuDeleteOptionSelector);
+
+        //await page.waitForSelector(gridContextMenuDeleteOptionSelector);
+        // it is possible that Puppeteer will have needed to re-center the grid vertically in the view port after clicking the context menu 
+        //           and will not be able to see the actual menu, so we need to click it again
+
+        try {
+            await page.waitForSelector(gridContextMenuDeleteOptionSelector, { timeout: 2000 });
+        } catch (error) {   // no delete option found, try to click the menu again below
+            await page.waitForSelector(gridContextMenuSelector);
+            await page.click(gridContextMenuSelector);
+            await page.waitForSelector(gridContextMenuDeleteOptionSelector, { timeout: 2000 });
+        } 
+
         await page.click(gridContextMenuDeleteOptionSelector);
         FwLogging.logInfo(`clicked the delete option`);
 
