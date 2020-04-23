@@ -1,13 +1,13 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using WebApi.Modules.HomeControls.MasterWarehouse;
 using WebApi;
 
 namespace WebApi.Modules.HomeControls.InventoryWarehouse
 {
-    public class InventoryWarehouseLoader : MasterWarehouseLoader 
+    public class InventoryWarehouseLoader : MasterWarehouseLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", isPrimaryKey: true, modeltype: FwDataTypes.Text)]

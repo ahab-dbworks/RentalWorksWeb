@@ -1,5 +1,5 @@
 using FwStandard.AppManager;
-﻿using FwStandard.SqlServer;
+using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +12,14 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouse
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
-    [FwController(Id:"g8sCuKjUVrW1")]
+    [FwController(Id: "g8sCuKjUVrW1")]
     public class InventoryWarehouseController : AppDataController
     {
         public InventoryWarehouseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryWarehouseLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/inventorywarehouse/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"u4gGO4k7m7dM", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "u4gGO4k7m7dM", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -27,7 +27,7 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouse
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"J6rnQXi09MU3", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "J6rnQXi09MU3", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouse
         //------------------------------------------------------------------------------------
         // GET api/v1/inventorywarehouse
         [HttpGet]
-        [FwControllerMethod(Id:"IwhOne2eZiEV", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "IwhOne2eZiEV", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<InventoryWarehouseLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InventoryWarehouseLogic>(pageno, pagesize, sort);
@@ -43,7 +43,7 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouse
         //------------------------------------------------------------------------------------
         // GET api/v1/inventorywarehouse/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"1BH7l77QHM7U", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "1BH7l77QHM7U", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<InventoryWarehouseLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InventoryWarehouseLogic>(id);
@@ -51,7 +51,7 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouse
         //------------------------------------------------------------------------------------
         // POST api/v1/inventorywarehouse
         [HttpPost]
-        [FwControllerMethod(Id:"niRzFtvZPut3", ActionType: FwControllerActionTypes.New)]
+        [FwControllerMethod(Id: "niRzFtvZPut3", ActionType: FwControllerActionTypes.New)]
         public async Task<ActionResult<InventoryWarehouseLogic>> NewAsync([FromBody]InventoryWarehouseLogic l)
         {
             return await DoNewAsync<InventoryWarehouseLogic>(l);
@@ -77,7 +77,7 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouse
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/inventorywarehouse/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"qS1qlnW5sxyS", ActionType: FwControllerActionTypes.Delete)]
+        [FwControllerMethod(Id: "qS1qlnW5sxyS", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<InventoryWarehouseLogic>(id);

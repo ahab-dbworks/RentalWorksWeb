@@ -262,24 +262,6 @@ class RentalInventory extends InventoryBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
-                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
-                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1');
-                FwMenu.addSubMenuItem($optionsgroup, 'QC Required for all Warehouses', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        const $form = jQuery(e.currentTarget).closest('.fwform');
-                        RentalInventoryController.QCRequiredWarehouse($form, true);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($optionsgroup, 'QC Not Required for all Warehouses', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        const $form = jQuery(e.currentTarget).closest('.fwform');
-                        RentalInventoryController.QCRequiredWarehouse($form, false);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -676,24 +658,6 @@ class RentalInventory extends InventoryBase {
                 FwFormField.setValue2($confirmTrackedByField, '');
             }
         });
-    }
-    //----------------------------------------------------------------------------------------------
-    QCRequiredWarehouse($form: JQuery, required: boolean) {
-        const $grid = $form.find('div[data-name="InventoryQcGrid"]');
-        const $allSelector = $grid.find('table thead .tdselectrow input');
-        if (required) {
-            if ($allSelector.prop('checked') === false) {
-                $allSelector.click();
-            }
-        } else {
-            if ($allSelector.prop('checked') === true) {
-                $allSelector.click();
-            } else {
-                $allSelector
-                    .click()
-                    .click();
-            }
-        }
     }
     //----------------------------------------------------------------------------------------------
     quikSearch(event) {
