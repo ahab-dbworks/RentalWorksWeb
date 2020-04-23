@@ -373,7 +373,7 @@ class CustomReportLayout {
                 $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).removeClass('highlight-cells');
 
                 const $tr = jQuery(e.currentTarget);
-                $tr.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
+                $form.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
                 $form.data('sectiontoupdate', 'tableheader');
                 this.updateHTML($form, $tr, $th);
 
@@ -416,30 +416,51 @@ class CustomReportLayout {
             $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
             const newHTML = $tr.get(0).innerHTML.trim();
             if (sectionToUpdate == 'tableheader') {
-                if (typeof $tr.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
+                const rowSelector = 'tbody tr';
+                const $rows = $wrapper.find(rowSelector);
+
+                //move columns to match column order in the header
+                if (typeof $form.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
                     const valuefield = $th.attr('data-valuefield');
                     if (typeof valuefield != 'undefined') {
-
-                        ////move corresponding detail columns wip
-                        //const $columns = $table.find(`tbody tr [data-value="{{${valuefield}}}"]`);
-                        ////jason h to-do: get last index of tds with consideration to colspans and add to cached object
-                        //const oldIndex = $tr.data('columnsmoved').oldIndex;
-                        //const newIndex = $tr.data('columnsmoved').newIndex;
-                        //for (let i = 0; i < $columns.length; i++) {
-                        //    //find total number of tds
-                        //    //get index of td relative to tr
-                        //    //take into account colspan attribute / check total cells of colspan + tds match
-
-                        //    //use css order property + flex?  then loop through and append columns by their order? sort?
-
+                        const oldIndex = $form.data('columnsmoved').oldIndex;
+                        const newIndex = $form.data('columnsmoved').newIndex;
+                        for (let i = 0; i < $rows.length; i++) {
+                            const $row = jQuery($rows[i]);
+                            const rowType = $row.attr('data-row');
+                            if (rowType == 'detail') {
+                                const $tds = $row.find('td');
+                                let $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
+                                if ($movedTd.length) {
+                                    const $designerTd = $table.find(`${rowSelector}[data-row="${rowType}"] [data-value="{{${valuefield}}}"]`);
+                                    const $designerTds = $table.find(`${rowSelector}[data-row="${rowType}"] td`);
+                                    if (oldIndex > newIndex) {
+                                        if (newIndex != 0) {
+                                            $movedTd.insertBefore($tds[newIndex]);
+                                            $designerTd.insertBefore($designerTds[newIndex]);
+                                        } else {
+                                            $movedTd.insertBefore($tds[newIndex]);
+                                            $designerTd.insertBefore($designerTds[newIndex]);
+                                        }
+                                    } else {
+                                        if ((newIndex + 1) == this.TotalColumnCount) {
+                                            $movedTd.insertAfter($tds[newIndex]);
+                                            $designerTd.insertAfter($designerTds[newIndex]);
+                                        } else {
+                                            $movedTd.insertAfter($tds[newIndex]);
+                                            $designerTd.insertAfter($designerTds[newIndex]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
+                    $form.removeData('columnsmoved');
                 }
 
                 if (typeof $form.data('addcolumn') != 'undefined') {
                     const newColumnData = $form.data('addcolumn');
                     const valueField = `NewColumn${newColumnData.newcolumnnumber}`;
-                    const rowSelector = 'tbody tr';
-                    const $rows = $wrapper.find(rowSelector);
                     for (let i = 0; i < $rows.length; i++) {
                         const $row = jQuery($rows[i]);
                         const rowType = $row.attr('data-row');
@@ -458,13 +479,11 @@ class CustomReportLayout {
                 //delete
                 if (typeof $form.data('deletefield') != 'undefined') {
                     const valuefield = $form.data('deletefield').field;
-                    const rowSelector = 'tbody tr';
-                    const $rows = $wrapper.find(rowSelector);
                     for (let i = 0; i < $rows.length; i++) {
                         const $row = jQuery($rows[i]);
                         const $td = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
                         const tdIsInRow = $td.length;
-                        if (tdIsInRow) {
+                        if (tdIsInRow) { //
                             const rowType = $row.attr('data-row');
                             $td.remove();
                             $table.find(`${rowSelector}[data-row="${rowType}"] [data-value="{{${valuefield}}}"]`).remove();
