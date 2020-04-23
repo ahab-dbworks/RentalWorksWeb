@@ -42,6 +42,7 @@
     <Content Include="src\combined.log" />
     <Content Include="src\error.log" />
     <Content Include="src\tsconfig.json" />
+    <Content Include="src\ts\fwjest\FwJest.code-workspace" />
     <Content Include="src\ts\rentalworksweb\old\RWWDEMOBurbank.test.ts">
       <SubType>Code</SubType>
     </Content>
@@ -49,6 +50,7 @@
   <ItemGroup>
     <Folder Include="src\" />
     <Folder Include="src\ts\" />
+    <Folder Include="src\ts\fwjest\" />
     <Folder Include="src\ts\rentalworksapi\" />
     <Folder Include="src\ts\rentalworksapi\TestAll\" />
     <Folder Include="src\ts\rentalworksweb\" />
@@ -57,6 +59,19 @@
     <Folder Include="src\ts\shared\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\ts\fwjest\FwAdminModule.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwAjax.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwBaseTest.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwBrowse.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwFrontEndBase.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwFrontEndModule.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwGlobalScope.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwGridBase.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwHomeModule.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwLogging.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwModuleBase.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwSettingsModule.ts" />
+    <TypeScriptCompile Include="src\ts\fwjest\FwTestUtils.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\FrontEnds.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Admin.ts">
       <SubType>Code</SubType>
