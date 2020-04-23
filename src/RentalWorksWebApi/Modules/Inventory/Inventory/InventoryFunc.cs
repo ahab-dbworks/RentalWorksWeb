@@ -1,9 +1,11 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.InventoryAvailability;
+using WebApi.Modules.HomeControls.InventoryWarehouse;
 
 namespace WebApi.Modules.Inventory.Inventory
 {
@@ -69,6 +71,17 @@ namespace WebApi.Modules.Inventory.Inventory
     {
         public string UnretiredId { get; set; }
     }
+
+    public class RentalInventoryQcRequiredAllWarehousesRequest
+    {
+        public string InventoryId { get; set; }
+        public bool QcRequired { get; set; }
+    }
+
+    public class RentalInventoryQcRequiredAllWarehousesResponse : TSpStatusResponse
+    {
+    }
+
 
     public static class InventoryFunc
     {
@@ -190,6 +203,32 @@ namespace WebApi.Modules.Inventory.Inventory
             await qry.ExecuteNonQueryAsync();
             response.UnretiredId = qry.GetParameter("@unretiredid").ToString();
             response.success = !string.IsNullOrEmpty(response.UnretiredId);
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<RentalInventoryQcRequiredAllWarehousesResponse> SetQcRequiredAllWarehouses(FwApplicationConfig appConfig, FwUserSession userSession, RentalInventoryQcRequiredAllWarehousesRequest request)
+        {
+            RentalInventoryQcRequiredAllWarehousesResponse response = new RentalInventoryQcRequiredAllWarehousesResponse();
+
+            BrowseRequest warehouseBrowseRequest = new BrowseRequest();
+            warehouseBrowseRequest.uniqueids = new Dictionary<string, object>();
+            warehouseBrowseRequest.uniqueids.Add("InventoryId", request.InventoryId);
+
+            InventoryWarehouseLogic warehouseSelector = new InventoryWarehouseLogic();
+            warehouseSelector.SetDependencies(appConfig, userSession);
+            List<InventoryWarehouseLogic> inventoryWarehouses = await warehouseSelector.SelectAsync<InventoryWarehouseLogic>(warehouseBrowseRequest);
+
+            foreach (InventoryWarehouseLogic iw in inventoryWarehouses)
+            {
+                InventoryWarehouseLogic iw2 = new InventoryWarehouseLogic();
+                iw2.SetDependencies(appConfig, userSession);
+                iw2.InventoryId = iw.InventoryId;
+                iw2.WarehouseId = iw.WarehouseId;
+                iw2.QcRequired = request.QcRequired;
+                await iw2.SaveAsync(original: iw);
+                response.success = true;
+            }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------

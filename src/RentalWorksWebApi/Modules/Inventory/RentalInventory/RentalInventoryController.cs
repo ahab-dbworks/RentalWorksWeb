@@ -16,6 +16,8 @@ using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Settings.AccountingSettings.GlAccount;
 using WebApi.Modules.Settings.AddressSettings.Country;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Inventory.Inventory;
+using System;
 
 namespace WebApi.Modules.Inventory.RentalInventory
 {
@@ -116,6 +118,36 @@ namespace WebApi.Modules.Inventory.RentalInventory
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<RentalInventoryLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentalinventory/qcrequiredallwarehouses
+        [HttpPost("qcrequiredallwarehouses")]
+        [FwControllerMethod(Id: "QiRmnMJzrVZE1", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<RentalInventoryQcRequiredAllWarehousesResponse>> SetQcRequiredAllWarehouses([FromBody]RentalInventoryQcRequiredAllWarehousesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                RentalInventoryLogic l = new RentalInventoryLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                l.InventoryId = request.InventoryId;
+                if (await l.LoadAsync<RentalInventoryLogic>())
+                {
+                    RentalInventoryQcRequiredAllWarehousesResponse response = await InventoryFunc.SetQcRequiredAllWarehouses(AppConfig, UserSession, request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventory/validateinventorytype/browse
@@ -245,5 +277,6 @@ namespace WebApi.Modules.Inventory.RentalInventory
         {
             return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }
