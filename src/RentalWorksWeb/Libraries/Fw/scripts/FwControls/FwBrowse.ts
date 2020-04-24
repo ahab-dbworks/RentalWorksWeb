@@ -4220,10 +4220,11 @@ class FwBrowseClass {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
     //---------------------------------------------------------------------------------
-    renderAuditHistoryPopup($tr: JQuery): void {
-        const html: Array<string> = [];
-        html.push(
-            `<div class="flexrow body" style="background-color:white;max-width:1275px;">
+    auditHistoryPopupContent() {
+        return jQuery(
+            `<div class="menu"></div>
+            <div class="flexrow body" style="background-color:white;max-width:1275px;">
+       <div class="fwform-menu"></div>
                   <div class="formcolumn" style="margin:20px 5px 0 px;">
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div class="flexrow"></div>
@@ -4233,8 +4234,11 @@ class FwBrowseClass {
                     </div>
                   </div>
                 </div>`);
-
-        const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, 'Audit History', null);
+    }
+    //---------------------------------------------------------------------------------
+    renderAuditHistoryPopup($tr: JQuery): void {
+        const $popup = FwPopup.renderPopup(this.auditHistoryPopupContent(), { ismodal: true }, 'Audit History', 'placeholder');
+        $popup.find('.popout-modal').removeClass('popout-modal').addClass('pop-out').off();
         FwPopup.showPopup($popup);
 
         const controller = $tr.parents('[data-type="Grid"]').attr('data-controller');
@@ -4275,6 +4279,31 @@ class FwBrowseClass {
             FwPopup.destroyPopup($popup);
             jQuery(document).find('.fwpopup').off('click');
             jQuery(document).off('keydown');
+        });
+        //pop-out button
+        $popup.on('click', '.pop-out', e => {
+            const $auditHistoryGridControl = $popup.find('div[data-name="AuditHistoryGrid"]');
+            const $gridClone = $auditHistoryGridControl.clone();
+            const griddatabind = $auditHistoryGridControl.data('ondatabind');
+            let here;
+            setTimeout(() => {
+                const $popoutContent = this.auditHistoryPopupContent();
+                FwControl.renderRuntimeControls($popoutContent.find('.fwcontrol'));
+                const $form = $tr.closest('.fwform');
+                FwModule.openSubModuleTab($form, $popoutContent);
+                $popoutContent.css({ 'max-width': 'none', });
+
+                const $menu = FwMenu.getMenuControl('default');
+                $popoutContent.find('.menu').append($menu);
+                FwMenu.addSubMenu($menu);
+                const tabid = $popoutContent.closest('.tabpage').attr('data-tabid');
+                jQuery(`#${tabid} .caption`).text('Audit History');
+                const $popOutGrid = $popoutContent.find('[data-grid="AuditHistoryGrid"]');
+                $popOutGrid.empty().append($gridClone);
+                $gridClone.data('ondatabind', griddatabind);
+                FwBrowse.search($gridClone);
+                FwPopup.detachPopup($popup);
+            }, 0, [$tr]);
         });
         // Close modal if click outside
         jQuery(document).on('click', e => {
