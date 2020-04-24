@@ -38,6 +38,12 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
         [FwLogicProperty(Id:"SpToElurmy40E", IsReadOnly:true)]
         public string ActivityRename { get; set; }
 
+        [FwLogicProperty(Id: "oGBQU92PqF7q2", IsReadOnly: true)]
+        public string RecType { get; set; }
+
+        [FwLogicProperty(Id: "3EZ01GBlXc2VB", IsReadOnly: true)]
+        public string ActivityColor { get; set; }
+
         [FwLogicProperty(Id:"CmtxIBnV9SIx")]
         public string ExportCode { get { return presentationLayerActivityOverride.ExportCode; } set { presentationLayerActivityOverride.ExportCode = value; } }
 

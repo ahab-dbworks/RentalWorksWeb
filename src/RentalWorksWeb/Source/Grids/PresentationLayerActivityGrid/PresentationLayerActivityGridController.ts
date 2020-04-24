@@ -4,7 +4,7 @@
 
     addLegend($control: any) {
         try {
-            FwAppData.apiMethod(true, 'GET', `api/v1/presentationlayeractivity/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 for (var key in response) {
                     FwBrowse.addLegend($control, key, response[key]);
                 }

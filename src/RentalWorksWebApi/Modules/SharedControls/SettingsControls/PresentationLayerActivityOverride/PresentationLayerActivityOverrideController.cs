@@ -18,6 +18,17 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
     {
         public PresentationLayerActivityOverrideController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PresentationLayerActivityOverrideLogic); }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/presentationlayeractivityoverride/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "s5mcYcsnuPayq", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("User Defined", RwGlobals.PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayeractivityoverride/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id:"QQ4urqItSSUZr", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]

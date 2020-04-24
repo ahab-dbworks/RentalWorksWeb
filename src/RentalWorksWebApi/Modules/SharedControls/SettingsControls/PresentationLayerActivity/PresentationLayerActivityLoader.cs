@@ -12,6 +12,7 @@ namespace WebApi.Modules.Settings.PresentationLayerActivity
     [FwSqlTable("presentationlayeractivity")]
     public class PresentationLayerActivityLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
         public PresentationLayerActivityLoader()
         {
             AfterBrowse += OnAfterBrowse;
