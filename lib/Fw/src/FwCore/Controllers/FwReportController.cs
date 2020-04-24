@@ -63,8 +63,13 @@ namespace FwCore.Controllers
                     pdfFileName = $"{reportFileName}.pdf";
                 }
 
-                string pathPdfReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), pdfFileName);
-                response.pdfReportUrl = $"{baseUrl}/temp/downloads/{pdfFileName}";
+                string guidDownloadPath = Path.Combine(FwDownloadController.GetDownloadsDirectory(), guid);
+                System.IO.Directory.CreateDirectory(guidDownloadPath);
+
+                //string pathPdfReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), pdfFileName);
+                string pathPdfReport = Path.Combine(guidDownloadPath, pdfFileName);
+                //response.pdfReportUrl = $"{baseUrl}/temp/downloads/{pdfFileName}";
+                response.pdfReportUrl = $"{baseUrl}/temp/downloads/{guid}/{pdfFileName}";
                 response.consoleOutput = await FwReport.GeneratePdfFromUrlAsync(baseUrl, urlHtmlReport, pathPdfReport, authorizationHeader, request.parameters, GetPdfOptions());
 
                 if (request.renderMode == "Email")
