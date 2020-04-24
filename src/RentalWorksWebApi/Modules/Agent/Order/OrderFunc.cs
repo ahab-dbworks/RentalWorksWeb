@@ -908,10 +908,13 @@ namespace WebApi.Modules.Agent.Order
 
                 foreach (OrderContactLogic n in contacts)
                 {
-                    n.SetDependencies(appConfig, userSession);
-                    n.OrderId = to.GetPrimaryKeys()[0].ToString();
-                    n.OrderContactId = null;
-                    await n.SaveAsync(conn: conn);
+                    if (n.ContactOnOrder.GetValueOrDefault(false))  // only create the record on the New Order if assigned on Orig Order
+                    {
+                        n.SetDependencies(appConfig, userSession);
+                        n.OrderId = to.GetPrimaryKeys()[0].ToString();
+                        n.OrderContactId = null;
+                        await n.SaveAsync(conn: conn);
+                    }
                 }
 
                 //copy multi po's/
