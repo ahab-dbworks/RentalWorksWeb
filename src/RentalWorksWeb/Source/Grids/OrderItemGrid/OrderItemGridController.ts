@@ -466,14 +466,14 @@ class OrderItemGrid {
                     RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
                     FwScheduler.loadControl($calendar);
                     const fromDate = FwBrowse.getValueByDataField($control, $generatedtr, 'FromDate');
-                    let date;
+                    let schedDate;
                     if (fromDate) {
-                        date = new Date(fromDate);
-                        date = new DayPilot.Date(date);
+                        schedDate = new Date(fromDate);
+                        schedDate = new DayPilot.Date(schedDate);
                     } else {
-                        date = FwScheduler.getTodaysDate();
+                        schedDate = FwScheduler.getTodaysDate();
                     }
-                    FwScheduler.navigate($calendar, date);
+                    FwScheduler.navigate($calendar, schedDate);
                     FwScheduler.refresh($calendar);
                     // sequence of these invocations is important so that events are properly stored on the control ^ v
                     const $scheduler = $popup.find('.realscheduler');
@@ -481,7 +481,7 @@ class OrderItemGrid {
                     FwSchedulerDetailed.init($scheduler);
                     RentalInventoryController.addCalSchedEvents($generatedtr, $scheduler, inventoryId);
                     FwSchedulerDetailed.loadControl($scheduler);
-                    FwSchedulerDetailed.navigate($scheduler, date, 35);
+                    FwSchedulerDetailed.navigate($scheduler, schedDate, 35);
                     FwSchedulerDetailed.refresh($scheduler);
 
                     try {
