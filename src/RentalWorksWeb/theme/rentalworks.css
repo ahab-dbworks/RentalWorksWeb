@@ -356,7 +356,9 @@ Form tables
 #itemsearch div[data-datafield="SearchBox"] .fwformfield-caption {font-weight:bold;font-size:1em;}
 #itemsearch div[data-datafield="SearchBox"] .fwformfield-control {border: 1px solid #9E9E9E;}
 
-#itemsearch .breadcrumbrow {display: flex;flex:0 0 auto;align-items: center;background-color: #fafafa;border-top: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;}
+#itemsearch .formoptions {flex:1 0 auto;display:flex;flex-direction:column; width:100%;}
+
+#itemsearch .breadcrumbrow { width:calc(100% - 230px); display: flex;flex:0 0 auto;align-items: center;background-color: #fafafa;border-top: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;}
 #itemsearch #breadcrumbs {padding-left: 20px;display:flex;flex: 1 0 auto;}
 #itemsearch #breadcrumbs .breadcrumb {display: flex;cursor: pointer;font-weight: bold;padding: 6px 0;}
 #itemsearch #breadcrumbs .breadcrumb+.breadcrumb:before {content: "\002F";padding: 0 10px;}
@@ -379,11 +381,11 @@ Form tables
 #itemsearch #categorycolumns ul:hover:not(.selected) {background-color: #E0E0E0;}
 #itemsearch #categorycolumns #subCategory ul {padding:5px 5px 5px 29px;}
 
-#itemsearch #itemlist {flex: 1 1 0;position:relative;overflow:auto;}
-#itemsearch #itemlist #inventory {position: absolute;top: 32px;left: 0;right: 0;bottom: 0;}
+#itemsearch #itemlist {width:calc(100% - 230px);flex: 1 1 0;position:relative;overflow:auto;}
+#itemsearch #itemlist #inventory {width:calc(100% + 230px);position: absolute;top: 32px;left: 0;right: 0;bottom: 0;}
 
 #itemsearch #itemlist[data-view="GRID"] .columnDescriptions {display:none;}
-#itemsearch #itemlist[data-view="GRID"] {max-width:1950px;}
+/*#itemsearch #itemlist[data-view="GRID"] {max-width:1950px;}*/
 #itemsearch #itemlist[data-view="GRID"] #inventory {display:flex;flex-wrap:wrap;top:0;}
 #itemsearch #itemlist[data-view="GRID"] #inventory .item-container {flex:0 0 280px;}
 #itemsearch #itemlist[data-view="GRID"] .item-info {padding:20px;position:relative;border: 1px solid #E0E0E0;}
@@ -414,7 +416,7 @@ Form tables
 #itemsearch #itemlist[data-view="GRID"] .gridcaption {text-decoration: underline;flex: 1 0 100px;}
 #itemsearch #itemlist[data-view="GRID"] .item-accessories {display:none;}
 
-#itemsearch #itemlist[data-view="LIST"] .columnDescriptions {display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
+#itemsearch #itemlist[data-view="LIST"] .columnDescriptions {width:calc(100% + 230px);display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
 #itemsearch #itemlist[data-view="LIST"] .columnDescriptions .columnorder:last-of-type {padding-right:2em;} 
 #itemsearch #itemlist[data-view="LIST"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="ItemImage"] {display:none;}
@@ -444,7 +446,7 @@ Form tables
 #itemsearch #itemlist[data-view="LIST"] .item-accessories .item-accessory-info > div[data-column="Description"] .toggleaccessories { margin-left: 1em; }
 #itemsearch #itemlist[data-view="LIST"] .item-accessories .nested-accessories div[data-column="Description"] .descriptionrow { margin-left: 4em; }
 
-#itemsearch #itemlist[data-view="HYBRID"] .columnDescriptions {display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
+#itemsearch #itemlist[data-view="HYBRID"] .columnDescriptions {width:calc(100% + 230px);display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] {width:4em;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-info div[data-column="ItemImage"] {height:4em;}

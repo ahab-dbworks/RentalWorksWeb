@@ -64,7 +64,7 @@ class SearchInterface {
                                     <div id="subCategory"></div>
                                   </div>
                                 </div>
-                                <div class="formoptions" style="flex:1 0 auto;display:flex;flex-direction:column;">
+                                <div class="formoptions">
                                   <div class="breadcrumbrow">
                                     <div id="breadcrumbs"></div>
                                     <i class="material-icons invviewbtn" data-buttonview="LIST">&#xE8EE;</i>
