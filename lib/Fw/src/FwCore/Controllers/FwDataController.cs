@@ -475,6 +475,11 @@ namespace FwCore.Controllers
                     ActionResult<T> ar = await DoPostAsync<T>(l);
                     results.Add(ar);
                 }
+                if (lList.Count > 0)
+                {
+                    AfterSaveManyEventArgs e = new AfterSaveManyEventArgs();
+                    await lList[0].AfterSaveManyAsync(e);
+                }
             }
             catch (Exception ex)
             {

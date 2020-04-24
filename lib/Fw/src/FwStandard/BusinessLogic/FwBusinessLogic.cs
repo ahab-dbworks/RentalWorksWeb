@@ -43,6 +43,10 @@ namespace FwStandard.BusinessLogic
         public FwSqlConnection SqlConnection { get; set; }
     }
 
+    public class AfterSaveManyEventArgs : EventArgs
+    {
+    }
+
     public class BeforeSaveDataRecordEventArgs : EventArgs
     {
         public TDataRecordSaveMode SaveMode { get; set; }
@@ -229,6 +233,7 @@ namespace FwStandard.BusinessLogic
         public event EventHandler<BeforeSaveEventArgs> BeforeSave;
         public event EventHandler<InsteadOfSaveEventArgs> InsteadOfSave;
         public event EventHandler<AfterSaveEventArgs> AfterSave;
+        public event EventHandler<AfterSaveManyEventArgs> AfterSaveMany;
         public event EventHandler<BeforeValidateEventArgs> BeforeValidate;
         public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
         public event EventHandler<AfterDeleteEventArgs> AfterDelete;
@@ -255,6 +260,12 @@ namespace FwStandard.BusinessLogic
         protected virtual async Task AfterSaveAsync(AfterSaveEventArgs e)
         {
             AfterSave?.Invoke(this, e);
+            await Task.CompletedTask;
+        }
+        // this method is called from outside the scope of this class, so it must be public
+        public virtual async Task AfterSaveManyAsync(AfterSaveManyEventArgs e)
+        {
+            AfterSaveMany?.Invoke(this, e);
             await Task.CompletedTask;
         }
         protected virtual async Task BeforeValidateAsync(BeforeValidateEventArgs e)
