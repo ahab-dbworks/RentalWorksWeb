@@ -4220,21 +4220,26 @@ class FwBrowseClass {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
     //---------------------------------------------------------------------------------
-    renderAuditHistoryPopup($tr: JQuery): void {
-        const html: Array<string> = [];
-        html.push(
-            `<div class="flexrow body" style="background-color:white;max-width:1275px;">
-                  <div class="formcolumn" style="margin:20px 5px 0 px;">
-                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                      <div class="flexrow"></div>
-                      <div data-control="FwGrid" class="container">
-                        <div class="formrow"><div data-control="FwGrid" data-grid="AuditHistoryGrid" data-securitycaption=""></div></div>
-                      </div>
+    auditHistoryPopupContent() {
+        return jQuery(
+            `<div>
+              <div class="menu"></div>
+              <div class="flexrow body" style="background-color:white;max-width:1275px;">
+                <div class="formcolumn" style="margin:20px 5px 0 px;">
+                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div class="flexrow"></div>
+                    <div data-control="FwGrid" class="container">
+                      <div class="formrow"><div data-control="FwGrid" data-grid="AuditHistoryGrid" data-securitycaption=""></div></div>
                     </div>
                   </div>
-                </div>`);
-
-        const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, 'Audit History', null);
+                </div>
+              </div>
+            </div>`);
+    }
+    //---------------------------------------------------------------------------------
+    renderAuditHistoryPopup($tr: JQuery): void {
+        const $popup = FwPopup.renderPopup(this.auditHistoryPopupContent(), { ismodal: true }, 'Audit History', 'placeholder');
+        $popup.find('.popout-modal').removeClass('popout-modal').addClass('pop-out').off();
         FwPopup.showPopup($popup);
 
         const controller = $tr.parents('[data-type="Grid"]').attr('data-controller');
@@ -4276,6 +4281,30 @@ class FwBrowseClass {
             jQuery(document).find('.fwpopup').off('click');
             jQuery(document).off('keydown');
         });
+        //pop-out button
+        $popup.on('click', '.pop-out', e => {
+            const $auditHistoryGridControl = $popup.find('div[data-name="AuditHistoryGrid"]');
+            const $gridClone = $auditHistoryGridControl.clone(true);
+            const griddatabind = $auditHistoryGridControl.data('ondatabind');
+            setTimeout(() => {
+                const $popoutContent = this.auditHistoryPopupContent();
+                FwControl.renderRuntimeControls($popoutContent.find('.fwcontrol'));
+                const $form = $tr.closest('.fwform');
+                FwModule.openSubModuleTab($form, $popoutContent);
+                $popoutContent.css({ 'border': 'none', 'max-width': 'none', 'padding': '0px' });
+
+                const $menu = FwMenu.getMenuControl('default');
+                $popoutContent.find('.menu').append($menu);
+                FwMenu.addSubMenu($menu);
+                const tabid = $popoutContent.closest('.tabpage').attr('data-tabid');
+                jQuery(`#${tabid} .caption`).text('Audit History');
+                const $popOutGrid = $popoutContent.find('[data-grid="AuditHistoryGrid"]');
+                $popOutGrid.empty().append($gridClone);
+                $gridClone.data('ondatabind', griddatabind);
+                FwBrowse.search($gridClone);
+                FwPopup.detachPopup($popup);
+            }, 0, [$tr]);
+        });
         // Close modal if click outside
         jQuery(document).on('click', e => {
             if (!jQuery(e.target).closest('.popup').length) {
@@ -4285,17 +4314,16 @@ class FwBrowseClass {
     }
     //----------------------------------------------------------------------------------------------
     getValidationData($object: JQuery, request: any, responseFunc: Function) {
-        var webserviceurl, controller, module;
-        controller = $object.attr('data-controller');
-        module = (<any>window)[controller].Module;
+        const controller = $object.attr('data-controller');
+        const module = (<any>window)[controller].Module;
         request.module = module;
-        webserviceurl = 'services.ashx?path=/validation/' + module + '/GetData';
+        const webserviceurl = `services.ashx?path=/validation/${module}/GetData`;
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $object);
     }
     //---------------------------------------------------------------------------------
     getController($control: JQuery) {
-        var controllername;
-        var controller; // default value of controller will be undefined if not found
+        let controllername;
+        let controller; // default value of controller will be undefined if not found
         if (typeof $control.attr('data-name') === 'string' && $control.attr('data-name').length > 0) {
             controllername = $control.attr('data-name') + 'Controller';
         }
@@ -4305,12 +4333,12 @@ class FwBrowseClass {
         if (typeof controllername !== 'undefined') {
             controller = window[controllername];
         }
-        return controller
+        return controller;
     }
     //--------------------------------------------------------------------------------- 
     isUsingWebApi($control: JQuery) {
-        var useWebApi = false;
-        var controller = this.getController($control);
+        let useWebApi = false;
+        const controller = this.getController($control);
         if (typeof controller.apiurl !== 'undefined') {
             useWebApi = true;
         }
@@ -4318,7 +4346,7 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     loadBrowseFromTemplate(modulename: string) {
-        var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
+        const $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
 
         //FwBrowse.loadCustomBrowseFields($control, modulename)
 
