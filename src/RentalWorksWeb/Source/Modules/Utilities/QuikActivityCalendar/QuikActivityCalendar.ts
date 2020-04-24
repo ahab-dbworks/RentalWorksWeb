@@ -501,7 +501,7 @@ class QuikActivityCalendar {
         //pop-out button
         $popup.on('click', '.pop-out', e => {
             const $quikActivityGridControl = $popup.find('div[data-name="QuikActivityGrid"]');
-            const $gridClone = $quikActivityGridControl.clone();
+            const $gridClone = $quikActivityGridControl.clone(true);
             const griddatabind = $quikActivityGridControl.data('ondatabind');
             setTimeout(() => {
                 const $popoutContent = this.quikActivityCalendarPopupContent();
