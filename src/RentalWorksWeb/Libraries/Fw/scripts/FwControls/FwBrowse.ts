@@ -4303,7 +4303,7 @@ class FwBrowseClass {
                 $gridClone.data('ondatabind', griddatabind);
                 FwBrowse.search($gridClone);
                 FwPopup.detachPopup($popup);
-            },0,[$tr]);
+            }, 0, [$tr]);
         });
         // Close modal if click outside
         jQuery(document).on('click', e => {
@@ -4314,17 +4314,16 @@ class FwBrowseClass {
     }
     //----------------------------------------------------------------------------------------------
     getValidationData($object: JQuery, request: any, responseFunc: Function) {
-        var webserviceurl, controller, module;
-        controller = $object.attr('data-controller');
-        module = (<any>window)[controller].Module;
+        const controller = $object.attr('data-controller');
+        const module = (<any>window)[controller].Module;
         request.module = module;
-        webserviceurl = 'services.ashx?path=/validation/' + module + '/GetData';
+        const webserviceurl = `services.ashx?path=/validation/${module}/GetData`;
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $object);
     }
     //---------------------------------------------------------------------------------
     getController($control: JQuery) {
-        var controllername;
-        var controller; // default value of controller will be undefined if not found
+        let controllername;
+        let controller; // default value of controller will be undefined if not found
         if (typeof $control.attr('data-name') === 'string' && $control.attr('data-name').length > 0) {
             controllername = $control.attr('data-name') + 'Controller';
         }
@@ -4334,12 +4333,12 @@ class FwBrowseClass {
         if (typeof controllername !== 'undefined') {
             controller = window[controllername];
         }
-        return controller
+        return controller;
     }
     //--------------------------------------------------------------------------------- 
     isUsingWebApi($control: JQuery) {
-        var useWebApi = false;
-        var controller = this.getController($control);
+        let useWebApi = false;
+        const controller = this.getController($control);
         if (typeof controller.apiurl !== 'undefined') {
             useWebApi = true;
         }
@@ -4347,7 +4346,7 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     loadBrowseFromTemplate(modulename: string) {
-        var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
+        const $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
 
         //FwBrowse.loadCustomBrowseFields($control, modulename)
 
