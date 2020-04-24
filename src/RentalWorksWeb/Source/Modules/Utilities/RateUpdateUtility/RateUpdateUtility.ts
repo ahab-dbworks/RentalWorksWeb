@@ -41,14 +41,15 @@ class RateUpdateUtility {
             { value: "A", text: "Accessory", selected: "F" },
             { value: "C", text: "Complete", selected: "F" },
             { value: "K", text: "Kit", selected: "F" },
-            { value: "S", text: "Set", selected: "F" },
-            { value: "W", text: "Wall", selected: "F" }
+            //{ value: "S", text: "Set", selected: "F" },
+            //{ value: "W", text: "Wall", selected: "F" }
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="OrderBy"]'), [
             { value: "Warehouse", text: "Warehouse", selected: "T" },
-            { value: "InventoryType", text: "Department", selected: "T" },
+            { value: "InventoryType", text: "Type", selected: "T" },
             { value: "Category", text: "Category", selected: "T" },
+            { value: "SubCategory", text: "Sub-Category", selected: "T" },
             { value: "ICode", text: "I-Code", selected: "T" }
         ]);
 
@@ -68,7 +69,7 @@ class RateUpdateUtility {
             { value: "P", caption: "Parts" },
             { value: "L", caption: "Labor" },
             { value: "M", caption: "Miscellaneous" },
-            { value: "T", caption: "Transportation" }
+            //{ value: "T", caption: "Transportation" }
         ]);
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'))
