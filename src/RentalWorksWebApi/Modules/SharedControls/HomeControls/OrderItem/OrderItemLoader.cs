@@ -44,6 +44,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Boolean, isPrimaryKeyOptional: true)]
         public bool? DetailOnly { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
+        public string OrderType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 

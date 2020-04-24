@@ -9,6 +9,8 @@ using WebApi.Modules.HomeControls.MasterItem;
 using WebApi.Modules.Home.MasterItemDetail;
 using FwStandard.Models;
 using System;
+using WebApi.Modules.Agent.PurchaseOrder;
+using WebApi.Modules.Transfers.TransferOrder;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -38,6 +40,10 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             AfterDelete += OnAfterDelete;
             UseTransactionToDelete = true;
+
+
+            AfterSaveMany += OnAfterSaveMany;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "j5BoEx9ak5Ry", IsPrimaryKey: true)]
@@ -56,6 +62,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [JsonIgnore]
         [FwLogicProperty(Id: "ovkYGK5CTBmcX", IsReadOnly: true, IsPrimaryKeyOptional: true)]
         public bool? DetailOnly { get; set; }
+
+        [FwLogicProperty(Id: "nhvx9BUEytOsg", IsReadOnly: true)]
+        public string OrderType { get; set; }
 
         [FwLogicProperty(Id: "6sOCOcNV2gVV")]
         public string RecType { get { return orderItem.RecType; } set { orderItem.RecType = value; } }
@@ -1317,6 +1326,23 @@ namespace WebApi.Modules.HomeControls.OrderItem
             if ((InventoryId != null) && (WarehouseId != null))
             {
                 InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, InventoryClass);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSaveMany(object sender, AfterSaveManyEventArgs e)
+        {
+            //after save many rows- do work in the database
+            if (OrderType.Equals(RwConstants.ORDER_TYPE_QUOTE) || OrderType.Equals(RwConstants.ORDER_TYPE_ORDER))
+            {
+                TSpStatusResponse r = OrderFunc.AfterSaveQuoteOrder(AppConfig, UserSession, OrderId).Result;
+            }
+            else if (OrderType.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER))
+            {
+                TSpStatusResponse r = PurchaseOrderFunc.AfterSavePurchaseOrder(AppConfig, UserSession, OrderId).Result;
+            }
+            else if (OrderType.Equals(RwConstants.ORDER_TYPE_TRANSFER))
+            {
+                TSpStatusResponse r = TransferOrderFunc.AfterSaveTransfer(AppConfig, UserSession, OrderId).Result;
             }
         }
         //------------------------------------------------------------------------------------
