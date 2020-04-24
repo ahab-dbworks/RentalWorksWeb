@@ -4222,17 +4222,19 @@ class FwBrowseClass {
     //---------------------------------------------------------------------------------
     auditHistoryPopupContent() {
         return jQuery(
-            `<div class="menu"></div>
-            <div class="flexrow body" style="background-color:white;max-width:1275px;">
-                  <div class="formcolumn" style="margin:20px 5px 0 px;">
-                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                      <div class="flexrow"></div>
-                      <div data-control="FwGrid" class="container">
-                        <div class="formrow"><div data-control="FwGrid" data-grid="AuditHistoryGrid" data-securitycaption=""></div></div>
-                      </div>
+            `<div>
+              <div class="menu"></div>
+              <div class="flexrow body" style="background-color:white;max-width:1275px;">
+                <div class="formcolumn" style="margin:20px 5px 0 px;">
+                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div class="flexrow"></div>
+                    <div data-control="FwGrid" class="container">
+                      <div class="formrow"><div data-control="FwGrid" data-grid="AuditHistoryGrid" data-securitycaption=""></div></div>
                     </div>
                   </div>
-                </div>`);
+                </div>
+              </div>
+            </div>`);
     }
     //---------------------------------------------------------------------------------
     renderAuditHistoryPopup($tr: JQuery): void {
@@ -4282,9 +4284,8 @@ class FwBrowseClass {
         //pop-out button
         $popup.on('click', '.pop-out', e => {
             const $auditHistoryGridControl = $popup.find('div[data-name="AuditHistoryGrid"]');
-            const $gridClone = $auditHistoryGridControl.clone();
+            const $gridClone = $auditHistoryGridControl.clone(true);
             const griddatabind = $auditHistoryGridControl.data('ondatabind');
-            let here;
             setTimeout(() => {
                 const $popoutContent = this.auditHistoryPopupContent();
                 FwControl.renderRuntimeControls($popoutContent.find('.fwcontrol'));
