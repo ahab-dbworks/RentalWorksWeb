@@ -4224,7 +4224,6 @@ class FwBrowseClass {
         return jQuery(
             `<div class="menu"></div>
             <div class="flexrow body" style="background-color:white;max-width:1275px;">
-       <div class="fwform-menu"></div>
                   <div class="formcolumn" style="margin:20px 5px 0 px;">
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div class="flexrow"></div>
@@ -4291,7 +4290,7 @@ class FwBrowseClass {
                 FwControl.renderRuntimeControls($popoutContent.find('.fwcontrol'));
                 const $form = $tr.closest('.fwform');
                 FwModule.openSubModuleTab($form, $popoutContent);
-                $popoutContent.css({ 'max-width': 'none', });
+                $popoutContent.css({ 'border': 'none', 'max-width': 'none', 'padding': '0px' });
 
                 const $menu = FwMenu.getMenuControl('default');
                 $popoutContent.find('.menu').append($menu);
@@ -4303,7 +4302,7 @@ class FwBrowseClass {
                 $gridClone.data('ondatabind', griddatabind);
                 FwBrowse.search($gridClone);
                 FwPopup.detachPopup($popup);
-            }, 0, [$tr]);
+            },0,[$tr]);
         });
         // Close modal if click outside
         jQuery(document).on('click', e => {
