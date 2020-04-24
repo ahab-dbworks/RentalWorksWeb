@@ -651,6 +651,6 @@ html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbo
 [data-controller="RateUpdateUtilityController"] [data-datafield="AvailableFor"] div.fwformfield-control div[data-value] {margin:auto;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="Classification"] {max-width:170px; margin-left:2em;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="Classification"] ol {min-height:1em !important;}
-[data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] {max-width:200px; margin-left:1em;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] {max-width:75px; margin-left:1em;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] ol {min-height:1em !important;}
-[data-controller="RateUpdateUtilityController"] [data-datafield="OrderBy"] {max-height :70px; margin-left:2em; margin-top: .5em;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="OrderBy"] {max-height :70px; margin-left:2em;}

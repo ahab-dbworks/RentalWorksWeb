@@ -10,6 +10,22 @@ class RateUpdateUtility {
     addFormMenuItems(options: IAddFormMenuOptions) {
         options.hasSave = false;
         FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Rate Update Report', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.printRateUpdateReport(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Apply All Rates Now', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.applyAllRates(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
@@ -93,7 +109,7 @@ class RateUpdateUtility {
 
             //enables previously disabled fields
             $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').removeAttr('disabled');
-            $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'true');
+            $form.find('[data-datafield="ManufacturerId"]').attr('data-enabled', 'true');
 
             switch (activityType) {
                 case 'R':
@@ -105,7 +121,7 @@ class RateUpdateUtility {
                 case 'M':
                 case 'L':
                     $form.find('[data-datafield="Classification"] input, [data-datafield="Rank"] input').attr('disabled', 'disabled');
-                    $form.find('[data-datafield="UnitId"], [data-datafield="ManufacturerId"]').attr('data-enabled', 'false');
+                    $form.find('[data-datafield="ManufacturerId"]').attr('data-enabled', 'false');
                     break;
             }
         });
@@ -312,5 +328,34 @@ class RateUpdateUtility {
             $grid.find('thead').prepend($thead);
         }
     }
+    //----------------------------------------------------------------------------------------------
+    printRateUpdateReport($form: any) {
+        try {
+            //var orderNumber = FwFormField.getValue($form, `div[data-datafield="${this.Module}Number"]`);
+            //var orderId = FwFormField.getValue($form, `div[data-datafield="${this.Module}Id"]`);
+            //var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+
+            //var $report = (module === 'Order') ? OrderReportController.openForm() : QuoteReportController.openForm();
+            //FwModule.openSubModuleTab($form, $report);
+
+            //FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
+            //jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
+
+            //var printTab = jQuery('.tab.submodule.active');
+            //printTab.find('.caption').html(`Print ${module}`);
+            //printTab.attr('data-caption', `${module} ${recordTitle}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+     //----------------------------------------------------------------------------------------------
+    applyAllRates($form: any) {
+        try {
+          
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+     //----------------------------------------------------------------------------------------------
 }
 var RateUpdateUtilityController = new RateUpdateUtility();
