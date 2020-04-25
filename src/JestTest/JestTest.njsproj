@@ -39,10 +39,10 @@
     <Content Include="jest-puppeteer.config.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="runRegressionTest.bat" />
+    <Content Include="runRegressionTests.bat" />
     <Content Include="src\combined.log" />
     <Content Include="src\error.log" />
-    <Content Include="src\runRegressionTest.bat" />
-    <Content Include="src\runRegressionTests.bat" />
     <Content Include="src\tsconfig.json" />
     <Content Include="src\ts\fwjest\FwJest.code-workspace" />
     <Content Include="src\ts\rentalworksweb\old\RWWDEMOBurbank.test.ts">
