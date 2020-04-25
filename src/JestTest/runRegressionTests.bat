@@ -25,7 +25,7 @@ if not "%~2"=="" set endtest=%~2
 if "%endtest%"=="" set endtest=%starttest%
 
 if "%starttest%"=="" set starttest=1
-if "%endtest%"=="" set endtest=27
+if "%endtest%"=="" set endtest=29
 
 IF "%DwRentalWorksWebPath%"=="" (
    ECHO Environment Variable DwRentalWorksWebPath is NOT defined

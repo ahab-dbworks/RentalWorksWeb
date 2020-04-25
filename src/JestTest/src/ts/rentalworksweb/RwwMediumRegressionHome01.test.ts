@@ -1,9 +1,7 @@
 import {
     //home
-    Contact, Customer, Deal, 
+    Contact, 
     DefaultSettings, 
-    InventorySettings, 
-    Warehouse,
     User,
 } from './modules/AllModules';
 import { MediumRegressionBaseTest } from './RwwMediumRegressionBase';
@@ -14,17 +12,14 @@ export class MediumRegressionHomeTest extends MediumRegressionBaseTest {
 
         this.LoadMyUserGlobal(new User());
         this.OpenSpecificRecord(new DefaultSettings(), null, true);
-        //this.OpenSpecificRecord(new InventorySettings(), null, true);
 
-        let warehouseToSeek: any = {
-            Warehouse: "GlobalScope.User~ME.Warehouse",
-        }
-        this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
+        //let warehouseToSeek: any = {
+        //    Warehouse: "GlobalScope.User~ME.Warehouse",
+        //}
+        //this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
         //Home - Agent
         this.MediumRegressionOnModule(new Contact());
-        this.MediumRegressionOnModule(new Customer());
-        this.MediumRegressionOnModule(new Deal());
 
     }
     //---------------------------------------------------------------------------------------

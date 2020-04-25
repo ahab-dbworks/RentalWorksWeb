@@ -1,6 +1,7 @@
+import { TestUtils } from '../shared/TestUtils';
 import {
-    Contract, PickList, Container, Manifest, TransferOrder, TransferReceipt,
-    Invoice, Receipt, VendorInvoice,
+    //home
+    Asset, PartsInventory, PhysicalInventory, RentalInventory, RepairOrder, SalesInventory,
     DefaultSettings, 
     InventorySettings, 
     Warehouse,
@@ -21,22 +22,10 @@ export class MediumRegressionHomeTest extends MediumRegressionBaseTest {
         }
         this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
-        //Home - Warehouse
-        this.MediumRegressionOnModule(new Contract());
-        this.MediumRegressionOnModule(new PickList());
-
-        //Home - Container
-        this.MediumRegressionOnModule(new Container());
-
-        //Home - Transfer
-        this.MediumRegressionOnModule(new Manifest());
-        this.MediumRegressionOnModule(new TransferOrder());
-        this.MediumRegressionOnModule(new TransferReceipt());
-
-        //Home - Billing
-        this.MediumRegressionOnModule(new Invoice());
-        this.MediumRegressionOnModule(new Receipt());
-        this.MediumRegressionOnModule(new VendorInvoice());
+        //Home - Inventory
+        this.MediumRegressionOnModule(new Asset());
+        this.MediumRegressionOnModule(new PhysicalInventory());
+        //this.MediumRegressionOnModule(new RepairOrder());    // this module cannot be tested because we cannot search on a unique field. also the bar code validation allows all statuses, so we can't be sure that a record we pick there will be allowable in repair
 
     }
     //---------------------------------------------------------------------------------------

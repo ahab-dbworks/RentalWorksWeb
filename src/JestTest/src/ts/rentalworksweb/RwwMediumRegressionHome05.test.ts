@@ -1,7 +1,6 @@
-import { TestUtils } from '../shared/TestUtils';
 import {
     //home
-    Asset, PartsInventory, PhysicalInventory, RentalInventory, RepairOrder, SalesInventory,
+    Project, PurchaseOrder, Vendor,
     DefaultSettings, 
     InventorySettings, 
     Warehouse,
@@ -22,10 +21,10 @@ export class MediumRegressionHomeTest extends MediumRegressionBaseTest {
         }
         this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
-        //Home - Inventory
-        this.MediumRegressionOnModule(new Asset());
-        this.MediumRegressionOnModule(new PhysicalInventory());
-        //this.MediumRegressionOnModule(new RepairOrder());    // this module cannot be tested because we cannot search on a unique field. also the bar code validation allows all statuses, so we can't be sure that a record we pick there will be allowable in repair
+        //Home - Agent
+        this.MediumRegressionOnModule(new Project());
+        this.MediumRegressionOnModule(new PurchaseOrder());
+        this.MediumRegressionOnModule(new Vendor());
 
     }
     //---------------------------------------------------------------------------------------

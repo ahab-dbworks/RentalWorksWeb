@@ -41,6 +41,8 @@
     <Content Include="README.md" />
     <Content Include="src\combined.log" />
     <Content Include="src\error.log" />
+    <Content Include="src\runRegressionTest.bat" />
+    <Content Include="src\runRegressionTests.bat" />
     <Content Include="src\tsconfig.json" />
     <Content Include="src\ts\fwjest\FwJest.code-workspace" />
     <Content Include="src\ts\rentalworksweb\old\RWWDEMOBurbank.test.ts">
@@ -82,12 +84,14 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Settings.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionAdmin.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome03.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome02.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome04.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome03.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome06.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome07.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome05.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome08.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome09.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionHome07.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionSettings02.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionSettings03.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegressionSettings06.test.ts" />
