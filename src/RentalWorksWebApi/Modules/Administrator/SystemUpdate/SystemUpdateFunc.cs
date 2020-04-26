@@ -27,12 +27,31 @@ namespace WebApi.Modules.Administrator.SystemUpdate
     {
         public string value { get; set; }
         public string text { get; set; }
+        public string Version { get; set; }
+        public DateTime? VersionDate { get; set; }
+    }
 
+    public class AvailableVersionDateComparer : Comparer<AvailableVersion>
+    {
+        public override int Compare(AvailableVersion x, AvailableVersion y)
+        {
+            if (x.VersionDate > y.VersionDate)
+            {
+                return -1;
+            }
+            else if (x.VersionDate < y.VersionDate)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 
     public class AvailableVersionsResponse : TSpStatusResponse
     {
-        public List<string> VersionsList { get; set; } = new List<string>();
         public List<AvailableVersion> Versions { get; set; } = new List<AvailableVersion>();
     }
 
@@ -135,13 +154,25 @@ namespace WebApi.Modules.Administrator.SystemUpdate
 
                                 if (includeVersion)
                                 {
+                                    // get the date of the file
+                                    string fullFtpFileName = ftpDirectory + fileName.Replace(currentMajorMinorRelease, "");
+                                    FtpWebRequest ftpRequest2 = (FtpWebRequest)WebRequest.Create(fullFtpFileName);
+                                    ftpRequest2.Method = WebRequestMethods.Ftp.GetDateTimestamp;
+                                    ftpRequest2.Credentials = new NetworkCredential("update", "update");
+                                    FtpWebResponse ftpResponse2 = (FtpWebResponse)ftpRequest2.GetResponse();
+                                    DateTime lastModifiedDateTime = ftpResponse2.LastModified.AddHours(-7);  // probably not right
+                                    ftpResponse2.Close();
+
                                     AvailableVersion v = new AvailableVersion();
                                     v.text = version;
                                     v.value = version;
+                                    v.Version = version;
+                                    v.VersionDate = lastModifiedDateTime.Date;
                                     response.Versions.Add(v);
-                                    response.VersionsList.Add(version);
                                 }
                             }
+
+                            response.Versions.Sort(new AvailableVersionDateComparer());
                         }
                         response.success = true;
                     }
