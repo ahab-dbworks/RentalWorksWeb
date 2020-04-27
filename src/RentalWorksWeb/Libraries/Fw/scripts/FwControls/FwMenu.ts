@@ -724,6 +724,9 @@ class FwMenuClass {
         if (typeof options.hasDownloadExcel === 'undefined') {
             options.hasDownloadExcel = true;
         }
+        if (typeof options.hasCustomize === 'undefined') {
+            options.hasCustomize = true;
+        }
         //if (typeof buttons.hasExportExcel) {
         //    //check the security tree
         //    const nodeExportExcel
@@ -1168,6 +1171,19 @@ class FwMenuClass {
                 }
             });
         }
+
+        if (options.hasCustomize) {
+            const gridSecurityId = options.$browse.data('secid');
+            const name = options.$browse.data('name');
+            const type = options.$browse.data('type');
+            FwMenu.addSubMenuItem(options.$groupOptions, 'Customize', gridSecurityId, (e: JQuery.ClickEvent) => {
+                try {
+                    FwBrowse.customizeColumns(options.$browse, name, type);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
     addFormMenuButtons(options: IAddFormMenuOptions) {
@@ -1254,7 +1270,8 @@ interface IAddBrowseMenuOptions {
     hasDelete?: boolean
     hasFind?: boolean
     hasDownloadExcel?: boolean
-    hasInactive?: boolean;
+    hasInactive?: boolean
+    hasCustomize?: boolean;
 }
 
 interface IAddGridMenuOptions {

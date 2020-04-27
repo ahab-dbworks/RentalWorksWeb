@@ -4132,6 +4132,18 @@ class FwBrowseClass {
         }
     }
     //----------------------------------------------------------------------------------------------
+    customizeColumns($control: JQuery, name: any, type: any) {
+        try {
+            const $form = CustomFormController.openForm('NEW');
+            FwModule.openModuleTab($form, 'New Custom Form', true, 'FORM', true);
+            const value = name + type.charAt(0).toUpperCase() + type.slice(1);
+            FwFormField.setValueByDataField($form, 'BaseForm', value);
+            FwFormField.setValueByDataField($form, 'Description', `${name} ${type} - ${sessionStorage.getItem('fullname')}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     disableGrid($control: JQuery) {
         //$control.attr('data-enabled', 'false');
         $control.find('.buttonbar').hide();

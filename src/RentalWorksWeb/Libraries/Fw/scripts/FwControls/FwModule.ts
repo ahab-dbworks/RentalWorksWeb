@@ -277,7 +277,8 @@ class FwModule {
             hasDelete: true,
             hasFind: true,
             hasDownloadExcel: true,
-            hasInactive: true
+            hasInactive: true,
+            hasCustomize: true
         };
         return options;
     }
