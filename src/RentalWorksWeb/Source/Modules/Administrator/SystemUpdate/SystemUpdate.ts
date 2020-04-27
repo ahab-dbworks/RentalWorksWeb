@@ -1,6 +1,4 @@
-﻿import { version } from "codemirror";
-
-routes.push({ pattern: /^module\/update$/, action: function (match: RegExpExecArray) { return SystemUpdateController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^module\/update$/, action: function (match: RegExpExecArray) { return SystemUpdateController.getModuleScreen(); } });
 
 class SystemUpdate {
     Module: string = 'SystemUpdate';
@@ -49,8 +47,8 @@ class SystemUpdate {
     events($form) {
         // ----------
         $form.find('div[data-type="button"].update-now').on('click', e => {
-            const toVersion = $form.find('div[data-datafield="ToVersion"] input:checked').val();
-            if (toVersion) {
+            const toVersion = FwFormField.getValueByDataField($form, 'ToVersion');
+            if (toVersion !== '') {
                 const currentVersion = FwFormField.getValueByDataField($form, 'CurrentVersion');
                 const request: any = {
                     CurrentVersion: currentVersion,
@@ -149,21 +147,7 @@ class SystemUpdate {
         };
         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/availableversions`, request, FwServices.defaultTimeout, response => {
             if (response.Versions) {
-                loadVersions($form, response.Versions);
-
-                // ----------
-                function loadVersions($form, versions) {
-                    const $container = $form.find('div[data-datafield="ToVersion"]');
-                    const html = [];
-                    for (let i = 0; i < versions.length; i++) {
-                       // html.push(`<div data-value="${versions[i].Version}" data-caption="${versions[i].Version}    ${versions[i].VersionDate}"></div>`);
-                        const date: any = new Date(versions[i].VersionDate);
-                        html.push(`<input type="radio" id="${versions[i].Version}" name="${versions[i].Version}" value="${versions[i].Version}"> <label for="${versions[i].Version}">${versions[i].Version} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${date.toLocaleDateString()}</label><br>`)
-                    }
-
-                    $container.html(html.join(''));
-                }
-
+                FwFormField.loadItems($form.find('div[data-datafield="ToVersion"]'), response.Versions);
             } else {
                 FwNotification.renderNotification('WARNING', 'There was a problem retrieving available versions.')
             }
