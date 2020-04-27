@@ -623,9 +623,6 @@ class OrderItemGrid {
                     rateFieldName = 'Price';
                     break;
                 case 'R':
-                    week2Rate = FwBrowse.getValueByDataField($control, $tr, 'Week2Rate');
-                    week3Rate = FwBrowse.getValueByDataField($control, $tr, 'Week3Rate');
-                    week4Rate = FwBrowse.getValueByDataField($control, $tr, 'Week4Rate');
                 case 'M':
                 case 'L':
                     if (rateType == 'DAILY') {
@@ -636,6 +633,9 @@ class OrderItemGrid {
                         costFieldName = 'WeeklyCost';
                     } else if (rateType == '3WEEK') {
                         rateFieldName = 'WeeklyRate';
+                        week2Rate = FwBrowse.getValueByDataField($control, $tr, 'Week2Rate');
+                        week3Rate = FwBrowse.getValueByDataField($control, $tr, 'Week3Rate');
+                        week4Rate = FwBrowse.getValueByDataField($control, $tr, 'Week4Rate');
                         costFieldName = 'WeeklyCost';
                     } else if (rateType == 'MONTHLY') {
                         rateFieldName = 'MonthlyRate';
@@ -699,7 +699,7 @@ class OrderItemGrid {
                 FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost.toString() });
             }
             FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
-            if (recType === 'R') {
+            if ((recType === 'R') && (rateType == '3WEEK')) {
                 FwBrowse.setFieldValue($control, $generatedtr, 'Price2', { value: week2Rate });
                 FwBrowse.setFieldValue($control, $generatedtr, 'Price3', { value: week3Rate });
                 FwBrowse.setFieldValue($control, $generatedtr, 'Price4', { value: week4Rate });
