@@ -123,8 +123,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryStatusAnd
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddParameter("@revenuefromdate", request.FromDate);
-                    select.AddParameter("@revenuetodate", request.ToDate);
+                    select.AddParameter("@revenuefromdate", request.RevenueFromDate);
+                    select.AddParameter("@revenuetodate", request.RevenueToDate);
                     select.AddWhereIn("warehouseid", request.WarehouseId);
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
                     select.AddWhereIn("categoryid", request.CategoryId);
@@ -139,6 +139,41 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryStatusAnd
                     {
                         select.AddWhere("recordtype <> 'stagedout'");
                     }
+
+                    if (request.IncludePeriodRevenue.GetValueOrDefault(false))
+                    {
+                        if (request.RevenueFilterMode.Equals("LT"))
+                        {
+                            string where = "";
+                            if (!request.ShowStagedAndOut.GetValueOrDefault(false)) 
+                            { 
+                               where += "revenue is null or";
+                            }
+                            where += " revenue < " + request.RevenueFilterAmount.ToString();
+                            select.AddWhere("(" + where + ")");
+                        }
+                        else if (request.RevenueFilterMode.Equals("GT"))
+                        {
+                            string where = "";
+                            if (!request.ShowStagedAndOut.GetValueOrDefault(false))
+                            {
+                                where += "revenue is null or";
+                            }
+                            where += " revenue > " + request.RevenueFilterAmount.ToString();
+                            select.AddWhere("(" + where + ")");
+                        }
+                    }
+
+                    if (request.IncludeNotRentedSince.GetValueOrDefault(false))
+                    {
+                        if (request.NotRentedSinceDate != null)
+                        {
+                            select.AddWhere("(lastrenteddate is null or lastrenteddate <= @notrentedsincedate)");
+                            select.AddParameter("@notrentedsincedate", request.NotRentedSinceDate);
+                        }
+                    }
+
+
                     select.AddOrderBy("warehouse, inventorydepartment, category, masterno, stagedoutbarcode, stagedoutqty desc");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }

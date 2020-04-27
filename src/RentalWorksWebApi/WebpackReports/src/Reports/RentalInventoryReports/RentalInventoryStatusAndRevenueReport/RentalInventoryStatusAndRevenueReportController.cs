@@ -20,14 +20,21 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryStatusAnd
 {
     public class RentalInventoryStatusAndRevenueReportRequest : AppReportRequest
     {
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public bool? IncludePeriodRevenue { get; set; }
+        public DateTime? RevenueFromDate { get; set; }
+        public DateTime? RevenueToDate { get; set; }
+        public string RevenueFilterMode { get; set; } = "ALL";  // ALL/LT/GT
+        public decimal? RevenueFilterAmount { get; set; }
+
+
         public string WarehouseId { get; set; }
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }
         public string InventoryId { get; set; }
         public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        public bool? IncludeNotRentedSince { get; set; }
+        public DateTime? NotRentedSinceDate { get; set; }
         public bool? IncludeZeroOwned { get; set; }
         public bool? ShowStagedAndOut { get; set; }
 

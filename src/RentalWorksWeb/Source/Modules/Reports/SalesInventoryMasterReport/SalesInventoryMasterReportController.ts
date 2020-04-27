@@ -15,7 +15,7 @@ const salesInventoryMasterReportTemplate = `
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
             <div class="flexcolumn" style="max-width:350px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Revenue Date">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Revenue">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Period Revenue" data-datafield="IncludePeriodRevenue"></div>
                 </div>

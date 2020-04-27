@@ -29,13 +29,22 @@ const rentalInvStatusAndRevReportTemplate = `
               </div>
             </div>
             <div class="flexcolumn" style="max-width:350px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Revenue Period">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Revenue">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From:" data-datafield="FromDate" data-required="true"></div>
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To:" data-datafield="ToDate" data-required="true"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Period Revenue" data-datafield="IncludePeriodRevenue"></div>
                 </div>
-                <!--<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                </div>-->
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield toggle-enable" data-caption="From:" data-datafield="RevenueFromDate" data-required="true" style="width:125px; float:left;"></div>
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield toggle-enable" data-caption="To:" data-datafield="RevenueToDate" data-required="true" style="width:125px; float:left;"></div>                
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="RevenueFilterMode" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield toggle-enable" data-caption="" style="float:left;">
+                    <div data-value="ALL" data-caption="All"></div>
+                    <div data-value="GT" data-caption="Greater Than"></div>
+                    <div data-value="LT" data-caption="Less Than"></div>
+                  </div>
+                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield toggle-enable filter-amount" data-caption="" data-datafield="RevenueFilterAmount" data-required="true" style="float:left; margin-left:20px; width:100px"></div>
+                </div>
               </div>
             </div>
             <div class="flexcolumn" style="max-width:600px;">
@@ -55,10 +64,18 @@ const rentalInvStatusAndRevReportTemplate = `
               </div>
             </div>
           </div>
-          <div class="row" style="display:flex;flex-wrap:wrap;">
+          <div class="row" style="display:flex;flex-wrap:wrap">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include I-Codes with zero owned" data-datafield="IncludeZeroOwned"></div>
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Order details for items Staged and Out" data-datafield="ShowStagedAndOut"></div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only Include I-Codes not rented since" data-datafield="IncludeNotRentedSince"></div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="" data-datafield="NotRentedSinceDate" data-required="false" style="width:125px; float:left;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include I-Codes with zero owned" data-datafield="IncludeZeroOwned"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Order details for items Staged and Out" data-datafield="ShowStagedAndOut"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -100,11 +117,81 @@ class RentalInventoryStatusAndRevenueReport extends FwWebApiReport {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
         const today = FwFunc.getDate();
-        FwFormField.setValueByDataField($form, 'ToDate', today);
+        FwFormField.setValueByDataField($form, 'RevenueToDate', today);
         const aMonthAgo = FwFunc.getDate(today, -30);
-        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
+        FwFormField.setValueByDataField($form, 'RevenueFromDate', aMonthAgo);
 
         this.loadLists($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form) {
+        const includePeriodRevenue = FwFormField.getValueByDataField($form, 'IncludePeriodRevenue');
+        const $dateRangeFields = $form.find('.toggle-enable[data-type="date"]');
+        if (includePeriodRevenue) {
+            FwFormField.enable($form.find('.toggle-enable:not(.filter-amount)'));
+            $dateRangeFields.attr('data-required', "true");
+            const filterMode = FwFormField.getValueByDataField($form, 'RevenueFilterMode');
+            const $filterAmountField = $form.find('[data-datafield="RevenueFilterAmount"]');
+
+            if (filterMode === "ALL") {
+                FwFormField.disable($filterAmountField);
+                $filterAmountField.attr('data-required', "false");
+            } else {
+                FwFormField.enable($filterAmountField);
+                $filterAmountField.attr('data-required', "true");
+            }
+        } else {
+            FwFormField.disable($form.find('.toggle-enable'));
+            $dateRangeFields.attr('data-required', "false");
+        }
+        $form.find('[data-datafield="IncludePeriodRevenue"]').on('change', e => {
+            const isChecked = FwFormField.getValueByDataField($form, 'IncludePeriodRevenue');
+            const $dateRangeFields = $form.find('.toggle-enable[data-type="date"]');
+            const filterMode = FwFormField.getValueByDataField($form, 'RevenueFilterMode');
+
+            if (isChecked) {
+                const $filterAmountField = $form.find('[data-datafield="RevenueFilterAmount"]');
+                if (filterMode === "ALL") {
+                    FwFormField.disable($filterAmountField);
+                    $filterAmountField.attr('data-required', "false");
+                } else {
+                    FwFormField.enable($filterAmountField);
+                    $filterAmountField.attr('data-required', "true");
+                }
+                FwFormField.enable($form.find('.toggle-enable:not(.filter-amount)'));
+                $dateRangeFields.attr('data-required', "true");
+            } else {
+                FwFormField.disable($form.find('.toggle-enable'));
+                $dateRangeFields.attr('data-required', "false");
+            }
+        });
+
+        $form.find('[data-datafield="RevenueFilterMode"]').on('change', e => {
+            const filterMode = FwFormField.getValueByDataField($form, 'RevenueFilterMode');
+            const $filterAmountField = $form.find('[data-datafield="RevenueFilterAmount"]');
+            $filterAmountField.removeClass('error');
+            if (filterMode === "ALL") {
+                FwFormField.disable($filterAmountField);
+                $filterAmountField.attr('data-required', "false");
+            } else {
+                FwFormField.enable($filterAmountField);
+                $filterAmountField.attr('data-required', "true");
+
+            }
+        });
+
+        $form.find('[data-datafield="IncludeNotRentedSince"]').on('change', e => {
+            const $includeNotRentedSinceDateField = $form.find('[data-datafield="NotRentedSinceDate"]');
+            const isChecked = FwFormField.getValueByDataField($form, 'IncludeNotRentedSince');
+            if (isChecked) {
+                FwFormField.enableDataField($form, 'NotRentedSinceDate');
+                $includeNotRentedSinceDateField.attr('data-required', "true");
+            } else {
+                FwFormField.disableDataField($form, 'NotRentedSinceDate');
+                $includeNotRentedSinceDateField.attr('data-required', "false");
+            }
+        });
+
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
@@ -130,36 +217,36 @@ class RentalInventoryStatusAndRevenueReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
- 
-            const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-            const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-            request.uniqueids = {};
 
-            switch (datafield) {
-                case 'InventoryTypeId':
-                    request.uniqueids.Rental = true;
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
-                    break;
-                case 'CategoryId':
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    }
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
-                    break;
-                case 'InventoryId':
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    };
-                    if (categoryId !== "") {
-                        request.uniqueids.CategoryId = categoryId;
-                    };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
-                    break;
-                case 'WarehouseId':
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
-                    break;
-            }
-        
+        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        request.uniqueids = {};
+
+        switch (datafield) {
+            case 'InventoryTypeId':
+                request.uniqueids.Rental = true;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'CategoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'InventoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                };
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+        }
+
     }
 };
 
