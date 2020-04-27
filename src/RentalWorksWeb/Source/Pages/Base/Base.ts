@@ -72,7 +72,8 @@ class Base {
                                 data: {
                                     UserName: $email.val(),
                                     Password: $password.val()
-                                }
+                                },
+                                timeout: 90000   //04/27/2020 justin hoffman GH#1888 - the first login for the day will take longer as the hosted API needs to cold start
                             });
 
                             if ((responseJwt.statuscode == 0) && (typeof responseJwt.access_token !== 'undefined')) {
