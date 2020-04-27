@@ -327,7 +327,7 @@ class SearchInterface {
         };
 
         //Hide columns based on type
-        if (type === 'PurchaseOrder' || type === 'Template') {
+        if (type === 'PurchaseOrder' || type === 'Template' || gridInventoryType == 'Misc' || gridInventoryType == 'Labor') {
             $popup.find('.hideColumns').css('display', 'none');
         }
 
@@ -778,7 +778,7 @@ class SearchInterface {
         }
 
         let type = $popup.find('#itemsearch').attr('data-moduletype');
-        if (type === 'PurchaseOrder' || type === 'Template') {
+        if (type === 'PurchaseOrder' || type === 'Template' || inventoryType == 'M' || inventoryType == 'L') {
             $popup.find('.hideColumns').css('display', 'none');
         }
 
@@ -796,9 +796,10 @@ class SearchInterface {
                 }
             }
         }
-       
+
+        const inventoryType = FwFormField.getValueByDataField($popup, 'InventoryType');
         let type = $popup.find('#itemsearch').attr('data-moduletype');
-        if (type === 'PurchaseOrder' || type === 'Template') {
+        if (type === 'PurchaseOrder' || type === 'Template' || inventoryType == 'M' || inventoryType == 'L') {
             $popup.find('.hideColumns').css('display', 'none');
         }
 
@@ -1133,11 +1134,19 @@ class SearchInterface {
 
         $popup.on('change', 'div[data-datafield="InventoryType"]', e => {
             this.populateTypeMenu($popup);
-            let searchValue = FwFormField.getValueByDataField($popup, 'SearchBox');
-            let event = jQuery.Event("keydown", { keyCode: 13 });
+            const searchValue = FwFormField.getValueByDataField($popup, 'SearchBox');
+            const event = jQuery.Event("keydown", { keyCode: 13 });
             if (searchValue != '') {
                 $popup.find('[data-datafield="SearchBox"] input.fwformfield-value').trigger(event);
             }
+
+            const inventoryType = FwFormField.getValue($popup, '[data-datafield="InventoryType"]');
+            if (inventoryType == 'L' || inventoryType == 'M') {
+                $popup.find('[data-datafield="Select"]').hide();
+            } else {
+                $popup.find('[data-datafield="Select"]').show();
+            }
+
         });
 
         //Filter results based on Search input field
@@ -1733,6 +1742,14 @@ class SearchInterface {
     getInventory($popup) {
         let $searchpopup = $popup.find('#searchpopup');
         let parentFormId = $popup.find('#itemsearch').data('parentformid');
+        const inventoryType = FwFormField.getValueByDataField($popup, 'InventoryType');
+        let classification;
+
+        if (inventoryType == 'M' || inventoryType == 'L') {
+            classification = '';
+        } else {
+            classification = FwFormField.getValueByDataField($popup, 'Select');
+        };
 
         let request: any = {
             OrderId:                       parentFormId,
@@ -1740,8 +1757,8 @@ class SearchInterface {
             ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
             ShowImages:                    true,
             //SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'), //inv seq util will sort now
-            Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-            AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+            Classification:                classification,
+            AvailableFor:                  inventoryType,
             HideInventoryWithZeroQuantity: FwFormField.getValueByDataField($popup, 'HideZeroQuantity') == "T" ? true : false,
             WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
             FromDate:                      FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
@@ -1970,8 +1987,9 @@ class SearchInterface {
                         }
                     }
 
+                    const inventoryType = FwFormField.getValueByDataField($popup, 'InventoryType');
                     let type = $popup.find('#itemsearch').attr('data-moduletype');
-                    if (type === 'PurchaseOrder' || type === 'Template') {
+                    if (type === 'PurchaseOrder' || type === 'Template' || inventoryType == 'L' || inventoryType == 'M') {
                         $popup.find('.hideColumns').css('display', 'none');
                     }
                 }
