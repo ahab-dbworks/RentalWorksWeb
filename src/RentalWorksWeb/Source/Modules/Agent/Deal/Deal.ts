@@ -119,7 +119,7 @@ class Deal {
             const officeLocation = JSON.parse(sessionStorage.getItem('location'));
             const dealDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', officeLocation.locationid, officeLocation.location);
-            FwFormField.setValue($form, 'div[data-datafield="DealStatusId"]', dealDefaults.defaultcustomerstatusid, dealDefaults.defaultdealstatus);
+            FwFormField.setValue($form, 'div[data-datafield="DealStatusId"]', dealDefaults.defaultdealstatusid, dealDefaults.defaultdealstatus);
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', dealDefaults.defaultdealbillingcycleid, dealDefaults.defaultdealbillingcycle);
             FwFormField.setValueByDataField($form, 'DefaultRate', officeLocation.ratetype, officeLocation.ratetype);
         }
