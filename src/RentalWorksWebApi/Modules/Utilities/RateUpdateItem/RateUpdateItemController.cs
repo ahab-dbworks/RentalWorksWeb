@@ -16,6 +16,17 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
     {
         public RateUpdateItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RateUpdateItemLogic); }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/rateupdateitem/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "MK2ypz6dQLIX1", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Pending Modification", RwGlobals.RATE_UPDATE_UTILITY_PENDING_MODIFICATION_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/rateupdateitem/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id: "c4DUy6bgAlPn", ActionType: FwControllerActionTypes.Browse)]

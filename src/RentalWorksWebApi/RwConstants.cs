@@ -619,6 +619,10 @@ namespace WebApi
         public const string BUILDING_TYPE_BUILDING = "BUILDING";
         public const string BUILDING_TYPE_VENUE = "VENUE";
 
+        //RATE UPDATE UTILITY
+        public const int RATE_UPDATE_UTILITY_PENDING_MODIFICATION_COLOR = 12511898;
+
+
 
         // USER TOOLBAR/FAVORITES
         public const string WEBUSER_NOTE_TYPE_FAVORITES = "TOOLBAR";

@@ -201,7 +201,7 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
             addFilterToSelect("CategoryId", "categoryid", select, request);
             addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
             addFilterToSelect("UnitId", "unitid", select, request);
-            addFilterToSelect("ManufacturerId", "manufacturerid", select, request);
+            addFilterToSelect("ManufacturerId", "mfgid", select, request);
 
             string description = GetUniqueIdAsString("Description", request) ?? "";
             if (!string.IsNullOrEmpty(description))

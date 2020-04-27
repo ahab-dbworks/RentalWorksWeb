@@ -19,9 +19,9 @@ class RateUpdateUtility {
             }
         });
 
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Apply All Rates Now', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Apply All Pending Modifications Now', '', (e: JQuery.ClickEvent) => {
             try {
-                this.applyAllRates(options.$form);
+                this.applyAllPendingModifications(options.$form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -128,8 +128,8 @@ class RateUpdateUtility {
     }
     //----------------------------------------------------------------------------------------------
     toggleAvailableFor($form: JQuery) {
-        const rentalColumns: Array<string> = ['PartNumber', 'DailyRate', 'WeeklyRate', 'Week2Rate', 'Week3Rate', 'Week4Rate', 'MonthlyRate', 'MaxDiscount', 'MinimumDaysPerWeek', 'DailyCost', 'WeeklyCost', 'MonthlyCost'];
-        const salesColumns: Array<string> = ['PartNumber', 'Retail', /*'Sell',*/ 'DefaultCost', 'MaxDiscount']; //same columns for Parts
+        const rentalColumns: Array<string> = ['Manufacturer', 'PartNumber', 'Rank', 'DailyRate', 'WeeklyRate', 'Week2Rate', 'Week3Rate', 'Week4Rate', 'MonthlyRate', 'MaxDiscount', 'MinimumDaysPerWeek', 'DailyCost', 'WeeklyCost', 'MonthlyCost'];
+        const salesColumns: Array<string> = ['Manufacturer', 'PartNumber', 'Rank', 'Retail', /*'Sell',*/ 'DefaultCost', 'MaxDiscount']; //same columns for Parts
         const laborColumns: Array<string> = ['HourlyRate', 'DailyRate', 'WeeklyRate', 'MonthlyRate', 'HourlyCost', 'DailyCost', 'WeeklyCost', 'MonthlyCost']; //same columns for Misc
         const activityType = FwFormField.getValueByDataField($form, 'AvailableFor');
         const $rateUpdateItemGrid = $form.find('[data-name="RateUpdateItemGrid"]');
@@ -349,7 +349,7 @@ class RateUpdateUtility {
         }
     }
      //----------------------------------------------------------------------------------------------
-    applyAllRates($form: any) {
+    applyAllPendingModifications($form: any) {
         try {
           
         } catch (ex) {

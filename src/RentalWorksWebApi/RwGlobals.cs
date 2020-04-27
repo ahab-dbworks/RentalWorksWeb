@@ -135,6 +135,9 @@ namespace WebApi
         // ACTIVITY
         public static string USER_DEFINED_ACTIVITY_COLOR { get; set; }
 
+        //RATE UPATE UTILITY
+        public static string RATE_UPDATE_UTILITY_PENDING_MODIFICATION_COLOR { get; set; }
+
 
         //---------------------------------------------------------------------------
         //this gets called one time at system startup
@@ -296,6 +299,7 @@ namespace WebApi
 
             USER_DEFINED_ACTIVITY_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.USER_DEFINED_ACTIVITY_COLOR);
             ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR);
+            RATE_UPDATE_UTILITY_PENDING_MODIFICATION_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RATE_UPDATE_UTILITY_PENDING_MODIFICATION_COLOR);
 
 
     }
