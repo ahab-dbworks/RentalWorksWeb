@@ -48,7 +48,7 @@ class DuplicateRule {
 
         // Load Modules dropdown with sorted list of Modules and Grids
         const modules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
-            if (moduleController.hasOwnProperty('apiurl')) {
+            if ((moduleController.hasOwnProperty('apiurl')) && (hasView)) {
                 modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
             }
         });
