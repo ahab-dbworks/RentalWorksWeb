@@ -614,6 +614,7 @@ class OrderItemGrid {
 
             let costFieldName;
             let rateFieldName;
+            let week2Rate, week3Rate, week4Rate;
             const rateType = FwFormField.getValueByDataField($form, 'RateType');
             switch (recType) {
                 case 'P':
@@ -622,6 +623,9 @@ class OrderItemGrid {
                     rateFieldName = 'Price';
                     break;
                 case 'R':
+                    week2Rate = FwBrowse.getValueByDataField($control, $tr, 'Week2Rate');
+                    week3Rate = FwBrowse.getValueByDataField($control, $tr, 'Week3Rate');
+                    week4Rate = FwBrowse.getValueByDataField($control, $tr, 'Week4Rate');
                 case 'M':
                 case 'L':
                     if (rateType == 'DAILY') {
@@ -695,7 +699,11 @@ class OrderItemGrid {
                 FwBrowse.setFieldValue($control, $generatedtr, 'UnitCost', { value: cost.toString() });
             }
             FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
-
+            if (recType === 'R') {
+                FwBrowse.setFieldValue($control, $generatedtr, 'Price2', { value: week2Rate });
+                FwBrowse.setFieldValue($control, $generatedtr, 'Price3', { value: week3Rate });
+                FwBrowse.setFieldValue($control, $generatedtr, 'Price4', { value: week4Rate });
+            }
             const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
             FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable });
 
