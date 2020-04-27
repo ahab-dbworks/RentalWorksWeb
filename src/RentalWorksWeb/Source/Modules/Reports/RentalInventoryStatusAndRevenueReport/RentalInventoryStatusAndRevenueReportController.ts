@@ -64,11 +64,11 @@ const rentalInvStatusAndRevReportTemplate = `
               </div>
             </div>
           </div>
-          <div class="row" style="display:flex;flex-wrap:wrap">
+          <div class="flexcolumn" style="max-width:375px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only Include I-Codes not rented since" data-datafield="IncludeNotRentedSince"></div>
-                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="" data-datafield="NotRentedSinceDate" data-required="false" style="width:125px; float:left;"></div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only Include I-Codes not rented since" data-datafield="IncludeNotRentedSince" style="flex: 0 1 240px;"></div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="" data-datafield="NotRentedSinceDate" data-required="false" style="flex: 0 1 110px;margin: -9px 0 0 0;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include I-Codes with zero owned" data-datafield="IncludeZeroOwned"></div>
