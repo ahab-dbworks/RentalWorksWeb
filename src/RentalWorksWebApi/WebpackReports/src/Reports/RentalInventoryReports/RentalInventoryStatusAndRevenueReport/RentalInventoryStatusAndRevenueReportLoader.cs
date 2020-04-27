@@ -144,23 +144,11 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryStatusAnd
                     {
                         if (request.RevenueFilterMode.Equals("LT"))
                         {
-                            string where = "";
-                            if (!request.ShowStagedAndOut.GetValueOrDefault(false)) 
-                            { 
-                               where += "revenue is null or";
-                            }
-                            where += " revenue < " + request.RevenueFilterAmount.ToString();
-                            select.AddWhere("(" + where + ")");
+                            select.AddWhere("revenue < " + request.RevenueFilterAmount.ToString());
                         }
                         else if (request.RevenueFilterMode.Equals("GT"))
                         {
-                            string where = "";
-                            if (!request.ShowStagedAndOut.GetValueOrDefault(false))
-                            {
-                                where += "revenue is null or";
-                            }
-                            where += " revenue > " + request.RevenueFilterAmount.ToString();
-                            select.AddWhere("(" + where + ")");
+                            select.AddWhere("revenue > " + request.RevenueFilterAmount.ToString());
                         }
                     }
 

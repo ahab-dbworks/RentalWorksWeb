@@ -144,6 +144,17 @@ class RentalInventoryStatusAndRevenueReport extends FwWebApiReport {
             FwFormField.disable($form.find('.toggle-enable'));
             $dateRangeFields.attr('data-required', "false");
         }
+
+        const $includeNotRentedSinceDateField = $form.find('[data-datafield="NotRentedSinceDate"]');
+        const notRentedSinceChecked = FwFormField.getValueByDataField($form, 'IncludeNotRentedSince');
+        if (notRentedSinceChecked) {
+            FwFormField.enableDataField($form, 'NotRentedSinceDate');
+            $includeNotRentedSinceDateField.attr('data-required', "true");
+        } else {
+            FwFormField.disableDataField($form, 'NotRentedSinceDate');
+            $includeNotRentedSinceDateField.attr('data-required', "false");
+        }
+
         $form.find('[data-datafield="IncludePeriodRevenue"]').on('change', e => {
             const isChecked = FwFormField.getValueByDataField($form, 'IncludePeriodRevenue');
             const $dateRangeFields = $form.find('.toggle-enable[data-type="date"]');
@@ -182,8 +193,8 @@ class RentalInventoryStatusAndRevenueReport extends FwWebApiReport {
 
         $form.find('[data-datafield="IncludeNotRentedSince"]').on('change', e => {
             const $includeNotRentedSinceDateField = $form.find('[data-datafield="NotRentedSinceDate"]');
-            const isChecked = FwFormField.getValueByDataField($form, 'IncludeNotRentedSince');
-            if (isChecked) {
+            const notRentedSinceChecked = FwFormField.getValueByDataField($form, 'IncludeNotRentedSince');
+            if (notRentedSinceChecked) {
                 FwFormField.enableDataField($form, 'NotRentedSinceDate');
                 $includeNotRentedSinceDateField.attr('data-required', "true");
             } else {
