@@ -15,7 +15,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         VenueRecord venue = new VenueRecord();
         AddressRecord address = new AddressRecord();
         ContactRecord contact = new ContactRecord();
-        CompanyContactRecord compContact = new CompanyContactRecord();
+        //CompanyContactRecord compContact = new CompanyContactRecord();
         VenueLoader venueLoader = new VenueLoader();
 
         public VenueLogic()
@@ -23,7 +23,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
             dataRecords.Add(venue);
             dataRecords.Add(address);
             dataRecords.Add(contact);
-            dataRecords.Add(compContact);
+            //dataRecords.Add(compContact);
             dataLoader = venueLoader;
 
             address.BeforeSave += OnBeforeSaveAddress;
@@ -32,6 +32,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
             BuildingType = RwConstants.BUILDING_TYPE_VENUE;
 
             BeforeSave += OnBeforeSave;
+            AfterSave += OnAfterSave;
 
             ForceSave = true;
         }
@@ -121,6 +122,11 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
                     AddressId = orig.AddressId;
                 }
             }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+
 
 
             //if ContactId is provided
