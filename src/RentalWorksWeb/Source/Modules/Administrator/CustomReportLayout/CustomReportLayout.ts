@@ -389,52 +389,94 @@ class CustomReportLayout {
                     if (typeof valuefield != 'undefined') {
                         const oldIndex = $form.data('columnsmoved').oldIndex;
                         const newIndex = $form.data('columnsmoved').newIndex;
+                        let footerCount = 0;
                         for (let i = 0; i < $rows.length; i++) {
                             const $row = jQuery($rows[i]);
                             const rowType = $row.attr('data-row');
-                            if (rowType == 'detail') {
+                            if (rowType == 'detail' || rowType == 'footer') {
                                 const $tds = $row.find('td');
                                 let $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
                                 if ($movedTd.length) {
-                                    const $designerTd = $table.find(`${rowSelector}[data-row="${rowType}"] [data-value="{{${valuefield}}}"]`);
-                                    const $designerTds = $table.find(`${rowSelector}[data-row="${rowType}"] td`);
-                                    if (oldIndex > newIndex) {
-                                        if (newIndex != 0) {
-                                            $movedTd.insertBefore($tds[newIndex]);
-                                            $designerTd.insertBefore($designerTds[newIndex]);
+                                    const $designerTd = jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).find(`[data-value="{{${valuefield}}}"]`);
+                                    const $designerTds = jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).find('td');
+                                    if (rowType == 'detail') {
+                                        const totalNameColSpan = parseInt($designerTds.filter('.total-name').attr('colspan'));
+                                        if (oldIndex > newIndex) {
+                                            if (newIndex != 0) {
+                                                $movedTd.insertBefore($tds[newIndex]);
+                                                $designerTd.insertBefore($designerTds[newIndex]);
+                                            } else {
+                                                $movedTd.insertBefore($tds[newIndex]);
+                                                $designerTd.insertBefore($designerTds[newIndex]);
+                                            }
                                         } else {
-                                            $movedTd.insertBefore($tds[newIndex]);
-                                            $designerTd.insertBefore($designerTds[newIndex]);
+                                            if ((newIndex + 1) == this.TotalColumnCount) {
+                                                $movedTd.insertAfter($tds[newIndex]);
+                                                $designerTd.insertAfter($designerTds[newIndex]);
+                                            } else {
+                                                $movedTd.insertAfter($tds[newIndex]);
+                                                $designerTd.insertAfter($designerTds[newIndex]);
+                                            }
                                         }
-                                    } else {
-                                        if ((newIndex + 1) == this.TotalColumnCount) {
-                                            $movedTd.insertAfter($tds[newIndex]);
-                                            $designerTd.insertAfter($designerTds[newIndex]);
-                                        } else {
-                                            $movedTd.insertAfter($tds[newIndex]);
-                                            $designerTd.insertAfter($designerTds[newIndex]);
-                                        }
+                                    }
+
+                                    if (rowType == 'footer') {
+                                        footerCount++;
                                     }
                                 }
                             }
+                           
                         }
                     }
                     $form.removeData('columnsmoved');
                 }
 
-                if (typeof $form.data('addcolumn') != 'undefined') {
-                    const newColumnData = $form.data('addcolumn');
-                    const valueField = `NewColumn${newColumnData.newcolumnnumber}`;
+
+                //change value field
+                if (typeof $form.data('changevaluefield') != 'undefined') {
+                    let footerCount = 0;
                     for (let i = 0; i < $rows.length; i++) {
                         const $row = jQuery($rows[i]);
                         const rowType = $row.attr('data-row');
-                        if (rowType == 'detail') {
+                        const oldNewFields = $form.data('changevaluefield');
+                        if (rowType == 'detail' || rowType == 'footer') {
+                            const $td = $row.find(`[data-value="<!--{{${oldNewFields.oldField}}}-->"]`);
+                            $td.attr('data-value', `<!--{{${oldNewFields.newfield}}}-->"]`);
+                            jQuery($table.find(`${rowSelector}[data-row="${rowType}"] [data-value="{{${oldNewFields.oldField}}}"]`)[footerCount])
+                                .attr('data-value', oldNewFields.newfield);
+
+                            if (rowType == 'footer') {
+                                footerCount++;
+                            }
+                        }
+                    }
+                    $form.removeData('changevaluefield');
+                }
+
+                //add
+                if (typeof $form.data('addcolumn') != 'undefined') {
+                    const newColumnData = $form.data('addcolumn');
+                    const valueField = `NewColumn${newColumnData.newcolumnnumber}`;
+                    let footerCount = 0;
+                    for (let i = 0; i < $rows.length; i++) {
+                        const $row = jQuery($rows[i]);
+                        const rowType = $row.attr('data-row');
+                        //if (rowType == 'detail') {  //only adds to detail row, increases colspan for header & footer rows
+                        //    const $td = jQuery(`<td data-value="<!--{{${valueField}}}-->"></td>`);
+                        //    $row.append($td);  //add to row in wrapper (memory)
+                        //    $table.find(`${rowSelector}[data-row="${rowType}"]`).append(`<td data-value="{{${valueField}}}"></td>`); //add to row on designer
+                        //} else {   //to-do: add extra options on property section for adding new columns to header/footer rows 
+                        //    const $designerTableRow = jQuery($table.find(`${rowSelector}`)[i]);
+                        //    this.matchColumnCount($form, $table, $row, $designerTableRow);
+                        //}
+
+                        if (rowType == 'detail' || rowType == 'footer') {
                             const $td = jQuery(`<td data-value="<!--{{${valueField}}}-->"></td>`);
-                            $row.append($td);  //add to row in wrapper (memory)
-                            $table.find(`${rowSelector}[data-row="${rowType}"]`).append(`<td data-value="{{${valueField}}}"></td>`); //add to row on designer
-                        } else {   //to-do: add extra options on property section for adding new columns to header/footer rows 
-                            const $designerTableRow = jQuery($table.find(`${rowSelector}`)[i]);
-                            this.matchColumnCount($form, $table, $row, $designerTableRow);
+                            $row.append($td);
+                            jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).append(`<td class="total-val" data-value="{{${valueField}}}"></td>`);
+                            if (rowType == 'footer') {
+                                footerCount++;
+                            }
                         }
                     }
                     $form.removeData('addcolumn');
@@ -491,11 +533,11 @@ class CustomReportLayout {
 
         //add header column
         $addColumn.on('click', e => {
-            $column = jQuery(`<th data-valuefield="NewColumn${newColumnNumber}">New Column</th>`);
+            $column = jQuery(`<th data-valuefield="NewColumn${newColumnNumber}" data-hastotal="true">New Column</th>`);
             $table.find('#columnHeader tr').append($column);
             this.TotalColumnCount++;
             $form.data('sectiontoupdate', 'tableheader');
-            $form.data('addcolumn', { 'newcolumnnumber': newColumnNumber, 'tdcolspan': 1 });
+            $form.data('addcolumn', { newcolumnnumber: newColumnNumber, tdcolspan: 1 });
             this.updateHTML($form, $table.find('#columnHeader tr'));
             newColumnNumber++;
         });
@@ -528,16 +570,21 @@ class CustomReportLayout {
         //        this.updateHTML($form, $column);
         //    }
         //});
-        $form.on('change', '#controlProperties [data-datafield]', e => {
+        $form.on('change', '#controlProperties [data-datafield]', e => {  //todo - update when value fields are changed too.
             const $property = jQuery(e.currentTarget);
             const fieldname = $property.attr('data-datafield');
-            const value = jQuery(e.target).val();
+            const value = FwFormField.getValue2($property);
             switch (fieldname) {
                 case 'CaptionField':
                     $column.text(value);
                     break;
                 case 'ValueField':
+                    const oldField = $column.attr('data-valuefield');
                     $column.attr('data-valuefield', value);
+                    $form.data('changevaluefield', { oldfield: oldField, newfield: value });
+                    break;
+                case 'HasTotal':
+                    $column.attr('data-hastotal', value);
                     break;
             }
             const section = $form.data('sectiontoupdate');
@@ -596,6 +643,7 @@ class CustomReportLayout {
     setControlValues($form: JQuery, $column: JQuery) {
         FwFormField.setValueByDataField($form, 'CaptionField', $column.text(), $column.text());
         FwFormField.setValueByDataField($form, 'ValueField', $column.attr('data-valuefield'), $column.attr('data-valuefield'));
+        FwFormField.setValueByDataField($form, 'HasTotal', $column.attr('data-hastotal') || false);
     }
     //----------------------------------------------------------------------------------------------
     //addControlProperties($th: JQuery) {
