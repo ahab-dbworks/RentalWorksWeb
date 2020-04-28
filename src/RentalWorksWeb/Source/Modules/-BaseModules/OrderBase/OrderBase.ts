@@ -2715,11 +2715,23 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     checkDateRangeForPick($form, event) {
-        const parsedPickDate = Date.parse(FwFormField.getValue($form, 'div[data-dateactivitytype="PICK"]'));
-        const parsedFromDate = Date.parse(FwFormField.getValue($form, 'div[data-dateactivitytype="START"]'));
-        const parsedToDate = Date.parse(FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]'));
-
         const $element = jQuery(event.currentTarget);
+        let parsedPickDate = this.getPickStartStop($form, 'div[data-dateactivitytype="PICK"]');
+        let parsedFromDate = this.getPickStartStop($form, 'div[data-dateactivitytype="START"]');;
+        let parsedToDate = this.getPickStartStop($form, 'div[data-dateactivitytype="STOP"]');;
+
+        if (parsedPickDate != '') {
+            parsedPickDate = Date.parse(parsedPickDate);
+        }
+
+        if (parsedFromDate != '') {
+            parsedFromDate = Date.parse(parsedFromDate);
+        }
+
+        if (parsedToDate != '') {
+            parsedToDate = Date.parse(parsedToDate);
+        }
+
         if ($element.attr('data-dateactivitytype') === 'START' && parsedFromDate < parsedPickDate) {
             $form.find('div[data-dateactivitytype="START"]').addClass('error');
             FwNotification.renderNotification('WARNING', "Your chosen 'Start Date' is before 'Pick Date'.");
@@ -4035,6 +4047,17 @@ class OrderBase {
         this.disableRateColumns($form);
         $activeTab.click();
     };
+    //----------------------------------------------------------------------------------------------
+    getPickStartStop($form: JQuery, selector: string) {
+        let value;;
+        let $field = $form.find(selector);
+        if ($field.length) {
+            value = FwFormField.getValue2($field);
+        } else {
+            value = '';
+        }
+        return value;
+    }
     //----------------------------------------------------------------------------------------------
 }
 var OrderBaseController = new OrderBase();

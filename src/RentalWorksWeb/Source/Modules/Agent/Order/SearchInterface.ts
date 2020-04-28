@@ -233,11 +233,11 @@ class SearchInterface {
                 break;
             case 'Order':
             case 'Quote':
-                pickDate = FwFormField.getValue($form, 'div[data-dateactivitytype="PICK"]');
+                pickDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="PICK"]');
                 FwFormField.setValueByDataField($popup, 'PickDate', pickDate);
-                startDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
+                startDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="START"]');
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);
-                stopDate = FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]');
+                stopDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="STOP"]');
                 FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
                 $popup.data('ratetype', FwFormField.getValueByDataField($form, 'RateType'));
                 break;

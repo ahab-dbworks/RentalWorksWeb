@@ -7,13 +7,19 @@ class OrderItemGrid {
         const controller = $form.attr('data-controller');
         let $grid = $tr.parents('[data-grid="OrderItemGrid"]');
         let inventoryType;
+        let pickDate;
+        let pickTime;
+        let fromDate;
+        let fromTime;
+        let toDate;
+        let toTime;
         if (controller !== "TemplateController" && controller !== "PurchaseOrderController") {
-            var pickDate = FwFormField.getValue($form, 'div[data-dateactivitytype="PICK"]');
-            var pickTime = FwFormField.getValue($form, 'div[data-timeactivitytype="PICK"]');
-            var fromDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
-            var fromTime = FwFormField.getValue($form, 'div[data-timeactivitytype="START"]');
-            var toDate = FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]');
-            var toTime = FwFormField.getValue($form, 'div[data-timeactivitytype="STOP"]');
+            pickDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="PICK"]');
+            pickTime = OrderBaseController.getPickStartStop($form, 'div[data-timeactivitytype="PICK"]');
+            fromDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="START"]');
+            fromTime = OrderBaseController.getPickStartStop($form, 'div[data-timeactivitytype="START"]');
+            toDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="STOP"]');
+            toTime = OrderBaseController.getPickStartStop($form, 'div[data-timeactivitytype="STOP"]');
         };
         const $td = $tr.find('[data-browsedatafield="InventoryId"]');
 
