@@ -36,7 +36,6 @@ class ChangeICodeUtility {
 
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
-        $form.find('div[data-type="SaveMenuBarButton"]').hide();
 
         this.events($form);
         return $form;

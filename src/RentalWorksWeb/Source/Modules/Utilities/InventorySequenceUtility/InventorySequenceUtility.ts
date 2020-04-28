@@ -7,7 +7,7 @@ class InventorySequenceUtility {
     nav: string = Constants.Modules.Utilities.children.InventorySequenceUtility.nav;
     id: string = Constants.Modules.Utilities.children.InventorySequenceUtility.id;
     //----------------------------------------------------------------------------------------------
-    addFormMenuItems(options: IAddFormMenuOptions): void {
+    addFormMenuItems(options: IAddFormMenuOptions) {
         options.hasSave = false;
         FwMenu.addFormMenuButtons(options);
     }
@@ -36,7 +36,6 @@ class InventorySequenceUtility {
 
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
-        $form.find('div[data-type="SaveMenuBarButton"]').hide();
 
 
         FwFormField.loadItems($form.find('div[data-datafield="RecType"]'), [
