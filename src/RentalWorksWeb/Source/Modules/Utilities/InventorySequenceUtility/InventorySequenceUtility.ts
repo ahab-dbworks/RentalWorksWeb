@@ -36,6 +36,8 @@ class InventorySequenceUtility {
 
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
+        $form.find('div[data-type="SaveMenuBarButton"]').hide();
+
 
         FwFormField.loadItems($form.find('div[data-datafield="RecType"]'), [
             { value: 'R', caption: 'Rental', checked: 'checked' },

@@ -1,6 +1,6 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
@@ -42,6 +42,18 @@ namespace WebApi.Modules.Inventory.Inventory
         public int BarCodesCreated { get; set; }
     }
 
+    public class ChangeICodeRequest
+    {
+        public string ItemId { get; set; }
+        public string InventoryId { get; set; }
+        //public string WarehouseId { get; set; }
+        //public string Notes { get; set; }
+    }
+
+    public class ChangeICodeResponse : TSpStatusResponse
+    {
+        //public string InventoryId { get; set; }
+    }
 
     public class RetireInventoryRequest
     {
@@ -206,29 +218,35 @@ namespace WebApi.Modules.Inventory.Inventory
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<RentalInventoryQcRequiredAllWarehousesResponse> SetQcRequiredAllWarehouses(FwApplicationConfig appConfig, FwUserSession userSession, RentalInventoryQcRequiredAllWarehousesRequest request)
+        public static async Task<ChangeICodeResponse> ChangeICode(FwApplicationConfig appConfig, FwUserSession userSession, ChangeICodeRequest request, FwSqlConnection conn = null)
         {
-            RentalInventoryQcRequiredAllWarehousesResponse response = new RentalInventoryQcRequiredAllWarehousesResponse();
+            ChangeICodeResponse response = new ChangeICodeResponse();
 
-            BrowseRequest warehouseBrowseRequest = new BrowseRequest();
-            warehouseBrowseRequest.uniqueids = new Dictionary<string, object>();
-            warehouseBrowseRequest.uniqueids.Add("InventoryId", request.InventoryId);
-
-            InventoryWarehouseLogic warehouseSelector = new InventoryWarehouseLogic();
-            warehouseSelector.SetDependencies(appConfig, userSession);
-            List<InventoryWarehouseLogic> inventoryWarehouses = await warehouseSelector.SelectAsync<InventoryWarehouseLogic>(warehouseBrowseRequest);
-
-            foreach (InventoryWarehouseLogic iw in inventoryWarehouses)
+            if (string.IsNullOrEmpty(request.ItemId))
             {
-                InventoryWarehouseLogic iw2 = new InventoryWarehouseLogic();
-                iw2.SetDependencies(appConfig, userSession);
-                iw2.InventoryId = iw.InventoryId;
-                iw2.WarehouseId = iw.WarehouseId;
-                iw2.QcRequired = request.QcRequired;
-                await iw2.SaveAsync(original: iw);
-                response.success = true;
+                response.msg = "No Bar Code or Serial Number provided.";
             }
-
+            else if (string.IsNullOrEmpty(request.InventoryId))
+            {
+                response.msg = "No \"Change to I-Code\" provided.";
+            }
+            else
+            {
+                if (conn == null)
+                {
+                    conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+                }
+                FwSqlCommand qry = new FwSqlCommand(conn, "changeicodeweb", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Input, request.ItemId);
+                qry.AddParameter("@newmasterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
