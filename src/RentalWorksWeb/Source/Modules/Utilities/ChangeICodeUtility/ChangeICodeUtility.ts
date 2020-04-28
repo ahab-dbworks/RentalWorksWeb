@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/changeicodeutility$/, action: function (match: RegExpExecArray) { return ChangeICodeUtilityController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/changeicodeutility$/, action: function (match: RegExpExecArray) { return ChangeICodeUtilityController.getModuleScreen(); } });
 
 class ChangeICodeUtility {
     Module: string = 'ChangeICodeUtility';
@@ -7,7 +7,8 @@ class ChangeICodeUtility {
     nav: string = Constants.Modules.Utilities.children.ChangeICodeUtility.nav;
     id: string = Constants.Modules.Utilities.children.ChangeICodeUtility.id;
     //----------------------------------------------------------------------------------------------
-    addFormMenuItems(options: IAddFormMenuOptions): void {
+    //addFormMenuItems(options: IAddFormMenuOptions): void {
+    addFormMenuItems(options: IAddFormMenuOptions) {
         options.hasSave = false;
         FwMenu.addFormMenuButtons(options);
     }
@@ -49,21 +50,31 @@ class ChangeICodeUtility {
                     ItemId: FwFormField.getValueByDataField($form, 'ItemId'),
                 };
 
-                FwAppData.apiMethod(true, 'POST', 'api/v1/changeicodeutility/changeicode', request, FwServices.defaultTimeout, response => {
-                    if (response.success) {
+                //FwAppData.apiMethod(true, 'POST', 'api/v1/changeicodeutility/changeicode', request, FwServices.defaultTimeout, response => {
+                //    if (response.success) {
+                //        FwNotification.renderNotification('SUCCESS', 'I-Code Changed Successfully');
+                //        $form.find('.fwformfield input').val('');
+                //        FwFormField.disable($form.find('div[data-datafield="NewInventoryId"]'));
+                //        FwModule.refreshForm($form);
+                //    }
+                //}, ex => FwFunc.showError(ex), $form);
+
+                FwAppData.apiMethod(true, 'POST', 'api/v1/changeicodeutility/changeicode', request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success === true) {
                         FwNotification.renderNotification('SUCCESS', 'I-Code Changed Successfully');
                         $form.find('.fwformfield input').val('');
-                        FwFormField.disable($form.find('div[data-datafield="NewInventoryId"]'));
                         FwModule.refreshForm($form);
+                    } else if (response.success === false) {
+                        FwNotification.renderNotification(`ERROR`, `${response.msg}`);
                     }
                 }, ex => FwFunc.showError(ex), $form);
             }
         });
 
         // Set Description from I-Code validation
-        $form.find('[data-datafield="CurrentInventoryId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="CurrentItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
-        });
+        //$form.find('[data-datafield="CurrentInventoryId"]').data('onchange', $tr => {
+        //    FwFormField.setValue($form, 'div[data-datafield="CurrentItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+        //});
         $form.find('[data-datafield="NewInventoryId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="NewItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
         });
@@ -74,7 +85,7 @@ class ChangeICodeUtility {
             FwFormField.setValue($form, 'div[data-datafield="CurrentItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-displayfield="CurrentICode"]', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'TrackedBy', $tr.find('.field[data-formdatafield="TrackedBy"]').attr('data-originalvalue'));
-            FwFormField.enable($form.find('div[data-datafield="NewInventoryId"]'));
+            //FwFormField.enable($form.find('div[data-datafield="NewInventoryId"]'));
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -117,13 +128,16 @@ class ChangeICodeUtility {
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Current Item Description" data-datafield="CurrentItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Change To I-Code" data-datafield="NewInventoryId" data-displayfield="NewICode" data-validationname="RentalInventoryValidation"  data-enabled="false" style="flex:0 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Change To I-Code" data-datafield="NewInventoryId" data-displayfield="NewICode" data-validationname="RentalInventoryValidation"  data-enabled="true" style="flex:0 1 200px;"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Change To Item Description" data-datafield="NewItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Utility Note" style="max-width:900px">
                       <div class="flexrow">
-                        <div>This utility will add an "X" to the end of the current Bar Code number and retire the Asset using the "Change I-Code" Retired Reason.  A new Asset record will be created with the existing Bar Code number.  All Location, Manufacturer, and Purchase data copied to the new Asset record.  All Retire History, Transfer History, Order History, Revenue History, and Repair History data will remain with the retired Asset related to its prior I-Code.</div>
+                        <div>
+                        If this Asset has history (ie. is associated to any Purchase Order, Order, Transfer, or Invoice), then this utility will add an "X" to the end of the current Bar Code number (or Serial Number) and will retire the Asset using the "Change I-Code" Retired Reason.  A new Asset record will be created with the existing Bar Code number.  All Location, Manufacturer, and Purchase data will be copied to the new Asset record.  All Retire History, Transfer History, Order History, Revenue History, and Repair History data will remain with the retired Asset related to its prior I-Code.<br><br>
+                        If this Asset has no history, then this utility will simply change the I-Code association for this Asset.
+                        </div>
                       </div>
                       <div class="flexrow">
                         <div class="fwformcontrol ch-inv-btn" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Change I-Code</div>
