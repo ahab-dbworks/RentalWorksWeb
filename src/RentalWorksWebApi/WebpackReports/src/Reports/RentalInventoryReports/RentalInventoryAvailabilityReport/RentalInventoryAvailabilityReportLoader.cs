@@ -496,11 +496,17 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
                     x = 1;
                     while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
                     {
-                        row[dt.GetColumnNo("AvailabilityDate" + x.ToString().PadLeft(2, '0'))] = theDate.Month.ToString() + "/" + theDate.Day.ToString();
-                        TInventoryWarehouseAvailabilityDateTime availDateTime = null;
-                        if (availData.AvailabilityDatesAndTimes.TryGetValue(theDate, out availDateTime))
+                        DateTime availDateTime = theDate;
+                        if ((availData.InventoryWarehouse.HourlyAvailability) && (theDate.Equals(DateTime.Today)))
                         {
-                            int availQtyAsInt = (int)Math.Floor(availDateTime.Available.Total);
+                            availDateTime = InventoryAvailabilityFunc.GetCurrentAvailabilityHour();
+                        }
+
+                        row[dt.GetColumnNo("AvailabilityDate" + x.ToString().PadLeft(2, '0'))] = theDate.Month.ToString() + "/" + theDate.Day.ToString();
+                        TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = null;
+                        if (availData.AvailabilityDatesAndTimes.TryGetValue(availDateTime, out inventoryWarehouseAvailabilityDateTime))
+                        {
+                            int availQtyAsInt = (int)Math.Floor(inventoryWarehouseAvailabilityDateTime.Available.Total);
                             row[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))] = availQtyAsInt;
 
                             if (availQtyAsInt < 0)
@@ -512,7 +518,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
                                 hasLow = true;
                             }
                         }
-                        theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
+
+                        theDate = theDate.AddDays(1);
                         x++;
                     }
 
