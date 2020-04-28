@@ -1,5 +1,6 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Threading.Tasks;
@@ -247,6 +248,32 @@ namespace WebApi.Modules.Inventory.Inventory
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<RentalInventoryQcRequiredAllWarehousesResponse> SetQcRequiredAllWarehouses(FwApplicationConfig appConfig, FwUserSession userSession, RentalInventoryQcRequiredAllWarehousesRequest request)
+        {
+            RentalInventoryQcRequiredAllWarehousesResponse response = new RentalInventoryQcRequiredAllWarehousesResponse();
+
+            BrowseRequest warehouseBrowseRequest = new BrowseRequest();
+            warehouseBrowseRequest.uniqueids = new Dictionary<string, object>();
+            warehouseBrowseRequest.uniqueids.Add("InventoryId", request.InventoryId);
+
+            InventoryWarehouseLogic warehouseSelector = new InventoryWarehouseLogic();
+            warehouseSelector.SetDependencies(appConfig, userSession);
+            List<InventoryWarehouseLogic> inventoryWarehouses = await warehouseSelector.SelectAsync<InventoryWarehouseLogic>(warehouseBrowseRequest);
+
+            foreach (InventoryWarehouseLogic iw in inventoryWarehouses)
+            {
+                InventoryWarehouseLogic iw2 = new InventoryWarehouseLogic();
+                iw2.SetDependencies(appConfig, userSession);
+                iw2.InventoryId = iw.InventoryId;
+                iw2.WarehouseId = iw.WarehouseId;
+                iw2.QcRequired = request.QcRequired;
+                await iw2.SaveAsync(original: iw);
+                response.success = true;
+            }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
