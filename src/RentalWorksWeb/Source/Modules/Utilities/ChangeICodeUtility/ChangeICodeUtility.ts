@@ -7,7 +7,6 @@ class ChangeICodeUtility {
     nav: string = Constants.Modules.Utilities.children.ChangeICodeUtility.nav;
     id: string = Constants.Modules.Utilities.children.ChangeICodeUtility.id;
     //----------------------------------------------------------------------------------------------
-    //addFormMenuItems(options: IAddFormMenuOptions): void {
     addFormMenuItems(options: IAddFormMenuOptions) {
         options.hasSave = false;
         FwMenu.addFormMenuButtons(options);
@@ -51,15 +50,6 @@ class ChangeICodeUtility {
                     ItemId: FwFormField.getValueByDataField($form, 'ItemId'),
                 };
 
-                //FwAppData.apiMethod(true, 'POST', 'api/v1/changeicodeutility/changeicode', request, FwServices.defaultTimeout, response => {
-                //    if (response.success) {
-                //        FwNotification.renderNotification('SUCCESS', 'I-Code Changed Successfully');
-                //        $form.find('.fwformfield input').val('');
-                //        FwFormField.disable($form.find('div[data-datafield="NewInventoryId"]'));
-                //        FwModule.refreshForm($form);
-                //    }
-                //}, ex => FwFunc.showError(ex), $form);
-
                 FwAppData.apiMethod(true, 'POST', 'api/v1/changeicodeutility/changeicode', request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success === true) {
                         FwNotification.renderNotification('SUCCESS', 'I-Code Changed Successfully');
@@ -72,10 +62,6 @@ class ChangeICodeUtility {
             }
         });
 
-        // Set Description from I-Code validation
-        //$form.find('[data-datafield="CurrentInventoryId"]').data('onchange', $tr => {
-        //    FwFormField.setValue($form, 'div[data-datafield="CurrentItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
-        //});
         $form.find('[data-datafield="NewInventoryId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="NewItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
         });
@@ -86,7 +72,6 @@ class ChangeICodeUtility {
             FwFormField.setValue($form, 'div[data-datafield="CurrentItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-displayfield="CurrentICode"]', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'TrackedBy', $tr.find('.field[data-formdatafield="TrackedBy"]').attr('data-originalvalue'));
-            //FwFormField.enable($form.find('div[data-datafield="NewInventoryId"]'));
         });
     }
     //----------------------------------------------------------------------------------------------
