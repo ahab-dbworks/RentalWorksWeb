@@ -2716,20 +2716,35 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     checkDateRangeForPick($form, event) {
         const $element = jQuery(event.currentTarget);
-        let parsedPickDate = this.getPickStartStop($form, 'div[data-dateactivitytype="PICK"]');
-        let parsedFromDate = this.getPickStartStop($form, 'div[data-dateactivitytype="START"]');;
-        let parsedToDate = this.getPickStartStop($form, 'div[data-dateactivitytype="STOP"]');;
+        //let parsedPickDate = this.getPickStartStop($form, 'div[data-dateactivitytype="PICK"]');
+        //let parsedFromDate = this.getPickStartStop($form, 'div[data-dateactivitytype="START"]');;
+        //let parsedToDate = this.getPickStartStop($form, 'div[data-dateactivitytype="STOP"]');;
+        //
+        //if (parsedPickDate != '') {
+        //    parsedPickDate = Date.parse(parsedPickDate);
+        //}
+        //
+        //if (parsedFromDate != '') {
+        //    parsedFromDate = Date.parse(parsedFromDate);
+        //}
+        //
+        //if (parsedToDate != '') {
+        //    parsedToDate = Date.parse(parsedToDate);
+        //}
 
-        if (parsedPickDate != '') {
-            parsedPickDate = Date.parse(parsedPickDate);
+        let parsedPickDate, parsedFromDate, parsedToDate;
+        let pickStartStop: PickStartStop = this.getPickStartStop($form);
+
+        if (pickStartStop.PickDate != '') {
+            parsedPickDate = Date.parse(pickStartStop.PickDate);
         }
 
-        if (parsedFromDate != '') {
-            parsedFromDate = Date.parse(parsedFromDate);
+        if (pickStartStop.StartDate != '') {
+            parsedFromDate = Date.parse(pickStartStop.StartDate);
         }
 
-        if (parsedToDate != '') {
-            parsedToDate = Date.parse(parsedToDate);
+        if (pickStartStop.StopDate != '') {
+            parsedToDate = Date.parse(pickStartStop.StopDate);
         }
 
         if ($element.attr('data-dateactivitytype') === 'START' && parsedFromDate < parsedPickDate) {
@@ -4048,16 +4063,44 @@ class OrderBase {
         $activeTab.click();
     };
     //----------------------------------------------------------------------------------------------
-    getPickStartStop($form: JQuery, selector: string) {
-        let value;;
-        let $field = $form.find(selector);
-        if ($field.length) {
-            value = FwFormField.getValue2($field);
-        } else {
-            value = '';
+    //04/28/2020 jason hoang and justin hoffman
+    //           method to safely retrieve the Pick, Start, and Stop Dates and Times
+    //           will return blank values when the Order Type has these values disabled/excluded
+    getPickStartStop($form: JQuery): PickStartStop {
+        function safeGetActivityDate(activityType: string) {
+            let value: string = "";
+            let $field = $form.find(`div[data-dateactivitytype="${activityType}"]`);
+            if ($field.length) {
+                value = FwFormField.getValue2($field);
+            }
+            return value;
         }
-        return value;
+        function safeGetActivityTime(activityType: string) {
+            let value: string = "";
+            let $field = $form.find(`div[data-timeactivitytype="${activityType}"]`);
+            if ($field.length) {
+                value = FwFormField.getValue2($field);
+            }
+            return value;
+        }
+        let pickStartStop: PickStartStop = new PickStartStop();
+        pickStartStop.PickDate = safeGetActivityDate('PICK');
+        pickStartStop.PickTime = safeGetActivityTime('PICK');
+        pickStartStop.StartDate = safeGetActivityDate('START');
+        pickStartStop.StartTime = safeGetActivityTime('START');
+        pickStartStop.StopDate = safeGetActivityDate('STOP');
+        pickStartStop.StopTime = safeGetActivityTime('STOP');
+        return pickStartStop;
     }
     //----------------------------------------------------------------------------------------------
 }
+class PickStartStop {
+    PickDate: string;
+    PickTime: string;
+    StartDate: string;
+    StartTime: string;
+    StopDate: string;
+    StopTime: string;
+}
+//----------------------------------------------------------------------------------------------
 var OrderBaseController = new OrderBase();

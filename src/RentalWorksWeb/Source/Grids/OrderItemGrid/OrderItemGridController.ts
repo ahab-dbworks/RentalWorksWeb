@@ -7,20 +7,25 @@ class OrderItemGrid {
         const controller = $form.attr('data-controller');
         let $grid = $tr.parents('[data-grid="OrderItemGrid"]');
         let inventoryType;
-        let pickDate;
-        let pickTime;
-        let fromDate;
-        let fromTime;
-        let toDate;
-        let toTime;
-        if (controller !== "TemplateController" && controller !== "PurchaseOrderController") {
-            pickDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="PICK"]');
-            pickTime = OrderBaseController.getPickStartStop($form, 'div[data-timeactivitytype="PICK"]');
-            fromDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="START"]');
-            fromTime = OrderBaseController.getPickStartStop($form, 'div[data-timeactivitytype="START"]');
-            toDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="STOP"]');
-            toTime = OrderBaseController.getPickStartStop($form, 'div[data-timeactivitytype="STOP"]');
-        };
+        //let pickDate;
+        //let pickTime;
+        //let fromDate;
+        //let fromTime;
+        //let toDate;
+        //let toTime;
+        //if (controller !== "TemplateController" && controller !== "PurchaseOrderController") {
+        //    pickDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="PICK"]');
+        //    pickTime = OrderBaseController.getPickStartStop($form, 'div[data-timeactivitytype="PICK"]');
+        //    fromDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="START"]');
+        //    fromTime = OrderBaseController.getPickStartStop($form, 'div[data-timeactivitytype="START"]');
+        //    toDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="STOP"]');
+        //    toTime = OrderBaseController.getPickStartStop($form, 'div[data-timeactivitytype="STOP"]');
+        //};
+        let pickStartStop: PickStartStop;
+        if ((controller === 'QuoteController') || (controller === 'OrderController'))
+        {
+            pickStartStop = OrderBaseController.getPickStartStop($form);
+        }
         const $td = $tr.find('[data-browsedatafield="InventoryId"]');
 
         if ($grid.hasClass('R')) {
@@ -61,12 +66,12 @@ class OrderItemGrid {
                 daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
             };
 
-            FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickDate });
-            FwBrowse.setFieldValue($grid, $tr, 'PickTime', { value: pickTime });
-            FwBrowse.setFieldValue($grid, $tr, 'FromDate', { value: fromDate });
-            FwBrowse.setFieldValue($grid, $tr, 'FromTime', { value: fromTime });
-            FwBrowse.setFieldValue($grid, $tr, 'ToDate', { value: toDate });
-            FwBrowse.setFieldValue($grid, $tr, 'ToTime', { value: toTime });
+            FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickStartStop.PickDate });
+            FwBrowse.setFieldValue($grid, $tr, 'PickTime', { value: pickStartStop.PickTime });
+            FwBrowse.setFieldValue($grid, $tr, 'FromDate', { value: pickStartStop.StartDate });
+            FwBrowse.setFieldValue($grid, $tr, 'FromTime', { value: pickStartStop.StartTime });
+            FwBrowse.setFieldValue($grid, $tr, 'ToDate', { value: pickStartStop.StopDate });
+            FwBrowse.setFieldValue($grid, $tr, 'ToTime', { value: pickStartStop.StopTime });
             if (inventoryType !== 'RentalSales') {
                 FwBrowse.setFieldValue($grid, $tr, 'DiscountPercent', { value: discountPercent });
                 FwBrowse.setFieldValue($grid, $tr, 'DiscountPercentDisplay', { value: discountPercent });

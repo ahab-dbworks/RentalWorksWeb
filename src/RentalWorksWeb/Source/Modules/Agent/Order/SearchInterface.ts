@@ -233,12 +233,19 @@ class SearchInterface {
                 break;
             case 'Order':
             case 'Quote':
-                pickDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="PICK"]');
-                FwFormField.setValueByDataField($popup, 'PickDate', pickDate);
-                startDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="START"]');
-                FwFormField.setValueByDataField($popup, 'FromDate', startDate);
-                stopDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="STOP"]');
-                FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
+                //pickDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="PICK"]');
+                //FwFormField.setValueByDataField($popup, 'PickDate', pickDate);
+                //startDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="START"]');
+                //FwFormField.setValueByDataField($popup, 'FromDate', startDate);
+                //stopDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="STOP"]');
+                //FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
+
+
+                let pickStartStop: PickStartStop = OrderBaseController.getPickStartStop($form);
+                FwFormField.setValueByDataField($popup, 'PickDate', pickStartStop.PickDate);
+                FwFormField.setValueByDataField($popup, 'FromDate', pickStartStop.StartDate);
+                FwFormField.setValueByDataField($popup, 'ToDate', pickStartStop.StopDate);
+
                 $popup.data('ratetype', FwFormField.getValueByDataField($form, 'RateType'));
                 break;
             case 'PurchaseOrder':
