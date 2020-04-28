@@ -1268,7 +1268,7 @@ class SearchInterface {
                         item.find('[data-column="ConflictDate"] value').text(response.ConflictDate || "");
 
                         //Updates Preview tab with total # of items
-                        $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
+                        $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession} items)`);
                     }, ex => FwFunc.showError(ex), $searchpopup);
             })
             .on('click', '.item-accessory-info [data-column="Quantity"] input', e => {
@@ -1332,7 +1332,7 @@ class SearchInterface {
                         $item.find('[data-column="ConflictDate"] value').text(response.ConflictDate || "");
 
                         //Updates Preview tab with total # of items
-                        $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
+                        $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession} items)`);
                     }, ex => FwFunc.showError(ex), $searchpopup);
             });
 
@@ -1738,7 +1738,7 @@ class SearchInterface {
         FwAppData.apiMethod(true, 'GET', `api/v1/inventorysearch/gettotal/${id}`, null, FwServices.defaultTimeout,
             response => {
                 if (typeof response.TotalQuantityInSession === 'number') {
-                    $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
+                    $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession} items)`);
                     if (initialLoad === true && response.TotalQuantityInSession > 0) {
                         FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
                     }
