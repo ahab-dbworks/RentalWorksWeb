@@ -363,13 +363,7 @@ class FwFormFieldClass {
         if ($fwformfield.length > 1) {
             $fwformfield = jQuery($fwformfield[0]);
         }
-
-        if ($fwformfield.length) {
-            value = this.getValue2($fwformfield);
-        } else {
-            value = '';
-        }
-     
+        value = this.getValue2($fwformfield);
         return value;
     }
     //---------------------------------------------------------------------------------
