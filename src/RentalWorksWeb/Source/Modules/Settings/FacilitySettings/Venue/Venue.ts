@@ -85,32 +85,32 @@ class Venue {
             }
         });
 
-        $form.find('[data-name="SpaceGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-            try {
-                const spaceId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
-                const floorId = jQuery($tr.find('.column > .field')[1]).attr('data-originalvalue');
-                const venueId = FwFormField.getValueByDataField($form, 'VenueId');
-                const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+        //$form.find('[data-name="SpaceGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+        //    try {
+        //        const spaceId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+        //        const floorId = jQuery($tr.find('.column > .field')[1]).attr('data-originalvalue');
+        //        const venueId = FwFormField.getValueByDataField($form, 'VenueId');
+        //        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
 
-                const $spaceRateGridControl = $form.find('[data-name="SpaceRateGrid"]');
-                $spaceRateGridControl.data('ondatabind', request => {
-                    request.uniqueids = {
-                        SpaceId: spaceId,
-                        FloorId: floorId,
-                        BuildingId: venueId,
-                        WarehouseId: warehouseId
-                    }
-                })
-                $spaceRateGridControl.data('beforesave', request => {
-                    request.BuildingId = venueId;
-                    request.FloorId = floorId;
-                    request.SpaceId = spaceId;
-                });
-                FwBrowse.search($spaceRateGridControl);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+        //        const $spaceRateGridControl = $form.find('[data-name="SpaceRateGrid"]');
+        //        $spaceRateGridControl.data('ondatabind', request => {
+        //            request.uniqueids = {
+        //                SpaceId: spaceId,
+        //                FloorId: floorId,
+        //                BuildingId: venueId,
+        //                WarehouseId: warehouseId
+        //            }
+        //        })
+        //        $spaceRateGridControl.data('beforesave', request => {
+        //            request.BuildingId = venueId;
+        //            request.FloorId = floorId;
+        //            request.SpaceId = spaceId;
+        //        });
+        //        FwBrowse.search($spaceRateGridControl);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -145,21 +145,21 @@ class Venue {
         });
 
         const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-        FwBrowse.renderGrid({
-            nameGrid: 'SpaceRateGrid',
-            gridSecurityId: 'iWPadFxStXkcL',
-            moduleSecurityId: this.id,
-            $form: $form,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    BuildingId: FwFormField.getValueByDataField($form, 'VenueId'),
-                    WarehouseId: warehouseId,
-                };
-            },
-            //beforeSave: (request: any) => {
-            //    request.BuildingId = FwFormField.getValueByDataField($form, 'VenueId');
-            //},
-        });
+        //FwBrowse.renderGrid({
+        //    nameGrid: 'SpaceRateGrid',
+        //    gridSecurityId: 'iWPadFxStXkcL',
+        //    moduleSecurityId: this.id,
+        //    $form: $form,
+        //    onDataBind: (request: any) => {
+        //        request.uniqueids = {
+        //            BuildingId: FwFormField.getValueByDataField($form, 'VenueId'),
+        //            WarehouseId: warehouseId,
+        //        };
+        //    },
+        //    //beforeSave: (request: any) => {
+        //    //    request.BuildingId = FwFormField.getValueByDataField($form, 'VenueId');
+        //    //},
+        //});
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -169,8 +169,8 @@ class Venue {
         const $spaceGrid = $form.find('[data-name="SpaceGrid"]');
         FwBrowse.search($spaceGrid);
 
-        const $spaceRateGrid = $form.find('[data-name="SpaceRateGrid"]');
-        FwBrowse.search($spaceRateGrid);
+        //const $spaceRateGrid = $form.find('[data-name="SpaceRateGrid"]');
+        //FwBrowse.search($spaceRateGrid);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
