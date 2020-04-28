@@ -3609,7 +3609,7 @@ class FwBrowseClass {
                         var gridfields = this.getWebApiRowFields($control, $tr);
                         request = jQuery.extend({}, parentformfields, gridfields);
                         if (typeof $control.data('beforesave') === 'function') {
-                            $control.data('beforesave')(request);
+                            $control.data('beforesave')(request, $control, $tr);
                         }
                     }
                     else {
@@ -3644,7 +3644,7 @@ class FwBrowseClass {
                         }
                     }
                     if (typeof $control.data('beforesave') === 'function') {
-                        $control.data('beforesave')(request);
+                        $control.data('beforesave')(request, $control, $tr);
                     }
                     if (typeof controller.apiurl === 'undefined') {
                         mode = 'Save';
@@ -3730,7 +3730,7 @@ class FwBrowseClass {
                         $form = $control.closest('.fwform');
                         const gridfields = this.getWebApiRowFields($control, $tr);
                         if (typeof $control.data('beforesave') === 'function') {
-                            $control.data('beforesave')(gridfields);
+                            $control.data('beforesave')(gridfields, $control, $tr);
                         }
                         manyRequest.push(gridfields);
                         const uniqueIds = this.getRowFormUniqueIds($control, $tr);
@@ -4442,7 +4442,7 @@ class FwBrowseClass {
         onDataBind?: (request: any) => void,
         onOverrideNotesTemplate?: ($browse: JQuery, $tr: JQuery, $field: JQuery, controlhtml, $confirmation: any, $ok: any) => void,
         afterDataBindCallback?: ($browse: JQuery, dt: FwJsonDataTable) => void,
-        beforeSave?: (request: any) => void,
+        beforeSave?: (request: any, $browse?: JQuery, $tr?: JQuery) => void,
         addGridMenu?: (options: IAddGridMenuOptions) => void,
         beforeInit?: ($fwgrid: JQuery, $browse: JQuery) => void
         getTemplate?: () => string
