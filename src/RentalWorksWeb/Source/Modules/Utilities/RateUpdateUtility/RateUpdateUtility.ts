@@ -302,6 +302,10 @@ class RateUpdateUtility {
                     request.orderby = orderBy;
                 }
             },
+            beforeSave: (request: any, $browse: JQuery, $tr: JQuery) => {
+                //justin hoffman 04/28/2020 this is an unusual case where I need to use the InventoryId, which is a read-only validation field, also as a key field
+                request.InventoryId = $tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue');
+            },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.toggleAvailableFor($form);
                 this.renderWideGridColumns($form.find('[data-name="RateUpdateItemGrid"]'));
