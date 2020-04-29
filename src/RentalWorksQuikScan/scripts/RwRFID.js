@@ -1,7 +1,8 @@
 ﻿var RwRFID = {
     isConnected: false,
     isPerformingSoftwareSinglePress: false,
-    zebraTriggerMode: 'BARCODE'
+    zebraTriggerMode: 'BARCODE',
+    isRFIDAPI3: true
 };
 //----------------------------------------------------------------------------------------------
 RwRFID.init = function() {
@@ -87,6 +88,7 @@ RwRFID.registerEvents = function(callbackfunction) {
         window.ZebraRFIDAPI3.registerListener('beginResume', 'beginResume_rwrfidjs', function (deviceManufacturer, deviceModel, androidSdkVersion) {
             try {
                 if (deviceManufacturer === 'Zebra Technologies' && deviceModel === 'MC33') {
+                    RwRFID.isRFIDAPI3 = true;
                     RwRFID.showRFIDNotification('Configuring scanner...', false);
                 }
             } catch (ex) {
@@ -221,14 +223,101 @@ RwRFID.registerEvents = function(callbackfunction) {
                 }
             }
         });
-        window.ZebraRFIDAPI3.registerListener('tagFinder', 'tagFinder_rwrfidjs', function (distance) {
-            RwRFID.showRFIDNotification(`Distance: ${distance}%`, true);
+        window.ZebraRFIDAPI3.registerListener('tagFinder', 'tagFinder_rwrfidjs', function (tag, distance) {
+            RwRFID.updateTagFinderNotification(tag, distance);
+        });
+        window.ZebraRFIDAPI3.registerListener('tagFinderStopped', 'tagFinderStopped_rwrfidjs', function () {
+            RwRFID.hideTagFinderNotification();
         });
     }
 };
 //----------------------------------------------------------------------------------------------
-RwRFID.showRFIDNotification = function (text, autoHide) {
+RwRFID.hideTagFinderNotification = function () {
+    jQuery('.tagfinder-notification').remove();
+};
+//----------------------------------------------------------------------------------------------
+RwRFID.startTagFinder = function (tag) {
+    RwRFID.hideRFIDNotification();
+    let $notificationWrapper = jQuery('<div class="tagfinder-notification"></div>')
+        .css({
+            'position': 'absolute',
+            'top': window.scrollY + 'px',
+            'right': '0',
+            'bottom': '0',
+            'left': '0',
+            'display': 'flex',
+            'flex-direction': 'column',
+            'align-items': 'center',
+            'justify-content': 'center',
+            'z-index': FwFunc.getMaxZ('*')
+        });
+    let html = [];
+    html.push('<div style="text-align:center">');
+    html.push(`  <div>Tag Finder</div>`);
+    html.push(`  <div class="tag" style="font-size:9px;">${tag}</div>`);
+    html.push(`  <div>Distance: <span class="distance">0</span>%</div>`);
+    html.push(`  <progress class="progress" value="0" max="100"></progress>`);
+    html.push('  <div id="slider" style="margin:48px 32px 32px 32px;"></div>');
+    html.push(`  <div><button class="btnStop" style="height:44px;font-size:16px;width:100px;">Stop</button></div>`);
+    html.push('</div>');
+    html = html.join('\n');
+    let $notification = jQuery(html)
+        .css({
+            'background-color': '#000000',
+            'font-size': '22px',
+            'color': '#ffffff',
+            'padding': '10px',
+            'opacity': '.95'    
+        })
+        .on('click', '.btnStop', e => {
+            window.ZebraRFIDAPI3.stopTagFinder(() => {
+                $notification.remove();
+            });
+        });
+    $notificationWrapper.append($notification);
+    window.ZebraRFIDAPI3.getPowerLevel(
+        function success(args) {
+            var outputPower = args[0];
+            var minPower = args[1];
+            var maxPower = args[2];
+            var rfidPowerLevelSlider = $notificationWrapper.find('#slider').get(0);
+            noUiSlider.create(rfidPowerLevelSlider, {
+                start: [outputPower],
+                range: {
+                    'min': [minPower],
+                    'max': [maxPower]
+                },
+                tooltips: [wNumb({ decimals: 0 })]
+            });
+            rfidPowerLevelSlider.noUiSlider.on('change', function () {
+                window.ZebraRFIDAPI3.stopTagFinder(() => {
+                    var rfidPowerLevel = parseFloat(rfidPowerLevelSlider.noUiSlider.get());
+                    window.ZebraRFIDAPI3.setPowerLevel(rfidPowerLevel,
+                        function (args) {
+                            var outputPower = args[0];
+                            rfidPowerLevelSlider.noUiSlider.set(outputPower);
+                            RwRFID.startTagFinder(tag);
+                        });
+                });
+            });
+            window.ZebraRFIDAPI3.startTagFinder(tag);
+        });
+    jQuery('body').append($notificationWrapper);
+
+}
+//----------------------------------------------------------------------------------------------
+RwRFID.updateTagFinderNotification = function (tag, distance) {
+    jQuery('.tagfinder-notification .tag').text(tag);
+    jQuery('.tagfinder-notification .distance').text(distance);
+    jQuery('.tagfinder-notification .progress').attr('value', distance);
+};
+//----------------------------------------------------------------------------------------------
+RwRFID.hideRFIDNotification = function () {
     jQuery('.rfid-notification').remove();
+};
+//----------------------------------------------------------------------------------------------
+RwRFID.showRFIDNotification = function (text, autoHide) {
+    RwRFID.hideRFIDNotification();
     let $notificationWrapper = jQuery('<div class="rfid-notification"></div>')
         .css({
             'position': 'absolute',
