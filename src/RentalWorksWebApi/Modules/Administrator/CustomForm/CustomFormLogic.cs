@@ -3,10 +3,11 @@ using FwStandard.BusinessLogic;
 using System.Reflection;
 using WebApi.Logic;
 using WebApi;
+using WebApi.Modules.AdministratorControls.CustomFormUser;
 
 namespace WebApi.Modules.Administrator.CustomForm
 {
-    [FwLogic(Id:"SgSLHzluaM9Kz")]
+    [FwLogic(Id: "SgSLHzluaM9Kz")]
     public class CustomFormLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -16,27 +17,29 @@ namespace WebApi.Modules.Administrator.CustomForm
         {
             dataRecords.Add(customForm);
             dataLoader = customFormLoader;
+
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id:"JzEbZ2oG8xCLp", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "JzEbZ2oG8xCLp", IsPrimaryKey: true)]
         public string CustomFormId { get { return customForm.CustomFormId; } set { customForm.CustomFormId = value; } }
 
-        [FwLogicProperty(Id:"UgrDO8vhpTr6M")]
+        [FwLogicProperty(Id: "UgrDO8vhpTr6M")]
         public string WebUserId { get { return customForm.WebUserId; } set { customForm.WebUserId = value; } }
 
-        [FwLogicProperty(Id:"WmTWaHooAIaid", IsReadOnly:true)]
+        [FwLogicProperty(Id: "WmTWaHooAIaid", IsReadOnly: true)]
         public string UserName { get; set; }
 
-        [FwLogicProperty(Id:"rZU4UlSZ4eStr")]
+        [FwLogicProperty(Id: "rZU4UlSZ4eStr")]
         public string BaseForm { get { return customForm.BaseForm; } set { customForm.BaseForm = value; } }
 
-        [FwLogicProperty(Id:"uaeGQnhd8KAnX", IsRecordTitle:true)]
-        public string Description { get { return customForm.Description; } set { customForm.Description= value; } }
+        [FwLogicProperty(Id: "uaeGQnhd8KAnX", IsRecordTitle: true)]
+        public string Description { get { return customForm.Description; } set { customForm.Description = value; } }
 
-        [FwLogicProperty(Id:"tjhXQPdX2TXn6")]
+        [FwLogicProperty(Id: "tjhXQPdX2TXn6")]
         public string Html { get { return customForm.Html; } set { customForm.Html = value; } }
 
-        [FwLogicProperty(Id:"c6F1RZmuMJWBa")]
+        [FwLogicProperty(Id: "c6F1RZmuMJWBa")]
         public bool? Active { get { return customForm.Active; } set { customForm.Active = value; } }
 
         [FwLogicProperty(Id: "CDj7UVNVa9ZWl", IsReadOnly: true)]
@@ -45,7 +48,10 @@ namespace WebApi.Modules.Administrator.CustomForm
         [FwLogicProperty(Id: "175LODTpQS8xn")]
         public string AssignTo { get { return customForm.AssignTo; } set { customForm.AssignTo = value; } }
 
-        [FwLogicProperty(Id:"RV8DGIfZ7ITeu")]
+        [FwLogicProperty(Id: "1KPyDqwKpSRf")]
+        public bool? SelfAssign { get; set; }
+
+        [FwLogicProperty(Id: "RV8DGIfZ7ITeu")]
         public string DateStamp { get { return customForm.DateStamp; } set { customForm.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
@@ -59,6 +65,21 @@ namespace WebApi.Modules.Administrator.CustomForm
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
             return isValid;
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                if (SelfAssign.GetValueOrDefault(false))
+                {
+                    CustomFormUserLogic l = new CustomFormUserLogic();
+                    l.SetDependencies(AppConfig, UserSession);
+                    l.CustomFormId = CustomFormId;
+                    l.WebUserId = WebUserId;
+                    int saveCount = l.SaveAsync(null, e.SqlConnection).Result;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }

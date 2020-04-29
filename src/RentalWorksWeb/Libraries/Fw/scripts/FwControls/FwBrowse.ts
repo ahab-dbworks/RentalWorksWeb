@@ -4150,6 +4150,8 @@ class FwBrowseClass {
                 const value = name + type.charAt(0).toUpperCase() + type.slice(1);
                 FwFormField.setValueByDataField($form, 'BaseForm', value, null, true);
                 FwFormField.setValueByDataField($form, 'Description', `${name} ${type} - ${fullName}`);
+                FwFormField.setValueByDataField($form, 'AssignTo', 'USERS');
+                $form.data('selfassign', true);
             } catch (ex) {
                 FwFunc.showError(ex);
             }

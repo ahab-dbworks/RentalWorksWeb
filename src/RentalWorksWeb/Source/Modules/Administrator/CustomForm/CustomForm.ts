@@ -92,6 +92,13 @@ class CustomForm {
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]').not('#designerContent .fwformfield'));
         $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])').not('#designerContent .fwformfield'));
 
+        if (typeof $form.data('selfassign') != 'undefined') {
+            const beforeSave = (request: any) => {
+                request.SelfAssign = $form.data('selfassign');
+            }
+            $form.data('beforesave', beforeSave);
+        }
+
         if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
@@ -99,6 +106,25 @@ class CustomForm {
         FwFormField.disable($form.find('[data-datafield="BaseForm"]'));
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+
+        const baseForm = FwFormField.getValueByDataField($form, 'BaseForm');
+        const html = FwFormField.getValueByDataField($form, 'Html');
+        if (typeof $form.data('selfassign') != 'undefined') {
+            jQuery('head').prepend(`<template id="tmpl-custom-${baseForm}">${html}</template>`);
+            let customForms = JSON.parse(sessionStorage.getItem('customForms'));
+            customForms.unshift({
+                BaseForm: baseForm,
+                CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId'),
+                Description: FwFormField.getValueByDataField($form, 'Description')
+            });
+            sessionStorage.setItem('customForms', JSON.stringify(customForms));
+            $form.removeData('selfassign');
+            const controller = $form.find('[data-datafield="BaseForm"] option:selected').data('controllername');
+            if (controller != 'undefined') {
+                const nav = (<any>window)[controller].nav;
+                program.navigate(nav);
+            }
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
