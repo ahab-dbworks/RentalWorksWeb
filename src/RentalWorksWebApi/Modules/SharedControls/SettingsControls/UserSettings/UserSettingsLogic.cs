@@ -119,7 +119,7 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         }
 
         [FwLogicProperty(Id: "ypkfs1JBnySIQ")]
-        public string ToolBarJson { get; set; }
+        public string FavoritesJson { get; set; }
 
         [FwLogicProperty(Id: "RNSGN6rtM7kOk", IsReadOnly: true)]
         public bool? WebAdministrator{ get; set; }
@@ -129,7 +129,7 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         //------------------------------------------------------------------------------------ 
         public virtual void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = webUser.SaveToolBarJsonAsync(ToolBarJson).Result;
+            bool saved = webUser.SaveFavoritesJsonAsync(FavoritesJson).Result;
             if (saved)
             {
                 e.RecordsAffected++;

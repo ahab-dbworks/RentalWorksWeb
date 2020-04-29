@@ -95,10 +95,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "notificationsoundid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         public string NotificationSoundId { get; set; }
         //------------------------------------------------------------------------------------
-
-        public async Task<bool> SaveToolBarJsonAsync(string Note)
+        public async Task<bool> SaveFavoritesJsonAsync(string Note)
         {
-            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, WebUserId, "TOOLBAR", "", Note);
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, WebUserId, RwConstants.WEBUSER_NOTE_TYPE_FAVORITES, "", Note);
         }
         //-------------------------------------------------------------------------------------------------------
 

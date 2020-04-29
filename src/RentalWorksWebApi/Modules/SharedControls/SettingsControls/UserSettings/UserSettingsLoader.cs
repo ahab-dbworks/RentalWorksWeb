@@ -56,7 +56,7 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         public string NotificationSoundFileName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "toolbarjson", modeltype: FwDataTypes.Text)]
-        public string ToolBarJson { get; set; }
+        public string FavoritesJson { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webadministrator", modeltype: FwDataTypes.Boolean)]
         public bool? WebAdministrator { get; set; }

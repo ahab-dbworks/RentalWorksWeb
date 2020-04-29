@@ -615,9 +615,13 @@ namespace WebApi
         // ACTIVITY
         public const int USER_DEFINED_ACTIVITY_COLOR = 11447902;                    // teal
 
+        // BUILDING / VENUE
         public const string BUILDING_TYPE_BUILDING = "BUILDING";
         public const string BUILDING_TYPE_VENUE = "VENUE";
 
+
+        // USER TOOLBAR/FAVORITES
+        public const string WEBUSER_NOTE_TYPE_FAVORITES = "TOOLBAR";
 
     }
 

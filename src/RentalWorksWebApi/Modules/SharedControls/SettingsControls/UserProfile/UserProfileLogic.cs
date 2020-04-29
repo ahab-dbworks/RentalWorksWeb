@@ -119,14 +119,14 @@ namespace WebApi.Modules.Settings.UserProfile
         }
 
         [FwLogicProperty(Id: "ypkfs1JBnySIQ")]
-        public string ToolBarJson { get; set; }
+        public string FavoritesJson { get; set; }
 
         [FwLogicProperty(Id:"JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public virtual void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = webUser.SaveToolBarJsonAsync(ToolBarJson).Result;
+            bool saved = webUser.SaveFavoritesJsonAsync(FavoritesJson).Result;
             if (saved)
             {
                 e.RecordsAffected++;

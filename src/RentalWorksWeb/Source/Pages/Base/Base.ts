@@ -222,16 +222,16 @@ class Base {
                                             const responseGetIsTraining = values[9];
                                             const responseGetWarehouses = values[10];
 
-                                            let sounds: any = {}, homePage: any = {}, toolbar: any = {};
+                                            let sounds: any = {}, homePage: any = {}, favorites: any = {};
                                             sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
                                             sounds.errorSoundFileName = responseGetUserSettings.ErrorSoundFileName;
                                             sounds.notificationSoundFileName = responseGetUserSettings.NotificationSoundFileName;
                                             homePage.guid = responseGetUserSettings.HomeMenuGuid;
                                             homePage.path = responseGetUserSettings.HomeMenuPath;
-                                            toolbar = responseGetUserSettings.ToolBarJson;
+                                            favorites = responseGetUserSettings.FavoritesJson;
                                             sessionStorage.setItem('sounds', JSON.stringify(sounds));
                                             sessionStorage.setItem('homePage', JSON.stringify(homePage));
-                                            sessionStorage.setItem('toolbar', toolbar);
+                                            sessionStorage.setItem('favorites', favorites);
 
 
                                             // Web admin - security for peek validation show / hide   J.Pace 7/12/19

@@ -66,7 +66,7 @@
         FwFormField.loadItems($defaultHomePage, defaultHomePages, true);
 
         // Load Available Modules
-        const toolbarModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+        const favoritesModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('nav')) {
                 if (nodeModule) {
                     if (nodeModule.hasOwnProperty('properties')) {
@@ -81,9 +81,9 @@
                 }
             }
         });
-        FwApplicationTree.sortModules(toolbarModules);
+        FwApplicationTree.sortModules(favoritesModules);
         const $availModules = $form.find('.available-modules');
-        FwFormField.loadItems($availModules, toolbarModules, true);
+        FwFormField.loadItems($availModules, favoritesModules, true);
 
         const userId = JSON.parse(sessionStorage.getItem('userid'));
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
@@ -101,7 +101,7 @@
                     });
                 }
             }
-            request.ToolBarJson = JSON.stringify(modules);
+            request.FavoritesJson = JSON.stringify(modules);
         });
 
         //first sortable list
@@ -190,7 +190,7 @@
         sessionStorage.setItem('applicationtheme', FwFormField.getValueByDataField($form, 'ApplicationTheme'));
         sessionStorage.setItem('sounds', JSON.stringify(sounds));
         sessionStorage.setItem('homePage', JSON.stringify(homePage));
-        sessionStorage.setItem('toolbar', FwFormField.getValueByDataField($form, 'ToolBarJson'));
+        sessionStorage.setItem('favorites', FwFormField.getValueByDataField($form, 'FavoritesJson'));
 
         //remove unchecked modules
         $form.find('.selected-modules li[data-selected="F"]').remove();
@@ -203,7 +203,7 @@
         //jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browseRows);
         //jQuery($form.find('div.fwformfield[data-datafield="ApplicationTheme"] select')).val(theme);
 
-        let selectedModules = FwFormField.getValueByDataField($form, 'ToolBarJson');
+        let selectedModules = FwFormField.getValueByDataField($form, 'FavoritesJson');
         if (selectedModules.length > 0) {
             selectedModules = JSON.parse(selectedModules);
             FwFormField.loadItems($form.find('.selected-modules'), selectedModules);

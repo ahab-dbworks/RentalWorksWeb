@@ -1330,7 +1330,7 @@ namespace FwStandard.BusinessLogic
                         }
                         if (p == null)
                         {
-                            p = this.GetType().GetProperty("ToolBarJson"); //temporary
+                            p = this.GetType().GetProperty("FavoritesJson"); //temporary
                         }
                         if (p == null)
                         {

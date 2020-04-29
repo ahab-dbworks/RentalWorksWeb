@@ -501,11 +501,11 @@ class RwMaster extends WebMaster {
     //----------------------------------------------------------------------------------------------
     buildSystemBar($usercontrol: JQuery<HTMLElement>) {
         if (sessionStorage.getItem('userType') === 'USER') {
-            if (sessionStorage['toolbar']) {
-                const toolbarModules = JSON.parse(sessionStorage.getItem('toolbar'));
+            if (sessionStorage['favorites']) {
+                const favoritesModules = JSON.parse(sessionStorage.getItem('favorites'));
                 const modules = jQuery(`<div style="display:flex; max-width:1300px; overflow:hidden;flex-flow:row wrap; justify-content: flex-end; height:25px;"></div>`);
-                for (let i = 0; i < toolbarModules.length; i++) {
-                    const $this = toolbarModules[i];
+                for (let i = 0; i < favoritesModules.length; i++) {
+                    const $this = favoritesModules[i];
                     const $module = jQuery(`<div class="toolbar-module dashboard" style="display:flex;" title="${$this.text}"><i class="material-icons">star</i><span>${$this.text}</span></div>`);
                     $module.on('click', function () {
                         try {
