@@ -555,37 +555,24 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 }
 
 /* Custom Forms */
-#designerContent [data-control="FwFormField"]:hover,
-#designerContent [data-control="FwContainer"]:hover,
+#designerContent .fwform-body [data-control="FwContainer"]:not([data-type="form"]) {border: 1px solid darkblue;}
+#designerContent [data-control="FwContainer"]:not([data-type="form"]):hover {border:3.5px solid darkblue; box-shadow: 0 5px 9px 0 rgba(17, 8, 153, 0.3);cursor: pointer;}
+#designerContent [data-control="FwFormField"] {border: 1px solid #dcdcdc;}
+#designerContent [data-control="FwFormField"]:hover {border:3.5px solid #dcdcdc; box-shadow: 0 5px 9px 0 rgba(125, 125, 125, 0.3);cursor: pointer;}
+#designerContent div.flexrow,
+#designerContent div.flexcolumn {border: 1px solid lightblue;}
 #designerContent div.flexrow:hover,
-#designerContent div.flexcolumn:hover
-{
-    box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-}
+#designerContent div.flexcolumn:hover {border:3.5px solid lightblue; box-shadow: 0 5px 9px 0 rgba(110, 202, 197, .3);cursor: pointer;}
+
 
 #designerContent .fwform-body [data-control="FwContainer"],
 #designerContent div.flexrow,
 #designerContent div.flexcolumn,
-#designerContent [data-control="FwFormField"]{
-    margin:5px;
-}
+#designerContent [data-control="FwFormField"]{margin:8px;}
 
-#designerContent .fwform-body [data-control="FwContainer"] {
-    border: 1px solid darkblue;
-}
-
-#designerContent div.flexrow,
-#designerContent div.flexcolumn{
-    border: 1px solid lightblue;
-}
 
 #designerContent div.emptyContainer {
     min-height:50px;
-}
-
-#designerContent [data-control="FwFormField"] {
-    border: 1px solid #dcdcdc;
 }
 
 #designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field *{
