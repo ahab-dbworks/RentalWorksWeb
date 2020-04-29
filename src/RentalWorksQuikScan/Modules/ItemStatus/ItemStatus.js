@@ -59,22 +59,35 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                 FwFunc.showError(ex);
             }
         })
-        .on('click', '.rfid-item', function() {
-            var $this = jQuery(this);
-            if ($this.data('recorddata').rentalstatus !== '') {
-                $rfiditems.hide();
-                $rfiditems.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', true, function() { //back
-                    $rfiditems.show();
-                    $itemdetails.hide();
-                    jQuery(this).remove();
-                });
-                screen.$view.find('.fwmobilecontrol-value').val($this.data('recorddata').barcode);
-                var request = {
-                    barcode: $this.data('recorddata').tag
-                };
-                RwServices.callMethod('ItemStatus', 'GetItemStatus', request, function(response) {
-                    screen.loaditemdata(response.itemdata);
-                });
+        .on('click', '.rfid-item', function () {
+            try {
+                var $item = jQuery(this);
+                const $contextmenu = FwContextMenu.render("Options", null);
+                if ($item.data('recorddata').rentalstatus !== '') {
+                    FwContextMenu.addMenuItem($contextmenu, 'View Item Status', function () {
+                        $rfiditems.hide();
+                        $rfiditems.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', true, function () { //back
+                            $rfiditems.show();
+                            $itemdetails.hide();
+                            jQuery(this).remove();
+                        });
+                        screen.$view.find('.fwmobilecontrol-value').val($item.data('recorddata').barcode);
+                        var request = {
+                            barcode: $item.data('recorddata').tag
+                        };
+                        RwServices.callMethod('ItemStatus', 'GetItemStatus', request, function (response) {
+                            screen.loaditemdata(response.itemdata);
+                        });
+                    });
+                }
+                if (RwRFID.isRFIDAPI3) {
+                    FwContextMenu.addMenuItem($contextmenu, 'Tag Finder', function () {
+                        const tag = $item.find('.rfid-data.rfid .item-value').text();
+                        RwRFID.startTagFinder(tag);
+                    });
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
             }
         })
     ;
@@ -191,7 +204,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
         if (epcs !== '') {
             screen.resetscreen();
             RwServices.callMethod('ItemStatus', 'ItemStatusRFID', { tags: epcs }, function (response) {
-                if (response.items.length === 1) {
+                if (response.items.length === 1 && !RwRFID.isRFIDAPI3) {
                     var request = {
                         barcode: response.items[0].tag
                     };
@@ -244,18 +257,16 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                         $rfiditems.append('<div class="norecords">0 records found</div>');
                     }
 
-                    if (exceptionCount > 0) {
-                        if (window.ZebraRFIDAPI3 !== null && typeof window.ZebraRFIDAPI3.speak === 'function') {
-                            let toSay = `${response.items.length.toString()} tag`;
-                            if (response.items.length > 1) {
-                                toSay += 's';
-                            }
-                            toSay += `, ${ exceptionCount.toString() } exception`;
-                            if (exceptionCount > 1) {
-                                toSay += 's'
-                            }
-                            window.ZebraRFIDAPI3.speak(toSay);
+                    if (exceptionCount > 0 && RwRFID.isRFIDAPI3) {
+                        let toSay = `${response.items.length.toString()} tag`;
+                        if (response.items.length > 1) {
+                            toSay += 's';
                         }
+                        toSay += `, ${exceptionCount.toString()} exception`;
+                        if (exceptionCount > 1) {
+                            toSay += 's'
+                        }
+                        window.ZebraRFIDAPI3.speak(toSay);
                     }
                 }
             });
@@ -267,49 +278,15 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
         program.setScanTarget('.fwmobilecontrol-value');
         program.setScanTargetLpNearfield('.fwmobilecontrol-value');
 
-        // setup TSL RFID Reader
+        // setup RFID Readers
         RwRFID.registerEvents(screen.rfidscan);
-
-        //if (typeof window.TslReader !== 'undefined') {
-        //    window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getItemStatusScreen', function() {
-        //        RwRFID.isConnected = true;
-        //        FwNotification.renderNotification('INFO', 'RFID Reader Connected');
-        //    });
-        //    window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getItemStatusScreen', function() {
-        //        RwRFID.isConnected = false;
-        //        FwNotification.renderNotification('INFO', 'RFID Reader Disconnected');
-        //    });
-        //}
-
-        //if (typeof window.ZebraRFIDScanner !== 'undefined') {
-        //    ZebraRFIDScanner.registerListener('srfidEventCommunicationSessionEstablished', 'srfidEventCommunicationSessionEstablished_getItemStatusScreen', function() {
-        //        RwRFID.isConnected = true;
-        //    });
-        //    ZebraRFIDScanner.registerListener('srfidEventCommunicationSessionTerminated', 'srfidEventCommunicationSessionTerminated_rwordercontrollerjs_getItemStatusScreen', function() {
-        //        RwRFID.isConnected = false;
-        //    });
-        //    ZebraRFIDScanner.isConnected(function(isConnected) {
-        //        RwRFID.isConnected = true;
-        //    });
-        //}
     };
 
     screen.unload = function() {
         // reset scan target for LineaPro
         program.setScanTarget('#scanBarcodeView-txtBarcodeData');
         program.setScanTargetLpNearfield('');
-
-        if (typeof window.TslReader !== 'undefined') {
-            window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getItemStatusScreen');
-            window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getItemStatusScreen');
-        }
-
         RwRFID.unregisterEvents();
-
-        //if (typeof window.ZebraRFIDScanner !== 'undefined') {
-        //    window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionEstablished', 'srfidEventCommunicationSessionEstablished_rwordercontrollerjs_getItemStatusScreen');
-        //    window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionTerminated', 'srfidEventCommunicationSessionTerminated_rwordercontrollerjs_getItemStatusScreen');
-        //}
     };
     
     return screen;
