@@ -978,6 +978,7 @@ var Constants = {
         PresentationLayerFormGrid: { id: 'FcJ0Ld64KSUqv', caption: 'Presentation Layer Form' },
         ProjectContactGrid: { id: 'ZvjyLW5OM5s1X', caption: 'Project Contact' },
         ProjectNoteGrid: { id: 'tR09bf745p0YU', caption: 'Project Note' },
+        PurchaseOrderPaymentScheduleGrid: { id: 'NhVLHR4uMbkRQ', caption: 'Payment Schedule' },
         PurchaseVendorGrid: { id: '15yjeHiHe1x99', caption: 'Purchase Vendor' },
         PurchaseVendorInvoiceItemGrid: { id: 'NlKSJj2fN0ly', caption: 'Purchase Vendor Invoice Item' },
         QuikActivityGrid: { id: 'yhYOLhLE92IT', caption: 'QuikActivity' },

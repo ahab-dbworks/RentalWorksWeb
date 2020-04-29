@@ -1193,6 +1193,23 @@ class PurchaseOrder implements IModule {
         });
         // ----------
         FwBrowse.renderGrid({
+            nameGrid: 'PurchaseOrderPaymentScheduleGrid',
+            gridSecurityId: 'NhVLHR4uMbkRQ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasEdit = false;
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                }
+            }
+        });
+        // ----------
+        FwBrowse.renderGrid({
             nameGrid: 'OrderNoteGrid',
             gridSecurityId: '8aq0E3nK2upt',
             moduleSecurityId: this.id,
