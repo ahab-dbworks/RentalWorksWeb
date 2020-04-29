@@ -3,9 +3,11 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Agent.Vendor;
+using WebApi.Modules.Inventory.Inventory;
 using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.InventorySettings.RentalCategory;
@@ -21,6 +23,26 @@ namespace WebApi.Modules.Utilities.RateUpdateUtility
     public class RateUpdateUtilityController : AppDataController
     {
         public RateUpdateUtilityController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rateupdateutility/apply
+        [HttpPost("apply")]
+        [FwControllerMethod(Id: "cA6TgPc9lZ6kA", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<ApplyPendingRateUpdateModificationsResponse>> ApplyPendingModificationsAsync([FromBody]ApplyPendingRateUpdateModificationsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                ApplyPendingRateUpdateModificationsResponse response = await InventoryFunc.ApplyPendingModificationsAsync(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rateupdateutility/validatewarehouse/browse
         [HttpPost("validatewarehouse/browse")]

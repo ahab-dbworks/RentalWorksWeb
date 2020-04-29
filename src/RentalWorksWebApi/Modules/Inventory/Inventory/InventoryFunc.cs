@@ -3,6 +3,7 @@ using FwStandard.SqlServer;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Text;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.InventoryAvailability;
@@ -96,8 +97,44 @@ namespace WebApi.Modules.Inventory.Inventory
     }
 
 
+    public class ApplyPendingRateUpdateModificationsRequest
+    {
+        public string RateUpdateBatchName { get; set; }
+    }
+    public class ApplyPendingRateUpdateModificationsResponse : TSpStatusResponse 
+    { 
+        public string RateUpdateBatchId { get; set; }
+        public string RateUpdateBatchName { get; set; }
+    }
+
     public static class InventoryFunc
     {
+        //-------------------------------------------------------------------------------------------------------
+        public static string GetRateUpdatePendingModificationsWhere() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("(");
+            sb.Append("  (newhourlyrate        <> 0) or ");
+            sb.Append("  (newhourlycost        <> 0) or ");
+            sb.Append("  (newdailyrate         <> 0) or ");
+            sb.Append("  (newdailycost         <> 0) or ");
+            sb.Append("  (newweeklyrate        <> 0) or ");
+            sb.Append("  (newweeklycost        <> 0) or ");
+            sb.Append("  (newweek2rate         <> 0) or ");
+            sb.Append("  (newweek3rate         <> 0) or ");
+            sb.Append("  (newweek4rate         <> 0) or ");
+            sb.Append("  (newweek5rate         <> 0) or ");
+            sb.Append("  (newmonthlyrate       <> 0) or ");
+            sb.Append("  (newmonthlycost       <> 0) or ");
+            sb.Append("  (newmanifestvalue     <> 0) or ");
+            sb.Append("  (newreplacementcost   <> 0) or ");
+            sb.Append("  (newretail            <> 0) or ");
+            sb.Append("  (newprice             <> 0) or ");
+            sb.Append("  (newdefaultcost       <> 0) or ");
+            sb.Append("  (newmaxdiscount       <> 0) or ");
+            sb.Append("  (newmindw             <> 0)    ");
+            sb.Append(")");
+            return sb.ToString();
+        }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<UpdateInventoryQuantityResponse> UpdateInventoryQuantity(FwApplicationConfig appConfig, FwUserSession userSession, UpdateInventoryQuantityRequest request, FwSqlConnection conn = null)
         {
@@ -277,5 +314,49 @@ namespace WebApi.Modules.Inventory.Inventory
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<ApplyPendingRateUpdateModificationsResponse> ApplyPendingModificationsAsync(FwApplicationConfig appConfig, FwUserSession userSession, ApplyPendingRateUpdateModificationsRequest request, FwSqlConnection conn = null)
+        {
+            ApplyPendingRateUpdateModificationsResponse response = new ApplyPendingRateUpdateModificationsResponse();
+
+            if (string.IsNullOrEmpty(request.RateUpdateBatchName))
+            {
+                response.msg = "Rate Update Batch Name is required.";
+            }
+            else
+            {
+                if (conn == null)
+                {
+                    conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+                }
+
+                //start progress meter
+
+                //create RateUpdateBatchLogic
+
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select *                       ");
+                qry.Add(" from  rateupdateitemview      ");
+                qry.Add(" where " + GetRateUpdatePendingModificationsWhere());
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                foreach (List<object> row in dt.Rows)
+                {
+                    //row[dt.GetColumnNo("warehouseid")].ToString()
+                    
+                    // apply change to Master/Warehouse
+
+                    //step progress meter
+
+                }
+
+                //finish progress meter
+
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
+
     }
 }
