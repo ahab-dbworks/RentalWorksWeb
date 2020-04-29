@@ -506,7 +506,7 @@ class RwMaster extends WebMaster {
                 const modules = jQuery(`<div style="display:flex; max-width:1300px; overflow:hidden;flex-flow:row wrap; justify-content: flex-end; height:25px;"></div>`);
                 for (let i = 0; i < toolbarModules.length; i++) {
                     const $this = toolbarModules[i];
-                    const $module = jQuery(`<div class="toolbar-module dashboard" style="display:flex;"><i class="material-icons" title="${$this.text}">star</i><span>${$this.text}</span></div>`);
+                    const $module = jQuery(`<div class="toolbar-module dashboard" style="display:flex;" title="${$this.text}"><i class="material-icons">star</i><span>${$this.text}</span></div>`);
                     $module.on('click', function () {
                         try {
                             program.getModule($this.value);
