@@ -1,5 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using System;
+
 namespace WebApi.Modules.Utilities.RateUpdateBatch
 {
     [FwLogic(Id: "NzVVvRwszmTiL")]
@@ -23,7 +25,7 @@ namespace WebApi.Modules.Utilities.RateUpdateBatch
         [FwLogicProperty(Id: "o2YFnHFeP4iMz", IsReadOnly: true)]
         public string UserName { get; set; }
         [FwLogicProperty(Id: "o35Sn2NHX7sLi")]
-        public string Applied { get { return rateUpdateBatch.Applied; } set { rateUpdateBatch.Applied = value; } }
+        public DateTime? Applied { get { return rateUpdateBatch.Applied; } set { rateUpdateBatch.Applied = value; } }
         [FwLogicProperty(Id: "o48ak6D0VliHb")]
         public string DateStamp { get { return rateUpdateBatch.DateStamp; } set { rateUpdateBatch.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

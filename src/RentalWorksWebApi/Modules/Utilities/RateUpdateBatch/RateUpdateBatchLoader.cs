@@ -2,6 +2,7 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System;
 using WebApi.Data;
 namespace WebApi.Modules.Utilities.RateUpdateBatch
 {
@@ -21,8 +22,8 @@ namespace WebApi.Modules.Utilities.RateUpdateBatch
         [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
         public string UserName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "applied", modeltype: FwDataTypes.Date)]
-        public string Applied { get; set; }
+        [FwSqlDataField(column: "applied", modeltype: FwDataTypes.DateTime)]
+        public DateTime? Applied { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

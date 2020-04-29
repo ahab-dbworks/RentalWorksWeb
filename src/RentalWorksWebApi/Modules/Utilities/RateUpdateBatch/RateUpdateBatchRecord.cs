@@ -1,5 +1,6 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System;
 using WebApi.Data;
 namespace WebApi.Modules.Utilities.RateUpdateBatch
 {
@@ -13,11 +14,11 @@ namespace WebApi.Modules.Utilities.RateUpdateBatch
         [FwSqlDataField(column: "rateupdatebatch", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string RateUpdateBatch { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string UsersId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "applied", modeltype: FwDataTypes.Date, sqltype: "datetime")]
-        public string Applied { get; set; }
+        public DateTime? Applied { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

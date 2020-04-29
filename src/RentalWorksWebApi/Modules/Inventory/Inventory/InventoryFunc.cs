@@ -1,5 +1,6 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.InventoryWarehouse;
+using WebApi.Modules.Utilities.RateUpdateBatch;
 
 namespace WebApi.Modules.Inventory.Inventory
 {
@@ -101,16 +103,16 @@ namespace WebApi.Modules.Inventory.Inventory
     {
         public string RateUpdateBatchName { get; set; }
     }
-    public class ApplyPendingRateUpdateModificationsResponse : TSpStatusResponse 
-    { 
-        public string RateUpdateBatchId { get; set; }
-        public string RateUpdateBatchName { get; set; }
+    public class ApplyPendingRateUpdateModificationsResponse : TSpStatusResponse
+    {
+        public RateUpdateBatchLogic RateUpdateBatch { get; set; }
     }
 
     public static class InventoryFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static string GetRateUpdatePendingModificationsWhere() {
+        public static string GetRateUpdatePendingModificationsWhere()
+        {
             StringBuilder sb = new StringBuilder();
             sb.Append("(");
             sb.Append("  (newhourlyrate        <> 0) or ");
@@ -314,7 +316,7 @@ namespace WebApi.Modules.Inventory.Inventory
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<ApplyPendingRateUpdateModificationsResponse> ApplyPendingModificationsAsync(FwApplicationConfig appConfig, FwUserSession userSession, ApplyPendingRateUpdateModificationsRequest request, FwSqlConnection conn = null)
+        public static async Task<ApplyPendingRateUpdateModificationsResponse> ApplyPendingModificationsAsync(FwApplicationConfig appConfig, FwUserSession userSession, ApplyPendingRateUpdateModificationsRequest request)
         {
             ApplyPendingRateUpdateModificationsResponse response = new ApplyPendingRateUpdateModificationsResponse();
 
@@ -324,33 +326,55 @@ namespace WebApi.Modules.Inventory.Inventory
             }
             else
             {
-                if (conn == null)
+                FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+                try
                 {
-                    conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+                    await conn.OpenAsync();
+                    conn.BeginTransaction();
+
+                    RateUpdateBatchLogic batch = new RateUpdateBatchLogic();
+                    batch.SetDependencies(appConfig, userSession);
+                    batch.RateUpdateBatch = request.RateUpdateBatchName;
+                    batch.UsersId = userSession.UsersId;
+                    batch.Applied = DateTime.Now;
+                    await batch.SaveAsync(original: null, conn: conn, saveMode: FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert);
+
+                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                    qry.Add("select *                       ");
+                    qry.Add(" from  rateupdateitemview      ");
+                    qry.Add(" where " + GetRateUpdatePendingModificationsWhere());
+                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                    if (dt.TotalRows > 0)
+                    {
+                        string sessionId = userSession.UsersId;
+                        await FwSqlData.StartMeter(conn, appConfig.DatabaseSettings, sessionId, "Applying Rate Modifications", dt.TotalRows);
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            //row[dt.GetColumnNo("warehouseid")].ToString()
+
+                            // apply change to Master/Warehouse
+
+                            await FwSqlData.StepMeter(conn, appConfig.DatabaseSettings, sessionId);
+                        }
+                        await FwSqlData.FinishMeter(conn, appConfig.DatabaseSettings, sessionId);
+                        response.success = true;
+                        response.RateUpdateBatch = batch;
+                    }
+
                 }
-
-                //start progress meter
-
-                //create RateUpdateBatchLogic
-
-                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("select *                       ");
-                qry.Add(" from  rateupdateitemview      ");
-                qry.Add(" where " + GetRateUpdatePendingModificationsWhere());
-                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
-
-                foreach (List<object> row in dt.Rows)
+                finally
                 {
-                    //row[dt.GetColumnNo("warehouseid")].ToString()
-                    
-                    // apply change to Master/Warehouse
-
-                    //step progress meter
-
+                    if (response.success)
+                    {
+                        conn.CommitTransaction();
+                    }
+                    else
+                    {
+                        conn.RollbackTransaction();
+                    }
+                    conn.Close();
                 }
-
-                //finish progress meter
-
             }
             return response;
         }
