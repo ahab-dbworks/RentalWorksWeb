@@ -100,7 +100,7 @@ class Base {
                                     sessionStorage.setItem('applicationtheme', responseSessionInfo.webUser.applicationtheme);
                                     sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
                                     sessionStorage.setItem('serverVersion', responseSessionInfo.serverVersion);
-                                    //sessionStorage.setItem('applicationOptions', JSON.stringify(responseSessionInfo.applicationOptions));
+                                    sessionStorage.setItem('applicationOptions', JSON.stringify(responseSessionInfo.applicationOptions));  // justin hoffman 04/29/2020 - only used by QuikScan currently
                                     sessionStorage.setItem('userType', responseSessionInfo.webUser.usertype);
                                     sessionStorage.setItem('applicationtree', JSON.stringify(responseSessionInfo.applicationtree));
                                     sessionStorage.setItem('clientCode', responseSessionInfo.clientcode);
