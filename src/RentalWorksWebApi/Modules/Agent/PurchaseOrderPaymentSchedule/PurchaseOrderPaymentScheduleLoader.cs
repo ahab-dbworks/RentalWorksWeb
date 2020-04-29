@@ -2,6 +2,7 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
@@ -37,6 +38,13 @@ namespace WebApi.Modules.Agent.PurchaseOrderPaymentSchedule
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hiatus", modeltype: FwDataTypes.Boolean)]
         public bool? IsHiatus { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string HiatusColor
+        {
+            get { return getHiatusColor(IsHiatus); }
+            set { }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hiatusdiscount", modeltype: FwDataTypes.Decimal)]
         public decimal? HiatusDiscountPercent { get; set; }
@@ -121,6 +129,16 @@ namespace WebApi.Modules.Agent.PurchaseOrderPaymentSchedule
         //    //select.AddParameter("@paramboolean", paramBoolean); 
         //}
         //------------------------------------------------------------------------------------ 
+        protected string getHiatusColor(bool? isHiatus)
+        {
+            string color = null;
+            if (isHiatus.GetValueOrDefault(false))
+            {
+                color = RwGlobals.INVOICE_HIATUS_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             string purchaseOrderId = GetUniqueIdAsString("PurchaseOrderId", request) ?? "~x~x~x~x";
@@ -145,6 +163,21 @@ namespace WebApi.Modules.Agent.PurchaseOrderPaymentSchedule
             //}
 
             return dt;
+        }
+        //------------------------------------------------------------------------------------    
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("HiatusColor")] = getHiatusColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsHiatus")].ToString()));
+                    }
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }
