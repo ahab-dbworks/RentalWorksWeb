@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
+using WebApi.Modules.Utilities.RateUpdateBatch;
+
 namespace WebApi.Modules.Reports.RateUpdateReport
 {
     public class RateUpdateReportRequest : AppReportRequest
@@ -88,5 +90,13 @@ namespace WebApi.Modules.Reports.RateUpdateReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/rateupdatereport/validatebatch/browse
+        [HttpPost("validatebatch/browse")]
+        [FwControllerMethod(Id: "ErntnasdVvEI", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateBatchBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RateUpdateBatchLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
     }
 }

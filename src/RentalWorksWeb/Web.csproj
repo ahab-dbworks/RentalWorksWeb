@@ -552,6 +552,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\ManifestReport\ManifestReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusDetailReport\OrderStatusDetailReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusSummaryReport\OrderStatusSummaryReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RateUpdateReport\RateUpdateReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutReport\WarehouseOutReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseDispatchReport\WarehouseDispatchReportController.ts" />
@@ -1108,6 +1109,7 @@
     <Content Include="Source\Validations\QuikActivityTypeValidation\QuikActivityTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\InventoryChangeTransactionTypeValidation\InventoryChangeTransactionTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\DataExportFormatValidation\DataExportFormatValidationBrowse.htm" />
+    <Content Include="Source\Validations\RateUpdateBatchValidation\RateUpdateBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\RentalInventoryDescriptionValidation\RentalInventoryDescriptionValidationBrowse.htm" />
     <Content Include="Source\Validations\RepairValidation\RepairValidationBrowse.htm" />
     <Content Include="Source\Validations\TransferOrderValidation\TransferOrderValidationBrowse.htm" />

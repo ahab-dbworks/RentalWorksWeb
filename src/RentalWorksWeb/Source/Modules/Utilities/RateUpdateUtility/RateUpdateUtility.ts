@@ -333,32 +333,51 @@ class RateUpdateUtility {
         }
     }
     //----------------------------------------------------------------------------------------------
-    printRateUpdateReport($form: any) {
+    printRateUpdateReport($form: any, batch?: any) {
         try {
-            //var orderNumber = FwFormField.getValue($form, `div[data-datafield="${this.Module}Number"]`);
-            //var orderId = FwFormField.getValue($form, `div[data-datafield="${this.Module}Id"]`);
-            //var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-
-            //var $report = (module === 'Order') ? OrderReportController.openForm() : QuoteReportController.openForm();
-            //FwModule.openSubModuleTab($form, $report);
-
-            //FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
-            //jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
-
-            //var printTab = jQuery('.tab.submodule.active');
-            //printTab.find('.caption').html(`Print ${module}`);
-            //printTab.attr('data-caption', `${module} ${recordTitle}`);
+            const $report = RateUpdateReportController.openForm();
+            FwModule.openModuleTab($report, 'Rate Update Report', true, 'FORM', true);
+            if (typeof batch != 'undefined') {
+                FwFormField.setValueByDataField($form, 'RateUpdateBatchId', batch.RateUpdateBatchId, batch.RateUpdateBatchName);
+            }
         } catch (ex) {
             FwFunc.showError(ex);
         }
     }
      //----------------------------------------------------------------------------------------------
     applyAllPendingModifications($form: any) {
-        try {
-          
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
+        let $confirmation, $ok;
+        $confirmation = FwConfirmation.renderConfirmation('Apply All Pending Modifications', '');
+        const html: Array<string> = [];;
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Batch Name" data-datafield="RateUpdateBatchName"></div>');
+        html.push('    <div style="margin:1em; color:red;">New Costs and Rates will be applied immediately, and cannot be undone.</div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+        $ok = FwConfirmation.addButton($confirmation, 'OK', false);
+        FwConfirmation.addButton($confirmation, 'Cancel');
+        $ok.on('click', () => {
+            try {
+                const request: any = {};
+                request.RateUpdateBatchName = FwFormField.getValueByDataField($confirmation, 'RateUpdateBatchName');
+                FwAppData.apiMethod(true, 'POST', 'api/v1/rateupdateutility/apply', request, FwServices.defaultTimeout,
+                    response => {
+                        try {
+                            FwNotification.renderNotification('SUCCESS', 'Rates Successfully Updated.');
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            program.navigate('module/rateupdateutility');
+                            this.printRateUpdateReport($form, { batchid: response.RateUpdateBatchId, batchname: response.RateUpdateBatchName });
+                            //todo - add progress meter
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    }, ex => FwFunc.showError(ex), $form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
      //----------------------------------------------------------------------------------------------
 }

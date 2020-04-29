@@ -315,9 +315,10 @@ var Constants = {
                     caption: 'Warehouse Reports',
                     nodetype: 'Category',
                     children: {
-                        WarehouseDispatchReport: { id: 'gs5q3h0v0HzXF', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all Warehouse Dispatch Activities for a specific date range.' },
-                        WarehouseInboundReport: { id: 'gQLKq8L9zC32b', caption: 'Warehouse Inbound', nav: 'reports/warehouseinboundreport', nodetype: 'Module', description: 'List all Warehouse Inbound Activities for a specific date range.' },
-                        WarehouseOutboundReport: { id: 'gPuvfa4B1tHuE', caption: 'Warehouse Outbound', nav: 'reports/warehouseoutboundreport', nodetype: 'Module', description: 'List all Warehouse Outbound Activities for a specific date range.' },
+                        RateUpdateReport: {         id: 'Nxb4NonfG10c9', caption: 'Rate Update',        nav: 'reports/rateupdatereport',        nodetype: 'Module', description: 'List all rates updated in a selected Batch.' },
+                        WarehouseDispatchReport: {  id: 'gs5q3h0v0HzXF', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all Warehouse Dispatch Activities for a specific date range.' },
+                        WarehouseInboundReport: {   id: 'gQLKq8L9zC32b', caption: 'Warehouse Inbound',  nav: 'reports/warehouseinboundreport',  nodetype: 'Module', description: 'List all Warehouse Inbound Activities for a specific date range.' },
+                        WarehouseOutboundReport: {  id: 'gPuvfa4B1tHuE', caption: 'Warehouse Outbound', nav: 'reports/warehouseoutboundreport', nodetype: 'Module', description: 'List all Warehouse Outbound Activities for a specific date range.' },
                     }
                 }
             }
