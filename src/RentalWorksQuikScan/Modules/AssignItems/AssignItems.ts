@@ -354,81 +354,83 @@
             }
         };
 
-        $itemassign.find('#itemassigncontrol').fwmobilemodulecontrol({
-            buttons: [
-                {
-                    caption:     'Back',
-                    orientation: 'left',
-                    icon:        '&#xE5CB;', //chevron_left
-                    state:       0,
-                    buttonclick: function () {
-                        try {
-                            $itemassign.clearscreen();
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    }
-                },
-                {
-                    caption:     'Assign',
-                    orientation: 'right',
-                    icon:        '&#xE161;', //save
-                    state:       0,
-                    buttonclick: function () {
-                        try {
-                            var request, updaterecord, recorddata, barcode, mfgserial, rfid, mfgdate;
-                            recorddata = $itemassign.data('recorddata');
-                            barcode    = $itemassign.find('div[data-datafield="barcode"] input').val();
-                            mfgserial  = $itemassign.find('div[data-datafield="mfgserial"] input').val();
-                            rfid       = $itemassign.find('div[data-datafield="rfid"] input').val();
-                            mfgdate    = $itemassign.find('div[data-datafield="mfgdate"] input').val();
-                            updaterecord = ((barcode   != '') && (recorddata.barcode   != barcode))   ||
-                                           ((mfgserial != '') && (recorddata.mfgserial != mfgserial)) ||
-                                           ((rfid      != '') && (recorddata.rfid      != rfid))      ||
-                                           ((mfgdate   != '') && (recorddata.mfgdate   != mfgdate));
+        let moduleControlButtons: any[] = [];
+        moduleControlButtons.push({
+            caption: 'Back',
+            orientation: 'left',
+            icon: '&#xE5CB;', //chevron_left
+            state: 0,
+            buttonclick: function () {
+                try {
+                    $itemassign.clearscreen();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+        moduleControlButtons.push({
+            caption: 'Assign',
+            orientation: 'right',
+            icon: '&#xE161;', //save
+            state: 0,
+            buttonclick: function () {
+                try {
+                    var request, updaterecord, recorddata, barcode, mfgserial, rfid, mfgdate;
+                    recorddata = $itemassign.data('recorddata');
+                    barcode = $itemassign.find('div[data-datafield="barcode"] input').val();
+                    mfgserial = $itemassign.find('div[data-datafield="mfgserial"] input').val();
+                    rfid = $itemassign.find('div[data-datafield="rfid"] input').val();
+                    mfgdate = $itemassign.find('div[data-datafield="mfgdate"] input').val();
+                    updaterecord = ((barcode != '') && (recorddata.barcode != barcode)) ||
+                        ((mfgserial != '') && (recorddata.mfgserial != mfgserial)) ||
+                        ((rfid != '') && (recorddata.rfid != rfid)) ||
+                        ((mfgdate != '') && (recorddata.mfgdate != mfgdate));
 
-                            if (updaterecord == true) {
-                                request = {
-                                    selectedrecord: selectedrecord,
-                                    recorddata:     recorddata,
-                                    barcode:        barcode,
-                                    mfgserial:      mfgserial,
-                                    rfid:           rfid,
-                                    mfgdate:        mfgdate
-                                };
-                                RwServices.callMethod("AssignItem", "UpdateAssignableItemAsset", request, function(response) {
-                                    try {
-                                        if (response.updateitem.status == '0') {
-                                            $itemassign.clearscreen();
-                                        } else if (response.updateitem.status != '0') {
-                                            FwFunc.showError(response.updateitem.msg);
-                                        }
-                                    } catch (ex) {
-                                        FwFunc.showError(ex);
-                                    }
-                                });
-                            } else {
-                                FwFunc.showError('No new data has been defined.');
+                    if (updaterecord == true) {
+                        request = {
+                            selectedrecord: selectedrecord,
+                            recorddata: recorddata,
+                            barcode: barcode,
+                            mfgserial: mfgserial,
+                            rfid: rfid,
+                            mfgdate: mfgdate
+                        };
+                        RwServices.callMethod("AssignItem", "UpdateAssignableItemAsset", request, function (response) {
+                            try {
+                                if (response.updateitem.status == '0') {
+                                    $itemassign.clearscreen();
+                                } else if (response.updateitem.status != '0') {
+                                    FwFunc.showError(response.updateitem.msg);
+                                }
+                            } catch (ex) {
+                                FwFunc.showError(ex);
                             }
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
+                        });
+                    } else {
+                        FwFunc.showError('No new data has been defined.');
                     }
-                },
-                {
-                    caption:     '',
-                    orientation: 'right',
-                    icon:        '&#xE8BF;', //settings_input_antenna
-                    state:       0,
-                    buttonclick: function () {
-                        try {
-                            RwRFID.setTslRfidPowerLevel();
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+        if (RwRFID.isConnected) {
+            moduleControlButtons.push({
+                caption: '',
+                orientation: 'right',
+                icon: '&#xE8BF;', //settings_input_antenna
+                state: 0,
+                buttonclick: function () {
+                    try {
+                        RwRFID.setTslRfidPowerLevel();
+                    } catch (ex) {
+                        FwFunc.showError(ex);
                     }
                 }
-            ]
+            });
+        }
+        $itemassign.find('#itemassigncontrol').fwmobilemodulecontrol({
+            buttons: moduleControlButtons
         });
         $itemassign.showscreen = function(recorddata) {
             $itemassign.data('recorddata', recorddata);
