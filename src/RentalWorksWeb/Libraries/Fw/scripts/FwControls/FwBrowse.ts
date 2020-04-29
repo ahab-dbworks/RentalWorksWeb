@@ -4263,13 +4263,13 @@ class FwBrowseClass {
                     ModuleName: module
                 };
                 const keys = $tr.find('[data-browsedatatype="key"]');
-                if (keys.length > 1) {
+                if (keys.length > 0) {
                     request.uniqueids.UniqueId1 = jQuery(keys[0]).attr('data-originalvalue');
-                    if (keys[1]) {
+                    if (keys.length > 1) {
                         request.uniqueids.UniqueId2 = jQuery(keys[1]).attr('data-originalvalue');
-                    }
-                    if (keys[2]) {
-                        request.uniqueids.UniqueId3 = jQuery(keys[2]).attr('data-originalvalue');
+                        if (keys.length > 2) {
+                            request.uniqueids.UniqueId3 = jQuery(keys[2]).attr('data-originalvalue');
+                        }
                     }
                 }
             }
