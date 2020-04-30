@@ -586,7 +586,7 @@ class CustomForm {
                     </div>
                  </div>`; //closing div for propertyContainer
 
-            const showAdvancedPropertiesHtml = `<div style="text-align:right; display:none;">
+            const showAdvancedPropertiesHtml = `<div style="text-align:right;">
                                                     <span class="show-advanced-properties">Show Advanced Properties</span>
                                                 </div>`;
 
@@ -878,7 +878,7 @@ class CustomForm {
                                 case "data-browsedatafield":
                                 case "data-displayfield":
                                 case "data-browsedisplayfield":
-                                    html.push(`<div class="properties">
+                                    html.push(`<div class="properties ${name != 'data-displayfield' ? 'basic-property' : ''}">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:92%" class="datafields" value="${value}"></select></div>
                                    </div>
@@ -898,6 +898,13 @@ class CustomForm {
                                     html.push(`<div class="properties">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:92%" class="valueOptions" value="${value}"></select></div>
+                                   </div>
+                                  `);
+                                    break;
+                                case 'data-caption':
+                                    html.push(`<div class="properties basic-property">
+                                      <div class="propname">${name === "" ? "&#160;" : name}</div>
+                                      <div class="propval"><input value="${value}"></div>
                                    </div>
                                   `);
                                     break;
@@ -1018,7 +1025,7 @@ class CustomForm {
                                 case 'data-browsedatatype':
                                     $form.find(`#controlProperties .propname:contains('data-formdatatype')`).siblings('.propval').find('select').val(value);
                                     $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(value);
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr({'data-datatype': value, 'data-formdatatype': value, 'data-browsedatatype': value});
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr({ 'data-datatype': value, 'data-formdatatype': value, 'data-browsedatatype': value });
                                     jQuery(originalHtml).attr({ 'data-datatype': value, 'data-formdatatype': value, 'data-browsedatatype': value });
                                     break;
                                 default:
@@ -1096,7 +1103,7 @@ class CustomForm {
                     }
 
                     switch (type) {
-                        case 'Form': 
+                        case 'Form':
                             if (controlType == 'FwFormField' || controlType == 'FwContainer') {
                                 FwControl.init(jQuery(originalHtml));
                                 FwControl.renderRuntimeHtml(jQuery(originalHtml));
@@ -1490,8 +1497,20 @@ class CustomForm {
 
                     $draggableElements = $customForm.find('div.fwformfield, div.flexrow, div.flexcolumn, div[data-type="tab"]');
                     $draggableElements.attr('draggable', 'true');
+                })
+                .off('click', '.show-advanced-properties')
+                .on('click', '.show-advanced-properties', e => {
+                    const $this = jQuery(e.currentTarget);
+                    if ($this.hasClass('showing-adv')) {
+                        $this.removeClass('showing-adv');
+                        $this.text('Show Advanced Properties');
+                        $form.find('#controlProperties div.properties:not(.basic-property)').css('display', 'none');
+                    } else {
+                        $this.addClass('showing-adv');
+                        $this.text('Hide Advanced Properties');
+                        $form.find('#controlProperties div.properties:not(.basic-property)').css('display', 'flex');
+                    }
                 });
-
 
         }
     }
