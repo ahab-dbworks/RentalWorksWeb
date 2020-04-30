@@ -164,7 +164,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                                     ftpResponse2.Close();
 
                                     AvailableVersion v = new AvailableVersion();
-                                    v.text = $"{version} &nbsp;&nbsp;&nbsp; {lastModifiedDateTime.Date.ToString("MM/dd/yyyy")} &nbsp;&nbsp; ";
+                                    v.text = $"{version} &nbsp;&nbsp;&nbsp; {lastModifiedDateTime.Date.ToString("MM/dd/yyyy")}";
                                     v.value = version;
                                     v.Version = version;
                                     v.VersionDate = lastModifiedDateTime.Date;
