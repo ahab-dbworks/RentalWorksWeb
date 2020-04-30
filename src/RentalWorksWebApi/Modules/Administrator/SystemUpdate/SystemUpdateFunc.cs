@@ -164,10 +164,11 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                                     ftpResponse2.Close();
 
                                     AvailableVersion v = new AvailableVersion();
-                                    v.text = version;
+                                    v.text = $"{version} &nbsp;&nbsp;&nbsp; {lastModifiedDateTime.Date.ToString("MM/dd/yyyy")}";
                                     v.value = version;
                                     v.Version = version;
                                     v.VersionDate = lastModifiedDateTime.Date;
+
                                     response.Versions.Add(v);
                                 }
                             }
@@ -253,7 +254,8 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static DownloadBuildDocumentResponse DownloadBuildDocument(FwApplicationConfig appConfig, FwUserSession userSession, DownloadBuildDocumentRequest request) {
+        public static DownloadBuildDocumentResponse DownloadBuildDocument(FwApplicationConfig appConfig, FwUserSession userSession, DownloadBuildDocumentRequest request)
+        {
             DownloadBuildDocumentResponse response = new DownloadBuildDocumentResponse();
 
             if (string.IsNullOrEmpty(request.Version))
