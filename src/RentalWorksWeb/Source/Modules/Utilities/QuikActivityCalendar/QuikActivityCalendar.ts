@@ -50,7 +50,7 @@ class QuikActivityCalendar {
     //----------------------------------------------------------------------------------------------
     populateCheckboxes($form: any) {
         let request: any = {};
-        request.searchfieldoperators = ["<>"];
+        request.searchfieldoperators = ["<>"]; 
         request.searchfields = ["Inactive"];
         request.searchfieldvalues = ["T"];
         request.OrderBy = 'DescriptionDisplay';
@@ -64,9 +64,13 @@ class QuikActivityCalendar {
                 const colorIndex = response.ColumnIndex.Color;
                 for (let i = 0; i < response.Rows.length; i++) {
                     const self = response.Rows[i];
-                    const item = `<div class="flexrow" style="max-height:2em; margin-top:.5em;">
-                                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="${self[descriptionIndex]}" data-datafield="${self[activityTypeIdIndex]}"></div>
-                                    <div style="background-color:${self[colorIndex]}; max-width:30px; margin:16px 0px; border:1px solid black;"></div>
+                    const item = `<div class="flexrow" style="max-height:2em; margin-top:.5em;flex-flow:column-reverse wrap;">
+                                    <div class="flexcolumn">
+                                      <div style="background-color:${self[colorIndex]};width:19px;height:19px;border-radius:3px;margin:10px 0px;border:1px solid black;"></div>
+                                    </div>
+                                    <div class="flexcolumn" style="position:absolute;margin:4px 0 0 27px;">
+                                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="${self[descriptionIndex]}" data-datafield="${self[activityTypeIdIndex]}"></div>
+                                    </div>
                                   </div>`;
                     $activities.append(item);
                 }
