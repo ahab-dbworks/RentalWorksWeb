@@ -1194,7 +1194,7 @@ abstract class StagingCheckoutBase {
                 request.uniqueids = {
                     ScannableInventoryId: inventoryId
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontainer`);
+                $validationbrowse.attr('data-apiurl', `api/v1/checkout/validatecontaineritem`);
                 break;
         };
     }
