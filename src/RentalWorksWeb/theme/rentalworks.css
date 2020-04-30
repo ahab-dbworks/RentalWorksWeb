@@ -529,9 +529,7 @@ div[data-browsedatafield="AvailableQuantityAllWarehouses"][data-state="low"] .fi
 div[data-browsedatafield="AvailableQuantityAllWarehouses"][data-state="noavailcheck"] .fieldvalue {background-color:#00ffff;}
 div[data-browsedatafield="AvailableQuantityAllWarehouses"][data-state="positiveconflict"] .fieldvalue {background-color:#006600;color:#ffffff;}
 
-html.theme-material .fwformcontrol[data-type="button"].pressed {
-    background-color: #1E88EF;
-}
+html.theme-material .fwformcontrol[data-type="button"].pressed {background-color: #1E88EF;}
 
 /* Audit History Grid */
 html.theme-material [data-name="AuditHistoryGrid"] tbody td ul {font-size:14px; display:flex;}
@@ -549,10 +547,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody td ul:not(.audit-header
 html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.audit-header):nth-child(even) span:not(.audit-spacer){background-color: #0087f3 !important;}
 
 /* Custom fields marker in duplicate rules and custom forms */
-[data-iscustomfield="true"]::after {
-    content: "[Custom]";
-    font-size: .9em;
-}
+[data-iscustomfield="true"]::after {content: "[Custom]";font-size: .9em;}
 
 /* Custom Forms */
 #designerContent .fwform-body [data-control="FwContainer"]:not([data-type="form"]) {border: 1px solid darkblue;}
@@ -563,42 +558,18 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #designerContent div.flexcolumn {border: 1px solid lightblue;}
 #designerContent div.flexrow:hover,
 #designerContent div.flexcolumn:hover {border:3.5px solid lightblue; box-shadow: 0 5px 9px 0 rgba(110, 202, 197, .3);cursor: pointer;}
-
-
 #designerContent .fwform-body [data-control="FwContainer"],
 #designerContent div.flexrow,
 #designerContent div.flexcolumn,
 #designerContent [data-control="FwFormField"]{margin:8px;}
+#designerContent div.emptyContainer {min-height:50px;}
+#designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field *{pointer-events: none;}
+#designerContent [data-type="tabpage"] div.fwformfield * {pointer-events: none;}
 
-
-#designerContent div.emptyContainer {
-    min-height:50px;
-}
-
-#designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field *{
-    pointer-events: none;
-}
-#designerContent [data-type="tabpage"] div.fwformfield * {
-    pointer-events: none;
-}
-
-#controlProperties .propertyContainer div.properties {
-    width: 100%;
-    display: flex;
-    padding-bottom: 3px;
-}
-
-    #controlProperties .propertyContainer div.properties div {
-        width: 50%;
-        font-size: .9em;
-        text-indent:5px;
-    }
-
-#controlProperties .propertyContainer div input:disabled {
-    background-color: whitesmoke;
-    border-color: inherit;
-    border-style: solid;
-}
+#controlProperties .propertyContainer div.properties {width: 100%;display: flex;padding-bottom: 3px;}
+#controlProperties .propertyContainer div.properties div {width: 50%;font-size: .9em;text-indent:5px;}
+#controlProperties .propertyContainer div input:disabled {background-color: whitesmoke; border-color: inherit;border-style: solid;}
+#controlProperties .show-advanced-properties {color:blue; text-decoration:underline;cursor:pointer;}
 
 .modulefields div {cursor:pointer;}
 .modulefields div:nth-child(odd) {background-color: #f1f1f1;}

@@ -586,7 +586,28 @@ class CustomForm {
                     </div>
                  </div>`; //closing div for propertyContainer
 
-            let deleteComponentHtml = '<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:27%; margin-top:15px;">Delete Component</div>';
+            const showAdvancedPropertiesHtml = `<div style="text-align:right; display:none;">
+                                                    <span class="show-advanced-properties">Show Advanced Properties</span>
+                                                </div>`;
+
+            const deleteComponentHtml = () => {
+                let caption;
+                if (type == 'Grid' || type == 'Browse') {
+                    caption = $form.find('.propname:contains("data-caption")').siblings('.propval').find('input').val();
+                    if (caption == 'New Column') {
+                        caption = 'Delete New Column';
+                    } else {
+                        caption = `Delete ${caption} Column`;
+                    }
+                } else {
+                    caption = 'Delete Component';
+                }
+                
+                const btn = `<div style="text-align:center;margin-top: 1em;">
+                                <div class="fwformcontrol deleteObject" data-type="button">${caption}</div>
+                             </div>`;
+                return btn;
+            }
 
             let lastIndex = Number(jQuery($customFormClone).find('div:last').attr('data-index'));
 
@@ -903,7 +924,7 @@ class CustomForm {
                         addValueOptions();
 
                         //delete object
-                        $form.find('#controlProperties').append(deleteComponentHtml);
+                        $form.find('#controlProperties').append(showAdvancedPropertiesHtml, deleteComponentHtml());
 
                         //disables grids and browses in forms
                         if (type === 'Form') {
@@ -1166,9 +1187,21 @@ class CustomForm {
                 //delete button
                 .off('click', '.deleteObject')
                 .on('click', '.deleteObject', e => {
-                    let $confirmation = FwConfirmation.renderConfirmation('Delete', 'Delete this object?');
+                    let caption;
+                    if (type == 'Grid' || type == 'Browse') {
+                        caption = $form.find('.propname:contains("data-caption")').siblings('.propval').find('input').val();
+                        if (caption == 'New Column') {
+                            caption = 'Delete New Column?';
+                        } else {
+                            caption = `Delete ${caption} Column?`;
+                        }
+                    } else {
+                        caption = 'Delete this component?';
+                    }
+
+                    let $confirmation = FwConfirmation.renderConfirmation('Delete', caption);
                     let $yes = FwConfirmation.addButton($confirmation, 'Delete', false);
-                    let $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                    FwConfirmation.addButton($confirmation, 'Cancel');
 
                     $yes.off('click');
                     $yes.on('click', e => {
@@ -1270,7 +1303,7 @@ class CustomForm {
                         let newProperties = $form.find('#controlProperties');
                         newProperties
                             .empty()
-                            .append(propertyHtml.join(''), deleteComponentHtml)
+                            .append(propertyHtml.join(''))
                             .find('.properties:even')
                             .css('background-color', '#f7f7f7');
 
@@ -1288,7 +1321,7 @@ class CustomForm {
                             .replaceWith(`<select style="width:92%" class="valueOptions" value="text">`);
 
                         addValueOptions();
-
+                        newProperties.append(showAdvancedPropertiesHtml, deleteComponentHtml());
                         $form.find('#controlProperties input').change();
 
                         lastIndex = newFieldIndex
@@ -1341,7 +1374,7 @@ class CustomForm {
                         let newProperties = $form.find('#controlProperties');
                         newProperties
                             .empty()
-                            .append(propertyHtml.join(''), deleteComponentHtml)
+                            .append(propertyHtml.join(''), showAdvancedPropertiesHtml, deleteComponentHtml())
                             .find('.properties:even')
                             .css('background-color', '#f7f7f7');
 
@@ -1414,7 +1447,7 @@ class CustomForm {
                     let newProperties = $form.find('#controlProperties');
                     newProperties
                         .empty()
-                        .append(propertyHtml.join(''), deleteComponentHtml)
+                        .append(propertyHtml.join(''), showAdvancedPropertiesHtml, deleteComponentHtml())
                         .find('.properties:even')
                         .css('background-color', '#f7f7f7');
 
