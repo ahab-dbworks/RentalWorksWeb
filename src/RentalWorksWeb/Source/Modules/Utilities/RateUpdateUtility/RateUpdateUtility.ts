@@ -368,12 +368,11 @@ class RateUpdateUtility {
                             FwConfirmation.destroyConfirmation($confirmation);
                             program.navigate('module/rateupdateutility');
                             this.printRateUpdateReport($form, { batchid: response.RateUpdateBatchId, batchname: response.RateUpdateBatchName });
-                            //todo - add progress meter
                         }
                         catch (ex) {
                             FwFunc.showError(ex);
                         }
-                    }, ex => FwFunc.showError(ex), $form);
+                    }, ex => FwFunc.showError(ex), $form, sessionStorage.getItem('usersid'));
             } catch (ex) {
                 FwFunc.showError(ex);
             }
