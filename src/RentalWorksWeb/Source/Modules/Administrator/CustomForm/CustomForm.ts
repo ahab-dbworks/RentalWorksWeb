@@ -580,7 +580,7 @@ class CustomForm {
                         `;
 
             let addPropertiesHtml =
-                `   <div class="addproperties" style="width:100%; display:flex;">
+                `   <div class="addproperties adv-property" style="width:100%; display:flex;">
                         <div class="addpropname" style="padding:3px; border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add new property"></div>
                         <div class="addpropval" style="padding:3px; border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add value"></div>
                     </div>
@@ -879,7 +879,7 @@ class CustomForm {
                                 case "data-browsedatafield":
                                 case "data-displayfield":
                                 case "data-browsedisplayfield":
-                                    html.push(`<div class="properties ${ basicProperties.includes(name) ? 'basic-property' : ''}">
+                                    html.push(`<div class="properties ${basicProperties.includes(name) ? 'basic-property' : 'adv-property'}">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:92%" class="datafields" value="${value}"></select></div>
                                    </div>
@@ -896,7 +896,7 @@ class CustomForm {
                                 case "data-formrequired":
                                 case "data-required":
                                 case "data-enabled":
-                                    html.push(`<div class="properties">
+                                    html.push(`<div class="properties adv-property">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:92%" class="valueOptions" value="${value}"></select></div>
                                    </div>
@@ -912,7 +912,7 @@ class CustomForm {
                                 case "class":
                                     value = value.replace('focused', '');
                                 default:
-                                    html.push(`<div class="properties">
+                                    html.push(`<div class="properties adv-property">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><input value="${value}"></div>
                                    </div>
@@ -1302,7 +1302,7 @@ class CustomForm {
                                     value = 'field';
                             }
                             propertyHtml.push(
-                                `<div class="properties ${isBasicProp ? 'basic-property' : ''}">
+                                `<div class="properties ${isBasicProp ? 'basic-property' : 'adv-property'}">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
@@ -1354,11 +1354,12 @@ class CustomForm {
                         propertyHtml.push(propertyContainerHtml);
                         fields = ['data-datafield', 'data-type', 'data-caption', 'class', 'data-control'];
                         for (let i = 0; i < fields.length; i++) {
-                            var value;
-                            var field = fields[i];
+                            let value, isBasicProp;
+                            const field = fields[i];
                             switch (field) {
                                 case 'data-datafield':
                                     value = ""
+                                    isBasicProp = true;
                                     break;
                                 case 'data-control':
                                     value = "FwFormField"
@@ -1367,13 +1368,14 @@ class CustomForm {
                                     value = "text"
                                     break;
                                 case 'data-caption':
-                                    value = "New Field"
+                                    value = "New Field";
+                                    isBasicProp = true;
                                     break;
                                 case 'class':
                                     value = 'fwcontrol fwformfield';
                             }
                             propertyHtml.push(
-                                `<div class="properties">
+                                `<div class="properties  ${isBasicProp ? 'basic-property' : 'adv-property'}">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
@@ -1411,6 +1413,7 @@ class CustomForm {
                         $draggableElements = $customForm.find('div.fwformfield');
                         $draggableElements.attr('draggable', 'true');
                         $form.find('#controlProperties input').change();
+                        this.showAdvancedProperties($form);
                     }
                 })
                 .off('click', '.addNewContainer')
@@ -1446,7 +1449,7 @@ class CustomForm {
                                 break;
                         }
                         propertyHtml.push(
-                            `<div class="properties">
+                            `<div class="properties basic-prop">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
@@ -1459,7 +1462,7 @@ class CustomForm {
                     let newProperties = $form.find('#controlProperties');
                     newProperties
                         .empty()
-                        .append(propertyHtml.join(''), showAdvancedPropertiesHtml, deleteComponentHtml())
+                        .append(propertyHtml.join(''))
                         .find('.properties:even')
                         .css('background-color', '#f7f7f7');
 
@@ -1469,6 +1472,8 @@ class CustomForm {
                     $draggableElements = $customForm.find('div.fwformfield, div.flexrow, div.flexcolumn, div[data-type="tab"]');
                     $draggableElements.attr('draggable', 'true');
                     $form.find('#controlProperties input').change();
+                    newProperties.append(showAdvancedPropertiesHtml, deleteComponentHtml());
+                    this.showAdvancedProperties($form);
                 })
                 .off('click', '.addNewTab')
                 .on('click', '.addNewTab', e => {
@@ -1524,10 +1529,10 @@ class CustomForm {
 
         if ($form.data('show-advanced')) {
             $this.text('Hide Advanced Properties');
-            $form.find('#controlProperties div.properties:not(.basic-property)').css('display', 'flex');
+            $form.find('#controlProperties div.adv-property').css('display', 'flex');
         } else {
             $this.text('Show Advanced Properties');
-            $form.find('#controlProperties div.properties:not(.basic-property)').css('display', 'none');
+            $form.find('#controlProperties div.adv-property').css('display', 'none');
         }
     }
     //----------------------------------------------------------------------------------------------
