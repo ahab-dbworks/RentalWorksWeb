@@ -855,6 +855,7 @@ class CustomForm {
                         originalHtml = e.currentTarget;
                         controlType = jQuery(originalHtml).attr('data-control');
                         let properties = jQuery(e.currentTarget.attributes).sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));  //sorts attributes list
+                        const basicProperties: any = ['data-browsedatafield', 'data-caption', 'data-datafield'];
                         let html: any = [];
                         html.push(propertyContainerHtml);
                         for (let i = 0; i < properties.length; i++) {
@@ -878,7 +879,7 @@ class CustomForm {
                                 case "data-browsedatafield":
                                 case "data-displayfield":
                                 case "data-browsedisplayfield":
-                                    html.push(`<div class="properties ${name != 'data-displayfield' ? 'basic-property' : ''}">
+                                    html.push(`<div class="properties ${ basicProperties.includes(name) ? 'basic-property' : ''}">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:92%" class="datafields" value="${value}"></select></div>
                                    </div>
@@ -941,6 +942,8 @@ class CustomForm {
                                 $form.find('#controlProperties .addproperties, #controlProperties .deleteObject').remove();
                             }
                         }
+
+                        this.showAdvancedProperties($form);
                     });
 
             $form
@@ -1270,34 +1273,36 @@ class CustomForm {
                         let fields: any = [];
 
                         propertyHtml.push(propertyContainerHtml);
-                        fields = ['data-datafield', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'data-caption', 'class'];
+                        fields = ['data-datafield', 'data-caption', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'class'];
                         for (let i = 0; i < fields.length; i++) {
-                            var value;
-                            var field = fields[i];
+                            let value, isBasicProp;
+                            const field = fields[i];
                             switch (field) {
                                 case 'data-datafield':
-                                    value = ""
+                                    value = "";
+                                    isBasicProp = true;
                                     break;
                                 case 'data-datatype':
-                                    value = "text"
+                                    value = "text";
                                     break;
                                 case 'data-sort':
-                                    value = "off"
+                                    value = "off";
                                     break;
                                 case 'data-width':
-                                    value = "100px"
+                                    value = "100px";
                                     break;
                                 case 'data-visible':
-                                    value = "true"
+                                    value = "true";
                                     break;
                                 case 'data-caption':
-                                    value = "New Column"
+                                    value = "New Column";
+                                    isBasicProp = true;
                                     break;
                                 case 'class':
                                     value = 'field';
                             }
                             propertyHtml.push(
-                                `<div class="properties">
+                                `<div class="properties ${isBasicProp ? 'basic-property' : ''}">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
@@ -1330,7 +1335,7 @@ class CustomForm {
                         addValueOptions();
                         newProperties.append(showAdvancedPropertiesHtml, deleteComponentHtml());
                         $form.find('#controlProperties input').change();
-
+                        this.showAdvancedProperties($form);
                         lastIndex = newFieldIndex
                     } else if (type === 'Form') {
                         let $tabpage = $customForm.find('[data-type="tabpage"]:visible');
@@ -1500,18 +1505,29 @@ class CustomForm {
                 })
                 .off('click', '.show-advanced-properties')
                 .on('click', '.show-advanced-properties', e => {
-                    const $this = jQuery(e.currentTarget);
-                    if ($this.hasClass('showing-adv')) {
-                        $this.removeClass('showing-adv');
-                        $this.text('Show Advanced Properties');
-                        $form.find('#controlProperties div.properties:not(.basic-property)').css('display', 'none');
+                    if (typeof $form.data('show-advanced') == 'undefined') {
+                        $form.data('show-advanced', true);
                     } else {
-                        $this.addClass('showing-adv');
-                        $this.text('Hide Advanced Properties');
-                        $form.find('#controlProperties div.properties:not(.basic-property)').css('display', 'flex');
+                        $form.data('show-advanced') ? $form.data('show-advanced', false) : $form.data('show-advanced', true)
                     }
+                    this.showAdvancedProperties($form);
                 });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    showAdvancedProperties($form: JQuery) {
+        const $this = $form.find('.show-advanced-properties');
 
+        if (typeof $form.data('show-advanced') == 'undefined') {
+            $form.data('show-advanced', false);
+        }
+
+        if ($form.data('show-advanced')) {
+            $this.text('Hide Advanced Properties');
+            $form.find('#controlProperties div.properties:not(.basic-property)').css('display', 'flex');
+        } else {
+            $this.text('Show Advanced Properties');
+            $form.find('#controlProperties div.properties:not(.basic-property)').css('display', 'none');
         }
     }
     //----------------------------------------------------------------------------------------------
