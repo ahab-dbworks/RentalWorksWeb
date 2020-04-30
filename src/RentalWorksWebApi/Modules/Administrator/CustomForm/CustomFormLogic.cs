@@ -72,18 +72,19 @@ namespace WebApi.Modules.Administrator.CustomForm
         {
             if (SelfAssign.GetValueOrDefault(false))
             {
+                //it's probably safest to only do this on Insert
                 if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
                 {
                     AssignTo = RwConstants.CUSTOM_FORM_ASSIGN_TO_USERS;
                 }
-                else if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
-                {
-                    if (e.Original != null)
-                    {
-                        CustomFormLogic orig = ((CustomFormLogic)e.Original);
-                        orig.AssignTo = RwConstants.CUSTOM_FORM_ASSIGN_TO_USERS;
-                    }
-                }
+                //else if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+                //{
+                //    if (e.Original != null)
+                //    {
+                //        CustomFormLogic orig = ((CustomFormLogic)e.Original);
+                //        orig.AssignTo = RwConstants.CUSTOM_FORM_ASSIGN_TO_USERS;
+                //    }
+                //}
             }
         }
 
