@@ -111,12 +111,20 @@ class CustomForm {
         const html = FwFormField.getValueByDataField($form, 'Html');
         if (typeof $form.data('selfassign') != 'undefined') {
             jQuery('head').prepend(`<template id="tmpl-custom-${baseForm}">${html}</template>`);
-            let customForms = JSON.parse(sessionStorage.getItem('customForms'));
-            customForms.unshift({
+
+            const newCustomForm: any = {
                 BaseForm: baseForm,
                 CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId'),
                 Description: FwFormField.getValueByDataField($form, 'Description')
-            });
+            }
+
+            let customForms = JSON.parse(sessionStorage.getItem('customForms'));
+            if (customForms) {
+                customForms.unshift(newCustomForm);
+            } else {
+                customForms = [newCustomForm];
+            }
+           
             sessionStorage.setItem('customForms', JSON.stringify(customForms));
             $form.removeData('selfassign');
             const controller = $form.find('[data-datafield="BaseForm"] option:selected').data('controllername');

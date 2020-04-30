@@ -18,6 +18,7 @@ namespace WebApi.Modules.Administrator.CustomForm
             dataRecords.Add(customForm);
             dataLoader = customFormLoader;
 
+            BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
@@ -66,6 +67,26 @@ namespace WebApi.Modules.Administrator.CustomForm
             }
             return isValid;
         }
+        //------------------------------------------------------------------------------------
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (SelfAssign.GetValueOrDefault(false))
+            {
+                if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    AssignTo = RwConstants.CUSTOM_FORM_ASSIGN_TO_USERS;
+                }
+                else if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    if (e.Original != null)
+                    {
+                        CustomFormLogic orig = ((CustomFormLogic)e.Original);
+                        orig.AssignTo = RwConstants.CUSTOM_FORM_ASSIGN_TO_USERS;
+                    }
+                }
+            }
+        }
+
         //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {

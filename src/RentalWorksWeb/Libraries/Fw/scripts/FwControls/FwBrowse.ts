@@ -4133,6 +4133,7 @@ class FwBrowseClass {
     }
     //----------------------------------------------------------------------------------------------
     customizeColumns($control: JQuery, name: any, type: any) {
+        let $form;
         const isCustomBrowse = $control.data('iscustombrowse');
         const fullName = sessionStorage.getItem('fullname');
         if (isCustomBrowse) {
@@ -4140,22 +4141,23 @@ class FwBrowseClass {
                 const uniqueids = {
                     CustomFormId: $control.data('customformid')
                 }
-                const $form = CustomFormController.loadForm(uniqueids);
+                $form = CustomFormController.loadForm(uniqueids);
                 FwModule.openModuleTab($form, `${name} ${type} - ${fullName}`, true, 'FORM', true);
             }
         } else {
             try {
-                const $form = CustomFormController.openForm('NEW');
+                $form = CustomFormController.openForm('NEW');
                 FwModule.openModuleTab($form, 'New Custom Form', true, 'FORM', true);
                 const value = name + type.charAt(0).toUpperCase() + type.slice(1);
                 FwFormField.setValueByDataField($form, 'BaseForm', value, null, true);
                 FwFormField.setValueByDataField($form, 'Description', `${name} ${type} - ${fullName}`);
                 FwFormField.setValueByDataField($form, 'AssignTo', 'USERS');
-                $form.data('selfassign', true);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         }
+        $form.data('selfassign', true);
+        $form.find('[data-caption="Assign To"]').hide();
     }
     //----------------------------------------------------------------------------------------------
     disableGrid($control: JQuery) {
