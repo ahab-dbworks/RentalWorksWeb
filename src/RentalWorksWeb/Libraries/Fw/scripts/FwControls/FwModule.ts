@@ -242,8 +242,10 @@ class FwModule {
                         });
                     });
 
-                    $customBrowse.attr('data-iscustombrowse', true);
-                    $customBrowse.data('customformid', customForms[0].CustomFormId);
+                    if (customForms[0].ThisUserOnly) {
+                        $customBrowse.attr('data-iscustombrowse', true);
+                        $customBrowse.data('customformid', customForms[0].CustomFormId);
+                    }
                 } else {
                     throw new Error(`${baseForm} custom template not found.`)
                 }

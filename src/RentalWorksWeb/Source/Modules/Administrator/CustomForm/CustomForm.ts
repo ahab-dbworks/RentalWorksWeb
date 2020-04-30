@@ -115,7 +115,8 @@ class CustomForm {
             const newCustomForm: any = {
                 BaseForm: baseForm,
                 CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId'),
-                Description: FwFormField.getValueByDataField($form, 'Description')
+                Description: FwFormField.getValueByDataField($form, 'Description'),
+                ThisUserOnly: true
             }
 
             let customForms = JSON.parse(sessionStorage.getItem('customForms'));
