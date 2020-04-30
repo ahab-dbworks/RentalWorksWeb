@@ -580,13 +580,34 @@ class CustomForm {
                         `;
 
             let addPropertiesHtml =
-                `   <div class="addproperties" style="width:100%; display:flex;">
+                `   <div class="addproperties adv-property" style="width:100%; display:flex;">
                         <div class="addpropname" style="padding:3px; border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add new property"></div>
                         <div class="addpropval" style="padding:3px; border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add value"></div>
                     </div>
                  </div>`; //closing div for propertyContainer
 
-            let deleteComponentHtml = '<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:27%; margin-top:15px;">Delete Component</div>';
+            const showAdvancedPropertiesHtml = `<div style="text-align:right;">
+                                                    <span class="show-advanced-properties">Show Advanced Properties</span>
+                                                </div>`;
+
+            const deleteComponentHtml = () => {
+                let caption;
+                if (type == 'Grid' || type == 'Browse') {
+                    caption = $form.find('.propname:contains("data-caption")').siblings('.propval').find('input').val();
+                    if (caption == 'New Column') {
+                        caption = 'Delete New Column';
+                    } else {
+                        caption = `Delete ${caption} Column`;
+                    }
+                } else {
+                    caption = 'Delete Component';
+                }
+                
+                const btn = `<div style="text-align:center;margin-top: 1em;">
+                                <div class="fwformcontrol deleteObject" data-type="button">${caption}</div>
+                             </div>`;
+                return btn;
+            }
 
             let lastIndex = Number(jQuery($customFormClone).find('div:last').attr('data-index'));
 
@@ -834,6 +855,7 @@ class CustomForm {
                         originalHtml = e.currentTarget;
                         controlType = jQuery(originalHtml).attr('data-control');
                         let properties = jQuery(e.currentTarget.attributes).sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));  //sorts attributes list
+                        const basicProperties: any = ['data-browsedatafield', 'data-caption', 'data-datafield'];
                         let html: any = [];
                         html.push(propertyContainerHtml);
                         for (let i = 0; i < properties.length; i++) {
@@ -857,7 +879,7 @@ class CustomForm {
                                 case "data-browsedatafield":
                                 case "data-displayfield":
                                 case "data-browsedisplayfield":
-                                    html.push(`<div class="properties">
+                                    html.push(`<div class="properties ${basicProperties.includes(name) ? 'basic-property' : 'adv-property'}">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:92%" class="datafields" value="${value}"></select></div>
                                    </div>
@@ -874,16 +896,23 @@ class CustomForm {
                                 case "data-formrequired":
                                 case "data-required":
                                 case "data-enabled":
-                                    html.push(`<div class="properties">
+                                    html.push(`<div class="properties adv-property">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:92%" class="valueOptions" value="${value}"></select></div>
+                                   </div>
+                                  `);
+                                    break;
+                                case 'data-caption':
+                                    html.push(`<div class="properties basic-property">
+                                      <div class="propname">${name === "" ? "&#160;" : name}</div>
+                                      <div class="propval"><input value="${value}"></div>
                                    </div>
                                   `);
                                     break;
                                 case "class":
                                     value = value.replace('focused', '');
                                 default:
-                                    html.push(`<div class="properties">
+                                    html.push(`<div class="properties adv-property">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><input value="${value}"></div>
                                    </div>
@@ -903,7 +932,7 @@ class CustomForm {
                         addValueOptions();
 
                         //delete object
-                        $form.find('#controlProperties').append(deleteComponentHtml);
+                        $form.find('#controlProperties').append(showAdvancedPropertiesHtml, deleteComponentHtml());
 
                         //disables grids and browses in forms
                         if (type === 'Form') {
@@ -913,6 +942,8 @@ class CustomForm {
                                 $form.find('#controlProperties .addproperties, #controlProperties .deleteObject').remove();
                             }
                         }
+
+                        this.showAdvancedProperties($form);
                     });
 
             $form
@@ -997,7 +1028,7 @@ class CustomForm {
                                 case 'data-browsedatatype':
                                     $form.find(`#controlProperties .propname:contains('data-formdatatype')`).siblings('.propval').find('select').val(value);
                                     $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(value);
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr({'data-datatype': value, 'data-formdatatype': value, 'data-browsedatatype': value});
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr({ 'data-datatype': value, 'data-formdatatype': value, 'data-browsedatatype': value });
                                     jQuery(originalHtml).attr({ 'data-datatype': value, 'data-formdatatype': value, 'data-browsedatatype': value });
                                     break;
                                 default:
@@ -1075,7 +1106,7 @@ class CustomForm {
                     }
 
                     switch (type) {
-                        case 'Form': 
+                        case 'Form':
                             if (controlType == 'FwFormField' || controlType == 'FwContainer') {
                                 FwControl.init(jQuery(originalHtml));
                                 FwControl.renderRuntimeHtml(jQuery(originalHtml));
@@ -1166,9 +1197,21 @@ class CustomForm {
                 //delete button
                 .off('click', '.deleteObject')
                 .on('click', '.deleteObject', e => {
-                    let $confirmation = FwConfirmation.renderConfirmation('Delete', 'Delete this object?');
+                    let caption;
+                    if (type == 'Grid' || type == 'Browse') {
+                        caption = $form.find('.propname:contains("data-caption")').siblings('.propval').find('input').val();
+                        if (caption == 'New Column') {
+                            caption = 'Delete New Column?';
+                        } else {
+                            caption = `Delete ${caption} Column?`;
+                        }
+                    } else {
+                        caption = 'Delete this component?';
+                    }
+
+                    let $confirmation = FwConfirmation.renderConfirmation('Delete', caption);
                     let $yes = FwConfirmation.addButton($confirmation, 'Delete', false);
-                    let $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                    FwConfirmation.addButton($confirmation, 'Cancel');
 
                     $yes.off('click');
                     $yes.on('click', e => {
@@ -1230,34 +1273,36 @@ class CustomForm {
                         let fields: any = [];
 
                         propertyHtml.push(propertyContainerHtml);
-                        fields = ['data-datafield', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'data-caption', 'class'];
+                        fields = ['data-datafield', 'data-caption', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'class'];
                         for (let i = 0; i < fields.length; i++) {
-                            var value;
-                            var field = fields[i];
+                            let value, isBasicProp;
+                            const field = fields[i];
                             switch (field) {
                                 case 'data-datafield':
-                                    value = ""
+                                    value = "";
+                                    isBasicProp = true;
                                     break;
                                 case 'data-datatype':
-                                    value = "text"
+                                    value = "text";
                                     break;
                                 case 'data-sort':
-                                    value = "off"
+                                    value = "off";
                                     break;
                                 case 'data-width':
-                                    value = "100px"
+                                    value = "100px";
                                     break;
                                 case 'data-visible':
-                                    value = "true"
+                                    value = "true";
                                     break;
                                 case 'data-caption':
-                                    value = "New Column"
+                                    value = "New Column";
+                                    isBasicProp = true;
                                     break;
                                 case 'class':
                                     value = 'field';
                             }
                             propertyHtml.push(
-                                `<div class="properties">
+                                `<div class="properties ${isBasicProp ? 'basic-property' : 'adv-property'}">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
@@ -1270,7 +1315,7 @@ class CustomForm {
                         let newProperties = $form.find('#controlProperties');
                         newProperties
                             .empty()
-                            .append(propertyHtml.join(''), deleteComponentHtml)
+                            .append(propertyHtml.join(''))
                             .find('.properties:even')
                             .css('background-color', '#f7f7f7');
 
@@ -1288,9 +1333,9 @@ class CustomForm {
                             .replaceWith(`<select style="width:92%" class="valueOptions" value="text">`);
 
                         addValueOptions();
-
+                        newProperties.append(showAdvancedPropertiesHtml, deleteComponentHtml());
                         $form.find('#controlProperties input').change();
-
+                        this.showAdvancedProperties($form);
                         lastIndex = newFieldIndex
                     } else if (type === 'Form') {
                         let $tabpage = $customForm.find('[data-type="tabpage"]:visible');
@@ -1309,11 +1354,12 @@ class CustomForm {
                         propertyHtml.push(propertyContainerHtml);
                         fields = ['data-datafield', 'data-type', 'data-caption', 'class', 'data-control'];
                         for (let i = 0; i < fields.length; i++) {
-                            var value;
-                            var field = fields[i];
+                            let value, isBasicProp;
+                            const field = fields[i];
                             switch (field) {
                                 case 'data-datafield':
                                     value = ""
+                                    isBasicProp = true;
                                     break;
                                 case 'data-control':
                                     value = "FwFormField"
@@ -1322,13 +1368,14 @@ class CustomForm {
                                     value = "text"
                                     break;
                                 case 'data-caption':
-                                    value = "New Field"
+                                    value = "New Field";
+                                    isBasicProp = true;
                                     break;
                                 case 'class':
                                     value = 'fwcontrol fwformfield';
                             }
                             propertyHtml.push(
-                                `<div class="properties">
+                                `<div class="properties  ${isBasicProp ? 'basic-property' : 'adv-property'}">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
@@ -1341,7 +1388,7 @@ class CustomForm {
                         let newProperties = $form.find('#controlProperties');
                         newProperties
                             .empty()
-                            .append(propertyHtml.join(''), deleteComponentHtml)
+                            .append(propertyHtml.join(''), showAdvancedPropertiesHtml, deleteComponentHtml())
                             .find('.properties:even')
                             .css('background-color', '#f7f7f7');
 
@@ -1366,6 +1413,7 @@ class CustomForm {
                         $draggableElements = $customForm.find('div.fwformfield');
                         $draggableElements.attr('draggable', 'true');
                         $form.find('#controlProperties input').change();
+                        this.showAdvancedProperties($form);
                     }
                 })
                 .off('click', '.addNewContainer')
@@ -1401,7 +1449,7 @@ class CustomForm {
                                 break;
                         }
                         propertyHtml.push(
-                            `<div class="properties">
+                            `<div class="properties basic-prop">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
@@ -1414,7 +1462,7 @@ class CustomForm {
                     let newProperties = $form.find('#controlProperties');
                     newProperties
                         .empty()
-                        .append(propertyHtml.join(''), deleteComponentHtml)
+                        .append(propertyHtml.join(''))
                         .find('.properties:even')
                         .css('background-color', '#f7f7f7');
 
@@ -1424,6 +1472,8 @@ class CustomForm {
                     $draggableElements = $customForm.find('div.fwformfield, div.flexrow, div.flexcolumn, div[data-type="tab"]');
                     $draggableElements.attr('draggable', 'true');
                     $form.find('#controlProperties input').change();
+                    newProperties.append(showAdvancedPropertiesHtml, deleteComponentHtml());
+                    this.showAdvancedProperties($form);
                 })
                 .off('click', '.addNewTab')
                 .on('click', '.addNewTab', e => {
@@ -1457,9 +1507,32 @@ class CustomForm {
 
                     $draggableElements = $customForm.find('div.fwformfield, div.flexrow, div.flexcolumn, div[data-type="tab"]');
                     $draggableElements.attr('draggable', 'true');
+                })
+                .off('click', '.show-advanced-properties')
+                .on('click', '.show-advanced-properties', e => {
+                    if (typeof $form.data('show-advanced') == 'undefined') {
+                        $form.data('show-advanced', true);
+                    } else {
+                        $form.data('show-advanced') ? $form.data('show-advanced', false) : $form.data('show-advanced', true)
+                    }
+                    this.showAdvancedProperties($form);
                 });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    showAdvancedProperties($form: JQuery) {
+        const $this = $form.find('.show-advanced-properties');
 
+        if (typeof $form.data('show-advanced') == 'undefined') {
+            $form.data('show-advanced', false);
+        }
 
+        if ($form.data('show-advanced')) {
+            $this.text('Hide Advanced Properties');
+            $form.find('#controlProperties div.adv-property').css('display', 'flex');
+        } else {
+            $this.text('Show Advanced Properties');
+            $form.find('#controlProperties div.adv-property').css('display', 'none');
         }
     }
     //----------------------------------------------------------------------------------------------
