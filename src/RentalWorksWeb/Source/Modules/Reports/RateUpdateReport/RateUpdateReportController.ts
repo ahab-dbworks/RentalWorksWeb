@@ -20,7 +20,7 @@ const rateUpdateTemplate = `
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pending Modifications Only" data-datafield="PendingModificationsOnly" data-required="true" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rate Update Batch Number" data-datafield="RateUpdateBatchId" data-displayfield="RateUpdateBatchNumber" data-savesetting="false" data-required="true" data-validationname="RateUpdateBatchValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rate Modification Name" data-datafield="RateUpdateBatchId" data-displayfield="RateUpdateBatchNumber" data-savesetting="false" data-required="true" data-validationname="RateUpdateBatchValidation" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
           </div>

@@ -10,6 +10,8 @@ using WebApi.Logic;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.InventoryWarehouse;
 using WebApi.Modules.Utilities.RateUpdateBatch;
+using WebApi.Modules.Utilities.RateUpdateBatchItem;
+using WebApi.Modules.Utilities.RateUpdateItem;
 
 namespace WebApi.Modules.Inventory.Inventory
 {
@@ -326,54 +328,83 @@ namespace WebApi.Modules.Inventory.Inventory
             }
             else
             {
-                FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
-                try
+                // get all of the pending modifications
+                BrowseRequest itemBrowseRequest = new BrowseRequest();
+                itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                itemBrowseRequest.uniqueids.Add("ShowPendingModifications", true);
+
+                RateUpdateItemLogic itemSelector = new RateUpdateItemLogic();
+                itemSelector.SetDependencies(appConfig, userSession);
+                List<RateUpdateItemLogic> items = await itemSelector.SelectAsync<RateUpdateItemLogic>(itemBrowseRequest);
+
+                if (items.Count > 0)
                 {
-                    await conn.OpenAsync();
-                    conn.BeginTransaction();
-
-                    RateUpdateBatchLogic batch = new RateUpdateBatchLogic();
-                    batch.SetDependencies(appConfig, userSession);
-                    batch.RateUpdateBatch = request.RateUpdateBatchName;
-                    batch.UsersId = userSession.UsersId;
-                    batch.Applied = DateTime.Now;
-                    await batch.SaveAsync(original: null, conn: conn, saveMode: FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert);
-
-                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                    qry.Add("select *                       ");
-                    qry.Add(" from  rateupdateitemview      ");
-                    qry.Add(" where " + GetRateUpdatePendingModificationsWhere());
-                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
-
-                    if (dt.TotalRows > 0)
+                    FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+                    try
                     {
-                        string sessionId = userSession.UsersId;
-                        await FwSqlData.StartMeter(conn, appConfig.DatabaseSettings, sessionId, "Applying Rate Modifications", dt.TotalRows);
-                        foreach (List<object> row in dt.Rows)
-                        {
-                            //row[dt.GetColumnNo("warehouseid")].ToString()
+                        await conn.OpenAsync();
+                        conn.BeginTransaction();
 
-                            // apply change to Master/Warehouse
+                        RateUpdateBatchLogic batch = new RateUpdateBatchLogic();
+                        batch.SetDependencies(appConfig, userSession);
+                        batch.RateUpdateBatch = request.RateUpdateBatchName;
+                        batch.UsersId = userSession.UsersId;
+                        batch.Applied = DateTime.Now;
+                        await batch.SaveAsync(conn: conn);
+
+                        string sessionId = userSession.UsersId;
+                        await FwSqlData.StartMeter(conn, appConfig.DatabaseSettings, sessionId, "Applying Rate Modifications", items.Count);
+
+                        foreach (RateUpdateItemLogic i in items)
+                        {
+                            // log this change in the batch
+                            RateUpdateBatchItemLogic batchItem = new RateUpdateBatchItemLogic();
+                            batchItem.SetDependencies(appConfig, userSession);
+                            batchItem.RateUpdateBatchId = batch.RateUpdateBatchId;
+                            batchItem.InventoryId = i.InventoryId;
+                            batchItem.WarehouseId = i.WarehouseId;
+                            batchItem.OldDailyRate = i.DailyRate;
+                            batchItem.NewDailyRate = i.NewDailyRate;
+                            //need to log all changes here
+                            await batchItem.SaveAsync(conn: conn);
+
+                            InventoryWarehouseLogic iwOrig = new InventoryWarehouseLogic();
+                            iwOrig.SetDependencies(appConfig, userSession);
+                            iwOrig.InventoryId = i.InventoryId;
+                            iwOrig.WarehouseId = i.WarehouseId;
+                            await iwOrig.LoadAsync<InventoryWarehouseLogic>(conn);
+
+                            InventoryWarehouseLogic iwNew = new InventoryWarehouseLogic();
+                            iwNew.SetDependencies(appConfig, userSession);
+                            iwNew.InventoryId = i.InventoryId;
+                            iwNew.WarehouseId = i.WarehouseId;
+                            iwNew.DailyRate = i.NewDailyRate;
+                            //need to apply all changes here
+                            await iwNew.SaveAsync(original: iwOrig, conn: conn);
 
                             await FwSqlData.StepMeter(conn, appConfig.DatabaseSettings, sessionId);
                         }
+
                         await FwSqlData.FinishMeter(conn, appConfig.DatabaseSettings, sessionId);
                         response.success = true;
                         response.RateUpdateBatch = batch;
                     }
-
+                    finally
+                    {
+                        if (response.success)
+                        {
+                            conn.CommitTransaction();
+                        }
+                        else
+                        {
+                            conn.RollbackTransaction();
+                        }
+                        conn.Close();
+                    }
                 }
-                finally
+                else
                 {
-                    if (response.success)
-                    {
-                        conn.CommitTransaction();
-                    }
-                    else
-                    {
-                        conn.RollbackTransaction();
-                    }
-                    conn.Close();
+                    response.msg = "There are no pending modifications to apply.";
                 }
             }
             return response;

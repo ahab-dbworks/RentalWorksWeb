@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/rateupdateutility/, action: function (match: RegExpExecArray) { return RateUpdateUtilityController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/rateupdateutility/, action: function (match: RegExpExecArray) { return RateUpdateUtilityController.getModuleScreen(); } });
 
 class RateUpdateUtility {
     Module: string = 'RateUpdateUtility';
@@ -167,9 +167,9 @@ class RateUpdateUtility {
             }
         }
         //if (cachedType != activityType) {
-          /*  toggleColumns(cachedType, false);*/ //hides cached type's columns
-            toggleColumns(activityType); //shows selected type's columns
-           /* $form.data('activitytype', activityType);*/ //updates cached type
+        /*  toggleColumns(cachedType, false);*/ //hides cached type's columns
+        toggleColumns(activityType); //shows selected type's columns
+        /* $form.data('activitytype', activityType);*/ //updates cached type
         //}
     }
     //----------------------------------------------------------------------------------------------
@@ -344,14 +344,14 @@ class RateUpdateUtility {
             FwFunc.showError(ex);
         }
     }
-     //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     applyAllPendingModifications($form: any) {
         let $confirmation, $ok;
         $confirmation = FwConfirmation.renderConfirmation('Apply All Pending Modifications', '');
         const html: Array<string> = [];;
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Batch Name" data-datafield="RateUpdateBatchName"></div>');
-        html.push('    <div style="margin:1em; color:red;">New Costs and Rates will be applied immediately, and cannot be undone.</div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Provide a name for this Rate Modification" data-datafield="RateUpdateBatchName"></div>');
+        html.push('    <div style="margin:1em; color:red;">New Costs and Rates will be applied immediately.  This cannot be undone.</div>');
         html.push('</div>');
 
         FwConfirmation.addControls($confirmation, html.join(''));
@@ -361,23 +361,21 @@ class RateUpdateUtility {
             try {
                 const request: any = {};
                 request.RateUpdateBatchName = FwFormField.getValueByDataField($confirmation, 'RateUpdateBatchName');
-                FwAppData.apiMethod(true, 'POST', 'api/v1/rateupdateutility/apply', request, FwServices.defaultTimeout,
-                    response => {
-                        try {
-                            FwNotification.renderNotification('SUCCESS', 'Rates Successfully Updated.');
-                            FwConfirmation.destroyConfirmation($confirmation);
-                            program.navigate('module/rateupdateutility');
-                            this.printRateUpdateReport($form, { batchid: response.RateUpdateBatchId, batchname: response.RateUpdateBatchName });
-                        }
-                        catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    }, ex => FwFunc.showError(ex), $form, sessionStorage.getItem('usersid'));
+                FwAppData.apiMethod(true, 'POST', 'api/v1/rateupdateutility/apply', request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success === true) {
+                        FwNotification.renderNotification('SUCCESS', 'Rates Successfully Updated.');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        program.navigate('module/rateupdateutility');
+                        this.printRateUpdateReport($form, { batchid: response.RateUpdateBatch.RateUpdateBatchId, batchname: response.RateUpdateBatch.RateUpdateBatchName });
+                    } else if (response.success === false) {
+                        FwNotification.renderNotification(`ERROR`, `${response.msg}`);
+                    }
+                }, ex => FwFunc.showError(ex), $form, sessionStorage.getItem('usersid'));
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
     }
-     //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
 }
 var RateUpdateUtilityController = new RateUpdateUtility();

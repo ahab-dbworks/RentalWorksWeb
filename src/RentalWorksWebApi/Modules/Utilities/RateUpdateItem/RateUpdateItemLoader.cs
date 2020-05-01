@@ -2,6 +2,7 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using System.Text;
 using WebApi.Data;
 using WebApi.Modules.Inventory.Inventory;
@@ -212,27 +213,40 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
                 select.AddParameter("@master", "%" + description.Trim() + "%");
             }
 
-            if (request.uniqueids.Rank != null)
+            if ((request != null) && (request.uniqueids != null))
             {
-                SelectedCheckBoxListItems ranks = new SelectedCheckBoxListItems();
-                foreach (var rank in request.uniqueids.Rank)
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+
+                if (uniqueIds.ContainsKey("Rank"))
                 {
-                    SelectedCheckBoxListItem item = new SelectedCheckBoxListItem(rank.value);
-                    ranks.Add(item);
+                    if (request.uniqueids.Rank != null)
+                    {
+                        SelectedCheckBoxListItems ranks = new SelectedCheckBoxListItems();
+                        foreach (var rank in request.uniqueids.Rank)
+                        {
+                            SelectedCheckBoxListItem item = new SelectedCheckBoxListItem(rank.value);
+                            ranks.Add(item);
+                        }
+                        select.AddWhereIn("rank", ranks);
+                    }
                 }
-                select.AddWhereIn("rank", ranks);
+
+
+                if (uniqueIds.ContainsKey("Classification"))
+                {
+                    if (request.uniqueids.Classification != null)
+                    {
+                        SelectedCheckBoxListItems classification = new SelectedCheckBoxListItems();
+                        foreach (var c in request.uniqueids.Classification)
+                        {
+                            SelectedCheckBoxListItem item = new SelectedCheckBoxListItem(c.value);
+                            classification.Add(item);
+                        }
+                        select.AddWhereIn("class", classification);
+                    }
+                }
             }
 
-            if (request.uniqueids.Classification != null)
-            {
-                SelectedCheckBoxListItems classification = new SelectedCheckBoxListItems();
-                foreach (var c in request.uniqueids.Classification)
-                {
-                    SelectedCheckBoxListItem item = new SelectedCheckBoxListItem(c.value);
-                    classification.Add(item);
-                }
-                select.AddWhereIn("class", classification);
-            }
 
             bool showPendingModifications = GetUniqueIdAsBoolean("ShowPendingModifications", request) ?? false;
             if (showPendingModifications)

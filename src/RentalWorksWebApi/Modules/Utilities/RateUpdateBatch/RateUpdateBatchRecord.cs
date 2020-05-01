@@ -8,7 +8,7 @@ namespace WebApi.Modules.Utilities.RateUpdateBatch
     public class RateUpdateBatchRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rateupdatebatchid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true)]
+        [FwSqlDataField(column: "rateupdatebatchid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true, identity: true)]
         public int? RateUpdateBatchId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rateupdatebatch", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
