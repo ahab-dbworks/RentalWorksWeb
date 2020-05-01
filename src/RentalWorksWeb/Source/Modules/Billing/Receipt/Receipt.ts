@@ -365,7 +365,7 @@ class Receipt {
             }
 
         });
-        // ------
+        // ----------
         $form.find('div.credits-tab').on('click', e => {
             //Disable clicking  tab w/o a Deal / Customer
             const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
@@ -378,6 +378,18 @@ class Receipt {
             if (dealCustomer === '') {
                 e.stopPropagation();
                 FwNotification.renderNotification('WARNING', 'Select a Deal or Customer first.')
+            }
+        });
+        // ----------
+        $form.find('div[data-datafield="CustomerDepositId"]').data('onchange', $tr => {
+            const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
+            const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
+            const customerCreditRemaining = FwBrowse.getValueByDataField(null, $tr, 'Remaining');
+            if (paymentTypeType === 'DEPLETING DEPOSIT') {
+                if (amountToApply === '') {
+                    FwFormField.setValueByDataField($form, 'PaymentAmount', customerCreditRemaining);
+                    $form.find('div[data-datafield="PaymentAmount"] input').change();
+                }
             }
         });
     }
@@ -461,7 +473,7 @@ class Receipt {
                 }
                 if (dealId !== '') {
                     request.uniqueids.DealId = dealId;
-                }  
+                }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealdeposit`);
                 break;
             case 'CustomerDepositId':
@@ -512,14 +524,18 @@ class Receipt {
     createDepletingDeposit($form) {
         jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
 
-        const unappliedTotal = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val()
-        const $confirmation = FwConfirmation.renderConfirmation(`Depleting Deposit of ${unappliedTotal}`, '');
+        const unappliedTotal = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val();
+        let dialogText = `Depleting Deposit of ${unappliedTotal}`;
+        if (unappliedTotal === '') {
+            dialogText = 'Depleting Deposit'
+        }
+        const $confirmation = FwConfirmation.renderConfirmation(dialogText, '');
         $confirmation.find('.fwconfirmationbox').css('width', '490px');
 
         const html: Array<string> = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div>Create Depleting Deposit of ${unappliedTotal}?</div>`);
+        html.push(`    <div>Create ${dialogText}?</div>`);
         html.push('  </div>');
         html.push('</div>');
         FwConfirmation.addControls($confirmation, html.join(''));
