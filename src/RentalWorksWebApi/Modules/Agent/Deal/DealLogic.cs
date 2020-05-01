@@ -508,6 +508,10 @@ namespace WebApi.Modules.Agent.Deal
 
         [FwLogicProperty(Id: "iKVnae22M2DY")]
         public bool? EnableWebQuoteRequest { get { return deal.EnableWebQuoteRequest; } set { deal.EnableWebQuoteRequest = value; } }
+
+        [FwLogicProperty(Id: "NPAGfWCWVefvJ")]
+        public string Email { get { return deal.Email; } set { deal.Email = value; } }
+
         [FwLogicProperty(Id: "PVNBtgZdqW5")]
         public string DateStamp { get { return deal.DateStamp; } set { deal.DateStamp = value; } }
 

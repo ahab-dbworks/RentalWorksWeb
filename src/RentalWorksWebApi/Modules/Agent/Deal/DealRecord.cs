@@ -363,6 +363,9 @@ namespace WebApi.Modules.Agent.Deal
         [FwSqlDataField(column: "enablewebquoterequest", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? EnableWebQuoteRequest { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string Email { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         /*

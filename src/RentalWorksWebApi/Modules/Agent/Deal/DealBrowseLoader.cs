@@ -509,6 +509,12 @@ namespace WebApi.Modules.Agent.Deal
         [FwSqlDataField(column: "enablewebquoterequest", modeltype: FwDataTypes.Boolean)]
         public bool? EnableWebQuoteRequest { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text)]
+        public string Email { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

@@ -402,6 +402,9 @@ namespace WebApi.Modules.Agent.Customer
         [FwLogicProperty(Id: "cBkQMzxnKtgX")]
         public string ShipZipCode { get { return customer.ShipZipCode; } set { customer.ShipZipCode = value; } }
 
+        [FwLogicProperty(Id: "TeczGeWVDCJJ2")]
+        public string Email { get { return customer.Email; } set { customer.Email = value; } }
+
         [FwLogicProperty(Id: "jgUoBTFkpbw2", IsReadOnly: true)]
         public bool? Inactive { get; set; }
 

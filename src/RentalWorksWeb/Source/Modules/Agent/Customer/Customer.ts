@@ -655,6 +655,9 @@ class Customer {
                           <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Phone Toll-Free" data-datafield="PhoneTollFree" style="flex:1 1 125px;"></div>
                           <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Other" data-datafield="OtherPhone" style="flex:1 1 125px;"></div>
                         </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="email" class="fwcontrol fwformfield" data-caption="Email" data-datafield="Email" data-allcaps="false" style="flex:1 1 275px;"></div>
+                        </div>
                       </div>
                     </div>
                     <!-- Status section -->
