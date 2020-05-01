@@ -167,6 +167,21 @@ namespace WebApi.Modules.Agent.Deal
         [FwLogicProperty(Id:"cEARwV3J6npn", IsReadOnly:true)]
         public string DiscountTemplate { get; set; }
 
+        [FwLogicProperty(Id: "PL01YhahTMjQv", IsReadOnly: true)]
+        public decimal? RentalDaysPerWeek { get; set; }
+
+        [FwLogicProperty(Id: "xnuv8y3sCAtsc", IsReadOnly: true)]
+        public decimal? RentalDiscountPercent { get; set; }
+
+        [FwLogicProperty(Id: "1NRcXcUae4wMg", IsReadOnly: true)]
+        public decimal? SalesDiscountPercent { get; set; }
+
+        [FwLogicProperty(Id: "uNhrmdXcY9AaI", IsReadOnly: true)]
+        public decimal? FacilitiesDaysPerWeek { get; set; }
+
+        [FwLogicProperty(Id: "N7KbLVlhKEOKu", IsReadOnly: true)]
+        public decimal? FacilitiesDiscountPercent { get; set; }
+
         [FwLogicProperty(Id:"fTFp2vNaRpJs")]
         public string OutsideSalesRepresentativeId { get { return deal.OutsideSalesRepresentativeId; } set { deal.OutsideSalesRepresentativeId = value; } }
 

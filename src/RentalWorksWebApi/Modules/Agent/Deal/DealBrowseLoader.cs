@@ -164,6 +164,21 @@ namespace WebApi.Modules.Agent.Deal
         [FwSqlDataField(column: "discounttemplate", modeltype: FwDataTypes.Text)]
         public string DiscountTemplate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discounttemplaterentaldw", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalDaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discounttemplaterentaldiscountpct", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalDiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discounttemplatesalesdiscountpct", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesDiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discounttemplatespacedw", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesDaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discounttemplatespacediscountpct", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesDiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesrepresentativeid", modeltype: FwDataTypes.Text)]
         public string OutsideSalesRepresentativeId { get; set; }
         //------------------------------------------------------------------------------------ 
