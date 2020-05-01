@@ -50,7 +50,7 @@ class QuikActivityCalendar {
     //----------------------------------------------------------------------------------------------
     populateCheckboxes($form: any) {
         let request: any = {};
-        request.searchfieldoperators = ["<>"]; 
+        request.searchfieldoperators = ["<>"];
         request.searchfields = ["Inactive"];
         request.searchfieldvalues = ["T"];
         request.OrderBy = 'DescriptionDisplay';
@@ -125,7 +125,7 @@ class QuikActivityCalendar {
         $popup.on('click', '.close-modal', e => {
             FwPopup.detachPopup($popup);
         });
- 
+
         $calendar
             .data('ongetevents', request => {
                 const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
@@ -565,7 +565,7 @@ class QuikActivityCalendar {
         return `
                 <div id="quikactivitycalendarform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="QuikActivity Calendar" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="QuikActivityCalendarController">
                   <div class="flexrow" style="max-width:none;">
-                    <div class="flexcolumn activitieslist" style="max-width:250px">
+                    <div class="flexcolumn activitieslist" style="max-width:250px;min-width:225px">
                       <div class="flexrow">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QuikActivity Saved Settings">
                             <div class="flexrow">                            
@@ -585,10 +585,10 @@ class QuikActivityCalendar {
                         <div class="fwcontrol fwcontainer fwform-section activities" data-control="FwContainer" data-type="section" data-caption="Activities"></div>
                       </div>
                     </div>
-                    <div class="flexcolumn" style="margin:30px 0px 0px 50px; min-width:1210px;max-width:1210px;">
+                    <div class="flexcolumn" style="margin:30px 0px 0px 20px; min-width:1210px;max-width:1210px;">
                       <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar" data-shownav="false"></div>
                     </div>
-                    <div class="flexcolumn" style="z-index:0;">
+                    <div class="flexcolumn" style="z-index:0;min-width:200px;max-width:250px;">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Calendar View Filters">
                             <div data-control="FwFormField" data-type="validation" class="filters fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px;"></div>
                             <div data-control="FwFormField" data-type="checkbox" class="filters fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="min-width:150px;max-width:150px;"></div>
