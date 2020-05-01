@@ -338,7 +338,7 @@ class RateUpdateUtility {
             const $report = RateUpdateReportController.openForm();
             FwModule.openModuleTab($report, 'Rate Update Report', true, 'FORM', true);
             if (typeof batch != 'undefined') {
-                FwFormField.setValueByDataField($form, 'RateUpdateBatchId', batch.RateUpdateBatchId, batch.RateUpdateBatchName);
+                FwFormField.setValueByDataField($report, 'RateUpdateBatchId', batch.batchid, batch.batchname);
             }
         } catch (ex) {
             FwFunc.showError(ex);
@@ -366,7 +366,7 @@ class RateUpdateUtility {
                         FwNotification.renderNotification('SUCCESS', 'Rates Successfully Updated.');
                         FwConfirmation.destroyConfirmation($confirmation);
                         program.navigate('module/rateupdateutility');
-                        this.printRateUpdateReport($form, { batchid: response.RateUpdateBatch.RateUpdateBatchId, batchname: response.RateUpdateBatch.RateUpdateBatchName });
+                        RateUpdateUtilityController.printRateUpdateReport($form, { batchid: response.RateUpdateBatch.RateUpdateBatchId, batchname: response.RateUpdateBatch.RateUpdateBatch });
                     } else if (response.success === false) {
                         FwNotification.renderNotification(`ERROR`, `${response.msg}`);
                     }
