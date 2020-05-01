@@ -127,10 +127,10 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         public decimal? NewMonthlyCost { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
-        public decimal? ManifestValue { get; set; }
+        public decimal? UnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "newmanifestvalue", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
-        public decimal? NewManifestValue { get; set; }
+        public decimal? NewUnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "newreplacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
         public decimal? NewReplacementCost { get; set; }

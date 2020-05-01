@@ -178,10 +178,10 @@ namespace WebApi.Modules.Utilities.RateUpdateBatchItem
         public decimal? NewReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "oldmindw", modeltype: FwDataTypes.Decimal)]
-        public decimal? OldMinDw { get; set; }
+        public decimal? OldMinDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "newmindw", modeltype: FwDataTypes.Decimal)]
-        public decimal? NewMinEw { get; set; }
+        public decimal? NewMinDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rateupdatebatchid", modeltype: FwDataTypes.Integer)]
         public int? RateUpdateBatchId { get; set; }

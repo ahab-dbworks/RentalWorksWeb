@@ -127,9 +127,9 @@ namespace WebApi.Modules.Utilities.RateUpdateBatchItem
         [FwLogicProperty(Id: "PKzvLo5zkd1xT")]
         public decimal? NewReplacementCost { get { return rateUpdateBatchItem.NewReplacementCost; } set { rateUpdateBatchItem.NewReplacementCost = value; } }
         [FwLogicProperty(Id: "PmqhemUwYleKT")]
-        public decimal? OldMinDw { get { return rateUpdateBatchItem.OldMinDw; } set { rateUpdateBatchItem.OldMinDw = value; } }
+        public decimal? OldMinDaysPerWeek { get { return rateUpdateBatchItem.OldMinDaysPerWeek; } set { rateUpdateBatchItem.OldMinDaysPerWeek = value; } }
         [FwLogicProperty(Id: "PmVIaHjFE1tq9")]
-        public decimal? NewMinEw { get { return rateUpdateBatchItem.NewMinEw; } set { rateUpdateBatchItem.NewMinEw = value; } }
+        public decimal? NewMinDaysPerWeek { get { return rateUpdateBatchItem.NewMinDaysPerWeek; } set { rateUpdateBatchItem.NewMinDaysPerWeek = value; } }
         [FwLogicProperty(Id: "pne8JOOoHYiLa")]
         public int? RateUpdateBatchId { get { return rateUpdateBatchItem.RateUpdateBatchId; } set { rateUpdateBatchItem.RateUpdateBatchId = value; } }
         [FwLogicProperty(Id: "pNG6G4lLjMvbU")]

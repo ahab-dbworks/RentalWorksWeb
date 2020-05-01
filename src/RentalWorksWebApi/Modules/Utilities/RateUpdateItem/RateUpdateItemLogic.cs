@@ -129,9 +129,9 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         [FwLogicProperty(Id: "koSH1gTXrJD4")]
         public decimal? NewMonthlyCost { get { return rateUpdateItem.NewMonthlyCost; } set { rateUpdateItem.NewMonthlyCost = value; } }
         [FwLogicProperty(Id: "ufSistFUcYdJ")]
-        public decimal? ManifestValue { get { return rateUpdateItem.ManifestValue; } set { rateUpdateItem.ManifestValue = value; } }
+        public decimal? UnitValue { get { return rateUpdateItem.UnitValue; } set { rateUpdateItem.UnitValue = value; } }
         [FwLogicProperty(Id: "kRj2DGxZs26O")]
-        public decimal? NewManifestValue { get { return rateUpdateItem.NewManifestValue; } set { rateUpdateItem.NewManifestValue = value; } }
+        public decimal? NewUnitValue { get { return rateUpdateItem.NewUnitValue; } set { rateUpdateItem.NewUnitValue = value; } }
         [FwLogicProperty(Id: "lVDiGi37UWlm")]
         public decimal? ReplacementCost { get { return rateUpdateItem.ReplacementCost; } set { rateUpdateItem.ReplacementCost = value; } }
         [FwLogicProperty(Id: "OLzETL4A0rUz")]

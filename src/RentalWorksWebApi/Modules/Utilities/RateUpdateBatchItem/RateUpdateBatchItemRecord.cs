@@ -128,10 +128,10 @@ namespace WebApi.Modules.Utilities.RateUpdateBatchItem
         public decimal? OldMaxDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "newmindw", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 6, scale: 3)]
-        public decimal? NewMinEw { get; set; }
+        public decimal? NewMinDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "oldmindw", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 6, scale: 3)]
-        public decimal? OldMinDw { get; set; }
+        public decimal? OldMinDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
