@@ -241,6 +241,11 @@ class FwModule {
                             }
                         });
                     });
+
+                    if (customForms[0].ThisUserOnly) {
+                        $customBrowse.attr('data-iscustombrowse', true);
+                        $customBrowse.data('customformid', customForms[0].CustomFormId);
+                    }
                 } else {
                     throw new Error(`${baseForm} custom template not found.`)
                 }
@@ -277,7 +282,8 @@ class FwModule {
             hasDelete: true,
             hasFind: true,
             hasDownloadExcel: true,
-            hasInactive: true
+            hasInactive: true,
+            hasCustomize: true
         };
         return options;
     }

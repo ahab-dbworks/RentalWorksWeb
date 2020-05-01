@@ -266,12 +266,13 @@ class Base {
                                             const baseFormIndex = responseGetCustomForms.ColumnIndex.BaseForm;
                                             const customFormIdIndex = responseGetCustomForms.ColumnIndex.CustomFormId;
                                             const customFormDescIndex = responseGetCustomForms.ColumnIndex.Description;
+                                            const thisUserOnlyIndex = responseGetCustomForms.ColumnIndex.ThisUserOnly;
                                             const htmlIndex = responseGetCustomForms.ColumnIndex.Html;
                                             const activeCustomForms: any = [];
                                             for (let i = 0; i < responseGetCustomForms.Rows.length; i++) {
                                                 const customForm = responseGetCustomForms.Rows[i];
                                                 const baseform = customForm[baseFormIndex];
-                                                activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex], 'Description': customForm[customFormDescIndex] });
+                                                activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex], 'Description': customForm[customFormDescIndex], 'ThisUserOnly': customForm[thisUserOnlyIndex] });
                                                 jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
                                             }
                                             if (activeCustomForms.length > 0) {
