@@ -307,6 +307,24 @@ namespace WebApi.Modules.HomeControls.DealOrder
         //------------------------------------------------------------------------------------ 
 
 
+        [FwSqlDataField(column: "rentaldaysinwk", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 3)]
+        public decimal? RentalDaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentaldiscountpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 5)]
+        public decimal? RentalDiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "spacediscpercent", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 5)]
+        public decimal? SpaceDiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "spacedaysinwk", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 3)]
+        public decimal? SpaceDaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesdiscpercent", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 5)]
+        public decimal? SalesDiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
         //container
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "scannablemasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -342,9 +360,6 @@ public string Esttotime { get; set; }
 [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer, sqltype: "numeric")] 
 public int? Versionno { get; set; } 
 //------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "salesdiscpercent", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 5)] 
-public decimal? Salesdiscpercent { get; set; } 
-//------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "salestotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 2)] 
 public decimal? Salestotal { get; set; } 
 //------------------------------------------------------------------------------------ 
@@ -362,9 +377,6 @@ public string Flatpo { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean, sqltype: "char")] 
 public bool? Locked { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "rentaldiscountpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 5)] 
-public decimal? Rentaldiscountpct { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "hiatusdiscfrom", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 7)] 
 public string Hiatusdiscfrom { get; set; } 
@@ -420,17 +432,11 @@ public string OutdeliveryId { get; set; }
 [FwSqlDataField(column: "space", modeltype: FwDataTypes.Boolean, sqltype: "char")] 
 public bool? Space { get; set; } 
 //------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "spacediscpercent", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 5)] 
-public decimal? Spacediscpercent { get; set; } 
-//------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "spacesplitpercent", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 5)] 
 public decimal? Spacesplitpercent { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "requireworksheet", modeltype: FwDataTypes.Boolean, sqltype: "char")] 
 public bool? Requireworksheet { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "rentaldaysinwk", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 3)] 
-public decimal? Rentaldaysinwk { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)] 
 public string Billingdates { get; set; } 
@@ -470,9 +476,6 @@ public decimal? Weeklyrentaltotal { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "weeklyspacetotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 2)] 
 public decimal? Weeklyspacetotal { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "spacedaysinwk", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 3)] 
-public decimal? Spacedaysinwk { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "summaryinvoiceorderby", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 4, scale: 1)] 
 public decimal? Summaryinvoiceorderby { get; set; } 

@@ -960,11 +960,11 @@ namespace WebApi.Modules.Agent.Order
         public string InDeliveryDateStamp { get { return inDelivery.DateStamp; } set { inDelivery.DateStamp = value; } }
 
 
-        [FwLogicProperty(Id: "AGlSqFqm9s9n", IsReadOnly: true)]
-        public decimal? RentalDaysPerWeek { get; set; }
+        [FwLogicProperty(Id: "AGlSqFqm9s9n")]
+        public decimal? RentalDaysPerWeek { get { return dealOrder.RentalDaysPerWeek; } set { dealOrder.RentalDaysPerWeek = value; } }
 
-        [FwLogicProperty(Id: "BXff6f2MEA8a", IsReadOnly: true)]
-        public decimal? RentalDiscountPercent { get; set; }
+        [FwLogicProperty(Id: "BXff6f2MEA8a")]
+        public decimal? RentalDiscountPercent { get { return dealOrder.RentalDiscountPercent; } set { dealOrder.RentalDiscountPercent = value; } }
 
         [FwLogicProperty(Id: "Bw4tAXhRZdYM", IsReadOnly: true)]
         public decimal? WeeklyRentalTotal { get; set; }
@@ -985,8 +985,8 @@ namespace WebApi.Modules.Agent.Order
         public bool? PeriodRentalTotalIncludesTax { get; set; }
 
 
-        [FwLogicProperty(Id: "Jdu2sIAZDX2J", IsReadOnly: true)]
-        public decimal? SalesDiscountPercent { get; set; }
+        [FwLogicProperty(Id: "Jdu2sIAZDX2J")]
+        public decimal? SalesDiscountPercent { get { return dealOrder.SalesDiscountPercent; } set { dealOrder.SalesDiscountPercent = value; } }
 
         [FwLogicProperty(Id: "bJDa8Z222ob2", IsReadOnly: true)]
         public decimal? SalesTotal { get; set; }
@@ -1003,11 +1003,11 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "D7jNMth5sUMc", IsReadOnly: true)]
         public bool? PartsTotalIncludesTax { get; set; }
 
-        [FwLogicProperty(Id: "Txoe4RbbiWIp", IsReadOnly: true)]
-        public decimal? SpaceDaysPerWeek { get; set; }
+        [FwLogicProperty(Id: "Txoe4RbbiWIp")]
+        public decimal? SpaceDaysPerWeek { get { return dealOrder.SpaceDaysPerWeek; } set { dealOrder.SpaceDaysPerWeek = value; } }
 
-        [FwLogicProperty(Id: "gH2PxeqAFsnE", IsReadOnly: true)]
-        public decimal? SpaceDiscountPercent { get; set; }
+        [FwLogicProperty(Id: "gH2PxeqAFsnE")]
+        public decimal? SpaceDiscountPercent { get { return dealOrder.SpaceDiscountPercent; } set { dealOrder.SpaceDiscountPercent = value; } }
 
         [FwLogicProperty(Id: "rHoLXHUatMo7", IsReadOnly: true)]
         public decimal? SpaceSplitPercent { get; set; }
@@ -1356,6 +1356,25 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------ 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+            // load Deal here for use later in this method
+            DealLogic deal = null;
+            string dealId = DealId;
+            if (string.IsNullOrEmpty(dealId))
+            {
+                if ((e.SaveMode.Equals(TDataRecordSaveMode.smUpdate)) && (e.Original != null))
+                {
+                    dealId = ((OrderBaseLogic)e.Original).DealId;
+                }
+            }
+            if (!string.IsNullOrEmpty(dealId))
+            {
+                deal = new DealLogic();
+                deal.SetDependencies(AppConfig, UserSession);
+                deal.DealId = dealId;
+                bool b = deal.LoadAsync<DealLogic>().Result;
+            }
+
+
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 if (string.IsNullOrEmpty(BillingCycleId))
@@ -1370,12 +1389,25 @@ namespace WebApi.Modules.Agent.Order
                     }
                     else
                     {
-                        DealLogic deal = new DealLogic();
-                        deal.SetDependencies(AppConfig, UserSession);
-                        deal.DealId = DealId;
-                        bool b = deal.LoadAsync<DealLogic>().Result;
-                        BillingCycleId = deal.BillingCycleId;
+                        //DealLogic deal = new DealLogic();
+                        //deal.SetDependencies(AppConfig, UserSession);
+                        //deal.DealId = DealId;
+                        //bool b = deal.LoadAsync<DealLogic>().Result;
+                        //BillingCycleId = deal.BillingCycleId;
+                        if (deal != null)
+                        {
+                            BillingCycleId = deal.BillingCycleId;
+                        }
                     }
+                }
+
+                if (deal != null)
+                {
+                    RentalDaysPerWeek = deal.RentalDaysPerWeek;
+                    RentalDiscountPercent = deal.RentalDiscountPercent;
+                    SalesDiscountPercent = deal.SalesDiscountPercent;
+                    SpaceDaysPerWeek = deal.FacilitiesDaysPerWeek;
+                    SpaceDiscountPercent = deal.FacilitiesDiscountPercent;
                 }
 
                 if (!string.IsNullOrEmpty(OrderTypeId))
@@ -1419,6 +1451,7 @@ namespace WebApi.Modules.Agent.Order
                     IsManualSort = orig.IsManualSort;
                 }
             }
+
         }
         //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
