@@ -184,6 +184,7 @@
     <Content Include="Source\Grids\CategoryGrid\CategoryGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryTypeGrid\InventoryTypeGridBrowse.htm" />
     <Content Include="Source\Grids\InventorySequenceSubCategoryGrid\InventorySequenceSubCategoryGridBrowse.htm" />
+    <Content Include="Source\Grids\RateUpdateItemGrid\RateUpdateItemGridBrowse.htm" />
     <Content Include="Source\Grids\SystemNumberGrid\SystemNumberGridBrowse.htm" />
     <Content Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridBrowse.htm" />
     <Content Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridBrowse.htm" />
@@ -355,6 +356,7 @@
     <TypeScriptCompile Include="Source\Grids\CategoryGrid\CategoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryTypeGrid\InventoryTypeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventorySequenceSubCategoryGrid\InventorySequenceSubCategoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RateUpdateItemGrid\RateUpdateItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SystemNumberGrid\SystemNumberGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridController.ts" />
@@ -550,6 +552,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\ManifestReport\ManifestReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusDetailReport\OrderStatusDetailReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusSummaryReport\OrderStatusSummaryReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RateUpdateReport\RateUpdateReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutReport\WarehouseOutReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseDispatchReport\WarehouseDispatchReportController.ts" />
@@ -595,6 +598,7 @@
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferStatus\TransferStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferIn\TransferIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\Container\Container.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\RateUpdateUtility\RateUpdateUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\ChangeOrderStatus\ChangeOrderStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\ChangeICodeUtility\ChangeICodeUtility.ts" />
@@ -1057,6 +1061,7 @@
     <Content Include="Source\Modules\Settings\VendorSettings\VendorClass\VendorClassForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerSettings\CustomerType\CustomerTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\CustomerSettings\CustomerType\CustomerTypeForm.htm" />
+    <Content Include="Source\Modules\Utilities\RateUpdateUtility\RateUpdateUtilityForm.htm" />
     <Content Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtilityForm.htm" />
     <Content Include="Source\Modules\Utilities\RefreshGLHistory\RefreshGLHistoryForm.htm" />
     <Content Include="Source\Modules\Utilities\MigrateOrders\MigrateOrdersForm.htm" />
@@ -1104,6 +1109,7 @@
     <Content Include="Source\Validations\QuikActivityTypeValidation\QuikActivityTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\InventoryChangeTransactionTypeValidation\InventoryChangeTransactionTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\DataExportFormatValidation\DataExportFormatValidationBrowse.htm" />
+    <Content Include="Source\Validations\RateUpdateBatchValidation\RateUpdateBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\RentalInventoryDescriptionValidation\RentalInventoryDescriptionValidationBrowse.htm" />
     <Content Include="Source\Validations\RepairValidation\RepairValidationBrowse.htm" />
     <Content Include="Source\Validations\TransferOrderValidation\TransferOrderValidationBrowse.htm" />

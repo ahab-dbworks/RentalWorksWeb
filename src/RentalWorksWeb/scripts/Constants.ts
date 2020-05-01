@@ -315,9 +315,10 @@ var Constants = {
                     caption: 'Warehouse Reports',
                     nodetype: 'Category',
                     children: {
-                        WarehouseDispatchReport: { id: 'gs5q3h0v0HzXF', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all Warehouse Dispatch Activities for a specific date range.' },
-                        WarehouseInboundReport: { id: 'gQLKq8L9zC32b', caption: 'Warehouse Inbound', nav: 'reports/warehouseinboundreport', nodetype: 'Module', description: 'List all Warehouse Inbound Activities for a specific date range.' },
-                        WarehouseOutboundReport: { id: 'gPuvfa4B1tHuE', caption: 'Warehouse Outbound', nav: 'reports/warehouseoutboundreport', nodetype: 'Module', description: 'List all Warehouse Outbound Activities for a specific date range.' },
+                        RateUpdateReport: {         id: 'Nxb4NonfG10c9', caption: 'Rate Update',        nav: 'reports/rateupdatereport',        nodetype: 'Module', description: 'List all rates updated in a selected Batch.' },
+                        WarehouseDispatchReport: {  id: 'gs5q3h0v0HzXF', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all Warehouse Dispatch Activities for a specific date range.' },
+                        WarehouseInboundReport: {   id: 'gQLKq8L9zC32b', caption: 'Warehouse Inbound',  nav: 'reports/warehouseinboundreport',  nodetype: 'Module', description: 'List all Warehouse Inbound Activities for a specific date range.' },
+                        WarehouseOutboundReport: {  id: 'gPuvfa4B1tHuE', caption: 'Warehouse Outbound', nav: 'reports/warehouseoutboundreport', nodetype: 'Module', description: 'List all Warehouse Outbound Activities for a specific date range.' },
                     }
                 }
             }
@@ -798,6 +799,7 @@ var Constants = {
                 MigrateOrders:             { id: '8NYSNibMVoO',   caption: 'Migrate Orders',          nav: 'module/migrateorders', nodetype: 'Module' },
                 QuikActivityCalendar:      { id: 'yhYOLhLE92IT',  caption: 'QuikActivity Calendar',   nav: 'module/quikactivitycalendar', nodetype: 'Module' },
                 QuikSearch:                { id: '0q9EEmHe5xXO',  caption: 'QuikSearch',              nav: 'module/quiksearch', nodetype: 'Module' },
+                RateUpdateUtility:         { id: 'MUIYTomUGshV',  caption: 'Rate Update Utility',     nav: 'module/rateupdateutility', nodetype: 'Module' },
                 ReceiptProcessBatch:       { id: 'ThKpggGlj1hqd', caption: 'Process Receipts',        nav: 'module/receiptprocessbatch', nodetype: 'Module' },
                 RefreshGLHistory:          { id: 'UuKB0PPalR9p',  caption: 'Refresh G/L History',     nav: 'module/refreshglhistory', nodetype: 'Module' },
                 VendorInvoiceProcessBatch: { id: 'gRjYvLD2qZ6NR', caption: 'Process Vendor Invoices', nav: 'module/vendorinvoiceprocessbatch', nodetype: 'Module' },
@@ -982,6 +984,7 @@ var Constants = {
         PurchaseVendorGrid: { id: '15yjeHiHe1x99', caption: 'Purchase Vendor' },
         PurchaseVendorInvoiceItemGrid: { id: 'NlKSJj2fN0ly', caption: 'Purchase Vendor Invoice Item' },
         QuikActivityGrid: { id: 'yhYOLhLE92IT', caption: 'QuikActivity' },
+        RateUpdateItemGrid: { id: 'QQwyjnERS0Jx', caption: 'Rate Update Item' },
         RateLocationTaxGrid: { id: 'Bm6TN9A4IRIuT', caption: 'Rate Location Tax' },
         RateWarehouseGrid: { id: 'oVjmeqXtHEJCm', caption: 'Rate Warehouse' },
         RentalInventoryWarehouseGrid: { id: 'g8sCuKjUVrW1', caption: 'Rental Inventory Warehouse' },

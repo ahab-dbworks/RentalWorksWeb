@@ -617,3 +617,12 @@ html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbo
 html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr:first-child td div[data-headercontent="Vendor"] { border-top: 2px solid #ffd666 !important; }
 html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr td div[data-browsedatafield="VendorRate"] { border-left: 2px solid #ffd666; }
 html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr td div[data-mappedfield="VendorPeriodExtended"] { border-right: 2px solid #ffd666; }
+
+/*Rate Update Utility*/
+[data-controller="RateUpdateUtilityController"] [data-datafield="AvailableFor"] div.fwformfield-control {display:flex !important;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="AvailableFor"] div.fwformfield-control div[data-value] {margin:auto;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="Classification"] {max-width:170px; margin-left:2em;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="Classification"] ol {min-height:1em !important;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] {max-width:75px; margin-left:1em;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] ol {min-height:1em !important;}
+[data-controller="RateUpdateUtilityController"] [data-datafield="OrderBy"] {max-height :70px; margin-left:2em;}

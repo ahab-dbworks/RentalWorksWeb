@@ -1,12 +1,17 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Text;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.InventoryWarehouse;
+using WebApi.Modules.Utilities.RateUpdateBatch;
+using WebApi.Modules.Utilities.RateUpdateBatchItem;
+using WebApi.Modules.Utilities.RateUpdateItem;
 
 namespace WebApi.Modules.Inventory.Inventory
 {
@@ -96,8 +101,44 @@ namespace WebApi.Modules.Inventory.Inventory
     }
 
 
+    public class ApplyPendingRateUpdateModificationsRequest
+    {
+        public string RateUpdateBatchName { get; set; }
+    }
+    public class ApplyPendingRateUpdateModificationsResponse : TSpStatusResponse
+    {
+        public RateUpdateBatchLogic RateUpdateBatch { get; set; }
+    }
+
     public static class InventoryFunc
     {
+        //-------------------------------------------------------------------------------------------------------
+        public static string GetRateUpdatePendingModificationsWhere()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("(");
+            sb.Append("  (newhourlyrate        <> 0) or ");
+            sb.Append("  (newhourlycost        <> 0) or ");
+            sb.Append("  (newdailyrate         <> 0) or ");
+            sb.Append("  (newdailycost         <> 0) or ");
+            sb.Append("  (newweeklyrate        <> 0) or ");
+            sb.Append("  (newweeklycost        <> 0) or ");
+            sb.Append("  (newweek2rate         <> 0) or ");
+            sb.Append("  (newweek3rate         <> 0) or ");
+            sb.Append("  (newweek4rate         <> 0) or ");
+            sb.Append("  (newweek5rate         <> 0) or ");
+            sb.Append("  (newmonthlyrate       <> 0) or ");
+            sb.Append("  (newmonthlycost       <> 0) or ");
+            sb.Append("  (newmanifestvalue     <> 0) or ");
+            sb.Append("  (newreplacementcost   <> 0) or ");
+            sb.Append("  (newretail            <> 0) or ");
+            sb.Append("  (newprice             <> 0) or ");
+            sb.Append("  (newdefaultcost       <> 0) or ");
+            sb.Append("  (newmaxdiscount       <> 0) or ");
+            sb.Append("  (newmindw             <> 0)    ");
+            sb.Append(")");
+            return sb.ToString();
+        }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<UpdateInventoryQuantityResponse> UpdateInventoryQuantity(FwApplicationConfig appConfig, FwUserSession userSession, UpdateInventoryQuantityRequest request, FwSqlConnection conn = null)
         {
@@ -277,5 +318,178 @@ namespace WebApi.Modules.Inventory.Inventory
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<ApplyPendingRateUpdateModificationsResponse> ApplyPendingModificationsAsync(FwApplicationConfig appConfig, FwUserSession userSession, ApplyPendingRateUpdateModificationsRequest request)
+        {
+            ApplyPendingRateUpdateModificationsResponse response = new ApplyPendingRateUpdateModificationsResponse();
+
+            if (string.IsNullOrEmpty(request.RateUpdateBatchName))
+            {
+                response.msg = "Rate Update Batch Name is required.";
+            }
+            else
+            {
+                // get all of the pending modifications
+                BrowseRequest itemBrowseRequest = new BrowseRequest();
+                itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                itemBrowseRequest.uniqueids.Add("ShowPendingModifications", true);
+
+                RateUpdateItemLogic itemSelector = new RateUpdateItemLogic();
+                itemSelector.SetDependencies(appConfig, userSession);
+                List<RateUpdateItemLogic> items = await itemSelector.SelectAsync<RateUpdateItemLogic>(itemBrowseRequest);
+
+                if (items.Count > 0)
+                {
+                    FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+                    try
+                    {
+                        await conn.OpenAsync();
+                        conn.BeginTransaction();
+
+                        RateUpdateBatchLogic batch = new RateUpdateBatchLogic();
+                        batch.SetDependencies(appConfig, userSession);
+                        batch.RateUpdateBatch = request.RateUpdateBatchName;
+                        batch.UsersId = userSession.UsersId;
+                        batch.Applied = DateTime.Now;
+                        await batch.SaveAsync(conn: conn);
+
+                        string sessionId = userSession.UsersId;
+                        await FwSqlData.StartMeter(conn, appConfig.DatabaseSettings, sessionId, "Applying Rate Modifications", items.Count);
+
+                        foreach (RateUpdateItemLogic i in items)
+                        {
+                            // log this change in the batch
+                            RateUpdateBatchItemLogic batchItem = new RateUpdateBatchItemLogic();
+                            batchItem.SetDependencies(appConfig, userSession);
+                            batchItem.RateUpdateBatchId = batch.RateUpdateBatchId;
+                            batchItem.InventoryId = i.InventoryId;
+                            batchItem.WarehouseId = i.WarehouseId;
+                            batchItem.OldHourlyCost = i.HourlyCost;
+                            batchItem.NewHourlyCost = i.NewHourlyCost;
+                            batchItem.OldHourlyRate = i.HourlyRate;
+                            batchItem.NewHourlyRate = i.NewHourlyRate;
+                            batchItem.OldDailyCost = i.DailyCost;
+                            batchItem.NewDailyCost = i.NewDailyCost;
+                            batchItem.OldDailyRate = i.DailyRate;
+                            batchItem.NewDailyRate = i.NewDailyRate;
+                            batchItem.OldWeeklyCost = i.WeeklyCost;
+                            batchItem.NewWeeklyCost = i.NewWeeklyCost;
+                            batchItem.OldWeeklyRate = i.WeeklyRate;
+                            batchItem.NewWeeklyRate = i.NewWeeklyRate;
+                            batchItem.OldWeek2Rate = i.Week2Rate;
+                            batchItem.NewWeek2Rate = i.NewWeek2Rate;
+                            batchItem.OldWeek3Rate = i.Week3Rate;
+                            batchItem.NewWeek3Rate = i.NewWeek3Rate;
+                            batchItem.OldWeek4Rate = i.Week4Rate;
+                            batchItem.NewWeek4Rate = i.NewWeek4Rate;
+                            batchItem.OldMonthlyCost = i.MonthlyCost;
+                            batchItem.NewMonthlyCost = i.NewMonthlyCost;
+                            batchItem.OldMonthlyRate = i.MonthlyRate;
+                            batchItem.NewMonthlyRate = i.NewMonthlyRate;
+                            //batchItem.OldCost = i.Cost;
+                            //batchItem.NewCost = i.NewCost;
+                            batchItem.OldDefaultCost = i.DefaultCost;
+                            batchItem.NewDefaultCost = i.NewDefaultCost;
+                            batchItem.OldPrice = i.Price;
+                            batchItem.NewPrice = i.NewPrice;
+                            batchItem.OldRetail = i.Retail;
+                            batchItem.NewRetail = i.NewRetail;
+                            batchItem.OldMinDaysPerWeek = i.MinDaysPerWeek;
+                            batchItem.NewMinDaysPerWeek = i.NewMinDaysPerWeek;
+                            batchItem.OldMaxDiscount = i.MaxDiscount;
+                            batchItem.NewMaxDiscount = i.NewMaxDiscount;
+                            batchItem.OldUnitValue = i.UnitValue;
+                            batchItem.NewUnitValue = i.NewUnitValue;
+                            batchItem.OldReplacementCost = i.ReplacementCost;
+                            batchItem.NewReplacementCost = i.NewReplacementCost;
+                            await batchItem.SaveAsync(conn: conn);
+
+                            InventoryWarehouseLogic iwOrig = new InventoryWarehouseLogic();
+                            iwOrig.SetDependencies(appConfig, userSession);
+                            iwOrig.InventoryId = i.InventoryId;
+                            iwOrig.WarehouseId = i.WarehouseId;
+                            await iwOrig.LoadAsync<InventoryWarehouseLogic>(conn);
+
+                            InventoryWarehouseLogic iwNew = new InventoryWarehouseLogic();
+                            iwNew.SetDependencies(appConfig, userSession);
+                            iwNew.InventoryId = i.InventoryId;
+                            iwNew.WarehouseId = i.WarehouseId;
+                            iwNew.HourlyCost = i.NewHourlyCost;
+                            iwNew.HourlyRate = i.NewHourlyRate;
+                            iwNew.DailyCost = i.NewDailyCost;
+                            iwNew.DailyRate = i.NewDailyRate;
+                            iwNew.WeeklyCost = i.NewWeeklyCost;
+                            iwNew.WeeklyRate = i.NewWeeklyRate;
+                            iwNew.Week2Rate = i.NewWeek2Rate;
+                            iwNew.Week3Rate = i.NewWeek3Rate;
+                            iwNew.Week4Rate = i.NewWeek4Rate;
+                            iwNew.MonthlyCost = i.NewMonthlyCost;
+                            iwNew.MonthlyRate = i.NewMonthlyRate;
+                            //iwNew.Cost = i.NewCost;
+                            iwNew.DefaultCost = i.NewDefaultCost;
+                            iwNew.Price = i.NewPrice;
+                            iwNew.Retail = i.NewRetail;
+                            //iwNew.MinDaysPerWeek = i.NewMinDaysPerWeek;
+                            iwNew.MaximumDiscount = i.NewMaxDiscount;
+                            iwNew.UnitValue = i.NewUnitValue;
+                            iwNew.ReplacementCost = i.NewReplacementCost;
+                            await iwNew.SaveAsync(original: iwOrig, conn: conn);
+
+                            // clear the pending modification
+                            RateUpdateItemLogic item = new RateUpdateItemLogic();
+                            item.SetDependencies(appConfig, userSession);
+                            item.InventoryId = i.InventoryId;
+                            item.WarehouseId = i.WarehouseId;
+                            item.NewHourlyCost = 0;
+                            item.NewHourlyRate = 0;
+                            item.NewDailyCost = 0;
+                            item.NewDailyRate = 0;
+                            item.NewWeeklyCost = 0;
+                            item.NewWeeklyRate = 0;
+                            item.NewWeek2Rate = 0;
+                            item.NewWeek3Rate = 0;
+                            item.NewWeek4Rate = 0;
+                            item.NewMonthlyCost = 0;
+                            item.NewMonthlyRate = 0;
+                            //item.NewCost = 0;
+                            item.NewDefaultCost = 0;
+                            item.NewPrice = 0;
+                            item.NewRetail = 0;
+                            item.NewMinDaysPerWeek = 0;
+                            item.NewMaxDiscount = 0;
+                            item.NewUnitValue = 0;
+                            item.NewReplacementCost = 0;
+                            await item.SaveAsync(original: i, conn: conn);
+
+                            await FwSqlData.StepMeter(conn, appConfig.DatabaseSettings, sessionId);
+                        }
+
+                        await FwSqlData.FinishMeter(conn, appConfig.DatabaseSettings, sessionId);
+                        response.success = true;
+                        response.RateUpdateBatch = batch;
+                    }
+                    finally
+                    {
+                        if (response.success)
+                        {
+                            conn.CommitTransaction();
+                        }
+                        else
+                        {
+                            conn.RollbackTransaction();
+                        }
+                        conn.Close();
+                    }
+                }
+                else
+                {
+                    response.msg = "There are no pending modifications to apply.";
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
+
     }
 }
