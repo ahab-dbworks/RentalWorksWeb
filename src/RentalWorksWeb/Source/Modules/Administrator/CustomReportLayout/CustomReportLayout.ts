@@ -373,68 +373,64 @@ class CustomReportLayout {
                         for (let i = 0; i < $rows.length; i++) {
                             const $row = jQuery($rows[i]);
                             const rowType = $row.attr('data-row');
-                            if (rowType == 'detail' || rowType == 'footer') {
-                                const $tds = $row.find('td');
-                                let $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
+                            const $designerRow = jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]);
+                            const $designerTds = $designerRow.find('td');
+                            const $designerTd = $designerRow.find(`[data-linkedcolumn="${valuefield}"]`);
+                            const $tds = $row.find('td');
+                            if (rowType == 'detail') {
+                                const $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
                                 if ($movedTd.length) {
-                                    const $designerTd = jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).find(`[data-value="{{${valuefield}}}"]`);
-                                    const $designerTds = jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).find('td');
-                                    if (rowType == 'detail') {
-                                        if (oldIndex > newIndex) {
-                                            if (newIndex != 0) {
-                                                $movedTd.insertBefore($tds[newIndex]);
-                                                $designerTd.insertBefore($designerTds[newIndex]);
-                                            } else {
-                                                $movedTd.insertBefore($tds[newIndex]);
-                                                $designerTd.insertBefore($designerTds[newIndex]);
-                                            }
+                                    if (oldIndex > newIndex) {
+                                        if (newIndex != 0) {
+                                            $movedTd.insertBefore($tds[newIndex]);
+                                            $designerTd.insertBefore($designerTds[newIndex]);
                                         } else {
-                                            if ((newIndex + 1) == this.TotalColumnCount) {
-                                                $movedTd.insertAfter($tds[newIndex]);
-                                                $designerTd.insertAfter($designerTds[newIndex]);
-                                            } else {
-                                                $movedTd.insertAfter($tds[newIndex]);
-                                                $designerTd.insertAfter($designerTds[newIndex]);
+                                            $movedTd.insertBefore($tds[newIndex]);
+                                            $designerTd.insertBefore($designerTds[newIndex]);
+                                        }
+                                    } else {
+                                        if ((newIndex + 1) == this.TotalColumnCount) {
+                                            $movedTd.insertAfter($tds[newIndex]);
+                                            $designerTd.insertAfter($designerTds[newIndex]);
+                                        } else {
+                                            $movedTd.insertAfter($tds[newIndex]);
+                                            $designerTd.insertAfter($designerTds[newIndex]);
+                                        }
+                                    }
+                                }
+                            } else if (rowType == 'footer') {
+                                const totalNameColSpan = parseInt($designerTds.filter('.total-name').attr('colspan'));
+                                if ($designerTd.length) {
+                                    if ($designerTd.hasClass('empty-td')) {
+                                        const totalNameIndex = $designerTds.filter('.total-name').index();
+                                        let footerRowIndex = newIndex;
+                                        const $movedTd = $row.find(`[data-linkedcolumn="${valuefield}"]`);
+                                        if (oldIndex > newIndex) {
+
+                                            if (footerRowIndex <= (totalNameColSpan)) {
+                                                $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                $designerTd.remove();
                                             }
                                         }
                                     }
-
-                                    //move footer rows wip
-                                    //if (rowType == 'footer') {
-                                    //    const totalNameColSpan = parseInt($designerTds.filter('.total-name').attr('colspan'));
-                                    //    const totalNameIndex = $designerTds.filter('.total-name').index();
-                                    //    let footerRowIndex = newIndex;
-                                    //    if (oldIndex > newIndex) {
-                                    //        if (totalNameIndex < footerRowIndex) {
-                                    //            footerRowIndex -= (totalNameColSpan - 1);
-                                    //        }
-
-                                    //        if (footerRowIndex != 0) {
-                                    //            $movedTd.insertBefore($tds[footerRowIndex]);
-                                    //            $designerTd.insertBefore($designerTds[footerRowIndex]);
-                                    //        } else {
-                                    //            $movedTd.insertBefore($tds[footerRowIndex]);
-                                    //            $designerTd.insertBefore($designerTds[footerRowIndex]);
-                                    //        }
-                                    //    } else {
-                                    //        if ((newIndex + 1) == this.TotalColumnCount) {
-                                    //            $movedTd.insertAfter($tds[footerRowIndex]);
-                                    //            $designerTd.insertAfter($designerTds[footerRowIndex]);
-                                    //        } else {
-                                    //            $movedTd.insertAfter($tds[footerRowIndex]);
-                                    //            $designerTd.insertAfter($designerTds[footerRowIndex]);
-                                    //        }
-                                    //    }
-                                    //    footerCount++;
-                                    //}
+                                } else { //it wont find a designertd if it merged into a footer total-name column
+                                    const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${valuefield}"></td>`);
+                                    let footerRowIndex = newIndex;
+                                    if (oldIndex < newIndex) {
+                                        if (newIndex > totalNameColSpan) {
+                                            $designerTds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
+                                            footerRowIndex = newIndex - (totalNameColSpan - 1);
+                                            $newTd.clone().insertAfter($tds[footerRowIndex]);
+                                            $newTd.insertAfter($designerTds[footerRowIndex]);
+                                        }
+                                    }
                                 }
+                                footerCount++;
                             }
-
                         }
                     }
                     $form.removeData('columnsmoved');
                 }
-
 
                 //change value field
                 if (typeof $form.data('changevaluefield') != 'undefined') {
@@ -473,8 +469,8 @@ class CustomReportLayout {
                             const $designerTableRow = jQuery($table.find(`${rowSelector}`)[i]);
                             this.matchColumnCount($form, $table, $row, $designerTableRow);
                         } else if (rowType == 'footer') {
-                            jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).append(`<td data-linkedcolumn="${valueField}"></td>`); //add to row on designer
-                            $row.append(jQuery(`<td data-linkedcolumn="${valueField}"></td>`));
+                            jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).append(`<td class="empty-td" data-linkedcolumn="${valueField}"></td>`); //add to row on designer
+                            $row.append(jQuery(`<td class="empty-td" data-linkedcolumn="${valueField}"></td>`));
                             footerCount++;
                         }
                     }
@@ -696,7 +692,8 @@ class CustomReportLayout {
         for (let i = 0; i < $ths.length; i++) {                                                 //to add a new total field
             const $th = jQuery($ths[i]);
             const linkedColumn = $th.attr('data-valuefield');
-            $table.find(`[data-value="{{${linkedColumn}}}"]`).attr('data-linkedColumn', linkedColumn);
+            $table.find(`[data-value="{{${linkedColumn}}}"]`)
+                .attr('data-linkedcolumn', linkedColumn);
         }
     }
     //----------------------------------------------------------------------------------------------
