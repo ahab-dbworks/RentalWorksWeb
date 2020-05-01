@@ -70,26 +70,6 @@ class CustomReportLayout {
         //for retaining position in code editor after saving
         $form.find('[data-datafield="Html"]').addClass('reload');
 
-        //const $customForm = $form.find(`#designerContent`);
-        //const $fields = $customForm.find('.fwformfield');
-        //let hasDuplicates: boolean = false;
-        //$fields.each(function (i, e) {
-        //    const $fwFormField = jQuery(e);
-        //    const dataField = $fwFormField.attr('data-datafield');
-        //    if (dataField != "") {
-        //        const $fieldFound = $customForm.find(`[data-datafield="${dataField}"][data-enabled="true"]`);
-        //        if ($fieldFound.length > 1) {
-        //            $fieldFound.addClass('error');
-        //            hasDuplicates = true;
-        //            FwNotification.renderNotification('ERROR', 'Only one duplicate field can be active on a form.  Set the data-enabled property to false on duplicates.');
-        //            return false;
-        //        } else {
-        //            $customForm.find(`[data-datafield="${dataField}"]`).removeClass('error');
-        //        }
-        //    }
-        //})
-
-        //if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
@@ -367,8 +347,8 @@ class CustomReportLayout {
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
         });
+        this.linkColumns($form, $table);
         this.designerEvents($form, $table);
-        //this.addDataFieldSelect($form);
     }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, $tr: JQuery, $th?) {
@@ -449,7 +429,7 @@ class CustomReportLayout {
                                     //}
                                 }
                             }
-                           
+
                         }
                     }
                     $form.removeData('columnsmoved');
@@ -477,25 +457,6 @@ class CustomReportLayout {
                     $form.removeData('changevaluefield');
                 }
 
-                ////change HasTotal field  -- add/remove cells based on this value?
-                //if (typeof $form.data('changehastotal') != 'undefined') {
-                //    let footerCount = 0;
-                //    for (let i = 0; i < $rows.length; i++) {
-                //        const $row = jQuery($rows[i]);
-                //        const rowType = $row.attr('data-row');
-                //        const hasTotal = $form.data('changehastotal');
-                //        if (rowType == 'footer') {
-                //            const $td = $row.find(`[data-value="<!--{{${hasTotal.valuefield}}}-->"]`);
-                //            if (!$td.length && hasTotal.value) {
-                //                const totalColumn = jQuery(`<td class="total-val" data-value="{{${hasTotal.valuefield}}}"></td>`);
-                //            }
-
-                //            footerCount++;
-                //        }
-                //    }
-                //    $form.removeData('changehastotal');
-                //}
-
                 //add
                 if (typeof $form.data('addcolumn') != 'undefined') {
                     const newColumnData = $form.data('addcolumn');
@@ -504,22 +465,17 @@ class CustomReportLayout {
                     for (let i = 0; i < $rows.length; i++) {
                         const $row = jQuery($rows[i]);
                         const rowType = $row.attr('data-row');
-                        //if (rowType == 'detail') {  //only adds to detail row, increases colspan for header & footer rows
-                        //    const $td = jQuery(`<td data-value="<!--{{${valueField}}}-->"></td>`);
-                        //    $row.append($td);  //add to row in wrapper (memory)
-                        //    $table.find(`${rowSelector}[data-row="${rowType}"]`).append(`<td data-value="{{${valueField}}}"></td>`); //add to row on designer
-                        //} else {   //to-do: add extra options on property section for adding new columns to header/footer rows 
-                        //    const $designerTableRow = jQuery($table.find(`${rowSelector}`)[i]);
-                        //    this.matchColumnCount($form, $table, $row, $designerTableRow);
-                        //}
-
-                        if (rowType == 'detail' || rowType == 'footer') {
+                        if (rowType == 'detail') {
                             const $td = jQuery(`<td data-value="<!--{{${valueField}}}-->"></td>`);
-                            $row.append($td);
-                            jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).append(`<td class="total-val" data-value="{{${valueField}}}"></td>`);
-                            if (rowType == 'footer') {
-                                footerCount++;
-                            }
+                            $row.append($td);  //add to row in wrapper (memory)
+                            $table.find(`${rowSelector}[data-row="${rowType}"]`).append(`<td data-linkedcolumn="${valueField}" data-value="{{${valueField}}}"></td>`); //add to row on designer
+                        } else if (rowType == 'header') {
+                            const $designerTableRow = jQuery($table.find(`${rowSelector}`)[i]);
+                            this.matchColumnCount($form, $table, $row, $designerTableRow);
+                        } else if (rowType == 'footer') {
+                            jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).append(`<td data-linkedcolumn="${valueField}"></td>`); //add to row on designer
+                            $row.append(jQuery(`<td data-linkedcolumn="${valueField}"></td>`));
+                            footerCount++;
                         }
                     }
                     $form.removeData('addcolumn');
@@ -576,7 +532,7 @@ class CustomReportLayout {
 
         //add header column
         $addColumn.on('click', e => {
-            $column = jQuery(`<th data-valuefield="NewColumn${newColumnNumber}" data-hastotal="true">New Column</th>`);
+            $column = jQuery(`<th data-linkedcolumn="NewColumn${newColumnNumber}" data-valuefield="NewColumn${newColumnNumber}">New Column</th>`);
             $table.find('#columnHeader tr').append($column);
             this.TotalColumnCount++;
             $form.data('sectiontoupdate', 'tableheader');
@@ -588,9 +544,11 @@ class CustomReportLayout {
         $form.on('click', '#reportDesigner table thead#columnHeader tr th', e => {
             $column = jQuery(e.currentTarget);
             $form.data('sectiontoupdate', 'tableheader');
-            //$form.find('#controlProperties').empty().append(this.addControlProperties($column));
             $form.find('#controlProperties').show();
             this.setControlValues($form, $column);
+            const linkedColumn = $column.attr('data-valuefield');
+            $table.find('tbody td[data-linkedcolumn]').removeClass('highlight-cells');
+            $table.find(`tbody td[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight-cells');
         });
 
         //control properties events
@@ -606,10 +564,6 @@ class CustomReportLayout {
                     const oldField = $column.attr('data-valuefield');
                     $column.attr('data-valuefield', value);
                     $form.data('changevaluefield', { oldfield: oldField, newfield: value });
-                    break;
-                case 'HasTotal':
-                    $column.attr('data-hastotal', value);
-                    $form.data('changehastotal', { valuefield: $column.attr('data-valuefield'), value: value, index: jQuery($column).cellIndex });
                     break;
             }
             const section = $form.data('sectiontoupdate');
@@ -668,7 +622,6 @@ class CustomReportLayout {
     setControlValues($form: JQuery, $column: JQuery) {
         FwFormField.setValueByDataField($form, 'CaptionField', $column.text(), $column.text());
         FwFormField.setValueByDataField($form, 'ValueField', $column.attr('data-valuefield'), $column.attr('data-valuefield'));
-        FwFormField.setValueByDataField($form, 'HasTotal', $column.attr('data-hastotal') || false);
     }
     //----------------------------------------------------------------------------------------------
     getTotalColumnCount($table: JQuery, isTableHeader: boolean, $row?: JQuery) {
@@ -735,6 +688,15 @@ class CustomReportLayout {
 
                 this.matchColumnCount($form, $table, $row, $designerTableRow);
             }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    linkColumns($form: JQuery, $table: JQuery) {                                                //added additional attribute (designer-only) to link table headers with tds 
+        const $ths = $table.find('#columnHeader tr th');                                        //because blank footer total tds need to be linked without actually having
+        for (let i = 0; i < $ths.length; i++) {                                                 //to add a new total field
+            const $th = jQuery($ths[i]);
+            const linkedColumn = $th.attr('data-valuefield');
+            $table.find(`[data-value="{{${linkedColumn}}}"]`).attr('data-linkedColumn', linkedColumn);
         }
     }
     //----------------------------------------------------------------------------------------------
