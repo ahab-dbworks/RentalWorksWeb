@@ -649,8 +649,18 @@
                 $confirmation = FwConfirmation.renderConfirmation('Options', '<div class="exceptionbuttons"></div>');
                 $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
 
+                $confirmation.find('.exceptionbuttons').append('<div class="tagfinder">Tag Finder</div>');
                 $confirmation.find('.exceptionbuttons').append('<div class="clear">Clear item?</div>');
 
+                $confirmation.on('click', '.tagfinder', () => {
+                    try {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        const recorddata = $this.data('recorddata');
+                        RwRFID.startTagFinder(recorddata.rfid);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 $confirmation.on('click', '.clear', function() {
                     var request;
                     request = {
@@ -2089,7 +2099,15 @@
                     RwRFID.isConnected = false;
                     screen.toggleRfid();
                 });
-                // setup TSL RFID Reader
+                RwRFID.registerEvents(screen.rfidscan);
+            }
+            if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
+                window.ZebraRFIDAPI3.registerListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen', function () {
+                    screen.toggleRfid();
+                });
+                window.ZebraRFIDAPI3.registerListener('deviceDisconnected', 'deviceDisconnected_checkincontrollerjs_getCheckInScreen', function () {
+                    screen.toggleRfid();
+                });
                 RwRFID.registerEvents(screen.rfidscan);
             }
 
@@ -2120,6 +2138,11 @@
             if (typeof window.TslReader !== 'undefined') {
                 window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen');
                 window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_checkincontrollerjs_getCheckInScreen');
+                RwRFID.unregisterEvents();
+            }
+            if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
+                window.ZebraRFIDAPI3.unregisterListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen');
+                window.ZebraRFIDAPI3.unregisterListener('deviceDisconnected', 'deviceDisconnected_checkincontrollerjs_getCheckInScreen');
                 RwRFID.unregisterEvents();
             }
             jQuery(window).off('scroll').off('touchmove');
