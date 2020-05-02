@@ -1,7 +1,6 @@
 class QCClass {
     getQCScreen(viewModel, properties) {
-        var combinedViewModel, screen, $search, $item, $itemstatus;
-        combinedViewModel = jQuery.extend({
+        let combinedViewModel = jQuery.extend({
             captionPageTitle:   RwLanguages.translate('QC'),
             captionBarCode:     RwLanguages.translate('Bar Code'),
             captionICodeDesc:   RwLanguages.translate('I-Code'),
@@ -15,12 +14,12 @@ class QCClass {
             captionRFIDButton:   RwLanguages.translate('RFID')
         }, viewModel);
         combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-QC').html(), combinedViewModel);
-        screen = {};
+        let screen: any = {};
         screen.$view = FwMobileMasterController.getMasterView(combinedViewModel);
 
-        $search     = screen.$view.find('.qc-search');
-        $item       = screen.$view.find('.qc-item');
-        $itemstatus = screen.$view.find('.qc-item-status');
+        const $search: any    = screen.$view.find('.qc-search');
+        const $item: any      = screen.$view.find('.qc-item');
+        const $itemstatus: any = screen.$view.find('.qc-item-status');
 
         screen.$view.find('#qccontrol').fwmobilemodulecontrol({
             buttons: [
@@ -51,17 +50,24 @@ class QCClass {
         });
 
         screen.onScanBarcode = (barcode: string, barcodetype: string, callback: (response: any) => void) => {
+            screen.resetscreen();
+            screen.itemScan(barcode, callback);
+        }
+
+        screen.itemScan = (barcode: string, callback: (response: any) => void) => {;
             let request = {
                 code: barcode
             };
-            RwServices.callMethod('QC', 'ItemScan', request, function(response) {
+            RwServices.callMethod('QC', 'ItemScan', request, function (response) {
                 callback(response);
                 $item.resetitem();
+                $itemstatus.show();
                 $itemstatus.loadvalues(response.qcitem.status, response.qcitem.msg);
                 if (response.qcitem.status === 0) $item.showscreen(response);
             });
-            
         }
+
+
 
         $search.on('change', '.fwmobilecontrol-value', function() {
             try {
@@ -239,7 +245,127 @@ class QCClass {
                     $this.remove();
                 });
             })
-        ;
+            ;
+
+        var $rfiditems = screen.$view.find('.qc-rfiditems');
+        screen.resetscreen = function () {
+            $rfiditems.empty();
+            $rfiditems.hide();
+            $itemstatus.hide();
+            $item.hide();
+            //if (typeof $rfiditems.$back !== 'undefined') $rfiditems.$back.remove();
+            //$itemdetails.hide();
+            //$error.hide();
+
+        };
+        screen.rfidscan = function (epcs) {
+            screen.$view.find('.fwmobilecontrol-value').val('');
+            if (epcs !== '') {
+                screen.resetscreen();
+                RwServices.callMethod('ItemStatus', 'ItemStatusRFID', { tags: epcs }, function (response) {
+                    var $item, html: string[] | string = [];
+
+                    html.push('<div class="rfid-item">');
+                    html.push('  <div class="rfid-item-title"></div>');
+                    html.push('  <div class="rfid-item-info">');
+                    html.push('    <div class="rfid-data rfid">');
+                    html.push('      <div class="item-caption">RFID:</div>');
+                    html.push('      <div class="item-value"></div>');
+                    html.push('    </div>');
+                    html.push('    <div class="rfid-data barcode">');
+                    html.push('      <div class="item-caption">Barcode:</div>');
+                    html.push('      <div class="item-value"></div>');
+                    html.push('    </div>');
+                    html.push('    <div class="rfid-data message">');
+                    html.push('      <div class="item-caption">Status:</div>');
+                    html.push('      <div class="item-value"></div>');
+                    html.push('    </div>');
+                    html.push('    <div class="rfid-data qcrequired">');
+                    html.push('      <div class="item-caption">QC Required:</div>');
+                    html.push('      <div class="item-value"></div>');
+                    html.push('    </div>');
+                    html.push('  </div>');
+                    html.push('</div>');
+
+                    $rfiditems.show();
+                    let exceptionCount = 0;
+
+                    // sort the list so the qcrequired items are at the top
+                    response.items.sort((a, b) => {
+                        const qcrequiredForA = (a.qcrequired === 'T');
+                        const qcrequiredForB = (b.qcrequired === 'T');
+                        if (qcrequiredForA && !qcrequiredForB) {
+                            return -1;
+                        }
+                        else if (qcrequiredForA && qcrequiredForB) {
+                            return 0;
+                        }
+                        else if (!qcrequiredForA && qcrequiredForB) {
+                            return 1;
+                        }
+                    })
+
+                    html = html.join('\n');
+                    const $itemtemmplate = jQuery(html);
+                    for (var i = 0; i < response.items.length; i++) {
+                        $item = $itemtemmplate.clone();
+                        const hasException = (response.items[i].rentalstatus === '');
+                        hasException ? $item.addClass('exception') : $item.addClass('item');
+                        if (hasException) {
+                            exceptionCount++;
+                        }
+                        const qcrequired = (response.items[i].qcrequired === 'T');
+                        if (qcrequired) {
+                            $item.addClass('qcrequired');
+                        }
+
+                        $item.find('.rfid-item-title').html(response.items[i].title);
+                        $item.find('.rfid-data.rfid .item-value').html(response.items[i].tag);
+                        $item.find('.rfid-data.barcode .item-value').html((response.items[i].barcode !== '') ? response.items[i].barcode : '-');
+                        $item.find('.rfid-data.message .item-value').html(response.items[i].rentalstatus);
+                        $item.find('.rfid-data.qcrequired .item-value').html(qcrequired ? "YES" : "NO");
+                        
+
+                        $item.data('recorddata', response.items[i]);
+
+                        $rfiditems.append($item);
+                    }
+
+                    if (response.items.length === 0) {
+                        $rfiditems.append('<div class="norecords">0 records found</div>');
+                    }
+
+                    if (exceptionCount > 0 && RwRFID.isRFIDAPI3) {
+                        let toSay = `${response.items.length.toString()} tag`;
+                        if (response.items.length > 1) {
+                            toSay += 's';
+                        }
+                        toSay += `, ${exceptionCount.toString()} exception`;
+                        if (exceptionCount > 1) {
+                            toSay += 's'
+                        }
+                        window.ZebraRFIDAPI3.speak(toSay);
+                    }
+
+                    $rfiditems.on('click', '.rfid-item', (e: JQuery.ClickEvent) => {
+                        const $rfiditem = jQuery(e.currentTarget);
+                        const $contextMenu = FwContextMenu.render('RFID', null);
+                        const qcrequired = $rfiditem.data('recorddata').qcrequired === 'T';
+                        if (qcrequired) {
+                            FwContextMenu.addMenuItem($contextMenu, 'QC Item', (e: JQuery.ClickEvent) => {
+                                $rfiditems.hide();
+                                screen.itemScan($rfiditem.data('recorddata').tag, (response: any) => {
+
+                                });
+                            });
+                        }
+                        FwContextMenu.addMenuItem($contextMenu, 'Tag Finder', (e: JQuery.ClickEvent) => {
+                            RwRFID.startTagFinder($rfiditem.data('recorddata').tag);
+                        });
+                    });
+                });
+            }
+        };
 
         screen.load = function() {
             program.setScanTarget('.fwmobilecontrol-value');
