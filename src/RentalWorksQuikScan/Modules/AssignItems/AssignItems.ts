@@ -414,7 +414,7 @@
                 }
             }
         });
-        if (RwRFID.isConnected) {
+        if (RwRFID.isConnected && RwRFID.isTsl) {
             moduleControlButtons.push({
                 caption: '',
                 orientation: 'right',
@@ -642,21 +642,10 @@
 
         screen.load = function() {
             $search.showscreen();
-            if (typeof window.TslReader !== 'undefined') {
-                window.TslReader.registerListener('deviceConnected', 'deviceConnected_unassigneditemscontrollerjs_getUnassignedItemsScreen', function() {
-                    RwRFID.isConnected = true;
-                });
-                window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_unassigneditemscontrollerjs_getUnassignedItemsScreen', function() {
-                    RwRFID.isConnected = false;
-                });
-            }
         };
 
         screen.unload = function () {
-            if (typeof window.TslReader !== 'undefined') {
-                window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_unassigneditemscontrollerjs_getUnassignedItemsScreen');
-                window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_unassigneditemscontrollerjs_getUnassignedItemsScreen');
-            }
+
         };
     
         return screen;

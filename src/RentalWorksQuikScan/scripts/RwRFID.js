@@ -1,8 +1,9 @@
-﻿var RwRFID = {
+var RwRFID = {
     isConnected: false,
     isPerformingSoftwareSinglePress: false,
     zebraTriggerMode: 'BARCODE',
     isRFIDAPI3: true
+    isTsl: false
 };
 //----------------------------------------------------------------------------------------------
 RwRFID.init = function() {
@@ -10,6 +11,7 @@ RwRFID.init = function() {
     applicationOptions = program.getApplicationOptions();
     if ((typeof window.TslReader === 'object') && (typeof applicationOptions.rfid !== 'undefined') && (applicationOptions.rfid.enabled)) {
         window.TslReader.isConnected(function isConnectedSuccess(result) {
+            RwRFID.isTsl = true;
             RwRFID.isConnected = result[1];
             if (!RwRFID.isConnected) {
                 window.TslReader.connectDevice();

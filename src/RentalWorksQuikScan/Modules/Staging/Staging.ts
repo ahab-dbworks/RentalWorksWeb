@@ -3168,12 +3168,11 @@ class StagingControllerClass {
             
                 window.TslReader.registerListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen', function() {
                     //FwNotification.renderNotification('INFO', 'Staging: RFID Connected');
-                    RwRFID.isConnected = true;
                     screen.toggleRfid();
                 });
                 window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen', function() {
                     //FwNotification.renderNotification('INFO', 'Staging: RFID Disconnected');
-                    RwRFID.isConnected = false;
+                    screen.toggleRfid();
                     screen.toggleRfid();
                 });
             }

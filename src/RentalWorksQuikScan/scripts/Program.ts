@@ -212,6 +212,7 @@ class Program extends FwApplication {
                         if (typeof window.TslReader.startListening === 'function') {
                             window.TslReader.startListening();
                             window.TslReader.registerListener('deviceConnected', 'deviceConnected_programts', function () {
+                                RwRFID.isTsl = true;
                                 RwRFID.isConnected = true;
                                 program.showRfidStatusIcon = true;
                                 FwMobileMasterController.generateDeviceStatusIcons();
@@ -224,6 +225,7 @@ class Program extends FwApplication {
                                     (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision === 4 && program.browserVersionBuild >= 2)) {
                                     //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
                                     RwRFID.isConnected = false;
+                                    RwRFID.isTsl = false;
                                 } else {
                                     // the TSL plugin was firing this event for any connected device, so this was firing incorrectly when linea was unplugged.
                                     if (RwRFID.isConnected === true) {
