@@ -237,7 +237,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
 
                     for (var i = 0; i < response.items.length; i++) {
                         $item = jQuery(html.join(''));
-                        hasException = (response.items[i].rentalstatus === '');
+                        const hasException = (response.items[i].rentalstatus === '');
                         hasException ? $item.addClass('exception') : $item.addClass('item');
                         if (hasException) {
                             exceptionCount++;
@@ -257,16 +257,18 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                         $rfiditems.append('<div class="norecords">0 records found</div>');
                     }
 
-                    if (exceptionCount > 0 && RwRFID.isRFIDAPI3) {
+                    if (RwRFID.isRFIDAPI3) {
                         let toSay = `${response.items.length.toString()} tag`;
                         if (response.items.length > 1) {
                             toSay += 's';
                         }
-                        toSay += `, ${exceptionCount.toString()} exception`;
-                        if (exceptionCount > 1) {
-                            toSay += 's'
+                        if (exceptionCount > 0) {
+                            toSay += `, ${exceptionCount.toString()} exception`;
+                            if (exceptionCount > 1) {
+                                toSay += 's'
+                            }
+                            window.ZebraRFIDAPI3.speak(toSay);
                         }
-                        window.ZebraRFIDAPI3.speak(toSay);
                     }
                 }
             });
