@@ -1,8 +1,8 @@
-var RwRFID = {
+﻿var RwRFID = {
     isConnected: false,
     isPerformingSoftwareSinglePress: false,
     zebraTriggerMode: 'BARCODE',
-    isRFIDAPI3: true
+    isRFIDAPI3: false,
     isTsl: false
 };
 //----------------------------------------------------------------------------------------------
@@ -15,6 +15,15 @@ RwRFID.init = function() {
             RwRFID.isConnected = result[1];
             if (!RwRFID.isConnected) {
                 window.TslReader.connectDevice();
+            }
+        });
+    }
+    if ((typeof window.ZebraRFIDAPI3 === 'object') && (typeof applicationOptions.rfid !== 'undefined') && (applicationOptions.rfid.enabled)) {
+        window.ZebraRFIDAPI3.isConnected(isConnected => {
+            RwRFID.isRFIDAPI3 = true;
+            RwRFID.isConnected = isConnected;
+            if (!RwRFID.isConnected) {
+                window.ZebraRFIDAPI3.connectDevice();
             }
         });
     }
@@ -90,6 +99,7 @@ RwRFID.registerEvents = function(callbackfunction) {
         window.ZebraRFIDAPI3.registerListener('beginResume', 'beginResume_rwrfidjs', function (deviceManufacturer, deviceModel, androidSdkVersion) {
             try {
                 if (deviceManufacturer === 'Zebra Technologies' && deviceModel === 'MC33') {
+                    RwRFID.isConnected = true;
                     RwRFID.isRFIDAPI3 = true;
                     RwRFID.showRFIDNotification('Configuring scanner...', false);
                 }
@@ -106,21 +116,21 @@ RwRFID.registerEvents = function(callbackfunction) {
                 FwFunc.showError(ex);
             }
         });
-        window.ZebraRFIDAPI3.registerListener('emdkScannerStatus', 'endResume_rwrfidjs', function (scannerStatus) {
-            //RwRFID.showRFIDNotification(scannerStatus, true);
-        });
+        //window.ZebraRFIDAPI3.registerListener('emdkScannerStatus', 'endResume_rwrfidjs', function (scannerStatus) {
+        //    //RwRFID.showRFIDNotification(scannerStatus, true);
+        //});
         window.ZebraRFIDAPI3.registerListener('emdkKeyPressed', 'emdkKeyPressed_rwrfidjs', function (keyCode) {
             switch (keyCode) {
                 case "MC33-P1":
-                    window.ZebraRFIDAPI3.toggleTriggerMode(
-                        /* successs */
-                        (args) => {
-                            const triggerMode = args[0];
-                            window.ZebraRFIDAPI3.speak(triggerMode, () => {});
-                            RwRFID.zebraTriggerMode = triggerMode;
-                            RwRFID.showRFIDNotification(triggerMode, true);
-                        }, null
-                    );
+                    //window.ZebraRFIDAPI3.toggleTriggerMode(
+                    //    /* successs */
+                    //    (args) => {
+                    //        const triggerMode = args[0];
+                    //        window.ZebraRFIDAPI3.speak(triggerMode, () => {});
+                    //        RwRFID.zebraTriggerMode = triggerMode;
+                    //        RwRFID.showRFIDNotification(triggerMode, true);
+                    //    }, null
+                    //);
                     break;
                 case "MC33-P2":
                     if (jQuery('.fwcontextmenu').length > 0) {
@@ -257,9 +267,9 @@ RwRFID.startTagFinder = function (tag) {
     html.push('<div style="text-align:center">');
     html.push(`  <div>Tag Finder</div>`);
     html.push(`  <div class="tag" style="font-size:9px;">${tag}</div>`);
-    html.push(`  <div>Distance: <span class="distance">0</span>%</div>`);
+    //html.push(`  <div>Distance: <span class="distance">0</span>%</div>`);
     html.push(`  <progress class="progress" value="0" max="100"></progress>`);
-    html.push('  <div id="slider" style="margin:48px 32px 32px 32px;"></div>');
+    //html.push('  <div id="slider" style="margin:48px 32px 32px 32px;"></div>');
     html.push(`  <div><button class="btnStop" style="height:44px;font-size:16px;width:100px;">Stop</button></div>`);
     html.push('</div>');
     html = html.join('\n');
@@ -277,35 +287,35 @@ RwRFID.startTagFinder = function (tag) {
             });
         });
     $notificationWrapper.append($notification);
-    window.ZebraRFIDAPI3.getPowerLevel(
-        function success(args) {
-            var outputPower = args[0];
-            var minPower = args[1];
-            var maxPower = args[2];
-            var rfidPowerLevelSlider = $notificationWrapper.find('#slider').get(0);
-            noUiSlider.create(rfidPowerLevelSlider, {
-                start: [outputPower],
-                range: {
-                    'min': [minPower],
-                    'max': [maxPower]
-                },
-                tooltips: [wNumb({ decimals: 0 })]
-            });
-            rfidPowerLevelSlider.noUiSlider.on('change', function () {
-                window.ZebraRFIDAPI3.stopTagFinder(() => {
-                    var rfidPowerLevel = parseFloat(rfidPowerLevelSlider.noUiSlider.get());
-                    window.ZebraRFIDAPI3.setPowerLevel(rfidPowerLevel,
-                        function (args) {
-                            var outputPower = args[0];
-                            rfidPowerLevelSlider.noUiSlider.set(outputPower);
-                            RwRFID.startTagFinder(tag);
-                        });
-                });
-            });
-            window.ZebraRFIDAPI3.startTagFinder(tag);
-        });
+    //window.ZebraRFIDAPI3.getPowerLevel(
+    //    function success(args) {
+    //        var outputPower = args[0];
+    //        var minPower = args[1];
+    //        var maxPower = args[2];
+    //        var rfidPowerLevelSlider = $notificationWrapper.find('#slider').get(0);
+    //        noUiSlider.create(rfidPowerLevelSlider, {
+    //            start: [outputPower],
+    //            range: {
+    //                'min': [minPower],
+    //                'max': [maxPower]
+    //            },
+    //            tooltips: [wNumb({ decimals: 0 })]
+    //        });
+    //        rfidPowerLevelSlider.noUiSlider.on('change', function () {
+    //            window.ZebraRFIDAPI3.stopTagFinder(() => {
+    //                var rfidPowerLevel = parseFloat(rfidPowerLevelSlider.noUiSlider.get());
+    //                window.ZebraRFIDAPI3.setPowerLevel(rfidPowerLevel,
+    //                    function (args) {
+    //                        var outputPower = args[0];
+    //                        rfidPowerLevelSlider.noUiSlider.set(outputPower);
+    //                        RwRFID.startTagFinder(tag);
+    //                    });
+    //            });
+    //        });
+    //        window.ZebraRFIDAPI3.startTagFinder(tag);
+    //    });
     jQuery('body').append($notificationWrapper);
-
+    window.ZebraRFIDAPI3.startTagFinder(tag);
 }
 //----------------------------------------------------------------------------------------------
 RwRFID.updateTagFinderNotification = function (tag, distance) {
