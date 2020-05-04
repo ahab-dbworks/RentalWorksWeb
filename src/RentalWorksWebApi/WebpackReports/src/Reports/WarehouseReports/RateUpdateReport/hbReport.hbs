@@ -10,6 +10,8 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
+
+<!--RENTAL-->
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
     <thead class="top-section-header">
@@ -126,7 +128,358 @@
           <div class="number" data-value="{{NewMinDaysPerWeek}}"></div>
         </td>
         {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
 
+<!--SALES-->
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead class="top-section-header">
+      <tr>
+        <th colspan="4" style="background-color:white;"></th>
+        <th style="border-right:3px solid black;">Retail</th>
+        <th style="border-right:3px solid black;">Price</th>
+        <th style="border-right:3px solid black;">Default Cost</th>
+        <th style="border-right:3px solid black;">Max Discount</th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th class="row1">I-Code</th>
+        <th class="row1">Description</th>
+        <th class="row1">Mfr. Part #</th>
+        <th class="row1">Rank</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+      </tr>
+      <tr>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryheader"}}
+        <td colspan="3" class="lower header-row">Category: {{Category}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="nowrap">{{ICode}}</td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{PartNumber}}"></td>
+        <td data-value="{{Rank}}"></td>
+        <td>
+          <div class="number" data-value="{{OldRetail}}"></div>
+          <div class="number" data-value="{{NewRetail}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldPrice}}"></div>
+          <div class="number" data-value="{{NewPrice}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldDefaultCost}}"></div>
+          <div class="number" data-value="{{NewDefaultCost}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldMaxDiscount}}"></div>
+          <div class="number" data-value="{{NewMaxDiscount}}"></div>
+        </td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<!--PARTS-->
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead class="top-section-header">
+      <tr>
+        <th colspan="4" style="background-color:white;"></th>
+        <th style="border-right:3px solid black;">Retail</th>
+        <th style="border-right:3px solid black;">Price</th>
+        <th style="border-right:3px solid black;">Default Cost</th>
+        <th style="border-right:3px solid black;">Max Discount</th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th class="row1">I-Code</th>
+        <th class="row1">Description</th>
+        <th class="row1">Mfr. Part #</th>
+        <th class="row1">Rank</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+      </tr>
+      <tr>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryheader"}}
+        <td colspan="3" class="lower header-row">Category: {{Category}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="nowrap">{{ICode}}</td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{PartNumber}}"></td>
+        <td data-value="{{Rank}}"></td>
+        <td>
+          <div class="number" data-value="{{OldRetail}}"></div>
+          <div class="number" data-value="{{NewRetail}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldPrice}}"></div>
+          <div class="number" data-value="{{NewPrice}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldDefaultCost}}"></div>
+          <div class="number" data-value="{{NewDefaultCost}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldMaxDiscount}}"></div>
+          <div class="number" data-value="{{NewMaxDiscount}}"></div>
+        </td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<!--LABOR-->
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead class="top-section-header">
+      <tr>
+        <th colspan="4" style="background-color:white;"></th>
+        <th style="border-right:3px solid black;">Hourly Rate</th>
+        <th style="border-right:3px solid black;">Daily Rate</th>
+        <th style="border-right:3px solid black;">Weekly Rate</th>
+        <th style="border-right:3px solid black;">Monthly Rate</th>
+        <th style="border-right:3px solid black;">Hourly Cost</th>
+        <th style="border-right:3px solid black;">Daily Cost</th>
+        <th style="border-right:3px solid black;">Weekly Cost</th>
+        <th style="border-right:3px solid black;">Monthly Cost</th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th class="row1">I-Code</th>
+        <th class="row1">Description</th>
+        <th class="row1">Mfr. Part #</th>
+        <th class="row1">Rank</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+      </tr>
+      <tr>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryheader"}}
+        <td colspan="3" class="lower header-row">Category: {{Category}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="nowrap">{{ICode}}</td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{PartNumber}}"></td>
+        <td data-value="{{Rank}}"></td>
+        <td>
+          <div class="number" data-value="{{OldHourlyRate}}"></div>
+          <div class="number" data-value="{{NewHourlyRate}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldDailyRate}}"></div>
+          <div class="number" data-value="{{NewDailyRate}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldWeeklyRate}}"></div>
+          <div class="number" data-value="{{NewWeeklyRate}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldMonthlyRate}}"></div>
+          <div class="number" data-value="{{NewMonthlyRate}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldHourlyCost}}"></div>
+          <div class="number" data-value="{{NewHourlyCost}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldDailyCost}}"></div>
+          <div class="number" data-value="{{NewDailyCost}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldWeeklyCost}}"></div>
+          <div class="number" data-value="{{NewWeeklyCost}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldMonthlyCost}}"></div>
+          <div class="number" data-value="{{NewMonthlyCost}}"></div>
+        </td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<!--MISC-->
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead class="top-section-header">
+      <tr>
+        <th colspan="4" style="background-color:white;"></th>
+        <th style="border-right:3px solid black;">Hourly Rate</th>
+        <th style="border-right:3px solid black;">Daily Rate</th>
+        <th style="border-right:3px solid black;">Weekly Rate</th>
+        <th style="border-right:3px solid black;">Monthly Rate</th>
+        <th style="border-right:3px solid black;">Hourly Cost</th>
+        <th style="border-right:3px solid black;">Daily Cost</th>
+        <th style="border-right:3px solid black;">Weekly Cost</th>
+        <th style="border-right:3px solid black;">Monthly Cost</th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th class="row1">I-Code</th>
+        <th class="row1">Description</th>
+        <th class="row1">Mfr. Part #</th>
+        <th class="row1">Rank</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+        <th class="row1 number">Current</th>
+      </tr>
+      <tr>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2"></th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+        <th class="row2 number">New</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryheader"}}
+        <td colspan="3" class="lower header-row">Category: {{Category}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="nowrap">{{ICode}}</td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{PartNumber}}"></td>
+        <td data-value="{{Rank}}"></td>
+        <td>
+          <div class="number" data-value="{{OldHourlyRate}}"></div>
+          <div class="number" data-value="{{NewHourlyRate}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldDailyRate}}"></div>
+          <div class="number" data-value="{{NewDailyRate}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldWeeklyRate}}"></div>
+          <div class="number" data-value="{{NewWeeklyRate}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldMonthlyRate}}"></div>
+          <div class="number" data-value="{{NewMonthlyRate}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldHourlyCost}}"></div>
+          <div class="number" data-value="{{NewHourlyCost}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldDailyCost}}"></div>
+          <div class="number" data-value="{{NewDailyCost}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldWeeklyCost}}"></div>
+          <div class="number" data-value="{{NewWeeklyCost}}"></div>
+        </td>
+        <td>
+          <div class="number" data-value="{{OldMonthlyCost}}"></div>
+          <div class="number" data-value="{{NewMonthlyCost}}"></div>
+        </td>
+        {{/ifEquals}}
       </tr>
       {{/each}}
     </tbody>
