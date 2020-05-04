@@ -1,11 +1,11 @@
 ﻿routes.push({ pattern: /^module\/hotfix$/, action: function (match: RegExpExecArray) { return HotfixController.getModuleScreen(); } });
 
 class Hotfix implements IModule {
-    Module:  string = 'Hotfix';
-    apiurl:  string = 'api/v1/hotfix';
+    Module: string = 'Hotfix';
+    apiurl: string = 'api/v1/hotfix';
     caption: string = Constants.Modules.Administrator.children.Hotfix.caption;
-    nav:     string = Constants.Modules.Administrator.children.Hotfix.nav;
-    id:      string = Constants.Modules.Administrator.children.Hotfix.id;
+    nav: string = Constants.Modules.Administrator.children.Hotfix.nav;
+    id: string = Constants.Modules.Administrator.children.Hotfix.id;
     //---------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasNew = false;
@@ -46,7 +46,7 @@ class Hotfix implements IModule {
         // Truncates unusually long description strings in browse
         FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
             let descriptionField = $tr.find('.field[data-formdatafield="Description"]');
-            descriptionField.css({ 'width': '520px','overflow': 'hidden' });
+            descriptionField.css({ 'width': '520px', 'overflow': 'hidden' });
             descriptionField.parent().css({ 'width': '520px' });
         });
 

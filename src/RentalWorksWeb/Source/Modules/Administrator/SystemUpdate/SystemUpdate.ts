@@ -117,6 +117,8 @@ class SystemUpdate {
                 }
             }
         });
+
+        $form.find('.hotfixSubModule').empty().append(this.openHotfixBrowse($form));
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -236,6 +238,14 @@ class SystemUpdate {
         }, 500);
 
         return $moduleoverlay;
+    }
+    //----------------------------------------------------------------------------------------------
+    openHotfixBrowse($form) {
+        const $browse = HotfixController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+
+        });
+        return $browse;
     }
     //----------------------------------------------------------------------------------------------
 }
