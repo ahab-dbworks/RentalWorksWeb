@@ -232,6 +232,7 @@ class RateUpdateUtility {
                         InventoryTypeId: inventoryTypeId,
                     };
                 }
+                request.uniqueids.RecType = availableFor;
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                 break;
             case 'SubCategoryId':
@@ -245,6 +246,7 @@ class RateUpdateUtility {
                         CategoryId: categoryId,
                     };
                 }
+                request.uniqueids.RecType = availableFor;
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
             case 'WarehouseId':

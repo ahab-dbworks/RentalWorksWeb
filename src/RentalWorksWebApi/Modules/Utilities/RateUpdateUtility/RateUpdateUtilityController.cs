@@ -9,8 +9,8 @@ using WebApi.Controllers;
 using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Inventory.Inventory;
 using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Settings.Category;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
-using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 using WebApi.Modules.Settings.InventorySettings.Unit;
 using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
@@ -65,7 +65,7 @@ namespace WebApi.Modules.Utilities.RateUpdateUtility
         [FwControllerMethod(Id: "Bda8ZijNCD4G", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
+            return await DoBrowseAsync<CategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rateupdateutility/validatesubcategory/browse
