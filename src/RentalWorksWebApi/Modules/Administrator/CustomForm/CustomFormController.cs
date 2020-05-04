@@ -41,7 +41,7 @@ namespace WebApi.Modules.Administrator.CustomForm
         //------------------------------------------------------------------------------------ 
         // GET api/v1/customform/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"4YKuNhms4Xi", ActionType: FwControllerActionTypes.View)]
+        [FwControllerMethod(Id:"4YKuNhms4Xi", ActionType: FwControllerActionTypes.View, ValidateSecurityGroup: false)]
         public async Task<ActionResult<CustomFormLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomFormLogic>(id);
