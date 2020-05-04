@@ -406,18 +406,23 @@ class CustomReportLayout {
                                         let footerRowIndex = newIndex;
                                         const $movedTd = $row.find(`[data-linkedcolumn="${valuefield}"]`);
                                         if (oldIndex > newIndex) {
-
-                                            if (footerRowIndex <= (totalNameColSpan)) {
+                                            if (footerRowIndex <= totalNameColSpan) {
                                                 $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
                                                 $designerTd.remove();
+                                            } else {
+                                                $movedTd.insertBefore($tds[footerRowIndex - 2]);
+                                                $designerTd.insertBefore($designerTds[footerRowIndex - 2]);
                                             }
+                                        } else {
+                                            $movedTd.insertAfter($tds[footerRowIndex - 2]);
+                                            $designerTd.insertAfter($designerTds[footerRowIndex - 2]);
                                         }
                                     }
                                 } else { //it wont find a designertd if it merged into a footer total-name column
                                     const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${valuefield}"></td>`);
                                     let footerRowIndex = newIndex;
                                     if (oldIndex < newIndex) {
-                                        if (newIndex > totalNameColSpan) {
+                                        if (newIndex > totalNameColSpan - 1) {
                                             $designerTds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
                                             footerRowIndex = newIndex - (totalNameColSpan - 1);
                                             $newTd.clone().insertAfter($tds[footerRowIndex]);
