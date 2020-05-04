@@ -6,6 +6,10 @@ tbody {
     }
 }
 
+td div:after {
+    content: attr(data-value);
+}
+
 .top-section-header {
     th {
         background-color: #DCDCDC;

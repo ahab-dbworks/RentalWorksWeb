@@ -5,7 +5,6 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">Invoice From: {{FromDate}} To: {{ToDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
@@ -86,107 +85,48 @@
           <div class="number" data-value="{{OldDailyRate}}"></div>
           <div class="number" data-value="{{NewDailyRate}}"></div>
         </td>
-          <td>
+        <td>
           <div class="number" data-value="{{OldWeeklyRate}}"></div>
           <div class="number" data-value="{{NewWeeklyRate}}"></div>
         </td>
-          <td>
+        <td>
           <div class="number" data-value="{{OldWeek2Rate}}"></div>
           <div class="number" data-value="{{NewWeek2Rate}}"></div>
         </td>
-          <td>
+        <td>
           <div class="number" data-value="{{OldWeek3Rate}}"></div>
           <div class="number" data-value="{{NewWeek3Rate}}"></div>
         </td>
-          <td>
+        <td>
           <div class="number" data-value="{{OldWeek4Rate}}"></div>
           <div class="number" data-value="{{NewWeek4Rate}}"></div>
         </td>
-          <td>
+        <td>
           <div class="number" data-value="{{OldMonthlyRate}}"></div>
           <div class="number" data-value="{{NewMonthlyRate}}"></div>
         </td>
-          <td>
+        <td>
           <div class="number" data-value="{{OldDailyCost}}"></div>
           <div class="number" data-value="{{NewDailyCost}}"></div>
         </td>
-          <td>
+        <td>
           <div class="number" data-value="{{OldWeeklyCost}}"></div>
           <div class="number" data-value="{{NewWeeklyCost}}"></div>
         </td>
-          <td>
+        <td>
           <div class="number" data-value="{{OldMonthlyCost}}"></div>
           <div class="number" data-value="{{NewMonthlyCost}}"></div>
         </td>
-          <td>
+        <td>
           <div class="number" data-value="{{OldMaxDiscount}}"></div>
           <div class="number" data-value="{{NewMaxDiscount}}"></div>
         </td>
-          <td>
+        <td>
           <div class="number" data-value="{{OldMinDaysPerWeek}}"></div>
           <div class="number" data-value="{{NewMinDaysPerWeek}}"></div>
         </td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="2" class="total-name">{{Category}}&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
-        {{/ifEquals}}
+
       </tr>
       {{/each}}
     </tbody>

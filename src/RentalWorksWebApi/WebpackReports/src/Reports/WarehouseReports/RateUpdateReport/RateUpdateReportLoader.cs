@@ -94,94 +94,94 @@ namespace WebApi.Modules.Reports.RateUpdateReport
         [FwSqlDataField(column: "newretail", modeltype: FwDataTypes.Decimal)]
         public decimal? NewRetail { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldhourlyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldhourlyrate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldHourlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newhourlyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newhourlyrate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewHourlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldhourlycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldhourlycost", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldHourlyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newhourlycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newhourlycost", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewHourlyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "olddailyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "olddailyrate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldDailyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newdailyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newdailyrate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewDailyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "olddailycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "olddailycost", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldDailyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newdailycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newdailycost", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewDailyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldweeklyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldweeklyrate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldWeeklyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldweek2rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldweek2rate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldWeek2Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldweek3rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldweek3rate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldWeek3Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldweek4rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldweek4rate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldWeek4Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldweek5rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldweek5rate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldWeek5Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldweeklycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldweeklycost", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldWeeklyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newweeklyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newweeklyrate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewWeeklyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newweek2rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newweek2rate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewWeek2Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newweek3rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newweek3rate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewWeek3Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newweek4rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newweek4rate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewWeek4Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newweek5rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newweek5rate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewWeek5Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newweeklycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newweeklycost", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewWeeklyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldmonthlyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldmonthlyrate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldMonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldmonthlycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldmonthlycost", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldMonthlyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldmaxdiscount", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldmaxdiscount", modeltype: FwDataTypes.Percentage)]
         public decimal? OldMaxDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newmonthlyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newmonthlyrate", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewMonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newmonthlycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newmonthlycost", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewMonthlyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newmaxdiscount", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newmaxdiscount", modeltype: FwDataTypes.Percentage)]
         public decimal? NewMaxDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldmanifestvalue", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldmanifestvalue", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldUnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newmanifestvalue", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newmanifestvalue", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewUnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "oldreplacementcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "oldreplacementcost", modeltype: FwDataTypes.CurrencyString)]
         public decimal? OldReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "newreplacementcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "newreplacementcost", modeltype: FwDataTypes.CurrencyString)]
         public decimal? NewReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "oldmindw", modeltype: FwDataTypes.Decimal)]
@@ -220,7 +220,7 @@ namespace WebApi.Modules.Reports.RateUpdateReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "OldDailyRate", "NewDailyRate", "OldWeeklyRate", "NewWeeklyRate", "OldWeek2Rate", "NewWeek2Rate", "OldWeek3Rate", "NewWeek3Rate", "OldWeek4Rate", "NewWeek4Rate", "OldMonthlyRate", "NewMonthlyRate", "OldMonthlyCost", "NewMonthlyCost", "NewDailyCost", "OldMaxDiscount", "NewMaxDiscount", "OldMinDaysPerWeek", "NewMinDaysPerWeek" }; 
+                string[] totalFields = new string[] { "OldMinDaysPerWeek" }; 
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);
