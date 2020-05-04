@@ -269,12 +269,24 @@ class Base {
                                             const thisUserOnlyIndex = responseGetCustomForms.ColumnIndex.ThisUserOnly;
                                             const htmlIndex = responseGetCustomForms.ColumnIndex.Html;
                                             const activeCustomForms: any = [];
+                                            const baseForms: any = [];
+                                            const duplicateForms: any = [];
                                             for (let i = 0; i < responseGetCustomForms.Rows.length; i++) {
                                                 const customForm = responseGetCustomForms.Rows[i];
                                                 const baseform = customForm[baseFormIndex];
                                                 activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex], 'Description': customForm[customFormDescIndex], 'ThisUserOnly': customForm[thisUserOnlyIndex] });
                                                 jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
+                                                if (typeof baseForms.find(obj => obj.BaseForm == baseform) == 'undefined') {
+                                                    baseForms.push({ 'BaseForm': baseform, 'RowIndex': i });
+                                                } else {
+                                                    const dupeIndex = baseForms.find(obj => obj.BaseForm == baseform).RowIndex;
+                                                    duplicateForms.push({ 'BaseForm': baseform, 'Desc1': responseGetCustomForms.Rows[dupeIndex][customFormDescIndex], 'Desc2': customForm[customFormDescIndex]})
+                                                }
                                             }
+                                            if (duplicateForms.length) {
+                                                sessionStorage.setItem('duplicateforms', JSON.stringify(duplicateForms));
+                                            }
+
                                             if (activeCustomForms.length > 0) {
                                                 sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
                                             }

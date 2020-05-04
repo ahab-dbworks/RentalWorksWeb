@@ -39,6 +39,7 @@ class RwHome {
                         window[controller].ActiveViewFieldsId = responseGetActiveViewFields.Rows[i][idIndex];
                     }
                 }
+
                 window.firstLoadCompleted = true;
             }
 
@@ -51,6 +52,7 @@ class RwHome {
             } else {
                 if (sessionStorage.getItem('userType') === 'USER') {
                     self.loadSettings(screen.$view);
+                    self.addDuplicateCustomFormAlerts(screen.$view);
                 }
             }
         };
@@ -135,6 +137,29 @@ class RwHome {
                 }
             }
         }, null, $control);
+    }
+    //----------------------------------------------------------------------------------------------
+    addDuplicateCustomFormAlerts($control) {
+        if (sessionStorage['duplicateforms']) {
+            const $alertContainer = jQuery('<div class="alert-container"></div>')
+            jQuery($control).prepend($alertContainer);
+            const duplicateForms = JSON.parse(sessionStorage.getItem('duplicateforms'));
+            for (let i = 0; i < duplicateForms.length; i++) {
+                const customForm = duplicateForms[i];
+                $alertContainer.append(`<div class="duplicate-form-alert">
+                                            <span>Duplicate Custom Forms defined for the ${customForm['BaseForm']}: ${customForm['Desc1']} and ${customForm['Desc2']}</span>        
+                                            <i class="material-icons">clear</i>
+                                        </div>`);
+            }
+
+            $alertContainer.on('click', '.duplicate-form-alert i', e => {
+                const $this = jQuery(e.currentTarget);
+                const $alert = $this.parents('.duplicate-form-alert');
+                $alert.remove();
+            });
+
+            sessionStorage.removeItem('duplicateforms');
+        }
     }
     //----------------------------------------------------------------------------------------------
     renderWidget($control, widgetData) {
