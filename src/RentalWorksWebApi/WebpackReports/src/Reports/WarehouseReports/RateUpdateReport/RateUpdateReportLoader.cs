@@ -218,13 +218,14 @@ namespace WebApi.Modules.Reports.RateUpdateReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            //if (request.IncludeSubHeadingsAndSubTotals)
-            //{
-            //    string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-            //    dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-            //    dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
-            //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            //}
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "OldDailyRate", "NewDailyRate", "OldWeeklyRate", "NewWeeklyRate", "OldWeek2Rate", "NewWeek2Rate", "OldWeek3Rate", "NewWeek3Rate", "OldWeek4Rate", "NewWeek4Rate", "OldMonthlyRate", "NewMonthlyRate", "OldMonthlyCost", "NewMonthlyCost", "NewDailyCost", "OldMaxDiscount", "NewMaxDiscount", "OldMinDaysPerWeek", "NewMinDaysPerWeek" }; 
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 
