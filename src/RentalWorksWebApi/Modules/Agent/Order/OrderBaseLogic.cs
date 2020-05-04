@@ -19,6 +19,7 @@ using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
 using WebApi;
 using WebApi.Modules.Settings.OrderSettings.OrderType;
 using System.Reflection;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -1356,27 +1357,46 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------ 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            // load Deal here for use later in this method
-            DealLogic deal = null;
-            string dealId = DealId;
-            if (string.IsNullOrEmpty(dealId))
-            {
-                if ((e.SaveMode.Equals(TDataRecordSaveMode.smUpdate)) && (e.Original != null))
-                {
-                    dealId = ((OrderBaseLogic)e.Original).DealId;
-                }
-            }
-            if (!string.IsNullOrEmpty(dealId))
-            {
-                deal = new DealLogic();
-                deal.SetDependencies(AppConfig, UserSession);
-                deal.DealId = dealId;
-                bool b = deal.LoadAsync<DealLogic>().Result;
-            }
-
-
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
+
+                // load Deal here for use later in this method
+                DealLogic deal = null;
+                string dealId = DealId;
+                //if (string.IsNullOrEmpty(dealId))
+                //{
+                //    if ((e.SaveMode.Equals(TDataRecordSaveMode.smUpdate)) && (e.Original != null))
+                //    {
+                //        dealId = ((OrderBaseLogic)e.Original).DealId;
+                //    }
+                //}
+                if (!string.IsNullOrEmpty(dealId))
+                {
+                    deal = new DealLogic();
+                    deal.SetDependencies(AppConfig, UserSession);
+                    deal.DealId = dealId;
+                    bool b = deal.LoadAsync<DealLogic>().Result;
+                }
+
+                // load Department here for use later in this method
+                DepartmentLogic department = null;
+                string departmentId = DepartmentId;
+                //if (string.IsNullOrEmpty(departmentId))
+                //{
+                //    if ((e.SaveMode.Equals(TDataRecordSaveMode.smUpdate)) && (e.Original != null))
+                //    {
+                //        departmentId = ((OrderBaseLogic)e.Original).DepartmentId;
+                //    }
+                //}
+                if (!string.IsNullOrEmpty(departmentId))
+                {
+                    department = new DepartmentLogic();
+                    department.SetDependencies(AppConfig, UserSession);
+                    department.DepartmentId = departmentId;
+                    bool b = department.LoadAsync<DepartmentLogic>().Result;
+                }
+
+
                 if (string.IsNullOrEmpty(BillingCycleId))
                 {
                     if (string.IsNullOrEmpty(DealId))
@@ -1389,11 +1409,6 @@ namespace WebApi.Modules.Agent.Order
                     }
                     else
                     {
-                        //DealLogic deal = new DealLogic();
-                        //deal.SetDependencies(AppConfig, UserSession);
-                        //deal.DealId = DealId;
-                        //bool b = deal.LoadAsync<DealLogic>().Result;
-                        //BillingCycleId = deal.BillingCycleId;
                         if (deal != null)
                         {
                             BillingCycleId = deal.BillingCycleId;
@@ -1403,11 +1418,19 @@ namespace WebApi.Modules.Agent.Order
 
                 if (deal != null)
                 {
-                    RentalDaysPerWeek = deal.RentalDaysPerWeek;
-                    RentalDiscountPercent = deal.RentalDiscountPercent;
-                    SalesDiscountPercent = deal.SalesDiscountPercent;
-                    SpaceDaysPerWeek = deal.FacilitiesDaysPerWeek;
-                    SpaceDiscountPercent = deal.FacilitiesDiscountPercent;
+                    if ((deal.UseDiscountTemplate.GetValueOrDefault(false) && (!string.IsNullOrEmpty(deal.DiscountTemplateId))) || (deal.UseCustomerDiscount.GetValueOrDefault(false) && (!string.IsNullOrEmpty(deal.CustomerDiscountTemplateId))))
+                    {
+                        RentalDaysPerWeek = deal.RentalDaysPerWeek;
+                        RentalDiscountPercent = deal.RentalDiscountPercent;
+                        SalesDiscountPercent = deal.SalesDiscountPercent;
+                        SpaceDaysPerWeek = deal.FacilitiesDaysPerWeek;
+                        SpaceDiscountPercent = deal.FacilitiesDiscountPercent;
+                    }
+                    else
+                    {
+                        RentalDaysPerWeek = department.DefaultDaysPerWeek;
+                        SpaceDaysPerWeek = department.DefaultDaysPerWeek;
+                    }
                 }
 
                 if (!string.IsNullOrEmpty(OrderTypeId))

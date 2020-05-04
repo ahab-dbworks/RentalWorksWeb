@@ -116,6 +116,9 @@ namespace WebApi.Modules.Settings.DepartmentSettings.Department
         [FwSqlDataField(column: "exportcode", modeltype: FwDataTypes.Text)]
         public string ExportCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dw", modeltype: FwDataTypes.Decimal)]
+        public decimal? DefaultDaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

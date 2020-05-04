@@ -65,6 +65,9 @@ namespace WebApi.Modules.Settings.DepartmentSettings.Department
         [FwSqlDataField(column: "lockwhencustomdiscount", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? LockWhenCustomDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dw", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 3)]
+        public decimal? DefaultDaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "exportcode", modeltype: FwDataTypes.Text)]
         public string ExportCode { get; set; }
         //------------------------------------------------------------------------------------ 

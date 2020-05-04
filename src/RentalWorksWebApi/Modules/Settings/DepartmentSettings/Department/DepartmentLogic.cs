@@ -73,6 +73,9 @@ namespace WebApi.Modules.Settings.DepartmentSettings.Department
         [FwLogicProperty(Id: "1StRszlOLntU0")]
         public bool? LockLineItemsWhenCustomDiscountUsed { get { return department.LockWhenCustomDiscount; } set { department.LockWhenCustomDiscount = value; } }
 
+        [FwLogicProperty(Id: "pZPc5dftSRz2u")]
+        public decimal? DefaultDaysPerWeek { get { return department.DefaultDaysPerWeek; } set { department.DefaultDaysPerWeek = value; } }
+
         [FwLogicProperty(Id: "FFuRRpmCbV1H")]
         public bool? Inactive { get { return department.Inactive; } set { department.Inactive = value; } }
 

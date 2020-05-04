@@ -158,6 +158,9 @@ namespace WebApi.Modules.Agent.Deal
         [FwLogicProperty(Id:"w4NMUZnj45BH")]
         public bool? UseCustomerDiscount { get { return deal.UseCustomerDiscount; } set { deal.UseCustomerDiscount = value; } }
 
+        [FwLogicProperty(Id: "Y0ylW3kC5enRF", IsReadOnly: true)]
+        public string CustomerDiscountTemplateId { get; set; }
+
         [FwLogicProperty(Id:"8zgDWbPPvAc0")]
         public bool? UseDiscountTemplate { get { return deal.UseDiscountTemplate; } set { deal.UseDiscountTemplate = value; } }
 
