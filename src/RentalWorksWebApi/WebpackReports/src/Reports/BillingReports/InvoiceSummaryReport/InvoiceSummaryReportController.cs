@@ -17,7 +17,7 @@ using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Agent.Customer;
 
 namespace WebApi.Modules.Reports.Billing.InvoiceSummaryReport

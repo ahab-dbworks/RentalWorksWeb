@@ -8,7 +8,7 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.CustomerSettings.CustomerType;
 using WebApi.Modules.Settings.CustomerSettings.CustomerCategory;
 using WebApi.Modules.Settings.AddressSettings.Country;

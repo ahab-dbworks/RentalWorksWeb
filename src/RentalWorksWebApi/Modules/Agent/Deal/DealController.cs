@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Agent.Customer;
 using WebApi.Modules.Settings.DealSettings.DealType;

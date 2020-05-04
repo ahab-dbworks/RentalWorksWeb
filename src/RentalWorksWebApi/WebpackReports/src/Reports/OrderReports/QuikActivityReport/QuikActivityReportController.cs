@@ -15,7 +15,7 @@ using WebApi.Modules.Settings.InventorySettings.InventoryType;
 //using WebApi.Modules.Utilities.QuikActivityType;
 using WebApi.Modules.Settings.ActivityType;
 using WebApi.Modules.Administrator.User;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 
 namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
 {

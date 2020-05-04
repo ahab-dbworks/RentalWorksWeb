@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Administrator.User;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 
 namespace WebApi.Modules.Settings.PoSettings.VendorInvoiceApprover

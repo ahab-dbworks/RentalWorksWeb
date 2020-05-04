@@ -12,7 +12,7 @@ using WebApi.Modules.Settings.CurrencySettings.Currency;
 using WebApi.Modules.Settings.InventorySettings.BarCodeRange;
 using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Agent.Deal;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.TaxSettings.TaxOption;
 
 namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse

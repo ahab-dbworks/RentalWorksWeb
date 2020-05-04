@@ -12,7 +12,7 @@ using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
 using WebApi;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Settings.RateType;
 using WebApi.Modules.Settings.OrderSettings.OrderType;

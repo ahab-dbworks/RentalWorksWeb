@@ -4,7 +4,7 @@ using System.Reflection;
 using WebApi.Logic;
 using WebApi;
 
-namespace WebApi.Modules.Settings.CompanyDepartmentSettings.Department
+namespace WebApi.Modules.Settings.DepartmentSettings.Department
 {
     [FwLogic(Id: "GQ73L8rlABp3")]
     public class DepartmentLogic : AppBusinessLogic

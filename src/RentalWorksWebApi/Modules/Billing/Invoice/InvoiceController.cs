@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Agent.Contact;

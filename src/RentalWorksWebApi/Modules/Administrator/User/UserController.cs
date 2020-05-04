@@ -12,7 +12,7 @@ using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Settings.AddressSettings.State;
 using WebApi.Modules.Settings.AddressSettings.Country;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.LaborSettings.LaborType;
 using WebApi.Modules.Settings.MiscellaneousSettings.MiscType;

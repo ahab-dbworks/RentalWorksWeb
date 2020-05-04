@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebApi;
-namespace WebApi.Modules.Settings.CompanyDepartmentSettings.Department
+namespace WebApi.Modules.Settings.DepartmentSettings.Department
 {
     [FwSqlTable("departmentview")]
     public class DepartmentLoader : AppDataLoadRecord

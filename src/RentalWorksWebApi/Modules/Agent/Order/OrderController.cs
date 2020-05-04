@@ -14,7 +14,7 @@ using WebApi.Modules.Agent.Quote;
 using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Settings.AddressSettings.Country;
 using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.CurrencySettings.Currency;
 using WebApi.Modules.Settings.DepartmentLocation;
 using WebApi.Modules.Settings.DocumentSettings.CoverLetter;

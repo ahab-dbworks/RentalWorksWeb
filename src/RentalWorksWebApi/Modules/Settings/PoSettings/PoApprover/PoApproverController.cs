@@ -8,7 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.PoSettings.PoApproverRole;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 
 namespace WebApi.Modules.Settings.PoSettings.PoApprover

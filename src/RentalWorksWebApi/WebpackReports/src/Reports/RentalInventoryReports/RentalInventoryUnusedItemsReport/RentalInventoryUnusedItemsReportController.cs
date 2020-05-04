@@ -17,7 +17,7 @@ using WebApi.Modules.Settings.Category;
 using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Inventory.RentalInventory;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 

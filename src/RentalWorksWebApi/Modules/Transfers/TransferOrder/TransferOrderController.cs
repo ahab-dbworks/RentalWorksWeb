@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using FwStandard.AppManager;
 using Microsoft.AspNetCore.Http;
 using System;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Agent.Vendor;

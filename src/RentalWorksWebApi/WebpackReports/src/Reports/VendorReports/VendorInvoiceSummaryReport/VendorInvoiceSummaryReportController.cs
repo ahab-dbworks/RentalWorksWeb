@@ -16,7 +16,7 @@ using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Agent.PurchaseOrder;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 
 namespace WebApi.Modules.Reports.VendorReports.VendorInvoiceSummaryReport
 {

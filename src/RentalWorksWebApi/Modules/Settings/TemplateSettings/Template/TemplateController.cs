@@ -8,7 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebApi.Modules.Settings.RateType;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 
 namespace WebApi.Modules.Settings.TemplateSettings.Template
 {

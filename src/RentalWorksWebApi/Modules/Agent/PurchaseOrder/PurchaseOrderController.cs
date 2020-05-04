@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Agent.Vendor;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.RateType;
 using WebApi.Modules.Settings.PoSettings.PoType;
 using WebApi.Modules.Administrator.User;

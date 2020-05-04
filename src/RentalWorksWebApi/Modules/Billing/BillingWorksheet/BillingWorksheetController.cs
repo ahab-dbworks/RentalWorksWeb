@@ -9,7 +9,7 @@ using FwStandard.AppManager;
 using System;
 using WebApi.Modules.Billing.Invoice;
 using WebApi.Modules.Agent.Order;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.PaymentSettings.PaymentTerms;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;

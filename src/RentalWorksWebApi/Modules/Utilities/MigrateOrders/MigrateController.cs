@@ -10,7 +10,7 @@ using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi.Modules.Warehouse.Contract;
 using WebApi.Modules.Agent.Deal;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.RateType;
 
 namespace WebApi.Modules.Utilities.Migrate

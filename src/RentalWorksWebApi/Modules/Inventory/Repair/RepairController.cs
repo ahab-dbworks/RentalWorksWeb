@@ -10,7 +10,7 @@ using WebApi.Controllers;
 using WebApi.Modules.Inventory.Asset;
 using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Inventory.SalesInventory;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Agent.Order;
 using WebApi.Modules.Settings.RepairSettings.RepairItemStatus;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;

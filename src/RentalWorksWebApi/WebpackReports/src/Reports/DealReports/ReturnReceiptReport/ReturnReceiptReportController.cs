@@ -16,7 +16,7 @@ using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Settings.Category;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Inventory.RentalInventory;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Agent.Customer;
 
 namespace WebApi.Modules.Reports.DealReports.ReturnReceiptReport

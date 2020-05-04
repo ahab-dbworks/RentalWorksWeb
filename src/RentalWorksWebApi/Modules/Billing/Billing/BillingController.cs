@@ -9,7 +9,7 @@ using WebApi.Controllers;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Agent.Customer;
 using WebApi.Modules.Agent.Deal;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Agent.Order;
 using System.Collections.Generic;
