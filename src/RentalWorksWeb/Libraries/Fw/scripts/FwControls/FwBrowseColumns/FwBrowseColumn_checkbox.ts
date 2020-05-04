@@ -58,7 +58,7 @@
         html.push('  <label></label>');
         html.push('</div>');
         const $checkboxwrapper = jQuery(html.join(''));
-        $checkboxwrapper.on('click', 'label', function (e: JQuery.Event) {
+        $checkboxwrapper.on('click', 'input', function (e: JQuery.Event) { // 5.4.20 j.pace changed selector from label to input to prevent edit mode on a grid with hasEdit = false
             try {
                 e.stopPropagation();
                 $field.data('checkthebox', !originalCheckedValue);
