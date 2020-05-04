@@ -268,19 +268,26 @@ class Base {
                                             const customFormDescIndex = responseGetCustomForms.ColumnIndex.Description;
                                             const thisUserOnlyIndex = responseGetCustomForms.ColumnIndex.ThisUserOnly;
                                             const htmlIndex = responseGetCustomForms.ColumnIndex.Html;
+                                            const assignToIndex = responseGetCustomForms.ColumnIndex.AssignTo;
                                             const activeCustomForms: any = [];
                                             const baseForms: any = [];
                                             const duplicateForms: any = [];
                                             for (let i = 0; i < responseGetCustomForms.Rows.length; i++) {
                                                 const customForm = responseGetCustomForms.Rows[i];
                                                 const baseform = customForm[baseFormIndex];
+                                                const assignTo = customForm[assignToIndex];
                                                 activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex], 'Description': customForm[customFormDescIndex], 'ThisUserOnly': customForm[thisUserOnlyIndex] });
                                                 jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
                                                 if (typeof baseForms.find(obj => obj.BaseForm == baseform) == 'undefined') {
-                                                    baseForms.push({ 'BaseForm': baseform, 'RowIndex': i });
+                                                    baseForms.push({ 'BaseForm': baseform, 'RowIndex': i, 'AssignTo': assignTo });
                                                 } else {
-                                                    const dupeIndex = baseForms.find(obj => obj.BaseForm == baseform).RowIndex;
-                                                    duplicateForms.push({ 'BaseForm': baseform, 'Desc1': responseGetCustomForms.Rows[dupeIndex][customFormDescIndex], 'Desc2': customForm[customFormDescIndex]})
+                                                    const customForms = baseForms.filter(obj => obj.BaseForm == baseform && obj.AssignTo == assignTo);
+                                                    if (!customForms.length) {
+                                                        baseForms.push({ 'BaseForm': baseform, 'RowIndex': i, 'AssignTo': assignTo });
+                                                    } else {
+                                                        const dupeIndex = customForms[0].RowIndex;
+                                                        duplicateForms.push({ 'BaseForm': baseform, 'Desc1': responseGetCustomForms.Rows[dupeIndex][customFormDescIndex], 'Desc2': customForm[customFormDescIndex] })
+                                                    }
                                                 }
                                             }
                                             if (duplicateForms.length) {
