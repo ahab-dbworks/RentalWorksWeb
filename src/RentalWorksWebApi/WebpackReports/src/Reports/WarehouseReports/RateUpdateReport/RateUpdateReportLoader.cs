@@ -205,7 +205,7 @@ namespace WebApi.Modules.Reports.RateUpdateReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddWhere("rateupatebatchid = @rateupdatebatchid");
+                    select.AddWhere("rateupdatebatchid = @rateupdatebatchid");
                     if (request.PendingModificationsOnly.GetValueOrDefault(false))
                     {
                         select.AddParameter("@rateupdatebatchid", "0");
