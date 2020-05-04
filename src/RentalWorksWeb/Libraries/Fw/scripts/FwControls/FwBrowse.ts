@@ -4157,6 +4157,7 @@ class FwBrowseClass {
             }
         }
         $form.data('selfassign', true);
+        $form.find('[data-type="SaveMenuBarButton"]').show();
         $form.find('[data-caption="Assign To"]').hide();
     }
     //----------------------------------------------------------------------------------------------

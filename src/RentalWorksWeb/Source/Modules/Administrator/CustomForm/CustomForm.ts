@@ -97,9 +97,23 @@ class CustomForm {
                 request.SelfAssign = $form.data('selfassign');
             }
             $form.data('beforesave', beforeSave);
-        }
 
-        if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
+
+            //const request: any = {
+            //    BaseForm: FwFormField.getValueByDataField($form, 'BaseForm'),
+            //    SelfAssign: $form.data('selfassign'),
+            //    Html: FwFormField.getValueByDataField($form, 'Html'),
+            //    Description: FwFormField.getValueByDataField($form, 'Description'),
+            //    Active: FwFormField.getValueByDataField($form, 'Active')
+            //};
+
+            //FwAppData.apiMethod(true, 'POST', ``, request, FwServices.defaultTimeout, response => {
+            //    //reload
+            //}, ex => FwFunc.showError(ex), $form)
+        }
+        //else {
+            if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
+        //}
     }
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
@@ -178,6 +192,17 @@ class CustomForm {
             $form.attr('data-modified', 'true');
             $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
         });
+
+
+        //check if this form is for this user only
+        //const customFormId = FwFormField.getValueByDataField($form, 'CustomFormId');
+        //const $customForms = JSON.parse(sessionStorage.getItem('customForms'));
+        //const matchingForm = $customForms.find(obj => obj.CustomFormId == customFormId);
+        //if (typeof matchingForm != 'undefined') {
+        //    if (matchingForm.ThisUserOnly) {
+        //        $form.data('selfassign', true);
+        //    }
+        //}
     }
     //----------------------------------------------------------------------------------------------
     codeMirrorEvents($form) {
