@@ -128,7 +128,7 @@ class RateUpdateUtility {
     }
     //----------------------------------------------------------------------------------------------
     toggleAvailableFor($form: JQuery) {
-        const rentalColumns: Array<string> = ['Manufacturer', 'PartNumber', 'Rank', 'DailyRate', 'WeeklyRate', 'Week2Rate', 'Week3Rate', 'Week4Rate', 'MonthlyRate', 'MaxDiscount', 'MinDaysPerWeek', 'DailyCost', 'WeeklyCost', 'MonthlyCost'];
+        const rentalColumns: Array<string> = ['Manufacturer', 'PartNumber', 'Rank', 'DailyRate', 'WeeklyRate', 'Week2Rate', 'Week3Rate', 'Week4Rate', 'MonthlyRate', 'MaxDiscount', 'MinDaysPerWeek', 'ReplacementCost', 'UnitValue'];
         const salesColumns: Array<string> = ['Manufacturer', 'PartNumber', 'Rank', 'Retail', 'Price', 'DefaultCost', 'MaxDiscount']; 
         const laborColumns: Array<string> = ['HourlyRate', 'DailyRate', 'WeeklyRate', 'MonthlyRate', 'HourlyCost', 'DailyCost', 'WeeklyCost', 'MonthlyCost']; //same columns for Misc
         const activityType = FwFormField.getValueByDataField($form, 'AvailableFor');
