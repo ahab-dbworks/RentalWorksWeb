@@ -1097,16 +1097,8 @@ namespace RentalWorksQuikScan.Source
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo = pageNo;
                 select.PageSize = pageSize;
-                qry.AddColumn("orderid",            false);
-                qry.AddColumn("masterid",           false);
-                qry.AddColumn("parentid",           false);
-                qry.AddColumn("masteritemid",       false);
                 qry.AddColumn("exceptionflg",       false, FwJsonDataTableColumn.DataTypes.Boolean);
                 qry.AddColumn("someout",            false, FwJsonDataTableColumn.DataTypes.Boolean);
-                qry.AddColumn("masterno",           false);
-                qry.AddColumn("description",        false);
-                qry.AddColumn("vendor",             false);
-                //qry.AddColumn("vendorid",           false);
                 qry.AddColumn("qtyordered",         false, FwJsonDataTableColumn.DataTypes.Decimal);
                 qry.AddColumn("qtystagedandout",    false, FwJsonDataTableColumn.DataTypes.Decimal);
                 qry.AddColumn("qtyout",             false, FwJsonDataTableColumn.DataTypes.Decimal);
@@ -1115,26 +1107,22 @@ namespace RentalWorksQuikScan.Source
                 qry.AddColumn("qtysubout",          false, FwJsonDataTableColumn.DataTypes.Decimal);
                 qry.AddColumn("missingflg",         false, FwJsonDataTableColumn.DataTypes.Boolean);
                 qry.AddColumn("missingqty",         false, FwJsonDataTableColumn.DataTypes.Decimal);
-                qry.AddColumn("trackedby",          false);
-                qry.AddColumn("rectype",            false);
-                qry.AddColumn("itemclass",          false);
-                qry.AddColumn("itemorder",          false);
-                qry.AddColumn("orderby",            false);
-                qry.AddColumn("optioncolor",        false);
-                qry.AddColumn("warehouseid",        false);
-                qry.AddColumn("whcode",             false);
-                qry.AddColumn("scannablemasterid",  false);
                 select.Add("select *");
                 select.Add("from dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)");
-                select.Add("where exceptionflg = 'T'");
-                select.Add("  and (qtyordered > 0 or qtystagedandout > 0)");
-                select.Add("  and ((itemclass = 'C') or (itemclass = 'K') or (itemclass = 'S') or (itemclass = 'N') or missingflg = 'T')");
-                if (searchMode == "description")
+                select.Parse();
+                select.AddWhere("exceptionflg = 'T'");
+                select.AddWhere("(qtyordered > 0 or qtystagedandout > 0)");
+                select.AddWhere("((itemclass = 'C') or (itemclass = 'K') or (itemclass = 'S') or (itemclass = 'N') or missingflg = 'T')");
+                if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
-                    select.Add("  and description like @searchvalue");
-                    select.AddParameter("@searchvalue", "%" + searchValue + "%");
+                    string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < searchValues.Length; i++)
+                    {
+                        select.AddWhere($"description like @searchvalue{i}");
+                        select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                    }
                 }
-                select.Add("order by orderby");
+                select.AddOrderBy("orderby");
                 select.AddParameter("@orderid", orderId);
                 select.AddParameter("@warehouseid", warehouseId);
                 select.AddParameter("@contractid", contractId);

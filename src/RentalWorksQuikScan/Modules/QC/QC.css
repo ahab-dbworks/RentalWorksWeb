@@ -18,4 +18,22 @@
 #qc .qc-item .qc-fields .pictures .item-photo[data-status="empty"] {border:1px dashed;}
 #qc .qc-item .qc-fields .pictures .item-photo[data-status="image"] {border:1px solid;}
 #qc .qc-item .qc-fields .pictures .item-photo i {padding:38px;}
-#qc .qc-item .qc-fields .pictures .item-photo img {height:98px;width:98px;}
+
+#qc .qc-rfiditems .norecords {text-align:center;margin:5px;}
+#qc .qc-rfiditems { display: none; background-color: #212121; margin-top: 10px; }
+
+#qc .qc-rfiditems .rfid-item {margin-top:4px;cursor:pointer;border:1px solid #616161;font-size:12px;}
+#qc .qc-rfiditems .rfid-item .rfid-item-title {background-color:#616161;font-weight:bold;padding:2px;text-align:center;}
+#qc .qc-rfiditems .rfid-item .rfid-item-info {overflow:auto;}
+#qc .qc-rfiditems .rfid-item .rfid-item-info .rfid-data {overflow:auto;padding:2px 4px;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;}
+#qc .qc-rfiditems .rfid-item .rfid-item-info .rfid-data:nth-child(even) {background:rgba(65, 65, 65, 0.65);}
+#qc .qc-rfiditems .rfid-item .rfid-item-info .rfid-data .item-caption {flex: 0 0 80px;}
+#qc .qc-rfiditems .rfid-item .rfid-item-info .rfid-data .item-value {-webkit-box-flex:1;-webkit-flex:1;flex: 1 0 0;}
+
+#qc .qc-rfiditems .rfid-item:active {background-color:#0066ff;}
+
+#qc .qc-rfiditems .rfid-item.processed .rfid-item-title {background-color:#209309;}
+#qc .qc-rfiditems .rfid-item.processed.duplicate .rfid-item-title {background-color:#3557e7;}
+#qc .qc-rfiditems .rfid-item.exception .rfid-item-title {background-color:#C62828;}
+#qc .qc-rfiditems .rfid-item.pending .rfid-item-title {background-color:#31859c;}
+#qc .qc-rfiditems .rfid-item.qcrequired .rfid-item-title {background-color:#4CAF50;}

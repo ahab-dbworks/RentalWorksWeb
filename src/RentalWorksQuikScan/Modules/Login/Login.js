@@ -136,7 +136,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                                                 }
                                             } else {
                                                 // get session info
-                                                FwAppData.apiMethod(true, 'GET', 'api/v1/account/session?applicationid=' + FwApplicationTree.currentApplicationId, null,  null,
+                                                FwAppData.apiMethod(true, 'GET', 'api/v1/account/session?applicationid={' + FwApplicationTree.currentApplicationId +'}', null,  null,
                                                     function(responseSessionInfo) {
                                                         try {
                                                             sessionStorage.setItem('email', responseSessionInfo.webUser.email);

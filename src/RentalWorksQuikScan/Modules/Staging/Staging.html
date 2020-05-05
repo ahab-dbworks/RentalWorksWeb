@@ -27,8 +27,6 @@
 
     <div class="page page-staging" style="display:none;">
 
-      {{{htmlScanBarcode}}}
-
       <div id="staging-scan" data-mode="SCAN"></div>
 
       <div id="staging-rfid" style="display:none;">
@@ -57,12 +55,12 @@
         </div>
       </div>
 
-      <div id="staging-pendingList" class="panel">
-        <ul id="staging-pendingList-ul"></ul>
+      <div id="staging-pendingList">
+        <div id="pendingsearch" class="itemsearch"></div>
       </div>
 
-      <div id="staging-stagedList" class="panel" style="display:none;">
-        <ul id="staging-stagedList-ul"></ul>
+      <div id="staging-stagedList" style="display:none;">
+          <div id="stagedsearch" class="itemsearch"></div>
       </div>
 
       <div id="staging-bottomspacer"></div>

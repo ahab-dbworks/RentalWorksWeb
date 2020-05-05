@@ -135,13 +135,16 @@
                     id:          'pendingtab',
                     caption:     'Pending',
                     buttonclick: function () {
+                        program.setScanTargetLpNearfield('#pendingsearch .searchbox');
                         $pending.showscreen();
+                        $pending.find('#pendingsearch').fwmobilesearch('refresh');
                     }
                 },
                 {
                     id:          'rfidtab',
                     caption:     'RFID',
                     buttonclick: function () {
+                        program.setScanTargetLpNearfield('');
                         $rfid.showscreen();
                     }
                 },
@@ -149,7 +152,9 @@
                     id:          'sessiontab',
                     caption:     'Session In',
                     buttonclick: function () {
+                        program.setScanTargetLpNearfield('#sessioninsearch .searchbox');
                         $sessionin.showscreen();
+                        $sessionin.find('#sessioninsearch').fwmobilesearch('refresh');
                     }
                 }
             ]
@@ -331,7 +336,40 @@
 
         $pending.find('#pendingsearch').fwmobilesearch({
             service: 'CheckIn',
-            method:  'PendingSearch',
+            method: 'PendingSearch',
+            searchModes: [
+                {
+                    caption: 'Scan (no refresh)',
+                    placeholder: 'Scan Bar Code / I-Code',
+                    value: 'code',
+                    hasVirtualNumpad: true,
+                    //hasPager: false,
+                    //hasSearchResults: false,
+                    search: function (value, plugin) {
+                        if (value.length > 0) {
+                            screen.scanCode(value);
+                            plugin.clearsearchbox();
+                        } else {
+                            return true; // do a normal search
+                        }
+                    },
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                    }
+                },
+                {
+                    caption: 'Search by Description', placeholder: 'Description', value: 'description',
+                    //search: function (description) {
+                    //    if (description.length > 0) {
+                    //        screen.$search.fwmobilesearch('search');
+                    //    }
+                    //},
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                        //plugin.search();
+                    }
+                }
+            ],
             getRequest: function() {
                 var request = {
                     contractid: screen.getContractId()
@@ -339,11 +377,9 @@
                 return request;
             },
             cacheItemTemplate: false,
-            itemTemplate: function(model) {
-                var html: string | string[] = [], masterclass;
-                masterclass = 'item itemclass-' + model.itemclass;
-                masterclass += ((model.trackedby === 'SERIALNO' || model.trackedby === 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0)) ? ' link' : '';
-                html.push('<div class="' + masterclass + '">');
+            itemTemplate: function (model) {
+                var html: string | string[] = [];
+                html.push(`<div data-itemclass="${model.itemclass}">`);
                 html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
                 html.push('  <div class="row2">');
                 html.push('    <div class="col1">');
@@ -390,6 +426,9 @@
                 html = html.join('\n');
                 return html;
             },
+            hasRecordClick: (model: any): boolean => {
+                return ((model.trackedby === 'SERIALNO' || model.trackedby === 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0));
+            },
             recordClick: function(recorddata, $record) {
                 try {
                     if (recorddata.trackedby === 'QUANTITY' || recorddata.subbyquantity === true) {
@@ -414,16 +453,13 @@
                 }
             },
             afterLoad: function(plugin, response) {
-                if ((sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') && response.qtyitemexists) {
+                if (sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') {
                     $checkincontrol.fwmobilemodulecontrol('showButton', '#applyallqtyitems');
                 } else {
                     $checkincontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
                 }
                 var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
                 $checkincontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
-
-                var $recordcount = plugin.$element.find('.searchfooter .recordcount');
-                $recordcount.html($recordcount.text().replace('items', 'lines') + ' / ' + response.totalout + ' items');
             }
         });
         $pending.showscreen = function() {
@@ -437,7 +473,16 @@
             $checkincontrol.fwmobilemodulecontrol('hideButton', '#extraitems');
             screen.properties.currentview = 'PENDING';
             if (screen.getContractId() !== '') {
-                $pending.find('#pendingsearch').fwmobilesearch('search');
+                const searchOption = $pending.find('#pendingsearch').fwmobilesearch('getSearchOption');
+                switch (searchOption) {
+                    case 'code':
+                        $pending.find('#pendingsearch').fwmobilesearch('clearsearchbox');
+                        $pending.find('#pendingsearch').fwmobilesearch('clearsearchresults');
+                        break;
+                    case 'decription':
+                        $pending.find('#pendingsearch').fwmobilesearch('search');
+                        break;
+                }
             }
         };
         $pending.applyallqtyitems = function() {
@@ -543,6 +588,7 @@
             $rfid.find('.rfid-items').empty();
 
             for (var i = 0; i < tags.length; i++) {
+                $item = null;
                 if (tags[i].status === 'PROCESSED') {
                     $item = $rfid.rfiditem('processed');
                     $item.find('.rfid-item-title').html(tags[i].title);
@@ -561,8 +607,10 @@
                     $item.find('.rfid-data.message .item-value').html(tags[i].message);
                     $item.attr('data-exceptiontype', tags[i].exceptiontype);
                 }
-                $item.data('recorddata', tags[i]);
-                $rfid.find('.rfid-items').append($item);
+                if ($item !== null) {
+                    $item.data('recorddata', tags[i]);
+                    $rfid.find('.rfid-items').append($item);
+                }
             }
 
             switch ($rfid.data('filterview')) {
@@ -604,8 +652,18 @@
                 $confirmation = FwConfirmation.renderConfirmation('Options', '<div class="exceptionbuttons"></div>');
                 $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
 
+                $confirmation.find('.exceptionbuttons').append('<div class="tagfinder">Tag Finder</div>');
                 $confirmation.find('.exceptionbuttons').append('<div class="clear">Clear item?</div>');
 
+                $confirmation.on('click', '.tagfinder', () => {
+                    try {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        const recorddata = $this.data('recorddata');
+                        RwRFID.startTagFinder(recorddata.rfid);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 $confirmation.on('click', '.clear', function() {
                     var request;
                     request = {
@@ -644,9 +702,19 @@
                         $confirmation.find('.exceptionbuttons').append('<div class="swap">Swap</div>');
                         break;
                 }
+                $confirmation.find('.exceptionbuttons').append('<div class="tagfinder">Tag Finder</div>');
                 $confirmation.find('.exceptionbuttons').append('<div class="clear">Clear Item</div>');
 
                 $confirmation.find('.exceptionbuttons')
+                    .on('click', '.tagfinder', () => {
+                        try {
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            const recorddata = $this.data('recorddata');
+                            RwRFID.startTagFinder(recorddata.rfid);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    })
                     .on('click', '.addordertosession, .clear, .swap', function() {
                         var request: any = {};
                         if (jQuery(this).hasClass('addordertosession')) {
@@ -673,7 +741,40 @@
 
         $sessionin.find('#sessioninsearch').fwmobilesearch({
             service: 'CheckIn',
-            method:  'SessionInSearch',
+            method: 'SessionInSearch',
+            searchModes: [
+                {
+                    caption: 'Scan (no refresh)',
+                    placeholder: 'Scan Bar Code / I-Code',
+                    value: 'code',
+                    hasVirtualNumpad: true,
+                    //hasPager: false,
+                    //hasSearchResults: false,
+                    search: function (value, plugin) {
+                        if (value.length > 0) {
+                            screen.scanCode(value);
+                            plugin.clearsearchbox();
+                        } else {
+                            return true; // do a normal search
+                        }
+                    },
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                    }
+                },
+                {
+                    caption: 'Search by Description', placeholder: 'Description', value: 'description',
+                    //search: function (description) {
+                    //    if (description.length > 0) {
+                    //        screen.$search.fwmobilesearch('search');
+                    //    }
+                    //},
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                        //plugin.search();
+                    }
+                }
+            ],
             getRequest: function() {
                 var request = {
                     contractid: screen.getContractId()
@@ -682,12 +783,10 @@
             },
             cacheItemTemplate: false,
             itemTemplate: function(model) {
-                var html: string | string[] = [], masterclass, isheader;
-                isheader    = ((model.itemclass === 'N') || (model.sessionin === 0))
-                masterclass = 'item itemclass-' + model.itemclass;
-                masterclass += (!isheader ? ' link' : '');
-                masterclass += (model.inrepair === 'T' ? ' inrepair' : '');
-                html.push('<div class="' + masterclass + '">');
+                var html: string | string[] = [];
+                const isheader    = ((model.itemclass === 'N') || (model.sessionin === 0))
+                const attrInRepair = model.inrepair === 'T' ? ' data-inrepair="T">' : ''
+                html.push(`<div data-itemclass="${model.itemclass}"${attrInRepair}>`);
                 html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
                 if (!isheader) {
                     html.push('  <div class="row2">');
@@ -743,6 +842,10 @@
                 html.push('</div>');
                 html = html.join('\n');
                 return html;
+            },
+            hasRecordClick: (model: any): boolean => {
+                const isheader = ((model.itemclass === 'N') || (model.sessionin === 0));
+                return !isheader;
             },
             recordClick: function(recorddata, $record) {
                 try {
@@ -841,16 +944,14 @@
                 }
             },
             afterLoad: function(plugin, response) {
-                var $recordcount;
-
                 if (response.extraitems > 0) {
                     $checkincontrol.fwmobilemodulecontrol('showButton', '#extraitems');
                 } else {
                     $checkincontrol.fwmobilemodulecontrol('hideButton', '#extraitems');
                 }
 
-                $recordcount = plugin.$element.find('.searchfooter .recordcount');
-                $recordcount.html($recordcount.text().replace('items', 'lines') + ' / ' + response.totalin + ' items');
+                //const $recordcount = plugin.$element.find('.searchfooter .recordcount');
+                //$recordcount.html($recordcount.text().replace('items', 'lines') + ' / ' + response.totalin + ' items');
             }
         });
         $sessionin.showscreen = function() {
@@ -865,7 +966,16 @@
             $checkincontrol.fwmobilemodulecontrol('hideButton', '#extraitems');
             screen.properties.currentview = 'SESSIONIN';
             if (screen.getContractId() !== '') {
-                $sessionin.find('#sessioninsearch').fwmobilesearch('search');
+                const searchOption = $sessionin.find('#sessioninsearch').fwmobilesearch('getSearchOption');
+                switch (searchOption) {
+                    case 'code':
+                        $sessionin.find('#sessioninsearch').fwmobilesearch('clearsearchbox');
+                        $sessionin.find('#sessioninsearch').fwmobilesearch('clearsearchresults');
+                        break;
+                    case 'decription':
+                        $sessionin.find('#sessioninsearch').fwmobilesearch('search');
+                        break;
+                }
             }
         };
 
@@ -1631,6 +1741,7 @@
             screen.$popupQty.find('#checkIn-popupQty-genericMsg').html(responseCheckInItem.webCheckInItem.genericMsg);
             screen.$popupQty.find('#checkIn-popupQty-msg').html(responseCheckInItem.webCheckInItem.msg);
             screen.$popupQty.find('#checkIn-popupQty-masterNo').html(responseCheckInItem.webCheckInItem.masterNo);
+            screen.$popupQty.find('#checkIn-popupQty-code').html(responseCheckInItem.request.code).toggle(responseCheckInItem.request.code.length > 0);
             screen.$popupQty.find('#checkIn-popupQty-description').html(responseCheckInItem.webCheckInItem.description).show();
             valTxtQty = (isScannedICode) ? '' : String(responseCheckInItem.webCheckInItem.stillOut);
             screen.$popupQty.find('.fwformfield[data-datafield="qty"] .fwformfield-value').val(valTxtQty);
@@ -1759,46 +1870,90 @@
             return screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled');
         };
 
-        screen.$view
-            .on('change', '#scanBarcodeView-txtBarcodeData', function() {
-                var barcode, $txtBarcodeData, requestCheckInItem, orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, isAisleShelfBarcode, trackedby;
-                try {
-                    if (!screen.isBarcodeFieldDisabled()) {
-                        screen.disableBarcodeField();
-                        $txtBarcodeData = jQuery(this);
-                        barcode = $txtBarcodeData.val();
-                        if (barcode.length > 0) {
-                            isAisleShelfBarcode = /^[A-z0-9]{4}-[A-z0-9]{4}$/.test(barcode);  // Format: AAAA-SSSS
-                            if (isAisleShelfBarcode) {
-                                let aisleshelfstring = $txtBarcodeData.val().split('-');
-                                let aisleshelfdata   = { 'Aisle': aisleshelfstring[0].toUpperCase(), 'Shelf': aisleshelfstring[1].toUpperCase() };
-
-                                screen._aisleshelfdata(aisleshelfdata);
-
-                                screen.displayAisleShelf(aisleshelfdata.Aisle, aisleshelfdata.Shelf);
-
-                                $txtBarcodeData.val('');
-                                screen.enableBarcodeField();
-                            } else {
-                                orderId        = screen.getOrderId();
-                                masterItemId   = '';
-                                masterId       = '';
-                                code           = RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase());
-                                qty            = 0;
-                                newOrderAction = '';
-                                aisle          = screen._aisleshelfdata()?.Aisle || '';
-                                shelf          = screen._aisleshelfdata()?.Shelf || '';
-                                playStatus     = true;
-                                vendorId       = '';
-                                trackedby      = '';
-                                screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
-                            }
-                        }
-                    }
-                } catch(ex) {
-                    FwFunc.showError(ex);
+        screen.scanCode = function(code) {
+            var orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, isAisleShelfBarcode, trackedby;
+            if (!screen.isBarcodeFieldDisabled()) {
+                switch (screen.properties.currentview) {
+                    case 'PENDING':
+                        //screen.$view.find('#pendingsearch').fwmobilesearch('setsearchmode', 'code');
+                        screen.$view.find('#pendingsearch').fwmobilesearch('setSearchText', code, false);
+                        break;
+                    case 'SESSIONIN':
+                        //screen.$view.find('#sessioninsearch').fwmobilesearch('setsearchmode', 'code');
+                        screen.$view.find('#sessioninsearch').fwmobilesearch('setSearchText', code, false);
+                        break;
                 }
-            })
+                screen.disableBarcodeField();
+                if (code.length > 0) {
+                    isAisleShelfBarcode = /^[A-z0-9]{4}-[A-z0-9]{4}$/.test(code);  // Format: AAAA-SSSS
+                    if (isAisleShelfBarcode) {
+                        let aisleshelfstring = code.split('-');
+                        let aisleshelfdata = { 'Aisle': aisleshelfstring[0].toUpperCase(), 'Shelf': aisleshelfstring[1].toUpperCase() };
+
+                        screen._aisleshelfdata(aisleshelfdata);
+
+                        screen.displayAisleShelf(aisleshelfdata.Aisle, aisleshelfdata.Shelf);
+
+                        //$txtBarcodeData.val('');
+                        screen.enableBarcodeField();
+                    } else {
+                        orderId = screen.getOrderId();
+                        masterItemId = '';
+                        masterId = '';
+                        const barcode = RwAppData.stripBarcode(code.toUpperCase());
+                        qty = 0;
+                        newOrderAction = '';
+                        aisle = screen._aisleshelfdata()?.Aisle || '';
+                        shelf = screen._aisleshelfdata()?.Shelf || '';
+                        playStatus = true;
+                        vendorId = '';
+                        trackedby = '';
+                        screen.checkInItem(orderId, masterItemId, masterId, barcode, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
+                    }
+                }
+            }  
+        }
+
+        screen.$view
+            //.on('change', '#scanBarcodeView-txtBarcodeData', function() {
+            //    var barcode, $txtBarcodeData, requestCheckInItem, orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, isAisleShelfBarcode, trackedby;
+            //    try {
+            //        if (!screen.isBarcodeFieldDisabled()) {
+            //            screen.disableBarcodeField();
+            //            $txtBarcodeData = jQuery(this);
+            //            barcode = $txtBarcodeData.val();
+            //            if (barcode.length > 0) {
+            //                isAisleShelfBarcode = /^[A-z0-9]{4}-[A-z0-9]{4}$/.test(barcode);  // Format: AAAA-SSSS
+            //                if (isAisleShelfBarcode) {
+            //                    let aisleshelfstring = $txtBarcodeData.val().split('-');
+            //                    let aisleshelfdata   = { 'Aisle': aisleshelfstring[0].toUpperCase(), 'Shelf': aisleshelfstring[1].toUpperCase() };
+
+            //                    screen._aisleshelfdata(aisleshelfdata);
+
+            //                    screen.displayAisleShelf(aisleshelfdata.Aisle, aisleshelfdata.Shelf);
+
+            //                    $txtBarcodeData.val('');
+            //                    screen.enableBarcodeField();
+            //                } else {
+            //                    orderId        = screen.getOrderId();
+            //                    masterItemId   = '';
+            //                    masterId       = '';
+            //                    code           = RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase());
+            //                    qty            = 0;
+            //                    newOrderAction = '';
+            //                    aisle          = screen._aisleshelfdata()?.Aisle || '';
+            //                    shelf          = screen._aisleshelfdata()?.Shelf || '';
+            //                    playStatus     = true;
+            //                    vendorId       = '';
+            //                    trackedby      = '';
+            //                    screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
+            //                }
+            //            }
+            //        }
+            //    } catch(ex) {
+            //        FwFunc.showError(ex);
+            //    }
+            //})
             .on('click', '.aisleshelfclear', function() {
                 screen.$view.find('#checkIn-bottomtray .aisleshelf').remove();
                 screen.refreshbottomspacer();
@@ -1941,10 +2096,12 @@
         };
 
         screen.load = function() {
-            program.setScanTarget('#scanBarcodeView-txtBarcodeData');
-            program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData');
+            program.setScanTarget('');
+            program.setScanTargetLpNearfield('');
 
-            RwVirtualNumpad.init('#scanBarcodeView-txtBarcodeData');
+            program.onScanBarcode = function (barcode, barcodeType) {
+                screen.scanCode(barcode);
+            }
 
             if (typeof window.TslReader !== 'undefined') {
                 window.TslReader.registerListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen', function() {
@@ -1955,7 +2112,15 @@
                     RwRFID.isConnected = false;
                     screen.toggleRfid();
                 });
-                // setup TSL RFID Reader
+                RwRFID.registerEvents(screen.rfidscan);
+            }
+            if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
+                window.ZebraRFIDAPI3.registerListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen', function () {
+                    screen.toggleRfid();
+                });
+                window.ZebraRFIDAPI3.registerListener('deviceDisconnected', 'deviceDisconnected_checkincontrollerjs_getCheckInScreen', function () {
+                    screen.toggleRfid();
+                });
                 RwRFID.registerEvents(screen.rfidscan);
             }
 
@@ -1986,6 +2151,11 @@
             if (typeof window.TslReader !== 'undefined') {
                 window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen');
                 window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_checkincontrollerjs_getCheckInScreen');
+                RwRFID.unregisterEvents();
+            }
+            if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
+                window.ZebraRFIDAPI3.unregisterListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen');
+                window.ZebraRFIDAPI3.unregisterListener('deviceDisconnected', 'deviceDisconnected_checkincontrollerjs_getCheckInScreen');
                 RwRFID.unregisterEvents();
             }
             jQuery(window).off('scroll').off('touchmove');

@@ -319,13 +319,13 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod(RequiredParameters = "orderid,contractid")]
         public static void GetPendingItems(dynamic request, dynamic response, dynamic session)
         {
-            const string METHOD_NAME = "GetStagingPendingItems";
+            const string METHOD_NAME = "GetPendingItems";
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
             session.userLocation = RwAppData.GetUserLocation(conn: FwSqlConnection.RentalWorks
                                                            , usersId: session.security.webUser.usersid);
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "Your user account requires a warehouse to peform this action.", session.userLocation.warehouseId);
-            string searchMode = string.Empty;
-            string searchValue = string.Empty;
+            string searchMode = request.searchmode;
+            string searchValue = request.searchvalue;
             int pageNo = 0;
             int pageSize = 0;
             if (FwValidate.IsPropertyDefined(request, "pageno"))
@@ -336,14 +336,14 @@ namespace RentalWorksQuikScan.Modules
             {
                 pageSize = request.pagesize;
             }
-            response.getStagingPendingItems = RwAppData.GetStagingPendingItems(conn:        FwSqlConnection.RentalWorks,
-                                                                               orderId:     request.orderid,
-                                                                               warehouseId: session.userLocation.warehouseId,
-                                                                               contractId:  request.contractid,
-                                                                               searchMode:  searchMode,
-                                                                               searchValue: searchValue,
-                                                                               pageNo:      pageNo,
-                                                                               pageSize:    pageSize);
+            response.searchresults = RwAppData.GetStagingPendingItems(conn:        FwSqlConnection.RentalWorks,
+                                                                      orderId:     request.orderid,
+                                                                      warehouseId: session.userLocation.warehouseId,
+                                                                      contractId:  request.contractid,
+                                                                      searchMode:  searchMode,
+                                                                      searchValue: searchValue,
+                                                                      pageNo:      pageNo,
+                                                                      pageSize:    pageSize);
         }
         //----------------------------------------------------------------------------------------------------
         public static FwJsonDataTable funcstaged(FwSqlConnection conn, string orderid, string warehouseid, bool summary, string searchMode, string searchValue, int pageNo, int pageSize)
@@ -361,18 +361,25 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddColumn("vendor", false);
                 qry.AddColumn("itemclass", false);
                 qry.AddColumn("trackedby", false);
+                qry.AddColumn("consignorid", false);
+                qry.AddColumn("consignoragreementid", false);
                 var select = new FwSqlSelect();
                 select.PageNo = pageNo;
                 select.PageSize = pageSize;
-                select.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby");
+                select.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby, consignorid, consignoragreementid, orderby");
                 select.Add("from dbo.funcstaged(@orderid, @summary)");
                 select.Add("where warehouseid = @warehouseid");
-                if (searchMode == "description")
+                select.Parse();
+                if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
-                    select.AddWhere("description like @searchvalue");
-                    select.AddParameter("@searchvalue", "%" + searchValue + "%");
+                    string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < searchValues.Length; i++)
+                    {
+                        select.AddWhere($"description like @searchvalue{i}");
+                        select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                    }
                 }
-                select.Add("order by orderby");
+                select.AddOrderBy("orderby");
                 select.AddParameter("@orderid", orderid);
                 select.AddParameter("@summary", FwConvert.LogicalToCharacter(summary));
                 select.AddParameter("@warehouseid", warehouseid);
@@ -397,17 +404,24 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddColumn("vendor", false);
                 qry.AddColumn("itemclass", false);
                 qry.AddColumn("trackedby", false);
+                qry.AddColumn("consignorid", false);
+                qry.AddColumn("consignoragreementid", false);
                 var select = new FwSqlSelect();
                 select.PageNo = pageNo;
                 select.PageSize = pageSize;
-                select.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby");
+                select.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby, consignorid, consignoragreementid, orderby");
                 select.Add("from dbo.funccheckedout(@contractid)");
-                if (searchMode == "description")
+                select.Parse();
+                if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
-                    select.AddWhere("description like @searchvalue");
-                    select.AddParameter("@searchvalue", "%" + searchValue + "%");
+                    string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < searchValues.Length; i++)
+                    {
+                        select.AddWhere($"description like @searchvalue{i}");
+                        select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                    }
                 }
-                select.Add("order by orderby");
+                select.AddOrderBy("orderby");
                 select.AddParameter("@contractid", contractid);
                 dynamic result = new ExpandoObject();
                 result = qry.QueryToFwJsonTable(select, false);
@@ -418,18 +432,23 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod(RequiredParameters = "orderid,contractid")]
         public static void GetStagedItems(dynamic request, dynamic response, dynamic session)
         {
-            //const string METHOD_NAME = "GetStagedItems";
-            //FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
-            dynamic userLocation = RwAppData.GetUserLocation(conn: FwSqlConnection.RentalWorks
+            const string METHOD_NAME = "GetStagedItems";
+            session.userLocation = RwAppData.GetUserLocation(conn: FwSqlConnection.RentalWorks
                                                            , usersId: session.security.webUser.usersid);
-            string warehouseid = userLocation.warehouseId;
-            //FwValidate.TestIsNullOrEmpty(METHOD_NAME, "Your user account requires a warehouse to peform this action.", session.userLocation.warehouseId);
-            //FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
+            FwValidate.TestIsNullOrEmpty(METHOD_NAME, "Your user account requires a warehouse to peform this action.", session.userLocation.warehouseId);
 
             string searchMode = string.Empty;
             string searchValue = string.Empty;
             int pageNo = 0;
             int pageSize = 0;
+            if (FwValidate.IsPropertyDefined(request, "searchmode"))
+            {
+                searchMode = request.searchmode;
+            }
+            if (FwValidate.IsPropertyDefined(request, "searchvalue"))
+            {
+                searchValue = request.searchvalue;
+            }
             if (FwValidate.IsPropertyDefined(request, "pageno"))
             {
                 pageNo = request.pageno;
@@ -441,40 +460,12 @@ namespace RentalWorksQuikScan.Modules
 
             if (string.IsNullOrEmpty(request.contractid))
             {
-                response.getStagingStagedItems = Staging.funcstaged(FwSqlConnection.RentalWorks, request.orderid, warehouseid, false, searchMode, searchValue, pageNo, pageSize);
+                response.searchresults = Staging.funcstaged(FwSqlConnection.RentalWorks, request.orderid, session.userLocation.warehouseId, false, searchMode, searchValue, pageNo, pageSize);
             }
             else
             {
-                response.getStagingStagedItems = Staging.funccheckedout(FwSqlConnection.RentalWorks, request.contractid, searchMode, searchValue, pageNo, pageSize);
+                response.searchresults = Staging.funccheckedout(FwSqlConnection.RentalWorks, request.contractid, searchMode, searchValue, pageNo, pageSize);
             }
-
-            // mv 2016-12-13 Changed the Staged list to show both the staged items and the items on the contract
-            //using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
-            //{
-            //    qry.AddColumn("rectype", false);
-            //    qry.AddColumn("masteritemid", false);
-            //    qry.AddColumn("description", false);
-            //    qry.AddColumn("masterid", false);
-            //    qry.AddColumn("masterno", false);
-            //    qry.AddColumn("barcode", false);
-            //    qry.AddColumn("quantity", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            //    qry.AddColumn("vendorid", false);
-            //    qry.AddColumn("vendor", false);
-            //    qry.AddColumn("itemclass", false);
-            //    qry.AddColumn("trackedby", false);
-            //    qry.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby, orderby");
-            //    qry.Add("from dbo.funcstaged(@orderid, @summary)");
-            //    qry.Add("where warehouseid = @warehouseid");
-            //    qry.Add("union");
-            //    qry.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby, orderby");
-            //    qry.Add("from dbo.funccheckedout(@contractid)");
-            //    qry.Add("order by orderby");
-            //    qry.AddParameter("@orderid", request.orderid);
-            //    qry.AddParameter("@summary", "F");
-            //    qry.AddParameter("@warehouseid", warehouseid);
-            //    qry.AddParameter("@contractid", request.contractid);
-            //    response.getStagingStagedItems = qry.QueryToFwJsonTable();
-            //}
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters = "orderid,contractid")]

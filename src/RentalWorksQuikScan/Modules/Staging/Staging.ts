@@ -28,10 +28,6 @@ class StagingControllerClass {
         const combinedViewModel = jQuery.extend({
             captionPageTitle:         pageTitle
           , captionPageSubTitle:      pageSubTitle
-          , htmlScanBarcode:          RwPartialController.getScanBarcodeHtml({
-                captionInstructions: RwLanguages.translate('Select Item to Stage...')
-              , captionBarcodeICode: RwLanguages.translate('Bar Code / I-Code')
-            })
           , captionStage:              RwLanguages.translate('Stage')
           , captionUnstage:            RwLanguages.translate('Unstage')
           , captionCancel:             RwLanguages.translate('Cancel')
@@ -315,6 +311,411 @@ class StagingControllerClass {
                 }
             ]
         });
+        //----------------------------------------------------------------------------------------------------
+        // Pending Items
+        //----------------------------------------------------------------------------------------------------
+        screen.$view.find('#pendingsearch').fwmobilesearch({
+            service: 'Staging',
+            method: 'GetPendingItems',
+            searchModes: [
+                {
+                    caption: 'Scan (no refresh)',
+                    placeholder: 'Scan Bar Code / I-Code',
+                    value: 'code',
+                    hasVirtualNumpad: true,
+                    //hasPager: false,
+                    //hasSearchResults: false,
+                    search: function (value, plugin) {
+                        if (value.length > 0) {
+                            screen.scanCode(value);
+                            plugin.clearsearchbox();
+                        } else {
+                            return true; // do a normal search
+                        }
+                    },
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                    }
+                },
+                {
+                    caption: 'Search by Description',
+                    placeholder: 'Description',
+                    value: 'description',
+                    //search: function (description) {
+                    //    if (description.length > 0) {
+                    //        screen.$view.find('#pendingsearch').fwmobilesearch('search');
+                    //    }
+                    //},
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                    }
+                }
+            ],
+            getRequest: function () {
+                var request = {
+                    orderid: screen.getOrderId(),
+                    contractid: ''
+                };
+                return request;
+            },
+            cacheItemTemplate: false,
+            itemTemplate: function (model) {
+                var html: string | string[] = [], isClickableRentalItem = false, isClickableSalesItem = false;
+                //const isHeaderRow = ((model.itemclass === 'N') || (model.missingqty === 0));
+                //let cssClass = '';
+                //if (!isHeaderRow) {
+                //    isClickableRentalItem = ((model.rectype === 'R') &&
+                //        ((model.trackedby === 'QUANTITY') || (model.trackedby === 'SERIALNO')) &&
+                //        (model.itemclass[0] !== 'N') &&
+                //        (model.qtysub === 0)
+                //    );
+                //    isClickableSalesItem = (model.rectype === 'S');
+                //    if (isClickableRentalItem || isClickableSalesItem) {
+                //        if (cssClass.length > 0) {
+                //            cssClass += ' ';
+                //        }
+                //        cssClass += 'link';
+                //    }
+                //}
+                //if (cssClass.length > 0) {
+                //    cssClass += ' ';
+                //}
+                //cssClass += 'itemclass-' + model.itemclass;
+                let availablefor = '';
+                if (model.rectype === 'R') {
+                    availablefor = 'Rent';
+                } else if (model.rectype === 'S') {
+                    availablefor = 'Sell';
+                } else if (model.rectype === 'P') {
+                    availablefor = 'Parts';
+                }
+                html.push(
+`<div data-itemclass="{{itemclass}}" data-rectype="{{rectype}}">
+  <div class="row">
+    <div class="title">{{description}}</div>
+    </div>
+  <div class="row">
+    <div class="col1 masterno caption">I-Code:</div>
+    <div class="col2 masterno value">{{masterno}}</div>
+    <div class="col3 missingqty caption">Remaining:</div>
+    <div class="col4 missingqty value">{{missingqty}}</div>
+  </div>
+  <div class="row">`);
+
+                if (model.rectype === 'R') {
+                    html.push(
+`  
+   <div class="col1 trackedby caption">Tracked By:</div>
+   <div class="col2 trackedby value">{{trackedby}}</div>`);
+                } else {
+                    html.push(
+`  <div class="col1 availfor caption">Available For:</div>
+  <div class="col2 availfor value">` + availablefor + `</div>`);
+                }
+                html.push(
+`  <div class="col3 qtyordered caption">Ordered:</div>
+  <div class="col4 qtyordered value">{{qtyordered}}</div>
+</div>
+<div class="row">
+  <div class="col1 caption"></div>
+  <div class="col2 value"></div>
+  <div class="col3 qtystagedandout caption">Staged/Out:</div>
+  <div class="col4 qtystagedandout value">{{qtystagedandout}}</div>
+</div>
+<div class="row">`);
+                if (model.consignorid !== '') {
+                    html.push(
+`  <div class="col1 vendor caption">Consignor:</div>
+  <div class="col2 vendor value">{{vendor}}</div>`);
+                } else if (model.subvendorid !== '') {
+                    html.push(
+`  <div class="col1 vendor caption">Sub-Vendor:</div>
+  <div class="col234 vendor value">{{vendor}} <span style="color:#ffff00;">(PO Sub-Receive to move to Staged)</span></div>`);
+                }
+                html.push('</div>');
+                html = html.join('\n');
+                return html;
+            },
+            hasRecordClick: (model: any): boolean => {
+                //return ((model.trackedby === 'SERIALNO' || model.trackedby === 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0));
+                let hasRecordClick = false;
+                const isHeaderRow = ((model.itemclass === 'N') || (model.missingqty === 0));
+                if (!isHeaderRow) {
+                    const isClickableRentalItem = ((model.rectype === 'R') &&
+                        ((model.trackedby === 'QUANTITY') || (model.trackedby === 'SERIALNO')) &&
+                        (model.itemclass[0] !== 'N') &&
+                        (model.qtysub === 0)
+                    );
+                    const isClickableSalesItem = (model.rectype === 'S');
+                    hasRecordClick = isClickableRentalItem || isClickableSalesItem;
+                }
+                return hasRecordClick;
+            },
+            recordClick: function (recorddata, $record) {
+                var $this, requestStageItem, requestSelectSerialNo, rectype, trackedby;
+                try {
+                    $this = jQuery(this);
+                    rectype = recorddata.rectype;
+                    trackedby = recorddata.trackedby;
+                    if (rectype === 'R') {
+                        if (trackedby === 'QUANTITY') {
+                            requestStageItem = {
+                                orderid: screen.getOrderId(),
+                                code: '',
+                                masteritemid: recorddata.masteritemid,
+                                qty: 0,
+                                additemtoorder: false,
+                                addcompletetoorder: false,
+                                releasefromrepair: false,
+                                unstage: false,
+                                vendorid: '',
+                                meter: 0,
+                                location: '',
+                                locationdata: screen._locationdata(),
+                                addcontainertoorder: false,
+                                overridereservation: false,
+                                stageconsigned: false,
+                                transferrepair: false,
+                                removefromcontainer: false,
+                                contractid: screen.getContractId(),
+                                ignoresuspendedin: false,
+                                consignorid: recorddata.consignorid,
+                                consignoragreementid: recorddata.consignoragreementid,
+                                playStatus: false
+                            };
+                            RwServices.order.pdastageitem(requestStageItem, function (responseStageItem) {
+                                properties.responseStageItem = responseStageItem;
+                                screen.pdastageitemCallback(responseStageItem);
+                            });
+                        } else if (trackedby === 'SERIALNO') {
+                            var masterid = recorddata.masterid;
+                            var masteritemid = recorddata.masteritemid;
+                            var description = recorddata.description;
+                            var masterno = recorddata.masterno;
+                            var missingqty = recorddata.missingqty;
+                            var qtyordered = recorddata.qtyordered;
+                            var qtystagedandout = recorddata.qtystagedandout;
+                            screen.pages.selectserialno.forward(masterid, masteritemid, description, masterno, missingqty, qtyordered, qtystagedandout);
+                        }
+                    } else if (rectype === 'S') {
+                        requestStageItem = {
+                            orderid: screen.getOrderId(),
+                            code: '',
+                            masteritemid: recorddata.masteritemid,
+                            qty: 0,
+                            additemtoorder: false,
+                            addcompletetoorder: false,
+                            releasefromrepair: false,
+                            unstage: false,
+                            vendorid: '',
+                            meter: 0,
+                            location: '',
+                            locationdata: screen._locationdata(),
+                            addcontainertoorder: false,
+                            overridereservation: false,
+                            stageconsigned: false,
+                            transferrepair: false,
+                            removefromcontainer: false,
+                            contractid: screen.getContractId(),
+                            ignoresuspendedin: false,
+                            consignorid: '',
+                            consignoragreementid: '',
+                            playStatus: false
+                        };
+                        RwServices.order.pdastageitem(requestStageItem, function (responseStageItem) {
+                            properties.responseStageItem = responseStageItem;
+                            screen.pdastageitemCallback(responseStageItem);
+                        });
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            },
+            afterLoad: function (plugin, response) {
+                if (sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') {
+                    screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#applyallqtyitems');
+                } else {
+                    screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
+                }
+                var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
+                screen.$modulecontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
+            }
+        });
+        //----------------------------------------------------------------------------------------------------
+        // Staged Items
+        //----------------------------------------------------------------------------------------------------
+        screen.$view.find('#stagedsearch').fwmobilesearch({
+            service: 'Staging',
+            method: 'GetStagedItems',
+            searchModes: [
+                {
+                    caption: 'Scan (no refresh)',
+                    placeholder: 'Scan Bar Code / I-Code',
+                    value: 'code',
+                    hasVirtualNumpad: true,
+                    //hasPager: false,
+                    //hasSearchResults: false,
+                    search: function (value, plugin) {
+                        if (value.length > 0) {
+                            screen.scanCode(value);
+                            plugin.clearsearchbox();
+                        } else {
+                            return true;
+                        }
+                    },
+                    click: function (plugin) {
+                        try {
+                            plugin.clearsearchbox();
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    }
+                },
+                {
+                    caption: 'Search by Description',
+                    placeholder: 'Search by Description',
+                    value: 'description',
+                    click: function (plugin) {
+                        try {
+                            plugin.clearsearchbox();
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    }
+                }
+            ],
+            getRequest: function () {
+                var request = {
+                    orderid: screen.getOrderId(),
+                    contractid: screen.getContractId()
+                };
+                return request;
+            },
+            cacheItemTemplate: false,
+            itemTemplate: function (model: any, dt: FwJsonDataTable, rowno: number) {
+                const itemclass = model.itemclass;
+                const rectype = model.rectype;
+                const qty = model.quantity;
+                let html: string | string[] = [];
+                let cssClass: string = '';
+                let isContainerHeaderRow = ((itemclass === 'N') || (qty === 0));
+                let availablefor: string = '';
+                if (rectype === 'R') { availablefor = 'Rent'; }
+                else if (rectype === 'S') { availablefor = 'Sell'; }
+                else if (rectype === 'P') { availablefor = 'Parts'; }
+                html.push(
+`<div class="${cssClass}" data-rectype="${rectype}" data-itemclass="${itemclass}">
+  <div class="row">
+    <div class="title">{{description}}</div>
+  </div>`);
+                if (isContainerHeaderRow) {
+                    html.push('  <div class="details" style="display:none;">');
+                } else {
+                    html.push('  <div class="details">');
+                }
+                html.push('    <div class="row">');
+                html.push('      <div class="col1 caption masterno">I-Code:</div>');
+                html.push('      <div class="col2 value masterno">{{masterno}}</div>');
+                html.push('      <div class="col3 caption staged">Staged:</div>');
+                html.push('      <div class="col4 value staged">{{quantity}}</div>');
+                html.push('</div>');
+                if (model.rectype !== 'R') {
+                    html.push(
+`    <div class="row">;
+      <div class="col1 caption rectype">Available For:</div>
+      <div class="col2 value rectype">${availablefor}</div>
+    </div>`);
+                }
+                if (model.rectype === 'R') {
+                    html.push(
+`    <div class="row">
+      <div class="col1 caption trackedby">Tracked By:</div>
+      <div class="col2 value trackedby">{{trackedby}}</div>
+    </div>`);
+                }
+                if (model.barcode !== '') {
+                    html.push('    <div class="row">');
+                    switch (model.trackedby) {
+                        case 'BARCODE':
+                            html.push('      <div class="col1 caption barcode">Barcode:</div>');
+                            break;
+                        case 'SERIALNO':
+                            html.push('      <div class="col1 caption barcode">Serial No:</div>');
+                            break;
+                        case 'RFID':
+                            html.push('      <div class="col1 caption barcode">RFID:</div>');
+                            break;
+                    }
+
+                    html.push('      <div class="col2 value barcode">{{barcode}}</div>');
+                    html.push('    </div>');
+                }
+                if (model.vendorid !== '') {
+                    html.push('    <div class="row">');
+                    html.push('      <div class="col1 caption vendor">Vendor/Consignor:</td>');
+                    html.push('      <div class="col234 value vendor" colspan="3">{{vendor}}</div>');
+                    html.push('    </div>');
+                }
+                html.push('  </div>');
+                html.push('</div>');
+                html = html.join('\n');
+                return html;
+
+            },
+            hasRecordClick: (model: any, dt: FwJsonDataTable, rowno: number): boolean => {
+                let isContainerHeaderRow = ((model.itemclass === 'N') || (model.qty === 0));
+                return (((model.itemclass !== 'NI') && (!isContainerHeaderRow)) ||
+                        ((model.itemclass === 'NI') && (rowno > 0) && (dt.Rows[rowno - 1][dt.ColumnIndex.itemclass] === 'N')));
+            },
+            recordClick: function (recorddata, $record) {
+                try {
+                    const $this = jQuery(this);
+                    const $contextmenu = FwContextMenu.render(recorddata.description, null);
+                    FwContextMenu.addMenuItem($contextmenu, 'Unstage Item', function () {
+                        try {
+                            var requestStageItem = {
+                                orderid: screen.getOrderId(),
+                                code: recorddata.barcode,
+                                masteritemid: recorddata.masteritemid,
+                                qty: parseFloat(recorddata.quantity),
+                                additemtoorder: false,
+                                addcompletetoorder: false,
+                                releasefromrepair: false,
+                                unstage: true,
+                                vendorid: recorddata.vendorid,
+                                meter: 0,
+                                location: '',
+                                locationdata: screen._locationdata(),
+                                addcontainertoorder: false,
+                                overridereservation: false,
+                                stageconsigned: false,
+                                transferrepair: false,
+                                removefromcontainer: false,
+                                contractid: screen.getContractId(),
+                                ignoresuspendedin: false,
+                                consignorid: recorddata.consignorid,
+                                consignoragreementid: recorddata.consignoragreementid,
+                                playStatus: false
+                            };
+                            RwServices.order.pdastageitem(requestStageItem, function (responseStageItem) {
+                                responseStageItem.unstageqty = requestStageItem.qty;
+                                properties.responseStageItem = responseStageItem;
+                                screen.unstageItemCallback(responseStageItem);
+                                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
+                            });
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            },
+            afterLoad: function (plugin, response) {
+                jQuery('#staging-stagedList-pnlCreateContract')
+                    .toggle((applicationConfig.designMode) || ((sessionStorage.users_enablecreatecontract === 'T') && (response.searchresults.Rows.length > 0)));
+            }
+        });
 
         screen.$modulemodeselector = screen.$view.find('.modulemodeselector');
         screen.$modulemodeselector.fwmobilemoduletabs({
@@ -324,19 +725,14 @@ class StagingControllerClass {
                     caption:     'Pending',
                     buttonclick: function () {
                         try {
-                            var request;
                             jQuery('#staging-stagedList').hide();
                             jQuery('#staging-scan').hide();
                             jQuery('#staging-rfid').hide();
                             jQuery('#staging-pendingList').show();
                             jQuery('#staging-scan').attr('data-mode', 'PENDING');
                             RwRFID.unregisterEvents();
-                            request = {
-                                orderid: screen.getOrderId(),
-                                contractid: ''
-                            };
-                            //RwServices.order.getStagingPendingItems(request, screen.getStagingPendingItemsCallback);
-                            RwServices.callMethod('Staging', 'GetPendingItems', request, screen.getStagingPendingItemsCallback);
+                            program.setScanTargetLpNearfield('#pendingsearch .searchbox');
+                            screen.$view.find('#pendingsearch').fwmobilesearch('refresh');
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
@@ -381,12 +777,8 @@ class StagingControllerClass {
                             jQuery('#staging-stagedList').show();
                             jQuery('#staging-scan').attr('data-mode', 'STAGEDLIST');
                             RwRFID.unregisterEvents();
-                            const request = {
-                                orderid: screen.getOrderId(),
-                                contractid: screen.getContractId()
-                            };
-                            //RwServices.order.getStagingStagedItems(request, screen.getStagingStagedItemsCallback);
-                            RwServices.callMethod('Staging', 'GetStagedItems', request, screen.getStagingStagedItemsCallback);
+                            program.setScanTargetLpNearfield('#stagedsearch .searchbox');
+                            screen.$view.find('#stagedsearch').fwmobilesearch('refresh');
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
@@ -403,35 +795,36 @@ class StagingControllerClass {
             case 'Order':
                 searchModes.push({
                     caption: 'Order No', placeholder: 'Scan Order No Barcode', value: 'orderno',
-                    search: function (orderno) {
-                        if (orderno.length > 0) {
-                            screen.selectOrder(orderno, false);
-                        }
-                    },
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
-                        //screen.$search.fwmobilesearch('clearsearchresults');
+                    //search: function (orderno) {
+                    //    if (orderno.length > 0) {
+                    //        screen.selectOrder(orderno, false);
+                    //    } else {
+                    //        return true;
+                    //    }
+                    //},
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Description', placeholder: 'Description', value: 'orderdesc',
-                    click: function () {
-                        //screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        //plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Deal', placeholder: 'Deal', value: 'deal',
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Suspended Sessions', placeholder: 'Session No', value: 'sessionno',
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
                 break;
@@ -443,23 +836,22 @@ class StagingControllerClass {
                             screen.selectOrder(orderno, false);
                         }
                     },
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
-                        //screen.$search.fwmobilesearch('clearsearchresults');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Description', placeholder: 'Description', value: 'orderdesc',
-                    click: function () {
-                        //screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        //plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Suspended Sessions', placeholder: 'Session No', value: 'sessionno',
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
                 break;
@@ -471,23 +863,22 @@ class StagingControllerClass {
                             screen.selectOrder(orderno, false);
                         }
                     },
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
-                        //screen.$search.fwmobilesearch('clearsearchresults');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Description', placeholder: 'Description', value: 'orderdesc',
-                    click: function () {
-                        //screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        //plugin.clearsearchbox();
                     }
                 });
 
                 searchModes.push({
                     caption: 'Suspended Sessions', placeholder: 'Session No', value: 'sessionno',
-                    click: function () {
-                        screen.$search.fwmobilesearch('clearsearchbox');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
                     }
                 });
                 break;
@@ -717,9 +1108,9 @@ class StagingControllerClass {
             searchModes: [
                 {
                     caption: 'Suspended Sessions', placeholder: 'Session No', value: 'sessionno', visible: false,
-                    click: function () {
-                        screen.$ordersuspendedsessions.fwmobilesearch('clearsearchbox');
-                        screen.$ordersuspendedsessions.fwmobilesearch('search');
+                    click: function (plugin) {
+                        plugin.clearsearchbox();
+                        plugin.search();
                     }
                 }
             ],
@@ -933,17 +1324,15 @@ class StagingControllerClass {
         screen.pages = {
             reset: function () {
                 screen.$view.find('.page-stagingmenu')
-                    .removeClass('page-slidein')
                     .hide();
                 screen.$view.find('.page-search')
-                    .removeClass('page-slidein')
                     .hide();
                 screen.$search.find('.option[data-value="orderno"]').hide();
                 screen.$search.find('.option[data-value="orderdesc"]').hide();
                 screen.$search.find('.option[data-value="deal"]').hide();
                 screen.$search.find('.option[data-value="sessionno"]').hide();
-                screen.pages.ordersuspendedsessions.getElement().removeClass('page-slidein').hide();
-                screen.pages.staging.getElement().removeClass('page-slidein').hide();
+                screen.pages.ordersuspendedsessions.getElement().hide();
+                screen.pages.staging.getElement().hide();
                 screen.pages.selectserialno.getElement().hide();
                 screen.pages.serialmeters.getElement().hide();
                 screen.$modulemodeselector.fwmobilemoduletabs('hideTab', '#tabpending');
@@ -982,7 +1371,7 @@ class StagingControllerClass {
                     screen.pages.reset();
                     screen.$view.find('.btnSuspendedSessions').hide();
                     FwMobileMasterController.setTitle('');
-                    screen.$view.find('.page-stagingmenu').addClass('page-slidein').show();
+                    screen.$view.find('.page-stagingmenu').show();
                 },
                 forward: function () {
                     screen.pagehistory.push(screen.pages.stagingmenu);
@@ -1018,7 +1407,7 @@ class StagingControllerClass {
                     screen.$search.find('.option[data-value="orderno"]').show().click();
                     screen.$search.find('.option[data-value="orderdesc"]').show();
                     screen.$search.find('.option[data-value="deal"]').show();
-                    screen.$view.find('.page-search').addClass('page-slidein').show();
+                    screen.$view.find('.page-search').show();
                     screen.$search.fwmobilesearch('search');
                     screen.setOrderId('');
                     screen.setOrderNo('');
@@ -1044,7 +1433,7 @@ class StagingControllerClass {
                     FwMobileMasterController.setTitle('Select Suspended Session...');
                     screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#ordersuspendedsessions-back');
                     screen.$search.find('.option[data-value="sessionno"]').click();
-                    screen.$view.find('.page-search').addClass('page-slidein').show();
+                    screen.$view.find('.page-search').show();
                     screen.$search.fwmobilesearch('search');
                     screen.setOrderId('');
                     screen.setOrderNo('');
@@ -1068,7 +1457,7 @@ class StagingControllerClass {
                     screen.pages.reset();
                     screen.$modulecontrol.fwmobilemodulecontrol('changeState', this.name);
                     FwMobileMasterController.setTitle('Select Suspended Session...');
-                    screen.$view.find('.page-ordersuspendedsessions').addClass('page-slidein').show();
+                    screen.$view.find('.page-ordersuspendedsessions').show();
                     screen.$ordersuspendedsessions.fwmobilesearch('search');
                 },
                 forward: function() {
@@ -1095,7 +1484,7 @@ class StagingControllerClass {
                     } else {
                         FwMobileMasterController.setTitle(screen.getOrderNo() + ' - ' + screen.getOrderDesc());
                     }
-                    screen.pages.staging.getElement().addClass('page-slidein').show();
+                    screen.pages.staging.getElement().show();
                     jQuery('.tab.active').click();
                     jQuery(window).on('scroll', function() {
                         screen.evalWindowPosition();
@@ -1106,7 +1495,6 @@ class StagingControllerClass {
                     screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
                     screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#selectorderlocation');
                     screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
-                    program.setScanTargetLpNearfield('#scanBarcodeView-txtBarcodeData');
                     screen.toggleRfid();
                 },
                 forward: function() {
@@ -1123,6 +1511,7 @@ class StagingControllerClass {
                         screen.pagehistory.pop();
                         screen.getCurrentPage().show();
                         jQuery(window).off('scroll').off('touchmove');
+                        screen.$view.find('#pendingsearch').fwmobilesearch('clearsearchresults');
                     });
                 }
             },
@@ -1136,7 +1525,7 @@ class StagingControllerClass {
                     screen.$modulecontrol.fwmobilemodulecontrol('changeState', this.name);
                     FwMobileMasterController.setTitle('Select Serial No(s)...');
                     var $pageselectserialno = screen.pages.selectserialno.getElement();
-                    $pageselectserialno.addClass('page-slidein').show();
+                    $pageselectserialno.show();
                     if (typeof masteritemid === 'undefined') {
                         masteritemid = screen.pages.selectserialno.getMasterItemId();
                     }
@@ -1280,7 +1669,8 @@ class StagingControllerClass {
                     screen.$modulecontrol.fwmobilemodulecontrol('changeState', this.name);
                     FwMobileMasterController.setTitle('Enter Meter Data...');
                     var $pageselectserialno = screen.pages.serialmeters.getElement();
-                    $pageselectserialno.addClass('page-slidein').show();
+                    $pageselectserialno.show();
+                    $pageselectserialno.show();
                 },
                 forward: function(masterid, masteritemid, description, masterno) {
                     var $pageserialmeters = screen.pages.serialmeters.getElement();
@@ -1460,18 +1850,21 @@ class StagingControllerClass {
             ;
 
             // refresh the pending list if the Pending Tab is active
-            if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabpending')) {
-                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
-            } 
-            // refresh the staged list if the Staged Tab list is active
-            else if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabstaged')) {
-                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
+            if (responseStageItem.request.qty > 0) {
+                if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabpending')) {
+                    screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
+                }
+                // refresh the staged list if the Staged Tab list is active
+                else if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabstaged')) {
+                    screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
+                }
             }
 
             jQuery('#staging-popupQty-genericMsg')  .html(responseStageItem.webStageItem.genericMsg);
             jQuery('#staging-popupQty-msg')         .html(responseStageItem.webStageItem.msg);
             jQuery('#staging-popupQty-masterNo')    .html(responseStageItem.webStageItem.masterNo);
             jQuery('#staging-popupQty-description') .html(responseStageItem.webStageItem.description).show();
+            jQuery('#staging-popupQty-code')        .html(responseStageItem.request.code).toggle(responseStageItem.request.code.length > 0);
             jQuery('#staging-popupQty-orderDesc')   .html(screen.getOrderDesc());
             jQuery('#staging-popupQty-qtyOrdered')  .html(String(responseStageItem.webStageItem.qtyOrdered));
             jQuery('#staging-popupQty-qtySub')      .html(String(responseStageItem.webStageItem.qtySub));
@@ -1514,134 +1907,15 @@ class StagingControllerClass {
                         screen.showPopupQty();
                     } else {
                         screen.showPopupQty();
-                        setTimeout(
-                            function() {
-                                screen.hidePopupQty();
-                            }
-                          , 3000);
+                        //setTimeout(
+                        //    function() {
+                        //        screen.hidePopupQty();
+                        //    }
+                        //  , 3000);
                     }
                 }
             } else {
                 screen.showPopupQty();
-            }
-        };
-        screen.getStagingPendingItemsCallback = function(response) {
-            var dt, ul, li, isAlternate, colIndex, isHeaderRow, cssClass, isClickableRentalItem, isClickableSalesItem, availableforisTrackedByQty, showapplyallqtyitems=false;
-            try {
-                isAlternate = false;
-                dt = response.getStagingPendingItems;
-                colIndex = response.getStagingPendingItems.ColumnIndex;
-                ul = [];
-                for (var i = 0; i < dt.Rows.length; i++) {
-                    var rectype   = dt.Rows[i][colIndex.rectype];
-                    var trackedby = dt.Rows[i][colIndex.trackedby];
-                    var itemclass = dt.Rows[i][colIndex.itemclass];
-                    var qtysub    = dt.Rows[i][colIndex.qtysub];
-                    var subvendorid = dt.Rows[i][colIndex.subvendorid];
-                    isHeaderRow = ((dt.Rows[i][colIndex.itemclass] === 'N') || (dt.Rows[i][colIndex.missingqty] === 0));
-                    if (trackedby === 'QUANTITY' && subvendorid.length === 0) {
-                        showapplyallqtyitems = true;
-                    }
-                    li = [];
-                    cssClass = '';
-                    if (!isHeaderRow) {
-                        isClickableRentalItem = ((rectype === 'R') && 
-                                                 ((trackedby === 'QUANTITY') || (trackedby === 'SERIALNO')) && 
-                                                 (itemclass[0] !== 'N') &&
-                                                 (qtysub === 0)
-                                                );
-                        isClickableSalesItem  = (dt.Rows[i][colIndex.rectype] === 'S');
-                        if (isClickableRentalItem || isClickableSalesItem) {
-                            if (cssClass.length > 0) {
-                                cssClass += ' ';
-                            }
-                            cssClass += 'link';
-                        }
-                    }
-                    if (cssClass.length > 0) {
-                        cssClass += ' ';
-                    }
-                    cssClass +=  'itemclass-' + dt.Rows[i][colIndex.itemclass];
-                    isAlternate = !isAlternate;
-                    let availablefor = '';
-                    if (dt.Rows[i][colIndex.rectype] === 'R') {
-                        availablefor = RwLanguages.translate('Rent');
-                    } else if (dt.Rows[i][colIndex.rectype] === 'S') {
-                        availablefor = RwLanguages.translate('Sell');
-                    } else if (dt.Rows[i][colIndex.rectype] === 'P') {
-                        availablefor = RwLanguages.translate('Parts');
-                    }
-                    li.push('<li class="' + cssClass + 
-                        '" data-itemclass="' + dt.Rows[i][colIndex.itemclass] + 
-                        '" data-rectype="' + dt.Rows[i][colIndex.rectype] + 
-                        '" data-parentid="' + dt.Rows[i][colIndex.parentid] + 
-                        '" data-masteritemid="' + dt.Rows[i][colIndex.masteritemid] + 
-                        '" data-scannablemasterid="' + dt.Rows[i][colIndex.scannablemasterid] + 
-                        '" data-masterid="' + dt.Rows[i][colIndex.masterid] + 
-                        '" data-trackedby="' + dt.Rows[i][colIndex.trackedby] + 
-                        '" data-description="' + dt.Rows[i][colIndex.description] + 
-                        '" data-masterno="' + dt.Rows[i][colIndex.masterno] + 
-                        '" data-missingqty="' + dt.Rows[i][colIndex.missingqty] + 
-                        '" data-qtyordered="' + dt.Rows[i][colIndex.qtyordered] + 
-                        '" data-qtystagedandout="' + dt.Rows[i][colIndex.qtystagedandout] + 
-                        '" data-consignorid="' + dt.Rows[i][colIndex.consignorid] + 
-                        '" data-consignoragreementid="' + dt.Rows[i][colIndex.consignoragreementid] + 
-                        '" >');
-                        li.push('<div class="description">' + dt.Rows[i][colIndex.description] + '</div>');
-                        if (isHeaderRow) {
-                            li.push('<table style="display:none;">');
-                        } else {
-                            li.push('<table>');
-                        }
-                            li.push('<tbody>');
-                                li.push('<tr>');
-                                    li.push('<td class="col1 key masterno">' + RwLanguages.translate('I-Code') + ':</td>');
-                                    li.push('<td class="col2 value masterno">' + dt.Rows[i][colIndex.masterno] + '</td>');
-                                    li.push('<td class="col3 key missingqty">' + RwLanguages.translate('Remaining') + ':</td>');
-                                    li.push('<td class="col4 value missingqty">' + String(dt.Rows[i][colIndex.missingqty]) + '</td>');
-                                li.push('</tr>');
-                                li.push('<tr>');
-                                    if (dt.Rows[i][colIndex.rectype] === 'R') {
-                                        li.push('<td class="col1 key trackedby">' + RwLanguages.translate('Tracked By') + ':</td>');
-                                        li.push('<td class="col2 value trackedby">' + dt.Rows[i][colIndex.trackedby] + '</td>');
-                                    } else {
-                                        li.push('<td class="col1 key rectype">' + RwLanguages.translate('Available For') + ':</td>');
-                                        li.push('<td class="col2 value rectype">' + availablefor + '</td>');
-                                    }
-                                    li.push('<td class="col3 key qtyordered">' + RwLanguages.translate('Ordered') + ':</td>');
-                                    li.push('<td class="col4 value qtyordered">' + String(dt.Rows[i][colIndex.qtyordered]) + '</td>');
-                                li.push('</tr>');
-                                li.push('<tr>');
-                                    li.push('<td class="col1 key"></td>');
-                                        li.push('<td class="col2 value"></td>');
-                                    li.push('<td class="col3 key qtystagedandout">' + RwLanguages.translate('Staged/Out') + ':</td>');
-                                    li.push('<td class="col4 value qtystagedandout">' + String(dt.Rows[i][colIndex.qtystagedandout]) + '</td>');
-                                li.push('</tr>');
-                                li.push('<tr>');
-                                    if (dt.Rows[i][colIndex.consignorid] !== '') {
-                                        li.push('<td class="col1 key vendor">' + RwLanguages.translate('Consignor') + ':</td>');
-                                        li.push('<td class="col234 value vendor" colspan="3">' + dt.Rows[i][colIndex.vendor] + '</td>');
-                                    } else if (dt.Rows[i][colIndex.subvendorid] !== '') {
-                                        li.push('<td class="col1 key vendor">' + RwLanguages.translate('Sub-Vendor') + ':</td>');
-                                        li.push('<td class="col234 value vendor" colspan="3">' + dt.Rows[i][colIndex.vendor] + ' <span style="color:#ffff00;">(PO Sub-Receive to move to Staged)</span></td>');
-                                    }
-                                li.push('</tr>');
-                            li.push('</tbody>');
-                        li.push('</table>');
-                    li.push('</li>');
-                    ul.push(li.join(''));
-                }
-                ul.push(screen.getRowCountItem(dt.Rows.length));
-                jQuery('#staging-pendingList-ul').html(ul.join(''));
-                if ((sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') && showapplyallqtyitems) {
-                    screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#applyallqtyitems');
-                } else {
-                    screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
-                }
-                var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
-                screen.$modulecontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
-            } catch(ex) {
-                FwFunc.showError(ex);
             }
         };
         screen.getRowCountItem = function(count) {
@@ -1944,11 +2218,20 @@ class StagingControllerClass {
                 case '301': //I-Code / Bar Code not found in Inventory.
                     break;
             }
+            $confirmation.find('.exceptionbuttons').append('<div class="tagfinder">Tag Finder</div>');
             $confirmation.find('.exceptionbuttons').append('<div class="clear">Clear item?</div>');
             $confirmation.find('.exceptionmessage').append(exceptionmessage);
 
             $confirmation.find('.exceptionbuttons')
-                .on('click', '.additem, .addcomplete, .overrideconflict, .releaseandstage, .clear', function() {
+                .on('click', '.tagfinder', function () {
+                    try {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        RwRFID.startTagFinder(rfid);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                })
+                .on('click', '.additem, .addcomplete, .overrideconflict, .releaseandstage, .clear', function () {
                     if (jQuery(this).hasClass('additem')) {
                         request.method = 'AddItem';
                     } else if (jQuery(this).hasClass('addcomplete')) {
@@ -1999,182 +2282,64 @@ class StagingControllerClass {
             return screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled');
         };
 
-        screen.$view
-            .on('change', '#scanBarcodeView-txtBarcodeData', function() {
-                try {
-                    var $this = jQuery(this);
-                    if (!screen.isBarcodeFieldDisabled()) {
-                        screen.disableBarcodeField();
-                        var code = RwAppData.stripBarcode((<string>jQuery(this).val()).toUpperCase());
-                        if (code.length > 0) {
-                            var requestStageItem = {
-                                orderid:               screen.getOrderId(),
-                                code:                  code,
-                                masteritemid:          '',
-                                qty:                   0,
-                                additemtoorder:        false,
-                                addcompletetoorder:    false,
-                                releasefromrepair:     false,
-                                unstage:               false,
-                                vendorid:              '',
-                                meter:                 0,
-                                location:              '',
-                                locationdata:          screen._locationdata(),
-                                addcontainertoorder:   false,
-                                overridereservation:   false,
-                                stageconsigned:        false,
-                                transferrepair:        false,
-                                removefromcontainer:   false,
-                                contractid:            screen.getContractId(),
-                                ignoresuspendedin:     false,
-                                consignorid:           '',
-                                consignoragreementid:  '',
-                                playStatus:            true
-                            };
-
-                            // trying to prevent duplicate scans
-                            FwAppData.jsonPost(true, 'services.ashx?path=/order/pdastageitem', requestStageItem, null,
-                                function success(responseStageItem) {
-                                    screen.enableBarcodeField();
-                                    properties.responseStageItem = responseStageItem;
-                                    screen.pdastageitemCallback(responseStageItem);
-                                },
-                                function fail(response) {
-                                    screen.enableBarcodeField();
-                                    FwFunc.showError(response);
-                                },
-                                null);
-                        }
-                    }
-                } catch(ex) {
-                    FwFunc.showError(ex);
+        screen.scanCode = function (code: string) {
+            var strippedCode = RwAppData.stripBarcode(code.toUpperCase());
+            if (screen.getCurrentPage().name === 'search') {
+                screen.$search.fwmobilesearch('setsearchmode', 'orderno');
+                screen.$search.fwmobilesearch('setSearchText', strippedCode, true);
+            }
+            else if (screen.getCurrentPage().name === 'staging') {
+                const scanMode = jQuery('#staging-scan').attr('data-mode');
+                if (scanMode === 'PENDING') {
+                    screen.$view.find('#pendingsearch').fwmobilesearch('setsearchmode', 'code');
+                    screen.$view.find('#pendingsearch').fwmobilesearch('setSearchText', strippedCode, false);
+                } else if (scanMode === 'STAGEDLIST') {
+                    screen.$view.find('#stagedsearch').fwmobilesearch('setsearchmode', 'code');
+                    screen.$view.find('#stagedsearch').fwmobilesearch('setSearchText', strippedCode, false);
                 }
-            })
-            .on('click', '#staging-pendingList-ul > li.link', function() {
-                var $this, requestStageItem, requestSelectSerialNo, rectype, trackedby;
-                try {
-                    $this     = jQuery(this);
-                    rectype   = $this.attr('data-rectype');
-                    trackedby = $this.attr('data-trackedby');
-                    if (rectype === 'R') {
-                        if (trackedby === 'QUANTITY') {
-                            requestStageItem = {
-                                orderid:               screen.getOrderId(),
-                                code:                  '',
-                                masteritemid:          $this.attr('data-masteritemid'),
-                                qty:                   0,
-                                additemtoorder:        false,
-                                addcompletetoorder:    false,
-                                releasefromrepair:     false,
-                                unstage:               false,
-                                vendorid:              '',
-                                meter:                 0,
-                                location:              '',
-                                locationdata:          screen._locationdata(),
-                                addcontainertoorder:   false,
-                                overridereservation:   false,
-                                stageconsigned:        false,
-                                transferrepair:        false,
-                                removefromcontainer:   false,
-                                contractid:            screen.getContractId(),
-                                ignoresuspendedin:     false,
-                                consignorid:           $this.attr('data-consignorid'),
-                                consignoragreementid:  $this.attr('data-consignoragreementid'),
-                                playStatus:            false
-                            };
-                            RwServices.order.pdastageitem(requestStageItem, function(responseStageItem) {
-                                properties.responseStageItem = responseStageItem;
-                                screen.pdastageitemCallback(responseStageItem);
-                            });
-                        } else if (trackedby === 'SERIALNO') {
-                            var masterid        = $this.attr('data-masterid');
-                            var masteritemid    = $this.attr('data-masteritemid');
-                            var description     = $this.attr('data-description');
-                            var masterno        = $this.attr('data-masterno');
-                            var missingqty      = $this.attr('data-missingqty');
-                            var qtyordered      = $this.attr('data-qtyordered');
-                            var qtystagedandout = $this.attr('data-qtystagedandout');
-                            screen.pages.selectserialno.forward(masterid, masteritemid, description, masterno, missingqty, qtyordered, qtystagedandout);
-                        }
-                    } else if (rectype === 'S') {
-                        requestStageItem = {
-                            orderid:               screen.getOrderId(),
-                            code:                  '',
-                            masteritemid:          $this.attr('data-masteritemid'),
-                            qty:                   0,
-                            additemtoorder:        false,
-                            addcompletetoorder:    false,
-                            releasefromrepair:     false,
-                            unstage:               false,
-                            vendorid:              '',
-                            meter:                 0,
-                            location:              '',
-                            locationdata:          screen._locationdata(),
-                            addcontainertoorder:   false,
-                            overridereservation:   false,
-                            stageconsigned:        false,
-                            transferrepair:        false,
-                            removefromcontainer:   false,
-                            contractid:            screen.getContractId(),
-                            ignoresuspendedin:     false,
-                            consignorid:           '',
-                            consignoragreementid:  '',
-                            playStatus:            false
-                        };
-                        RwServices.order.pdastageitem(requestStageItem, function(responseStageItem) {
+                if (strippedCode.length > 0) {
+                    var requestStageItem = {
+                        orderid: screen.getOrderId(),
+                        code: strippedCode,
+                        masteritemid: '',
+                        qty: 0,
+                        additemtoorder: false,
+                        addcompletetoorder: false,
+                        releasefromrepair: false,
+                        unstage: false,
+                        vendorid: '',
+                        meter: 0,
+                        location: '',
+                        locationdata: screen._locationdata(),
+                        addcontainertoorder: false,
+                        overridereservation: false,
+                        stageconsigned: false,
+                        transferrepair: false,
+                        removefromcontainer: false,
+                        contractid: screen.getContractId(),
+                        ignoresuspendedin: false,
+                        consignorid: '',
+                        consignoragreementid: '',
+                        playStatus: true
+                    };
+
+                    // trying to prevent duplicate scans
+                    FwAppData.jsonPost(true, 'services.ashx?path=/order/pdastageitem', requestStageItem, null,
+                        function success(responseStageItem) {
+                            screen.enableBarcodeField();
                             properties.responseStageItem = responseStageItem;
                             screen.pdastageitemCallback(responseStageItem);
-                        });
-                    }
-                } catch(ex) {
-                    FwFunc.showError(ex);
+                        },
+                        function fail(response) {
+                            screen.enableBarcodeField();
+                            FwFunc.showError(response);
+                        },
+                        null);
                 }
-            })
-            .on('click', '#staging-stagedList-ul > li.link', function() {
-                var $this, qty, requestStageItem, $tdBarcodeValue, code;
-                try {
-                    $this = jQuery(this);
-                    const $contextmenu = FwContextMenu.render($this.attr('data-description'), null);
-                    FwContextMenu.addMenuItem($contextmenu, 'Unstage Item', function() {
-                        try {
-                            var requestStageItem = {
-                                orderid:               screen.getOrderId(),
-                                code:                  $this.attr('data-code'),
-                                masteritemid:          $this.attr('data-masteritemid'),
-                                qty:                   parseFloat($this.attr('data-quantity')),
-                                additemtoorder:        false,
-                                addcompletetoorder:    false,
-                                releasefromrepair:     false,
-                                unstage:               true,
-                                vendorid:              $this.attr('data-vendorid'),
-                                meter:                 0,
-                                location:              '',
-                                locationdata:          screen._locationdata(),
-                                addcontainertoorder:   false,
-                                overridereservation:   false,
-                                stageconsigned:        false,
-                                transferrepair:        false,
-                                removefromcontainer:   false,
-                                contractid:            screen.getContractId(),
-                                ignoresuspendedin:     false,
-                                consignorid:           $this.attr('data-consignorid'),
-                                consignoragreementid:  $this.attr('data-consignoragreementid'),
-                                playStatus:            false
-                            };
-                            RwServices.order.pdastageitem(requestStageItem, function(responseStageItem) {
-                                responseStageItem.unstageqty = requestStageItem.qty;
-                                properties.responseStageItem = responseStageItem;
-                                screen.unstageItemCallback(responseStageItem);
-                                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
-                            });
-                        } catch(ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
-                } catch(ex) {
-                    FwFunc.showError(ex);
-                }
-            })
+            }
+        };
+
+        screen.$view
             .on('click', '.rfid-item', function() {
                 var $this, $selectedrfiditem;
                 $this             = jQuery(this);
@@ -2998,17 +3163,9 @@ class StagingControllerClass {
             program.setScanTarget('');
             program.setScanTargetLpNearfield('');
 
-            RwVirtualNumpad.init('#scanBarcodeView-txtBarcodeData');
-
             program.onScanBarcode = function (barcode, barcodeType) {
                 try {
-                    if (screen.getCurrentPage().name === 'search') {
-                        screen.$view.find('.search').fwmobilesearch('setsearchmode', 'orderno');
-                        screen.$view.find('.search .searchbox').val(barcode).change();
-                    }
-                    if (screen.getCurrentPage().name === 'staging') {
-                        screen.$view.find('#scanBarcodeView-txtBarcodeData').val(barcode).change();
-                    }
+                    screen.scanCode(barcode);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -3020,12 +3177,22 @@ class StagingControllerClass {
             
                 window.TslReader.registerListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen', function() {
                     //FwNotification.renderNotification('INFO', 'Staging: RFID Connected');
-                    RwRFID.isConnected = true;
                     screen.toggleRfid();
                 });
                 window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen', function() {
                     //FwNotification.renderNotification('INFO', 'Staging: RFID Disconnected');
-                    RwRFID.isConnected = false;
+                    screen.toggleRfid();
+                });
+            }
+            if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
+                // setup TSL RFID Reader
+                RwRFID.registerEvents(screen.rfidscan);
+                window.ZebraRFIDAPI3.registerListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen', function () {
+                    //FwNotification.renderNotification('INFO', 'Staging: RFID Connected');
+                    screen.toggleRfid();
+                });
+                window.ZebraRFIDAPI3.registerListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen', function () {
+                    //FwNotification.renderNotification('INFO', 'Staging: RFID Disconnected');
                     screen.toggleRfid();
                 });
             }
@@ -3049,6 +3216,11 @@ class StagingControllerClass {
             if (typeof window.TslReader !== 'undefined') {
                 window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen');
                 window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen');
+                RwRFID.unregisterEvents();
+            }
+            if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
+                window.ZebraRFIDAPI3.unregisterListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen');
+                window.ZebraRFIDAPI3.unregisterListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen');
                 RwRFID.unregisterEvents();
             }
             jQuery(window).off('scroll').off('touchmove');

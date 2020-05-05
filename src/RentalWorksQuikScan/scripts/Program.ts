@@ -212,6 +212,7 @@ class Program extends FwApplication {
                         if (typeof window.TslReader.startListening === 'function') {
                             window.TslReader.startListening();
                             window.TslReader.registerListener('deviceConnected', 'deviceConnected_programts', function () {
+                                RwRFID.isTsl = true;
                                 RwRFID.isConnected = true;
                                 program.showRfidStatusIcon = true;
                                 FwMobileMasterController.generateDeviceStatusIcons();
@@ -224,6 +225,7 @@ class Program extends FwApplication {
                                     (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision === 4 && program.browserVersionBuild >= 2)) {
                                     //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
                                     RwRFID.isConnected = false;
+                                    RwRFID.isTsl = false;
                                 } else {
                                     // the TSL plugin was firing this event for any connected device, so this was firing incorrectly when linea was unplugged.
                                     if (RwRFID.isConnected === true) {
@@ -246,51 +248,36 @@ class Program extends FwApplication {
                             delete window.TslReader;
                         }
                     }
-                    
 
-                    if (typeof window.ZebraEmdk !== 'undefined') {
-                        window.ZebraEmdk.startHardRead(function (barcodeInfo) {
-                            try {
-                                me.onBarcodeData(barcodeInfo.barcode);
-                                //barcodeInfo.barcodeType
+                    if (typeof window.ZebraRFIDAPI3 === 'object' && typeof window.ZebraRFIDAPI3.startListening === 'function') {
+                        window.ZebraRFIDAPI3.startListening();
+                        window.ZebraRFIDAPI3.registerListener('deviceConnected', 'deviceConnected_programts', function () {
+                            RwRFID.isRFIDAPI3 = true;
+                            RwRFID.isConnected = true;
+                            program.showRfidStatusIcon = true;
+                            FwMobileMasterController.generateDeviceStatusIcons();
+                            //FwNotification.renderNotification('SUCCESS', 'RFID Reader Connected');
+                        });
+                        window.ZebraRFIDAPI3.registerListener('deviceDisconnected', 'deviceDisconnected_programts', function () {
+                            RwRFID.isConnected = false;
+                            RwRFID.isRFIDAPI3 = false;
+                            program.showRfidStatusIcon = false;
+                            FwMobileMasterController.generateDeviceStatusIcons();
+                        });
+                        window.ZebraRFIDAPI3.connectDevice(
+                            function success(isConnected) {
+                                program.showRfidStatusIcon = true;
+                                RwRFID.isConnected = isConnected;
+                                RwRFID.isRFIDAPI3 = isConnected;
+                                FwMobileMasterController.generateDeviceStatusIcons();
+                            },
+                            function error() {
+                                RwRFID.isConnected = false;
+                                RwRFID.isRFIDAPI3 = false;
+                                program.showRfidStatusIcon = false;
                             }
-                            catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        })
+                        );
                     }
-
-                    //if (typeof window.Zebra2DScanner === 'object') {
-                        //window.Zebra2DScanner.startListening();
-                        //window.Zebra2DScanner.registerListener('sbtEventBarcode', 'barcodeReceived_applicationjs', function(barcode, barcodetype) {
-                        //    me.onBarcodeData(barcode);
-                        //});
-                        //window.Zebra2DScanner.registerListener('sbtEventScannerDisappeared', 'sbtEventScannerDisappeared_applicationjs', function() {
-                
-                        //});
-                        //window.Zebra2DScanner.registerListener('sbtEventCommunicationSessionEstablished', 'sbtEventCommunicationSessionEstablished_applicationjs', function() {
-                
-                        //});
-                        //window.Zebra2DScanner.registerListener('sbtEventCommunicationSessionTerminated', 'sbtEventCommunicationSessionTerminated_applicationjs', function() {
-                
-                        //});
-                    //}
-
-                    //if (typeof window.ZebraRFIDScanner === 'object') {
-                        //window.ZebraRFIDScanner.startListening();
-                        //window.ZebraRFIDScanner.isConnected(function(isConnected) {
-                        //    RwRFID.isConnected = isConnected;
-                        //});
-                        //window.ZebraRFIDScanner.registerListener('sbtEventScannerDisappeared', 'sbtEventScannerDisappeared_applicationjs', function() {
-                
-                        //});
-                        //window.ZebraRFIDScanner.registerListener('sbtEventCommunicationSessionEstablished', 'sbtEventCommunicationSessionEstablished_applicationjs', function() {
-                
-                        //});
-                        //window.ZebraRFIDScanner.registerListener('sbtEventCommunicationSessionTerminated', 'sbtEventCommunicationSessionTerminated_applicationjs', function() {
-                
-                        //});
-                    //}
 
                     setTimeout(function() {
                         me.loadApplication();

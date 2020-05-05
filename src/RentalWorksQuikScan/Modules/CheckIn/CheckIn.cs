@@ -463,31 +463,41 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public void SessionInSearch(dynamic request, dynamic response, dynamic session)
         {
-            FwSqlCommand qry;
+            string searchMode = request.searchmode;
+            string searchValue = request.searchvalue;
+            int pageNo = 0;
+            int pageSize = 0;
+            if (FwValidate.IsPropertyDefined(request, "pageno"))
+            {
+                pageNo = request.pageno;
+            }
+            if (FwValidate.IsPropertyDefined(request, "pagesize"))
+            {
+                pageSize = request.pagesize;
+            }
+            FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             FwSqlSelect select = new FwSqlSelect();
-            dynamic allsessioninitems;
-            decimal sessionin, totalin = 0;
-
-            qry             = new FwSqlCommand(FwSqlConnection.RentalWorks);
             select.PageNo   = request.pageno;
             select.PageSize = request.pagesize;
             qry.AddColumn("sessionin",  false, FwJsonDataTableColumn.DataTypes.Decimal);
             qry.AddColumn("qtyordered", false, FwJsonDataTableColumn.DataTypes.Decimal);
             select.Add("select *");
-            select.Add("from   dbo.funccheckincontract(@contractid, @groupby)");
-            select.Add("order by orderby");
+            select.Add("from dbo.funccheckincontract(@contractid, @groupby)");
+            select.Parse();
+            if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
+            {
+                string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < searchValues.Length; i++)
+                {
+                    select.AddWhere($"description like @searchvalue{i}");
+                    select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                }
+            }
+            select.AddOrderBy("orderby");
             select.AddParameter("@contractid", request.contractid);
             select.AddParameter("@groupby",    "DETAIL");
 
             response.searchresults = qry.QueryToFwJsonTable(select, true);
-
-            allsessioninitems = GetSessionedInItems(request.contractid);
-            for (int i = 0; i < allsessioninitems.Count; i++)
-            {
-                sessionin = FwConvert.ToDecimal(allsessioninitems[i].sessionin);
-                totalin   = totalin + sessionin;
-            }
-            response.totalin    = totalin;
             response.extraitems = GetExtraSessionedInItems(request.contractid, "").Count;
         }
         //---------------------------------------------------------------------------------------------
@@ -611,16 +621,22 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public static void PendingSearch(dynamic request, dynamic response, dynamic session)
         {
-            FwSqlCommand qry;
+            string searchMode = request.searchmode;
+            string searchValue = request.searchvalue;
+            int pageNo = 0;
+            int pageSize = 0;
+            if (FwValidate.IsPropertyDefined(request, "pageno"))
+            {
+                pageNo = request.pageno;
+            }
+            if (FwValidate.IsPropertyDefined(request, "pagesize"))
+            {
+                pageSize = request.pagesize;
+            }
+            FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             FwSqlSelect select = new FwSqlSelect();
-            dynamic allpendingitems;
-            string trackedby, subbyquantity;
-            decimal qtystillout, totalout = 0;
-            bool qtyitemexists = false;
-
-            qry             = new FwSqlCommand(FwSqlConnection.RentalWorks);
-            select.PageNo   = request.pageno;
-            select.PageSize = request.pagesize;
+            select.PageNo = pageNo;
+            select.PageSize = pageSize;
             qry.AddColumn("exceptionflg",       false, FwJsonDataTableColumn.DataTypes.Boolean);
             qry.AddColumn("somein",             false, FwJsonDataTableColumn.DataTypes.Boolean);
             qry.AddColumn("qtyordered",         false, FwJsonDataTableColumn.DataTypes.Decimal);
@@ -637,31 +653,26 @@ namespace RentalWorksQuikScan.Modules
             qry.AddColumn("subbyquantity",      false, FwJsonDataTableColumn.DataTypes.Boolean);
             qry.AddColumn("ispackage",          false, FwJsonDataTableColumn.DataTypes.Boolean);
             select.Add("select *, ispackage = dbo.ispackage(itemclass)");
-            select.Add("  from dbo.funccheckinexception(@contractid, @rectype, @containeritemid, @showall)");
-            select.Add(" where exceptionflg = 'T'");
-            select.Add("   and (dbo.ispackage(itemclass) = 'T' or qtystillout > 0)");
-            select.Add("order by orderno, itemorder, masterno");
+            select.Add("from dbo.funccheckinexception(@contractid, @rectype, @containeritemid, @showall)");
+            select.Add("where exceptionflg = 'T'");
+            select.Add("  and (dbo.ispackage(itemclass) = 'T' or qtystillout > 0)");
+            select.Parse();
+            if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
+            {
+                string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < searchValues.Length; i++)
+                {
+                    select.AddWhere($"description like @searchvalue{i}");
+                    select.AddParameter($"@searchvalue{i}", $"%{searchValue[i]}%");
+                }
+            }
+            select.AddOrderBy("orderno, itemorder, masterno");
             select.AddParameter("@contractid",      request.contractid);
             select.AddParameter("@rectype",         "R");
             select.AddParameter("@containeritemid", "");
             select.AddParameter("@showall",         "F");
 
             response.searchresults = qry.QueryToFwJsonTable(select, true);
-
-            allpendingitems = GetPendingItems(request.contractid, "F");
-            for (int i = 0; i < allpendingitems.Count; i++)
-            {
-                trackedby     = allpendingitems[i].trackedby;
-                subbyquantity = FwConvert.ToString(allpendingitems[i].subbyquantity);
-                qtystillout   = FwConvert.ToDecimal(allpendingitems[i].qtystillout);
-                if ((trackedby.Equals("QUANTITY") || subbyquantity.Equals("T")) && (qtystillout > 0))
-                {
-                    qtyitemexists = true;
-                }
-                totalout = totalout + qtystillout;
-            }
-            response.qtyitemexists = qtyitemexists;
-            response.totalout      = totalout;
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
