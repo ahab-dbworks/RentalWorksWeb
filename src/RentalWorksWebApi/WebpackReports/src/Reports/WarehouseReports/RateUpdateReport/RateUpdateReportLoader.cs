@@ -209,6 +209,7 @@ namespace WebApi.Modules.Reports.RateUpdateReport
                     if (request.PendingModificationsOnly.GetValueOrDefault(false))
                     {
                         select.AddParameter("@rateupdatebatchid", "0");
+                        select.AddWhere(InventoryFunc.GetRateUpdatePendingModificationsWhere());
                     }
                     else
                     {
