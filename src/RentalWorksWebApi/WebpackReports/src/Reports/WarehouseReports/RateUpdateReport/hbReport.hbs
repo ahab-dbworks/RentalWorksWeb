@@ -23,9 +23,8 @@
         <th style="border-right:3px solid black;">Week 3 Rate </th>
         <th style="border-right:3px solid black;">Week 4 Rate </th>
         <th style="border-right:3px solid black;">Monthly Rate</th>
-        <th style="border-right:3px solid black;">Daily Cost</th>
-        <th style="border-right:3px solid black;">Weekly Cost</th>
-        <th style="border-right:3px solid black;">Monthly Cost</th>
+        <th style="border-right:3px solid black;">Replacement Cost</th>
+        <th style="border-right:3px solid black;">Unit Value</th>
         <th style="border-right:3px solid black;">Max Discount</th>
         <th>Min D/W</th>
       </tr>
@@ -46,7 +45,6 @@
         <th class="row1 number">Current</th>
         <th class="row1 number">Current</th>
         <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
       </tr>
       <tr>
         <th class="row2"></th>
@@ -63,22 +61,27 @@
         <th class="row2 number">New</th>
         <th class="row2 number">New</th>
         <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
+      {{#ifEquals RowType "Warehouseheader"}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
         <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Category: {{Category}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-rowtype={{RowType}}>
         <td class="nowrap">{{ICode}}</td>
         <td data-value="{{Description}}"></td>
         <td data-value="{{PartNumber}}"></td>
@@ -108,16 +111,12 @@
           <div class="number" data-value="{{NewMonthlyRate}}"></div>
         </td>
         <td>
-          <div class="number" data-value="{{OldDailyCost}}"></div>
-          <div class="number" data-value="{{NewDailyCost}}"></div>
+          <div class="number" data-value="{{OldReplacementCost}}"></div>
+          <div class="number" data-value="{{NewReplacementCost}}"></div>
         </td>
         <td>
-          <div class="number" data-value="{{OldWeeklyCost}}"></div>
-          <div class="number" data-value="{{NewWeeklyCost}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldMonthlyCost}}"></div>
-          <div class="number" data-value="{{NewMonthlyCost}}"></div>
+          <div class="number" data-value="{{OldUnitValue}}"></div>
+          <div class="number" data-value="{{NewUnitValue}}"></div>
         </td>
         <td>
           <div class="number" data-value="{{OldMaxDiscount}}"></div>
@@ -127,8 +126,8 @@
           <div class="number" data-value="{{OldMinDaysPerWeek}}"></div>
           <div class="number" data-value="{{NewMinDaysPerWeek}}"></div>
         </td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
