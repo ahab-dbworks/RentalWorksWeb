@@ -858,11 +858,11 @@ class StagingControllerClass {
             case 'Transfer':
                 searchModes.push({
                     caption: 'Transfer No', placeholder: 'Scan Transfer No Barcode', value: 'orderno',
-                    search: function (orderno) {
-                        if (orderno.length > 0) {
-                            screen.selectOrder(orderno, false);
-                        }
-                    },
+                    //search: function (orderno) {
+                    //    if (orderno.length > 0) {
+                    //        screen.selectOrder(orderno, false);
+                    //    }
+                    //},
                     click: function (plugin) {
                         plugin.clearsearchbox();
                     }
