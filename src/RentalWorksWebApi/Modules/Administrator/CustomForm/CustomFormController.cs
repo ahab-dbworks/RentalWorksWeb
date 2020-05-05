@@ -55,12 +55,42 @@ namespace WebApi.Modules.Administrator.CustomForm
             return await DoNewAsync<CustomFormLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/customform/selfassign
+        [HttpPost("selfassign")]
+        [FwControllerMethod(Id: "kUeNITu1oqm8Q", ActionType: FwControllerActionTypes.Option, Caption: "New (Personal Custom Form)")]
+        public async Task<ActionResult<CustomFormLogic>> NewSelfAssignAsync([FromBody]CustomFormLogic l)
+        {
+            if (l.WebUserId.Equals(UserSession.WebUsersId))
+            {
+                return await DoNewAsync<CustomFormLogic>(l);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // PUT api/v1/customform/A0000001
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "qRlETTHLEKrda", ActionType: FwControllerActionTypes.Edit)]
         public async Task<ActionResult<CustomFormLogic>> EditAsync([FromRoute] string id, [FromBody]CustomFormLogic l)
         {
             return await DoEditAsync<CustomFormLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/customform/selfassign/A0000001
+        [HttpPut("selfassign/{id}")]
+        [FwControllerMethod(Id: "6EP7tbleH7lwv", ActionType: FwControllerActionTypes.Option, Caption: "Edit (Personal Custom Form)")]
+        public async Task<ActionResult<CustomFormLogic>> EditSelfAssignAsync([FromRoute] string id, [FromBody]CustomFormLogic l)
+        {
+            if (l.WebUserId.Equals(UserSession.WebUsersId))
+            {
+                return await DoEditAsync<CustomFormLogic>(l);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/customform/A0000001 
