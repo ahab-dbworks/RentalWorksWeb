@@ -89,6 +89,8 @@ class Contact {
         //    request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'LocationId');
         //});
 
+        $form.find('.tabpages').css('overflow', 'visible'); //fix for country code dropdown cut off
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
