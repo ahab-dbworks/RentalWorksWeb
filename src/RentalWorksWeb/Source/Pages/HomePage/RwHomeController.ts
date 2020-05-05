@@ -41,6 +41,9 @@ class RwHome {
                 }
 
                 window.firstLoadCompleted = true;
+
+
+                this.addDuplicateCustomFormAlerts(jQuery('#master-header'));
             }
 
             var redirectPath = sessionStorage.getItem('redirectPath');
@@ -52,7 +55,6 @@ class RwHome {
             } else {
                 if (sessionStorage.getItem('userType') === 'USER') {
                     self.loadSettings(screen.$view);
-                    self.addDuplicateCustomFormAlerts(screen.$view);
                 }
             }
         };
@@ -142,7 +144,7 @@ class RwHome {
     addDuplicateCustomFormAlerts($control) {
         if (sessionStorage['duplicateforms']) {
             const $alertContainer = jQuery('<div class="alert-container"></div>')
-            jQuery($control).prepend($alertContainer);
+            jQuery($control).append($alertContainer);
             const duplicateForms = JSON.parse(sessionStorage.getItem('duplicateforms'));
             for (let i = 0; i < duplicateForms.length; i++) {
                 const customForm = duplicateForms[i];
