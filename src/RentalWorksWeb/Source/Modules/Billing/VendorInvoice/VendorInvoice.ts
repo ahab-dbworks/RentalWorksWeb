@@ -385,6 +385,9 @@ class VendorInvoice {
             }
             $tab.addClass('tabGridsLoaded');
         });
+
+        const $vendorInvoiceItemGrid = $form.find('[data-name="VendorInvoiceItemGrid"]');
+        FwBrowse.search($vendorInvoiceItemGrid);
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form: JQuery) {
