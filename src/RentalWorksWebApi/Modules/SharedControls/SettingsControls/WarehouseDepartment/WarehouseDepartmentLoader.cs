@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 namespace WebApi.Modules.Settings.WarehouseDepartment
 {
-    [FwSqlTable("departmentwarehouseview")]
+    [FwSqlTable("warehousedepartmentwebview")]
     public class WarehouseDepartmentLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -47,7 +47,6 @@ namespace WebApi.Modules.Settings.WarehouseDepartment
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(inventorydepartmentid = '')");
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
         }
         //------------------------------------------------------------------------------------ 

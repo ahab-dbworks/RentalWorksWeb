@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 namespace WebApi.Modules.Settings.WarehouseInventoryType
 {
-    [FwSqlTable("departmentwarehouseview")]
+    [FwSqlTable("warehouseinventorytypewebview")]
     public class WarehouseInventoryTypeLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -16,7 +16,7 @@ namespace WebApi.Modules.Settings.WarehouseInventoryType
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InventoryTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalbarcoderangeid", modeltype: FwDataTypes.Text)]
@@ -41,7 +41,6 @@ namespace WebApi.Modules.Settings.WarehouseInventoryType
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(departmentid = '')"); 
             addFilterToSelect("WarehouseId", "warehouseid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
