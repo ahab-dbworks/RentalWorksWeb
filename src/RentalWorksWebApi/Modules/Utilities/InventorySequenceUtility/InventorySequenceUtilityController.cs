@@ -19,6 +19,7 @@ namespace WebApi.Modules.Utilities.InventorySequenceUtility
         [FwControllerMethod(Id: "6s16oYeo4BzHI", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<bool>> DoNothing([FromBody]object request)
         {
+            await Task.CompletedTask;
             return BadRequest(ModelState);
         }
         //------------------------------------------------------------------------------------
