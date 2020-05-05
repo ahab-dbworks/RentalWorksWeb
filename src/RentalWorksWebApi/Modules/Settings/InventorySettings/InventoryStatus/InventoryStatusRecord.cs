@@ -20,8 +20,8 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryStatus
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
         public string Color { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Boolean)]
-        public bool? WhiteText { get; set; }
+        [FwSqlDataField(column: "textcolorint", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string TextColor { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

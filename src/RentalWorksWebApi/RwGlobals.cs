@@ -16,10 +16,15 @@ namespace WebApi
         public static string ORDER_QUANTITY_ADJUSTED_AT_STAGING_COLOR { get; set; }
 
         public static string STAGED_COLOR { get; set; }
+        public static string STAGED_TEXT_COLOR { get; set; }
         public static string OUT_COLOR { get; set; }
+        public static string OUT_TEXT_COLOR { get; set; }
         public static string IN_REPAIR_COLOR { get; set; }
+        public static string IN_REPAIR_TEXT_COLOR { get; set; }
         public static string IN_TRANSIT_COLOR { get; set; }
+        public static string IN_TRANSIT_TEXT_COLOR { get; set; }
         public static string CONTAINER_COLOR { get; set; }
+        public static string CONTAINER_TEXT_COLOR { get; set; }
         public static string SUB_COLOR { get; set; }
         public static string CONSIGNMENT_COLOR { get; set; }
         public static string QC_REQUIRED_COLOR { get; set; }
@@ -156,49 +161,60 @@ namespace WebApi
             INVENTORY_AVAILABLE_FOR_SALE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVENTORY_AVAILABLE_FOR_SALE_COLOR);
             INVENTORY_AVAILABLE_FOR_PARTS_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVENTORY_AVAILABLE_FOR_PARTS_COLOR);
 
-
-
-
-
             using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
             {
                 INVENTORY_STATUS_IN_ID = FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_IN, "rentalstatusid").Result.ToString().TrimEnd();
             }
 
             int containerColorInt = 0;
+            int containerTextColorInt = 0;
             using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
             {
                 containerColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_INCONTAINER, "color").Result.ToString().TrimEnd());
+                containerTextColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_INCONTAINER, "textcolorint").Result.ToString().TrimEnd());
             }
             CONTAINER_COLOR = FwConvert.OleColorToHtmlColor(containerColorInt);
+            CONTAINER_TEXT_COLOR = FwConvert.OleColorToHtmlColor(containerTextColorInt);
 
             int stagedColorInt = 0;
+            int stagedTextColorInt = 0;
             using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
             {
                 stagedColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_STAGED, "color").Result.ToString().TrimEnd());
+                stagedTextColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_STAGED, "textcolorint").Result.ToString().TrimEnd());
             }
             STAGED_COLOR = FwConvert.OleColorToHtmlColor(stagedColorInt);
+            STAGED_TEXT_COLOR = FwConvert.OleColorToHtmlColor(stagedTextColorInt);
 
             int outColorInt = 0;
+            int outTextColorInt = 0;
             using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
             {
                 outColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_OUT, "color").Result.ToString().TrimEnd());
+                outTextColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_OUT, "textcolorint").Result.ToString().TrimEnd());
             }
             OUT_COLOR = FwConvert.OleColorToHtmlColor(outColorInt);
+            OUT_TEXT_COLOR = FwConvert.OleColorToHtmlColor(outTextColorInt);
 
             int inRepairColorInt = 0;
+            int inRepairTextColorInt = 0;
             using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
             {
                 inRepairColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_IN_REPAIR, "color").Result.ToString().TrimEnd());
+                inRepairTextColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_IN_REPAIR, "textcolorint").Result.ToString().TrimEnd());
             }
             IN_REPAIR_COLOR = FwConvert.OleColorToHtmlColor(inRepairColorInt);
+            IN_REPAIR_TEXT_COLOR = FwConvert.OleColorToHtmlColor(inRepairTextColorInt);
 
             int inTransitColorInt = 0;
+            int inTransitTextColorInt = 0;
             using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
             {
                 inTransitColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_IN_TRANSIT, "color").Result.ToString().TrimEnd());
+                inTransitTextColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_IN_TRANSIT, "textcolorint").Result.ToString().TrimEnd());
             }
             IN_TRANSIT_COLOR = FwConvert.OleColorToHtmlColor(inTransitColorInt);
+            IN_TRANSIT_TEXT_COLOR = FwConvert.OleColorToHtmlColor(inTransitTextColorInt);
 
 
             SUB_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
