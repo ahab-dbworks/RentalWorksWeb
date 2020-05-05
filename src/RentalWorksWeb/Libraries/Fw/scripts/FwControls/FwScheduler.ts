@@ -11,6 +11,8 @@ class FwSchedulerClass {
         $control.attr('data-dpcalendarid', dpcalendarid);
         const navmonthid = FwControl.generateControlId('navmonth');
         $control.attr('data-navmonthid', navmonthid);
+        const navyearid = FwControl.generateControlId('navyear');
+        $control.attr('data-navyearid', navyearid);
         const dpmonthid = FwControl.generateControlId('dpmonth');
         $control.attr('data-dpmonthid', dpmonthid);
         const nav5weekid = FwControl.generateControlId('nav5week');
@@ -55,6 +57,9 @@ class FwSchedulerClass {
         html.push('    <div class="dpyearcontainer">');
         html.push('      <div id="' + dpyearid + '" class="dp5week"></div>');
         html.push('    </div>');
+        html.push('    <div class="navyearcontainer">');
+        html.push(`      <div id="${navyearid}"></div>`);
+        html.push('    </div>');
         html.push('  </div>');
         html.push('  <div class="schedulercontainer" style="display:none;">');
         html.push('    <div class="dpschedulercontainer">');
@@ -78,7 +83,7 @@ class FwSchedulerClass {
         schedulerbtns.push('    <div class="changeview btnWeek">Week</div>');
         schedulerbtns.push('    <div class="changeview btn5Week">5 Week</div>');
         schedulerbtns.push('    <div class="changeview btnMonth">Month</div>');
-        //schedulerbtns.push('    <div class="changeview btnYear">Year</div>');
+        schedulerbtns.push('    <div class="changeview btnYear">Year</div>');
         schedulerbtns.push('    <div class="changeview btnSchedule">Schedule</div>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="topnavigation">');
@@ -245,9 +250,13 @@ class FwSchedulerClass {
                         FwSchedulerDetailed.navigate($schedulerControl, nextMonth, 31);
                     }
                 } else if ($control.find('.btnYear').attr('data-selected') === 'true') {
-                    navmonth = $control.data('navyear');
+                    //navmonth = $control.data('navyear');
+                    //currentDay = navmonth.selectionStart;
+                    //nextYear = currentDay.addYears(1);
+
+                    navmonth = $control.data('navmonth');
                     currentDay = navmonth.selectionStart;
-                    nextYear = currentDay.addYears(1);
+                    nextYear = currentDay.addMonths(12);
                     FwScheduler.navigate($control, nextYear);
                 } else if ($control.find('.btnSchedule').attr('data-selected') === 'true') {
                     navscheduler = $control.data('navscheduler');
@@ -302,10 +311,10 @@ class FwSchedulerClass {
                         FwSchedulerDetailed.navigate($schedulerControl, previousMonth, 31);
                     }
                 } else if ($control.find('.btnYear').attr('data-selected') === 'true') {
-                    navyear = $control.data('navyear');
-                    currentDay = navyear.selectionStart;
-                    previousMonth = currentDay.addYears(-1);
-                    FwScheduler.navigate($control, previousMonth);
+                    navmonth = $control.data('navmonth');
+                    currentDay = navmonth.selectionStart;
+                    const previousYear = currentDay.addMonths(-12);
+                    FwScheduler.navigate($control, previousYear);
                 } else if ($control.find('.btnSchedule').attr('data-selected') === 'true') {
                     navscheduler = $control.data('navscheduler');
                     currentDay = navscheduler.selectionStart;
@@ -369,6 +378,7 @@ class FwSchedulerClass {
         FwScheduler.loadNavCalendar($control);
         FwScheduler.loadNavMonth($control);
         FwScheduler.loadNav5Week($control);
+        FwScheduler.loadNavYear($control);
         FwScheduler.loadNavScheduler($control);
         FwScheduler.loadCalendar($control);
         FwScheduler.loadMonth($control);
@@ -446,6 +456,29 @@ class FwSchedulerClass {
         //navmonth.eventDoubleClickHandling = "Enabled";
         //if (typeof $control.data('oneventdoubleclicked') === 'function') navmonth.onEventDoubleClicked = $control.data('oneventdoubleclicked');
         navmonth.init();
+    };
+    //---------------------------------------------------------------------------------
+    loadNavYear($control) {
+        const navyear = new DayPilot.Navigator($control.attr('data-navyearid'));
+        $control.data('navyear', navyear);
+        navyear.showMonths = 12;
+        navyear.skipMonths = 12;
+        navyear.selectMode = "month";
+        navyear.weekStarts = 0;
+        navyear.onTimeRangeSelected = function (args) {
+            try {
+                const dpyear = $control.data('dpyear');
+                dpyear.startDate = args.start;
+                dpyear.days = args.days;
+                FwScheduler.loadEvents($control);
+                dpyear.update();
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        };
+        //navmonth.eventDoubleClickHandling = "Enabled";
+        //if (typeof $control.data('oneventdoubleclicked') === 'function') navmonth.onEventDoubleClicked = $control.data('oneventdoubleclicked');
+        navyear.init();
     };
     //---------------------------------------------------------------------------------
     loadNavScheduler($control) {
@@ -712,6 +745,9 @@ class FwSchedulerClass {
                 navmonth._timeRangeSelectedDispatch();
                 break;
             case 'Year':
+                const navyear = $control.data('navyear');
+                navyear.select(date);
+                navyear._timeRangeSelectedDispatch();
                 break;
             case 'Schedule':
                 navscheduler = $control.data('navscheduler');
