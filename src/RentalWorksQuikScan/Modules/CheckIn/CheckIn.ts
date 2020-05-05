@@ -1,4 +1,4 @@
-﻿class CheckInControllerClass {
+class CheckInControllerClass {
     //----------------------------------------------------------------------------------------------
     getOrderSuspendedSessionPopup(suspendedInContracts) {'use strict';
         var result, html, statusdate, sessionno, orderno, orderdesc, deal, username, status, rowView, rowModel;
@@ -588,6 +588,7 @@
             $rfid.find('.rfid-items').empty();
 
             for (var i = 0; i < tags.length; i++) {
+                $item = null;
                 if (tags[i].status === 'PROCESSED') {
                     $item = $rfid.rfiditem('processed');
                     $item.find('.rfid-item-title').html(tags[i].title);
@@ -606,8 +607,10 @@
                     $item.find('.rfid-data.message .item-value').html(tags[i].message);
                     $item.attr('data-exceptiontype', tags[i].exceptiontype);
                 }
-                $item.data('recorddata', tags[i]);
-                $rfid.find('.rfid-items').append($item);
+                if ($item !== null) {
+                    $item.data('recorddata', tags[i]);
+                    $rfid.find('.rfid-items').append($item);
+                }
             }
 
             switch ($rfid.data('filterview')) {
