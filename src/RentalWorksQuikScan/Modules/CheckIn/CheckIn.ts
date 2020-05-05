@@ -1,4 +1,4 @@
-class CheckInControllerClass {
+﻿class CheckInControllerClass {
     //----------------------------------------------------------------------------------------------
     getOrderSuspendedSessionPopup(suspendedInContracts) {'use strict';
         var result, html, statusdate, sessionno, orderno, orderdesc, deal, username, status, rowView, rowModel;
@@ -702,9 +702,19 @@ class CheckInControllerClass {
                         $confirmation.find('.exceptionbuttons').append('<div class="swap">Swap</div>');
                         break;
                 }
+                $confirmation.find('.exceptionbuttons').append('<div class="tagfinder">Tag Finder</div>');
                 $confirmation.find('.exceptionbuttons').append('<div class="clear">Clear Item</div>');
 
                 $confirmation.find('.exceptionbuttons')
+                    .on('click', '.tagfinder', () => {
+                        try {
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            const recorddata = $this.data('recorddata');
+                            RwRFID.startTagFinder(recorddata.rfid);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    })
                     .on('click', '.addordertosession, .clear, .swap', function() {
                         var request: any = {};
                         if (jQuery(this).hasClass('addordertosession')) {
