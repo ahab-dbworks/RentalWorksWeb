@@ -1179,11 +1179,13 @@ class OrderBase {
                 LocationId: location.locationid
             }
 
-            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/ordertype/${this.DefaultOrderTypeId}`, null, FwServices.defaultTimeout, response => {
-                this.DefaultFromTime = response.DefaultFromTime;
-                this.DefaultToTime = response.DefaultToTime;
-                this.DefaultPickTime = response.DefaultPickTime;
-            }, ex => FwFunc.showError(ex), $browse);
+            if (this.DefaultOrderTypeId) {
+                FwAppData.apiMethod(true, 'GET', `${this.apiurl}/ordertype/${this.DefaultOrderTypeId}`, null, FwServices.defaultTimeout, response => {
+                    this.DefaultFromTime = response.DefaultFromTime;
+                    this.DefaultToTime = response.DefaultToTime;
+                    this.DefaultPickTime = response.DefaultPickTime;
+                }, ex => FwFunc.showError(ex), $browse);
+            }
 
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/ordertypelocation/browse`, request, FwServices.defaultTimeout,
                 response => {
@@ -3118,14 +3120,16 @@ class OrderBase {
             }, null, null);
 
         if ($form.attr('data-mode') === 'NEW') {
-            FwAppData.apiMethod(true, 'GET', `api/v1/ordertype/${orderTypeId}`, null, FwServices.defaultTimeout, response => {
-                this.DefaultFromTime = response.DefaultFromTime;
-                this.DefaultToTime = response.DefaultToTime;
-                this.DefaultPickTime = response.DefaultPickTime;
-                FwFormField.setValueByDataField($form, 'PickTime', this.DefaultPickTime);
-                FwFormField.setValueByDataField($form, 'EstimatedStartTime', this.DefaultFromTime);
-                FwFormField.setValueByDataField($form, 'EstimatedStopTime', this.DefaultToTime);
-            }, ex => FwFunc.showError(ex), $form);
+            if (this.DefaultOrderTypeId) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/ordertype/${orderTypeId}`, null, FwServices.defaultTimeout, response => {
+                    this.DefaultFromTime = response.DefaultFromTime;
+                    this.DefaultToTime = response.DefaultToTime;
+                    this.DefaultPickTime = response.DefaultPickTime;
+                    FwFormField.setValueByDataField($form, 'PickTime', this.DefaultPickTime);
+                    FwFormField.setValueByDataField($form, 'EstimatedStartTime', this.DefaultFromTime);
+                    FwFormField.setValueByDataField($form, 'EstimatedStopTime', this.DefaultToTime);
+                }, ex => FwFunc.showError(ex), $form);
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
