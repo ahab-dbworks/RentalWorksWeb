@@ -9,6 +9,16 @@ class CustomForm {
     codeMirror: any;
     doc: any;
     //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Save', 'ddXtKGS07Iko', (e: JQuery.ClickEvent) => {
+            try {
+                this.saveForm(options.$form, { closetab: false });
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);

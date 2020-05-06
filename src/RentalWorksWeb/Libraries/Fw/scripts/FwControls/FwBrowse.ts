@@ -4143,6 +4143,8 @@ class FwBrowseClass {
                 }
                 $form = CustomFormController.loadForm(uniqueids);
                 FwModule.openModuleTab($form, `${name} ${type} - ${fullName}`, true, 'FORM', true);
+                FwFormField.enable($form.data('fields'));
+                $form.attr('data-mode', 'EDIT');
             }
         } else {
             try {
@@ -4152,13 +4154,16 @@ class FwBrowseClass {
                 FwFormField.setValueByDataField($form, 'BaseForm', value, null, true);
                 FwFormField.setValueByDataField($form, 'Description', `${name} ${type} - ${fullName}`);
                 FwFormField.setValueByDataField($form, 'AssignTo', 'USERS');
+                $form.attr('data-mode', 'NEW');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         }
         $form.data('selfassign', true);
-        $form.find('[data-type="SaveMenuBarButton"]').show();
+        FwFormField.enable($form.data('fields'));
+        FwFormField.disable($form.find('[data-datafield="BaseForm"]'));
         $form.find('[data-caption="Assign To"]').hide();
+        $form.find('[data-type="RefreshMenuBarButton"]').hide();
     }
     //----------------------------------------------------------------------------------------------
     disableGrid($control: JQuery) {

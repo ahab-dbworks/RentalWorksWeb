@@ -11,6 +11,7 @@ namespace WebApi.Modules.Administrator.CustomForm
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
     [FwController(Id:"xfpeg2SVZW")]
+    [FwOptionsGroup("Save", "ddXtKGS07Iko")]
     public class CustomFormController : AppDataController
     {
         public CustomFormController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomFormLogic); }
@@ -57,7 +58,7 @@ namespace WebApi.Modules.Administrator.CustomForm
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customform/selfassign
         [HttpPost("selfassign")]
-        [FwControllerMethod(Id: "kUeNITu1oqm8Q", ActionType: FwControllerActionTypes.Option, Caption: "New (Personal Custom Form)")]
+        [FwControllerMethod(Id: "kUeNITu1oqm8Q", ActionType: FwControllerActionTypes.Option, Caption: "New (Personal Custom Form)", ParentId: "ddXtKGS07Iko")]
         public async Task<ActionResult<CustomFormLogic>> NewSelfAssignAsync([FromBody]CustomFormLogic l)
         {
             if (l.WebUserId.Equals(UserSession.WebUsersId))
@@ -80,7 +81,7 @@ namespace WebApi.Modules.Administrator.CustomForm
         //------------------------------------------------------------------------------------ 
         // PUT api/v1/customform/selfassign/A0000001
         [HttpPut("selfassign/{id}")]
-        [FwControllerMethod(Id: "6EP7tbleH7lwv", ActionType: FwControllerActionTypes.Option, Caption: "Edit (Personal Custom Form)")]
+        [FwControllerMethod(Id: "6EP7tbleH7lwv", ActionType: FwControllerActionTypes.Option, Caption: "Edit (Personal Custom Form)", ParentId: "ddXtKGS07Iko")]
         public async Task<ActionResult<CustomFormLogic>> EditSelfAssignAsync([FromRoute] string id, [FromBody]CustomFormLogic l)
         {
             if (l.WebUserId.Equals(UserSession.WebUsersId))
