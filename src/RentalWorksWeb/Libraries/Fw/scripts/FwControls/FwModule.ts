@@ -788,7 +788,7 @@ class FwModule {
                 if (typeof controller.apiurl !== 'undefined') {
                     if (parameters.closetab === false) {
                         //Refresh the browse window on saving a record.
-                        $browse = jQuery('.fwbrowse[data-controller="' + controllername + '"]')
+                        $browse = jQuery('.tabpage:not(.submodule) > .fwbrowse[data-controller="' + controllername + '"]')
                         if ($browse.length > 0) {
                             FwBrowse.databind($browse);
                         }
