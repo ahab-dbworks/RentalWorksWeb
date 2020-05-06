@@ -985,6 +985,10 @@ class FwSchedulerClass {
             dpmonth.events.list = events;
             dpmonth.update();
 
+            dpyear.resources = resources;
+            dpyear.events.list = events;
+            dpyear.update();
+
             dpscheduler.resources = resources;
             dpscheduler.events.list = events;
             dpscheduler.update();
