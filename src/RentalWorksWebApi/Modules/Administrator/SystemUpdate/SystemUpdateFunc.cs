@@ -13,6 +13,7 @@ using FwStandard.SqlServer;
 using System.Data;
 using WebApi.Modules.Administrator.SystemUpdateHistory;
 using FwCore.Controllers;
+using WebApi.Modules.Administrator.SystemUpdateHistoryLog;
 
 namespace WebApi.Modules.Administrator.SystemUpdate
 {
@@ -305,6 +306,25 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        private static async Task<bool> LogUpdateMessage(SystemUpdateHistoryLogic history, string message)
+        {
+            bool success = false;
+            try
+            {
+                SystemUpdateHistoryLogLogic l = new SystemUpdateHistoryLogLogic();
+                l.SetDependencies(history.AppConfig, history.UserSession);
+                l.SystemUpdateHistoryId = history.SystemUpdateHistoryId;
+                l.Messsage = message;
+                await l.SaveAsync();
+                success = true;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<ApplyUpdateResponse> ApplyUpdate(FwApplicationConfig appConfig, FwUserSession userSession, ApplyUpdateRequest request)
         {
             ApplyUpdateResponse response = new ApplyUpdateResponse();
@@ -315,8 +335,20 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             h.FromVersion = request.CurrentVersion;
             h.ToVersion = request.ToVersion;
             h.UpdateDateTime = DateTime.Now;
+            await h.SaveAsync();
+
+            await LogUpdateMessage(h, "Begin");
 
             SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder(appConfig.DatabaseSettings.ConnectionString);
+
+            await LogUpdateMessage(h, "updating from version: " + request.CurrentVersion);
+            await LogUpdateMessage(h, "updating to version: " + request.ToVersion);
+            await LogUpdateMessage(h, "sql server name: " + connectionStringBuilder.DataSource);
+            await LogUpdateMessage(h, "database name: " + connectionStringBuilder.InitialCatalog);
+            await LogUpdateMessage(h, "api application pool: " + appConfig.ApplicationPool);
+            await LogUpdateMessage(h, "api installation path: " + GetCurrentApiApplicationPath());
+            await LogUpdateMessage(h, "web application pool: " + GetCurrentWebApplicationPoolName(appConfig.ApplicationPool));
+            await LogUpdateMessage(h, "web installation path: " + GetCurrentWebApplicationPath());
 
             UpdaterRequest updaterRequest = new UpdaterRequest();
             updaterRequest.ToVersion = request.ToVersion;
@@ -336,34 +368,42 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             if (string.IsNullOrEmpty(updaterRequest.ApiApplicationPool))
             {
                 response.msg = "Could not determine API Application Pool from appsettings.json.";
+                await LogUpdateMessage(h, "ERROR: " + response.msg);
             }
             else if (string.IsNullOrEmpty(updaterRequest.ApiInstallPath))
             {
                 response.msg = "Could not determine API Installation path.";
+                await LogUpdateMessage(h, "ERROR: " + response.msg);
             }
             else if (string.IsNullOrEmpty(updaterRequest.WebApplicationPool))
             {
                 response.msg = "Could not determine Web Application Pool.";
+                await LogUpdateMessage(h, "ERROR: " + response.msg);
             }
             else if (string.IsNullOrEmpty(updaterRequest.WebInstallPath))
             {
                 response.msg = "Could not determine Web Installation path.";
+                await LogUpdateMessage(h, "ERROR: " + response.msg);
             }
             else if (string.IsNullOrEmpty(updaterRequest.SQLServerName))
             {
                 response.msg = "Could not determine SQL Server name from appsettings.json.";
+                await LogUpdateMessage(h, "ERROR: " + response.msg);
             }
             else if (string.IsNullOrEmpty(updaterRequest.DatabaseName))
             {
                 response.msg = "Could not determine Database name from appsettings.json.";
+                await LogUpdateMessage(h, "ERROR: " + response.msg);
             }
             else if (string.IsNullOrEmpty(request.CurrentVersion))
             {
                 response.msg = "Current Version cannot be blank.";
+                await LogUpdateMessage(h, "ERROR: " + response.msg);
             }
             else if (string.IsNullOrEmpty(request.ToVersion))
             {
                 response.msg = "Update To Version cannot be blank.";
+                await LogUpdateMessage(h, "ERROR: " + response.msg);
             }
             else
             {
@@ -374,6 +414,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                 {
                     if (doInstallHotfixes)
                     {
+                        await LogUpdateMessage(h, "about to check database connectivity before installing hotfixes");
                         try
                         {
                             // using native SqlConnection object here to bypass block on the "dbworks" login
@@ -381,12 +422,15 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                             {
                                 conn.Open();
                                 conn.Close();
+                                await LogUpdateMessage(h, "successfully connected to database before installing hotfixes");
                             }
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             response.success = false;
                             response.msg = "Cannot connect to the database to install hotfixes.";
+                            await LogUpdateMessage(h, "ERROR: " + response.msg);
+                            await LogUpdateMessage(h, "ERROR: " + e.Message);
                         }
                     }
                 }
@@ -395,6 +439,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                 // attempt to connect to the updater service to confirm send/receive connectivity
                 if (response.success)
                 {
+                    await LogUpdateMessage(h, "about to send test command to updater service to validate communication");
                     try
                     {
                         TcpClient client = new TcpClient(updaterServer, updaterPort);
@@ -408,11 +453,14 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                         string testResponseStr = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
                         stream.Close();
                         client.Close();
+                        await LogUpdateMessage(h, "successfully sent test command to updater service. Received response: " + testResponseStr);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         response.msg = "There is no RentalWorksWeb Updater Service available.";
                         response.success = false;
+                        await LogUpdateMessage(h, "ERROR: " + response.msg);
+                        await LogUpdateMessage(h, "ERROR: " + e.Message);
                     }
                 }
 
@@ -421,24 +469,28 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                 {
                     if (doInstallHotfixes)
                     {
+                        await LogUpdateMessage(h, "about to install hotfixes");
                         try
                         {
                             // using native SqlConnection object here to bypass block on the "dbworks" login
-                            using (SqlConnection conn = new SqlConnection(hotfixInstallerConnectionString))
+                            using (SqlConnection hotfixConn = new SqlConnection(hotfixInstallerConnectionString))
                             {
-                                SqlCommand qry = new SqlCommand("fw_installhotfixes", conn);
+                                SqlCommand qry = new SqlCommand("fw_installhotfixes", hotfixConn);
                                 qry.CommandTimeout = 1800;  // time-out at 1,800 seconds (30 minutes)  // default is 30 (30 seconds).  0 indicates never timeout
                                 qry.CommandType = CommandType.StoredProcedure;
                                 qry.Parameters.Add("@includepreview", SqlDbType.VarChar).Value = "O";
-                                conn.Open();
+                                hotfixConn.Open();
                                 await qry.ExecuteNonQueryAsync();
-                                conn.Close();
+                                hotfixConn.Close();
+                                await LogUpdateMessage(h, "successfully installed hotfixes");
                             }
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             response.success = false;
                             response.msg = "Failed to install Hotfixes.";
+                            await LogUpdateMessage(h, "ERROR: " + response.msg);
+                            await LogUpdateMessage(h, "ERROR: " + e.Message);
                         }
                     }
                 }
@@ -446,6 +498,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                 // if hotfixess were installed successfully, then request the API/Web update
                 if (response.success)
                 {
+                    await LogUpdateMessage(h, "about to send command to updater service to apply update");
                     try
                     {
                         TcpClient client = new TcpClient(updaterServer, updaterPort);
@@ -453,9 +506,8 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                         string updaterRequestSt = JsonConvert.SerializeObject(updaterRequest);
                         Byte[] data = System.Text.Encoding.ASCII.GetBytes(updaterRequestSt);
                         NetworkStream stream = client.GetStream();
+                        await LogUpdateMessage(h, "about to send command: " + updaterRequestSt);
                         stream.Write(data, 0, data.Length);
-
-                        await h.SaveAsync();
 
                         // once the above command is sent to the updater service, this API service will be bounced
                         // the following "Read" command is here only to cause a delay to the page continues to show the Please Wait pop-up until the API service is bounced
@@ -473,11 +525,15 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                     {
                         response.msg = "ArgumentNullException: " + e.ToString();
                         response.success = false;
+                        await LogUpdateMessage(h, "ERROR: " + response.msg);
+                        await LogUpdateMessage(h, "ERROR: " + e.Message);
                     }
-                    catch (SocketException)
+                    catch (SocketException e)
                     {
                         response.msg = "There is no RentalWorksWeb Updater Service available.";
                         response.success = false;
+                        await LogUpdateMessage(h, "ERROR: " + response.msg);
+                        await LogUpdateMessage(h, "ERROR: " + e.Message);
                     }
                 }
             }
