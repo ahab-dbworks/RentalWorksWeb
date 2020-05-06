@@ -250,10 +250,6 @@ class FwSchedulerClass {
                         FwSchedulerDetailed.navigate($schedulerControl, nextMonth, 31);
                     }
                 } else if ($control.find('.btnYear').attr('data-selected') === 'true') {
-                    //navmonth = $control.data('navyear');
-                    //currentDay = navmonth.selectionStart;
-                    //nextYear = currentDay.addYears(1);
-
                     navmonth = $control.data('navmonth');
                     currentDay = navmonth.selectionStart;
                     nextYear = currentDay.addMonths(12);
@@ -271,7 +267,7 @@ class FwSchedulerClass {
         });
         $control.on('click', '.btnPrev', e => {
             e.stopImmediatePropagation();
-            let currentDay, previousDay, previousWeek, previous5Week, previousMonth, nav5week, navyear, navcalendar, navmonth, navscheduler, schedulerDetailed;
+            let currentDay, previousDay, previousWeek, previous5Week, previousMonth, nav5week, navcalendar, navmonth, navscheduler, schedulerDetailed;
 
             try {
                 const $schedulerControl = $control.parents().find('.realscheduler')
@@ -869,6 +865,7 @@ class FwSchedulerClass {
         $control.find('.calendarcontainer').hide();
         $control.find('.schedulercontainer').hide();
         $control.find('.monthcontainer').hide();
+        $control.find('.navyearcontainer').hide();
         $control.find('.yearcontainer').show();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnYear').attr('data-selected', 'true');
@@ -985,9 +982,9 @@ class FwSchedulerClass {
             dpmonth.events.list = events;
             dpmonth.update();
 
-            dpyear.resources = resources;
-            dpyear.events.list = events;
-            dpyear.update();
+            //dpyear.resources = resources;
+            //dpyear.events.list = events;
+            //dpyear.update();
 
             dpscheduler.resources = resources;
             dpscheduler.events.list = events;
