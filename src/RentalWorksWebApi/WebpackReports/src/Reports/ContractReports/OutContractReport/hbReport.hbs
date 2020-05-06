@@ -151,6 +151,13 @@
       <tr>
         <td colspan="5"></td>
       </tr>
+      {{#if Notes}}
+      <tr>
+        <td>&nbsp;</td>
+        <td colspan="5"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td>&nbsp;</td>
+      </tr>
+      {{/if}}
       {{/ifEquals}}
       {{/each}}
     </tbody>
