@@ -925,6 +925,7 @@ class FwSchedulerClass {
         const dpcalendar = $control.data('dpcalendar');
         const dp5week = $control.data('dp5week');
         const dpmonth = $control.data('dpmonth');
+        const dpyear = $control.data('dpyear');
         const dpscheduler = $control.data('dpscheduler');
 
         if (typeof $control.data('ongetevents') === 'function') {
@@ -944,8 +945,9 @@ class FwSchedulerClass {
                     days = dpmonth.days + dpmonth.startDate.dayOfWeek() + (6 - dpmonth.startDate.addDays(dpmonth.days).dayOfWeek()) // add the first few days from the next month that are visible
                     break;
                 case 'Year':
-                    start = dpmonth.startDate.addDays(-dpmonth.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible
-                    days = dpmonth.days + dpmonth.startDate.dayOfWeek() + (6 - dpmonth.startDate.addDays(dpmonth.days).dayOfWeek()) // add the first few days from the next month that are visible
+                    const startDate = dpyear.startDate.toString();
+                    start = `${startDate.substring(0,4)}-01-01T00:00:00`;
+                    days = 365;
                     break;
                 case 'Schedule':
                     start = dpscheduler.startDate;
