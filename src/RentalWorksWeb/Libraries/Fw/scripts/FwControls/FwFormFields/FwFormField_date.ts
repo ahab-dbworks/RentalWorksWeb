@@ -43,7 +43,8 @@
             autoclose: true,
             format: "mm/dd/yyyy",
             todayHighlight: true,
-            todayBtn: 'linked'
+            todayBtn: 'linked',
+            firstDay: 1,
         }).off('focus'); //MY 1/5/2015: Suppresses the date picker from opening on focus.
 
         $control

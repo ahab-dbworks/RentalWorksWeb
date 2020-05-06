@@ -1542,7 +1542,8 @@ class FwBrowseClass {
                     autoclose: true,
                     format: "mm/dd/yyyy",
                     todayHighlight: true,
-                    todayBtn: 'linked'
+                    todayBtn: 'linked',
+                    firstDay: 1,
                 }).off('focus');
 
                 $control.on('click', '.btndate', e => {

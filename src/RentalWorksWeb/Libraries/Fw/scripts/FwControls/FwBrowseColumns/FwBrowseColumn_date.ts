@@ -56,7 +56,8 @@
         $field.find('input.value').datepicker({
             autoclose: true,
             format: "m/d/yyyy",
-            todayHighlight: true
+            todayHighlight: true,
+            firstDay: 1,
         }).off('focus');
         $field.on('click', '.btndate', function () {
             $field.find('input').datepicker('show');

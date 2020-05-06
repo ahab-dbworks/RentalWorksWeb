@@ -122,7 +122,8 @@ class FwSchedulerClass {
         $datebtn.datepicker({
             autoclose: true,
             format: "m/d/yyyy",
-            todayHighlight: true
+            todayHighlight: true,
+            firstDay: 1,
         }).off('focus');
     };
     //---------------------------------------------------------------------------------
@@ -391,7 +392,11 @@ class FwSchedulerClass {
         navcalendar.showMonths = 2;
         navcalendar.skipMonths = 2;
         navcalendar.selectMode = "day";
-        navcalendar.weekStarts = 0;
+        if (navigator.language !== 'en-US') {
+            navcalendar.weekStarts = 1;
+        } else {
+            navcalendar.weekStarts = 1;
+        }
         navcalendar.onTimeRangeSelected = function (args) {
             try {
                 const dpcalendar = $control.data('dpcalendar');
@@ -414,7 +419,11 @@ class FwSchedulerClass {
         nav5week.showMonths = 3;
         nav5week.skipMonths = 3;
         nav5week.selectMode = "month";
-        nav5week.weekStarts = 0;
+        if (navigator.language !== 'en-US') {
+            nav5week.weekStarts = 1;
+        } else {
+            nav5week.weekStarts = 1;
+        }
         nav5week.onTimeRangeSelected = function (args) {
             try {
                 const dp5week = $control.data('dp5week');
@@ -437,7 +446,11 @@ class FwSchedulerClass {
         navmonth.showMonths = 3;
         navmonth.skipMonths = 3;
         navmonth.selectMode = "month";
-        navmonth.weekStarts = 0;
+        if (navigator.language !== 'en-US') {
+            navmonth.weekStarts = 1;
+        } else {
+            navmonth.weekStarts = 1;
+        }
         navmonth.onTimeRangeSelected = function (args) {
             try {
                 const dpmonth = $control.data('dpmonth');
@@ -506,7 +519,11 @@ class FwSchedulerClass {
         dpcalendar.eventMoveHandling = 'Disabled';
         dpcalendar.eventResizeHandling = 'Disabled';
         dpcalendar.heightSpec = 'Full';
-        dpcalendar.weekStarts = 0;
+        if (navigator.language !== 'en-US') {
+            dpcalendar.weekStarts = 1;
+        } else {
+            dpcalendar.weekStarts = 1;
+        }
         dpcalendar.businessBeginsHour = 0;
         dpcalendar.businessEndsHour = 11;
         dpcalendar.onTimeRangeSelected = function (args) {
@@ -534,7 +551,11 @@ class FwSchedulerClass {
         dpmonth.eventHeight = 25;
         dpmonth.headerHeight = 25;
         dpmonth.rowHeaderWidth = 200;
-        dpmonth.weekStarts = 0;
+        if (navigator.language !== 'en-US') {
+            dpmonth.weekStarts = 1;
+        } else {
+            dpmonth.weekStarts = 1;
+        }
         dpmonth.eventClickHandling = 'Enabled';
         dpmonth.eventMoveHandling = 'Disabled';
         dpmonth.eventResizeHandling = 'Disabled';
@@ -595,7 +616,11 @@ class FwSchedulerClass {
         dp5week.eventHeight = 25;
         dp5week.headerHeight = 25;
         dp5week.rowHeaderWidth = 200;
-        dp5week.weekStarts = 0;
+        if (navigator.language !== 'en-US') {
+            dp5week.weekStarts = 1;
+        } else {
+            dp5week.weekStarts = 1;
+        };
         dp5week.eventClickHandling = 'Enabled';
         dp5week.eventMoveHandling = 'Disabled';
         dp5week.eventResizeHandling = 'Disabled';
