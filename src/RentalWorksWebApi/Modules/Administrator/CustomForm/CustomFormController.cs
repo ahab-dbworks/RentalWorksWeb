@@ -11,6 +11,7 @@ namespace WebApi.Modules.Administrator.CustomForm
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
     [FwController(Id:"xfpeg2SVZW")]
+    [FwOptionsGroup("Save", "ddXtKGS07Iko")]
     public class CustomFormController : AppDataController
     {
         public CustomFormController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomFormLogic); }
@@ -41,7 +42,7 @@ namespace WebApi.Modules.Administrator.CustomForm
         //------------------------------------------------------------------------------------ 
         // GET api/v1/customform/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"4YKuNhms4Xi", ActionType: FwControllerActionTypes.View)]
+        [FwControllerMethod(Id:"4YKuNhms4Xi", ActionType: FwControllerActionTypes.View, ValidateSecurityGroup: false)]
         public async Task<ActionResult<CustomFormLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomFormLogic>(id);
@@ -55,12 +56,42 @@ namespace WebApi.Modules.Administrator.CustomForm
             return await DoNewAsync<CustomFormLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/customform/selfassign
+        [HttpPost("selfassign")]
+        [FwControllerMethod(Id: "kUeNITu1oqm8Q", ActionType: FwControllerActionTypes.Option, Caption: "New (Personal Custom Form)", ParentId: "ddXtKGS07Iko")]
+        public async Task<ActionResult<CustomFormLogic>> NewSelfAssignAsync([FromBody]CustomFormLogic l)
+        {
+            if (l.WebUserId.Equals(UserSession.WebUsersId))
+            {
+                return await DoNewAsync<CustomFormLogic>(l);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // PUT api/v1/customform/A0000001
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "qRlETTHLEKrda", ActionType: FwControllerActionTypes.Edit)]
         public async Task<ActionResult<CustomFormLogic>> EditAsync([FromRoute] string id, [FromBody]CustomFormLogic l)
         {
             return await DoEditAsync<CustomFormLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/customform/selfassign/A0000001
+        [HttpPut("selfassign/{id}")]
+        [FwControllerMethod(Id: "6EP7tbleH7lwv", ActionType: FwControllerActionTypes.Option, Caption: "Edit (Personal Custom Form)", ParentId: "ddXtKGS07Iko")]
+        public async Task<ActionResult<CustomFormLogic>> EditSelfAssignAsync([FromRoute] string id, [FromBody]CustomFormLogic l)
+        {
+            if (l.WebUserId.Equals(UserSession.WebUsersId))
+            {
+                return await DoEditAsync<CustomFormLogic>(l);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/customform/A0000001 
