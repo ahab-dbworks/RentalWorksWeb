@@ -247,6 +247,9 @@ abstract class InventoryBase {
                         ToDate: endOfMonth,
                         IncludeHours: includeHours,
                     };
+                    if (request.mode === 'Year') {
+                        availRequest.YearView = true;;
+                    }
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
                         FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
                         const calendarevents = response.InventoryAvailabilityCalendarEvents;
