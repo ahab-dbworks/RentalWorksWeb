@@ -268,8 +268,17 @@ class RateUpdateUtility {
             moduleSecurityId: this.id,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1');
                 options.hasNew = false;
                 options.hasDelete = false;
+                FwMenu.addSubMenuItem($optionsgroup, 'Apply Percentage Changes to selected records', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        RateUpdateItemGridController.applyPercentageChanges($form);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                })
             },
             onDataBind: (request: any) => {
                 const availableFor = FwFormField.getValueByDataField($form, 'AvailableFor');
