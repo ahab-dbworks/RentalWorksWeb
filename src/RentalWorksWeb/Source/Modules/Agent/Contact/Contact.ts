@@ -89,8 +89,6 @@ class Contact {
         //    request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'LocationId');
         //});
 
-        $form.find('.tabpages').css('overflow', 'visible'); //fix for country code dropdown cut off
-
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -360,7 +358,7 @@ class Contact {
             <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="NameFirstMiddleLast"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="ContactRecordType"></div>-->
           </div>
-          <div id="contactform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs">
+          <div id="contactform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" style="min-height:675px;"><!--min-height placed here for phone dropdown being cutoff-->
             <div class="tabs">
               <div data-type="tab" id="contacttab" class="tab contacttab" data-tabpageid="contacttabpage" data-caption="Contact"></div>
               <div data-type="tab" id="companytab" class="tab companytab" data-tabpageid="companytabpage" data-caption="Company"></div>
