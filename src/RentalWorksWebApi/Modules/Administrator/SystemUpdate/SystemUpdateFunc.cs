@@ -325,6 +325,37 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+        private static bool IsUpgrade(string fromVersion, string toVersion)
+        {
+            bool isUpgrade = false;
+
+            string[] fromVersionPieces = fromVersion.Split(".");
+            string[] toVersionPieces = toVersion.Split(".");
+
+            if ((fromVersionPieces.Length.Equals(4)) && (toVersionPieces.Length.Equals(4)))
+            {
+                if ((!string.IsNullOrEmpty(fromVersionPieces[0])) && (!string.IsNullOrEmpty(fromVersionPieces[1])) && (!string.IsNullOrEmpty(fromVersionPieces[2])) && (!string.IsNullOrEmpty(fromVersionPieces[3]))
+                    &&
+                    (!string.IsNullOrEmpty(toVersionPieces[0])) && (!string.IsNullOrEmpty(toVersionPieces[1])) && (!string.IsNullOrEmpty(toVersionPieces[2])) && (!string.IsNullOrEmpty(toVersionPieces[3])))
+                {
+                    try
+                    {
+                        if (
+                            (FwConvert.ToInt32(toVersionPieces[0]) > FwConvert.ToInt32(fromVersionPieces[0])) ||
+                            ((FwConvert.ToInt32(toVersionPieces[0]).Equals(FwConvert.ToInt32(fromVersionPieces[0]))) && (FwConvert.ToInt32(toVersionPieces[1]) > FwConvert.ToInt32(fromVersionPieces[1]))) ||
+                            ((FwConvert.ToInt32(toVersionPieces[0]).Equals(FwConvert.ToInt32(fromVersionPieces[0]))) && (FwConvert.ToInt32(toVersionPieces[1]).Equals(FwConvert.ToInt32(fromVersionPieces[1]))) && (FwConvert.ToInt32(toVersionPieces[2]) > FwConvert.ToInt32(fromVersionPieces[2]))) ||
+                            ((FwConvert.ToInt32(toVersionPieces[0]).Equals(FwConvert.ToInt32(fromVersionPieces[0]))) && (FwConvert.ToInt32(toVersionPieces[1]).Equals(FwConvert.ToInt32(fromVersionPieces[1]))) && (FwConvert.ToInt32(toVersionPieces[2]).Equals(FwConvert.ToInt32(fromVersionPieces[2]))) && (FwConvert.ToInt32(toVersionPieces[3]) > FwConvert.ToInt32(fromVersionPieces[3])))
+                           )
+                        {
+                            isUpgrade = true;
+                        }
+                    }
+                    catch (Exception) { }  // bail out
+                }
+            }
+            return isUpgrade;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<ApplyUpdateResponse> ApplyUpdate(FwApplicationConfig appConfig, FwUserSession userSession, ApplyUpdateRequest request)
         {
             ApplyUpdateResponse response = new ApplyUpdateResponse();
@@ -363,7 +394,8 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             string updaterServer = "127.0.0.1";
             int updaterPort = 18811;
 
-            bool doInstallHotfixes = (request.ToVersion.CompareTo(request.CurrentVersion) >= 0);  // only apply hotfixes if upgrading or refreshing current version, not downgrading
+            //bool doInstallHotfixes = (request.ToVersion.CompareTo(request.CurrentVersion) >= 0);  // only apply hotfixes if upgrading or refreshing current version, not downgrading
+            bool doInstallHotfixes = IsUpgrade(request.CurrentVersion, request.ToVersion);  // only apply hotfixes if upgrading or refreshing current version, not downgrading
 
             if (string.IsNullOrEmpty(updaterRequest.ApiApplicationPool))
             {
