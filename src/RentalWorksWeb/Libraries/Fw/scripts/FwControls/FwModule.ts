@@ -788,6 +788,10 @@ class FwModule {
                 if (typeof controller.apiurl !== 'undefined') {
                     if (parameters.closetab === false) {
                         //Refresh the browse window on saving a record.
+                        //$browse = jQuery('.fwbrowse[data-controller="' + controllername + '"]')
+                        //05/06/2020 Jason Hoang, Justin Hoffman
+                        //  We are supressing this refresh functionality for Browses that are sub-modules because it is possible for multiple Forms to be open, each with a separate copy of a Sub Module open.
+                        //  Performing the databind on multiple browses causes issues in how the "order by" fields are added to the request for each browse.
                         $browse = jQuery('.tabpage:not(.submodule) > .fwbrowse[data-controller="' + controllername + '"]')
                         if ($browse.length > 0) {
                             FwBrowse.databind($browse);
