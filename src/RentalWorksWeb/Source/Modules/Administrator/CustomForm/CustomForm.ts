@@ -9,16 +9,6 @@ class CustomForm {
     codeMirror: any;
     doc: any;
     //----------------------------------------------------------------------------------------------
-    addFormMenuItems(options: IAddFormMenuOptions): void {
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Save', 'ddXtKGS07Iko', (e: JQuery.ClickEvent) => {
-            try {
-                this.saveForm(options.$form, { closetab: false });
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-    }
-    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
@@ -72,6 +62,22 @@ class CustomForm {
         FwModule.loadForm(this.Module, $form);
 
         return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    enableSave($form: any) {
+        FwFormField.enable($form.data('fields'));
+        FwFormField.disable($form.find('[data-datafield="BaseForm"]'));
+        $form.find('[data-caption="Assign To"]').hide();
+        $form.find('[data-type="RefreshMenuBarButton"]').hide();
+
+        if (FwApplicationTree.isVisibleInSecurityTree('ddXtKGS07Iko')) {
+            const $saveButton = $form.find('[data-type="SaveMenuBarButton"]');
+            $saveButton.removeClass('disabled').show(); 
+            $saveButton.off('click');
+            $saveButton.on('click', e => {
+                this.saveForm($form, { closetab: false });
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
