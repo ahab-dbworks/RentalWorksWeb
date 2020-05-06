@@ -93,27 +93,33 @@ class CustomForm {
         $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])').not('#designerContent .fwformfield'));
 
         if (typeof $form.data('selfassign') != 'undefined') {
-            const beforeSave = (request: any) => {
-                request.SelfAssign = $form.data('selfassign');
+            const request: any = {
+                BaseForm: FwFormField.getValueByDataField($form, 'BaseForm'),
+                SelfAssign: $form.data('selfassign'),
+                Html: FwFormField.getValueByDataField($form, 'Html'),
+                Description: FwFormField.getValueByDataField($form, 'Description'),
+                Active: FwFormField.getValueByDataField($form, 'Active'),
+                WebUserId: FwFormField.getValueByDataField($form, 'WebUserId'),
+                AssignTo: 'USERS'
+            };
+            const $tab = FwTabs.getTabByElement($form);
+            const saveMode = $form.attr('data-mode');
+            if (saveMode == 'NEW') {
+                FwAppData.apiMethod(true, 'POST', `api/v1/customform/selfassign`, request, FwServices.defaultTimeout, response => {
+                    FwFormField.setValueByDataField($form, 'CustomFormId', response.CustomFormId);
+                    this.afterSave($form);
+                }, ex => FwFunc.showError(ex), $form);
+            } else if (saveMode == 'EDIT') {
+                const customFormId = FwFormField.getValueByDataField($form, 'CustomFormId');
+                request.CustomFormId = customFormId;
+                FwAppData.apiMethod(true, 'PUT', `api/v1/customform/selfassign/${customFormId}`, request, FwServices.defaultTimeout, response => {
+                    FwFormField.setValueByDataField($form, 'CustomFormId', customFormId);
+                    this.afterSave($form);
+                }, ex => FwFunc.showError(ex), $form);
             }
-            $form.data('beforesave', beforeSave);
-
-
-            //const request: any = {
-            //    BaseForm: FwFormField.getValueByDataField($form, 'BaseForm'),
-            //    SelfAssign: $form.data('selfassign'),
-            //    Html: FwFormField.getValueByDataField($form, 'Html'),
-            //    Description: FwFormField.getValueByDataField($form, 'Description'),
-            //    Active: FwFormField.getValueByDataField($form, 'Active')
-            //};
-
-            //FwAppData.apiMethod(true, 'POST', ``, request, FwServices.defaultTimeout, response => {
-            //    //reload
-            //}, ex => FwFunc.showError(ex), $form)
-        }
-        //else {
+        } else {
             if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
-        //}
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
