@@ -20,6 +20,8 @@ namespace WebApi.Modules.AdministratorControls.AssignedCustomForm
         public string Description { get; set; }
         [FwLogicProperty(Id: "84fRfwJ5PR2b9", IsReadOnly: true)]
         public string Html { get; set; }
+        [FwLogicProperty(Id: "6DtQXU4h8QB6", IsReadOnly: true)]
+        public string AssignTo { get; set; }
         [FwLogicProperty(Id: "WyhucfaALksN9", IsReadOnly: true)]
         public bool? ThisUserOnly { get; set; }
         //------------------------------------------------------------------------------------ 

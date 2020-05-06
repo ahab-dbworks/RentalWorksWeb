@@ -21,6 +21,9 @@ namespace WebApi.Modules.AdministratorControls.AssignedCustomForm
         [FwSqlDataField(column: "html", modeltype: FwDataTypes.Text)]
         public string Html { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "assignto", modeltype: FwDataTypes.Text)]
+        public string AssignTo { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "thisuseronly", modeltype: FwDataTypes.Boolean)]
         public bool? ThisUserOnly { get; set; }
         //------------------------------------------------------------------------------------ 
