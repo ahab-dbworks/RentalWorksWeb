@@ -83,8 +83,8 @@
 /src/RentalWorksWebApi/wwwroot/temp/
 /src/RentalWorksWebApi/node_modules/
 /src/RentalWorksWebApi/wwwroot/Reports/
-/src/RentalWorksWebApi/Modules/Reports/WebpackReports/**/*.js
-/src/RentalWorksWebApi/Modules/Reports/WebpackReports/**/*.js.map
+/src/RentalWorksWebApi/WebpackReports/**/*.js
+/src/RentalWorksWebApi/WebpackReports/**/*.js.map
 
 /src/TrakitWorksWeb/App_Data/Temp/
 /src/TrakitWorksWeb/app_scripts.json
