@@ -10,7 +10,7 @@ using FwStandard.AppManager;
 namespace WebApi.Modules.Administrator.EmailHistory
 {
     [Route("api/v1/[controller]")]
-    [ApiExplorerSettings(GroupName = "reports-v1")]
+    [ApiExplorerSettings(GroupName = "administrator-v1")]
     [FwController(Id: "3XHEm3Q8WSD8z")]
     public class EmailHistoryController : AppDataController
     {
