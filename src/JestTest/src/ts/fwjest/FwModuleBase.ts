@@ -200,24 +200,24 @@ export class FwModuleBase {
     async browseSeek(seekObject: any): Promise<number> {
         await page.waitForSelector(`.fwbrowse .fieldnames`);
 
-        ////clear current browse seek, if any
-        //let firstColumnHeaderSelector = `.fwbrowse table tr.fieldnames td.column[data-visible="true"] .fieldcaption .caption`;
-        //await page.waitForSelector(firstColumnHeaderSelector);
-        //await page.click(firstColumnHeaderSelector);
-        //
-        //await ModuleBase.wait(500);
-        //
-        //let clearAllFiltersSelector = `div .fwbrowse table tr.fieldnames td.column[data-visible="true"] .columnoptions .columnoptions-button:nth-child(6)`;
-        //await page.waitForSelector(clearAllFiltersSelector);
-        //await page.click(clearAllFiltersSelector);
-        //
-        ////wait for please wait to come and go
-        //try {
-        //    await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 2000 });
-        //} catch (error) { } // assume that we missed the Please Wait dialog
-        //
-        //await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseSeekTimeout });
-        //FwLogging.logInfo(`Finished waiting for the Please Wait dialog.`);
+        //clear current browse seek, if any
+        let firstColumnHeaderSelector = `.fwbrowse table tr.fieldnames td.column[data-visible="true"] .fieldcaption .caption`;
+        await page.waitForSelector(firstColumnHeaderSelector);
+        await page.click(firstColumnHeaderSelector);
+        
+        await ModuleBase.wait(500);
+        
+        let clearAllFiltersSelector = `div .fwbrowse table tr.fieldnames td.column[data-visible="true"] .columnoptions .columnoptions-button:nth-child(6)`;
+        await page.waitForSelector(clearAllFiltersSelector);
+        await page.click(clearAllFiltersSelector);
+        
+        //wait for please wait to come and go
+        try {
+            await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 2000 });
+        } catch (error) { } // assume that we missed the Please Wait dialog
+        
+        await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseSeekTimeout });
+        FwLogging.logInfo(`Finished waiting for the Please Wait dialog.`);
 
         for (var key in seekObject) {
 
