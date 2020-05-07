@@ -53,9 +53,9 @@ namespace WebApi.Modules.Reports.ContractReports.ContractReport
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
-        //public string Notes { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
+        public string Notes { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCodes { get; set; }
         //------------------------------------------------------------------------------------ 
