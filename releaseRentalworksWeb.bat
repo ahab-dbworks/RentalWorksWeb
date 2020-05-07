@@ -208,8 +208,8 @@ IF "%commitandftp%"=="y" (
     echo cd Update>>%ftpcommandfilename%
     echo cd %productname%Web>>%ftpcommandfilename%
     echo cd %shortversionno%>>%ftpcommandfilename%
-    echo put %zipfilename%>>%ftpcommandfilename%
     echo put %pdffilename%>>%ftpcommandfilename%
+    echo put %zipfilename%>>%ftpcommandfilename%
     echo quit>>%ftpcommandfilename%
     rem Run the FTP command using the command file created above, delete the command file
     ftp -s:%ftpcommandfilename% -v
