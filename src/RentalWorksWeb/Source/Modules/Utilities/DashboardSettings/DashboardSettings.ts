@@ -253,7 +253,11 @@ class DashboardSettings {
             } catch (ex) {
                 FwFunc.showError(ex);
             }
-        })
+        });
+
+        if ($form.find('.empty-message')) {
+            $form.find('.empty-message').text('Drag Widgets here to add them to your Dashboard.');
+        }
     }
     //----------------------------------------------------------------------------------------------
     setDateBehaviorFields($control, DateBehavior) {
