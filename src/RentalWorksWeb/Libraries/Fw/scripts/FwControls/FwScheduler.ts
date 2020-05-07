@@ -945,9 +945,8 @@ class FwSchedulerClass {
                     days = dpmonth.days + dpmonth.startDate.dayOfWeek() + (6 - dpmonth.startDate.addDays(dpmonth.days).dayOfWeek()) // add the first few days from the next month that are visible
                     break;
                 case 'Year':
-                    const startDate = dpyear.startDate.toString();
-                    start = `${startDate.substring(0,4)}-01-01T00:00:00`;
-                    days = 365;
+                    start = dpyear.startDate.addDays(-dpyear.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible
+                    days = dpyear.startDate.addMonths(11);
                     break;
                 case 'Schedule':
                     start = dpscheduler.startDate;
@@ -1009,9 +1008,9 @@ class FwSchedulerClass {
             dpmonth.events.list = events;
             dpmonth.update();
 
-            //dpyear.resources = resources;
-            //dpyear.events.list = events;
-            //dpyear.update();
+            dpyear.resources = resources;
+            dpyear.events.list = events;
+            dpyear.update();
 
             dpscheduler.resources = resources;
             dpscheduler.events.list = events;
