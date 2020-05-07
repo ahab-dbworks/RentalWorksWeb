@@ -946,7 +946,8 @@ class FwSchedulerClass {
                     break;
                 case 'Year':
                     start = dpyear.startDate.addDays(-dpyear.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible
-                    days = dpyear.startDate.addMonths(11);
+                    const endDate = dpyear.startDate.addMonths(11);
+                    days = 330; //temp solution to a more accurate day count
                     break;
                 case 'Schedule':
                     start = dpscheduler.startDate;
@@ -1068,6 +1069,7 @@ class FwSchedulerClass {
         var dpcalendar, dpmonth, dpscheduler, e, action;
         dpcalendar = $control.data('dpcalendar');
         dpmonth = $control.data('dpmonth');
+        const dpyear = $control.data('dpyear');
         dpscheduler = $control.data('dpscheduler');
         if (typeof start === 'string') {
             start = new DayPilot.Date(new Date(start).toISOString());
@@ -1079,6 +1081,7 @@ class FwSchedulerClass {
         $control.data('selectedenddate', end);
         dpcalendar.update();
         dpmonth.update();
+        dpyear.update();
         dpscheduler.update();
     };
     //---------------------------------------------------------------------------------

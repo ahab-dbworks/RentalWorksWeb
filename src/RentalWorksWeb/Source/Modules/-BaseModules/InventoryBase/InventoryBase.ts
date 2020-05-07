@@ -208,7 +208,7 @@ abstract class InventoryBase {
                 .data('ongetevents', request => {
                     const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                     const days = request.days ? request.days : 34;
-                    const endOfMonth = moment(request.start.value).add(days, 'days').format('MM/DD/YYYY');
+                    let endOfMonth = moment(request.start.value).add(days, 'days').format('MM/DD/YYYY');
                     let warehouseId;
                     let allWh;
 
@@ -248,7 +248,7 @@ abstract class InventoryBase {
                         IncludeHours: includeHours,
                     };
                     if (request.mode === 'Year') {
-                        availRequest.YearView = true;;
+                        availRequest.YearView = true;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
                         FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
