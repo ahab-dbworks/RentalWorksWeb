@@ -97,9 +97,9 @@
         html.push(`                 <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="by % of 'Current' values" data-datafield="Percent" style="max-width:150px; margin:1em;"></div>`);
         html.push('         </div>');
         html.push('    </div>');
-        html.push('    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Apply to these Rates/Costs">')
+        html.push('    <div class="fwcontrol fwcontainer fwform-section fields-to-update" data-control="FwContainer" data-type="section" data-caption="Apply to these Rates/Costs">')
         for (let i = 0; i < ratetypes.length; i++) {
-            html.push(`<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="${ratetypes[i]}" data-datafield="${ratetypes[i].replace(' ', '')}"></div>`);
+            html.push(`<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="${ratetypes[i]}" data-datafield="${ratetypes[i].replace(/ /g, '')}"></div>`);
         }
         html.push('    </div>');
         if ($selectedCheckBoxes.length === pageSize && totalPages > 1) {
@@ -112,7 +112,28 @@
         $ok = FwConfirmation.addButton($confirmation, `Apply changes to ${$selectedCheckBoxes.length} items`, false);
         FwConfirmation.addButton($confirmation, 'Cancel');
         $ok.on('click', () => {
-            //
+            const changeType = FwFormField.getValueByDataField($confirmation, 'ChangeType');
+            const changeAmount = FwFormField.getValueByDataField($confirmation, 'Percent');
+            const $fields = $confirmation.find('.fields-to-update [data-datafield]');
+
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                const $row = jQuery($selectedCheckBoxes[i]).closest('tr');
+                FwBrowse.setRowEditMode($grid, $row);
+                for (let j = 0; j < $fields.length; j++) {
+                    const fieldName = jQuery($fields[j]).data('datafield');
+                    const currentValue = parseInt(FwBrowse.getValueByDataField($grid, $row, fieldName));
+                    let newValue;
+                    if (changeType === 'INCREASE') {
+                        newValue = currentValue + (currentValue * (changeAmount / 100));
+                    } else {
+                        newValue = currentValue - (currentValue * (changeAmount / 100));
+                    }
+
+                    FwBrowse.setFieldValue($grid, $row, `New${fieldName}`, { value: newValue.toString() });
+                }
+            }
+
+            FwConfirmation.destroyConfirmation($confirmation);
         });
     }
     //----------------------------------------------------------------------------------------------
