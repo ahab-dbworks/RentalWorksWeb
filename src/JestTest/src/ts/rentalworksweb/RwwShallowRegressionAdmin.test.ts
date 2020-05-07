@@ -14,7 +14,7 @@ export class ShallowRegressionAdminTest extends ShallowRegressionBaseTest {
         this.ShallowRegressionOnModule(new DuplicateRule());
         this.ShallowRegressionOnModule(new EmailHistory());
         this.ShallowRegressionOnModule(new Group());
-        this.ShallowRegressionOnModule(new Hotfix());
+        //this.ShallowRegressionOnModule(new Hotfix());
         this.ShallowRegressionOnModule(new User());
     }
     //---------------------------------------------------------------------------------------

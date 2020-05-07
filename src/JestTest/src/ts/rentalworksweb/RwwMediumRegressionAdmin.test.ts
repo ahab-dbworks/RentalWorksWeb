@@ -31,7 +31,7 @@ export class MediumRegressionAdminTest extends MediumRegressionBaseTest {
         //this.MediumRegressionOnModule(new DuplicateRule());
         this.MediumRegressionOnModule(new EmailHistory());
         this.MediumRegressionOnModule(new Group());
-        this.MediumRegressionOnModule(new Hotfix());
+        //this.MediumRegressionOnModule(new Hotfix());
         this.MediumRegressionOnModule(new User());
 
     }
