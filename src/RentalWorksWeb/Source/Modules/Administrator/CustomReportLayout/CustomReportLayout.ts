@@ -366,6 +366,7 @@ class CustomReportLayout {
                 //move columns to match column order in the header
                 if (typeof $form.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
                     const valuefield = $th.attr('data-valuefield');
+                    const linkedColumn = $th.attr('data-linkedcolumn');
                     if (typeof valuefield != 'undefined') {
                         const oldIndex = $form.data('columnsmoved').oldIndex;
                         const newIndex = $form.data('columnsmoved').newIndex;
@@ -375,7 +376,7 @@ class CustomReportLayout {
                             const rowType = $row.attr('data-row');
                             const $designerRow = jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]);
                             const $designerTds = $designerRow.find('td');
-                            const $designerTd = $designerRow.find(`[data-linkedcolumn="${valuefield}"]`);
+                            const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
                             const $tds = $row.find('td');
                             if (rowType == 'detail') {
                                 const $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
@@ -400,34 +401,56 @@ class CustomReportLayout {
                                 }
                             } else if (rowType == 'footer') {
                                 const totalNameColSpan = parseInt($designerTds.filter('.total-name').attr('colspan'));
+                                const totalNameIndex = $designerTds.filter('.total-name').index();
+                                const endTotalNameColumnIndex = totalNameIndex + (totalNameColSpan - 1);
                                 if ($designerTd.length) {
-                                    if ($designerTd.hasClass('empty-td')) {
-                                        const totalNameIndex = $designerTds.filter('.total-name').index();
-                                        let footerRowIndex = newIndex;
-                                        const $movedTd = $row.find(`[data-linkedcolumn="${valuefield}"]`);
-                                        if (oldIndex > newIndex) {
-                                            if (footerRowIndex <= totalNameColSpan) {
-                                                $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                    if ($designerTd.hasClass('empty-td')) { //move newly added columns
+                                        const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                                        if (oldIndex > newIndex) { //moving LEFT
+                                            if (newIndex > endTotalNameColumnIndex) { //moved to the right of the totalName column
+                                                if (newIndex == endTotalNameColumnIndex + 1) { //merge with totalName column
+                                                    $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                    $designerTd.remove();
+                                                    $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                    $movedTd.remove();
+                                                } else {
+                                                    $movedTd.insertBefore($tds[newIndex - (totalNameColSpan - 1)]);
+                                                    $designerTd.insertBefore($designerTds[newIndex - (totalNameColSpan - 1)]);
+                                                }
+                                            } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //moved within the totalName column
+                                                $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1); //merge
                                                 $designerTd.remove();
-                                            } else {
-                                                $movedTd.insertBefore($tds[footerRowIndex - 2]);
-                                                $designerTd.insertBefore($designerTds[footerRowIndex - 2]);
+                                                $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                $movedTd.remove();
+                                            } else { //moved to the left of totalName column
+                                                if (newIndex <= totalNameIndex) { //merge
+                                                    $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                    $designerTd.remove();
+                                                    $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                    $movedTd.remove();
+                                                } else {
+                                                    $movedTd.insertBefore($tds[newIndex]);
+                                                    $designerTd.insertBefore($designerTds[newIndex]);
+                                                }
                                             }
-                                        } else {
-                                            $movedTd.insertAfter($tds[footerRowIndex - 2]);
-                                            $designerTd.insertAfter($designerTds[footerRowIndex - 2]);
+                                        } else if (newIndex > oldIndex) { //moving RIGHT
+                                    //to-do when moving merge td to left of total (need to complete moving totaled column logic first)
                                         }
+                                    } else { //move totaled columns
+                                        //wip
                                     }
                                 } else { //it wont find a designertd if it merged into a footer total-name column
-                                    const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${valuefield}"></td>`);
+                                    const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedColumn}"></td>`);
                                     let footerRowIndex = newIndex;
-                                    if (oldIndex < newIndex) {
-                                        if (newIndex > totalNameColSpan - 1) {
+                                    if (oldIndex < newIndex) { //moving RIGHT
+                                        if (newIndex > endTotalNameColumnIndex) { //add new empty tds
                                             $designerTds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
                                             footerRowIndex = newIndex - (totalNameColSpan - 1);
                                             $newTd.clone().insertAfter($tds[footerRowIndex]);
                                             $newTd.insertAfter($designerTds[footerRowIndex]);
                                         }
+                                    } else if (oldIndex > newIndex) {
+                                        //to-do when moving merge td to left of total (need to complete moving totaled column logic first)
                                     }
                                 }
                                 footerCount++;
@@ -535,6 +558,8 @@ class CustomReportLayout {
         $addColumn.on('click', e => {
             $column = jQuery(`<th data-linkedcolumn="NewColumn${newColumnNumber}" data-valuefield="NewColumn${newColumnNumber}">New Column</th>`);
             $table.find('#columnHeader tr').append($column);
+            this.setControlValues($form, $column);
+            $column.data('newcolumn', true);
             this.TotalColumnCount++;
             $form.data('sectiontoupdate', 'tableheader');
             $form.data('addcolumn', { newcolumnnumber: newColumnNumber, tdcolspan: 1 });
@@ -557,6 +582,11 @@ class CustomReportLayout {
             const $property = jQuery(e.currentTarget);
             const fieldname = $property.attr('data-datafield');
             const value = FwFormField.getValue2($property);
+
+            if ($column.data('newcolumn')) {
+                $form.data('sectiontoupdate', 'tableheader');
+            }
+
             switch (fieldname) {
                 case 'CaptionField':
                     $column.text(value);
@@ -697,6 +727,7 @@ class CustomReportLayout {
         for (let i = 0; i < $ths.length; i++) {                                                 //to add a new total field
             const $th = jQuery($ths[i]);
             const linkedColumn = $th.attr('data-valuefield');
+            $th.attr('data-linkedcolumn', linkedColumn);
             $table.find(`[data-value="{{${linkedColumn}}}"]`)
                 .attr('data-linkedcolumn', linkedColumn);
         }
