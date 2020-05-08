@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi;
 using System;
+using WebApi.Modules.HomeControls.StagingSubstituteSession;
 
 namespace WebApi.Modules.Warehouse.CheckOut
 {
@@ -564,8 +564,24 @@ namespace WebApi.Modules.Warehouse.CheckOut
         {
             StagingStartSubstituteSessionResponse response = new StagingStartSubstituteSessionResponse();
 
-            // create a new substitute session
-            // return sessionId
+            if (string.IsNullOrEmpty(request.OrderId))
+            {
+                response.msg = "OrderId is required.";
+            }
+            else if (string.IsNullOrEmpty(request.OrderItemId))
+            {
+                response.msg = "OrderItemId is required.";
+            }
+            else
+            {
+                StagingSubstituteSessionLogic s = new StagingSubstituteSessionLogic();
+                s.SetDependencies(appConfig, userSession);
+                s.OrderId = request.OrderId;
+                s.OrderItemId = request.OrderItemId;
+                await s.SaveAsync();
+                response.SessionId = s.SessionId;
+                response.success = true;
+            }
 
             return response;
         }

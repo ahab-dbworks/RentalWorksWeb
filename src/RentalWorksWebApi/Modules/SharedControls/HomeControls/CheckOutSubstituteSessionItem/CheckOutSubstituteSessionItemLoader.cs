@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.AgentX.CheckOutSubstituteSessionItem
+namespace WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem
 {
     [FwSqlTable("stagingsubstitutesessionview")]
     public class CheckOutSubstituteSessionItemLoader : AppDataLoadRecord

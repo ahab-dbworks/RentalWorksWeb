@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.AgentX.CheckOutSubstituteSessionItem
+namespace WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem
 {
     [FwLogic(Id: "qdBmNCyJERMQU")]
     public class CheckOutSubstituteSessionItemLogic : AppBusinessLogic

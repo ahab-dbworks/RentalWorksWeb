@@ -4,9 +4,8 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
-using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.AgentX.CheckOutSubstituteSessionItem
+namespace WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "agentx-v1")]
