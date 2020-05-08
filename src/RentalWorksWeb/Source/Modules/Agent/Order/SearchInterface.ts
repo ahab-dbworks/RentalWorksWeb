@@ -654,6 +654,7 @@ class SearchInterface {
             classificationIndex         = response.ColumnIndex.Classification,
             classificationColor         = response.ColumnIndex.ClassificationColor,
             classificationDescription   = response.ColumnIndex.ClassificationDescription,
+            textColor                   = response.ColumnIndex.TextColor,
             typeIndex                   = response.ColumnIndex.InventoryType,
             categoryIndex               = response.ColumnIndex.Category,
             subCategoryIndex            = response.ColumnIndex.SubCategory,
@@ -773,7 +774,7 @@ class SearchInterface {
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C" || response.Rows[i][classificationIndex] == "N") {
                 var $tag = jQuery('<div>').addClass('tag')
                     .html(response.Rows[i][classificationDescription])
-                    .css({ 'background-color': response.Rows[i][classificationColor] });
+                    .css({ 'background-color': response.Rows[i][classificationColor], 'color': response.Rows[i][textColor] });
                 $itemcontainer.find('div[data-column="Tags"]').append($tag);
                 $itemcontainer.find('div[data-column="Description"]').append('<div class="toggleaccessories">Show Accessories</div>');
                 $itemcontainer.append(`<div class="item-accessories" data-classification="${response.Rows[i][classificationIndex]}" style="display:none;"></div>`);
@@ -1884,6 +1885,7 @@ class SearchInterface {
             const classificationIndex              = response.ColumnIndex.Classification;
             const classificationColorIndex         = response.ColumnIndex.ClassificationColor;
             const classificationDescriptionIndex   = response.ColumnIndex.ClassificationDescription;
+            const textColorIndex                   = response.ColumnIndex.TextColor;
             const quantityColorIndex               = response.ColumnIndex.QuantityColor;
             const thumbnail                        = response.ColumnIndex.Thumbnail;
             const appImageId                       = response.ColumnIndex.ImageId;
@@ -1949,7 +1951,7 @@ class SearchInterface {
                     if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C" || response.Rows[i][classificationIndex] == "N") {
                         var $tag = jQuery('<div>').addClass('tag')
                             .html(response.Rows[i][classificationDescriptionIndex])
-                            .css({ 'background-color': response.Rows[i][classificationColorIndex] });
+                            .css({ 'background-color': response.Rows[i][classificationColorIndex], 'color': response.Rows[i][textColorIndex] });
                         $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
 
                         $itemaccessoryinfo.find('div[data-column="Description"]').append('<div class="toggleaccessories" data-isnestedaccessory="true">Show Accessories</div>');

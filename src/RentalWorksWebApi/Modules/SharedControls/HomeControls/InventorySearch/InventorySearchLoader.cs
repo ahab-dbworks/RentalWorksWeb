@@ -72,6 +72,9 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         [FwSqlDataField(column: "classcolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string ClassificationColor { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string TextColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyavailable", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityAvailable { get; set; }
         //------------------------------------------------------------------------------------ 
