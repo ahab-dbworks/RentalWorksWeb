@@ -703,9 +703,17 @@ class Order extends OrderBase {
           </div>
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="false" data-datafield="OfficeLocationId" data-browsedatatype="key"></div>
+          </div>
+          <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="false" data-datafield="WarehouseId" data-browsedatatype="key"></div>
+          </div>
+          <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="false" data-datafield="DepartmentId" data-browsedatatype="key"></div>
+          </div>
+          <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="false" data-datafield="CustomerId" data-browsedatatype="key"></div>
+          </div>
+          <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="false" data-datafield="DealId" data-browsedatatype="key"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">

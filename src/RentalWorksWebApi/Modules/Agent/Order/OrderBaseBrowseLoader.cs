@@ -124,6 +124,27 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
         public string OutsideSalesRepresentative { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
+        public bool? Rental { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
+        public bool? Sales { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "misc", modeltype: FwDataTypes.Boolean)]
+        public bool? Miscellaneous { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labor", modeltype: FwDataTypes.Boolean)]
+        public bool? Labor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "space", modeltype: FwDataTypes.Boolean)]
+        public bool? Facilities { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean)]
+        public bool? Transportation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalsale", modeltype: FwDataTypes.Boolean)]
+        public bool? RentalSale { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "finalld", modeltype: FwDataTypes.Boolean)]
         public bool? LossAndDamage { get; set; }
         //------------------------------------------------------------------------------------ 
