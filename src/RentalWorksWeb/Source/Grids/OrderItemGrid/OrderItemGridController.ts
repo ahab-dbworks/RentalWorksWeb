@@ -22,8 +22,7 @@ class OrderItemGrid {
         //    toTime = OrderBaseController.getPickStartStop($form, 'div[data-timeactivitytype="STOP"]');
         //};
         let pickStartStop: PickStartStop;
-        if ((controller === 'QuoteController') || (controller === 'OrderController'))
-        {
+        if ((controller === 'QuoteController') || (controller === 'OrderController')) {
             pickStartStop = OrderBaseController.getPickStartStop($form);
         }
         const $td = $tr.find('[data-browsedatafield="InventoryId"]');
@@ -146,8 +145,8 @@ class OrderItemGrid {
             .css({
                 'height': '510px',
                 'resize': 'vertical'
-            })
-            .select();
+            });
+
         const formController = $browse.closest('.fwform').attr('data-controller');
         if (formController === 'TransferOrderController') {
             $confirmation.find('.transfer-order').show();
@@ -168,6 +167,7 @@ class OrderItemGrid {
         }
 
         fillInCheckboxesFromRow($confirmation, $tr);
+        setTimeout(() => { $confirmation.find('textarea.fwformfield-value').focus(); }, 0)
         // ----------
         $ok.on('mousedown', () => { // saving checkbox values before popup is destroyed on 'ok' click
             const $checkboxes = $confirmation.find('div[data-type="checkbox"]:visible');
