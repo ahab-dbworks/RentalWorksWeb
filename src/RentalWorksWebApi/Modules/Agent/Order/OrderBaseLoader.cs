@@ -54,9 +54,6 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "pending", modeltype: FwDataTypes.Boolean)]
         public bool? PendingPo { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Text)]
-        public string Location { get; set; }
-        //------------------------------------------------------------------------------------
 
         [FwSqlDataField(column: "pickupdate", modeltype: FwDataTypes.Date)]
         public string PickUpDate { get; set; }

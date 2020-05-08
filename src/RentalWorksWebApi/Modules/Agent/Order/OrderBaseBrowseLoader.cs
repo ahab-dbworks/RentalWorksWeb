@@ -181,6 +181,9 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "unassignedsubs", modeltype: FwDataTypes.Boolean)]
         public bool? UnassignedSubs { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Text)]
+        public string Location { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string NumberColor
         {
