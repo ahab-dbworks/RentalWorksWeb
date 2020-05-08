@@ -474,17 +474,47 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                     await LogUpdateMessage(h, "about to send test command to updater service to validate communication");
                     try
                     {
+                        await LogUpdateMessage(h, "about to create client");
                         TcpClient client = new TcpClient(updaterServer, updaterPort);
+                        await LogUpdateMessage(h, "client created successfully");
+
+                        await LogUpdateMessage(h, "about to create json serializer");
                         JsonSerializer serializer = new JsonSerializer();
+                        await LogUpdateMessage(h, "json serializer created successfully");
+
                         string testRequestStr = "TESTCHECK";
+                        await LogUpdateMessage(h, "about to encode test message as bytes");
                         Byte[] data = System.Text.Encoding.ASCII.GetBytes(testRequestStr);
+                        await LogUpdateMessage(h, "encoded test message as bytes successfully");
+                        
+                        await LogUpdateMessage(h, "about to access network stream through client");
                         NetworkStream stream = client.GetStream();
+                        await LogUpdateMessage(h, "accessed network stream through client successfully");
+
+                        await LogUpdateMessage(h, "about to write to stream");
                         stream.Write(data, 0, data.Length);
+                        await LogUpdateMessage(h, "wrote to stream succesfully");
+
+                        await LogUpdateMessage(h, "about to instantiate bytes array");
                         data = new Byte[256];
+                        await LogUpdateMessage(h, "instantiated bytes array succesfully");
+
+                        await LogUpdateMessage(h, "about to read from the network stream");
                         Int32 bytes = stream.Read(data, 0, data.Length);
+                        await LogUpdateMessage(h, "read from the network stream succesfully");
+
+                        await LogUpdateMessage(h, "about to decode response bytes into a string");
                         string testResponseStr = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                        await LogUpdateMessage(h, "decoded response bytes into a string succesfully");
+
+                        await LogUpdateMessage(h, "about to close network stream");
                         stream.Close();
+                        await LogUpdateMessage(h, "closed network stream successfully");
+
+                        await LogUpdateMessage(h, "about to close client");
                         client.Close();
+                        await LogUpdateMessage(h, "closed client successfully");
+
                         await LogUpdateMessage(h, "successfully sent test command to updater service. Received response: " + testResponseStr);
                     }
                     catch (Exception e)
