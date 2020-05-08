@@ -115,7 +115,6 @@
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
       <tr><td>&nbsp;</td></tr><!-- spacer row -->
-
       <tr>
         <td colspan="5" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
@@ -141,7 +140,12 @@
         <td></td>
         <td>
           {{#if BarCodes}}
-          <b>Bar Codes:</b> {{BarCodes}}
+          <div>
+            <b>Bar Codes:</b> {{BarCodes}}
+          </div>
+          {{/if}}
+          {{#if Notes}}
+          <div colspan="5"><span style="font-weight:700;">Note: </span>{{Notes}}</div>
           {{/if}}
         </td>
         <td></td>
@@ -151,17 +155,9 @@
       <tr>
         <td colspan="5"></td>
       </tr>
-      {{#if Notes}}
-      <tr>
-        <td>&nbsp;</td>
-        <td colspan="5"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
-        <td>&nbsp;</td>
-      </tr>
-      {{/if}}
       {{/ifEquals}}
       {{/each}}
     </tbody>
-
   </table>
 </div>
 {{#if PersonPrintName}}

@@ -28,8 +28,6 @@ export class InContractReport extends WebpackReport {
                                 data.Logosrc = logoObject.LogoImage;
                             }
 
-                            console.log(data, 'DATA');
-
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
                                 document.getElementById('pageFooter').innerHTML = this.footerHtml;

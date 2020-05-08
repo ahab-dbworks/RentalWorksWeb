@@ -28,8 +28,6 @@ export class OutContractReport extends WebpackReport {
                                 data.Logosrc = logoObject.LogoImage;
                             }
 
-                            console.log(data, 'DATA');
-
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
                                 document.getElementById('pageFooter').innerHTML = this.footerHtml;
@@ -40,7 +38,7 @@ export class OutContractReport extends WebpackReport {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
 
-                                // want to add
+                            // want to add
                             //if (data.TermsAndConditions !== null && data.TermsAndConditions !== '') {
                             //    const termEl = document.getElementById('terms');
                             //    termEl.innerHTML = data.TermsAndConditions;
