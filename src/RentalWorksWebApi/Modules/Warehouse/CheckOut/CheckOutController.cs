@@ -337,6 +337,26 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
         }
         //------------------------------------------------------------------------------------       
+        // POST api/v1/checkout/applysubstitutesession
+        [HttpPost("applysubstitutesession")]
+        [FwControllerMethod(Id: "QgyD3MfspTX2c", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<StagingApplySubstituteSessionResponse>> ApplySubstituteSession([FromBody]StagingApplySubstituteSessionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                StagingApplySubstituteSessionResponse response = await CheckOutFunc.ApplySubstituteSession(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
         // POST api/v1/checkout/decreaseorderquantity
         [HttpPost("decreaseorderquantity")]
         [FwControllerMethod(Id: "2VoXN2oAIUsF", ActionType: FwControllerActionTypes.Browse)]

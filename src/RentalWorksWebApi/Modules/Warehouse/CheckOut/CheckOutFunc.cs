@@ -154,6 +154,14 @@ namespace WebApi.Modules.Warehouse.CheckOut
     {
     }
     //-------------------------------------------------------------------------------------------------------
+    public class StagingApplySubstituteSessionRequest
+    {
+        public string SessionId { get; set; }
+    }
+    public class StagingApplySubstituteSessionResponse : TSpStatusResponse
+    {
+    }
+    //-------------------------------------------------------------------------------------------------------
     public static class CheckOutFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -567,6 +575,15 @@ namespace WebApi.Modules.Warehouse.CheckOut
             StagingAddSubstituteItemToSessionResponse response = new StagingAddSubstituteItemToSessionResponse();
 
             // if valid item, then add it to the substitute session
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<StagingApplySubstituteSessionResponse> ApplySubstituteSession(FwApplicationConfig appConfig, FwUserSession userSession, StagingApplySubstituteSessionRequest request)
+        {
+            StagingApplySubstituteSessionResponse response = new StagingApplySubstituteSessionResponse();
+
+            // perform the substitution
 
             return response;
         }
