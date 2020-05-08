@@ -370,6 +370,7 @@ class CustomReportLayout {
                     if (typeof valuefield != 'undefined') {
                         const oldIndex = $form.data('columnsmoved').oldIndex;
                         const newIndex = $form.data('columnsmoved').newIndex;
+                        let $detailRowTds;
                         let footerCount = 0;
                         for (let i = 0; i < $rows.length; i++) {
                             const $row = jQuery($rows[i]);
@@ -379,6 +380,7 @@ class CustomReportLayout {
                             const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
                             const $tds = $row.find('td');
                             if (rowType == 'detail') {
+                                $detailRowTds = $designerTds;
                                 const $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
                                 if ($movedTd.length) {
                                     if (oldIndex > newIndex) {
@@ -434,10 +436,43 @@ class CustomReportLayout {
                                                 }
                                             }
                                         } else if (newIndex > oldIndex) { //moving RIGHT
-                                    //to-do when moving merge td to left of total (need to complete moving totaled column logic first)
+                                  //to-do
                                         }
                                     } else { //move totaled columns
-                                        //wip
+                                        const $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
+                                        if (oldIndex > newIndex) { //moving LEFT
+                                            if (newIndex <= totalNameIndex) {//to the LEFT of totalname col
+                                                $movedTd.insertBefore($tds[newIndex]);
+                                                $designerTd.insertBefore($designerTds[newIndex]);
+                                            } else if (newIndex > endTotalNameColumnIndex) {//to the RIGHT of totalname col
+                                                $movedTd.insertAfter($tds[newIndex - totalNameColSpan]); 
+                                                $designerTd.insertAfter($designerTds[newIndex - totalNameColSpan]);
+                                            } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //INTO the totalname col
+                                                let columnsToUnmerge = totalNameColSpan - (newIndex - totalNameIndex);
+                                                const newTotalNameColSpan = totalNameColSpan - columnsToUnmerge;
+                                                $designerTds.filter('.total-name').attr('colspan', newTotalNameColSpan);
+                                                //split tds to the right into empty tds
+                                                for (let j = 1; j <= columnsToUnmerge; j++) {
+                                                    const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
+                                                    const linkedCol = jQuery($detailRowTds[columnToLinkIndex]).attr('data-linkedcolumn');
+                                                    const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedCol}"></td>`);
+
+                                                    // TO-DO - move total columns BEFORE adding new empty tds
+                                                    $newTd.clone().insertAfter($tds[newIndex + 1 - newTotalNameColSpan]);
+                                                    $newTd.insertAfter($designerTds[newIndex + 1 - newTotalNameColSpan]);
+                                                }
+                                            }
+                                        } else if (oldIndex < newIndex) { //moving RIGHT
+                                            if (newIndex > endTotalNameColumnIndex) { //to the RIGHt of totalname col
+                                                $movedTd.insertAfter($tds[newIndex - totalNameColSpan + 1]);
+                                                $designerTd.insertAfter($designerTds[newIndex - totalNameColSpan + 1]);
+                                            } else if (newIndex <= totalNameIndex) {//to the LEFT of totalname col
+                                                $movedTd.insertBefore($tds[newIndex]);
+                                                $designerTd.insertBefore($designerTds[newIndex]);
+                                            } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //INTO the totalname col
+                                                    //
+                                            }
+                                        }
                                     }
                                 } else { //it wont find a designertd if it merged into a footer total-name column
                                     const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedColumn}"></td>`);
