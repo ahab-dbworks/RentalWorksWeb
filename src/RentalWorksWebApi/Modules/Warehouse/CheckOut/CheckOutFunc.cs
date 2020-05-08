@@ -127,6 +127,33 @@ namespace WebApi.Modules.Warehouse.CheckOut
     }
     public class DecreaseOrderQuantityResponse : TSpStatusResponse { }
     //-------------------------------------------------------------------------------------------------------
+    public class StagingStartSubstituteSessionRequest
+    {
+        public string OrderId { get; set; }
+        public string OrderItemId { get; set; }
+    }
+    public class StagingStartSubstituteSessionResponse : TSpStatusResponse
+    {
+        public string SessionId { get; set; }
+        public string OrderId { get; set; }
+        public string OrderItemId { get; set; }
+        public string ICode { get; set; }
+        public string Description { get; set; }
+        public decimal? QuantityOrdered { get; set; }
+        public decimal? QuantityRemaining { get; set; }
+    }
+    //-------------------------------------------------------------------------------------------------------
+    public class StagingAddSubstituteItemToSessionRequest
+    {
+        public string SessionId { get; set; }
+        public string Code { get; set; }
+        public string WarehouseId { get; set; }  // this field is optional.  If ommitted, RWW will use the user's default Warehouse
+        public int? Quantity { get; set; }
+    }
+    public class StagingAddSubstituteItemToSessionResponse : TSpStatusResponse
+    {
+    }
+    //-------------------------------------------------------------------------------------------------------
     public static class CheckOutFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -522,6 +549,25 @@ namespace WebApi.Modules.Warehouse.CheckOut
                     response.ConsignmentTab = FwConvert.ToBoolean(qry.GetParameter("@hasconsignment").ToString());
                 }
             }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<StagingStartSubstituteSessionResponse> StartSubstituteSession(FwApplicationConfig appConfig, FwUserSession userSession, StagingStartSubstituteSessionRequest request)
+        {
+            StagingStartSubstituteSessionResponse response = new StagingStartSubstituteSessionResponse();
+
+            // create a new substitute session
+            // return sessionId
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<StagingAddSubstituteItemToSessionResponse> AddSubstituteItemToSession(FwApplicationConfig appConfig, FwUserSession userSession, StagingAddSubstituteItemToSessionRequest request)
+        {
+            StagingAddSubstituteItemToSessionResponse response = new StagingAddSubstituteItemToSessionResponse();
+
+            // if valid item, then add it to the substitute session
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
