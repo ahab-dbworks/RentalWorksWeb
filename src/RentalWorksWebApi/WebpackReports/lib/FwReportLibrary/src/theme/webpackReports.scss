@@ -191,6 +191,14 @@ body {
     white-space: nowrap;
 }
 
+/*keeps preformatting for notes*/
+.note-cell { 
+    white-space: pre-wrap;
+}
+.note-row td {
+    white-space: pre-wrap;
+}
+
 // Settings for print or pdf
 @media print {
     @page {
