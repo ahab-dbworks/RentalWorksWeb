@@ -384,31 +384,31 @@
         {{/ifNotEquals}}
       </tr>
       {{#if Notes}}
-      <tr class="note-row">
+      <tr>
         <td>&nbsp;</td>
         {{#ifEquals ItemClass "ST"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Complete Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Kit Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Container Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Container Accessory -->
         {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Item -->
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
         {{/ifCond}}
         {{/ifCond}}
         {{/ifCond}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifCond}}
         {{/ifCond}}
         {{/ifNotEquals}}
@@ -609,31 +609,31 @@
         {{/ifNotEquals}}
       </tr>
       {{#if Notes}}
-      <tr class="note-row">
+      <tr>
         <td>&nbsp;</td>
         {{#ifEquals ItemClass "ST"}}
-        <td colspan="6" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="6" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td colspan="6" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Complete Accessory -->
+        <td colspan="6" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td colspan="6" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Kit Accessory -->
+        <td colspan="6" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td colspan="6" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Container Accessory -->
+        <td colspan="6" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Container Accessory -->
         {{else}}
-        <td colspan="6" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Item -->
+        <td colspan="6" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
         {{/ifCond}}
         {{/ifCond}}
         {{/ifCond}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
-        <td colspan="6" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="6" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{else}}
-        <td colspan="6" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="6" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifCond}}
         {{/ifCond}}
         {{/ifNotEquals}}
@@ -859,31 +859,31 @@
         {{/ifNotEquals}}
       </tr>
       {{#if Notes}}
-      <tr class="note-row">
+      <tr>
         <td>&nbsp;</td>
         {{#ifEquals ItemClass "ST"}}
-        <td colspan="7" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="7" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td colspan="7" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Complete Accessory -->
+        <td colspan="7" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td colspan="7" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Kit Accessory -->
+        <td colspan="7" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td colspan="7" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Container Accessory -->
+        <td colspan="7" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Container Accessory -->
         {{else}}
-        <td colspan="7" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Item -->
+        <td colspan="7" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
         {{/ifCond}}
         {{/ifCond}}
         {{/ifCond}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
-        <td colspan="7" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="7" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{else}}
-        <td colspan="7" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="7" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifCond}}
         {{/ifCond}}
         {{/ifNotEquals}}
@@ -1068,31 +1068,31 @@
         {{/ifNotEquals}}
       </tr>
       {{#if Notes}}
-      <tr class="note-row">
+      <tr>
         <td>&nbsp;</td>
         {{#ifEquals ItemClass "ST"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Complete Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Kit Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Container Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Container Accessory -->
         {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Item -->
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
         {{/ifCond}}
         {{/ifCond}}
         {{/ifCond}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifCond}}
         {{/ifCond}}
         {{/ifNotEquals}}
@@ -1276,31 +1276,31 @@
         {{/ifNotEquals}}
       </tr>
       {{#if Notes}}
-      <tr class="note-row">
+      <tr>
         <td>&nbsp;</td>
         {{#ifEquals ItemClass "ST"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Complete Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Kit Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Container Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Container Accessory -->
         {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Item -->
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
         {{/ifCond}}
         {{/ifCond}}
         {{/ifCond}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifCond}}
         {{/ifCond}}
         {{/ifNotEquals}}
@@ -1484,31 +1484,31 @@
         {{/ifNotEquals}}
       </tr>
       {{#if Notes}}
-      <tr class="note-row">
+      <tr>
         <td>&nbsp;</td>
         {{#ifEquals ItemClass "ST"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Complete Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Kit Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Container Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Container Accessory -->
         {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Item -->
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
         {{/ifCond}}
         {{/ifCond}}
         {{/ifCond}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifCond}}
         {{/ifCond}}
         {{/ifNotEquals}}
@@ -1692,31 +1692,31 @@
         {{/ifNotEquals}}
       </tr>
       {{#if Notes}}
-      <tr class="note-row">
+      <tr>
         <td>&nbsp;</td>
         {{#ifEquals ItemClass "ST"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Complete Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Kit Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Container Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Container Accessory -->
         {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td><!-- Item -->
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
         {{/ifCond}}
         {{/ifCond}}
         {{/ifCond}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><span style="font-weight:700;">Note: </span>{{Notes}}</td>
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifCond}}
         {{/ifCond}}
         {{/ifNotEquals}}
