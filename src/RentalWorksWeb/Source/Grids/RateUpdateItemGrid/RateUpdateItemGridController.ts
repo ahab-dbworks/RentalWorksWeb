@@ -64,12 +64,17 @@
     applyPercentageChanges($form: JQuery) {
         const $grid = $form.find('[data-name="RateUpdateItemGrid"]');
         const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
+        const enableThreeWeekPricing = JSON.parse(sessionStorage.getItem('controldefaults')).enable3weekpricing;
         if ($selectedCheckBoxes.length) {
             const type = FwFormField.getValueByDataField($form, 'AvailableFor');
             let ratetypes;
             switch (type) {
                 case 'R':
-                    ratetypes = ['Daily Rate', 'Weekly Rate', 'Week 2 Rate', 'Week 3 Rate', 'Week 4 Rate', 'Monthly Rate', 'Replacement Cost', 'Unit Value'];
+                    if (!enableThreeWeekPricing) {
+                        ratetypes = ['Daily Rate', 'Weekly Rate', 'Monthly Rate', 'Replacement Cost', 'Unit Value'];
+                    } else {
+                        ratetypes = ['Daily Rate', 'Weekly Rate', 'Week 2 Rate', 'Week 3 Rate', 'Week 4 Rate', 'Monthly Rate', 'Replacement Cost', 'Unit Value'];
+                    }
                     break;
                 case 'S':
                 case 'P':

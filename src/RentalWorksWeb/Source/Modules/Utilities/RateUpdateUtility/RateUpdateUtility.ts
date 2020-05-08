@@ -80,7 +80,7 @@ class RateUpdateUtility {
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="AvailableFor"]'), [
-            { value: "R", caption: "Rental", checked: 'checked'},
+            { value: "R", caption: "Rental", checked: 'checked' },
             { value: "S", caption: "Sales" },
             { value: "P", caption: "Parts" },
             { value: "L", caption: "Labor" },
@@ -129,10 +129,13 @@ class RateUpdateUtility {
     //----------------------------------------------------------------------------------------------
     toggleAvailableFor($form: JQuery) {
         const rentalColumns: Array<string> = ['Manufacturer', 'PartNumber', 'Rank', 'DailyRate', 'WeeklyRate', 'Week2Rate', 'Week3Rate', 'Week4Rate', 'MonthlyRate', 'MaxDiscount', 'MinDaysPerWeek', 'ReplacementCost', 'UnitValue'];
-        const salesColumns: Array<string> = ['Manufacturer', 'PartNumber', 'Rank', 'Retail', 'Price', 'DefaultCost', 'MaxDiscount']; 
-        const laborColumns: Array<string> = ['HourlyRate', 'DailyRate', 'WeeklyRate', 'MonthlyRate', 'HourlyCost', 'DailyCost', 'WeeklyCost', 'MonthlyCost']; //same columns for Misc
+        const salesColumns: Array<string> = ['Manufacturer', 'PartNumber', 'Rank', 'Retail', 'Price', 'DefaultCost', 'MaxDiscount'];
+        const laborColumns: Array<string> = ['HourlyRate', 'DailyRate', 'WeeklyRate', 'MonthlyRate', 'HourlyCost', 'DailyCost', 'WeeklyCost', 'MonthlyCost'];
+        const threeWeekPricingColumns: Array<string> = ['Week2Rate', 'Week3Rate', 'Week4Rate'];
         const activityType = FwFormField.getValueByDataField($form, 'AvailableFor');
         const $rateUpdateItemGrid = $form.find('[data-name="RateUpdateItemGrid"]');
+
+        const enableThreeWeekPricing = JSON.parse(sessionStorage.getItem('controldefaults')).enable3weekpricing;
 
         const toggleColumns = (type: string) => {
             switch (type) {
@@ -140,6 +143,9 @@ class RateUpdateUtility {
                     activityTypeColumnDisplay(salesColumns, false);
                     activityTypeColumnDisplay(laborColumns, false);
                     activityTypeColumnDisplay(rentalColumns, true);
+                    if (!enableThreeWeekPricing) {
+                        activityTypeColumnDisplay(threeWeekPricingColumns, false);
+                    }
                     break;
                 case 'S':
                 case 'P':
