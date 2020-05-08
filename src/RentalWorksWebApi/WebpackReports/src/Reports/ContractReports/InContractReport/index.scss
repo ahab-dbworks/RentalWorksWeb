@@ -71,6 +71,13 @@ body {
     white-space: nowrap;
 }
 
+.note {
+    display: block;
+    unicode-bidi: embed;
+    font-family: monospace;
+    white-space: pre-wrap;
+}
+
 .sub {
     border-top: 2px solid #027cc5;
     border-bottom: 2px solid #027cc5;
