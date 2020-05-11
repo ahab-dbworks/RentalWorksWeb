@@ -376,9 +376,9 @@ class CustomReportLayout {
                             const $row = jQuery($rows[i]);
                             const rowType = $row.attr('data-row');
                             const $designerRow = jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]);
-                            const $designerTds = $designerRow.find('td');
+                            let $designerTds = $designerRow.find('td');
                             const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                            const $tds = $row.find('td');
+                            let $tds = $row.find('td');
                             if (rowType == 'detail') {
                                 $detailRowTds = $designerTds;
                                 const $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
@@ -436,7 +436,18 @@ class CustomReportLayout {
                                                 }
                                             }
                                         } else if (newIndex > oldIndex) { //moving RIGHT
-                                  //to-do
+                                            if (newIndex > endTotalNameColumnIndex) { //moved to the right of the totalName column
+                                                $movedTd.insertAfter($tds[newIndex - (totalNameColSpan - 1)]);
+                                                $designerTd.insertAfter($designerTds[newIndex - (totalNameColSpan - 1)]);
+                                            } else if ((newIndex >= totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //moved within the totalName column
+                                                $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1); //merge
+                                                $designerTd.remove();
+                                                $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                $movedTd.remove();
+                                            } else { //moved to the left of totalName column
+                                                $movedTd.insertAfter($tds[newIndex]);
+                                                $designerTd.insertAfter($designerTds[newIndex]);
+                                            }
                                         }
                                     } else { //move totaled columns
                                         const $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
@@ -445,19 +456,25 @@ class CustomReportLayout {
                                                 $movedTd.insertBefore($tds[newIndex]);
                                                 $designerTd.insertBefore($designerTds[newIndex]);
                                             } else if (newIndex > endTotalNameColumnIndex) {//to the RIGHT of totalname col
-                                                $movedTd.insertAfter($tds[newIndex - totalNameColSpan]); 
+                                                $movedTd.insertAfter($tds[newIndex - totalNameColSpan]);
                                                 $designerTd.insertAfter($designerTds[newIndex - totalNameColSpan]);
                                             } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //INTO the totalname col
                                                 let columnsToUnmerge = totalNameColSpan - (newIndex - totalNameIndex);
                                                 const newTotalNameColSpan = totalNameColSpan - columnsToUnmerge;
                                                 $designerTds.filter('.total-name').attr('colspan', newTotalNameColSpan);
+                                                $tds.filter('.total-name').attr('colspan', newTotalNameColSpan);
+                                                $movedTd.insertAfter($tds[totalNameIndex]);
+                                                $designerTd.insertAfter($designerTds[totalNameIndex]);
+
+                                                $designerTds = $designerRow.find('td');  //reassign with new element order
+                                                $tds = $row.find('td');
+
                                                 //split tds to the right into empty tds
                                                 for (let j = 1; j <= columnsToUnmerge; j++) {
                                                     const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
                                                     const linkedCol = jQuery($detailRowTds[columnToLinkIndex]).attr('data-linkedcolumn');
                                                     const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedCol}"></td>`);
 
-                                                    // TO-DO - move total columns BEFORE adding new empty tds
                                                     $newTd.clone().insertAfter($tds[newIndex + 1 - newTotalNameColSpan]);
                                                     $newTd.insertAfter($designerTds[newIndex + 1 - newTotalNameColSpan]);
                                                 }
@@ -467,10 +484,28 @@ class CustomReportLayout {
                                                 $movedTd.insertAfter($tds[newIndex - totalNameColSpan + 1]);
                                                 $designerTd.insertAfter($designerTds[newIndex - totalNameColSpan + 1]);
                                             } else if (newIndex <= totalNameIndex) {//to the LEFT of totalname col
-                                                $movedTd.insertBefore($tds[newIndex]);
-                                                $designerTd.insertBefore($designerTds[newIndex]);
+                                                $movedTd.insertAfter($tds[newIndex]);
+                                                $designerTd.insertAfter($designerTds[newIndex]);
                                             } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //INTO the totalname col
-                                                    //
+                                                let columnsToUnmerge = endTotalNameColumnIndex - newIndex;
+                                                const newTotalNameColSpan = totalNameColSpan - columnsToUnmerge;
+                                                $designerTds.filter('.total-name').attr('colspan', newTotalNameColSpan);
+                                                $tds.filter('.total-name').attr('colspan', newTotalNameColSpan);
+                                                $movedTd.insertAfter($tds[totalNameIndex]);
+                                                $designerTd.insertAfter($designerTds[totalNameIndex]);
+
+                                                $designerTds = $designerRow.find('td');  //reassign with new element order
+                                                $tds = $row.find('td');
+
+                                                //split tds to the right into empty tds
+                                                for (let j = 1; j <= columnsToUnmerge; j++) {
+                                                    const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
+                                                    const linkedCol = jQuery($detailRowTds[columnToLinkIndex]).attr('data-linkedcolumn');
+                                                    const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedCol}"></td>`);
+
+                                                    $newTd.clone().insertAfter($tds[newIndex + 1 - newTotalNameColSpan]);
+                                                    $newTd.insertAfter($designerTds[newIndex + 1 - newTotalNameColSpan]);
+                                                }
                                             }
                                         }
                                     }
@@ -480,12 +515,45 @@ class CustomReportLayout {
                                     if (oldIndex < newIndex) { //moving RIGHT
                                         if (newIndex > endTotalNameColumnIndex) { //add new empty tds
                                             $designerTds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
+                                            $tds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
                                             footerRowIndex = newIndex - (totalNameColSpan - 1);
                                             $newTd.clone().insertAfter($tds[footerRowIndex]);
                                             $newTd.insertAfter($designerTds[footerRowIndex]);
                                         }
-                                    } else if (oldIndex > newIndex) {
-                                        //to-do when moving merge td to left of total (need to complete moving totaled column logic first)
+                                    } else if (oldIndex > newIndex) { //MOVING LEFT
+                                        if (newIndex < totalNameIndex) {
+                                            $designerTds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
+                                            $tds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
+                                            const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedColumn}"></td>`);
+                                            $newTd.clone().insertBefore($tds[newIndex]);
+                                            $newTd.insertBefore($designerTds[newIndex]);
+                                        }
+                                    }
+                                }
+
+                                //after moving column, check both sides of totalName col and merge if empty tds 
+                                //may need to make this recursive to continue checking for adjacent empty tds
+                                $designerTds = $designerRow.find('td');  //reassign with new element order
+                                $tds = $row.find('td');
+
+                                const newTotalNameIndex = $designerTds.filter('.total-name').index();
+                                const $tdBefore = jQuery($designerTds[newTotalNameIndex - 1]);
+                                const $tdAfter = jQuery($designerTds[newTotalNameIndex + 1]);
+                                if ($tdBefore.length) {
+                                    if ($tdBefore.hasClass('empty-td')) { //merge
+                                        $tdBefore.remove();
+                                        const colspan = parseInt(jQuery($designerTds[newTotalNameIndex]).attr('colspan'));
+                                        jQuery($designerTds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                        jQuery($tds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                    }
+                                }
+
+                                if ($tdAfter.length) {
+                                    if ($tdAfter.hasClass('empty-td')) { //merge
+                                        $tdAfter.remove();
+                                        const colspan = parseInt(jQuery($designerTds[newTotalNameIndex]).attr('colspan'));
+                                        jQuery($designerTds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                        jQuery($tds[newTotalNameIndex]).attr('colspan', colspan + 1);
                                     }
                                 }
                                 footerCount++;
