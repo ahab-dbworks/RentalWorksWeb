@@ -80,9 +80,10 @@ namespace WebApi.Modules.Reports.RateUpdateReport
             {
                 RateUpdateReportLoader l = new RateUpdateReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.RunReportAsync(request);
-                l.HideDetailColumnsInSummaryDataTable(request, dt);
-                return new OkObjectResult(dt);
+                //FwJsonDataTable dt = await l.RunReportAsync(request);
+                //l.HideDetailColumnsInSummaryDataTable(request, dt);
+                //return new OkObjectResult(dt);
+                return new OkObjectResult(await l.RunReportAsync(request));
             }
             catch (Exception ex)
             {
