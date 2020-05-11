@@ -1,4 +1,4 @@
-﻿using FwStandard.Models;
+using FwStandard.Models;
 using System;
 using System.Data.SqlClient;
 using System.Net.Sockets;
@@ -482,7 +482,8 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                         JsonSerializer serializer = new JsonSerializer();
                         await LogUpdateMessage(h, "json serializer created successfully");
 
-                        string testRequestStr = "TESTCHECK";
+                        //string testRequestStr = "TESTCHECK";
+                        string testRequestStr = "TESTCHECK\r\n";
                         await LogUpdateMessage(h, "about to encode test message as bytes");
                         Byte[] data = System.Text.Encoding.ASCII.GetBytes(testRequestStr);
                         await LogUpdateMessage(h, "encoded test message as bytes successfully");
@@ -565,7 +566,9 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                     {
                         TcpClient client = new TcpClient(updaterServer, updaterPort);
                         JsonSerializer serializer = new JsonSerializer();
-                        string updaterRequestSt = JsonConvert.SerializeObject(updaterRequest);
+                        //string updaterRequestSt = JsonConvert.SerializeObject(updaterRequest);
+                        string updaterRequestSt = JsonConvert.SerializeObject(updaterRequest) + "\r\n";
+
                         Byte[] data = System.Text.Encoding.ASCII.GetBytes(updaterRequestSt);
                         NetworkStream stream = client.GetStream();
                         await LogUpdateMessage(h, "about to send command: " + updaterRequestSt);
