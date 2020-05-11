@@ -19,9 +19,11 @@
         <th colspan="4" style="background-color:white;"></th>
         <th style="border-right:3px solid black;">Daily Rate</th>
         <th style="border-right:3px solid black;">Weekly Rate</th>
+        {{#if ThreeWeekEnabled}}
         <th style="border-right:3px solid black;">Week 2 Rate</th>
         <th style="border-right:3px solid black;">Week 3 Rate </th>
         <th style="border-right:3px solid black;">Week 4 Rate </th>
+        {{/if}}
         <th style="border-right:3px solid black;">Monthly Rate</th>
         <th style="border-right:3px solid black;">Replacement Cost</th>
         <th style="border-right:3px solid black;">Unit Value</th>
@@ -37,9 +39,11 @@
         <th class="row1">Rank</th>
         <th class="row1 number">Current</th>
         <th class="row1 number">Current</th>
+        {{#if ThreeWeekEnabled}}
         <th class="row1 number">Current</th>
         <th class="row1 number">Current</th>
         <th class="row1 number">Current</th>
+        {{/if}}
         <th class="row1 number">Current</th>
         <th class="row1 number">Current</th>
         <th class="row1 number">Current</th>
@@ -53,9 +57,11 @@
         <th class="row2"></th>
         <th class="row2 number">New</th>
         <th class="row2 number">New</th>
+        {{#if ThreeWeekEnabled}}
         <th class="row2 number">New</th>
         <th class="row2 number">New</th>
         <th class="row2 number">New</th>
+        {{/if}}
         <th class="row2 number">New</th>
         <th class="row2 number">New</th>
         <th class="row2 number">New</th>
@@ -94,6 +100,7 @@
           <div class="number" data-value="{{OldWeeklyRate}}"></div>
           <div class="number" data-value="{{NewWeeklyRate}}"></div>
         </td>
+        {{#if ThreeWeekEnabled}}
         <td>
           <div class="number" data-value="{{OldWeek2Rate}}"></div>
           <div class="number" data-value="{{NewWeek2Rate}}"></div>
@@ -106,6 +113,7 @@
           <div class="number" data-value="{{OldWeek4Rate}}"></div>
           <div class="number" data-value="{{NewWeek4Rate}}"></div>
         </td>
+        {{/if}}
         <td>
           <div class="number" data-value="{{OldMonthlyRate}}"></div>
           <div class="number" data-value="{{NewMonthlyRate}}"></div>
