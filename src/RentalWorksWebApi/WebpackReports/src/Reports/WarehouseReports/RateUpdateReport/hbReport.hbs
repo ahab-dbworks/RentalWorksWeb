@@ -14,6 +14,9 @@
 <!--RENTAL-->
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
+    {{#each RentalItems}}
+
+    {{#if @first}}
     <thead class="top-section-header">
       <tr>
         <th colspan="4" style="background-color:white;"></th>
@@ -69,8 +72,8 @@
         <th class="row2 number">New</th>
       </tr>
     </thead>
+    {{/if}}
     <tbody>
-      {{#each this}}
       {{#ifEquals RowType "Warehouseheader"}}
       <tr data-rowtype={{RowType}}>
         <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
@@ -136,14 +139,15 @@
         </td>
       </tr>
       {{/ifEquals}}
-      {{/each}}
     </tbody>
+    {{/each}}
   </table>
 </div>
 
 <!--SALES-->
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
+    {{#each SalesItems}}
     <thead class="top-section-header">
       <tr>
         <th colspan="4" style="background-color:white;"></th>
@@ -210,14 +214,15 @@
         </td>
         {{/ifEquals}}
       </tr>
-      {{/each}}
     </tbody>
+    {{/each}}
   </table>
 </div>
 
 <!--PARTS-->
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
+    {{#each PartsItems}}
     <thead class="top-section-header">
       <tr>
         <th colspan="4" style="background-color:white;"></th>
@@ -284,14 +289,15 @@
         </td>
         {{/ifEquals}}
       </tr>
-      {{/each}}
     </tbody>
+    {{/each}}
   </table>
 </div>
 
 <!--LABOR-->
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
+    {{#each LaborItems}}
     <thead class="top-section-header">
       <tr>
         <th colspan="4" style="background-color:white;"></th>
@@ -386,14 +392,15 @@
         </td>
         {{/ifEquals}}
       </tr>
-      {{/each}}
     </tbody>
+    {{/each}}
   </table>
 </div>
 
 <!--MISC-->
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
+    {{#each MiscellaneousItems}}
     <thead class="top-section-header">
       <tr>
         <th colspan="4" style="background-color:white;"></th>
@@ -488,7 +495,7 @@
         </td>
         {{/ifEquals}}
       </tr>
-      {{/each}}
     </tbody>
+    {{/each}}
   </table>
 </div>
