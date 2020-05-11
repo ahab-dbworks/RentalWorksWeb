@@ -577,9 +577,14 @@ class OrderItemGrid {
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
 
                 if (controller == 'OrderController' || controller == 'QuoteController' || controller == 'PurchaseOrderController') {
-                    if (recType == 'R' || recType == 'S') {
-                        const classification = FwBrowse.getValueByDataField($control, $tr, 'Classification');
-                        if (classification == 'M') {
+                    //if (recType == 'R' || recType == 'S') {
+                    let allowFreeFormText = false;;
+                        if (recType == 'L' || recType == 'M') {
+                            allowFreeFormText = true;
+                        } else {
+                            allowFreeFormText = FwBrowse.getValueByDataField($control, $tr, 'Classification') == 'M' ? true : false;
+                        }
+                    if (allowFreeFormText) {
                             $generatedtr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
                             $generatedtr.find('[data-browsedatafield="Description"] input.value').remove();
                             $generatedtr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
@@ -587,7 +592,7 @@ class OrderItemGrid {
                             $generatedtr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
                             $generatedtr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
                         }
-                    }
+                    //}
                 }
             }
 

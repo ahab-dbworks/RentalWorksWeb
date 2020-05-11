@@ -593,6 +593,7 @@ class OrderBase {
                 $fwgrid.addClass('L');
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
                 $orderItemGridLabor = $fwgrid;
+                $orderItemGridLabor.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'labor', dt.Totals);
@@ -756,7 +757,7 @@ class OrderBase {
                 $fwgrid.addClass('M');
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
                 $orderItemGridMisc = $fwgrid;
-
+                $orderItemGridMisc.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'misc', dt.Totals);
@@ -901,7 +902,7 @@ class OrderBase {
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('RS');
                 $orderItemGridUsedSale = $fwgrid;
-
+                $orderItemGridUsedSale.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'usedsale', dt.Totals);

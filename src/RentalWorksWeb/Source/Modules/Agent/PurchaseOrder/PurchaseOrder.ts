@@ -638,6 +638,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
                 $browse.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
+                $browse.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'parts');
@@ -727,6 +728,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
                 $browse.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
+                $browse.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'labor');
@@ -816,6 +818,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
                 $browse.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
+                $browse.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'misc');
