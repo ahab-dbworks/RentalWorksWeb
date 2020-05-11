@@ -4274,7 +4274,13 @@ class FwBrowseClass {
         $popup.find('.popout-modal').removeClass('popout-modal').addClass('pop-out').off();
         FwPopup.showPopup($popup);
 
+        let auditKeyFields;
         const controller = $tr.parents('[data-type="Grid"]').attr('data-controller');
+
+        if (typeof window[controller].AuditKeyFields != 'undefined') {
+            auditKeyFields = window[controller].AuditKeyFields;
+        } 
+
         let module: string = $tr.parents('[data-type="Grid"]').attr('data-auditmodule') || window[controller].Module;
         if (this.endsWith(module, 'Grid')) {
             module = module.substring(0, module.length - 4);
@@ -4294,7 +4300,15 @@ class FwBrowseClass {
                 request.uniqueids = {
                     ModuleName: module
                 };
-                const keys = $tr.find('[data-browsedatatype="key"]');
+                //const keys = $tr.find('[data-browsedatatype="key"]');
+                let keys: any = [];
+                if (typeof auditKeyFields != 'undefined') {
+                    for (let i = 0; i < auditKeyFields.length; i++) {
+                        keys[i] = $tr.find(`[data-browsedatafield="${auditKeyFields[i]}"]`);
+                    }
+                } else {
+                    keys = $tr.find('[data-browsedatatype="key"]');
+                }
                 if (keys.length > 0) {
                     request.uniqueids.UniqueId1 = jQuery(keys[0]).attr('data-originalvalue');
                     if (keys.length > 1) {
