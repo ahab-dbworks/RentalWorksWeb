@@ -579,19 +579,19 @@ class OrderItemGrid {
                 if (controller == 'OrderController' || controller == 'QuoteController' || controller == 'PurchaseOrderController') {
                     //if (recType == 'R' || recType == 'S') {
                     let allowFreeFormText = false;;
-                        if (recType == 'L' || recType == 'M') {
-                            allowFreeFormText = true;
-                        } else {
-                            allowFreeFormText = FwBrowse.getValueByDataField($control, $tr, 'Classification') == 'M' ? true : false;
-                        }
+                    if (recType == 'L' || recType == 'M') {
+                        allowFreeFormText = true;
+                    } else {
+                        allowFreeFormText = FwBrowse.getValueByDataField($control, $tr, 'Classification') == 'M' ? true : false;
+                    }
                     if (allowFreeFormText) {
-                            $generatedtr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
-                            $generatedtr.find('[data-browsedatafield="Description"] input.value').remove();
-                            $generatedtr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
-                            $generatedtr.find('[data-browsedatafield="Description"] .btnpeek').hide();
-                            $generatedtr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
-                            $generatedtr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
-                        }
+                        $generatedtr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+                        $generatedtr.find('[data-browsedatafield="Description"] input.value').remove();
+                        $generatedtr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
+                        $generatedtr.find('[data-browsedatafield="Description"] .btnpeek').hide();
+                        $generatedtr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
+                        $generatedtr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
+                    }
                     //}
                 }
             }
@@ -1162,53 +1162,6 @@ class OrderItemGrid {
         });
     }
     //----------------------------------------------------------------------------------------------
-    async boldUnbold(event) {
-        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
-        const boldItems = [];
-        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
-
-        if (orderId != null) {
-            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                let orderItem: any = {};
-                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-                let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
-                let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
-                let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
-                let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
-
-                orderItem.OrderItemId = orderItemId
-                orderItem.OrderId = orderId;
-                orderItem.Description = description;
-                orderItem.QuantityOrdered = quantityOrdered;
-                orderItem.RecType = recType;
-                orderItem.RowsRolledUp = rowsRolledUp;
-
-                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
-                    orderItem.Bold = false;
-                } else {
-                    orderItem.Bold = true;
-                }
-                boldItems.push(orderItem);
-            }
-            await boldUnboldItem(boldItems);
-            await jQuery(document).trigger('click');
-        } else {
-            FwNotification.renderNotification('WARNING', 'Select a record.')
-        }
-
-        function boldUnboldItem(orders): void {
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.databind($browse);
-            }, function onError(response) {
-                FwFunc.showError(response);
-                FwBrowse.databind($browse);
-            }, $browse);
-        };
-    }
-    //----------------------------------------------------------------------------------------------
     async getSelectedItemIds(event): Promise<any> {
         const items = [];
 
@@ -1479,25 +1432,17 @@ class OrderItemGrid {
     async muteUnmute(event: any) {
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
         const mutedItems = [];
-        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
 
-        if (orderId != null) {
+        if ($selectedCheckBoxes.length) {
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                let orderItem: any = {};
-                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-                let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
-                let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
-                let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
-                let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
-
-                orderItem.OrderItemId = orderItemId
-                orderItem.OrderId = orderId;
-                orderItem.Description = description;
-                orderItem.QuantityOrdered = quantityOrdered;
-                orderItem.RecType = recType;
-                orderItem.RowsRolledUp = rowsRolledUp;
+                const orderItem: any = {};
+                orderItem.OrderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                orderItem.OrderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                orderItem.Description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+                orderItem.QuantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+                orderItem.RecType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+                orderItem.RowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
 
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Mute"]').attr('data-originalvalue') === 'true') {
                     orderItem.Mute = false;
@@ -1514,10 +1459,49 @@ class OrderItemGrid {
 
         function muteUnmuteItems(orders): void {
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.databind($browse);
+                FwBrowse.search($browse);
             }, function onError(response) {
                 FwFunc.showError(response);
-                FwBrowse.databind($browse);
+                FwBrowse.search($browse);
+            }, $browse);
+        };
+    }
+    //----------------------------------------------------------------------------------------------
+    async boldUnbold(event) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const boldItems = [];
+        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+
+        if ($selectedCheckBoxes.length) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                const orderItem: any = {};
+                orderItem.OrderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                orderItem.OrderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                orderItem.Description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+                orderItem.QuantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+                orderItem.RecType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+                orderItem.RowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
+
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
+                    orderItem.Bold = false;
+                } else {
+                    orderItem.Bold = true;
+                }
+                boldItems.push(orderItem);
+            }
+            await boldUnboldItem(boldItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+
+        function boldUnboldItem(orders): void {
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.search($browse);
             }, $browse);
         };
     }
@@ -1525,25 +1509,17 @@ class OrderItemGrid {
     async lockUnlock(event: any) {
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
         const lockedItems = [];
-        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
 
-        if (orderId != null) {
+        if ($selectedCheckBoxes.length) {
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                let orderItem: any = {};
-                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-                let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
-                let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
-                let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
-                let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
-
-                orderItem.OrderItemId = orderItemId
-                orderItem.OrderId = orderId;
-                orderItem.Description = description;
-                orderItem.QuantityOrdered = quantityOrdered;
-                orderItem.RecType = recType;
-                orderItem.RowsRolledUp = rowsRolledUp;
+                const orderItem: any = {};
+                orderItem.OrderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                orderItem.OrderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                orderItem.Description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+                orderItem.QuantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+                orderItem.RecType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+                orderItem.RowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
 
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
                     orderItem.Locked = false;
@@ -1560,10 +1536,10 @@ class OrderItemGrid {
 
         function lockUnlockItem(orders): void {
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.databind($browse);
+                FwBrowse.search($browse);
             }, function onError(response) {
                 FwFunc.showError(response);
-                FwBrowse.databind($browse);
+                FwBrowse.search($browse);
             }, $browse);
         };
     }

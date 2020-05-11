@@ -51,7 +51,7 @@ class OrderBase {
                 request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             }
         });
-
+        // ----------
         FwBrowse.renderGrid({
             nameGrid: 'OrderNoteGrid',
             gridSecurityId: 'B9CzDEmYe1Zf',
@@ -69,7 +69,7 @@ class OrderBase {
                 request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             }
         });
-
+        // ----------
         FwBrowse.renderGrid({
             nameGrid: 'OrderContactGrid',
             gridSecurityId: 'B9CzDEmYe1Zf',
@@ -93,7 +93,7 @@ class OrderBase {
                 request.CompanyId = companyId;
             }
         });
-
+        // ----------
         FwBrowse.renderGrid({
             nameGrid: 'OrderActivitySummaryGrid',
             gridSecurityId: 'anBvrz1T2ipsv',
@@ -111,7 +111,7 @@ class OrderBase {
                 };
             }
         });
-
+        // ----------
         let $orderItemGridRental: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
@@ -274,7 +274,7 @@ class OrderBase {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });
-
+        // ----------
         let $orderItemGridSales: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
@@ -440,7 +440,7 @@ class OrderBase {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });
-
+        // ----------
         let $orderItemGridLabor: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
@@ -604,7 +604,7 @@ class OrderBase {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });
-
+        // ----------
         let $orderItemGridMisc: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
@@ -768,7 +768,7 @@ class OrderBase {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });
-
+        // ----------
         let $orderItemGridUsedSale: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
@@ -911,7 +911,7 @@ class OrderBase {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });
-
+        // ----------
         let $combinedOrderItemGrid: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
@@ -1072,7 +1072,6 @@ class OrderBase {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
         });
-
         // ----------
         let nodeActivity = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'hb52dbhX1mNLZ');
         if (nodeActivity !== undefined && nodeActivity.properties.visible === 'T') {
