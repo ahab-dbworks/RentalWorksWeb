@@ -73,6 +73,7 @@ class RateUpdateReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
+        parameters.ThreeWeekEnabled = JSON.parse(sessionStorage.getItem('controldefaults')).enable3weekpricing;
         return parameters;
     }
     //----------------------------------------------------------------------------------------------

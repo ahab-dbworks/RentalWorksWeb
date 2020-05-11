@@ -22,7 +22,9 @@ export class RateUpdateReport extends WebpackReport {
                     data.Report = 'Rate Update Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
-                    console.log('rpt: ', data)
+                    data.ThreeWeekEnabled = parameters.ThreeWeekEnabled;
+                    
+                    console.log('data: ', data);
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
