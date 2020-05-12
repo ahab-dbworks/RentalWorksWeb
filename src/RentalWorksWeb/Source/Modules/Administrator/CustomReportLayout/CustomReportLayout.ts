@@ -229,7 +229,7 @@ class CustomReportLayout {
 
         const reports = FwApplicationTree.getAllReports(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('apiurl')) {
-                modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
+                modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl, designer: moduleController.designerProvisioned ? true : false });
             }
         });
 
@@ -323,32 +323,37 @@ class CustomReportLayout {
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
         this.html = FwFormField.getValueByDataField($form, 'Html');
 
-        const $table = jQuery(this.html).find('table');
-        $form.find(`#reportDesigner`).empty().append($table);
+        const designerProvisioned = $form.find('[data-datafield="BaseReport"] :selected').attr('data-designer');
+        if (designerProvisioned == 'true') {
+            const $table = jQuery(this.html).find('table');
+            $form.find(`#reportDesigner`).empty().append($table);
 
-        //create sortable for headers
-        Sortable.create($table.find('#columnHeader tr').get(0), {
-            onStart: e => {
-                const valueFieldName = jQuery(e.item).attr('data-valuefield');
-                $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).addClass('highlight-cells');
-            },
-            onEnd: e => {
-                const $th = jQuery(e.item);
-                $th.removeAttr('draggable');
-                const valueFieldName = $th.attr('data-valuefield');
-                $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).removeClass('highlight-cells');
+            //create sortable for headers
+            Sortable.create($table.find('#columnHeader tr').get(0), {
+                onStart: e => {
+                    const valueFieldName = jQuery(e.item).attr('data-valuefield');
+                    $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).addClass('highlight-cells');
+                },
+                onEnd: e => {
+                    const $th = jQuery(e.item);
+                    $th.removeAttr('draggable');
+                    const valueFieldName = $th.attr('data-valuefield');
+                    $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).removeClass('highlight-cells');
 
-                const $tr = jQuery(e.currentTarget);
-                $form.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
-                $form.data('sectiontoupdate', 'tableheader');
-                this.updateHTML($form, $tr, $th);
+                    const $tr = jQuery(e.currentTarget);
+                    $form.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
+                    $form.data('sectiontoupdate', 'tableheader');
+                    this.updateHTML($form, $tr, $th);
 
-                $form.attr('data-modified', 'true');
-                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-            }
-        });
-        this.linkColumns($form, $table);
-        this.designerEvents($form, $table);
+                    $form.attr('data-modified', 'true');
+                    $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                }
+            });
+            this.linkColumns($form, $table);
+            this.designerEvents($form, $table);
+        } else {
+            $form.find(`#reportDesigner`).empty().append(`<div>This report is not currently Designer-provisioned.  Please use the HTML tab to make changes.</div>`);
+        }
     }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, $tr: JQuery, $th?) {
