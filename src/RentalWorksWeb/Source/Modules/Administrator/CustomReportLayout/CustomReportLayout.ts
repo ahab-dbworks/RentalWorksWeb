@@ -331,14 +331,14 @@ class CustomReportLayout {
             //create sortable for headers
             Sortable.create($table.find('#columnHeader tr').get(0), {
                 onStart: e => {
-                    const valueFieldName = jQuery(e.item).attr('data-valuefield');
-                    $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).addClass('highlight-cells');
+                    $table.find('tbody td[data-linkedcolumn]').removeClass('highlight-cells');
+                    const linkedColumnName = jQuery(e.item).attr('data-linkedcolumn');
+                    $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight-cells');
                 },
                 onEnd: e => {
                     const $th = jQuery(e.item);
                     $th.removeAttr('draggable');
-                    const valueFieldName = $th.attr('data-valuefield');
-                    $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).removeClass('highlight-cells');
+                    const linkedColumnName = $th.attr('data-linkedcolumn');
 
                     const $tr = jQuery(e.currentTarget);
                     $form.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
@@ -347,6 +347,7 @@ class CustomReportLayout {
 
                     $form.attr('data-modified', 'true');
                     $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                    $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).removeClass('highlight-cells').addClass('highlight-cells');
                 }
             });
             this.linkColumns($form, $table);
@@ -680,7 +681,7 @@ class CustomReportLayout {
             $form.data('sectiontoupdate', 'tableheader');
             $form.find('#controlProperties').show();
             this.setControlValues($form, $column);
-            const linkedColumn = $column.attr('data-valuefield');
+            const linkedColumn = $column.attr('data-linkedColumn');
             $table.find('tbody td[data-linkedcolumn]').removeClass('highlight-cells');
             $table.find(`tbody td[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight-cells');
         });
@@ -741,22 +742,24 @@ class CustomReportLayout {
         //header row
         $form.on('click', '.header-row', e => {
             $column = jQuery(e.currentTarget);
-            //$form.find('#controlProperties').empty().append(this.addControlProperties($column));
             $form.find('#controlProperties').show();
             this.setControlValues($form, $column);
             $form.data('sectiontoupdate', 'headerrow');
-            //this.updateHTML($form, $table.find('#columnHeader tr'));
         });
 
         $form.on('click', '.total-name', e => {
             $column = jQuery(e.currentTarget);
-            //$form.find('#controlProperties').empty().append(this.addControlProperties($column));
             $form.find('#controlProperties').show();
             this.setControlValues($form, $column);
             $form.data('sectiontoupdate', 'footerrow');
         });
 
     }
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+    //updateColumnOrder($row: JQuery, $designerRow: JQuery, oldIndex: Number, newIndex: Number) {
+
+    //}
     //----------------------------------------------------------------------------------------------
     setControlValues($form: JQuery, $column: JQuery) {
         FwFormField.setValueByDataField($form, 'CaptionField', $column.text(), $column.text());
