@@ -3340,19 +3340,19 @@ class FwBrowseClass {
 
                 const request: any = {};
                 const gridUniqueIdField = $control.find('thead [data-isuniqueid="true"]').attr('data-browsedatafield');
+                const pageNo = $control.attr('data-pageno');
                 request[`${gridUniqueIdField}s`] = ids;
-                request.pageno = parseInt($control.attr('data-pageno'));
+                request.pageno = parseInt(pageNo);
                 if (startAtIndex != '') request.StartAtIndex = startAtIndex;
                 let apiurl = (<any>window[controller]).apiurl;
                 FwAppData.apiMethod(true, 'POST', `${apiurl}/sort`, request, FwServices.defaultTimeout,
                     response => {
                         if (response.success) {
                             const onDataBind = $control.data('ondatabind');
-                            const pageNumber = $control.data('pageno');
                             if (typeof onDataBind == 'function') {
                                 $control.data('ondatabind', function (request) {
                                     onDataBind(request);
-                                    request.pageno = parseInt(pageNumber);
+                                    request.pageno = pageNo;
                                 });
                             }
                             FwBrowse.search($control);
@@ -3368,7 +3368,7 @@ class FwBrowseClass {
                                 const $tr = jQuery($trs[0]);
                                 $control.data('onafterrowsort')($control, $tr);
                             }
-                            $control.attr('data-pageno', pageNumber);
+                            $control.attr('data-pageno', pageNo);
                             $control.data('ondatabind', onDataBind); 
                         } else {
                             FwNotification.renderNotification('ERROR', response.msg);
@@ -3384,7 +3384,7 @@ class FwBrowseClass {
         const $cancelBtn = jQuery('<div data-type="button" class="fwformcontrol sorting" style="margin-left:10px;">Cancel</div>');
         $cancelBtn.on('click', e => {
             const onDataBind = $control.data('ondatabind');
-            const pageNumber = $control.data('pageno');
+            const pageNumber = $control.attr('data-pageno');
             if (typeof onDataBind == 'function') {
                 $control.data('ondatabind', function (request) {
                     onDataBind(request);
