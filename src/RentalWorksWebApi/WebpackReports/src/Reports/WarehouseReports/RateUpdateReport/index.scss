@@ -1,33 +1,31 @@
 ﻿/*RateUpdateReport*/
 
-tbody {
-    tr[data-rowtype="detail"]:nth-child(odd) {
-        background-color: #DCDCDC;
-    }
+tbody:nth-of-type(even) tr[data-rowtype="detail"] {
+    background-color: #DCDCDC;
 }
+
 
 td div:after {
     content: attr(data-value);
 }
 
 .top-section-header {
-    th {
+    td {
         background-color: #DCDCDC;
         text-align: center;
     }
 }
-thead {
-    th.row1 {
-        border-top: 2px solid #000000;
-        font-weight: bold;
-        padding: 5px;
-        white-space: nowrap;
-    }
 
-    th.row2 {
-        border-bottom: 2px solid #000000;
-        font-weight: bold;
-        padding: 5px;
-        white-space: nowrap;
-    }
+td.row1 {
+    border-top: 2px solid #000000;
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
+}
+
+td.row2 {
+    border-bottom: 2px solid #000000;
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
 }

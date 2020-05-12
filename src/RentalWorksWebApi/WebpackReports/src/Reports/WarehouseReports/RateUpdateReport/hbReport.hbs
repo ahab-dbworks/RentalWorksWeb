@@ -15,63 +15,11 @@
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
     {{#each RentalItems}}
-
     {{#if @first}}
-    <thead class="top-section-header">
-      <tr>
-        <th colspan="4" style="background-color:white;"></th>
-        <th style="border-right:3px solid black;">Daily Rate</th>
-        <th style="border-right:3px solid black;">Weekly Rate</th>
-        {{#if ThreeWeekEnabled}}
-        <th style="border-right:3px solid black;">Week 2 Rate</th>
-        <th style="border-right:3px solid black;">Week 3 Rate </th>
-        <th style="border-right:3px solid black;">Week 4 Rate </th>
-        {{/if}}
-        <th style="border-right:3px solid black;">Monthly Rate</th>
-        <th style="border-right:3px solid black;">Replacement Cost</th>
-        <th style="border-right:3px solid black;">Unit Value</th>
-        <th style="border-right:3px solid black;">Max Discount</th>
-        <th>Min D/W</th>
-      </tr>
-    </thead>
-    <thead>
-      <tr>
-        <th class="row1">I-Code</th>
-        <th class="row1">Description</th>
-        <th class="row1">Mfr. Part #</th>
-        <th class="row1">Rank</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        {{#if ThreeWeekEnabled}}
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        {{/if}}
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-      </tr>
-      <tr>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        {{#if ThreeWeekEnabled}}
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        {{/if}}
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-      </tr>
-    </thead>
+    <tr><td>&nbsp;</td></tr><!-- spacer row -->
+    <tr>
+      <td colspan="11" class="section-header">RENTAL&nbsp;</td>
+    </tr>
     {{/if}}
     <tbody>
       {{#ifEquals RowType "Warehouseheader"}}
@@ -89,6 +37,61 @@
         <td colspan="3" class="lower header-row">Category: {{Category}}</td>
       </tr>
       {{/ifEquals}}
+      {{#ifEquals RowType "AvailableForDisplayheader"}}
+      <tr class="top-section-header">
+        <td colspan="4" style="background-color:white;"></td>
+        <td style="border-right:3px solid black;">Daily Rate</td>
+        <td style="border-right:3px solid black;">Weekly Rate</td>
+        {{#if ThreeWeekEnabled}}
+        <td style="border-right:3px solid black;">Week 2 Rate</td>
+        <td style="border-right:3px solid black;">Week 3 Rate </td>
+        <td style="border-right:3px solid black;">Week 4 Rate </td>
+        {{/if}}
+        <td style="border-right:3px solid black;">Monthly Rate</td>
+        <td style="border-right:3px solid black;">Replacement Cost</td>
+        <td style="border-right:3px solid black;">Unit Value</td>
+        <td style="border-right:3px solid black;">Max Discount</td>
+        <td>Min D/W</td>
+      </tr>
+
+      <tr>
+        <td class="row1">I-Code</td>
+        <td class="row1">Description</td>
+        <td class="row1">Mfr. Part #</td>
+        <td class="row1">Rank</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        {{#if ThreeWeekEnabled}}
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        {{/if}}
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+      </tr>
+      <tr>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        {{#if ThreeWeekEnabled}}
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        {{/if}}
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+      </tr>
+      {{/ifEquals}}
+
       {{#ifEquals RowType "detail"}}
       <tr data-rowtype={{RowType}}>
         <td class="nowrap">{{ICode}}</td>
@@ -148,50 +151,60 @@
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
     {{#each SalesItems}}
-    <thead class="top-section-header">
-      <tr>
-        <th colspan="4" style="background-color:white;"></th>
-        <th style="border-right:3px solid black;">Retail</th>
-        <th style="border-right:3px solid black;">Price</th>
-        <th style="border-right:3px solid black;">Default Cost</th>
-        <th style="border-right:3px solid black;">Max Discount</th>
-      </tr>
-    </thead>
-    <thead>
-      <tr>
-        <th class="row1">I-Code</th>
-        <th class="row1">Description</th>
-        <th class="row1">Mfr. Part #</th>
-        <th class="row1">Rank</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-      </tr>
-      <tr>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-      </tr>
-    </thead>
+    {{#if @first}}
+    <tr><td>&nbsp;</td></tr><!-- spacer row -->
+    <tr>
+      <td colspan="8" class="section-header">SALES&nbsp;</td>
+    </tr>
+    {{/if}}
     <tbody>
-      {{#each this}}
+      {{#ifEquals RowType "Warehouseheader"}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
         <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Category: {{Category}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "AvailableForDisplayheader"}}
+      <tr class="top-section-header">
+        <td colspan="4" style="background-color:white;"></td>
+        <td style="border-right:3px solid black;">Retail</td>
+        <td style="border-right:3px solid black;">Price</td>
+        <td style="border-right:3px solid black;">Default Cost</td>
+        <td>Max Discount</td>
+      </tr>
+      <tr>
+        <td class="row1">I-Code</td>
+        <td class="row1">Description</td>
+        <td class="row1">Mfr. Part #</td>
+        <td class="row1">Rank</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+      </tr>
+      <tr>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "detail"}}
+      <tr data-rowtype={{RowType}}>
         <td class="nowrap">{{ICode}}</td>
         <td data-value="{{Description}}"></td>
         <td data-value="{{PartNumber}}"></td>
@@ -212,8 +225,8 @@
           <div class="number" data-value="{{OldMaxDiscount}}"></div>
           <div class="number" data-value="{{NewMaxDiscount}}"></div>
         </td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
     </tbody>
     {{/each}}
   </table>
@@ -223,50 +236,60 @@
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
     {{#each PartsItems}}
-    <thead class="top-section-header">
-      <tr>
-        <th colspan="4" style="background-color:white;"></th>
-        <th style="border-right:3px solid black;">Retail</th>
-        <th style="border-right:3px solid black;">Price</th>
-        <th style="border-right:3px solid black;">Default Cost</th>
-        <th style="border-right:3px solid black;">Max Discount</th>
-      </tr>
-    </thead>
-    <thead>
-      <tr>
-        <th class="row1">I-Code</th>
-        <th class="row1">Description</th>
-        <th class="row1">Mfr. Part #</th>
-        <th class="row1">Rank</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-      </tr>
-      <tr>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-      </tr>
-    </thead>
+    {{#if @first}}
+    <tr><td>&nbsp;</td></tr><!-- spacer row -->
+    <tr>
+      <td colspan="12" class="section-header">PARTS&nbsp;</td>
+    </tr>
+    {{/if}}
     <tbody>
-      {{#each this}}
+      {{#ifEquals RowType "Warehouseheader"}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
         <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Category: {{Category}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "AvailableForDisplayheader"}}
+      <tr class="top-section-header">
+        <td colspan="4" style="background-color:white;"></td>
+        <td style="border-right:3px solid black;">Retail</td>
+        <td style="border-right:3px solid black;">Price</td>
+        <td style="border-right:3px solid black;">Default Cost</td>
+        <td>Max Discount</td>
+      </tr>
+      <tr>
+        <td class="row1">I-Code</td>
+        <td class="row1">Description</td>
+        <td class="row1">Mfr. Part #</td>
+        <td class="row1">Rank</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+      </tr>
+      <tr>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "detail"}}
+      <tr data-rowtype={{RowType}}>
         <td class="nowrap">{{ICode}}</td>
         <td data-value="{{Description}}"></td>
         <td data-value="{{PartNumber}}"></td>
@@ -287,8 +310,8 @@
           <div class="number" data-value="{{OldMaxDiscount}}"></div>
           <div class="number" data-value="{{NewMaxDiscount}}"></div>
         </td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
     </tbody>
     {{/each}}
   </table>
@@ -298,62 +321,72 @@
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
     {{#each LaborItems}}
-    <thead class="top-section-header">
-      <tr>
-        <th colspan="4" style="background-color:white;"></th>
-        <th style="border-right:3px solid black;">Hourly Rate</th>
-        <th style="border-right:3px solid black;">Daily Rate</th>
-        <th style="border-right:3px solid black;">Weekly Rate</th>
-        <th style="border-right:3px solid black;">Monthly Rate</th>
-        <th style="border-right:3px solid black;">Hourly Cost</th>
-        <th style="border-right:3px solid black;">Daily Cost</th>
-        <th style="border-right:3px solid black;">Weekly Cost</th>
-        <th style="border-right:3px solid black;">Monthly Cost</th>
-      </tr>
-    </thead>
-    <thead>
-      <tr>
-        <th class="row1">I-Code</th>
-        <th class="row1">Description</th>
-        <th class="row1">Mfr. Part #</th>
-        <th class="row1">Rank</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-      </tr>
-      <tr>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-      </tr>
-    </thead>
+    {{#if @first}}
+    <tr><td>&nbsp;</td></tr><!-- spacer row -->
+    <tr>
+      <td colspan="12" class="section-header">LABOR&nbsp;</td>
+    </tr>
+    {{/if}}
     <tbody>
-      {{#each this}}
+      {{#ifEquals RowType "Warehouseheader"}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
         <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Category: {{Category}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "AvailableForDisplayheader"}}
+      <tr class="top-section-header">
+        <td colspan="4" style="background-color:white;"></td>
+        <td style="border-right:3px solid black;">Hourly Rate</td>
+        <td style="border-right:3px solid black;">Daily Rate</td>
+        <td style="border-right:3px solid black;">Weekly Rate</td>
+        <td style="border-right:3px solid black;">Monthly Rate</td>
+        <td style="border-right:3px solid black;">Hourly Cost</td>
+        <td style="border-right:3px solid black;">Daily Cost</td>
+        <td style="border-right:3px solid black;">Weekly Cost</td>
+        <td>Monthly Cost</td>
+      </tr>
+      <tr>
+        <td class="row1">I-Code</td>
+        <td class="row1">Description</td>
+        <td class="row1">Mfr. Part #</td>
+        <td class="row1">Rank</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+      </tr>
+      <tr>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "detail"}}
+      <tr data-rowtype={{RowType}}>
         <td class="nowrap">{{ICode}}</td>
         <td data-value="{{Description}}"></td>
         <td data-value="{{PartNumber}}"></td>
@@ -390,8 +423,8 @@
           <div class="number" data-value="{{OldMonthlyCost}}"></div>
           <div class="number" data-value="{{NewMonthlyCost}}"></div>
         </td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
     </tbody>
     {{/each}}
   </table>
@@ -401,62 +434,73 @@
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
     {{#each MiscellaneousItems}}
-    <thead class="top-section-header">
-      <tr>
-        <th colspan="4" style="background-color:white;"></th>
-        <th style="border-right:3px solid black;">Hourly Rate</th>
-        <th style="border-right:3px solid black;">Daily Rate</th>
-        <th style="border-right:3px solid black;">Weekly Rate</th>
-        <th style="border-right:3px solid black;">Monthly Rate</th>
-        <th style="border-right:3px solid black;">Hourly Cost</th>
-        <th style="border-right:3px solid black;">Daily Cost</th>
-        <th style="border-right:3px solid black;">Weekly Cost</th>
-        <th style="border-right:3px solid black;">Monthly Cost</th>
-      </tr>
-    </thead>
-    <thead>
-      <tr>
-        <th class="row1">I-Code</th>
-        <th class="row1">Description</th>
-        <th class="row1">Mfr. Part #</th>
-        <th class="row1">Rank</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Current</th>
-      </tr>
-      <tr>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-        <th class="row2 number">New</th>
-      </tr>
-    </thead>
+    {{#if @first}}
+    <tr><td>&nbsp;</td></tr><!-- spacer row -->
+    <tr>
+      <td colspan="12" class="section-header">MISCELLANEOUS&nbsp;</td>
+    </tr>
+    {{/if}}
     <tbody>
-      {{#each this}}
+      {{#ifEquals RowType "Warehouseheader"}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
         <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Category: {{Category}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "AvailableForDisplayheader"}}
+      <tr class="top-section-header">
+        <td colspan="4" style="background-color:white;"></td>
+        <td style="border-right:3px solid black;">Hourly Rate</td>
+        <td style="border-right:3px solid black;">Daily Rate</td>
+        <td style="border-right:3px solid black;">Weekly Rate</td>
+        <td style="border-right:3px solid black;">Monthly Rate</td>
+        <td style="border-right:3px solid black;">Hourly Cost</td>
+        <td style="border-right:3px solid black;">Daily Cost</td>
+        <td style="border-right:3px solid black;">Weekly Cost</td>
+        <td>Monthly Cost</td>
+      </tr>
+      <tr>
+        <td class="row1">I-Code</td>
+        <td class="row1">Description</td>
+        <td class="row1">Mfr. Part #</td>
+        <td class="row1">Rank</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+      </tr>
+      <tr>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2"></td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "detail"}}
+      <tr data-rowtype={{RowType}}>
         <td class="nowrap">{{ICode}}</td>
         <td data-value="{{Description}}"></td>
         <td data-value="{{PartNumber}}"></td>
@@ -493,8 +537,8 @@
           <div class="number" data-value="{{OldMonthlyCost}}"></div>
           <div class="number" data-value="{{NewMonthlyCost}}"></div>
         </td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
     </tbody>
     {{/each}}
   </table>
