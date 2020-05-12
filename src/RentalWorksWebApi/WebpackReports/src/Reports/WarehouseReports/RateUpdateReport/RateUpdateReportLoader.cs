@@ -41,6 +41,9 @@ namespace WebApi.Modules.Reports.RateUpdateReport
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
         public string AvailableFor { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availfordisplay", modeltype: FwDataTypes.Text)]
+        public string AvailableForDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
         public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -244,6 +247,7 @@ namespace WebApi.Modules.Reports.RateUpdateReport
             dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
             dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
             dt.InsertSubTotalRows("Category", "RowType", totalFields);
+            dt.InsertSubTotalRows("AvailableForDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
