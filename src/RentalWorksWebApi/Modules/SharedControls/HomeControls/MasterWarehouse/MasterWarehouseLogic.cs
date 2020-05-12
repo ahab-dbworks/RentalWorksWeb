@@ -32,7 +32,7 @@ namespace WebApi.Modules.HomeControls.MasterWarehouse
         [FwLogicProperty(Id:"1YIBbxvSTfm0", IsReadOnly:true)]
         public string Warehouse { get; set; }
 
-        [FwLogicProperty(Id: "guLzUpMJ60Dcb", IsReadOnly: true)]
+        [FwLogicProperty(Id: "guLzUpMJ60Dcb", IsReadOnly: true, IsNotAudited: true)]
         public int? WarehouseOrderBy { get; set; }
 
 
