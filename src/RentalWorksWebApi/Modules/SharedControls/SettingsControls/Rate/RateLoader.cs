@@ -17,5 +17,32 @@ namespace WebApi.Modules.Settings.Rate
         [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? IncludeAsProfitAndLossCategory { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "incomeaccountid", modeltype: FwDataTypes.Text)]
+        public string IncomeAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "incomeglno", modeltype: FwDataTypes.Text)]
+        public string IncomeAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "incomeglacctdesc", modeltype: FwDataTypes.Text)]
+        public string IncomeAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subincomeaccountid", modeltype: FwDataTypes.Text)]
+        public string SubIncomeAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subincomeglno", modeltype: FwDataTypes.Text)]
+        public string SubIncomeAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subincomeglacctdesc", modeltype: FwDataTypes.Text)]
+        public string SubIncomeAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "expenseaccountid", modeltype: FwDataTypes.Text)]
+        public string ExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "expenseglno", modeltype: FwDataTypes.Text)]
+        public string ExpenseAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "expenseglacctdesc", modeltype: FwDataTypes.Text)]
+        public string ExpenseAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
     }
 }

@@ -217,8 +217,60 @@ class MiscRate {
         } else {
             FwFormField.disable($form.find('[data-datafield="SubCategoryId"]'));
         }
+
+        //Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
+            const $tab = jQuery(e.currentTarget);
+            const tabPageId = $tab.attr('data-tabpageid');
+
+            if ($tab.hasClass('tabGridsLoaded') === false) {
+                const submoduleName = $tab.attr('data-submodulename');
+                let $browseControl;
+                const $tabpage = $form.find(`#${tabPageId}`);
+
+                switch (submoduleName) {
+                    case 'Order':
+                        $browseControl = this.openSubModuleBrowse($form, submoduleName);
+                        $tabpage.append($browseControl);
+                        FwBrowse.search($browseControl);
+                        break;
+                    default:
+                        //let $browseControls = $form.find(`#${tabPageId} [data-type="Browse"]`);
+                        //if ($browseControls.length > 0) {
+                        //    for (let i = 0; i < $browseControls.length; i++) {
+                        //        const $browseControl = jQuery($browseControls[i]);
+                        //        FwBrowse.search($browseControl);
+                        //    }
+                        //}
+                        break;
+                }
+
+            }
+            $tab.addClass('tabGridsLoaded');
+        });
+
+
+
     }
     //----------------------------------------------------------------------------------------------
+    openSubModuleBrowse($form, module: string) {
+        try {
+            let $browse = null;
+            if (typeof window[`${module}Controller`] !== undefined && typeof window[`${module}Controller`].openBrowse === 'function') {
+                $browse = (<any>window)[`${module}Controller`].openBrowse();
+                $browse.data('ondatabind', request => {
+                    request.activeviewfields = (<any>window)[`${module}Controller`].ActiveViewFields;
+                    request.uniqueids = {
+                        InventoryId: FwFormField.getValueByDataField($form, 'RateId')
+                    }
+                });
+            }
+            return $browse;
+        } catch (ex) {
+
+        }
+    }
+    //---------------------------------------------------------------------------------------------
     events($form: any) {
         // Display Single or Recurring Rates Tab change event
         $form.find('.rate_type_radio').on('change', $tr => {
@@ -241,6 +293,18 @@ class MiscRate {
                 FwFormField.disable($form.find('div[data-datafield="SubCategoryId"]'));
             }
         })
+
+        // G/L Accounts
+        $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        })
+        $form.find('div[data-datafield="SubIncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="SubIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        })
+        $form.find('div[data-datafield="ExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="ExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        })
+
     }
     //----------------------------------------------------------------------------------------------
     beforeValidateType = function ($browse, $grid, request) {

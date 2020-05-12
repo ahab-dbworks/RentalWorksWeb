@@ -7,7 +7,9 @@
       <div data-type="tab" id="recurringratestab" class="tab recurring_rates" data-tabpageid="recurringratestabpage" data-caption="Recurring Rates"></div>
       <div data-type="tab" id="singleratestab" class="tab single_rates" data-tabpageid="singleratestabpage" data-caption="Single Rates"></div>
       <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
+      <div data-type="tab" id="ordertab" class="tab" data-submodulename="Order" data-tabpageid="ordertabpage" data-caption="Orders"></div>
       <div data-type="tab" id="profitlosstab" class="tab" data-tabpageid="profitlosstabpage" data-caption="Profit/Loss"></div>
+      <div data-type="tab" id="glaccounttab" class="tab" data-tabpageid="glaccounttabpage" data-caption="G/L Accounts"></div>
       <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
     </div>
     <div class="tabpages">
@@ -88,6 +90,36 @@
         </div>
       </div>
       <!-- END PROFIT/LOSS TAB-->
+
+      <!-- ORDER SUBMODULE-->
+      <div data-type="tabpage" id="ordertabpage" class="tabpage submodule rwSubModule" data-tabid="ordertab"></div>
+      <!-- END ORDER TAB -->
+
+      <!-- G/L Accounts tab -->
+      <div data-type="tabpage" id="glaccounttabpage" class="tabpage" data-tabid="glaccounttab">
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:0 1 650px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="G/L Accounts">
+              <div class="flexrow">
+                <div>Specify G/L Accounts below to override the G/L Accounts configured for the Category.</div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Normal Income G/L Account" data-enabled="true" data-datafield="IncomeAccountId" data-displayfield="IncomeAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="IncomeAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub-Misc Income G/L Account" data-enabled="true" data-datafield="SubIncomeAccountId" data-displayfield="SubIncomeAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="SubIncomeAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Expense G/L Account" data-enabled="true" data-datafield="ExpenseAccountId" data-displayfield="ExpenseAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="ExpenseAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- NOTES TAB -->
       <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
         <div class="formpage">
