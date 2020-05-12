@@ -320,6 +320,48 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     renderTab($form, tabName: string) {
+        //designer notes - jason hoang 05/12/2020
+        //- currently supports ONE table within report HTML
+        //- everything outside of the table element is ignored
+        //
+        //- important attributes - 
+        //  - THEAD with id = "columnHeader"                       //we could probably take the id out if there is only one thead within the table
+        //      - TH data-valuefields should match with the tds.   //this value will be used for linking columns together with the data-linkedcolumn attribute.
+        //                                                         //when the valuefield is changed, the linkedcolumn remains the same to keep track of which tds we need to move. 
+        //  - TBODY
+        //      -- TRs need the data-row attribute 
+        //      -- values: ['header', 'detail', 'footer'].                //multiple header and footer rows, one detail row.
+        //      -- FOOTER rows need one td with the 'total-name' class.   //the colspan should be correct based on total colspan of THs in the THEAD
+        //
+        //
+        //- basic table structure -
+        //<table>
+        //  <thead id="columnHeader">
+        //      <tr> 
+        //        <th data-valuefield="ExampleField">Example Field Caption</th>
+        //        <th data-valuefield="ExampleField2">Example Field2 Caption</th>
+        //        <th data-valuefield="ExampleTotalField">Example Total Field Caption</th>
+        //      </tr>
+        //      ..
+        //  </thead>
+        //  <tbody>
+        //      <tr data-row="header">
+        //          <td colspan="3" data-valuefield="ExampleHeaderField">Example Header Caption</td>
+        //      </tr>
+        //      ..
+        //      <tr data-row="detail">
+        //          <td data-value="ExampleField"></td>         //maybe we should change data-value to data-valuefield for consistency?  
+        //          <td data-value="ExampleField2"></td>       
+        //          <td data-value="ExampleTotalField"></td>  
+        //      </tr>
+        //      <tr data-row="footer">
+        //          <td colspan="2" class="total-name"></td>    //assumes only one total-name column.  it's important that the colspan is correct
+        //          <td data-value="ExampleTotalField"></td>
+        //      </tr>
+        //      ..
+        //  </tbody>
+        //</table>
+
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
         this.html = FwFormField.getValueByDataField($form, 'Html');
 
