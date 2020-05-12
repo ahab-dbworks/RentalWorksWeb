@@ -1,6 +1,7 @@
 ﻿class RateUpdateItemGrid {
     Module: string = 'RateUpdateItemGrid';
     apiurl: string = 'api/v1/rateupdateitem';
+    AuditKeyFields: Array<string> = ['InventoryId', 'WarehouseId'];
 
     addLegend($control: any) {
         try {

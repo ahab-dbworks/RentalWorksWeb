@@ -12,11 +12,7 @@ namespace WebApi.Modules.Utilities.RateUpdateItem
         {
             dataRecords.Add(rateUpdateItem);
             dataLoader = rateUpdateItemLoader;
-
-            ReloadOnSave = false;
-            LoadOriginalBeforeSaving = false;
         }
-
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "J1n135Cf0ZQI", IsPrimaryKey: true)]
         public string InventoryId { get { return rateUpdateItem.InventoryId; } set { rateUpdateItem.InventoryId = value; } }
