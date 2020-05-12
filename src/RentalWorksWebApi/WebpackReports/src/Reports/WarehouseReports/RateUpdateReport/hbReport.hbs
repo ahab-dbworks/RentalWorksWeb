@@ -29,7 +29,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
       <tr data-rowtype={{RowType}}>
-        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        <td colspan="3" class="lower header-row">Type: {{InventoryType}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryheader"}}
@@ -57,7 +57,7 @@
       <tr>
         <td class="row1">I-Code</td>
         <td class="row1">Description</td>
-        <td class="row1">Mfr. Part #</td>
+        <td class="row1">Mfg. Part No</td>
         <td class="row1">Rank</td>
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
@@ -165,7 +165,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
       <tr data-rowtype={{RowType}}>
-        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        <td colspan="3" class="lower header-row">Type: {{InventoryType}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryheader"}}
@@ -184,7 +184,7 @@
       <tr>
         <td class="row1">I-Code</td>
         <td class="row1">Description</td>
-        <td class="row1">Mfr. Part #</td>
+        <td class="row1">Mfg. Part No</td>
         <td class="row1">Rank</td>
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
@@ -250,7 +250,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
       <tr data-rowtype={{RowType}}>
-        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        <td colspan="3" class="lower header-row">Type: {{InventoryType}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryheader"}}
@@ -269,7 +269,7 @@
       <tr>
         <td class="row1">I-Code</td>
         <td class="row1">Description</td>
-        <td class="row1">Mfr. Part #</td>
+        <td class="row1">Mfg. Part No</td>
         <td class="row1">Rank</td>
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
@@ -324,7 +324,7 @@
     {{#if @first}}
     <tr><td>&nbsp;</td></tr><!-- spacer row -->
     <tr>
-      <td colspan="12" class="section-header">LABOR&nbsp;</td>
+      <td colspan="10" class="section-header">LABOR&nbsp;</td>
     </tr>
     {{/if}}
     <tbody>
@@ -335,7 +335,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
       <tr data-rowtype={{RowType}}>
-        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        <td colspan="3" class="lower header-row">Type: {{InventoryType}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryheader"}}
@@ -345,7 +345,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "AvailableForDisplayheader"}}
       <tr class="top-section-header">
-        <td colspan="4" style="background-color:white;"></td>
+        <td colspan="2" style="background-color:white;"></td>
         <td style="border-right:3px solid black;">Hourly Rate</td>
         <td style="border-right:3px solid black;">Daily Rate</td>
         <td style="border-right:3px solid black;">Weekly Rate</td>
@@ -358,8 +358,6 @@
       <tr>
         <td class="row1">I-Code</td>
         <td class="row1">Description</td>
-        <td class="row1">Mfr. Part #</td>
-        <td class="row1">Rank</td>
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
@@ -370,8 +368,6 @@
         <td class="row1 number">Current</td>
       </tr>
       <tr>
-        <td class="row2"></td>
-        <td class="row2"></td>
         <td class="row2"></td>
         <td class="row2"></td>
         <td class="row2 number">New</td>
@@ -389,8 +385,6 @@
       <tr data-rowtype={{RowType}}>
         <td class="nowrap">{{ICode}}</td>
         <td data-value="{{Description}}"></td>
-        <td data-value="{{PartNumber}}"></td>
-        <td data-value="{{Rank}}"></td>
         <td>
           <div class="number" data-value="{{OldHourlyRate}}"></div>
           <div class="number" data-value="{{NewHourlyRate}}"></div>
@@ -437,7 +431,7 @@
     {{#if @first}}
     <tr><td>&nbsp;</td></tr><!-- spacer row -->
     <tr>
-      <td colspan="12" class="section-header">MISCELLANEOUS&nbsp;</td>
+      <td colspan="10" class="section-header">MISCELLANEOUS&nbsp;</td>
     </tr>
     {{/if}}
     <tbody>
@@ -448,7 +442,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
       <tr data-rowtype={{RowType}}>
-        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        <td colspan="3" class="lower header-row">Type: {{InventoryType}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryheader"}}
@@ -459,7 +453,7 @@
 
       {{#ifEquals RowType "AvailableForDisplayheader"}}
       <tr class="top-section-header">
-        <td colspan="4" style="background-color:white;"></td>
+        <td colspan="2" style="background-color:white;"></td>
         <td style="border-right:3px solid black;">Hourly Rate</td>
         <td style="border-right:3px solid black;">Daily Rate</td>
         <td style="border-right:3px solid black;">Weekly Rate</td>
@@ -472,8 +466,6 @@
       <tr>
         <td class="row1">I-Code</td>
         <td class="row1">Description</td>
-        <td class="row1">Mfr. Part #</td>
-        <td class="row1">Rank</td>
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
@@ -484,8 +476,6 @@
         <td class="row1 number">Current</td>
       </tr>
       <tr>
-        <td class="row2"></td>
-        <td class="row2"></td>
         <td class="row2"></td>
         <td class="row2"></td>
         <td class="row2 number">New</td>
@@ -503,8 +493,6 @@
       <tr data-rowtype={{RowType}}>
         <td class="nowrap">{{ICode}}</td>
         <td data-value="{{Description}}"></td>
-        <td data-value="{{PartNumber}}"></td>
-        <td data-value="{{Rank}}"></td>
         <td>
           <div class="number" data-value="{{OldHourlyRate}}"></div>
           <div class="number" data-value="{{NewHourlyRate}}"></div>
