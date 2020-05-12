@@ -590,8 +590,32 @@ namespace WebApi.Modules.Warehouse.CheckOut
         {
             StagingAddSubstituteItemToSessionResponse response = new StagingAddSubstituteItemToSessionResponse();
 
-            // if valid item, then add it to the substitute session
-
+            if (string.IsNullOrEmpty(request.SessionId))
+            {
+                response.msg = "SessionId is required.";
+            }
+            else if (string.IsNullOrEmpty(request.Code))
+            {
+                response.msg = "Must supply a Code to add a substitute item.";
+            }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "stageaddsubstituteitemtosession", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
+                    qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, request.Code);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+                    qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
+                }
+            }
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
