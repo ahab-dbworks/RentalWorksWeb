@@ -3347,6 +3347,14 @@ class FwBrowseClass {
                 FwAppData.apiMethod(true, 'POST', `${apiurl}/sort`, request, FwServices.defaultTimeout,
                     response => {
                         if (response.success) {
+                            const onDataBind = $control.data('ondatabind');
+                            const pageNumber = $control.data('pageno');
+                            if (typeof onDataBind == 'function') {
+                                $control.data('ondatabind', function (request) {
+                                    onDataBind(request);
+                                    request.pageno = parseInt(pageNumber);
+                                });
+                            }
                             FwBrowse.search($control);
                             $control.removeClass('sort-mode');
                             $control.find('td.manual-sort').hide();
@@ -3360,7 +3368,8 @@ class FwBrowseClass {
                                 const $tr = jQuery($trs[0]);
                                 $control.data('onafterrowsort')($control, $tr);
                             }
-
+                            $control.attr('data-pageno', pageNumber);
+                            $control.data('ondatabind', onDataBind); 
                         } else {
                             FwNotification.renderNotification('ERROR', response.msg);
                         };
@@ -3374,12 +3383,22 @@ class FwBrowseClass {
         //cancel sorting button
         const $cancelBtn = jQuery('<div data-type="button" class="fwformcontrol sorting" style="margin-left:10px;">Cancel</div>');
         $cancelBtn.on('click', e => {
+            const onDataBind = $control.data('ondatabind');
+            const pageNumber = $control.data('pageno');
+            if (typeof onDataBind == 'function') {
+                $control.data('ondatabind', function (request) {
+                    onDataBind(request);
+                    request.pageno = parseInt(pageNumber);
+                });
+            }
             FwBrowse.search($control); //refresh grid to reset to original sorting order
             $control.find('td.manual-sort').hide();
             $gridMenu.find('.sorting').hide();
             $gridMenu.find('.buttonbar').show();
             $control.find('.btn-manualsort').show();
             $control.removeClass('sort-mode');
+            $control.attr('data-pageno', pageNumber);
+            $control.data('ondatabind', onDataBind); 
         });
 
         //initialize Sortable
