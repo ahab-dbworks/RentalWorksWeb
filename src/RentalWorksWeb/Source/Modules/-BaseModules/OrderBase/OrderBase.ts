@@ -2168,8 +2168,12 @@ class OrderBase {
 
             $yes.on('click', copyAddress);
             function copyAddress() {
-                FwNotification.renderNotification('SUCCESS', 'Address Successfully Copied.');
-                FwConfirmation.destroyConfirmation($confirmation);
+
+                if (FwFormField.getValueByDataField($form, 'OutDeliveryAddressType') === 'VENUE') {
+                    $form.find('div[data-datafield="InDeliveryAddressType"] .togglebutton-item input[value="VENUE"]').click();
+                    FwFormField.setValueByDataField($form, 'InDeliveryToVenueId', FwFormField.getValueByDataField($form, 'OutDeliveryToVenueId'), FwFormField.getTextByDataField($form, 'OutDeliveryToVenueId'));
+                }
+
                 FwFormField.setValueByDataField($form, 'InDeliveryToLocation', FwFormField.getValueByDataField($form, 'OutDeliveryToLocation'));
                 FwFormField.setValueByDataField($form, 'InDeliveryToAttention', FwFormField.getValueByDataField($form, 'OutDeliveryToAttention'));
                 FwFormField.setValueByDataField($form, 'InDeliveryToAddress1', FwFormField.getValueByDataField($form, 'OutDeliveryToAddress1'));
@@ -2179,6 +2183,8 @@ class OrderBase {
                 FwFormField.setValueByDataField($form, 'InDeliveryToZipCode', FwFormField.getValueByDataField($form, 'OutDeliveryToZipCode'));
                 FwFormField.setValueByDataField($form, 'InDeliveryToCountryId', FwFormField.getValueByDataField($form, 'OutDeliveryToCountryId'), FwFormField.getTextByDataField($form, 'OutDeliveryToCountryId'));
                 FwFormField.setValueByDataField($form, 'InDeliveryToCrossStreets', FwFormField.getValueByDataField($form, 'OutDeliveryToCrossStreets'));
+                FwNotification.renderNotification('SUCCESS', 'Address Successfully Copied.');
+                FwConfirmation.destroyConfirmation($confirmation);
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
