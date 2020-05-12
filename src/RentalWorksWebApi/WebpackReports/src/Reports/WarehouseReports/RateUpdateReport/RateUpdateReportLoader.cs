@@ -244,10 +244,10 @@ namespace WebApi.Modules.Reports.RateUpdateReport
             //dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
 
             string[] totalFields = new string[] { "OldMinDaysPerWeek" };
+            dt.InsertSubTotalRows("AvailableForDisplay", "RowType", totalFields);
             dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
             dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
             dt.InsertSubTotalRows("Category", "RowType", totalFields);
-            dt.InsertSubTotalRows("AvailableForDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
