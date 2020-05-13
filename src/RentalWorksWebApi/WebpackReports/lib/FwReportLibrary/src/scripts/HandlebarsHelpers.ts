@@ -1,7 +1,7 @@
 ﻿//import * as  Handlebars from 'handlebars/dist/cjs/handlebars';
 
 export class HandlebarsHelpers {
-    static registerHelpers(custom:boolean = false) {
+    static registerHelpers(custom: boolean = false) {
         let Handlebars;
         if (custom) {
             Handlebars = require('handlebars/dist/cjs/handlebars');

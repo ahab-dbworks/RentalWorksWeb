@@ -2,10 +2,10 @@
     ColumnIndex: any;
     Columns: Array<DataTableColumn>;
     Rows: Array<Array<any>>;
-    PageNo:	number
-    PageSize:	number;
-    TotalPages:	number;
-    TotalRows:	number;
+    PageNo: number
+    PageSize: number;
+    TotalPages: number;
+    TotalRows: number;
     ColumnNameByIndex: any;
 
     static toObjectList<T>(dt: DataTable): Array<T> {

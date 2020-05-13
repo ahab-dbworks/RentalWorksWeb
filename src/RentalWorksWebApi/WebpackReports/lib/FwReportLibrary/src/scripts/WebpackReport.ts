@@ -5,7 +5,7 @@ export abstract class WebpackReport {
     renderReportCompleted: boolean = false;
     renderReportFailed: boolean = false;
     footerHtml: string = '';
-    action: ActionType; 
+    action: ActionType;
 
     constructor() {
         window.addEventListener('unload', (ev: Event) => {
@@ -20,7 +20,7 @@ export abstract class WebpackReport {
             if (window.opener != null) {
                 window.opener.postMessage(reportURL, '*'); // postMessage to report page to notify new window (rendered report) is loaded
             }
-        }); 
+        });
         window.addEventListener('message', (ev: MessageEvent) => {
             if (typeof ev.data.action !== 'undefined') {
                 const message = <ReportPageMessage>ev.data;
@@ -40,7 +40,7 @@ export abstract class WebpackReport {
                 break;
         }
     }
-    
+
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         let htmlElements = document.getElementsByTagName('html');
         if (this.action === 'Preview' || this.action === 'PrintHtml') {
@@ -76,7 +76,7 @@ export abstract class WebpackReport {
 }
 
 export type RenderMode = 'Html' | 'Pdf' | 'Email';
-export type ActionType =  'None' | 'Preview' | 'PrintHtml';
+export type ActionType = 'None' | 'Preview' | 'PrintHtml';
 
 export class ReportPageMessage {
     action: ActionType = 'None';
