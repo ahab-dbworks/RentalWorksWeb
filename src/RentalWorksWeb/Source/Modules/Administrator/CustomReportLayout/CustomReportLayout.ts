@@ -350,7 +350,7 @@ class CustomReportLayout {
         //      </tr>
         //      ..
         //      <tr data-row="detail">
-        //          <td data-value="ExampleField"></td>         //maybe we should change data-value to data-valuefield for consistency?  
+        //          <td data-value="ExampleField"></td>         //maybe we should change data-value to data-valuefield for consistency?  //nvm, there is a CSS rule that sets this attribute's value as the content.
         //          <td data-value="ExampleField2"></td>       
         //          <td data-value="ExampleTotalField"></td>  
         //      </tr>
@@ -395,6 +395,8 @@ class CustomReportLayout {
             this.linkColumns($form, $table);
             this.designerEvents($form, $table);
         } else {
+            $form.find('.addColumn').hide();
+            $form.find('#controlProperties').hide();
             $form.find(`#reportDesigner`).empty().append(`<div>This report is not currently Designer-provisioned.  Please use the HTML tab to make changes.</div>`);
         }
     }
@@ -706,7 +708,7 @@ class CustomReportLayout {
         let newColumnNumber = 1;
 
         //add header column
-        $addColumn.on('click', e => {
+        $addColumn.off().on('click', e => {
             $column = jQuery(`<th data-linkedcolumn="NewColumn${newColumnNumber}" data-valuefield="NewColumn${newColumnNumber}">New Column</th>`);
             $table.find('#columnHeader tr').append($column);
             this.setControlValues($form, $column);
@@ -729,7 +731,7 @@ class CustomReportLayout {
         });
 
         //control properties events
-        $form.on('change', '#controlProperties [data-datafield]', e => {  //todo - update when value fields are changed too.
+        $form.on('change', '#controlProperties [data-datafield]', e => {
             const $property = jQuery(e.currentTarget);
             const fieldname = $property.attr('data-datafield');
             const value = FwFormField.getValue2($property);

@@ -615,10 +615,10 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner #columnHeader tr th:last-of-type { border-right:0; }
 #reportDesigner #columnHeader tr th:hover { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);cursor: pointer;margin: 5px; }
 #reportDesigner #columnHeader tr {  }
-#reportDesigner #detailRow td { font-size:.9em;font-weight: 600;height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
-#reportDesigner #detailRow td.hover-cell { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);cursor: pointer;margin: 5px; }
-#reportDesigner tbody tr[data-row="footer"] td{ height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ffffff;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
-#reportDesigner td.header-row {cursor:pointer;}
+#reportDesigner tr[data-row="detail"] td { font-size:.9em;font-weight: 600;height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
+#reportDesigner tr[data-row="detail"] td.hover-cell { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);cursor: pointer;margin: 5px; }
+#reportDesigner tr[data-row="footer"] td { height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ffffff;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
+#reportDesigner tr[data-row="header"] td { cursor:pointer;}
 
 /*Control Properties*/
 #controlProperties .propertyContainer div.properties {width: 100%;display: flex;padding-bottom: 3px;}
