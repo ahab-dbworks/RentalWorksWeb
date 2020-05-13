@@ -363,8 +363,7 @@ class RateUpdateUtility {
     }
     //----------------------------------------------------------------------------------------------
     applyAllPendingModifications($form: any) {
-        let $confirmation, $ok;
-        $confirmation = FwConfirmation.renderConfirmation('Apply All Pending Modifications', '');
+        const $confirmation = FwConfirmation.renderConfirmation('Apply All Pending Modifications', '');
         const html: Array<string> = [];;
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Provide a name for this Rate Modification" data-datafield="RateUpdateBatchName"></div>');
@@ -372,7 +371,7 @@ class RateUpdateUtility {
         html.push('</div>');
 
         FwConfirmation.addControls($confirmation, html.join(''));
-        $ok = FwConfirmation.addButton($confirmation, 'OK', false);
+        const $ok = FwConfirmation.addButton($confirmation, 'OK', false);
         FwConfirmation.addButton($confirmation, 'Cancel');
         $ok.on('click', () => {
             try {

@@ -72,6 +72,12 @@ class RateUpdateReport extends FwWebApiReport {
         this.load($form, this.reportOptions);
     }
     //----------------------------------------------------------------------------------------------
+    afterLoad($form) {
+        let here;
+        const pendingModificationsOnly = FwFormField.getValueByDataField($form, 'PendingModificationsOnly');
+        FwFormField.toggle($form.find('div[data-datafield="RateUpdateBatchId"]'), !pendingModificationsOnly);
+    }
+    //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
         parameters.ThreeWeekEnabled = JSON.parse(sessionStorage.getItem('controldefaults')).enable3weekpricing;
         return parameters;
