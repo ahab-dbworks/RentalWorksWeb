@@ -205,7 +205,7 @@ export class FwModuleBase {
         await page.waitForSelector(firstColumnHeaderSelector);
         await page.click(firstColumnHeaderSelector);
         
-        await ModuleBase.wait(500);
+        await FwModuleBase.wait(500);
         
         let clearAllFiltersSelector = `div .fwbrowse table tr.fieldnames td.column[data-visible="true"] .columnoptions .columnoptions-button:nth-child(6)`;
         await page.waitForSelector(clearAllFiltersSelector);
