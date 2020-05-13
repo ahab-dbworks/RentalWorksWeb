@@ -2169,9 +2169,18 @@ class OrderBase {
             $yes.on('click', copyAddress);
             function copyAddress() {
 
+                if (FwFormField.getValueByDataField($form, 'OutDeliveryAddressType') === 'DEAL') {
+                    $form.find('div[data-datafield="InDeliveryAddressType"] .togglebutton-item input[value="DEAL"]').click();
+                }
                 if (FwFormField.getValueByDataField($form, 'OutDeliveryAddressType') === 'VENUE') {
                     $form.find('div[data-datafield="InDeliveryAddressType"] .togglebutton-item input[value="VENUE"]').click();
                     FwFormField.setValueByDataField($form, 'InDeliveryToVenueId', FwFormField.getValueByDataField($form, 'OutDeliveryToVenueId'), FwFormField.getTextByDataField($form, 'OutDeliveryToVenueId'));
+                }
+                if (FwFormField.getValueByDataField($form, 'OutDeliveryAddressType') === 'WAREHOUSE') {
+                    $form.find('div[data-datafield="InDeliveryAddressType"] .togglebutton-item input[value="WAREHOUSE"]').click();
+                }
+                if (FwFormField.getValueByDataField($form, 'OutDeliveryAddressType') === 'OTHER') {
+                    $form.find('div[data-datafield="InDeliveryAddressType"] .togglebutton-item input[value="OTHER"]').click();
                 }
 
                 FwFormField.setValueByDataField($form, 'InDeliveryToLocation', FwFormField.getValueByDataField($form, 'OutDeliveryToLocation'));
