@@ -22,7 +22,14 @@ export class RateUpdateReport extends WebpackReport {
                     data.Report = 'Rate Update Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
-                    data.ThreeWeekEnabled = parameters.ThreeWeekEnabled;
+                    if (parameters.ThreeWeekEnabled) {
+                        data.ThreeWeekEnabled = true;
+                        data.RentalHeaderColspan = 14;
+                    } else {
+                        data.ThreeWeekEnabled = false;
+                        data.RentalHeaderColspan = 11;
+                    }
+
 
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
