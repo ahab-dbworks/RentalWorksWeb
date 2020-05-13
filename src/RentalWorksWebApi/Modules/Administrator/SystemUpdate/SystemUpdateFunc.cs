@@ -17,7 +17,6 @@ using WebApi.Modules.Administrator.SystemUpdateHistoryLog;
 
 namespace WebApi.Modules.Administrator.SystemUpdate
 {
-
     public class AvailableVersionsRequest
     {
         public string CurrentVersion { get; set; }
@@ -101,6 +100,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
 
     public static class SystemUpdateFunc
     {
+        const string LOOPBACK_IP = "127.0.0.1";
         //-------------------------------------------------------------------------------------------------------
         //public static async Task<AvailableVersionsResponse> GetAvailableVersions(FwApplicationConfig appConfig, FwUserSession userSession, AvailableVersionsRequest request)
         public static AvailableVersionsResponse GetAvailableVersions(FwApplicationConfig appConfig, FwUserSession userSession, AvailableVersionsRequest request)
@@ -356,6 +356,90 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             return isUpgrade;
         }
         //-------------------------------------------------------------------------------------------------------
+        private static string GetMyLocalIPAddress()  // returns string.Empty if non determined
+        {
+            string localIp = string.Empty;
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIp = ip.ToString();
+                }
+            }
+            //if (localIp.Equals(string.Empty))
+            //{
+            //    throw new Exception("Cannot determine local IP address.");
+            //}
+            return localIp;
+        }
+        //---------------------------------------------------------------------------------------------------
+        private static async Task<bool> ConnectToUpdater(SystemUpdateHistoryLogic h, string server, int port)
+        {
+            bool success = false;
+            await LogUpdateMessage(h, "about to send test command to updater service to validate communication");
+            try
+            {
+                await LogUpdateMessage(h, "about to create client and connect to " + server + ":" + port.ToString());
+                TcpClient client = new TcpClient(server, port);
+                await LogUpdateMessage(h, "client created successfully");
+
+                await LogUpdateMessage(h, "about to create json serializer");
+                JsonSerializer serializer = new JsonSerializer();
+                await LogUpdateMessage(h, "json serializer created successfully");
+
+                //string testRequestStr = "TESTCHECK";
+                string testRequestStr = "TESTCHECK\r\n";
+                await LogUpdateMessage(h, "about to encode test message as bytes");
+                Byte[] data = System.Text.Encoding.ASCII.GetBytes(testRequestStr);
+                await LogUpdateMessage(h, "encoded test message as bytes successfully");
+
+                await LogUpdateMessage(h, "about to access network stream through client");
+                NetworkStream stream = client.GetStream();
+                await LogUpdateMessage(h, "accessed network stream through client successfully");
+
+                await LogUpdateMessage(h, "about to set write and read timeouts");
+                stream.WriteTimeout = 10000;
+                stream.ReadTimeout = 10000;
+                await LogUpdateMessage(h, "set write and read timeouts successfully");
+
+                await LogUpdateMessage(h, "about to write to stream");
+                stream.Write(data, 0, data.Length);
+                await LogUpdateMessage(h, "wrote to stream succesfully");
+
+                await LogUpdateMessage(h, "about to instantiate bytes array");
+                data = new Byte[256];
+                await LogUpdateMessage(h, "instantiated bytes array succesfully");
+
+                await LogUpdateMessage(h, "about to read from the network stream");
+                Int32 bytes = stream.Read(data, 0, data.Length);
+                await LogUpdateMessage(h, "read from the network stream succesfully");
+
+                await LogUpdateMessage(h, "about to decode response bytes into a string");
+                string testResponseStr = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                await LogUpdateMessage(h, "decoded response bytes into a string succesfully");
+
+                await LogUpdateMessage(h, "about to close network stream");
+                stream.Close();
+                await LogUpdateMessage(h, "closed network stream successfully");
+
+                await LogUpdateMessage(h, "about to close client");
+                client.Close();
+                await LogUpdateMessage(h, "closed client successfully");
+
+                await LogUpdateMessage(h, "successfully sent test command to updater service. Received response: " + testResponseStr);
+                success = true;
+            }
+            catch (Exception e)
+            {
+                //response.msg = "There is no RentalWorksWeb Updater Service available.";
+                success = false;
+                await LogUpdateMessage(h, "ERROR: Could not connect to Updater Service at " + server + ":" + port.ToString());
+                await LogUpdateMessage(h, "ERROR: " + e.Message);
+            }
+            return success;
+        }
+        //---------------------------------------------------------------------------------------------------
         public static async Task<ApplyUpdateResponse> ApplyUpdate(FwApplicationConfig appConfig, FwUserSession userSession, ApplyUpdateRequest request)
         {
             ApplyUpdateResponse response = new ApplyUpdateResponse();
@@ -391,7 +475,19 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             updaterRequest.WebInstallPath = GetCurrentWebApplicationPath();
 
             string hotfixInstallerConnectionString = "Server=" + connectionStringBuilder.DataSource + ";Database=" + connectionStringBuilder.InitialCatalog + ";User Id=dbworks;Password=db2424;";  // user/pass hard-coded for now
-            string updaterServer = "127.0.0.1";
+
+
+            await LogUpdateMessage(h, "about to determine local IP address");
+            string localIp = GetMyLocalIPAddress();
+            await LogUpdateMessage(h, "local IP address is " + localIp);
+            if (localIp.Equals(string.Empty))
+            {
+                await LogUpdateMessage(h, "could not determine local IP address. Using loopback instead.");
+                localIp = LOOPBACK_IP;
+                await LogUpdateMessage(h, "local IP address is " + localIp);
+            }
+
+            string updaterServer = localIp;
             int updaterPort = 18811;
 
             //bool doInstallHotfixes = (request.ToVersion.CompareTo(request.CurrentVersion) >= 0);  // only apply hotfixes if upgrading or refreshing current version, not downgrading
@@ -469,61 +565,26 @@ namespace WebApi.Modules.Administrator.SystemUpdate
 
 
                 // attempt to connect to the updater service to confirm send/receive connectivity
+                // if using a specific IP address other than the loopback, and a failure occurs, then a second attempt will be made with the loopback IP before bailing out
                 if (response.success)
                 {
-                    await LogUpdateMessage(h, "about to send test command to updater service to validate communication");
-                    try
+                    bool connectionEstablished = false;
+                    if (!connectionEstablished)
                     {
-                        await LogUpdateMessage(h, "about to create client");
-                        TcpClient client = new TcpClient(updaterServer, updaterPort);
-                        await LogUpdateMessage(h, "client created successfully");
-
-                        await LogUpdateMessage(h, "about to create json serializer");
-                        JsonSerializer serializer = new JsonSerializer();
-                        await LogUpdateMessage(h, "json serializer created successfully");
-
-                        //string testRequestStr = "TESTCHECK";
-                        string testRequestStr = "TESTCHECK\r\n";
-                        await LogUpdateMessage(h, "about to encode test message as bytes");
-                        Byte[] data = System.Text.Encoding.ASCII.GetBytes(testRequestStr);
-                        await LogUpdateMessage(h, "encoded test message as bytes successfully");
-                        
-                        await LogUpdateMessage(h, "about to access network stream through client");
-                        NetworkStream stream = client.GetStream();
-                        await LogUpdateMessage(h, "accessed network stream through client successfully");
-
-                        await LogUpdateMessage(h, "about to write to stream");
-                        stream.Write(data, 0, data.Length);
-                        await LogUpdateMessage(h, "wrote to stream succesfully");
-
-                        await LogUpdateMessage(h, "about to instantiate bytes array");
-                        data = new Byte[256];
-                        await LogUpdateMessage(h, "instantiated bytes array succesfully");
-
-                        await LogUpdateMessage(h, "about to read from the network stream");
-                        Int32 bytes = stream.Read(data, 0, data.Length);
-                        await LogUpdateMessage(h, "read from the network stream succesfully");
-
-                        await LogUpdateMessage(h, "about to decode response bytes into a string");
-                        string testResponseStr = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-                        await LogUpdateMessage(h, "decoded response bytes into a string succesfully");
-
-                        await LogUpdateMessage(h, "about to close network stream");
-                        stream.Close();
-                        await LogUpdateMessage(h, "closed network stream successfully");
-
-                        await LogUpdateMessage(h, "about to close client");
-                        client.Close();
-                        await LogUpdateMessage(h, "closed client successfully");
-
-                        await LogUpdateMessage(h, "successfully sent test command to updater service. Received response: " + testResponseStr);
+                        connectionEstablished = await ConnectToUpdater(h, updaterServer, updaterPort);
                     }
-                    catch (Exception e)
+                    if (!connectionEstablished)
+                    {
+                        if (!updaterServer.Equals(LOOPBACK_IP))
+                        {
+                            updaterServer = LOOPBACK_IP;
+                            connectionEstablished = await ConnectToUpdater(h, updaterServer, updaterPort);
+                        }
+                    }
+                    if (!connectionEstablished)
                     {
                         response.msg = "There is no RentalWorksWeb Updater Service available.";
                         response.success = false;
-                        await LogUpdateMessage(h, "ERROR: " + response.msg);
-                        await LogUpdateMessage(h, "ERROR: " + e.Message);
                     }
                 }
 
