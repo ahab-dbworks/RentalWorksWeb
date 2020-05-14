@@ -97,7 +97,7 @@ class User {
         //        }, $form);
         //    });
         // all related to settings tab
-        const $browsedefaultrows = $form.find('.browsedefaultrows');
+        const $browsedefaultrows = $form.find('div[data-datafield="BrowseDefaultRows"]');
         FwFormField.loadItems($browsedefaultrows, [
             { value: '5', text: '5' },
             { value: '10', text: '10' },
@@ -114,8 +114,19 @@ class User {
             { value: '500', text: '500' },
             { value: '1000', text: '1000' }
         ], true);
+        // First Day of Week select
+        const $firstDayofWeek = $form.find('div[data-datafield="FirstDayOfWeek"]');
+        FwFormField.loadItems($firstDayofWeek, [
+            { value: '0', text: 'Sunday' },
+            { value: '1', text: 'Monday' },
+            { value: '2', text: 'Tuesday' },
+            { value: '3', text: 'Wednesday' },
+            { value: '4', text: 'Thursday' },
+            { value: '5', text: 'Friday' },
+            { value: '6', text: 'Saturday' },
+        ], true);
 
-        const $applicationtheme = $form.find('.applicationtheme');
+        const $applicationtheme = $form.find('div[data-datafield="ApplicationTheme"]');
         FwFormField.loadItems($applicationtheme, [
             { value: 'theme-material', text: 'Material' }
         ], true);
@@ -128,7 +139,7 @@ class User {
             }
         });
         FwApplicationTree.sortModules(defaultHomePages);
-        const $defaultHomePage = $form.find('.default-home-page');
+        const $defaultHomePage = $form.find('div[data-datafield="HomeMenuGuid"]');
         FwFormField.loadItems($defaultHomePage, defaultHomePages, true);
 
 
@@ -265,7 +276,7 @@ class User {
             const notificationSound = new Audio(notificationSoundFileName);
             notificationSound.play();
         });
-        $form.find('div.default-home-page').on("change", e => {
+        $form.find('div[data-datafield="HomeMenuGuid"]').on("change", e => {
             const moduleUrl = jQuery(e.currentTarget).find(':selected').attr('data-apiurl')
             FwFormField.setValueByDataField($form, 'HomeMenuPath', moduleUrl)
         });
@@ -671,14 +682,14 @@ class User {
                   <div class="flexcolumn" style="max-width:300px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User Settings">
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield browsedefaultrows" data-caption="Default Rows per Page (Browse)" data-datafield="BrowseDefaultRows" style="float:left;max-width:250px;">
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Default Rows per Page (Browse)" data-datafield="BrowseDefaultRows" style="float:left;max-width:250px;">
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield applicationtheme" data-caption="Theme" data-datafield="ApplicationTheme" style="float:left;max-width:250px;"></div>
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Theme" data-datafield="ApplicationTheme" style="float:left;max-width:250px;"></div>
                       </div>
                       <div class="flexrow" style="width:243px;">
-                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield default-home-page" data-caption="Default Home Page" data-datafield="HomeMenuGuid" style="flex:1 1 350px;"></div>
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Default Home Page" data-datafield="HomeMenuGuid" style="flex:1 1 350px;"></div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                         <div class="flexrow">
@@ -693,6 +704,9 @@ class User {
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Notification Sound" data-datafield="NotificationSoundId" data-displayfield="NotificationSound" data-validationname="SoundValidation" style="flex:1 1 225px;"></div>
                           <button type="submit" class="play-button notification-play-button"><img src="theme/images/icons/settings/play_button.svg" alt="Play" /></button>
                         </div>
+                      </div>
+                      <div class="flexrow" style="width:243px;">
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Calendar Start Day" data-datafield="FirstDayOfWeek" style="flex:1 1 350px;"></div>
                       </div>
                       <!--Hidden Sound Filenames-->
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">

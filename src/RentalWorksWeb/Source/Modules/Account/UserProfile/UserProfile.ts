@@ -24,7 +24,7 @@
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        const $browsedefaultrows = $form.find('.browsedefaultrows');
+        const $browsedefaultrows = $form.find('div[data-datafield="BrowseDefaultRows"]');
         FwFormField.loadItems($browsedefaultrows, [
             { value: '5', text: '5' },
             { value: '10', text: '10' },
@@ -41,8 +41,19 @@
             { value: '500', text: '500' },
             { value: '1000', text: '1000' }
         ], true);
+        // First Day of Week select
+        const $firstDayofWeek = $form.find('div[data-datafield="FirstDayOfWeek"]');
+        FwFormField.loadItems($firstDayofWeek, [
+            { value: '0', text: 'Sunday' },
+            { value: '1', text: 'Monday' },
+            { value: '2', text: 'Tuesday' },
+            { value: '3', text: 'Wednesday' },
+            { value: '4', text: 'Thursday' },
+            { value: '5', text: 'Friday' },
+            { value: '6', text: 'Saturday' },
+        ], true);
 
-        const $applicationtheme = $form.find('.applicationtheme');
+        const $applicationtheme = $form.find('div[data-datafield="ApplicationTheme"]');
         FwFormField.loadItems($applicationtheme, [
             { value: 'theme-material', text: 'Material' }
         ], true);
@@ -62,7 +73,7 @@
         });
         defaultHomePages.push({ value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', nav: 'module/dashboard' }); // Dashboard will be excluded without this
         FwApplicationTree.sortModules(defaultHomePages);
-        const $defaultHomePage = $form.find('.default-home-page');
+        const $defaultHomePage = $form.find('div[data-datafield="HomeMenuGuid"]');
         FwFormField.loadItems($defaultHomePage, defaultHomePages, true);
 
         // Load Available Modules
@@ -157,7 +168,7 @@
             const notificationSound = new Audio(notificationSoundFileName);
             notificationSound.play();
         });
-        $form.find('div.default-home-page').on("change", e => {
+        $form.find('div[data-datafield="HomeMenuGuid"]').on("change", e => {
             const moduleUrl = jQuery(e.currentTarget).find(':selected').attr('data-nav')
             FwFormField.setValueByDataField($form, 'HomeMenuPath', moduleUrl)
         });
