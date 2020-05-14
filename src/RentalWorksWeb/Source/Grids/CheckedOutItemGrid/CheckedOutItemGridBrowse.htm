@@ -1,4 +1,4 @@
-﻿<div data-name="CheckedOutItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Contract Items" data-rendermode="template" data-hasaudithistory="false" data-showsearch="false" data-controller="CheckedOutItemGridController">
+﻿<div data-name="CheckedOutItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Contract Items" data-rendermode="template" data-hasaudithistory="false" data-showsearch="false" data-controller="CheckedOutItemGridController" data-paging="true">
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-isuniqueid="true" data-datafield="ContractId" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
@@ -22,6 +22,12 @@
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Bar Code" data-datafield="BarCode" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Serial Number" data-datafield="SerialNumber" data-browsedatatype="text" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="RFID" data-datafield="Rfid" data-browsedatatype="text" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Vendor" data-datafield="Vendor" data-cellcolor="VendorColor" data-browsedatatype="text" data-formdatatype="text" data-sort="off" data-formreadonly="true"></div>

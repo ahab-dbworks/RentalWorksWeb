@@ -8,7 +8,7 @@ using System;
 using WebApi;
 namespace WebApi.Modules.HomeControls.CheckedOutItem
 {
-    [FwSqlTable("dbo.funccheckedout(@contractid)")]
+    [FwSqlTable("dbo.funccheckedoutweb(@contractid)")]
     public class CheckedOutItemLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -17,6 +17,12 @@ namespace WebApi.Modules.HomeControls.CheckedOutItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
+        public string Rfid { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICodeDisplay { get; set; }

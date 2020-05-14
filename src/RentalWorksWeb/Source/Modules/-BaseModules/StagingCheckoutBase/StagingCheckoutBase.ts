@@ -74,7 +74,7 @@ abstract class StagingCheckoutBase {
             gridSecurityId: '40bj9sn7JHqai',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 20,
+            //pageSize: 20,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;
@@ -176,7 +176,7 @@ abstract class StagingCheckoutBase {
             gridSecurityId: 'GO96A3pk0UE',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 20,
+            //pageSize: 20,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;
@@ -275,7 +275,7 @@ abstract class StagingCheckoutBase {
     }
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
-        const maxPageSize = 20;
+        //const maxPageSize = 20;
         const module = this.Module;
 
         $form.on('change', `[data-datafield="${this.Type}Id"]`, e => {
@@ -333,7 +333,7 @@ abstract class StagingCheckoutBase {
                         OrderId: orderId,
                         WarehouseId: warehouseId
                     }
-                    request.pagesize = maxPageSize;
+                    //request.pagesize = maxPageSize;
                 })
                 FwBrowse.search($stagedItemGridControl);
                 // ----------
@@ -476,7 +476,7 @@ abstract class StagingCheckoutBase {
     }
     //----------------------------------------------------------------------------------------------
     renderPartialCheckoutGrids($form) {
-        const maxPageSize = 20;
+        //const maxPageSize = 20;
         const $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
         $checkedOutItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
         $checkedOutItemGridControl.attr('data-tableheight', '735px');
@@ -485,7 +485,7 @@ abstract class StagingCheckoutBase {
                 ContractId: this.contractId
             }
             request.orderby = 'OrderBy';
-            request.pagesize = maxPageSize;
+            //request.pagesize = maxPageSize;
         })
         FwBrowse.search($checkedOutItemGridControl);
 
@@ -498,7 +498,7 @@ abstract class StagingCheckoutBase {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Type == 'ContainerItem' ? 'Order' : this.Type}Id`),
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
-            request.pagesize = maxPageSize;
+            //request.pagesize = maxPageSize;
         })
 
         FwBrowse.search($stagedItemGridControl);
@@ -512,7 +512,7 @@ abstract class StagingCheckoutBase {
         $form.find('.abort-checkout-contract').hide();
         $form.find('[data-caption="Items"]').show();
         $form.find('.partial-contract').hide();
-        $form.find('.flexrow').css('max-width', '1200px');
+        $form.find('.flexrow').css('max-width', '1300px');
         $form.find('.pending-item-grid').hide();
         $form.find('.staged-item-grid').show();
 
@@ -733,7 +733,7 @@ abstract class StagingCheckoutBase {
                     const contractInfo: any = {};
                     contractInfo.ContractId = response.ContractId;
                     const $contractForm = ContractController.loadForm(contractInfo);
-                    $form.find('.flexrow').css('max-width', '1200px');
+                    $form.find('.flexrow').css('max-width', '1300px');
                     FwModule.openSubModuleTab($form, $contractForm);
                     this.resetForm($form);
                 }
@@ -796,7 +796,7 @@ abstract class StagingCheckoutBase {
                     if (response.success === true) {
                         $form.find('div[data-datafield="GridView"]').hide();
                         const contractInfo: any = {};
-                        $form.find('.flexrow').css('max-width', '1200px');
+                        $form.find('.flexrow').css('max-width', '1300px');
                         contractInfo.ContractId = response.ContractId;
                         const $contractForm = ContractController.loadForm(contractInfo);
                         FwModule.openSubModuleTab($form, $contractForm);

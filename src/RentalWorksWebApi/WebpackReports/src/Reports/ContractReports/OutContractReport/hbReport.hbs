@@ -144,6 +144,19 @@
             <b>Bar Codes:</b> {{BarCodes}}
           </div>
           {{/if}}
+
+          {{#if SerialNumbers}}
+          <div>
+            <b>Serial Numbers:</b> {{SerialNumbers}}
+          </div>
+          {{/if}}
+
+          {{#if Rfids}}
+          <div>
+            <b>RFIDs:</b> {{Rfids}}
+          </div>
+          {{/if}}
+
           {{#if Notes}}
           <div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div>
           {{/if}}

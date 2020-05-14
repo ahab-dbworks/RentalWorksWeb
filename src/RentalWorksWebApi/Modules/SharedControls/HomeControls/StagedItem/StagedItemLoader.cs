@@ -5,21 +5,31 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Reflection;
 using System.Data;
 using WebApi.Logic;
 
 namespace WebApi.Modules.HomeControls.StagedItem
 {
-    [FwSqlTable("masteritem")]
+    [FwSqlTable("dbo.funcstagingscanned(@orderid, @warehouseid)")]
     public class StagedItemLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public StagedItemLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
+        public string Rfid { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
@@ -63,7 +73,7 @@ namespace WebApi.Modules.HomeControls.StagedItem
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string RecTypeColor
         {
-            get { return determineRecTypeColor(RecType); }
+            get { return getRecTypeColor(RecType); }
             set { }
         }
         //------------------------------------------------------------------------------------ 
@@ -112,15 +122,22 @@ namespace WebApi.Modules.HomeControls.StagedItem
         [FwSqlDataField(column: "outuser", modeltype: FwDataTypes.Text)]
         public string StagedUser { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "subvendorid", modeltype: FwDataTypes.Text)]
         public string VendorId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "consignorid", modeltype: FwDataTypes.Text)]
+        public string ConsignorId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string VendorColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorColor
+        {
+            get { return getVendorColor(VendorId, ConsignorId); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text)]
         public string NestedOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -144,9 +161,17 @@ namespace WebApi.Modules.HomeControls.StagedItem
         [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
         public bool? Bold { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
+        public string ItemOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
         private string getICodeColor(string itemClass)
         {
             return AppFunc.GetItemClassICodeColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getVendorColor(string subVendorId, string consignorId)
+        {
+            return (!string.IsNullOrEmpty(subVendorId) ? RwGlobals.SUB_COLOR : (!string.IsNullOrEmpty(consignorId) ? RwGlobals.CONSIGNMENT_COLOR : null));
         }
         //------------------------------------------------------------------------------------ 
         private string getDescriptionColor(string itemClass)
@@ -154,50 +179,39 @@ namespace WebApi.Modules.HomeControls.StagedItem
             return AppFunc.GetItemClassDescriptionColor(itemClass);
         }
         //------------------------------------------------------------------------------------ 
-        private string determineRecTypeColor(string recType)
+        private string getRecTypeColor(string recType)
         {
             return AppFunc.GetInventoryRecTypeColor(recType);
         }
         //------------------------------------------------------------------------------------    
-        public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            useWithNoLock = false;
             string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
             string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
-            bool orderByItemOrder = false;
-            //bool summary = false; // hard-coded for now
-            if (request != null)
-            {
-                if (request.orderby.Equals("ItemOrder"))
-                {
-                    orderByItemOrder = true;
-                }
-            }
-
-            FwJsonDataTable dt = null;
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-            {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getstagedscanned2", this.AppConfig.DatabaseSettings.QueryTimeout))
-                {
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
-                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
-                    //qry.AddParameter("@summary", SqlDbType.NVarChar, ParameterDirection.Input, summary);
-                    if (orderByItemOrder)
-                    {
-                        qry.AddParameter("@orderby", SqlDbType.NVarChar, ParameterDirection.Input, "itemorder");
-                    }
-                    AddPropertiesAsQueryColumns(qry);
-                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
-                }
-            }
-
-            foreach (List<object> row in dt.Rows)
-            {
-                row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
-                row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
-                row[dt.GetColumnNo("RecTypeColor")] = determineRecTypeColor(row[dt.GetColumnNo("RecType")].ToString());
-            }
-            return dt;
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            select.AddParameter("@orderid", orderId);
+            select.AddParameter("@warehouseid", warehouseId);
         }
-        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("RecTypeColor")] = getRecTypeColor(row[dt.GetColumnNo("RecType")].ToString());
+                        row[dt.GetColumnNo("VendorColor")] = getVendorColor(row[dt.GetColumnNo("VendorId")].ToString(), row[dt.GetColumnNo("ConsignorId")].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }
