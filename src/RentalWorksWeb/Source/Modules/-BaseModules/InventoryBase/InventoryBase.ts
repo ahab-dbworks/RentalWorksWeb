@@ -251,12 +251,12 @@ abstract class InventoryBase {
                         availRequest.YearView = true;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
-                        FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
-                        const calendarevents = response.InventoryAvailabilityCalendarEvents;
+                        // FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
+                        const calendarEvents = response.InventoryAvailabilityCalendarEvents;
                         $control.data('reserveDates', response.Dates);                           // loading reservation data onto control for use in renderDatePopup()
-                        for (let i = 0; i < calendarevents.length; i++) {
-                            if (calendarevents[i].textColor !== 'rgb(0,0,0)') {
-                                calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
+                        for (let i = 0; i < calendarEvents.length; i++) {
+                            if (calendarEvents[i].textColor !== 'rgb(0,0,0)') {
+                                calendarEvents[i].html = `<div style="color:${calendarEvents[i].textColor};">${calendarEvents[i].text}</div>`
                             }
                         }
                         // Rates
@@ -264,7 +264,7 @@ abstract class InventoryBase {
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryDailyRate"]', response.InventoryData.InventoryWarehouse.DailyRate);
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryWeeklyRate"]', response.InventoryData.InventoryWarehouse.WeeklyRate);
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryMonthlyRate"]', response.InventoryData.InventoryWarehouse.MonthlyRate);
-                        FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarevents);
+                        FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarEvents);
 
                         if ($form.is('tr') || $form.data('fromQuikSearch')) {
                             $form = jQuery('#availabilityCalendarPopup');
