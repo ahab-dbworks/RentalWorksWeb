@@ -73,6 +73,7 @@ namespace WebApi.Modules.HomeControls.CompanyTaxOption
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             addFilterToSelect("CompanyId", "companyid", select, request);
+            addFilterToSelect("LocationId", "locationid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

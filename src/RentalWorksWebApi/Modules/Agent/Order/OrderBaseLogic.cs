@@ -20,6 +20,8 @@ using WebApi;
 using WebApi.Modules.Settings.OrderSettings.OrderType;
 using System.Reflection;
 using WebApi.Modules.Settings.DepartmentSettings.Department;
+using WebApi.Modules.HomeControls.CompanyTaxOption;
+using FwStandard.Models;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -1359,17 +1361,9 @@ namespace WebApi.Modules.Agent.Order
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
-
                 // load Deal here for use later in this method
                 DealLogic deal = null;
                 string dealId = DealId;
-                //if (string.IsNullOrEmpty(dealId))
-                //{
-                //    if ((e.SaveMode.Equals(TDataRecordSaveMode.smUpdate)) && (e.Original != null))
-                //    {
-                //        dealId = ((OrderBaseLogic)e.Original).DealId;
-                //    }
-                //}
                 if (!string.IsNullOrEmpty(dealId))
                 {
                     deal = new DealLogic();
@@ -1381,13 +1375,6 @@ namespace WebApi.Modules.Agent.Order
                 // load Department here for use later in this method
                 DepartmentLogic department = null;
                 string departmentId = DepartmentId;
-                //if (string.IsNullOrEmpty(departmentId))
-                //{
-                //    if ((e.SaveMode.Equals(TDataRecordSaveMode.smUpdate)) && (e.Original != null))
-                //    {
-                //        departmentId = ((OrderBaseLogic)e.Original).DepartmentId;
-                //    }
-                //}
                 if (!string.IsNullOrEmpty(departmentId))
                 {
                     department = new DepartmentLogic();
@@ -1415,6 +1402,42 @@ namespace WebApi.Modules.Agent.Order
                         }
                     }
                 }
+
+                if (string.IsNullOrEmpty(TaxOptionId))
+                {
+                    if (deal != null)
+                    {
+                        string companyId = string.Empty;
+                        if (deal.UseCustomerTax.GetValueOrDefault(false))
+                        {
+                            companyId = deal.CustomerId;
+                        }
+                        else
+                        {
+                            companyId = deal.DealId;
+                        }
+
+                        BrowseRequest companyTaxBrowseRequest = new BrowseRequest();
+                        companyTaxBrowseRequest.uniqueids = new Dictionary<string, object>();
+                        companyTaxBrowseRequest.uniqueids.Add("CompanyId", companyId);
+                        companyTaxBrowseRequest.uniqueids.Add("LocationId", OfficeLocationId);
+
+                        CompanyTaxOptionLogic companyTaxSelector = new CompanyTaxOptionLogic();
+                        companyTaxSelector.SetDependencies(AppConfig, UserSession);
+                        List<CompanyTaxOptionLogic> companyTax = companyTaxSelector.SelectAsync<CompanyTaxOptionLogic>(companyTaxBrowseRequest).Result;
+
+                        if (companyTax.Count > 0)
+                        {
+                            TaxOptionId = companyTax[0].TaxOptionId;
+                        }
+                    }
+                    if (string.IsNullOrEmpty(TaxOptionId))
+                    {
+                        TaxOptionId = AppFunc.GetLocationAsync(AppConfig, UserSession, OfficeLocationId, "taxoptionid", e.SqlConnection).Result;
+                    }
+
+                }
+
 
                 if (deal != null)
                 {
