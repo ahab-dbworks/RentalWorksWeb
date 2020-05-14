@@ -49,7 +49,7 @@ html.theme-material .fwtabs[data-version="2"] > .tabs .tab .modified {flex:1 0 a
 html.theme-material .fwtabs[data-version="2"] > .tabs .tab .delete {padding-top: 8px;}
 html.theme-material .fwtabs[data-version="2"] > .tabs .tab[data-enabled="false"] {opacity:0.5;cursor:default;}
 html.theme-material .fwtabs[data-version="2"] > .tabs .tab[data-tabdisplay="hidden"] {display:none;}
-html.theme-material .fwtabs[data-version="2"] > .tabpages {flex:1 1 0;overflow:hidden;}
+html.theme-material .fwtabs[data-version="2"] > .tabpages {flex:1 1 0;/*overflow:hidden;*/}
 html.theme-material .fwtabs[data-version="2"] > .tabpages .tabpage {/*background-color:#ffffff;box-shadow: 4px 0px 5px -3px rgba(0, 0, 0, 0.16);*/min-height: 100%;}
 /*#endregion data-version="2" */
 

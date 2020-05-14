@@ -19,7 +19,7 @@ html.theme-material .fwbrowse[data-type="Browse"] .pager .activeinactiveview {ma
 
 html.theme-material .fwbrowse[data-type="Grid"] .browsecaption {text-align:center;font-size:12px;line-height:24px;height:24px;vertical-align:middle;font-weight:bold;cursor:default;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
 html.theme-material .fwbrowse[data-type="Grid"][data-caption=""] .browsecaption {display:none;}
-html.theme-material .fwbrowse[data-type="Grid"] .gridmenu {background-color: #EFEFEF;}
+html.theme-material .fwbrowse[data-type="Grid"] .gridmenu { background-color: #EFEFEF; position: sticky; top: 0; z-index: 1; height: 2em; box-shadow: 0px 1px 0px 0 #bdbdbd}
 html.theme-material .fwbrowse[data-type="Grid"] tbody .browsecontextmenucell {background-color: #f5f5f5;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenu {cursor:pointer;width:24px;height:24px;padding:4px;border-left: 1px solid #e0e0e0;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenucell .fwcontextmenu {line-height:1;}
@@ -40,7 +40,8 @@ html.theme-material .fwbrowse table tbody input.cbselectrow:not(:checked) + labe
 html.theme-material .fwbrowse table input.cbselectrow:checked + label:before {top: 2px;left: 1px;width: 8px;height: 13px;border-top: 2px solid transparent;border-left: 2px solid transparent;border-right: 2px solid #fff;border-bottom: 2px solid #fff;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 100% 100%;transform-origin: 100% 100%;}
 html.theme-material .fwbrowse table input.cbselectrow:checked + label:after {top:0px;width: 20px;height: 20px;z-index: 0;border: 2px solid #4caf50; background-color: #4caf50;}
 
-html.theme-material .fwbrowse[data-type="Grid"] .pager {border-top: 1px solid #BDBDBD;background-color: #efefef;overflow: hidden; display:flex;}
+html.theme-material .fwbrowse[data-type="Grid"] .legend {position:sticky;bottom:2em;z-index:1;}
+html.theme-material .fwbrowse[data-type="Grid"] .pager {border-top: 1px solid #BDBDBD;background-color: #efefef;overflow: hidden; display:flex; position: sticky; bottom: 0; z-index: 1; height: 2em;}
 html.theme-material .fwbrowse[data-type="Grid"] .pager div.btnRefresh,
 html.theme-material .fwbrowse[data-type="Grid"] .pager div.btn-manualsort {cursor:pointer;float:left;height:24px;line-height:24px;padding:4px;}
 html.theme-material .fwbrowse[data-type="Grid"] .pager div.buttons {display:inline-block;}
@@ -307,7 +308,7 @@ html.theme-material .fwbrowse .field[data-browsedatatype="appdocumentimage"] .vi
 
 html.theme-material .fwbrowse table tbody td.flexgridspacer{width:26px;float:right;display:block !important;}
 html.theme-material .fwbrowse table tbody td.browsecontextmenucell{position:sticky;right:0px;}
-html.theme-material .fwbrowse table tbody td.tdselectrow{position:sticky;left:0px;z-index:1;}
+html.theme-material .fwbrowse table tbody td.tdselectrow{position:sticky;left:0px;/*z-index:1;*/}
 /********************
 Theme
 ********************/

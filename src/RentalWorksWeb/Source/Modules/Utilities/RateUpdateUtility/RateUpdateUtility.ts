@@ -348,6 +348,8 @@ class RateUpdateUtility {
             //$thead.find('td div[data-sharedcolumn]:odd').parents().remove();
             $grid.find('thead').prepend($thead);
         }
+
+        $grid.find('.gridmenu').css('height', '2.1em'); //work-around for missing bottom border on sticky menu
     }
     //----------------------------------------------------------------------------------------------
     printRateUpdateReport($form: any, batch?: any) {
