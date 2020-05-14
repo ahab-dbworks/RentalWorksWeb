@@ -87,7 +87,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         public string SerialNumber { get; set; }
         public BarCodeSerial(string barCode, string serialNumber)
         {
-            this.BarCode = BarCode;
+            this.BarCode = barCode;
             this.SerialNumber = serialNumber;
         }
     }
