@@ -9,7 +9,13 @@
         public FwJwtIssuerOptions JwtIssuerOptions { get; set; }
         public DebuggingConfig Debugging { get; set; } = new DebuggingConfig();
         public bool EnableAvailabilityService { get; set; } = true;
-        public string ApplicationPool { get; set; } = string.Empty;
+
+        public string ApplicationPool { get; set; } = string.Empty;  // this field is deprecated. But I am leaving the actual field here for a while to prevent errors on startup for sites that still have this value defined.
+        //the following fields are used by the System Update tool to determine where to apply the updates
+        public string ApiApplicationPool { get; set; } = string.Empty;  // (previously called "ApplicationPool")
+        public string WebApplicationPool { get; set; } = string.Empty;
+        public string ApiPath { get; set; } = string.Empty;
+        public string WebPath { get; set; } = string.Empty;
     }
 
     public class SqlServerConfig
