@@ -157,6 +157,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
     public class StagingApplySubstituteSessionRequest
     {
         public string SessionId { get; set; }
+        public int? Quantity { get; set; } 
     }
     public class StagingApplySubstituteSessionResponse : TSpStatusResponse
     {
@@ -623,7 +624,26 @@ namespace WebApi.Modules.Warehouse.CheckOut
         {
             StagingApplySubstituteSessionResponse response = new StagingApplySubstituteSessionResponse();
 
-            // perform the substitution
+            if (string.IsNullOrEmpty(request.SessionId))
+            {
+                response.msg = "SessionId is required.";
+            }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "applystagesubstitutesession", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
+                    qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
+                }
+            }
 
             return response;
         }
