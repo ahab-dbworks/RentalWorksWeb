@@ -191,16 +191,21 @@
         const homePage: any = {};
         homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
         homePage.path = FwFormField.getValueByDataField($form, 'HomeMenuPath');
+        sessionStorage.setItem('homePage', JSON.stringify(homePage));
 
         const sounds: any = {};
         sounds.successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
         sounds.errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
         sounds.notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName');
+        sessionStorage.setItem('sounds', JSON.stringify(sounds));
+
+        //FirstDayOfWeek set to sessionStorage
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        userid.firstdayofweek = +FwFormField.getValueByDataField($form, 'FirstDayOfWeek');
+        sessionStorage.setItem('userid', JSON.stringify(userid));
 
         sessionStorage.setItem('browsedefaultrows', FwFormField.getValueByDataField($form, 'BrowseDefaultRows'));
         sessionStorage.setItem('applicationtheme', FwFormField.getValueByDataField($form, 'ApplicationTheme'));
-        sessionStorage.setItem('sounds', JSON.stringify(sounds));
-        sessionStorage.setItem('homePage', JSON.stringify(homePage));
         sessionStorage.setItem('favorites', FwFormField.getValueByDataField($form, 'FavoritesJson'));
 
         //remove unchecked modules

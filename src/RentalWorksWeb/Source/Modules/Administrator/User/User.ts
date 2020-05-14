@@ -194,6 +194,11 @@ class User {
             $form.find('[data-datafield="WarehouseId"] input.fwformfield-text').val('');
         });
 
+        //FirstDayOfWeek set to sessionStorage
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        userid.firstdayofweek = +FwFormField.getValueByDataField($form, 'FirstDayOfWeek');
+        sessionStorage.setItem('userid', JSON.stringify(userid));
+
         //setFormProperties = function ($form) {
         //    var $cbSecurityExpirePassword, $txtSecurityExpire, $cbNetExpirePassword, $txtNetExpire;
 

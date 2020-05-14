@@ -392,10 +392,11 @@ class FwSchedulerClass {
         navcalendar.showMonths = 2;
         navcalendar.skipMonths = 2;
         navcalendar.selectMode = "day";
-        if (navigator.language !== 'en-US') {
-            navcalendar.weekStarts = 1;
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid.firstdayofweek) {
+            navcalendar.weekStarts = userid.firstdayofweek;
         } else {
-            navcalendar.weekStarts = 1;
+            navcalendar.weekStarts = 0;
         }
         navcalendar.onTimeRangeSelected = function (args) {
             try {
@@ -419,10 +420,11 @@ class FwSchedulerClass {
         nav5week.showMonths = 3;
         nav5week.skipMonths = 3;
         nav5week.selectMode = "month";
-        if (navigator.language !== 'en-US') {
-            nav5week.weekStarts = 1;
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid.firstdayofweek) {
+            nav5week.weekStarts = userid.firstdayofweek;
         } else {
-            nav5week.weekStarts = 1;
+            nav5week.weekStarts = 0;
         }
         nav5week.onTimeRangeSelected = function (args) {
             try {
@@ -446,10 +448,11 @@ class FwSchedulerClass {
         navmonth.showMonths = 3;
         navmonth.skipMonths = 3;
         navmonth.selectMode = "month";
-        if (navigator.language !== 'en-US') {
-            navmonth.weekStarts = 1;
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid.firstdayofweek) {
+            navmonth.weekStarts = userid.firstdayofweek;
         } else {
-            navmonth.weekStarts = 1;
+            navmonth.weekStarts = 0;
         }
         navmonth.onTimeRangeSelected = function (args) {
             try {
@@ -519,10 +522,11 @@ class FwSchedulerClass {
         dpcalendar.eventMoveHandling = 'Disabled';
         dpcalendar.eventResizeHandling = 'Disabled';
         dpcalendar.heightSpec = 'Full';
-        if (navigator.language !== 'en-US') {
-            dpcalendar.weekStarts = 1;
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid.firstdayofweek) {
+            dpcalendar.weekStarts = userid.firstdayofweek;
         } else {
-            dpcalendar.weekStarts = 1;
+            dpcalendar.weekStarts = 0;
         }
         dpcalendar.businessBeginsHour = 0;
         dpcalendar.businessEndsHour = 11;
@@ -551,10 +555,11 @@ class FwSchedulerClass {
         dpmonth.eventHeight = 25;
         dpmonth.headerHeight = 25;
         dpmonth.rowHeaderWidth = 200;
-        if (navigator.language !== 'en-US') {
-            dpmonth.weekStarts = 1;
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid.firstdayofweek) {
+            dpmonth.weekStarts = userid.firstdayofweek;
         } else {
-            dpmonth.weekStarts = 1;
+            dpmonth.weekStarts = 0;
         }
         dpmonth.eventClickHandling = 'Enabled';
         dpmonth.eventMoveHandling = 'Disabled';
@@ -616,11 +621,12 @@ class FwSchedulerClass {
         dp5week.eventHeight = 25;
         dp5week.headerHeight = 25;
         dp5week.rowHeaderWidth = 200;
-        if (navigator.language !== 'en-US') {
-            dp5week.weekStarts = 1;
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid.firstdayofweek) {
+            dp5week.weekStarts = userid.firstdayofweek;
         } else {
-            dp5week.weekStarts = 1;
-        };
+            dp5week.weekStarts = 0;
+        }
         dp5week.eventClickHandling = 'Enabled';
         dp5week.eventMoveHandling = 'Disabled';
         dp5week.eventResizeHandling = 'Disabled';
