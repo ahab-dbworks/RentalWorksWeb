@@ -1497,7 +1497,7 @@ class Deal {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Option">
                         <div class="flexrow">
                           <!-- <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield tax_use_customer" data-caption="Default Tax" data-datafield="UseCustomerTax"></div> -->
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield tax_use_customer" data-caption="Use Customer Option" data-datafield="UseCustomerTax" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield tax_use_customer" data-caption="Use Customer Tax" data-datafield="UseCustomerTax" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Taxable"></div>
