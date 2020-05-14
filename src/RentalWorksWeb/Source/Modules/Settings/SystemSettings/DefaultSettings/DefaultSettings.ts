@@ -50,6 +50,12 @@ class DefaultSettings {
             FwFormField.disable($form.find('.ifnew'))
         }
 
+        //PO Type Toggle Buttons
+        FwFormField.loadItems($form.find('div[data-datafield="DefaultDealPoType"]'), [
+            { value: 'H', caption: 'Hardcopy', checked: true },
+            { value: 'V', caption: 'Verbal' }
+        ]);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------

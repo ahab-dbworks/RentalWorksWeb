@@ -28,6 +28,12 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
         [FwSqlDataField(column: "dealstatus", modeltype: FwDataTypes.Text)]
         public string DefaultDealStatus { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdealporeq", modeltype: FwDataTypes.Boolean)]
+        public bool? DefaultDealPoRequired { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdealpotype", modeltype: FwDataTypes.Text)]
+        public string DefaultDealPoType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "custstatusid", modeltype: FwDataTypes.Text)]
         public string DefaultCustomerStatusId { get; set; }
         //------------------------------------------------------------------------------------ 

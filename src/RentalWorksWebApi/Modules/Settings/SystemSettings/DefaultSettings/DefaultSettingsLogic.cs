@@ -52,6 +52,12 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
         [FwLogicProperty(Id: "ElfammamFsZh2", IsReadOnly: true)]
         public string DefaultDealBillingCycle { get; set; }
 
+        [FwLogicProperty(Id: "5wmuV1aELVeLG")]
+        public bool? DefaultDealPoRequired { get { return sysControl.DefaultDealPoRequired; } set { sysControl.DefaultDealPoRequired = value; } }
+
+        [FwLogicProperty(Id: "72tjgha0n1Tpj", IsReadOnly: true)]
+        public string DefaultDealPoType { get { return sysControl.DefaultDealPoType; } set { sysControl.DefaultDealPoType = value; } }
+
         [FwLogicProperty(Id: "Y1czh8RoYET0V")]
         public string DefaultNonRecurringBillingCycleId { get { return sysControl.DefaultNonRecurringBillingCycleId; } set { sysControl.DefaultNonRecurringBillingCycleId = value; } }
 

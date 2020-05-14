@@ -7,17 +7,41 @@
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
-          <div class="flexrow" style="width:650px;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Defaults">
+          <div class="flexrow" style="width:850px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Customer, Deal, Quote, Order">
               <div class="flexrow">
-                <div class="flexcolumn" style="flex:1 1 650px;">
+                <div class="flexcolumn" style="flex:1 1 850px;">
                   <div class="flexrow">
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default Customer Status" data-datafield="DefaultCustomerStatusId" data-displayfield="DefaultCustomerStatus" data-validationname="CustomerStatusValidation" style="flex:0 1 200px;"></div>
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default Deal Status" data-datafield="DefaultDealStatusId" data-displayfield="DefaultDealStatus" data-validationname="DealStatusValidation" style="flex:0 1 200px;"></div>
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default Deal Billing Cycle" data-datafield="DefaultDealBillingCycleId" data-displayfield="DefaultDealBillingCycle" data-validationname="BillingCycleValidation" style="flex:0 1 200px;"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default Non-Recurring Billing Cycle" data-datafield="DefaultNonRecurringBillingCycleId" data-displayfield="DefaultNonRecurringBillingCycle" data-validationname="BillingCycleValidation" style="flex:0 1 200px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flexrow" style="width:250px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Deal">
+              <div class="flexrow">
+                <div class="flexcolumn" style="flex:1 1 250px;">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Default Deal PO Required" data-datafield="DefaultDealPoRequired" style="flex:1 1 100px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield billing_potype" data-caption="PO Type" data-datafield="DefaultDealPoType"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flexrow" style="width:450px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Inventory">
+              <div class="flexrow">
+                <div class="flexcolumn" style="flex:1 1 450px;">
+                  <div class="flexrow">
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default Inventory Unit" data-datafield="DefaultUnitId" data-displayfield="DefaultUnit" data-validationname="UnitValidation" style="flex:0 1 200px;"></div>
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default Inventory Rank" data-datafield="DefaultRank" data-displayfield="DefaultRank" data-validationname="RankValidation" style="flex:0 1 200px;"></div>
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default Non-Recurring Billing Cycle" data-datafield="DefaultNonRecurringBillingCycleId" data-displayfield="DefaultNonRecurringBillingCycle" data-validationname="BillingCycleValidation" style="flex:0 1 200px;"></div>
                   </div>
                 </div>
               </div>

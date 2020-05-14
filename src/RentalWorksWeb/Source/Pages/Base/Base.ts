@@ -321,6 +321,8 @@ class Base {
                                                 , defaultcustomerstatus: responseGetDefaultSettings.DefaultCustomerStatus
                                                 , defaultdealbillingcycleid: responseGetDefaultSettings.DefaultDealBillingCycleId
                                                 , defaultdealbillingcycle: responseGetDefaultSettings.DefaultDealBillingCycle
+                                                , defaultdealporequired: responseGetDefaultSettings.DefaultDealPoRequired
+                                                , defaultdealpotype: responseGetDefaultSettings.DefaultDealPoType
                                                 , defaultunitid: responseGetDefaultSettings.DefaultUnitId
                                                 , defaultunit: responseGetDefaultSettings.DefaultUnit
                                                 , defaultrank: responseGetDefaultSettings.DefaultRank

@@ -121,6 +121,8 @@ class Deal {
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', officeLocation.locationid, officeLocation.location);
             FwFormField.setValue($form, 'div[data-datafield="DealStatusId"]', dealDefaults.defaultdealstatusid, dealDefaults.defaultdealstatus);
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', dealDefaults.defaultdealbillingcycleid, dealDefaults.defaultdealbillingcycle);
+            FwFormField.setValue($form, 'div[data-datafield="PoRequired"]', dealDefaults.defaultdealporequired);
+            FwFormField.setValue($form, 'div[data-datafield="PoType"]', dealDefaults.defaultdealpotype);
             FwFormField.setValueByDataField($form, 'DefaultRate', officeLocation.ratetype, officeLocation.ratetype);
         }
 
