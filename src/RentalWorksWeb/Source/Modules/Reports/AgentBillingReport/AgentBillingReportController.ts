@@ -81,6 +81,7 @@ class AgentBillingReport extends FwWebApiReport {
     constructor() {
         super('AgentBillingReport', 'api/v1/agentbillingreport', agentBillingTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
