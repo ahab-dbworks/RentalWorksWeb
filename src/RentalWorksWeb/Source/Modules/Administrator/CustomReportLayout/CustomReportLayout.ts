@@ -644,7 +644,7 @@ class CustomReportLayout {
                         if (rowType == 'detail' || rowType == 'footer') {
                             const $td = $row.find(`[data-value="<!--{{${oldNewFields.oldfield}}}-->"]`);
                             $td.attr('data-value', `<!--{{${oldNewFields.newfield}}}-->`);
-                            jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).find(`[data-value="{{${oldNewFields.oldfield}}}"]`)
+                            jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]).find(`[data-value="{{${oldNewFields.oldfield}}}"]`)
                                 .attr('data-value', `{{${oldNewFields.newfield}}}`);
 
                             if (rowType == 'footer') {
@@ -664,14 +664,14 @@ class CustomReportLayout {
                         const $row = jQuery($rows[i]);
                         const rowType = $row.attr('data-row');
                         if (rowType == 'detail') {
-                            const $td = jQuery(`<td data-value="<!--{{${valueField}}}-->"></td>`);
+                            const $td = jQuery(`<td data-linkedcolumn="${valueField}" data-value="<!--{{${valueField}}}-->"></td>`);
                             $row.append($td);  //add to row in wrapper (memory)
-                            $table.find(`${rowSelector}[data-row="${rowType}"]`).append(`<td data-linkedcolumn="${valueField}" data-value="{{${valueField}}}"></td>`); //add to row on designer
+                            $table.find(`tbody tr[data-row="${rowType}"]`).append(`<td data-linkedcolumn="${valueField}" data-value="{{${valueField}}}"></td>`); //add to row on designer
                         } else if (rowType == 'header') {
-                            const $designerTableRow = jQuery($table.find(`${rowSelector}`)[i]);
+                            const $designerTableRow = jQuery($table.find(`tbody tr`)[i]);
                             this.matchColumnCount($form, $table, $row, $designerTableRow);
                         } else if (rowType == 'footer') {
-                            jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]).append(`<td class="empty-td" data-linkedcolumn="${valueField}"></td>`); //add to row on designer
+                            jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]).append(`<td class="empty-td" data-linkedcolumn="${valueField}"></td>`); //add to row on designer
                             $row.append(jQuery(`<td class="empty-td" data-linkedcolumn="${valueField}"></td>`));
                             footerCount++;
                         }
@@ -681,24 +681,46 @@ class CustomReportLayout {
 
                 //delete
                 if (typeof $form.data('deletefield') != 'undefined') {
-                    const valuefield = $form.data('deletefield').field;
+                    const valueField = $form.data('deletefield').valuefield;
+                    const linkedColumn = $form.data('deletefield').linkedcolumn;
+                    let footerCount = 0;
                     for (let i = 0; i < $rows.length; i++) {
                         const $row = jQuery($rows[i]);
-                        const $td = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
-                        const tdIsInRow = $td.length;
-                        if (tdIsInRow) {
-                            const rowType = $row.attr('data-row');
-                            $td.remove();
-                            $table.find(`${rowSelector}[data-row="${rowType}"] [data-value="{{${valuefield}}}"]`).remove();
-                        } else {
-                            //if it doesn't exist in this row, then total colspan needs to be reduced to match the TotalColumnCount
-                            const $designerTableRow = jQuery($table.find(`${rowSelector}`)[i]);
-                            this.matchColumnCount($form, $table, $row, $designerTableRow);
+                        const rowType = $row.attr('data-row');
+                        const $designerRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]);
+                        if (rowType == 'detail') {
+                            $row.find(`[data-value="<!--{{${valueField}}}-->"]`).remove();
+                            $designerRow.find(`[data-value="{{${valueField}}}"]`).remove();
+                        } else if (rowType == 'footer') {
+                            const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                            const $td = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                            if ($designerTd.length) {
+                                $designerTd.remove();
+                                $td.remove();
+                            } else {
+                                const colspan = parseInt(jQuery($designerRow.find('.total-name')).attr('colspan'));
+                                jQuery($row.find('.total-name')).attr('colspan', colspan - 1);
+                                jQuery($designerRow.find('.total-name')).attr('colspan', colspan - 1);
+                            }
+                            footerCount++;
                         }
+
+                        //const tdIsInRow = $td.length;
+                        //if (tdIsInRow) {
+                        //    const rowType = $row.attr('data-row');
+                        //    $td.remove();
+                        //    $table.find(`tbody tr[data-row="${rowType}"] [data-value="{{${valueField}}}"]`).remove();
+                        //} else {
+                        //    //if it doesn't exist in this row, then total colspan needs to be reduced to match the TotalColumnCount
+                        //    const $designerTableRow = jQuery($table.find('tbody tr')[i]);
+                        //    this.matchColumnCount($form, $table, $row, $designerTableRow);
+                        //}
                     }
                     $form.removeData('deletefield');
                 }
+
                 $wrapper.find(`${tableNameSelector} #columnHeader tr`).html(newHTML);                     //replace old headers
+
             } else if (sectionToUpdate == 'headerrow') {
                 const valuefield = $tr.attr('data-valuefield');
                 const $column = $wrapper.find(`table[data-tablename="${tableName}"] .header-row[data-valuefield="${valuefield}"]`);
@@ -787,14 +809,15 @@ class CustomReportLayout {
         //delete table header column
         $form.on('click', '.delete-column', e => {
             if (typeof $column != 'undefined') {
-                const valuefield = jQuery($column).attr('data-valuefield');
+                const valueField = jQuery($column).attr('data-valuefield');
+                const linkedColumn = jQuery($column).attr('data-linkedcolumn');
                 const colspan = parseInt(jQuery($column).attr('colspan')) || 1;
                 $column.remove();
                 let totalColumnCount = $table.data('totalcolumncount');
                 $table.data('totalcolumncount', totalColumnCount -= colspan);
                 $form.data('sectiontoupdate', 'tableheader');
-                if (typeof valuefield != 'undefined') {
-                    $form.data('deletefield', { 'field': valuefield, 'tdcolspan': colspan });
+                if (typeof valueField != 'undefined') {
+                    $form.data('deletefield', { valuefield: valueField, linkedcolumn: linkedColumn, tdcolspan: colspan });
                 }
                 this.updateHTML($form, $table, $table.find('#columnHeader tr'));
             }
@@ -923,8 +946,8 @@ class CustomReportLayout {
             const $th = jQuery($ths[i]);
             const linkedColumn = $th.attr('data-valuefield');
             $th.attr('data-linkedcolumn', linkedColumn);
-            $table.find(`[data-value="{{${linkedColumn}}}"]`)
-                .attr('data-linkedcolumn', linkedColumn);
+            $table.find(`[data-value="{{${linkedColumn}}}"]`)                                   //05-14-20 consider adding linkedcolumns as new required attribute on templates
+                .attr('data-linkedcolumn', linkedColumn);                                       //for cases where users add a new column and set the value field identical to an existing column
         }
     }
     //----------------------------------------------------------------------------------------------
