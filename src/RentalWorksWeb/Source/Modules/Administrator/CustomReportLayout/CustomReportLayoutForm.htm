@@ -20,15 +20,18 @@
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Active" data-datafield="Active" style="flex:1 1 0;"></div>
           </div>
           <div class="wideflexrow">
-            <div class="flexcolumn" style="max-width:60vw;">
+            <div class="flexcolumn" style="max-width:65vw;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Designer">
-                <div id="reportDesigner" style="overflow:auto;"></div>
+                <div id="reportDesigner"></div>
               </div>
             </div>
             <div class="flexcolumn" style="max-width:20vw; max-height:800px; overflow:auto;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Properties">
-                <div style="text-align:center; margin:1em;">
-                  <div class="fwformcontrol addColumn" data-type="button" style="display:none;">Add New Column</div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Table" data-datafield="TableName" style="flex:1 1 0;"></div>
+                  <div style="text-align:center; margin:1em;">
+                    <div class="fwformcontrol addColumn" data-type="button" style="display:none;">Add New Column</div>
+                  </div>
                 </div>
                 <div id="controlProperties" style="display:none;">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Caption" data-allcaps="false" data-datafield="CaptionField" style="flex:1 1 0;"></div>

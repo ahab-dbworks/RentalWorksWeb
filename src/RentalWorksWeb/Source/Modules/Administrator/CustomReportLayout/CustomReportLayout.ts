@@ -6,7 +6,6 @@ class CustomReportLayout {
     id: string = Constants.Modules.Administrator.children.CustomReportLayout.id;
     codeMirror: any;
     html: string;
-    TotalColumnCount = 0;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
@@ -321,21 +320,23 @@ class CustomReportLayout {
     //----------------------------------------------------------------------------------------------
     renderTab($form, tabName: string) {
         //designer notes - jason hoang 05/12/2020
-        //- currently supports ONE table within report HTML
         //- everything outside of the table element is ignored
         //
         //- important attributes - 
-        //  - THEAD with id = "columnHeader"                       //we could probably take the id out if there is only one thead within the table
-        //      - TH data-valuefields should match with the tds.   //this value will be used for linking columns together with the data-linkedcolumn attribute.
-        //                                                         //when the valuefield is changed, the linkedcolumn remains the same to keep track of which tds we need to move. 
-        //  - TBODY
+        //  - TABLE - 
+        //      - data-tablename attribute for reports with multiple tables
+        //  - THEAD -
+        //      - id = "columnHeader"                                       //we could probably take the id out if there is only one thead within the table
+        //      - TH data-valuefields should match with the tds.            //this value will be used for linking columns together with the data-linkedcolumn attribute.
+        //                                                                  //when the valuefield is changed, the linkedcolumn remains the same to keep track of which tds we need to move. 
+        //  - TBODY -
         //      -- TRs need the data-row attribute 
-        //      -- values: ['header', 'detail', 'footer'].                //multiple header and footer rows, one detail row.
-        //      -- FOOTER rows need one td with the 'total-name' class.   //the colspan should be correct based on total colspan of THs in the THEAD
+        //      -- values: ['header', 'detail', 'footer'].                  //multiple header and footer rows, one detail row.
+        //      -- FOOTER rows need one td with the 'total-name' class.     //the colspan should be correct based on total colspan of THs in the THEAD
         //
         //
         //- basic table structure -
-        //<table>
+        //<table data-tablename="Example Table 1">
         //  <thead id="columnHeader">
         //      <tr> 
         //        <th data-valuefield="ExampleField">Example Field Caption</th>
@@ -361,56 +362,76 @@ class CustomReportLayout {
         //      ..
         //  </tbody>
         //</table>
+        //<table data-tablename="Example Table 2">
+        //</table>
+        //..
 
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
         this.html = FwFormField.getValueByDataField($form, 'Html');
 
         const designerProvisioned = $form.find('[data-datafield="BaseReport"] :selected').attr('data-designer');
         if (designerProvisioned == 'true') {
-            const $table = jQuery(this.html).find('table');
-            $form.find(`#reportDesigner`).empty().append($table);
+            let $tables = jQuery(this.html).find('table');
+            let tableList: any = [];
+            $form.find(`#reportDesigner`).empty();
 
-            //create sortable for headers
-            Sortable.create($table.find('#columnHeader tr').get(0), {
-                onStart: e => {
-                    $table.find('tbody td[data-linkedcolumn]').removeClass('highlight-cells');
-                    const linkedColumnName = jQuery(e.item).attr('data-linkedcolumn');
-                    $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight-cells');
-                },
-                onEnd: e => {
-                    const $th = jQuery(e.item);
-                    $th.removeAttr('draggable');
-                    const linkedColumnName = $th.attr('data-linkedcolumn');
+            for (let i = 0; i < $tables.length; i++) {
+                const $table = jQuery($tables[i]);
+                const tableName = $table.attr('data-tablename') || 'Default';
+                const selected = i === 0 ? true : false;
+                const $wrapper = jQuery(`<div class="table-wrapper ${selected ? 'selected' : ''}" data-tablename="${tableName}"><span>Table: ${tableName}</span></div>`);
+                $form.find(`#reportDesigner`).append($wrapper.append($table));
 
-                    const $tr = jQuery(e.currentTarget);
-                    $form.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
-                    $form.data('sectiontoupdate', 'tableheader');
-                    this.updateHTML($form, $tr, $th);
+                let totalColumnCount = this.getTotalColumnCount($table, true);
+                $table.data('totalcolumncount', totalColumnCount);
 
-                    $form.attr('data-modified', 'true');
-                    $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-                    $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).removeClass('highlight-cells').addClass('highlight-cells');
-                }
-            });
-            this.linkColumns($form, $table);
-            this.designerEvents($form, $table);
+                tableList.push({ value: tableName, text: tableName, selected: selected });
+                //create sortable for headers
+                Sortable.create($table.find('#columnHeader tr').get(0), {
+                    onStart: e => {
+                        $table.find('tbody td[data-linkedcolumn]').removeClass('highlight-cells');
+                        const linkedColumnName = jQuery(e.item).attr('data-linkedcolumn');
+                        $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight-cells');
+                    },
+                    onEnd: e => {
+                        const $th = jQuery(e.item);
+                        $th.removeAttr('draggable');
+                        const linkedColumnName = $th.attr('data-linkedcolumn');
+
+                        const $tr = jQuery(e.currentTarget);
+                        $form.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
+                        $form.data('sectiontoupdate', 'tableheader');
+                        this.updateHTML($form, $table, $tr, $th);
+
+                        $form.attr('data-modified', 'true');
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                        $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).removeClass('highlight-cells').addClass('highlight-cells');
+                    }
+                });
+                this.linkColumns($form, $table);
+            }
+            FwFormField.loadItems($form.find('[data-datafield="TableName"]'), tableList);
+            this.designerEvents($form);
         } else {
             $form.find('.addColumn').hide();
+            $form.find('[data-datafield="TableName"]').hide();
             $form.find('#controlProperties').hide();
             $form.find(`#reportDesigner`).empty().append(`<div>This report is not currently Designer-provisioned.  Please use the HTML tab to make changes.</div>`);
         }
     }
     //----------------------------------------------------------------------------------------------
-    updateHTML($form: JQuery, $tr: JQuery, $th?) {
+    updateHTML($form: JQuery, $table: JQuery, $tr: JQuery, $th?) {
         const sectionToUpdate = $form.data('sectiontoupdate');
+        const tableName = $table.attr('data-tablename') || '';
+        let tableNameSelector = tableName == '' ? '' : `table[data-tablename="${tableName}"]`;
         if (typeof sectionToUpdate != 'undefined' && typeof sectionToUpdate == 'string') {
             const $wrapper = jQuery('<div class="custom-report-wrapper"></div>');
-            const $table = $form.find('#reportDesigner table');
+            const totalColumnCount = $table.data('totalcolumncount');
             this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser 
             $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
             const newHTML = $tr.get(0).innerHTML.trim();
             if (sectionToUpdate == 'tableheader') {
-                const rowSelector = 'tbody tr';
+                const rowSelector = `${tableNameSelector} tbody tr`;
                 const $rows = $wrapper.find(rowSelector);
 
                 //move columns to match column order in the header
@@ -425,7 +446,7 @@ class CustomReportLayout {
                         for (let i = 0; i < $rows.length; i++) {
                             const $row = jQuery($rows[i]);
                             const rowType = $row.attr('data-row');
-                            const $designerRow = jQuery($table.find(`${rowSelector}[data-row="${rowType}"]`)[footerCount]);
+                            const $designerRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]);
                             let $designerTds = $designerRow.find('td');
                             const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
                             let $tds = $row.find('td');
@@ -442,7 +463,7 @@ class CustomReportLayout {
                                             $designerTd.insertBefore($designerTds[newIndex]);
                                         }
                                     } else {
-                                        if ((newIndex + 1) == this.TotalColumnCount) {
+                                        if ((newIndex + 1) == totalColumnCount) {
                                             $movedTd.insertAfter($tds[newIndex]);
                                             $designerTd.insertAfter($designerTds[newIndex]);
                                         } else {
@@ -452,7 +473,7 @@ class CustomReportLayout {
                                     }
                                 }
                             } else if (rowType == 'footer') {
-                                const totalNameColSpan = parseInt($designerTds.filter('.total-name').attr('colspan'));
+                                const totalNameColSpan = parseInt($designerTds.filter('.total-name').attr('colspan')) || 1;
                                 const totalNameIndex = $designerTds.filter('.total-name').index();
                                 const endTotalNameColumnIndex = totalNameIndex + (totalNameColSpan - 1);
                                 if ($designerTd.length) {
@@ -677,16 +698,16 @@ class CustomReportLayout {
                     }
                     $form.removeData('deletefield');
                 }
-                $wrapper.find('table #columnHeader tr').html(newHTML);                     //replace old headers
+                $wrapper.find(`${tableNameSelector} #columnHeader tr`).html(newHTML);                     //replace old headers
             } else if (sectionToUpdate == 'headerrow') {
                 const valuefield = $tr.attr('data-valuefield');
-                const $column = $wrapper.find(`table .header-row[data-valuefield="${valuefield}"]`);
+                const $column = $wrapper.find(`table[data-tablename="${tableName}"] .header-row[data-valuefield="${valuefield}"]`);
                 if ($column.length) {
                     $column.html(newHTML);
                 }
             } else if (sectionToUpdate == 'footerrow') {
                 const valuefield = $tr.attr('data-valuefield');
-                const $column = $wrapper.find(`table .total-name[data-valuefield="${valuefield}"]`);
+                const $column = $wrapper.find(`${tableNameSelector} .total-name[data-valuefield="${valuefield}"]`);
                 if ($column.length) {
                     $column.html(newHTML);
                 }
@@ -700,34 +721,25 @@ class CustomReportLayout {
         }
     }
     //----------------------------------------------------------------------------------------------
-    designerEvents($form: JQuery, $table: JQuery) {
-        this.TotalColumnCount = this.getTotalColumnCount($table, true);
-        const $addColumn = $form.find('.addColumn');
-        $addColumn.show();
+    designerEvents($form: JQuery) {
+        let $table = $form.find('.table-wrapper.selected table');
         let $column;
         let newColumnNumber = 1;
+        const $addColumn = $form.find('.addColumn');
+        $addColumn.show();
+        $form.find('[data-datafield="TableName"]').show();
 
-        //add header column
-        $addColumn.off().on('click', e => {
-            $column = jQuery(`<th data-linkedcolumn="NewColumn${newColumnNumber}" data-valuefield="NewColumn${newColumnNumber}">New Column</th>`);
-            $table.find('#columnHeader tr').append($column);
-            this.setControlValues($form, $column);
-            $column.data('newcolumn', true);
-            this.TotalColumnCount++;
-            $form.data('sectiontoupdate', 'tableheader');
-            $form.data('addcolumn', { newcolumnnumber: newColumnNumber, tdcolspan: 1 });
-            this.updateHTML($form, $table.find('#columnHeader tr'));
-            newColumnNumber++;
+        $form.on('change', '[data-datafield="TableName"]', e => {
+            const tableName = FwFormField.getValueByDataField($form, 'TableName');
+            $form.find('#reportDesigner .table-wrapper').removeClass('selected');
+            $form.find(`#reportDesigner .table-wrapper[data-tablename="${tableName}"]`).addClass('selected');
+            $table = $form.find('.table-wrapper.selected table');
         });
 
-        $form.on('click', '#reportDesigner table thead#columnHeader tr th', e => {
-            $column = jQuery(e.currentTarget);
-            $form.data('sectiontoupdate', 'tableheader');
-            $form.find('#controlProperties').show();
-            this.setControlValues($form, $column);
-            const linkedColumn = $column.attr('data-linkedColumn');
-            $table.find('tbody td[data-linkedcolumn]').removeClass('highlight-cells');
-            $table.find(`tbody td[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight-cells');
+        $form.on('click', '#reportDesigner .table-wrapper', e => {
+            $table = $form.find('.table-wrapper.selected table');
+            const tableName = jQuery(e.currentTarget).attr('data-tablename');
+            FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
         });
 
         //control properties events
@@ -752,19 +764,24 @@ class CustomReportLayout {
             }
             const section = $form.data('sectiontoupdate');
             if (section == 'tableheader') {
-                this.updateHTML($form, $table.find('#columnHeader tr'));
+                this.updateHTML($form, $table, $table.find('#columnHeader tr'));
             } else if (section == 'headerrow' || section == 'footerrow') {
-                this.updateHTML($form, $column);
+                this.updateHTML($form, $table, $column);
             }
         });
 
-        //hover over header fields
-        $form.find('#columnHeader tr th').hover(e => { //mouseenter
-            const valueFieldName = jQuery(e.currentTarget).attr('data-valuefield');
-            $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).addClass('hover-cell');
-        }, e => { // mouseleave
-            const valueFieldName = jQuery(e.currentTarget).attr('data-valuefield');
-            $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).removeClass('hover-cell');
+        //add header column
+        $addColumn.off().on('click', e => {
+            $column = jQuery(`<th data-linkedcolumn="NewColumn${newColumnNumber}" data-valuefield="NewColumn${newColumnNumber}">New Column</th>`);
+            $table.find('#columnHeader tr').append($column);
+            this.setControlValues($form, $column);
+            $column.data('newcolumn', true);
+            let totalColumnCount = $table.data('totalcolumncount')
+            $table.data('totalcolumncount', totalColumnCount++);
+            $form.data('sectiontoupdate', 'tableheader');
+            $form.data('addcolumn', { newcolumnnumber: newColumnNumber, tdcolspan: 1 });
+            this.updateHTML($form, $table, $table.find('#columnHeader tr'));
+            newColumnNumber++;
         });
 
         //delete table header column
@@ -773,14 +790,36 @@ class CustomReportLayout {
                 const valuefield = jQuery($column).attr('data-valuefield');
                 const colspan = parseInt(jQuery($column).attr('colspan')) || 1;
                 $column.remove();
-                this.TotalColumnCount -= colspan;
-
+                let totalColumnCount = $table.data('totalcolumncount');
+                $table.data('totalcolumncount', totalColumnCount -= colspan);
                 $form.data('sectiontoupdate', 'tableheader');
                 if (typeof valuefield != 'undefined') {
                     $form.data('deletefield', { 'field': valuefield, 'tdcolspan': colspan });
                 }
-                this.updateHTML($form, $table.find('#columnHeader tr'));
+                this.updateHTML($form, $table, $table.find('#columnHeader tr'));
             }
+        });
+
+        //hover over header fields
+        $form.find('#columnHeader tr th').hover(e => { //mouseenter
+            $table = jQuery(e.currentTarget).parents('table');
+            const valueFieldName = jQuery(e.currentTarget).attr('data-valuefield');
+            $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).addClass('hover-cell');
+        }, e => { // mouseleave
+            $table = jQuery(e.currentTarget).parents('table');
+            const valueFieldName = jQuery(e.currentTarget).attr('data-valuefield');
+            $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).removeClass('hover-cell');
+        });
+
+        $form.on('click', '#reportDesigner table thead#columnHeader tr th', e => {
+            $table = jQuery(e.currentTarget).parents('table');
+            $column = jQuery(e.currentTarget);
+            $form.data('sectiontoupdate', 'tableheader');
+            $form.find('#controlProperties').show();
+            this.setControlValues($form, $column);
+            const linkedColumn = $column.attr('data-linkedColumn');
+            $form.find('#reportDesigner tbody td[data-linkedcolumn]').removeClass('highlight-cells');
+            $table.find(`tbody td[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight-cells');
         });
 
         //header row
@@ -833,7 +872,8 @@ class CustomReportLayout {
     //----------------------------------------------------------------------------------------------
     matchColumnCount($form: JQuery, $table: JQuery, $row: JQuery, $designerTableRow: JQuery) {
         const rowColumnCount = this.getTotalColumnCount($table, false, $row);
-        if (rowColumnCount != this.TotalColumnCount) {
+        let totalColumnCount = $table.data('totalcolumncount');
+        if (rowColumnCount != totalColumnCount) {
             //need to decrease by tdColumnSpan
             const rowType = $row.attr('data-row');
             let colspanDelta = 0;
@@ -863,9 +903,9 @@ class CustomReportLayout {
             let colspan: any = $td.attr('colspan');
             if (typeof colspan != 'undefined') {
                 colspan = parseInt(colspan);
-                if (rowColumnCount > this.TotalColumnCount) {
+                if (rowColumnCount > totalColumnCount) {
                     colspan -= colspanDelta;
-                } else if (rowColumnCount < this.TotalColumnCount) {
+                } else if (rowColumnCount < totalColumnCount) {
                     colspan += colspanDelta;
                 }
 
