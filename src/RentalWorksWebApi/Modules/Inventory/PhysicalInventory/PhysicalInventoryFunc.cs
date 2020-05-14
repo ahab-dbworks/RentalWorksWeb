@@ -27,6 +27,12 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
     }
     public class PhysicalInventoryInitiateResponse : TSpStatusResponse { }
     //-------------------------------------------------------------------------------------------------------
+    public class PhysicalInventoryVoidRequest
+    {
+        public string PhysicalInventoryId { get; set; }
+    }
+    public class PhysicalInventoryVoidResponse : TSpStatusResponse { }
+    //-------------------------------------------------------------------------------------------------------
     public class PhysicalInventoryCountBarCodeRequest
     {
         public string PhysicalInventoryId { get; set; }
@@ -118,6 +124,31 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<PhysicalInventoryVoidResponse> Void(FwApplicationConfig appConfig, FwUserSession userSession, PhysicalInventoryVoidRequest request)
+        {
+            PhysicalInventoryVoidResponse response = new PhysicalInventoryVoidResponse();
+
+            PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+            l.SetDependencies(appConfig, userSession);
+            l.PhysicalInventoryId = request.PhysicalInventoryId;
+            await l.LoadAsync<PhysicalInventoryLogic>();
+            if ((l.Status.Equals(RwConstants.PHYSICAL_INVENTORY_STATUS_NEW)) || (l.Status.Equals(RwConstants.PHYSICAL_INVENTORY_STATUS_ACTIVE)))
+            {
+                PhysicalInventoryLogic l2 = new PhysicalInventoryLogic();
+                l2.SetDependencies(appConfig, userSession);
+                l2.PhysicalInventoryId = l.PhysicalInventoryId;
+                l2.Status = RwConstants.PHYSICAL_INVENTORY_STATUS_VOID;
+                await l2.SaveAsync(original: l);
+                response.success = true;
+            }
+            else
+            {
+                response.success = false;
+                response.msg = "Only NEW and ACTIVE Physical Inventories can be voided";
             }
             return response;
         }

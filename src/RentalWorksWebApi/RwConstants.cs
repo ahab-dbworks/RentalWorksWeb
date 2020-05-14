@@ -534,6 +534,7 @@ namespace WebApi
         //PHYSICAL INVENTORY
         public const string PHYSICAL_INVENTORY_STATUS_NEW = "NEW";
         public const string PHYSICAL_INVENTORY_STATUS_ACTIVE = "ACTIVE";
+        public const string PHYSICAL_INVENTORY_STATUS_VOID = "VOID";
 
 
         //BILLING CYCLE

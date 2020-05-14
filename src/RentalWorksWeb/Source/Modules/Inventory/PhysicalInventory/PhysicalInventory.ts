@@ -8,7 +8,16 @@
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasDelete = false;
         FwMenu.addBrowseMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, `Void`, `AWJmrEVgwYXSs`, (e: JQuery.ClickEvent) => {
+            try {
+                this.browseVoidPhysicalInventory(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
 
         //Location Filter
         const location = JSON.parse(sessionStorage.getItem('location'));
@@ -64,7 +73,7 @@
             FwFunc.showError(ex);
         }
 
-;
+        ;
         return $browse;
     }
     //---------------------------------------------------------------------------------------------
@@ -387,7 +396,7 @@
                 request.uniqueids = {
                     PhysicalInventoryId: FwFormField.getValueByDataField($form, 'PhysicalInventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
             }
@@ -429,6 +438,69 @@
         }
     }
     //---------------------------------------------------------------------------------------------
+    browseVoidPhysicalInventory($browse: JQuery) {
+        const physicalInventoryId: string = $browse.find('.selected [data-browsedatafield="PhysicalInventoryId"]').attr('data-originalvalue');
+        this.voidPhysicalInventory(physicalInventoryId, function onSuccess(response) { FwBrowse.databind($browse); });
+    }
+    //----------------------------------------------------------------------------------------------
+    voidPhysicalInventory(physicalInventoryId: string, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): void {
+        try {
+            if ((physicalInventoryId == null) || (physicalInventoryId == '') || (typeof physicalInventoryId === 'undefined')) {
+                FwNotification.renderNotification('WARNING', 'No Physical Inventory Selected');
+            } else {
+                const $confirmation = FwConfirmation.renderConfirmation('Void', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                const html: Array<string> = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Void Physical Inventory?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', makeVoid);
+
+                function makeVoid() {
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    $yes.text('Voiding...');
+                    $yes.off('click');
+                    const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                    const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
+                    let request = {
+                        PhysicalInventoryId: physicalInventoryId
+                    }
+                    FwAppData.apiMethod(true, 'POST', `api/v1/physicalinventory/void`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        if (response.success === true) {
+                            FwNotification.renderNotification('SUCCESS', 'Physical Inventory Successfully Voided');
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            if ((onVoidSuccess) && (typeof onVoidSuccess === 'function')) {
+                                onVoidSuccess(response);
+                            }
+                        } else {
+                            $yes.on('click', makeVoid);
+                            $yes.text('Void');
+                            FwFunc.showError(response.msg);
+                            FwFormField.enable($confirmation.find('.fwformfield'));
+                            FwFormField.enable($yes);
+                            if ((onVoidFailure) && (typeof onVoidFailure === 'function')) {
+                                onVoidFailure(response);
+                            }
+                        }
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $realConfirm);
+                }
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     //beforeValidateInventoryType($browse, $grid, request) {
     //    let validationName = request.module,
     //        recType = FwFormField.getValueByDataField($grid, 'RecType');
@@ -480,14 +552,15 @@
                 break;
             case 'SubCategoryId':
                 request.uniqueids = {
-                InventoryTypeId: inventoryTypeId,
-                CategoryId: categoryId,
-                RecType: recType
+                    InventoryTypeId: inventoryTypeId,
+                    CategoryId: categoryId,
+                    RecType: recType
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
         }
     }
+    //----------------------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------------------
 var PhysicalInventoryController = new PhysicalInventory();
