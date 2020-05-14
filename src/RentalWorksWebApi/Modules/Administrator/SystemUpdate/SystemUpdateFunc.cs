@@ -456,26 +456,48 @@ namespace WebApi.Modules.Administrator.SystemUpdate
 
             SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder(appConfig.DatabaseSettings.ConnectionString);
 
+            string apiApplicationPool = string.Empty;
+            string apiPath = string.Empty;
+            string webApplicationPool = string.Empty;
+            string webPath = string.Empty;
+
+            if (string.IsNullOrEmpty(appConfig.ApplicationPool))
+            {
+                //new way
+                apiApplicationPool = appConfig.ApiApplicationPool;
+                apiPath = appConfig.ApiPath;
+                webApplicationPool = appConfig.WebApplicationPool;
+                webPath = appConfig.WebPath;
+            }
+            else
+            {
+                //old way
+                apiApplicationPool = appConfig.ApplicationPool;
+                apiPath = GetCurrentApiApplicationPath();
+                webApplicationPool = GetCurrentWebApplicationPoolName(apiApplicationPool);
+                webPath = GetCurrentWebApplicationPath();
+            }
+
+
             await LogUpdateMessage(h, "updating from version: " + request.CurrentVersion);
             await LogUpdateMessage(h, "updating to version: " + request.ToVersion);
             await LogUpdateMessage(h, "sql server name: " + connectionStringBuilder.DataSource);
             await LogUpdateMessage(h, "database name: " + connectionStringBuilder.InitialCatalog);
-            await LogUpdateMessage(h, "api application pool: " + appConfig.ApplicationPool);
-            await LogUpdateMessage(h, "api installation path: " + GetCurrentApiApplicationPath());
-            await LogUpdateMessage(h, "web application pool: " + GetCurrentWebApplicationPoolName(appConfig.ApplicationPool));
-            await LogUpdateMessage(h, "web installation path: " + GetCurrentWebApplicationPath());
+            await LogUpdateMessage(h, "api application pool: " + apiApplicationPool);
+            await LogUpdateMessage(h, "api installation path: " + apiPath);
+            await LogUpdateMessage(h, "web application pool: " + webApplicationPool);
+            await LogUpdateMessage(h, "web installation path: " + webPath);
 
             UpdaterRequest updaterRequest = new UpdaterRequest();
             updaterRequest.ToVersion = request.ToVersion;
             updaterRequest.SQLServerName = connectionStringBuilder.DataSource;
             updaterRequest.DatabaseName = connectionStringBuilder.InitialCatalog;
-            updaterRequest.ApiApplicationPool = appConfig.ApplicationPool;
-            updaterRequest.ApiInstallPath = GetCurrentApiApplicationPath();
-            updaterRequest.WebApplicationPool = GetCurrentWebApplicationPoolName(appConfig.ApplicationPool);
-            updaterRequest.WebInstallPath = GetCurrentWebApplicationPath();
+            updaterRequest.ApiApplicationPool = apiApplicationPool;
+            updaterRequest.ApiInstallPath = apiPath;
+            updaterRequest.WebApplicationPool = webApplicationPool;
+            updaterRequest.WebInstallPath = webPath;
 
             string hotfixInstallerConnectionString = "Server=" + connectionStringBuilder.DataSource + ";Database=" + connectionStringBuilder.InitialCatalog + ";User Id=dbworks;Password=db2424;";  // user/pass hard-coded for now
-
 
             await LogUpdateMessage(h, "about to determine local IP address");
             string localIp = GetMyLocalIPAddress();
