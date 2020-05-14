@@ -252,7 +252,7 @@ abstract class InventoryBase {
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
                         // FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
-                        const calendarEvents = response.InventoryAvailabilityCalendarEvents;
+                        let calendarEvents = response.InventoryAvailabilityCalendarEvents;
                         $control.data('reserveDates', response.Dates);                           // loading reservation data onto control for use in renderDatePopup()
                         for (let i = 0; i < calendarEvents.length; i++) {
                             if (calendarEvents[i].textColor !== 'rgb(0,0,0)') {
@@ -264,7 +264,13 @@ abstract class InventoryBase {
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryDailyRate"]', response.InventoryData.InventoryWarehouse.DailyRate);
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryWeeklyRate"]', response.InventoryData.InventoryWarehouse.WeeklyRate);
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryMonthlyRate"]', response.InventoryData.InventoryWarehouse.MonthlyRate);
-                        FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarEvents);
+                        let resources = [{ id: '1', name: '' }];
+
+                        if ($control.find('div.changeview[data-selected="true"]').html() === 'Year') {
+                            resources = response.InventoryAvailabilityScheduleResources;
+                            calendarEvents = response.InventoryAvailabilityScheduleEvents;
+                        }
+                        FwScheduler.loadEventsCallback($control, resources, calendarEvents);
 
                         if ($form.is('tr') || $form.data('fromQuikSearch')) {
                             $form = jQuery('#availabilityCalendarPopup');
