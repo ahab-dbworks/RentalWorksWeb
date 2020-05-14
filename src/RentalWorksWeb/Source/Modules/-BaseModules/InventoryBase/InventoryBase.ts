@@ -265,10 +265,16 @@ abstract class InventoryBase {
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryWeeklyRate"]', response.InventoryData.InventoryWarehouse.WeeklyRate);
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryMonthlyRate"]', response.InventoryData.InventoryWarehouse.MonthlyRate);
                         let resources = [{ id: '1', name: '' }];
-
+                        $control.find('div.adjustcontainer').css('max-width', '1670px');
                         if ($control.find('div.changeview[data-selected="true"]').html() === 'Year') {
                             resources = response.InventoryAvailabilityScheduleResources;
                             calendarEvents = response.InventoryAvailabilityScheduleEvents;
+                            //$control.closest('div.adjustcontainer').css('max-width', '1670px');
+                            //$control.closest('div.inner-cal-container').css('max-width', '1650px');
+
+                        } else {
+                            //$control.closest('div.adjustcontainer').css('max-width', '1420px');
+                            //$control.closest('div.inner-cal-container').css('max-width', '1400px');
                         }
                         FwScheduler.loadEventsCallback($control, resources, calendarEvents);
 

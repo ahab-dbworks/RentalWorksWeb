@@ -1016,20 +1016,6 @@ class FwSchedulerClass {
             dpmonth.update();
 
             dpyear.resources = resources;
-            //dpyear.resources = [
-            //    { name: "January", id: "A" },
-            //    { name: "February", id: "B" },
-            //    { name: "March", id: "C" },
-            //    { name: "April", id: "D" },
-            //    { name: "May", id: "E" },
-            //    { name: "June", id: "F" },
-            //    { name: "July", id: "G" },
-            //    { name: "August", id: "H" },
-            //    { name: "September", id: "I" },
-            //    { name: "October", id: "J" },
-            //    { name: "November", id: "K" },
-            //    { name: "December", id: "L" }
-            //];
             dpyear.events.list = events;
             dpyear.update();
 
