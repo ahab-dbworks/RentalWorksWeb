@@ -780,6 +780,7 @@ namespace WebApi.Logic
             public string departmentid { get; set; } = string.Empty;
             public string department { get; set; } = string.Empty;
             public bool webadministrator { get; set; } = false;
+            public int firstdayofweek { get; set; } = 0;
 
         }
         public static async Task<SessionUser> GetSessionUserAsync(FwApplicationConfig appConfig, FwUserSession userSession)
@@ -789,7 +790,7 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select webusersid, usersid, contactid, usertype, email, fullname, name, browsedefaultrows, applicationtheme, locationid, location, warehouseid, warehouse, departmentid, department, webadministrator");
+                    qry.Add("select webusersid, usersid, contactid, usertype, email, fullname, name, browsedefaultrows, applicationtheme, locationid, location, warehouseid, warehouse, departmentid, department, webadministrator, firstdayofweek");
                     qry.Add("from webusersview with (nolock)");
                     qry.Add("where webusersid = @webusersid");
                     qry.AddParameter("@webusersid", userSession.WebUsersId);
@@ -817,6 +818,8 @@ namespace WebApi.Logic
                     response.warehouse = qry.GetField("warehouse").ToString().TrimEnd();
                     response.departmentid = qry.GetField("departmentid").ToString().TrimEnd();
                     response.department = qry.GetField("department").ToString().TrimEnd();
+                    response.firstdayofweek = FwConvert.ToInt32(qry.GetField("firstdayofweek").ToString().TrimEnd());
+                    
                 }
             }
             return response;
