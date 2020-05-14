@@ -429,6 +429,9 @@ namespace WebApi.Modules.Administrator.User
         [FwLogicProperty(Id: "jj9nN7EG0ANjG", IsReadOnly: true)]
         public string NotificationSoundFileName { get; set; }
 
+        [FwLogicProperty(Id: "OJrOlZkYyD44C")]
+        public int? FirstDayOfWeek { get { return webUser.FirstDayOfWeek; } set { webUser.FirstDayOfWeek = value; } }
+
 
 
 

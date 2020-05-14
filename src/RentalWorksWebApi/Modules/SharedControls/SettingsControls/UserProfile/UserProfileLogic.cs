@@ -121,6 +121,9 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwLogicProperty(Id: "ypkfs1JBnySIQ")]
         public string FavoritesJson { get; set; }
 
+        [FwLogicProperty(Id: "qmOkT9iNfuVgk")]
+        public int? FirstDayOfWeek { get { return webUser.FirstDayOfWeek; } set { webUser.FirstDayOfWeek = value; } }
+
         [FwLogicProperty(Id:"JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

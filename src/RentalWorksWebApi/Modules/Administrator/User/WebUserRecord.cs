@@ -95,6 +95,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "notificationsoundid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         public string NotificationSoundId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "firstdayofweek", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        public int? FirstDayOfWeek { get; set; }
+        //------------------------------------------------------------------------------------
         public async Task<bool> SaveFavoritesJsonAsync(string Note)
         {
             return await AppFunc.SaveNoteAsync(AppConfig, UserSession, WebUserId, RwConstants.WEBUSER_NOTE_TYPE_FAVORITES, "", Note);

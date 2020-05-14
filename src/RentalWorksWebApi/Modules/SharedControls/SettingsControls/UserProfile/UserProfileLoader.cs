@@ -58,6 +58,9 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwSqlDataField(column: "toolbarjson", modeltype: FwDataTypes.Text)]
         public string FavoritesJson { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "firstdayofweek", modeltype: FwDataTypes.Integer)]
+        public int? FirstDayOfWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

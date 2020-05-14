@@ -378,6 +378,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "firstdayofweek", modeltype: FwDataTypes.Integer)]
+        public int? FirstDayOfWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
