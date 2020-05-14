@@ -306,6 +306,12 @@ namespace WebApi.Modules.Reports.ContractReports.ContractReport
         [FwSqlDataField(column: "termsconditionsnewpage", modeltype: FwDataTypes.Boolean)]
         public bool? TermsAndConditionsNewPage { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "personprintname", modeltype: FwDataTypes.Text)]
+        public string PersonPrintName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "personsignature", modeltype: FwDataTypes.JpgDataUrl)]
+        public string PersonSignature { get; set; }
+        //------------------------------------------------------------------------------------ 
         //public FwJsonDataTable Items { get; set; }
         public List<ContractItemReportLoader> Items { get; set; } = new List<ContractItemReportLoader>(new ContractItemReportLoader[] { new ContractItemReportLoader() });
         //------------------------------------------------------------------------------------ 

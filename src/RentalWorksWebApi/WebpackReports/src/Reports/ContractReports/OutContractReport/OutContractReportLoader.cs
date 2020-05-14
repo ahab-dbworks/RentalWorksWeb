@@ -16,12 +16,6 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
         [FwSqlDataField(column: "responsibleperson", modeltype: FwDataTypes.Text)]
         public string ResponsiblePerson { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "personprintname", modeltype: FwDataTypes.Text)]
-        public string PersonPrintName { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "personsignature", modeltype: FwDataTypes.JpgDataUrl)]
-        public string PersonSignature { get; set; }
-        //------------------------------------------------------------------------------------ 
         public async Task<OutContractReportLoader> RunReportAsync(OutContractReportRequest request)
         {
             Task<OutContractReportLoader> taskContract;
