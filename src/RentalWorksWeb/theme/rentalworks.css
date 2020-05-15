@@ -607,13 +607,13 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 
 
 /* Custom Reports */
-#reportDesigner .table-wrapper {margin-bottom:2em; border:1px solid #2196f3; padding:1em; overflow:auto; cursor:pointer;}
-#reportDesigner .table-wrapper.selected {box-shadow: 0 10px 10px 0 #2196f34a;}
-#reportDesigner .table-wrapper > span {font-weight:bold; font-size:1.5em; text-decoration:underline;}
-#reportDesigner table {border:1px solid}
+#reportDesigner .header-section > span, #reportDesigner .table-section > span {font-weight:bold; font-size:1.2em; text-decoration:underline;}
+#reportDesigner .table-wrapper, #reportDesigner .header-wrapper {margin-top:5px;}
+#reportDesigner .table-wrapper, #reportDesigner .header-wrapper {margin-bottom:2em; border:1px solid #2196f3; padding:1em; overflow:auto; cursor:pointer;}
+#reportDesigner .table-wrapper.selected, #reportDesigner .header-wrapper.selected  {box-shadow: 0 10px 10px 0 #2196f34a;}
+#reportDesigner table {border:1px solid; margin-top:1em;}
 #reportDesigner table tbody td:after { content: attr(data-value); }
 #reportDesigner table tbody td.highlight-cells { background-color:#d1efd2 !important;border:2px solid #4caf50 !important; }
-/*#reportDesigner #columnHeader table { border-collapse: collapse; }*/
 #reportDesigner table #columnHeader tr th { font-size:.9em;height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 #reportDesigner table #columnHeader tr th:first-of-type { border-left:0; }
 #reportDesigner table #columnHeader tr th:last-of-type { border-right:0; }
@@ -623,6 +623,15 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner table tr[data-row="detail"] td.hover-cell { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);cursor: pointer;margin: 5px; }
 #reportDesigner table tr[data-row="footer"] td { height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ffffff;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 #reportDesigner table tr[data-row="header"] td { cursor:pointer;}
+
+/* Custom Report Header Section (note: copied from webpackreports.scss) */
+#reportDesigner .header-wrapper .rpt-flexrow {display: flex;flex-wrap: nowrap;justify-content: space-between;width: 1110px;}
+#reportDesigner .header-wrapper .rpt-flexrow > * {flex: 1 1 0;min-width: 16em;}
+#reportDesigner .header-wrapper .rpt-flexcolumn {display: flex;flex-direction: column;}
+#reportDesigner .header-wrapper .rpt-title {align-self: center;font-size: 17px;font-weight: bold;}
+#reportDesigner .header-wrapper .rpt-header-center {align-self: center;font-size: 13px; margin-top: 5px;}
+#reportDesigner .header-wrapper .rpt-header-right {align-self: flex-end; font-size: 13px;font-weight: bold;}
+#reportDesigner .header-wrapper .rpt-header-left {align-self: flex-start;font-size: 13px;font-weight: bold;}
 
 /*Control Properties*/
 #controlProperties .propertyContainer div.properties {width: 100%;display: flex;padding-bottom: 3px;}
