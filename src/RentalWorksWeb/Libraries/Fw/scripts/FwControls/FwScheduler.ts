@@ -83,7 +83,7 @@ class FwSchedulerClass {
         schedulerbtns.push('    <div class="changeview btnWeek">Week</div>');
         schedulerbtns.push('    <div class="changeview btn5Week">5 Week</div>');
         schedulerbtns.push('    <div class="changeview btnMonth">Month</div>');
-        schedulerbtns.push('    <div class="changeview btnYear">Year</div>');
+       schedulerbtns.push('    <div class="changeview btnYear">Year</div>');
         schedulerbtns.push('    <div class="changeview btnSchedule">Schedule</div>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="topnavigation">');
@@ -708,7 +708,7 @@ class FwSchedulerClass {
                 args.async = true;  // notify manually using .loaded()
 
                 // simulating slow server-side load
-                args.html = "<div style='font-weight:bold'>" + ev.text() + "</div><div>Order Number: " + ev.data.orderNumber + "</div><div>Order Status: " + ev.data.orderStatus + "</div><div>Deal: " + ev.data.deal + "</div><div>Start: " + ev.data.realStart + "</div><div>End: " + ev.data.realEnd + "</div><div>Id: " + ev.id() + "</div>";
+                args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Date: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>Id: ${ev.id()}</div>`;
                 args.loaded();
 
             }

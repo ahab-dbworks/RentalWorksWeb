@@ -45,3 +45,4 @@ html.theme-material .fwscheduler div.jumpdate i { cursor:pointer;position:absolu
 
 
 html.theme-material div[data-control="FwSchedulerDetailed"] .scheduler_default_event_inner { border-radius: 6px;margin: 4px 0 0 0; } 
+html.theme-material div[data-control="FwScheduler"] .scheduler_default_event_inner { border-radius: 6px;margin: 4px 0 0 0; } 
