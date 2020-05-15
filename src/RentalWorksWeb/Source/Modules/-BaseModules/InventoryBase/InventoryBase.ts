@@ -269,6 +269,21 @@ abstract class InventoryBase {
                         if ($control.find('div.changeview[data-selected="true"]').html() === 'Year') {
                             resources = response.InventoryAvailabilityScheduleResources;
                             calendarEvents = response.InventoryAvailabilityScheduleEvents;
+                            for (let i = 0; i < calendarEvents.length; i++) {
+                                // if (calendarEvents[i].isWarehouseTotal === true) {
+                                calendarEvents[i].html = `<div class="warehouse" style="color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`
+                                //} else {
+                                //    schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`
+                                //let html: string = "";
+                                //html += `<div class="order" style="`;
+                                //if (calendarEvents[i].backColor) {
+                                //    html += `background-color:${calendarEvents[i].backColor};`;
+                                //}
+                                //html += `color:${calendarEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${calendarEvents[i].total}</span>${calendarEvents[i].text}</div>`;
+                                //calendarEvents[i].html = html;
+                                //}
+                            }
+
                             $control.closest('div.adjustcontainer').css('max-width', '1670px');
                             $control.closest('div.inner-cal-container').css('max-width', '1650px');
 
