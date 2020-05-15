@@ -14,48 +14,57 @@
 <div class="rpt-flexrow" style="margin-top:40px;">
   <!--SUMMARY VIEW TABLE-->
   {{#ifEquals IsSummary true}}
-  <table>
-    <thead>
+  <table data-tablename="Summary View">
+    <thead id="columnHeader">
       <tr>
-        <th>G/L No.</th>
-        <th>Account Description</th>
-        <th class="number">Debit</th>
-        <th class="number">Credit</th>
+        <th data-valuefield="AccountNumber">G/L No.</th>
+        <th data-valuefield="AccountDescription">Account Description</th>
+        <th data-valuefield="Debit" class="number">Debit</th>
+        <th data-valuefield="Credit" class="number">Credit</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "Locationheader"}}
+      {{#ifEquals RowType "Locationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="5" class="header-row">Location: {{Location}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "GroupHeadingheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "GroupHeadingheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="4" class="header-row">{{GroupHeading}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-header="detail" data-rowtype="{{RowType}}">
         <td data-value="{{AccountNumber}}"></td>
         <td data-value="{{AccountDescription}}"></td>
         <td class="number" data-value="{{Debit}}"></td>
         <td class="number" data-value="{{Credit}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "GroupHeadingfooter"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "GroupHeadingfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="2" class="total-name">{{GroupHeading}}&nbsp;</td>
         <td class="total-val" data-value="{{Debit}}"></td>
         <td class="total-val" data-value="{{Credit}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Locationfooter"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Locationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="2" class="total-name">{{Location}}&nbsp;</td>
         <td class="total-val" data-value="{{Debit}}"></td>
         <td class="total-val" data-value="{{Credit}}"></td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
   {{/ifEquals}}
   <!--SOME DETAIL VIEW TABLE-->
   {{#ifEquals IsSomeDetail true}}
-  <table>
+  <table data-tablename="Some Detail View">
+    <!--NOT DESIGNER PROVISIONED-->
     <thead>
       <tr>
         <th colspan="2">G/L No.</th>
@@ -131,33 +140,39 @@
   {{/ifEquals}}
   <!--FULL DETAIL VIEW TABLE-->
   {{#ifEquals IsFullDetail true}}
-  <table>
-    <thead>
+  <table data-tablename="Full Detail View">
+    <thead id="columnHeader">
       <tr>
-        <th>G/L No.</th>
-        <th>Date</th>
-        <th>Account Description</th>
-        <th>Invoice No.</th>
-        <th>Deal</th>
-        <th>Item Description</th>
-        <th class="number">Debit</th>
-        <th class="number">Credit</th>
+        <th data-linkedcolumn="AccountNumber">G/L No.</th>
+        <th data-valuefield="GlDate">Date</th>
+        <th data-valuefield="AccountDescription">Account Description</th>
+        <th data-valuefield="InvoiceNumber">Invoice No.</th>
+        <th data-valuefield="Deal">Deal</th>
+        <th data-valuefield="ItemDescription">Item Description</th>
+        <th data-valuefield="Debit" class="number">Debit</th>
+        <th data-valuefield="Credit" class="number">Credit</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "Locationheader"}}
+      {{#ifEquals RowType "Locationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="5" class="header-row">Location: {{Location}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "GroupHeadingheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "GroupHeadingheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="4" class="header-row">{{GroupHeading}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "AccountNumberheader"}}
-      <td colspan="4" class="lower header-row">{{AccountNumber}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td class="no-border"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "AccountNumberheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="4" class="lower header-row">{{AccountNumber}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="AccountNumber" class="no-border"></td>
         <td data-value="{{GlDate}}"></td>
         <td data-value="{{AccountDescription}}"></td>
         <td data-value="{{InvoiceNumber}}"></td>
@@ -165,23 +180,29 @@
         <td data-value="{{ItemDescription}}"></td>
         <td class="number" data-value="{{Debit}}"></td>
         <td class="number" data-value="{{Credit}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "AccountNumberfooter"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "AccountNumberfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="6" class="total-name">{{AccountNumber}}:&nbsp;</td>
         <td class="total-val" data-value="{{Debit}}"></td>
         <td class="total-val" data-value="{{Credit}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "GroupHeadingfooter"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "GroupHeadingfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="6" class="total-name">{{GroupHeading}}:&nbsp;</td>
         <td class="total-val" data-value="{{Debit}}"></td>
         <td class="total-val" data-value="{{Credit}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Locationfooter"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Locationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="6" class="total-name">{{Location}}:&nbsp;</td>
         <td class="total-val" data-value="{{Debit}}"></td>
         <td class="total-val" data-value="{{Credit}}"></td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>

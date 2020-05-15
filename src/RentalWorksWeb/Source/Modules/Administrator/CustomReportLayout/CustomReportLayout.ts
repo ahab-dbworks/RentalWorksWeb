@@ -820,6 +820,7 @@ class CustomReportLayout {
                     $form.data('deletefield', { valuefield: valueField, linkedcolumn: linkedColumn, tdcolspan: colspan });
                 }
                 this.updateHTML($form, $table, $table.find('#columnHeader tr'));
+                $form.find('#controlProperties').hide();
             }
         });
 
@@ -944,10 +945,12 @@ class CustomReportLayout {
         const $ths = $table.find('#columnHeader tr th');                                        //because blank footer total tds need to be linked without actually having
         for (let i = 0; i < $ths.length; i++) {                                                 //to add a new total field
             const $th = jQuery($ths[i]);
-            const linkedColumn = $th.attr('data-valuefield');
-            $th.attr('data-linkedcolumn', linkedColumn);
-            $table.find(`[data-value="{{${linkedColumn}}}"]`)                                   //05-14-20 consider adding linkedcolumns as new required attribute on templates
-                .attr('data-linkedcolumn', linkedColumn);                                       //for cases where users add a new column and set the value field identical to an existing column
+            if (typeof $th.attr('data-linkedcolumn') == 'undefined') {
+                const linkedColumn = $th.attr('data-valuefield');
+                $th.attr('data-linkedcolumn', linkedColumn);
+                $table.find(`[data-value="{{${linkedColumn}}}"]`)                               //05-14-20 consider adding linkedcolumns as new required attribute on templates
+                    .attr('data-linkedcolumn', linkedColumn);                                   //for cases where users add a new column and set the value field identical to an existing column
+            }
         }
     }
     //----------------------------------------------------------------------------------------------

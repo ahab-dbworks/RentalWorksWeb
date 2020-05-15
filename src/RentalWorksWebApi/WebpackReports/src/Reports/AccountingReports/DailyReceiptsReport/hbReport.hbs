@@ -63,7 +63,8 @@
         <td colspan="5" class="total-name">{{OfficeLocation}}&nbsp;</td>
         <td class="total-val" data-value="{{Amount}}"></td>
         <td class="total-val" data-value="{{Overpayment}}"></td>
-        <td class="total-val" colspan="2" data-value="{{Applied}}"></td>
+        <td class="empty-td total-val" data-linkedcolumn="InvoiceNumber"></td>
+        <td class="total-val" data-value="{{Applied}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Namefooter"}}
@@ -71,7 +72,8 @@
         <td colspan="5" class="total-name">{{Name}}&nbsp;</td>
         <td class="total-val" data-value="{{Amount}}"></td>
         <td class="total-val" data-value="{{Overpayment}}"></td>
-        <td class="total-val" colspan="2" data-value="{{Applied}}"></td>
+        <td class="empty-td total-val" data-linkedcolumn="InvoiceNumber"></td>
+        <td class="total-val" data-value="{{Applied}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "PaymentTypefooter"}}
@@ -79,7 +81,8 @@
         <td colspan="5" class="total-name">{{PaymentType}}&nbsp;</td>
         <td class="total-val" data-value="{{Amount}}"></td>
         <td class="total-val" data-value="{{Overpayment}}"></td>
-        <td class="total-val" colspan="2" data-value="{{Applied}}"></td>
+        <td class="empty-td total-val" data-linkedcolumn="InvoiceNumber"></td>
+        <td class="total-val" data-value="{{Applied}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
@@ -87,8 +90,10 @@
         <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Amount}}"></td>
         <td class="total-val" data-value="{{Overpayment}}"></td>
-        <td class="total-val" colspan="2" data-value="{{Applied}}"></td>
+        <td class="empty-td total-val" data-linkedcolumn="InvoiceNumber"></td>
+        <td class="total-val" data-value="{{Applied}}"></td>
       </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
