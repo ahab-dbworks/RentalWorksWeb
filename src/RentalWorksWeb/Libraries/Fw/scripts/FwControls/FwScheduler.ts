@@ -1027,32 +1027,32 @@ class FwSchedulerClass {
         }
     };
     //---------------------------------------------------------------------------------
-    loadYearEventsCallback($control, resources, events) {
-        var dpyear, start, end, request;
-        dpyear = $control.data('dpyear');
+    //loadYearEventsCallback($control, resources, events) {
+    //    var dpyear, start, end, request;
+    //    dpyear = $control.data('dpyear');
 
-        if ((typeof dpyear !== 'undefined')) {
-            if ($control.find('div.changeview[data-selected="true"]').html() === 'Year') {
-                FwScheduler.setDateCallout($control, dpyear.startDate);
-            }
-            dpyear.resources = [
-                { name: "January", id: "A" },
-                { name: "February", id: "B" },
-                { name: "March", id: "C" },
-                { name: "April", id: "D" },
-                { name: "May", id: "E" },
-                { name: "June", id: "F" },
-                { name: "July", id: "G" },
-                { name: "August", id: "H" },
-                { name: "September", id: "I" },
-                { name: "October", id: "J" },
-                { name: "November", id: "K" },
-                { name: "December", id: "L" }
-            ];
-            dpyear.events.list = events;
-            dpyear.update();
-        }
-    };
+    //    if ((typeof dpyear !== 'undefined')) {
+    //        if ($control.find('div.changeview[data-selected="true"]').html() === 'Year') {
+    //            FwScheduler.setDateCallout($control, dpyear.startDate);
+    //        }
+    //        dpyear.resources = [
+    //            { name: "January", id: "A" },
+    //            { name: "February", id: "B" },
+    //            { name: "March", id: "C" },
+    //            { name: "April", id: "D" },
+    //            { name: "May", id: "E" },
+    //            { name: "June", id: "F" },
+    //            { name: "July", id: "G" },
+    //            { name: "August", id: "H" },
+    //            { name: "September", id: "I" },
+    //            { name: "October", id: "J" },
+    //            { name: "November", id: "K" },
+    //            { name: "December", id: "L" }
+    //        ];
+    //        dpyear.events.list = events;
+    //        dpyear.update();
+    //    }
+    //};
     //---------------------------------------------------------------------------------
     getSelectedTimeRange($control) {
         var result, dpmonth;

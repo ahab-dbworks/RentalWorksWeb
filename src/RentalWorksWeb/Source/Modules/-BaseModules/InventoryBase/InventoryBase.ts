@@ -269,12 +269,12 @@ abstract class InventoryBase {
                         if ($control.find('div.changeview[data-selected="true"]').html() === 'Year') {
                             resources = response.InventoryAvailabilityScheduleResources;
                             calendarEvents = response.InventoryAvailabilityScheduleEvents;
-                            //$control.closest('div.adjustcontainer').css('max-width', '1670px');
-                            //$control.closest('div.inner-cal-container').css('max-width', '1650px');
+                            $control.closest('div.adjustcontainer').css('max-width', '1670px');
+                            $control.closest('div.inner-cal-container').css('max-width', '1650px');
 
                         } else {
-                            //$control.closest('div.adjustcontainer').css('max-width', '1420px');
-                            //$control.closest('div.inner-cal-container').css('max-width', '1400px');
+                            $control.closest('div.adjustcontainer').css('max-width', '1365px');
+                            $control.closest('div.inner-cal-container').css('max-width', '1345px');
                         }
                         FwScheduler.loadEventsCallback($control, resources, calendarEvents);
 
