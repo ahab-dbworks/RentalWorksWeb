@@ -1543,7 +1543,7 @@ class FwBrowseClass {
                     format: "mm/dd/yyyy",
                     todayHighlight: true,
                     todayBtn: 'linked',
-                    firstDay: 1,
+                    weekStart: FwFunc.getWeekStartInt(),
                 }).off('focus');
 
                 $control.on('click', '.btndate', e => {
