@@ -142,7 +142,7 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "inspectionno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 15)]
         public string InspectionNo { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
         public string SoftwareVersion { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.Date, sqltype: "datetime")]

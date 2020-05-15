@@ -136,7 +136,7 @@ namespace WebApi.Modules.Inventory.Repair
         [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string TaxId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
+        [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
         public string SoftwareVersion { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "footcandles", modeltype: FwDataTypes.Integer, sqltype: "numeric")]

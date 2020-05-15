@@ -106,7 +106,7 @@ namespace WebApi.Modules.HomeControls.Master
         [FwSqlDataField(column: "tracksoftware", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? TrackSoftware { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
         public string SoftwareVersion { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
