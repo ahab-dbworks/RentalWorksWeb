@@ -53,11 +53,16 @@
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         $field.find('input.value').inputmask('mm/dd/yyyy');
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        let weekStart = 0;
+        if (userid.firstdayofweek) {
+            weekStart = userid.firstdayofweek;
+        }
         $field.find('input.value').datepicker({
             autoclose: true,
             format: "m/d/yyyy",
             todayHighlight: true,
-            firstDay: 1,
+            weekStart: weekStart,
         }).off('focus');
         $field.on('click', '.btndate', function () {
             $field.find('input').datepicker('show');

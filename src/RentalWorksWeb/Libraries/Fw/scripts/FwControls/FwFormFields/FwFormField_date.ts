@@ -38,13 +38,18 @@
         $control.html(html.join(''));
 
         $control.find('.fwformfield-value').inputmask('mm/dd/yyyy');
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        let weekStart = 0;
+        if (userid.firstdayofweek) {
+            weekStart = userid.firstdayofweek;
+        }
         $control.find('.fwformfield-value').datepicker({
             endDate: (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
             autoclose: true,
             format: "mm/dd/yyyy",
             todayHighlight: true,
             todayBtn: 'linked',
-            firstDay: 1,
+            weekStart: weekStart,
         }).off('focus'); //MY 1/5/2015: Suppresses the date picker from opening on focus.
 
         $control
