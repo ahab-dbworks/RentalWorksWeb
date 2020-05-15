@@ -31,31 +31,31 @@ class FwSchedulerClass {
         html.push('<div class="content">');
         html.push('  <div class="calendarcontainer" style="display:none;">');
         html.push('    <div class="dpcalendarcontainer">');
-        html.push('      <div id="' + dpcalendarid + '" class="dpcalendar"></div>');
+        html.push(`      <div id="${dpcalendarid}" class="dpcalendar"></div>`);
         html.push('    </div>');
         html.push('    <div class="navcalendarcontainer">');
-        html.push('      <div id="' + navcalendarid + '"></div>');
+        html.push(`      <div id="${navcalendarid}"></div>`);
         html.push('    </div>');
         html.push('  </div>');
         html.push('  <div class="monthcontainer" style="display:none;">');
         html.push('    <div class="dpmonthcontainer">');
-        html.push('      <div id="' + dpmonthid + '" class="dpmonth"></div>');
+        html.push(`      <div id="${dpmonthid}" class="dpmonth"></div>`);
         html.push('    </div>');
         html.push('    <div class="navmonthcontainer">');
-        html.push('      <div id="' + navmonthid + '"></div>');
+        html.push(`      <div id="${navmonthid}"></div>`);
         html.push('    </div>');
         html.push('  </div>');
         html.push('  <div class="fiveweekcontainer" style="display:none;">');
         html.push('    <div class="dpmonthcontainer">');
-        html.push('      <div id="' + dp5weekid + '" class="dp5week"></div>');
+        html.push(`      <div id="${dp5weekid}" class="dp5week"></div>`);
         html.push('    </div>');
         html.push('    <div class="nav5weekcontainer">');
-        html.push('      <div id="' + nav5weekid + '"></div>');
+        html.push(`      <div id="${nav5weekid}"></div>`);
         html.push('    </div>');
         html.push('  </div>');
         html.push('  <div class="yearcontainer" style="display:none;">');
         html.push('    <div class="dpyearcontainer">');
-        html.push('      <div id="' + dpyearid + '" class="dp5week"></div>');
+        html.push(`      <div id="${dpyearid}" class="dp5week"></div>`);
         html.push('    </div>');
         html.push('    <div class="navyearcontainer">');
         html.push(`      <div id="${navyearid}"></div>`);
@@ -63,10 +63,10 @@ class FwSchedulerClass {
         html.push('  </div>');
         html.push('  <div class="schedulercontainer" style="display:none;">');
         html.push('    <div class="dpschedulercontainer">');
-        html.push('      <div id="' + dpschedulerid + '" class="dpscheduler"></div>');
+        html.push(`      <div id="${dpschedulerid}" class="dpscheduler"></div>`);
         html.push('    </div>');
         html.push('    <div class="navschedulercontainer">');
-        html.push('      <div id="' + navschedulerid + '"></div>');
+        html.push(`      <div id="${navschedulerid}"></div>`);
         html.push('    </div>');
         html.push('  </div>');
         html.push('</div>');
@@ -83,7 +83,7 @@ class FwSchedulerClass {
         schedulerbtns.push('    <div class="changeview btnWeek">Week</div>');
         schedulerbtns.push('    <div class="changeview btn5Week">5 Week</div>');
         schedulerbtns.push('    <div class="changeview btnMonth">Month</div>');
-       schedulerbtns.push('    <div class="changeview btnYear">Year</div>');
+        schedulerbtns.push('    <div class="changeview btnYear">Year</div>');
         schedulerbtns.push('    <div class="changeview btnSchedule">Schedule</div>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="topnavigation">');
@@ -119,16 +119,12 @@ class FwSchedulerClass {
         // menu date input
         const $datebtn = $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value')
         $datebtn.inputmask('mm/dd/yyyy');
-        const userid = JSON.parse(sessionStorage.getItem('userid'));
-        let weekStart = 0;
-        if (userid.firstdayofweek) {
-            weekStart = userid.firstdayofweek;
-        }
+
         $datebtn.datepicker({
             autoclose: true,
             format: "m/d/yyyy",
             todayHighlight: true,
-            weekStart: weekStart,
+            weekStart: FwFunc.getWeekStartInt(),
         }).off('focus');
     };
     //---------------------------------------------------------------------------------
@@ -397,12 +393,8 @@ class FwSchedulerClass {
         navcalendar.showMonths = 2;
         navcalendar.skipMonths = 2;
         navcalendar.selectMode = "day";
-        const userid = JSON.parse(sessionStorage.getItem('userid'));
-        if (userid.firstdayofweek) {
-            navcalendar.weekStarts = userid.firstdayofweek;
-        } else {
-            navcalendar.weekStarts = 0;
-        }
+        navcalendar.weekStarts = FwFunc.getWeekStartInt();
+
         navcalendar.onTimeRangeSelected = function (args) {
             try {
                 const dpcalendar = $control.data('dpcalendar');
@@ -425,12 +417,7 @@ class FwSchedulerClass {
         nav5week.showMonths = 3;
         nav5week.skipMonths = 3;
         nav5week.selectMode = "month";
-        const userid = JSON.parse(sessionStorage.getItem('userid'));
-        if (userid.firstdayofweek) {
-            nav5week.weekStarts = userid.firstdayofweek;
-        } else {
-            nav5week.weekStarts = 0;
-        }
+        nav5week.weekStarts = FwFunc.getWeekStartInt();
         nav5week.onTimeRangeSelected = function (args) {
             try {
                 const dp5week = $control.data('dp5week');
@@ -453,12 +440,7 @@ class FwSchedulerClass {
         navmonth.showMonths = 3;
         navmonth.skipMonths = 3;
         navmonth.selectMode = "month";
-        const userid = JSON.parse(sessionStorage.getItem('userid'));
-        if (userid.firstdayofweek) {
-            navmonth.weekStarts = userid.firstdayofweek;
-        } else {
-            navmonth.weekStarts = 0;
-        }
+        navmonth.weekStarts = FwFunc.getWeekStartInt();
         navmonth.onTimeRangeSelected = function (args) {
             try {
                 const dpmonth = $control.data('dpmonth');
@@ -481,7 +463,7 @@ class FwSchedulerClass {
         navyear.showMonths = 12;
         navyear.skipMonths = 12;
         navyear.selectMode = "month";
-        navyear.weekStarts = 0;
+        navyear.weekStarts = FwFunc.getWeekStartInt();
         navyear.onTimeRangeSelected = function (args) {
             try {
                 const dpyear = $control.data('dpyear');
@@ -527,12 +509,7 @@ class FwSchedulerClass {
         dpcalendar.eventMoveHandling = 'Disabled';
         dpcalendar.eventResizeHandling = 'Disabled';
         dpcalendar.heightSpec = 'Full';
-        const userid = JSON.parse(sessionStorage.getItem('userid'));
-        if (userid.firstdayofweek) {
-            dpcalendar.weekStarts = userid.firstdayofweek;
-        } else {
-            dpcalendar.weekStarts = 0;
-        }
+        dpcalendar.weekStarts = FwFunc.getWeekStartInt();
         dpcalendar.businessBeginsHour = 0;
         dpcalendar.businessEndsHour = 11;
         dpcalendar.onTimeRangeSelected = function (args) {
@@ -560,12 +537,7 @@ class FwSchedulerClass {
         dpmonth.eventHeight = 25;
         dpmonth.headerHeight = 25;
         dpmonth.rowHeaderWidth = 200;
-        const userid = JSON.parse(sessionStorage.getItem('userid'));
-        if (userid.firstdayofweek) {
-            dpmonth.weekStarts = userid.firstdayofweek;
-        } else {
-            dpmonth.weekStarts = 0;
-        }
+        dpmonth.weekStarts = FwFunc.getWeekStartInt();
         dpmonth.eventClickHandling = 'Enabled';
         dpmonth.eventMoveHandling = 'Disabled';
         dpmonth.eventResizeHandling = 'Disabled';
@@ -626,12 +598,7 @@ class FwSchedulerClass {
         dp5week.eventHeight = 25;
         dp5week.headerHeight = 25;
         dp5week.rowHeaderWidth = 200;
-        const userid = JSON.parse(sessionStorage.getItem('userid'));
-        if (userid.firstdayofweek) {
-            dp5week.weekStarts = userid.firstdayofweek;
-        } else {
-            dp5week.weekStarts = 0;
-        }
+        dp5week.weekStarts = FwFunc.getWeekStartInt();
         dp5week.eventClickHandling = 'Enabled';
         dp5week.eventMoveHandling = 'Disabled';
         dp5week.eventResizeHandling = 'Disabled';

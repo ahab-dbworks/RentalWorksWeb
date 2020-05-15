@@ -41,16 +41,12 @@ class FwSchedulerDetailedClass {
         // menu date input
         const $datebtn = $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value')
         $datebtn.inputmask('mm/dd/yyyy');
-        const userid = JSON.parse(sessionStorage.getItem('userid'));
-        let weekStart = 0;
-        if (userid.firstdayofweek) {
-            weekStart = userid.firstdayofweek;
-        }
+
         $datebtn.datepicker({
             autoclose: true,
             format: "m/d/yyyy",
             todayHighlight: true,
-            weekStart: weekStart,
+            weekStart: FwFunc.getWeekStartInt(),
         }).off('focus');
 
         //let viewCount = 0;
