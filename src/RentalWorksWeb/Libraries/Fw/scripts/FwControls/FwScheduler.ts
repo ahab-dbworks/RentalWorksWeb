@@ -675,7 +675,7 @@ class FwSchedulerClass {
                 args.async = true;  // notify manually using .loaded()
 
                 // simulating slow server-side load
-                args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Date: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>Id: ${ev.id()}</div>`;
+                args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Date: ${ev.start().toString("MM/dd/yyyy")}</div>`;
                 args.loaded();
 
             }
