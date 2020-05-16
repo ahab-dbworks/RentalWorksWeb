@@ -247,6 +247,11 @@ export class RunReportsTest extends BaseTest {
                     //await ModuleBase.wait(1500); // wait to allow more time for the tab to close before starting the next report
                 }
             }
+
+            //close the repoort section 
+            await page.waitForSelector(reportPanel, { visible: true });
+            await page.click(reportPanel);
+
             expect(testError).toBeNull();
         }
         //---------------------------------------------------------------------------------------
