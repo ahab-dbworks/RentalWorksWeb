@@ -208,7 +208,7 @@ abstract class InventoryBase {
                 .data('ongetevents', request => {
                     const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                     const days = request.days ? request.days : 34;
-                    const endOfMonth = moment(request.start.value).add(days, 'days').format('MM/DD/YYYY');
+                    let endOfMonth = moment(request.start.value).add(days, 'days').format('MM/DD/YYYY');
                     let warehouseId;
                     let allWh;
 
@@ -247,13 +247,16 @@ abstract class InventoryBase {
                         ToDate: endOfMonth,
                         IncludeHours: includeHours,
                     };
+                    if (request.mode === 'Year') {
+                        availRequest.YearView = true;
+                    }
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
-                        FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
-                        const calendarevents = response.InventoryAvailabilityCalendarEvents;
+                        // FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
+                        let calendarEvents = response.InventoryAvailabilityCalendarEvents;
                         $control.data('reserveDates', response.Dates);                           // loading reservation data onto control for use in renderDatePopup()
-                        for (let i = 0; i < calendarevents.length; i++) {
-                            if (calendarevents[i].textColor !== 'rgb(0,0,0)') {
-                                calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
+                        for (let i = 0; i < calendarEvents.length; i++) {
+                            if (calendarEvents[i].textColor !== 'rgb(0,0,0)') {
+                                calendarEvents[i].html = `<div style="color:${calendarEvents[i].textColor};">${calendarEvents[i].text}</div>`
                             }
                         }
                         // Rates
@@ -261,7 +264,34 @@ abstract class InventoryBase {
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryDailyRate"]', response.InventoryData.InventoryWarehouse.DailyRate);
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryWeeklyRate"]', response.InventoryData.InventoryWarehouse.WeeklyRate);
                         //FwFormField.setValue($form, 'div[data-totalfield="InventoryMonthlyRate"]', response.InventoryData.InventoryWarehouse.MonthlyRate);
-                        FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarevents);
+                        let resources = [{ id: '1', name: '' }];
+                        $control.find('div.adjustcontainer').css('max-width', '1670px');
+                        if ($control.find('div.changeview[data-selected="true"]').html() === 'Year') {
+                            resources = response.InventoryAvailabilityScheduleResources;
+                            calendarEvents = response.InventoryAvailabilityScheduleEvents;
+                            for (let i = 0; i < calendarEvents.length; i++) {
+                                // if (calendarEvents[i].isWarehouseTotal === true) {
+                                calendarEvents[i].html = `<div class="warehouse" style="color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`
+                                //} else {
+                                //    schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`
+                                //let html: string = "";
+                                //html += `<div class="order" style="`;
+                                //if (calendarEvents[i].backColor) {
+                                //    html += `background-color:${calendarEvents[i].backColor};`;
+                                //}
+                                //html += `color:${calendarEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${calendarEvents[i].total}</span>${calendarEvents[i].text}</div>`;
+                                //calendarEvents[i].html = html;
+                                //}
+                            }
+
+                            $control.closest('div.adjustcontainer').css('max-width', '1670px');
+                            $control.closest('div.inner-cal-container').css('max-width', '1650px');
+
+                        } else {
+                            $control.closest('div.adjustcontainer').css('max-width', '1365px');
+                            $control.closest('div.inner-cal-container').css('max-width', '1345px');
+                        }
+                        FwScheduler.loadEventsCallback($control, resources, calendarEvents);
 
                         if ($form.is('tr') || $form.data('fromQuikSearch')) {
                             $form = jQuery('#availabilityCalendarPopup');

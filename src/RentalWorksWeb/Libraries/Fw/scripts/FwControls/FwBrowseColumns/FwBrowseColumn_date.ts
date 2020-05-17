@@ -53,10 +53,12 @@
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         $field.find('input.value').inputmask('mm/dd/yyyy');
+
         $field.find('input.value').datepicker({
             autoclose: true,
             format: "m/d/yyyy",
-            todayHighlight: true
+            todayHighlight: true,
+            weekStart: FwFunc.getWeekStartInt(),
         }).off('focus');
         $field.on('click', '.btndate', function () {
             $field.find('input').datepicker('show');

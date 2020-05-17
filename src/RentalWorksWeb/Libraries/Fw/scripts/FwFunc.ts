@@ -311,4 +311,18 @@
         }
     }
     //---------------------------------------------------------------------------------
+    static getWeekStartInt(): number {
+        let weekStartInt = 0;
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid) {
+            if (userid.firstdayofweek) {
+                weekStartInt = userid.firstdayofweek;
+            }
+        } else {
+            console.error('userid property not found in sessionStorage. weekStartInt will be defaulted to 0 (Sunday).')
+        }
+
+        return weekStartInt;
+    }
+    //---------------------------------------------------------------------------------
 }
