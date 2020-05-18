@@ -758,9 +758,14 @@ class OrderItemGrid {
         $generatedtr.find('div[data-browsedatafield="ToDate"]').on('change', 'input.value', function ($tr) {
             calculateExtended('Extended');
         });
-        $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', e => {
             calculateExtended('Extended');
+            const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
+            if (itemClass == 'K' || itemClass == 'C') {
+                this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'QuantityOrdered');
+            }
         });
+
         $generatedtr.find('div[data-browsedatafield="UnitCost"]').on('change', 'input.value', function ($tr) {
             calculateMarkupMargin('UnitCost');
             calculateExtended('Extended');
@@ -778,11 +783,16 @@ class OrderItemGrid {
         $generatedtr.find('div[data-browsedatafield="Price4"]').on('change', 'input.value', function ($tr) {
             calculateExtended('Extended');
         });
-        $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', e => {
             calculateExtended('Extended');
+            this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'DaysPerWeek');
         });
-        $generatedtr.find('div[data-browsedatafield="DiscountPercentDisplay"]').on('change', 'input.value', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="DiscountPercentDisplay"]').on('change', 'input.value', e => {
             calculateExtended('Extended', 'DiscountPercent');
+            const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
+            if (itemClass == 'K' || itemClass == 'C') {
+                this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'DiscountPercentDisplay');
+            }
         });
         $generatedtr.find('div[data-browsedatafield="UnitExtended"]').on('change', 'input.value', function ($tr) {
             updatePrice('Discount', 'UnitExtended', 'Unit');
@@ -1090,6 +1100,38 @@ class OrderItemGrid {
             //FwBrowse.setFieldValue($control, $generatedtr, 'PeriodCostExtended', { value: costExtended.toLocaleString(), text: costExtended.toLocaleString() })
         }
     };
+    //----------------------------------------------------------------------------------------------
+    updateCompleteKitAccessoryRows($grid: JQuery, $tr: JQuery, event: any, field: string) {
+        const index = jQuery(event.currentTarget).parents('tr').index();
+        const id = FwBrowse.getValueByDataField($grid, $tr, 'OrderItemId');
+        const completeKitAccClasses: any = ['KI', 'KO', 'CI', 'CO'];
+        const rowCount = FwBrowse.getRowCount($grid);
+        for (let i = index + 1; i < rowCount; i++) {
+            const $nextRow = FwBrowse.selectRowByIndex($grid, i);
+            const nextRowClass = FwBrowse.getValueByDataField($grid, $nextRow, 'ItemClass');
+            const parentId = FwBrowse.getValueByDataField($grid, $nextRow, 'ParentId');
+            if (completeKitAccClasses.includes(nextRowClass) && id == parentId) {
+                let newValue: any;
+                if (field == 'DaysPerWeek' || field == 'DiscountPercentDisplay') {
+                    const isLocked = FwBrowse.getValueByDataField($grid, $nextRow, 'Locked');
+                    if (isLocked == 'true') {
+                        return;
+                    } else {
+                        newValue = jQuery(event.currentTarget).val();
+                    }
+                } else if (field == 'QuantityOrdered') {
+                    const accessoryRatio = parseFloat(FwBrowse.getValueByDataField($grid, $nextRow, 'AccessoryRatio'));
+                    const parentValue = Number(jQuery(event.currentTarget).val());
+                    newValue = Math.round(parentValue / accessoryRatio).toString();
+                }
+
+                FwBrowse.setRowEditMode($grid, $nextRow);
+                FwBrowse.setFieldValue($grid, $nextRow, field, { value: newValue });
+            } else {
+                return;
+            }
+        }
+    }
     //----------------------------------------------------------------------------------------------
 
     //toggleOrderItemView($form: any, event: any, module) {

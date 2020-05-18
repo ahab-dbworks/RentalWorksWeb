@@ -771,8 +771,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //[FwSqlDataField(column: "shortage", modeltype: FwDataTypes.Boolean)]
         //public bool? Shortage { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "accratio", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Accratio { get; set; }
+        [FwSqlDataField(column: "accratio", modeltype: FwDataTypes.Decimal)]
+        public decimal? AccessoryRatio { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "spacetypeid", modeltype: FwDataTypes.Text)]
         //public string SpacetypeId { get; set; }
