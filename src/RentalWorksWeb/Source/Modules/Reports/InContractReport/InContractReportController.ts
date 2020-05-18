@@ -20,6 +20,22 @@ const inContractReportTemplate = `
               </div>
             </div>
           </div>
+          <div class="flexcolumn" style="max-width:210px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Asset Details">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-datafield="IncludeBarCodes" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Bar Codes" style="float:left;max-width:420px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-datafield="IncludeSerialNumbers" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Serial Numbers" style="float:left;max-width:420px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-datafield="IncludeRfids" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="RFIDs" style="float:left;max-width:420px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-datafield="IncludeManufacturerPartNumbers" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Manufacturer Part Numbers" style="float:left;max-width:420px;"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

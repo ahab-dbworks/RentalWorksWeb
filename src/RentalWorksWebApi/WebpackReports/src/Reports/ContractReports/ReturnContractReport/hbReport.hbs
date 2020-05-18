@@ -124,28 +124,36 @@
       <tr data-rowtype="{{RowType}}" class="barcode-row">
         <td></td>
         <td>
+          {{#if ../IncludeBarCodes}}
           {{#if BarCodes}}
           <div>
             <b>Bar Codes:</b> {{BarCodes}}
           </div>
           {{/if}}
+          {{/if}}
 
+          {{#if ../IncludeSerialNumbers}}
           {{#if SerialNumbers}}
           <div>
             <b>Serial Numbers:</b> {{SerialNumbers}}
           </div>
           {{/if}}
+          {{/if}}
 
+          {{#if ../IncludeRfids}}
           {{#if Rfids}}
           <div>
             <b>RFIDs:</b> {{Rfids}}
           </div>
           {{/if}}
+          {{/if}}
 
+          {{#if ../IncludeManufacturerPartNumbers}}
           {{#if ManufacturerPartNumbers}}
           <div>
             <b>Part Numbers:</b> {{ManufacturerPartNumbers}}
           </div>
+          {{/if}}
           {{/if}}
 
           {{#if Notes}}

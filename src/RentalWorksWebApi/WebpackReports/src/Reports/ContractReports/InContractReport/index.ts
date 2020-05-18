@@ -1,5 +1,4 @@
 import { WebpackReport } from '../../../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../../../lib/FwReportLibrary/src/scripts/CustomField';
 import { DataTable } from '../../../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../../../lib/FwReportLibrary/src/scripts/Ajax';
 import * as moment from 'moment';
@@ -27,6 +26,10 @@ export class InContractReport extends WebpackReport {
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }
+                            data.IncludeBarCodes = parameters.IncludeBarCodes;
+                            data.IncludeSerialNumbers = parameters.IncludeSerialNumbers;
+                            data.IncludeRfids = parameters.IncludeRfids;
+                            data.IncludeManufacturerPartNumbers = parameters.IncludeManufacturerPartNumbers;
 
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
@@ -37,7 +40,7 @@ export class InContractReport extends WebpackReport {
                             } else {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
-
+                            console.log('DATA: ', data)
                             // want to add
                             //if (data.TermsAndConditions !== null && data.TermsAndConditions !== '') {
                             //    const termEl = document.getElementById('terms');
