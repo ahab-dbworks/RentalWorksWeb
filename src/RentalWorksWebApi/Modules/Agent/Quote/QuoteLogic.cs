@@ -21,7 +21,7 @@ namespace WebApi.Modules.Agent.Quote
             dataLoader = quoteLoader;
             browseLoader = quoteBrowseLoader;
             Type = RwConstants.ORDER_TYPE_QUOTE;
-            BeforeSave += OnBeforeSave;
+            //BeforeSave += OnBeforeSave;
             dealOrder.AfterSave += OnAfterSaveDealOrder;
         }
         //------------------------------------------------------------------------------------

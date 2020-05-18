@@ -20,7 +20,7 @@ namespace WebApi.Modules.Agent.Order
             dataLoader = orderLoader;
             browseLoader = orderBrowseLoader;
             Type = RwConstants.ORDER_TYPE_ORDER;
-            BeforeSave += OnBeforeSave;
+            //BeforeSave += OnBeforeSave;
             dealOrder.AfterSave += OnAfterSaveDealOrder;
         }
         //------------------------------------------------------------------------------------

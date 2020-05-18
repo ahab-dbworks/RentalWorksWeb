@@ -12,7 +12,7 @@ namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorType
         public GeneratorTypeLogic() : base()
         {
             dataLoader = generatorTypeLoader;
-            BeforeSave += OnBeforeSave;
+            //BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"PgUSszjdYyKw", IsPrimaryKey:true)]

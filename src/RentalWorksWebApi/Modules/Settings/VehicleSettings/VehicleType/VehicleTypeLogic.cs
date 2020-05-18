@@ -11,7 +11,7 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleType
         public VehicleTypeLogic() : base()
         {
             dataLoader = vehicleTypeLoader;
-            BeforeSave += OnBeforeSave;
+            //BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
 
