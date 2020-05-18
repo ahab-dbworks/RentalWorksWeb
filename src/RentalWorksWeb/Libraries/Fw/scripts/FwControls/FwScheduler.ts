@@ -661,9 +661,8 @@ class FwSchedulerClass {
         dpyear.cellWidth = 50;
         dpyear.eventHeight = 30;
         dpyear.headerHeight = 25;
-        dpyear.days = 31;
+        dpyear.days = 37;
         dpyear.scale = "Day";
-        //dpyear.timeHeaders = [{ groupBy: "Day", format: "ddd" }];
         dpyear.timeHeaders = [
             { groupBy: "Cell", format: "d" },
         ];
@@ -678,7 +677,8 @@ class FwSchedulerClass {
                 args.async = true;  // notify manually using .loaded()
 
                 // simulating slow server-side load
-                args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Date: ${ev.startdisplay.toString("MM/dd/yyyy")}</div>`;   //justin - "startdisplay" gives an error
+                const date = ev.data.startdisplay;
+                args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Date: ${date.substring(0, date.length - 12)}</div>`; 
                 args.loaded();
 
             }
