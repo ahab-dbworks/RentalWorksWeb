@@ -212,10 +212,10 @@
     //----------------------------------------------------------------------------------------------
     updateCompleteKitAccessoryRows($grid: JQuery, $tr: JQuery, event: any, field: string) {
         const index = jQuery(event.currentTarget).parents('tr').index();
-        const pageSize = parseInt($grid.attr('data-pagesize'));
         const id = FwBrowse.getValueByDataField($grid, $tr, 'OrderItemId');
         const completeKitAccClasses: any = ['KI', 'KO', 'CI', 'CO'];
-        for (let i = index + 1; i < pageSize; i++) {
+        const rowCount = FwBrowse.getRowCount($grid);
+        for (let i = index + 1; i < rowCount; i++) {
             const $nextRow = FwBrowse.selectRowByIndex($grid, i);
             const nextRowClass = FwBrowse.getValueByDataField($grid, $nextRow, 'ItemClass');
             const parentId = FwBrowse.getValueByDataField($grid, $nextRow, 'ParentId');
@@ -230,10 +230,10 @@
                 //    }
                 //} else
 
-                    if (field == 'QuantityOrdered') {
+                if (field == 'QuantityOrdered') {
                     const accessoryRatio = parseInt(FwBrowse.getValueByDataField($grid, $nextRow, 'AccessoryRatio'));
-                    const parentValue = +jQuery(event.currentTarget).val();
-                    newValue = (parentValue * accessoryRatio).toString();
+                    const parentValue = Number(jQuery(event.currentTarget).val());
+                    newValue = Math.round(parentValue / accessoryRatio).toString();
                 }
 
                 FwBrowse.setRowEditMode($grid, $nextRow);
