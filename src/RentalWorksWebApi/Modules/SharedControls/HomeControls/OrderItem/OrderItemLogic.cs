@@ -1014,8 +1014,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //[FwLogicProperty(Id:"2k9UslveT04T")]
         //public bool? Shortage { get; set; }
 
-        //[FwLogicProperty(Id:"NsRO4e4kMava")]
-        //public decimal? Accratio { get { return orderItem.Accratio; } set { orderItem.Accratio = value; } }
+        [FwLogicProperty(Id: "NsRO4e4kMava", IsReadOnly: true)]
+        //public decimal? AccessoryRatio { get { return orderItem.AccessoryRatio; } set { orderItem.AccessoryRatio = value; } }
+        public decimal? AccessoryRatio { get; set; }
 
         //[FwLogicProperty(Id:"rscwaPsW0oEK")]
         //public string SpacetypeId { get { return orderItem.SpacetypeId; } set { orderItem.SpacetypeId = value; } }
