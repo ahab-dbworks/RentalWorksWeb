@@ -661,12 +661,11 @@ class FwSchedulerClass {
         dpyear.cellWidth = 50;
         dpyear.eventHeight = 30;
         dpyear.headerHeight = 25;
-        dpyear.days = 37;
+        dpyear.days = 31;
         dpyear.scale = "Day";
         //dpyear.timeHeaders = [{ groupBy: "Day", format: "ddd" }];
         dpyear.timeHeaders = [
-            { groupBy: "Month", format: "MMM yyyy" },
-            { groupBy: "Cell", format: "d" }
+            { groupBy: "Cell", format: "d" },
         ];
         dpyear.eventClickHandling = 'Enabled';
         dpyear.eventMoveHandling = 'Disabled';
