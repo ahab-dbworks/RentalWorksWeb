@@ -766,6 +766,13 @@ class OrderItemGrid {
             }
         });
 
+        $generatedtr.find('div[data-browsedatafield="SubQuantity"]').on('change', 'input.value', e => {
+            const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
+            if (itemClass == 'K' || itemClass == 'C') {
+                this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'SubQuantity');
+            }
+        });
+
         $generatedtr.find('div[data-browsedatafield="UnitCost"]').on('change', 'input.value', function ($tr) {
             calculateMarkupMargin('UnitCost');
             calculateExtended('Extended');
@@ -1119,7 +1126,7 @@ class OrderItemGrid {
                     } else {
                         newValue = jQuery(event.currentTarget).val();
                     }
-                } else if (field == 'QuantityOrdered') {
+                } else if (field == 'QuantityOrdered' || field == 'SubQuantity') {
                     const accessoryRatio = parseFloat(FwBrowse.getValueByDataField($grid, $nextRow, 'AccessoryRatio'));
                     const parentValue = Number(jQuery(event.currentTarget).val());
                     newValue = Math.round(parentValue / accessoryRatio).toString();
