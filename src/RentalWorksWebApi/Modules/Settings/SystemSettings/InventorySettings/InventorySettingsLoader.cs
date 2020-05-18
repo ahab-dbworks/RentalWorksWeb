@@ -31,6 +31,18 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwSqlDataField(column: "enable3weekpricing", modeltype: FwDataTypes.Boolean)]
         public bool? Enable3WeekPricing { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salescheckoutretiredreasonid", modeltype: FwDataTypes.Text)]
+        public string SalesCheckOutRetiredReasonId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salescheckoutretiredreason", modeltype: FwDataTypes.Text)]
+        public string SalesCheckOutRetiredReason { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salescheckinunretiredreasonid", modeltype: FwDataTypes.Text)]
+        public string SalesCheckInUnretiredReasonId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salescheckinunretiredreason", modeltype: FwDataTypes.Text)]
+        public string SalesCheckInUnretiredReason { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

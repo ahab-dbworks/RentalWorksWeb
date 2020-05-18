@@ -539,6 +539,12 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "defaultdealpotype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
         public string DefaultDealPoType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salescheckoutretiredreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string SalesCheckOutRetiredReasonId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salescheckinunretiredreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string SalesCheckInUnretiredReasonId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

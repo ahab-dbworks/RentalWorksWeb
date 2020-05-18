@@ -40,6 +40,18 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwLogicProperty(Id: "yzYEXi36QjGvF")]
         public bool? Enable3WeekPricing { get { return sysControl.Enable3WeekPricing; } set { sysControl.Enable3WeekPricing = value; } }
 
+        [FwLogicProperty(Id: "WiSc1DOZ71ece")]
+        public string SalesCheckOutRetiredReasonId { get { return sysControl.SalesCheckOutRetiredReasonId; } set { sysControl.SalesCheckOutRetiredReasonId = value; } }
+
+        [FwLogicProperty(Id: "DaBzieb9GHfz4", IsReadOnly: true)]
+        public string SalesCheckOutRetiredReason { get; set; }
+
+        [FwLogicProperty(Id: "R8E0vYoDXddCz")]
+        public string SalesCheckInUnretiredReasonId { get { return sysControl.SalesCheckInUnretiredReasonId; } set { sysControl.SalesCheckInUnretiredReasonId = value; } }
+
+        [FwLogicProperty(Id: "2Q3BFsIa7kqz4", IsReadOnly: true)]
+        public string SalesCheckInUnretiredReason { get; set; }
+
         [FwLogicProperty(Id: "E0PTF3DZXRoNX")]
         public string DateStamp { get { return sysControl.DateStamp; } set { sysControl.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
