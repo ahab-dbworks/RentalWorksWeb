@@ -279,7 +279,7 @@ abstract class InventoryBase {
                                 if (calendarEvents[i].backColor) {
                                     html += `background-color:${calendarEvents[i].backColor};`;
                                 }
-                                html += `color:${calendarEvents[i].textColor};text-align:left;">${calendarEvents[i].text}</div>`;
+                                html += `color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`;
                                 calendarEvents[i].html = html;
                                 //}
                             }
