@@ -65,6 +65,9 @@ namespace WebApi.Modules.Reports.ContractReports.ContractReport
         [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
         public string Rfids { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumbers { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
         public string ItemOrder { get; set; }
         //------------------------------------------------------------------------------------ 
