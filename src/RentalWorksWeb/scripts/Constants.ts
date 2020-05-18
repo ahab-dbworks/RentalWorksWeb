@@ -858,6 +858,7 @@ var Constants = {
         CustomerNoteGrid: { id: '6AHfzr9WBEW9', caption: 'Customer Note' },
         CustomFormGroupGrid: { id: '11txpzVKVGi2', caption: 'Custom Form Group' },
         CustomFormUserGrid: { id: 'nHNdXDBX6m6cp', caption: 'Custom Form User' },
+        DealHiatusDiscountGrid: { id: '', caption: 'Deal Hiatus' },
         DealNoteGrid: { id: 'jcwmVLFEU88k', caption: 'Deal Notes' },
         DealShipperGrid: { id: '5cMD0y0jSUgz', caption: 'Deal Shipper' },
         DiscountItemLaborGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Labor' },
@@ -927,6 +928,7 @@ var Constants = {
         MigrateItemGrid: { id: 'szZ66eT0VS5', caption: 'Migrate Orders Item' },
         MiscCategoryGrid: { id: 'BRtP4O9fieRK', caption: 'Misc Category' },
         OrderContactGrid: { id: '7CUe9WvpWNat', caption: 'Order Contact' },
+        OrderHiatusDiscountGrid: { id: 'q4N43Gk5H1471', caption: 'Order Hiatus' },
         OrderItemGrid: {  id: 'RFgCJpybXoEb', caption: 'Order Item',
             menuItems: {
                 SummaryView: { id: '{D27AD4E7-E924-47D1-AF6E-992B92F5A647}' },
