@@ -13,6 +13,13 @@
     generateRow($control, $generatedtr) {
         const $form = $control.closest('.fwform');
 
+        $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', e => {
+            const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
+            if (itemClass == 'K' || itemClass == 'C') {
+                this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'QuantityOrdered');
+            }
+        });
+
         $generatedtr.find('div[data-browsedatafield="Description"]').data('onchange', $tr => {
             const recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
             let idFieldName;
@@ -202,7 +209,42 @@
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodetransfer`);
         }
     }
+    //----------------------------------------------------------------------------------------------
+    updateCompleteKitAccessoryRows($grid: JQuery, $tr: JQuery, event: any, field: string) {
+        const index = jQuery(event.currentTarget).parents('tr').index();
+        const pageSize = parseInt($grid.attr('data-pagesize'));
+        const id = FwBrowse.getValueByDataField($grid, $tr, 'OrderItemId');
+        const completeKitAccClasses: any = ['KI', 'KO', 'CI', 'CO'];
+        for (let i = index + 1; i < pageSize; i++) {
+            const $nextRow = FwBrowse.selectRowByIndex($grid, i);
+            const nextRowClass = FwBrowse.getValueByDataField($grid, $nextRow, 'ItemClass');
+            const parentId = FwBrowse.getValueByDataField($grid, $nextRow, 'ParentId');
+            if (completeKitAccClasses.includes(nextRowClass) && id == parentId) {
+                let newValue: any;
+                //if (field == 'DaysPerWeek' || field == 'DiscountPercentDisplay') {
+                //    const isLocked = FwBrowse.getValueByDataField($grid, $nextRow, 'Locked');
+                //    if (isLocked == 'true') {
+                //        return;
+                //    } else {
+                //        newValue = jQuery(event.currentTarget).val();
+                //    }
+                //} else
+
+                    if (field == 'QuantityOrdered') {
+                    const accessoryRatio = parseInt(FwBrowse.getValueByDataField($grid, $nextRow, 'AccessoryRatio'));
+                    const parentValue = +jQuery(event.currentTarget).val();
+                    newValue = (parentValue * accessoryRatio).toString();
+                }
+
+                FwBrowse.setRowEditMode($grid, $nextRow);
+                FwBrowse.setFieldValue($grid, $nextRow, field, { value: newValue });
+            } else {
+                return;
+            }
+        }
+    }
 }
+
 //-----------------------------------------------------------------------------------------------------
 //QuikSearch
 FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.QuikSearch.id] = function (event: JQuery.ClickEvent) {
