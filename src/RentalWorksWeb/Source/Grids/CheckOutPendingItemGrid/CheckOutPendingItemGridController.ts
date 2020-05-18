@@ -39,7 +39,6 @@ class CheckOutPendingItemGrid {
     }
     //----------------------------------------------------------------------------------------------
     substituteItems($control: JQuery, $tr: JQuery) {
-        const inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
         const orderItemId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
         const quantity = FwBrowse.getValueByDataField($control, $tr, 'QuantityOrdered');
         const orderId = FwBrowse.getValueByDataField($control, $tr, 'OrderId');
@@ -76,6 +75,7 @@ class CheckOutPendingItemGrid {
                             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="flex:0 1 100px;"></div>
                         </div>
                     </div>
+                    <div class="error-msg"></div>
                     <div class="flexrow">
                         <div data-control="FwGrid" data-grid="CheckOutSubstituteSessionItemGrid"></div>
                     </div>
@@ -94,24 +94,24 @@ class CheckOutPendingItemGrid {
                 FwConfirmation.addButton($confirmation, 'Cancel', true);
                 $confirmation.find('.fwconfirmationbox').css('width', '40vw');
 
-                //const $grid = FwBrowse.renderGrid({
-                //    nameGrid: 'CheckOutSubstituteSessionItemGrid',
-                //    gridSecurityId: '40bj9sn7JHqai',
-                //    moduleSecurityId: this.id,
-                //    $form: $confirmation,
-                //    pageSize: 20,
-                //    addGridMenu: (options: IAddGridMenuOptions) => {
-                //        options.hasNew = false;
-                //        options.hasEdit = false;
-                //        options.hasDelete = false;
-                //    },
-                //    onDataBind: (request: any) => {
-                //        request.uniqueids = {
-                //            SessionId: sessionId
-                //        };
-                //    }
-                //});
-           
+                const $grid = FwBrowse.renderGrid({
+                    nameGrid: 'CheckOutSubstituteSessionItemGrid',
+                    gridSecurityId: 'qCquw4GIfqRW5',
+                    moduleSecurityId: StagingCheckoutController.id,
+                    $form: $confirmation,
+                    pageSize: 20,
+                    addGridMenu: (options: IAddGridMenuOptions) => {
+                        options.hasNew = false;
+                        options.hasEdit = false;
+                        options.hasDelete = false;
+                    },
+                    onDataBind: (request: any) => {
+                        request.uniqueids = {
+                            SessionId: sessionId
+                        };
+                    }
+                });
+                FwBrowse.search($grid);
 
                 $confirmation.on('change', '[data-datafield="Code"], [data-datafield="Quantity"]', e => {
                     const request: any = {
@@ -124,11 +124,12 @@ class CheckOutPendingItemGrid {
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/addsubstituteitemtosession`, request, FwServices.defaultTimeout,
                         response => {
                             if (response.success) {
-                                //FwBrowse.search($grid);
+                                $confirmation.find('.error-msg').html('');
+                                FwBrowse.search($grid);
                             } else {
-                                // error
+                                $confirmation.find('.error-msg').html(`<span style="margin-left:1em; color:white; background:red;">${response.msg}</span>`);
                             }
-                        }, ex => FwFunc.showError(ex), $control);
+                        }, ex => FwFunc.showError(ex), $grid);
                 });
 
                 $confirmation.find('[data-datafield="Code"] input').focus();
@@ -138,17 +139,16 @@ class CheckOutPendingItemGrid {
                         SessionId: sessionId,
                     };
 
-                    FwConfirmation.destroyConfirmation($confirmation);
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/applysubstitutesession`, request, FwServices.defaultTimeout,
                         response => {
                             if (response.success) {
+                                FwConfirmation.destroyConfirmation($confirmation);
                                 FwBrowse.search($control);
                             } else {
-                                //error
+                                $confirmation.find('.error-msg').html(`<span style="margin-left:1em; color:white; background:red;">${response.msg}</span>`);
                             }
                         }, ex => FwFunc.showError(ex), $control);
                 })
-
             }, ex => FwFunc.showError(ex), $control);
     }
     //----------------------------------------------------------------------------------------------
