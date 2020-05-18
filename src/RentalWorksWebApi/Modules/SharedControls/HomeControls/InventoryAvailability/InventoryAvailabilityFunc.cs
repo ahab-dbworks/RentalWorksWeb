@@ -2870,10 +2870,16 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 resourceId = tmpResourceId;
                             }
 
+                            DateTime availDateTime = theDateTime;
+                            if ((availDateTime.Equals(DateTime.Today)) && invHasHourlyAvail)
+                            {
+                                availDateTime = currentAvailabilityDateTime;
+                            }
+
                             //add the "day" avail event here
                             TInventoryAvailabilityCalendarData avail = new TInventoryAvailabilityCalendarData();
                             TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = null;
-                            if (availData.AvailabilityDatesAndTimes.TryGetValue(theDateTime, out inventoryWarehouseAvailabilityDateTime))
+                            if (availData.AvailabilityDatesAndTimes.TryGetValue(availDateTime, out inventoryWarehouseAvailabilityDateTime))
                             {
                                 avail.exists = true;
                                 avail.barColor = "";
@@ -2895,7 +2901,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
                             if (avail.exists)
                             {
-                                response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDateTime, theDateTime, avail, ref eventId, request.InventoryId, warehouseId, true));
+                                DateTime renderDateTime = new DateTime(request.FromDate.Year, request.FromDate.Month, theDateTime.Day);
+                                response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, renderDateTime, renderDateTime, avail, ref eventId, request.InventoryId, warehouseId, true));
                             }
 
                             theDateTime = theDateTime.AddDays(1);
