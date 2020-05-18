@@ -1300,6 +1300,7 @@ class OrderBase {
         ], true);
 
         FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryOnlineOrderStatus"]'), [
+            { value: '', text: '' },
             { value: 'PARTIAL', text: 'Partial' },
             { value: 'COMPLETE', text: 'Complete' }
         ], true);

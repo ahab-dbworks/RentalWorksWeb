@@ -1228,6 +1228,12 @@ namespace WebApi.Modules.Agent.Order
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
 
+            if (isValid)
+            {
+                PropertyInfo property = typeof(OrderBaseLogic).GetProperty(nameof(OrderBaseLogic.OutDeliveryOnlineOrderStatus));
+                string[] acceptableValues = { string.Empty, RwConstants.ONLINE_DELIVERY_STATUS_PARTIAL, RwConstants.ONLINE_DELIVERY_STATUS_COMPLETE };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
 
             OrderBaseLogic lOrig = null;
 
