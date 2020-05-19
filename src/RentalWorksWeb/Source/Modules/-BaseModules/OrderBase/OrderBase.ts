@@ -34,6 +34,44 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
         FwBrowse.renderGrid({
+            nameGrid: 'OrderHiatusDiscountGrid',
+            gridSecurityId: 'q4N43Gk5H1471',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+            }
+        });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'DealHiatusDiscountGrid',
+            gridSecurityId: '',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+            }
+        });
+        // ----------
+        FwBrowse.renderGrid({
             nameGrid: 'OrderStatusHistoryGrid',
             gridSecurityId: 'B9CzDEmYe1Zf',
             moduleSecurityId: this.id,
@@ -2071,6 +2109,17 @@ class OrderBase {
         $form.find('.bottom_line_discount').on('change', event => {
             this.bottomLineDiscountChange($form, event);
         });
+        // Hiatus toggle on Billing tab
+        $form.find('div[data-datafield="HiatusDiscountFrom"]').on('change', e => {
+            const hiatusDiscountFrom = FwFormField.getValueByDataField($form, 'HiatusDiscountFrom');
+            if (hiatusDiscountFrom === 'DEAL') {
+                $form.find('div[data-grid="DealHiatusDiscountGrid"]').show();
+                $form.find('div[data-grid="OrderHiatusDiscountGrid"]').hide();
+            } else {
+                $form.find('div[data-grid="OrderHiatusDiscountGrid"]').show();
+                $form.find('div[data-grid="DealHiatusDiscountGrid"]').hide();
+            }
+        });
         // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {},
@@ -3667,6 +3716,15 @@ class OrderBase {
         } else {
             FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+        }
+
+        const hiatusDiscountFrom = FwFormField.getValueByDataField($form, 'HiatusDiscountFrom');
+        if (hiatusDiscountFrom === 'DEAL') {
+            $form.find('div[data-grid="DealHiatusDiscountGrid"]').show();
+            $form.find('div[data-grid="OrderHiatusDiscountGrid"]').hide();
+        } else {
+            $form.find('div[data-grid="OrderHiatusDiscountGrid"]').show();
+            $form.find('div[data-grid="DealHiatusDiscountGrid"]').hide();
         }
 
         // update fields on the form based on Rate Type

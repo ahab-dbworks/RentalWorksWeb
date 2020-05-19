@@ -163,6 +163,7 @@
     <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
+    <Content Include="Source\Grids\DealHiatusDiscountGrid\DealHiatusDiscountGridBrowse.htm" />
     <Content Include="Source\Grids\OrderHiatusDiscountGrid\OrderHiatusDiscountGridBrowse.htm" />
     <Content Include="Source\Grids\PurchaseOrderPaymentScheduleGrid\PurchaseOrderPaymentScheduleGridBrowse.htm" />
     <Content Include="Source\Grids\SystemUpdateHistoryGrid\SystemUpdateHistoryGridBrowse.htm" />
@@ -339,6 +340,7 @@
     <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\DealHiatusDiscountGrid\DealHiatusDiscountGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderHiatusDiscountGrid\OrderHiatusDiscountGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PurchaseOrderPaymentScheduleGrid\PurchaseOrderPaymentScheduleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SystemUpdateHistoryGrid\SystemUpdateHistoryGridController.ts" />
