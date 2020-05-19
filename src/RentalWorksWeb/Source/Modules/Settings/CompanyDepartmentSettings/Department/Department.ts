@@ -1,9 +1,9 @@
 ﻿class Department {
     Module: string = 'Department';
     apiurl: string = 'api/v1/department';
-    caption: string = Constants.Modules.Settings.children.CompanyDepartmentSettings.children.Department.caption;
-    nav: string = Constants.Modules.Settings.children.CompanyDepartmentSettings.children.Department.nav;
-    id: string = Constants.Modules.Settings.children.CompanyDepartmentSettings.children.Department.id;
+    caption: string = Constants.Modules.Settings.children.DepartmentSettings.children.Department.caption;
+    nav: string = Constants.Modules.Settings.children.DepartmentSettings.children.Department.nav;
+    id: string = Constants.Modules.Settings.children.DepartmentSettings.children.Department.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};

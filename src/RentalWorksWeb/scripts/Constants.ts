@@ -355,14 +355,6 @@ var Constants = {
                         BillingCycle: { id: 'FQfXEIcN9q3', caption: 'Billing Cycle', nav: 'settings/billingcyclesettings/billingcycle', nodetype: 'Module', description: 'Define and configure Billing Cycles for your Quotes and Orders' }
                     }
                 },
-                CompanyDepartmentSettings: {
-                    caption: 'Department',
-                    id: 'Settings.CompanyDepartmentSettings',
-                    nodetype: 'Category',
-                    children: {
-                        Department: { id: 'kuYqT9d6TDEg', caption: 'Department', nav: 'settings/companydepartmentsettings/companydepartment', nodetype: 'Module', description: '' }
-                    }
-                },
                 ContactSettings: {
                     caption: 'Contact',
                     id: 'Settings.ContactSettings',
@@ -402,6 +394,14 @@ var Constants = {
                         DealType: { id: 'jZCS1X5BzeyS', caption: 'DealType', nav: 'settings/currencysettings/dealtype', nodetype: 'Module', description: '' },
                         ProductionType: { id: '3UvqzQ0Svxay6', caption: 'Production Type', nav: 'settings/currencysettings/productiontype', nodetype: 'Module', description: '' },
                         ScheduleType: { id: 'rUWFdPEkKkDAM', caption: 'Schedule Type', nav: 'settings/currencysettings/scheduletype', nodetype: 'Module', description: '' }
+                    }
+                },
+                DepartmentSettings: {
+                    caption: 'Department',
+                    id: 'Settings.CompanyDepartmentSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Department: { id: 'kuYqT9d6TDEg', caption: 'Department', nav: 'settings/companydepartmentsettings/companydepartment', nodetype: 'Module', description: '' }
                     }
                 },
                 DiscountTemplateSettings: {
