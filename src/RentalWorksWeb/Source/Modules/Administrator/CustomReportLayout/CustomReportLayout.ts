@@ -319,53 +319,6 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     renderTab($form, tabName: string) {
-        //designer notes - jason hoang 05/12/2020
-        //- everything outside of the table element is ignored
-        //
-        //- important attributes - 
-        //  - TABLE - 
-        //      - data-tablename attribute for reports with multiple tables
-        //  - THEAD -
-        //      - id = "columnHeader"                                       //we could probably take the id out if there is only one thead within the table
-        //      - TH data-valuefields should match with the tds.            //this value will be used for linking columns together with the data-linkedcolumn attribute.
-        //                                                                  //when the valuefield is changed, the linkedcolumn remains the same to keep track of which tds we need to move. 
-        //  - TBODY -
-        //      -- TRs need the data-row attribute 
-        //      -- values: ['header', 'detail', 'footer'].                  //multiple header and footer rows, one detail row.
-        //      -- FOOTER rows need one td with the 'total-name' class.     //the colspan should be correct based on total colspan of THs in the THEAD
-        //
-        //
-        //- basic table structure -
-        //<table data-tablename="Example Table 1">
-        //  <thead id="columnHeader">
-        //      <tr> 
-        //        <th data-valuefield="ExampleField">Example Field Caption</th>
-        //        <th data-valuefield="ExampleField2">Example Field2 Caption</th>
-        //        <th data-valuefield="ExampleTotalField">Example Total Field Caption</th>
-        //      </tr>
-        //      ..
-        //  </thead>
-        //  <tbody>
-        //      <tr data-row="header">
-        //          <td colspan="3" data-valuefield="ExampleHeaderField">Example Header Caption</td>
-        //      </tr>
-        //      ..
-        //      <tr data-row="detail">
-        //          <td data-value="ExampleField"></td>         //maybe we should change data-value to data-valuefield for consistency?  //nvm, there is a CSS rule that sets this attribute's value as the content.
-        //          <td data-value="ExampleField2"></td>       
-        //          <td data-value="ExampleTotalField"></td>  
-        //      </tr>
-        //      <tr data-row="footer">
-        //          <td colspan="2" class="total-name"></td>    //assumes only one total-name column.  it's important that the colspan is correct
-        //          <td data-value="ExampleTotalField"></td>
-        //      </tr>
-        //      ..
-        //  </tbody>
-        //</table>
-        //<table data-tablename="Example Table 2">
-        //</table>
-        //..
-
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
         this.html = FwFormField.getValueByDataField($form, 'Html');
 
@@ -402,9 +355,9 @@ class CustomReportLayout {
                 //create sortable for headers
                 Sortable.create($table.find('#columnHeader tr').get(0), {
                     onStart: e => {
-                        $table.find('tbody td[data-linkedcolumn]').removeClass('highlight-cells');
+                        $table.find('tbody td[data-linkedcolumn]').removeClass('highlight');
                         const linkedColumnName = jQuery(e.item).attr('data-linkedcolumn');
-                        $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight-cells');
+                        $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
                     },
                     onEnd: e => {
                         const $th = jQuery(e.item);
@@ -418,7 +371,7 @@ class CustomReportLayout {
 
                         $form.attr('data-modified', 'true');
                         $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-                        $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).removeClass('highlight-cells').addClass('highlight-cells');
+                        $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).removeClass('highlight').addClass('highlight');
                     }
                 });
                 this.linkColumns($form, $table);
@@ -472,21 +425,11 @@ class CustomReportLayout {
                                     const $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
                                     if ($movedTd.length) {
                                         if (oldIndex > newIndex) {
-                                            if (newIndex != 0) {
-                                                $movedTd.insertBefore($tds[newIndex]);
-                                                $designerTd.insertBefore($designerTds[newIndex]);
-                                            } else {
-                                                $movedTd.insertBefore($tds[newIndex]);
-                                                $designerTd.insertBefore($designerTds[newIndex]);
-                                            }
+                                            $movedTd.insertBefore($tds[newIndex]);
+                                            $designerTd.insertBefore($designerTds[newIndex]);
                                         } else {
-                                            if ((newIndex + 1) == totalColumnCount) {
-                                                $movedTd.insertAfter($tds[newIndex]);
-                                                $designerTd.insertAfter($designerTds[newIndex]);
-                                            } else {
-                                                $movedTd.insertAfter($tds[newIndex]);
-                                                $designerTd.insertAfter($designerTds[newIndex]);
-                                            }
+                                            $movedTd.insertAfter($tds[newIndex]);
+                                            $designerTd.insertAfter($designerTds[newIndex]);
                                         }
                                     }
                                 } else if (rowType == 'footer') {
@@ -778,6 +721,8 @@ class CustomReportLayout {
 
         $form.on('click', '#reportDesigner .header-wrapper span', e => {
             $headerField = jQuery(e.currentTarget);
+            $form.find('#reportDesigner .highlight').removeClass('highlight');
+            $headerField.addClass('highlight');
             $form.find('#controlProperties, #controlProperties >').show();
             $form.find('#controlProperties > :not(.header-field)').hide();
             const value = $headerField.text();
@@ -888,8 +833,8 @@ class CustomReportLayout {
             $form.find('#controlProperties, #controlProperties > :not(.header-field)').show();
             this.setControlValues($form, $column);
             const linkedColumn = $column.attr('data-linkedColumn');
-            $form.find('#reportDesigner tbody td[data-linkedcolumn]').removeClass('highlight-cells');
-            $table.find(`tbody td[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight-cells');
+            $form.find('#reportDesigner .highlight').removeClass('highlight');
+            $table.find(`tbody td[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight');
         });
 
         //header row
@@ -909,8 +854,7 @@ class CustomReportLayout {
 
     }
     //----------------------------------------------------------------------------------------------
-    //----------------------------------------------------------------------------------------------
-    //updateColumnOrder($row: JQuery, $designerRow: JQuery, oldIndex: Number, newIndex: Number) {
+    //moveColumns($row: JQuery, $designerRow: JQuery, oldIndex: Number, newIndex: Number) {
 
     //}
     //----------------------------------------------------------------------------------------------
