@@ -1,5 +1,5 @@
 ﻿<!--G/L Distribution Report-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -63,8 +63,7 @@
   {{/ifEquals}}
   <!--SOME DETAIL VIEW TABLE-->
   {{#ifEquals IsSomeDetail true}}
-  <table data-tablename="Some Detail View">
-    <!--NOT DESIGNER PROVISIONED-->
+  <table data-tablename="Some Detail View - NOT PROVISIONED">
     <thead>
       <tr>
         <th colspan="2">G/L No.</th>
@@ -76,22 +75,22 @@
     <tbody>
       {{#each this}}
       {{#ifEquals RowType "Locationheader"}}
-      <tr data-rowtype="{{RowType}}">
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="7" class="header-row">Location: {{Location}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "GroupHeadingheader"}}
-      <tr data-rowtype="{{RowType}}">
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="7" class="header-row">{{GroupHeading}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "AccountNumberheader"}}
-      <tr data-rowtype="{{RowType}}">
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td class="lower header-row" data-value="{{AccountNumber}}"></td>
         <td></td>
         <td class="lower header-row" colspan="5" data-value="{{AccountDescription}}"></td>
       </tr>
-      <tr>
+      <tr data-row="header">
         <th class="no-border"></th>
         <th class="sub-header">Invoice No.</th>
         <th class="sub-header">Date</th>
@@ -101,7 +100,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      <tr data-rowtype="{{RowType}}">
+      <tr data-row="detail" data-rowtype="{{RowType}}">
         <td class="no-border"></td>
         <td data-value="{{InvoiceNumber}}"></td>
         <td data-value="{{GlDate}}"></td>
@@ -111,7 +110,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "AccountNumberfooter"}}
-      <tr data-rowtype="{{RowType}}">
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="4"></td>
         <td class="total-name">{{AccountNumber}}&nbsp;</td>
         <td class="total-val" data-value="{{Debit}}"></td>
@@ -119,7 +118,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "GroupHeadingfooter"}}
-      <tr data-rowtype="{{RowType}}">
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="4"></td>
         <td class="total-name">{{GroupHeading}}&nbsp;</td>
         <td class="total-val" data-value="{{Debit}}"></td>
@@ -127,7 +126,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Locationfooter"}}
-      <tr data-rowtype="{{RowType}}">
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="4"></td>
         <td class="total-name">{{Location}}&nbsp;</td>
         <td class="total-val" data-value="{{Debit}}"></td>
