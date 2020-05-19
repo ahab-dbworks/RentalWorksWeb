@@ -212,7 +212,7 @@ class FwSchedulerClass {
         });
         $control.on('click', '.btnNext', e => {
             e.stopImmediatePropagation();
-            let currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed;
+            let currentDay, nextDay, nextWeek, next5Week, nextMonth, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed;
 
             try {
                 const $schedulerControl = $control.parents().find('.realscheduler')
@@ -252,9 +252,9 @@ class FwSchedulerClass {
                         FwSchedulerDetailed.navigate($schedulerControl, nextMonth, 31);
                     }
                 } else if ($control.find('.btnYear').attr('data-selected') === 'true') {
-                    navmonth = $control.data('navmonth');
-                    currentDay = navmonth.selectionStart;
-                    nextYear = currentDay.addMonths(12);
+                    const navYear = $control.data('navyear');
+                    const currentDate = navYear.selectionStart;
+                    const nextYear = currentDate.addMonths(12);
                     FwScheduler.navigate($control, nextYear);
                 } else if ($control.find('.btnSchedule').attr('data-selected') === 'true') {
                     navscheduler = $control.data('navscheduler');
@@ -309,9 +309,9 @@ class FwSchedulerClass {
                         FwSchedulerDetailed.navigate($schedulerControl, previousMonth, 31);
                     }
                 } else if ($control.find('.btnYear').attr('data-selected') === 'true') {
-                    navmonth = $control.data('navmonth');
-                    currentDay = navmonth.selectionStart;
-                    const previousYear = currentDay.addMonths(-12);
+                    const navYear = $control.data('navyear');
+                    const currentDate = navYear.selectionStart;
+                    const previousYear = currentDate.addMonths(-12);
                     FwScheduler.navigate($control, previousYear);
                 } else if ($control.find('.btnSchedule').attr('data-selected') === 'true') {
                     navscheduler = $control.data('navscheduler');
