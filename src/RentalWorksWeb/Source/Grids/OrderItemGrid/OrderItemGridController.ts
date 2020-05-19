@@ -363,7 +363,7 @@ class OrderItemGrid {
             }
 
             //Allow searching on description field
-            const validDescriptionValidationTypes: any = ['R', 'S', 'P'];
+            const validDescriptionValidationTypes: any = ['R', 'S', 'P', 'M', 'L'];
             const validTextItemClasses: any = ['M', 'GH', 'T', 'ST'];
             if (validDescriptionValidationTypes.includes(recType)) {
                 if (validTextItemClasses.includes(itemClass)) {
@@ -792,7 +792,10 @@ class OrderItemGrid {
         });
         $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', e => {
             calculateExtended('Extended');
-            this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'DaysPerWeek');
+            const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
+            if (itemClass == 'K' || itemClass == 'C') {
+                this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'DaysPerWeek');
+            }
         });
         $generatedtr.find('div[data-browsedatafield="DiscountPercentDisplay"]').on('change', 'input.value', e => {
             calculateExtended('Extended', 'DiscountPercent');
