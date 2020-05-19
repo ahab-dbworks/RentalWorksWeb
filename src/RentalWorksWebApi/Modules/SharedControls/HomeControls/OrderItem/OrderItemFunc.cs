@@ -27,7 +27,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
     public class InsertLineItemRequest
     {
         public string OrderId { get; set; }
-        public string BelowInventoryId { get; set; }
+        public string BelowOrderItemId { get; set; }
         public string PrimaryItemId { get; set; }
     }
     public class InsertOptionRequest
@@ -219,6 +219,31 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
 
             SortItemsResponse response = await AppFunc.SortItems(appConfig, userSession, r2);
+
+            if (response.success)
+            {
+                TSpStatusResponse response2 = await ReapplyManualSort(appConfig, userSession, orderId);
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> ReapplyManualSort(FwApplicationConfig appConfig, FwUserSession userSession, string id)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "reapplymanualsort", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, id);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
@@ -250,12 +275,19 @@ namespace WebApi.Modules.HomeControls.OrderItem
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "insertintocomplete", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
-                qry.AddParameter("@belowmasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.BelowInventoryId);
+                qry.AddParameter("@belowmasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.BelowOrderItemId);
                 qry.AddParameter("@completeid", SqlDbType.NVarChar, ParameterDirection.Input, request.PrimaryItemId);
                 qry.AddParameter("@newmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
                 response.msg = qry.GetParameter("@newmasteritemid").ToString();
+                response.success = true;
             }
+
+            if (response.success)
+            {
+                TSpStatusResponse response2 = await ReapplyManualSort(appConfig, userSession, request.OrderId);
+            }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
@@ -275,8 +307,15 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
                     response.msg = qry.GetParameter("@masteritemid").ToString();
+                    response.success = true;
                 }
             }
+
+            if (response.success)
+            {
+                TSpStatusResponse response2 = await ReapplyManualSort(appConfig, userSession, request.OrderId);
+            }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    

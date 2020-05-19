@@ -1745,7 +1745,7 @@ class OrderItemGrid {
         const request: any = {
             OrderId: FwBrowse.getValueByDataField($control, $tr, 'OrderId'),
             PrimaryItemId: primaryItemId,
-            BelowInventoryId: FwBrowse.getValueByDataField($control, $tr, 'OrderItemId')
+            BelowOrderItemId: FwBrowse.getValueByDataField($control, $tr, 'OrderItemId')
         };
 
         FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertlineitem`, request, FwServices.defaultTimeout,
