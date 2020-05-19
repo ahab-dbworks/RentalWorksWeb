@@ -1124,9 +1124,13 @@ class OrderItemGrid {
                 let newValue: any;
                 if (field == 'DaysPerWeek' || field == 'DiscountPercentDisplay') {
                     const isLocked = FwBrowse.getValueByDataField($grid, $nextRow, 'Locked');
-                    if (isLocked == 'true') {
-                        return;
-                    } else {
+                    //if (isLocked == 'true') {
+                    //    return;
+                    //} else {
+                    //    newValue = jQuery(event.currentTarget).val();
+                    //}
+                    //justin hoffman 05/19/2020.  If locked, just skip this row and continue to the next row
+                    if (isLocked !== 'true') {
                         newValue = jQuery(event.currentTarget).val();
                     }
                 } else if (field == 'QuantityOrdered' || field == 'SubQuantity') {
