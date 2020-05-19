@@ -928,7 +928,7 @@ class FwSchedulerClass {
                 case 'Year':
                     start = dpyear.startDate.addDays(-dpyear.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible
                     const endDate = dpyear.startDate.addMonths(11);
-                    days = 330; //temp solution to a more accurate day count
+                    days = this.getDaysBetween(start, endDate);
                     break;
                 case 'Schedule':
                     start = dpscheduler.startDate;
@@ -947,6 +947,7 @@ class FwSchedulerClass {
             throw 'ongetevents is not implemented.';
         }
     };
+ 
     //---------------------------------------------------------------------------------
     loadEventsCallback($control, resources, events) {
         var dpcalendar, dp5week, dpmonth, dpscheduler, dpyear, start, end, request;
@@ -1002,32 +1003,13 @@ class FwSchedulerClass {
         }
     };
     //---------------------------------------------------------------------------------
-    //loadYearEventsCallback($control, resources, events) {
-    //    var dpyear, start, end, request;
-    //    dpyear = $control.data('dpyear');
-
-    //    if ((typeof dpyear !== 'undefined')) {
-    //        if ($control.find('div.changeview[data-selected="true"]').html() === 'Year') {
-    //            FwScheduler.setDateCallout($control, dpyear.startDate);
-    //        }
-    //        dpyear.resources = [
-    //            { name: "January", id: "A" },
-    //            { name: "February", id: "B" },
-    //            { name: "March", id: "C" },
-    //            { name: "April", id: "D" },
-    //            { name: "May", id: "E" },
-    //            { name: "June", id: "F" },
-    //            { name: "July", id: "G" },
-    //            { name: "August", id: "H" },
-    //            { name: "September", id: "I" },
-    //            { name: "October", id: "J" },
-    //            { name: "November", id: "K" },
-    //            { name: "December", id: "L" }
-    //        ];
-    //        dpyear.events.list = events;
-    //        dpyear.update();
-    //    }
-    //};
+    getDaysBetween(date1, date2) {
+        date1 = new Date(date1);
+        date2 = new Date(date2);
+        const timeDiff = date2.getTime() - date1.getTime();
+        const dayDiff = timeDiff / (1000 * 3600 * 24); //divide the time difference of both the dates by number of milliseconds in a day 
+        return dayDiff;
+    }
     //---------------------------------------------------------------------------------
     getSelectedTimeRange($control) {
         var result, dpmonth;
@@ -1041,8 +1023,7 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     getSelectedDay($control) {
-        var result;
-        result = $control.data('selectedstartdate');
+        const result = $control.data('selectedstartdate');
         return result;
     };
     //---------------------------------------------------------------------------------
@@ -1067,7 +1048,7 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     setSelectedDay($control, date) {
-        var start, end;
+        let start;
 
         if (typeof date === 'string') {
             start = new DayPilot.Date(new Date(date).toISOString());
@@ -1075,7 +1056,7 @@ class FwSchedulerClass {
             start = date.getDatePart();
         }
         //end = start.addDays(1).addSeconds(-1);
-        end = start;
+        const end = start;
         FwScheduler.setSelectedTimeRange($control, start, end);
     };
     //---------------------------------------------------------------------------------
