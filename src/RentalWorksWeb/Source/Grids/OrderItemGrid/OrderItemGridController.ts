@@ -1132,8 +1132,14 @@ class OrderItemGrid {
                     newValue = Math.round(parentValue / accessoryRatio).toString();
                 }
 
-                FwBrowse.setRowEditMode($grid, $nextRow);
+                if (!$nextRow.hasClass('editmode')) {
+                    FwBrowse.setRowEditMode($grid, $nextRow);
+                }
                 FwBrowse.setFieldValue($grid, $nextRow, field, { value: newValue });
+
+                if (field == 'DiscountPercentDisplay') {
+                    FwBrowse.setFieldValue($grid, $nextRow, 'DiscountPercent', { value: newValue });
+                }
             } else {
                 return;
             }
