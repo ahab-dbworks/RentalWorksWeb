@@ -117,23 +117,21 @@ class RwHome {
     }
     //----------------------------------------------------------------------------------------------
     loadSettings($control) {
-        var self = this;
-        var $dashboard = $control.find('.programlogo');
-        var webusersid = sessionStorage.getItem('webusersid');
-
-        FwAppData.apiMethod(true, 'GET', 'api/v1/dashboardsettings/' + webusersid, null, FwServices.defaultTimeout, function onSuccess(response) {
+        const webusersid = sessionStorage.getItem('webusersid');
+        FwAppData.apiMethod(true, 'GET', `api/v1/dashboardsettings/${webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        const $dashboard = $control.find('.programlogo');
             let hiddenCounter = 0;
-            let dashboardButton = '<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol dashboardsettings" style="border:1px solid black;flex:0 1 200px;margin:75px 0 0 10px;text-align:center;"><i class="material-icons dashboard systembarcontrol" title="Settings" data-id="settings">settings</i>Dashboard Settings</div></div>';
+            const dashboardButton = '<div class="flexrow dashboard-btn-row"><div class="fwformcontrol dashboardsettings btn-container"><i class="material-icons dashboard systembarcontrol" title="Settings" data-id="settings">settings</i><span>Dashboard Settings</span></div></div>';
             if (hiddenCounter === response.UserWidgets.length) {
                 jQuery($control).append(dashboardButton);
                 jQuery($control).find('.dashboardsettings').on('click', e => {
                     program.navigate('module/dashboardsettings');
                 });
             }
-            for (var i = 0; i < response.UserWidgets.length; i++) {
+            for (let i = 0; i < response.UserWidgets.length; i++) {
                 if (response.UserWidgets[i].selected) {
                     response.UserWidgets[i].width = Math.floor(100 / response.WidgetsPerRow).toString() + '%',
-                        self.renderWidget($dashboard, response.UserWidgets[i]);
+                        this.renderWidget($dashboard, response.UserWidgets[i]);
                 } else {
                     hiddenCounter++;
                 }
