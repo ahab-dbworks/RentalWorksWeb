@@ -152,6 +152,8 @@ namespace WebApi.Modules.Warehouse.CheckOut
     }
     public class StagingAddSubstituteItemToSessionResponse : TSpStatusResponse
     {
+        public string ICode { get; set; }
+        public string Description { get; set; }
     }
     //-------------------------------------------------------------------------------------------------------
     public class StagingApplySubstituteSessionRequest
@@ -609,12 +611,16 @@ namespace WebApi.Modules.Warehouse.CheckOut
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
                     response.status = qry.GetParameter("@status").ToInt32();
                     response.success = (response.status == 0);
                     response.msg = qry.GetParameter("@msg").ToString();
+                    response.ICode = qry.GetParameter("@masterno").ToString();
+                    response.Description = qry.GetParameter("@description").ToString();
                 }
             }
             return response;
