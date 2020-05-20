@@ -2563,50 +2563,52 @@ class Order extends OrderBase {
     }
     //---------------------------------------------------------------------------------
     createPickList($form: JQuery) {
-        let mode = 'EDIT';
-        let orderInfo: any = {};
+        const mode = 'EDIT';
+        const orderInfo: any = {};
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-        let $pickListForm = CreatePickListController.openForm(mode, orderInfo);
+        const $pickListForm = CreatePickListController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $pickListForm);
-        //jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
-        jQuery('.tab.submodule.active[data-tabtype="FORM"]').find('.caption').html('New Pick List');  //justin 09/16/2019 added data-tabtype="FORM" to target the top-level form tab, not the tab page on the Order form
-        var $pickListUtilityGrid;
-        $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
+        const $tab = FwTabs.getTabByElement($pickListForm);
+        $tab.find('.caption').html('New Pick List');
+        const $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
         FwBrowse.search($pickListUtilityGrid);
     }
     //---------------------------------------------------------------------------------
     orderStatus($form: JQuery) {
-        let mode = 'EDIT';
-        let orderInfo: any = {};
+        const mode = 'EDIT';
+        const orderInfo: any = {};
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
-        let $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
+        const $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $orderStatusForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Order Status');
+        const $tab = FwTabs.getTabByElement($orderStatusForm);
+        $tab.find('.caption').html('Order Status');
     }
     //----------------------------------------------------------------------------------------------
     checkIn($form: JQuery) {
-        let mode = 'EDIT';
-        let orderInfo: any = {};
+        const mode = 'EDIT';
+        const orderInfo: any = {};
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
-        let $checkinForm = CheckInController.openForm(mode, orderInfo);
+        const $checkinForm = CheckInController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $checkinForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Check-In');
+        const $tab = FwTabs.getTabByElement($checkinForm);
+        $tab.find('.caption').html('Check-In');
     }
     //----------------------------------------------------------------------------------------------
     checkOut($form: JQuery) {
-        let mode = 'EDIT';
-        let orderInfo: any = {};
+        const mode = 'EDIT';
+        const orderInfo: any = {};
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
         orderInfo.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         orderInfo.Warehouse = $form.find('div[data-datafield="WarehouseId"] input.fwformfield-text').val();
         orderInfo.DealId = FwFormField.getValueByDataField($form, 'DealId');
         orderInfo.Deal = $form.find('div[data-datafield="DealId"] input.fwformfield-text').val();
-        let $stagingCheckoutForm = StagingCheckoutController.openForm(mode, orderInfo);
+        const $stagingCheckoutForm = StagingCheckoutController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $stagingCheckoutForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Staging / Check-Out');
+        const $tab = FwTabs.getTabByElement($stagingCheckoutForm);
+        $tab.find('.caption').html('Staging / Check-Out');
     }
     //----------------------------------------------------------------------------------------------
     browseCancelOption($browse: JQuery) {

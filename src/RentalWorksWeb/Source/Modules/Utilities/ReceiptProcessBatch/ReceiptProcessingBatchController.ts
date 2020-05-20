@@ -111,7 +111,7 @@
                 }, null, $form, userId);
             })
             .on('click', '.print-batch', e => {
-                let $report, batchNumber, batchId, batchTab;
+                let $report, batchNumber, batchId;
                 try {
                     batchNumber = FwFormField.getTextByDataField($form, 'BatchId');
                     batchId = FwFormField.getValueByDataField($form, 'BatchId');
@@ -119,9 +119,8 @@
                     FwModule.openSubModuleTab($form, $report);
                     FwFormField.setValueByDataField($report, 'BatchId', batchId, batchNumber);
                     $report.find('[data-datafield="BatchId"] input').change(); //sets the batchnumber and batchdate for the report
-                    jQuery('.tab.submodule.active').find('.caption').html(`Print Receipt Batch`);
-                    batchTab = jQuery('.tab.submodule.active');
-                    batchTab.find('.caption').html(`Print Receipt Batch`);
+                    const $tab = FwTabs.getTabByElement($report);
+                    $tab.find('.caption').html(`Print Receipt Batch`);
                 }
                 catch (ex) {
                     FwFunc.showError(ex);

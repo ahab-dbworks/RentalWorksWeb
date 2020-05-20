@@ -20,7 +20,10 @@
                 orderInfo.OrderId = snapshotId;
                 const $orderForm = OrderController.loadForm(orderInfo);
                 FwModule.openSubModuleTab($form, $orderForm);
-                setTimeout(() => { jQuery('.tab.submodule.active').find('.caption').html(`Snapshot for Order ${orderNumber}`); }, 3000);
+                const $tab = FwTabs.getTabByElement($orderForm);
+                setTimeout(() => {
+                    $tab.find('.caption').html(`Snapshot for Order ${orderNumber}`);
+                }, 3000);
             } else {
                 const $orderSnapshotGrid = $form.find(`[data-name="OrderSnapshotGrid"]`);
                 const $selectedCheckBoxes = $orderSnapshotGrid.find('tbody .cbselectrow:checked');
@@ -32,7 +35,8 @@
                         orderInfo.OrderId = snapshotId;
                         const $orderForm = OrderController.loadForm(orderInfo);
                         FwModule.openSubModuleTab($form, $orderForm);
-                        setTimeout(() => { jQuery('.tab.submodule.active').find('.caption').html(`Snapshot for Order ${orderNumber}`); }, 3000);
+                        const $tab = FwTabs.getTabByElement($orderForm);
+                        setTimeout(() => { $tab.find('.caption').html(`Snapshot for Order ${orderNumber}`); }, 3000);
                     }
                 } else {
                     FwNotification.renderNotification('WARNING', 'Select rows in Order Snapshot Grid in order to perform this function.');

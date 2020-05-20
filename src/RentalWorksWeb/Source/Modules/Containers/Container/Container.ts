@@ -78,12 +78,13 @@ class Container {
         $form = FwModule.openForm($form, mode);
 
         $form.find('.container-status').on('click', e => {
-            let orderInfo: any = {};
+            const orderInfo: any = {};
             orderInfo.OrderId = FwFormField.getValueByDataField($form, 'ContainerItemId');
             orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'BarCode');
-            let $orderStatusForm = ContainerStatusController.openForm('EDIT', orderInfo);
+            const $orderStatusForm = ContainerStatusController.openForm('EDIT', orderInfo);
             FwModule.openSubModuleTab($form, $orderStatusForm);
-            jQuery('.tab.submodule.active').find('.caption').html('Container Status');
+            const $tab = FwTabs.getTabByElement($orderStatusForm);
+            $tab.find('.caption').html('Container Status');
         });
 
         return $form;

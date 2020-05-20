@@ -317,7 +317,8 @@ class ReceiveFromVendor {
                     contractInfo.PurchaseOrderId = response[0].PurchaseOrderId;
                     $assignBarCodesForm = AssignBarCodesController.openForm('EDIT', contractInfo);
                     FwModule.openSubModuleTab($form, $assignBarCodesForm);
-                    jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
+                    const $tab = FwTabs.getTabByElement($assignBarCodesForm);
+                    $tab.find('.caption').html('Assign Bar Codes');
 
                     contractInfo.ContractId = response[0].ContractId;
                     $contractForm = ContractController.loadForm(contractInfo);

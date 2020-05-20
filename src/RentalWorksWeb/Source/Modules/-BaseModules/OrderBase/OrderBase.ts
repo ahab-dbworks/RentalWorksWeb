@@ -2595,20 +2595,16 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     printQuoteOrder($form: any) {
         try {
-            var module = this.Module;
-            var orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
-            var orderId = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
-            var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+            const module = this.Module;
+            const orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
+            const orderId = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
 
-            var $report = (module === 'Order') ? OrderReportController.openForm() : QuoteReportController.openForm();
+            const $report = (module === 'Order') ? OrderReportController.openForm() : QuoteReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
-
-            var printTab = jQuery('.tab.submodule.active');
-            printTab.find('.caption').html(`Print ${module}`);
-            $report.attr('data-caption', `${module} ${recordTitle}`);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print ${module}`);
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -2616,23 +2612,17 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     printManifest($form: any) {
         try {
-            var module = this.Module;
-            var orderIdText = FwFormField.getValueByDataField($form, `${module}Number`);
-            var orderId = FwFormField.getValueByDataField($form, `${module}Id`);
-            var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-            var $report = ManifestReportController.openForm();
+            const module = this.Module;
+            const orderIdText = FwFormField.getValueByDataField($form, `${module}Number`);
+            const orderId = FwFormField.getValueByDataField($form, `${module}Id`);
 
+            const $report = ManifestReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
 
-            //set order id value on the field
             FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderIdText);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print Manifest`);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print ${module}`);
 
-            //set orderno input text
-            //
-            var printTab = jQuery('.tab.submodule.active');
-            printTab.find('.caption').html(`Print Manifest`);
-            printTab.attr('data-caption', `${module} ${recordTitle}`);
         } catch (ex) {
             FwFunc.showError(ex);
         }

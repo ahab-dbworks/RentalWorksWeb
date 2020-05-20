@@ -291,18 +291,14 @@ class PurchaseOrder implements IModule {
     //----------------------------------------------------------------------------------------------
     printPurchaseOrder($form: any) {
         try {
-            const module = this.Module;
             const purchaseOrderNumber = FwFormField.getValue($form, `div[data-datafield="PurchaseOrderNumber"]`);
             const purchaseOrderId = FwFormField.getValue($form, `div[data-datafield="PurchaseOrderId"]`);
-            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-
-            var $report = PurchaseOrderReportController.openForm();
+            const $report = PurchaseOrderReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValue($report, `div[data-datafield="PurchaseOrderId"]`, purchaseOrderId, purchaseOrderNumber);
-            const printTab = jQuery('.tab.submodule.active');
-            printTab.find('.caption').html(`Print Purchase Order`);
-            printTab.attr('data-caption', `${module} ${recordTitle}`);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Purchase Order`);
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -2445,22 +2441,24 @@ class PurchaseOrder implements IModule {
     //----------------------------------------------------------------------------------------------
     assignBarCodes($form) {
         const mode = 'EDIT';
-        let purchaseOrderInfo: any = {};
+        const purchaseOrderInfo: any = {};
         purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
         const $assignBarCodesForm = AssignBarCodesController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $assignBarCodesForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
+        const $tab = FwTabs.getTabByElement($assignBarCodesForm);
+        $tab.find('.caption').html('Assign Bar Codes');
     }
     //----------------------------------------------------------------------------------------------
     returnToVendor($form) {
-        let mode = 'EDIT';
-        let purchaseOrderInfo: any = {};
+        const mode = 'EDIT';
+        const purchaseOrderInfo: any = {};
         purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        let $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
+        const $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $returnToVendorForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Return To Vendor');
+        const $tab = FwTabs.getTabByElement($returnToVendorForm);
+        $tab.find('.caption').html('Return To Vendor');
     }
     //----------------------------------------------------------------------------------------------
     search($form) {
@@ -2475,23 +2473,25 @@ class PurchaseOrder implements IModule {
     }
     //----------------------------------------------------------------------------------------------
     receiveFromVendor($form) {
-        let mode = 'EDIT';
-        let purchaseOrderInfo: any = {};
+        const mode = 'EDIT';
+        const purchaseOrderInfo: any = {};
         purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        let $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
+        const $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $receiveFromVendorForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor');
+        const $tab = FwTabs.getTabByElement($receiveFromVendorForm);
+        $tab.find('.caption').html('Receive From Vendor');
     }
     //---------------------------------------------------------------------------------
     purchaseOrderStatus($form: JQuery) {
-        let mode = 'EDIT';
-        let orderInfo: any = {};
+        const mode = 'EDIT';
+        const orderInfo: any = {};
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        let $orderStatusForm = PurchaseOrderStatusController.openForm(mode, orderInfo);
+        const $orderStatusForm = PurchaseOrderStatusController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $orderStatusForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Purchase Order Status');
+        const $tab = FwTabs.getTabByElement($orderStatusForm);
+       $tab.find('.caption').html('Purchase Order Status');
     }
     //----------------------------------------------------------------------------------------------	
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {

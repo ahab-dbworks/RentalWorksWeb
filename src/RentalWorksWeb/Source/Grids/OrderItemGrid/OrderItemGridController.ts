@@ -1385,7 +1385,8 @@ class OrderItemGrid {
             subWorksheetData.EstimatedStartTime = FwFormField.getValue($form, 'div[data-timeactivitytype="START"]');
             const $subWorksheetForm = SubWorksheetController.openForm('EDIT', subWorksheetData);
             FwModule.openSubModuleTab($form, $subWorksheetForm);
-            jQuery('.tab.submodule.active').find('.caption').html('Sub Worksheet');
+            const $tab = FwTabs.getTabByElement($subWorksheetForm);
+            $tab.find('.caption').html('Sub Worksheet');
         }
         catch (ex) {
             FwFunc.showError(ex);

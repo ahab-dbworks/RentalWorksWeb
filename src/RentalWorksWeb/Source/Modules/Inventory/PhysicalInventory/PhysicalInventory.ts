@@ -150,7 +150,8 @@
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print Count Sheets`);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Count Sheets`);
             const request: any = {};
             request.PhysicalInventoryId = physicalInventoryId;
             FwAppData.apiMethod(true, 'POST', `api/v1/physicalinventory/${physicalInventoryId}/updatestep/printcountsheet`, request, FwServices.defaultTimeout,
@@ -203,7 +204,8 @@
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print Exception Report`);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Exception Report`);
         });
         // ----------
         $form.find('.printediscrepancy').on('click', e => {
@@ -214,7 +216,8 @@
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print Discrepancy Report`);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Discrepancy Report`);
         });
         // ----------
         $form.find('.printrecount').on('click', e => {
@@ -225,7 +228,8 @@
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print Recount Analysis Report`);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Recount Analysis Report`);
         });
         // ----------
         $form.find('.printreconciliation').on('click', e => {
@@ -236,7 +240,8 @@
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print Reconciliation Report`);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Reconciliation Report`);
         });
         // ----------
         $form.find('.printphysicalinventory').on('click', e => {
@@ -247,7 +252,8 @@
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print Results Report`);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Results Report`);
         });
         // ----------
         $form.find('.approve').on('click', function (e) {

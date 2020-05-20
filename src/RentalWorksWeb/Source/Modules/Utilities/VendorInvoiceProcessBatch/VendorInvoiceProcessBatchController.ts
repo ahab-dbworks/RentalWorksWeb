@@ -88,9 +88,8 @@
                     FwModule.openSubModuleTab($form, $report);
                     FwFormField.setValueByDataField($report, 'BatchId', batchId, batchNumber);
                     $report.find('[data-datafield="BatchId"] input').change(); //sets the batchnumber and batchdate for the report
-                    jQuery('.tab.submodule.active').find('.caption').html(`Print Vendor Invoice Batch`);
-                    const batchTab = jQuery('.tab.submodule.active');
-                    batchTab.find('.caption').html(`Print Deal Invoice Batch`);
+                    const $tab = FwTabs.getTabByElement($report);
+                    $tab.find('.caption').html(`Print Vendor Invoice Batch`);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }

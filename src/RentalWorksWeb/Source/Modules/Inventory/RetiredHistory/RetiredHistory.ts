@@ -109,7 +109,8 @@ class RetiredHistory {
             parentModuleInfo.RetiredId = FwFormField.getValueByDataField($form, 'RetiredId');
             const $unretireForm = InventoryUnretireUtilityController.openForm('NEW', parentModuleInfo);
             FwModule.openSubModuleTab($form, $unretireForm);
-            jQuery('.tab.submodule.active').find('.caption').html('Unretire Utility');
+            const $tab = FwTabs.getTabByElement($unretireForm);
+            $tab.find('.caption').html('Unretire Utility');
         });
 
     }

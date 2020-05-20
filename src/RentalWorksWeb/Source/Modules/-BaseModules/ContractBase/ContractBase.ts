@@ -268,17 +268,11 @@ abstract class ContractBase {
                     FwModule.openSubModuleTab($form, $report);
                     break;
             }
-
-            const id = $form.find(`div.fwformfield[data-datafield="${this.uniqueIdFieldName}"] input`).val();
-            const number = $form.find(`div.fwformfield[data-datafield="${this.numberFieldName}"] input`).val();
-            $report.find(`div.fwformfield[data-datafield="ContractId"] input`).val(id);
-            $report.find(`div.fwformfield[data-datafield="ContractId"] .fwformfield-text`).val(number);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print ${docType}`);
-
-            const printTab = jQuery('.tab.submodule.active');
-            printTab.find('.caption').html(`Print ${docType}`);
-            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-            printTab.attr('data-caption', `${docType} ${recordTitle}`);
+            const id = FwFormField.getValueByDataField($form, this.uniqueIdFieldName);
+            const number = FwFormField.getValueByDataField($form, this.numberFieldName);
+            FwFormField.setValueByDataField($report, 'ContractId', id, number);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print ${docType}`);
         } catch (ex) {
             FwFunc.showError(ex);
         }

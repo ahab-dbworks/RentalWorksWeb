@@ -577,11 +577,13 @@ abstract class CheckInBase implements IModule {
             if (this.Module == 'TransferIn') {
                 $orderStatusForm = (<any>window).TransferStatusController.openForm('EDIT', orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
-                jQuery('.tab.submodule.active').find('.caption').html('Transfer Status');
+                const $tab = FwTabs.getTabByElement($orderStatusForm);
+                $tab.find('.caption').html('Transfer Status');
             } else {
                 $orderStatusForm = OrderStatusController.openForm('EDIT', orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
-                jQuery('.tab.submodule.active').find('.caption').html('Order Status');
+                const $tab = FwTabs.getTabByElement($orderStatusForm);
+                $tab.find('.caption').html('Order Status');
             }
 
         });

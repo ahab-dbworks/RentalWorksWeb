@@ -1340,20 +1340,14 @@ class Invoice {
     formPrintInvoice($form: JQuery) {
         try {
             const module = this.Module;
-            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
             const $report = InvoiceReportController.openForm();
-
             FwModule.openSubModuleTab($form, $report);
 
-            const invoiceId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
-            $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(invoiceId);
-            const invoiceNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
-            $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(invoiceNumber);
-            jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
-
-            const printTab = jQuery('.tab.submodule.active');
-            printTab.find('.caption').html(`Print ${module}`);
-            printTab.attr('data-caption', `${module} ${recordTitle}`);
+            const invoiceId = FwFormField.getValueByDataField($form, `${module}Id`);
+            const invoiceNumber = FwFormField.getValueByDataField($form, `${module}Number`);
+            FwFormField.setValueByDataField($report, `${module}Id`, invoiceId, invoiceNumber);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print ${module}`);
         }
         catch (ex) {
             FwFunc.showError(ex);
