@@ -123,7 +123,7 @@ class RwHome {
 
         FwAppData.apiMethod(true, 'GET', 'api/v1/dashboardsettings/' + webusersid, null, FwServices.defaultTimeout, function onSuccess(response) {
             let hiddenCounter = 0;
-            let dashboardButton = '<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol dashboardsettings" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">You have no widgets yet - Add some now!</div></div>';
+            let dashboardButton = '<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol dashboardsettings" style="border:1px solid black;flex:0 1 200px;margin:75px 0 0 10px;text-align:center;"><i class="material-icons dashboard systembarcontrol" title="Settings" data-id="settings">settings</i>Dashboard Settings</div></div>';
             if (hiddenCounter === response.UserWidgets.length) {
                 jQuery($control).append(dashboardButton);
                 jQuery($control).find('.dashboardsettings').on('click', e => {
