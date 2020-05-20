@@ -320,75 +320,134 @@ class CustomReportLayout {
     //----------------------------------------------------------------------------------------------
     renderTab($form, tabName: string) {
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
+        this.showHideControlProperties($form, 'hide');
         this.html = FwFormField.getValueByDataField($form, 'Html');
 
         const designerProvisioned = $form.find('[data-datafield="BaseReport"] :selected').attr('data-designer');
         if (designerProvisioned == 'true') {
             $form.find(`#reportDesigner`).empty();
-
-            let $reportHeader = jQuery(this.html).filter('[data-section="header"]');
-
-            for (let i = 0; i < $reportHeader.length; i++) {
-                const $header = jQuery($reportHeader[i]);
-                let headerFor = $header.attr('data-headerfor') || '';
-                const $headerWrapper = jQuery(`<div class="header-section">
-                                               <span>Report Header ${headerFor == '' ? '' : 'for ' + headerFor }</span>
-                                               <div class="header-wrapper"></div>
-                                           </div>`);
-                $headerWrapper.find('.header-wrapper').append($header);
-                $form.find(`#reportDesigner`).append($headerWrapper);
-            }
-
-            let $tables = jQuery(this.html).find('table');
+            const $sections = jQuery(this.html).filter('[data-section]');
             let tableList: any = [];
 
-            for (let i = 0; i < $tables.length; i++) {
-                const $table = jQuery($tables[i]);
-                const tableName = $table.attr('data-tablename') || 'Default';
-                const selected = i === 0 ? true : false;
-                const $wrapper = jQuery(`<div class="table-section">
+            for (let i = 0; i < $sections.length; i++) {
+                let $section = jQuery($sections[i]);
+                const sectionType = $section.attr('data-section');
+                let $wrapper;
+                switch (sectionType) {
+                    case 'header':
+                        let headerFor = $section.attr('data-headerfor') || '';
+                        $wrapper = jQuery(`<div class="header-section">
+                                               <span>Report Header ${headerFor == '' ? '' : 'for ' + headerFor}</span>
+                                               <div class="header-wrapper"></div>
+                                           </div>`);
+                        $section.contents().filter(function () { return (this.nodeType == 3) }).remove(); //removes text nodes (handlebars)
+                        $wrapper.find('.header-wrapper').append($section);
+                        break;
+                    case 'table':
+                        const tableName = jQuery($section).find('table').attr('data-tablename') || 'Default';
+                        $wrapper = jQuery(`<div class="table-section">
                                             <span>Table: ${tableName}</span>
-                                            <div class="table-wrapper ${selected ? 'selected' : ''}" data-tablename="${tableName}">
+                                            <div class="table-wrapper" data-tablename="${tableName}">
                                         </div>`);
-                $wrapper.find('.table-wrapper').append($table);
-                $form.find(`#reportDesigner`).append($wrapper);
+                        $section.contents().filter(function () { return (this.nodeType == 3) }).remove();
+                        $wrapper.find('.table-wrapper').append($section);
+                        const $table = $section.find('table');
+                        const totalColumnCount = this.getTotalColumnCount($table, true);
+                        $table.data('totalcolumncount', totalColumnCount);
+                        tableList.push({ value: tableName, text: tableName });
 
-                let totalColumnCount = this.getTotalColumnCount($table, true);
-                $table.data('totalcolumncount', totalColumnCount);
+                        if ($table.find('#columnHeader tr').length) {
+                            Sortable.create($table.find('#columnHeader tr').get(0), {
+                                onStart: e => {
+                                    const $column = jQuery(e.item);
+                                    const linkedColumnName = $column.attr('data-linkedcolumn');
+                                    $form.find('#reportDesigner .highlight').removeClass('highlight');
+                                    $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
+                                    FwFormField.setValueByDataField($form, 'TableName', tableName);
+                                    this.setControlValues($form, $column);
+                                    this.showHideControlProperties($form, 'table');
+                                },
+                                onEnd: e => {
+                                    const $column = jQuery(e.item);
+                                    $column.removeAttr('draggable');
+                                    const linkedColumnName = $column.attr('data-linkedcolumn');
 
-                tableList.push({ value: tableName, text: tableName, selected: selected });
-                //create sortable for headers
-                if ($table.find('#columnHeader tr').length) {
-                    Sortable.create($table.find('#columnHeader tr').get(0), {
-                        onStart: e => {
-                            $table.find('tbody td[data-linkedcolumn]').removeClass('highlight');
-                            const linkedColumnName = jQuery(e.item).attr('data-linkedcolumn');
-                            $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
-                        },
-                        onEnd: e => {
-                            const $th = jQuery(e.item);
-                            $th.removeAttr('draggable');
-                            const linkedColumnName = $th.attr('data-linkedcolumn');
+                                    const $tr = jQuery(e.currentTarget);
+                                    $form.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
+                                    $form.data('sectiontoupdate', 'tableheader');
+                                    this.updateHTML($form, $table, $tr, $column);
 
-                            const $tr = jQuery(e.currentTarget);
-                            $form.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
-                            $form.data('sectiontoupdate', 'tableheader');
-                            this.updateHTML($form, $table, $tr, $th);
-
-                            $form.attr('data-modified', 'true');
-                            $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-                            $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).removeClass('highlight').addClass('highlight');
+                                    $form.attr('data-modified', 'true');
+                                    $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                                    $table.find('.highlight').removeClass('highlight');
+                                    $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
+                                }
+                            });
+                            //this.linkColumns($form, $table);
                         }
-                    });
-                    this.linkColumns($form, $table);
+                        break;
+                    case 'footer':
+                        break;
                 }
+                $form.find(`#reportDesigner`).append($wrapper);
             }
+
+            //let $reportHeader = jQuery(this.html).filter('[data-section="header"]');
+            //for (let i = 0; i < $reportHeader.length; i++) {
+            //    const $header = jQuery($reportHeader[i]);
+            //    let headerFor = $header.attr('data-headerfor') || '';
+            //    const $headerWrapper = jQuery(`<div class="header-section">
+            //                                   <span>Report Header ${headerFor == '' ? '' : 'for ' + headerFor}</span>
+            //                                   <div class="header-wrapper"></div>
+            //                               </div>`);
+            //    $headerWrapper.find('.header-wrapper').append($header);
+            //    $form.find(`#reportDesigner`).append($headerWrapper);
+            //}
+            //let $tables = jQuery(this.html).find('table');
+            //for (let i = 0; i < $tables.length; i++) {
+            //    const $table = jQuery($tables[i]);
+            //    const tableName = $table.attr('data-tablename') || 'Default';
+            //    const selected = i === 0 ? true : false;
+            //    const $wrapper = jQuery(`<div class="table-section">
+            //                                <span>Table: ${tableName}</span>
+            //                                <div class="table-wrapper ${selected ? 'selected' : ''}" data-tablename="${tableName}">
+            //                            </div>`);
+            //    $wrapper.find('.table-wrapper').append($table);
+            //    $form.find(`#reportDesigner`).append($wrapper);
+
+            //    let totalColumnCount = this.getTotalColumnCount($table, true);
+            //    $table.data('totalcolumncount', totalColumnCount);
+
+            //    tableList.push({ value: tableName, text: tableName, selected: selected });
+            //    //create sortable for headers
+            //    if ($table.find('#columnHeader tr').length) {
+            //        Sortable.create($table.find('#columnHeader tr').get(0), {
+            //            onStart: e => {
+            //                $table.find('tbody td[data-linkedcolumn]').removeClass('highlight');
+            //                const linkedColumnName = jQuery(e.item).attr('data-linkedcolumn');
+            //                $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
+            //            },
+            //            onEnd: e => {
+            //                const $th = jQuery(e.item);
+            //                $th.removeAttr('draggable');
+            //                const linkedColumnName = $th.attr('data-linkedcolumn');
+
+            //                const $tr = jQuery(e.currentTarget);
+            //                $form.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
+            //                $form.data('sectiontoupdate', 'tableheader');
+            //                this.updateHTML($form, $table, $tr, $th);
+
+            //                $form.attr('data-modified', 'true');
+            //                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+            //                $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).removeClass('highlight').addClass('highlight');
+            //            }
+            //        });
+            //        this.linkColumns($form, $table);
+            //    }
+            //}
             FwFormField.loadItems($form.find('[data-datafield="TableName"]'), tableList);
             this.designerEvents($form);
         } else {
-            $form.find('.addColumn').hide();
-            $form.find('[data-datafield="TableName"]').hide();
-            $form.find('#controlProperties').hide();
             $form.find(`#reportDesigner`).empty().append(`<div>This report is not currently Designer-provisioned.  Please use the HTML tab to make changes.</div>`);
         }
     }
@@ -397,7 +456,7 @@ class CustomReportLayout {
         const sectionToUpdate = $form.data('sectiontoupdate');
         if (typeof sectionToUpdate != 'undefined' && typeof sectionToUpdate == 'string') {
             const $wrapper = jQuery('<div class="custom-report-wrapper"></div>');
-            this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser 
+            this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser  
             $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
             if (sectionToUpdate == 'reportheader') {
                 const headerFor = $form.data('reportheaderfor');
@@ -577,30 +636,39 @@ class CustomReportLayout {
                                     }
 
                                     //after moving column, check both sides of totalName col and merge if empty tds 
-                                    //may need to make this recursive to continue checking for adjacent empty tds
-                                    $designerTds = $designerRow.find('td');  //reassign with new element order
-                                    $tds = $row.find('td');
-
-                                    const newTotalNameIndex = $designerTds.filter('.total-name').index();
-                                    const $tdBefore = jQuery($designerTds[newTotalNameIndex - 1]);
-                                    const $tdAfter = jQuery($designerTds[newTotalNameIndex + 1]);
-                                    if ($tdBefore.length) {
-                                        if ($tdBefore.hasClass('empty-td')) { //merge
-                                            $tdBefore.remove();
-                                            const colspan = parseInt(jQuery($designerTds[newTotalNameIndex]).attr('colspan'));
-                                            jQuery($designerTds[newTotalNameIndex]).attr('colspan', colspan + 1);
-                                            jQuery($tds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                   
+                                    const mergeTds = () => {
+                                        let count = 0;
+                                        $designerTds = $designerRow.find('td');  //reassign with new element order
+                                        $tds = $row.find('td');
+                                        let newTotalNameIndex = $designerTds.filter('.total-name').index();
+                                        const $tdBefore = jQuery($designerTds[newTotalNameIndex - 1]);
+                                        const $tdAfter = jQuery($designerTds[newTotalNameIndex + 1]);
+                                        if ($tdBefore.length) {
+                                            if ($tdBefore.hasClass('empty-td')) { //merge
+                                                $tdBefore.remove();
+                                                jQuery($tds[newTotalNameIndex - 1]).remove();
+                                                const colspan = parseInt(jQuery($designerTds[newTotalNameIndex]).attr('colspan'));
+                                                jQuery($designerTds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                                jQuery($tds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                                count++;
+                                            }
+                                        }
+                                        if ($tdAfter.length) {
+                                            if ($tdAfter.hasClass('empty-td')) { //merge
+                                                $tdAfter.remove();
+                                                jQuery($tds[newTotalNameIndex + 1]).remove();
+                                                const colspan = parseInt(jQuery($designerTds[newTotalNameIndex]).attr('colspan'));
+                                                jQuery($designerTds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                                jQuery($tds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                                count++;
+                                            }
+                                        }
+                                        if (count != 0) {
+                                            mergeTds();
                                         }
                                     }
-
-                                    if ($tdAfter.length) {
-                                        if ($tdAfter.hasClass('empty-td')) { //merge
-                                            $tdAfter.remove();
-                                            const colspan = parseInt(jQuery($designerTds[newTotalNameIndex]).attr('colspan'));
-                                            jQuery($designerTds[newTotalNameIndex]).attr('colspan', colspan + 1);
-                                            jQuery($tds[newTotalNameIndex]).attr('colspan', colspan + 1);
-                                        }
-                                    }
+                                    mergeTds();
                                     footerCount++;
                                 }
                             }
@@ -728,17 +796,15 @@ class CustomReportLayout {
         $form.on('click', '#reportDesigner .header-wrapper', e => {
             $form.find('#reportDesigner .selected').removeClass('selected');
             jQuery(e.currentTarget).addClass('selected');
-            $form.find('[data-datafield="TableName"]').hide();
-            $addColumn.hide();
-            $form.find('#controlProperties > :not(.header-field)').hide();
+            this.showHideControlProperties($form, 'hide');
         });
 
         $form.on('click', '#reportDesigner .header-wrapper span', e => {
+            e.stopPropagation();
             $headerField = jQuery(e.currentTarget);
             $form.find('#reportDesigner .highlight').removeClass('highlight');
             $headerField.addClass('highlight');
-            $form.find('#controlProperties, #controlProperties >').show();
-            $form.find('#controlProperties > :not(.header-field)').hide();
+            this.showHideControlProperties($form, 'header');
             const value = $headerField.text();
             FwFormField.setValueByDataField($form, 'HeaderField', value);
         });
@@ -751,12 +817,10 @@ class CustomReportLayout {
         });
 
         $form.on('click', '#reportDesigner .table-wrapper', e => {
-            $addColumn.show();
-            $form.find('[data-datafield="TableName"]').show();
             $table = $form.find('.table-wrapper.selected table');
-            $form.find('#controlProperties .header-field').hide();
             const tableName = jQuery(e.currentTarget).attr('data-tablename');
             FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
+            this.showHideControlProperties($form, 'tablewrapper');
         });
 
         //control properties events
@@ -827,7 +891,7 @@ class CustomReportLayout {
                     $form.data('deletefield', { valuefield: valueField, linkedcolumn: linkedColumn, tdcolspan: colspan });
                 }
                 this.updateHTML($form, $table, $table.find('#columnHeader tr'));
-                $form.find('#controlProperties').hide();
+                this.showHideControlProperties($form, 'hide');
             }
         });
 
@@ -843,14 +907,17 @@ class CustomReportLayout {
         });
 
         $form.on('click', '#reportDesigner table thead#columnHeader tr th', e => {
+            e.stopPropagation();
+            const tableName = jQuery(e.currentTarget).parents('table').attr('data-tablename');
+            FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
             $table = jQuery(e.currentTarget).parents('table');
             $column = jQuery(e.currentTarget);
             $form.data('sectiontoupdate', 'tableheader');
-            $form.find('#controlProperties, #controlProperties > :not(.header-field)').show();
             this.setControlValues($form, $column);
             const linkedColumn = $column.attr('data-linkedColumn');
             $form.find('#reportDesigner .highlight').removeClass('highlight');
             $table.find(`tbody td[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight');
+            this.showHideControlProperties($form, 'table');
         });
 
         //header row
@@ -957,6 +1024,32 @@ class CustomReportLayout {
                 $table.find(`[data-value="{{${linkedColumn}}}"]`)                               //05-14-20 consider adding linkedcolumns as new required attribute on templates
                     .attr('data-linkedcolumn', linkedColumn);                                   //for cases where users add a new column and set the value field identical to an existing column
             }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    showHideControlProperties($form: JQuery, section: string) {
+        const $controlProperties = $form.find('#controlProperties');
+        switch (section) {
+            case 'header':
+                $controlProperties.children(`:not('[data-datafield="HeaderField"]')`).hide();
+                $controlProperties.children('[data-datafield="HeaderField"]').show();
+                $controlProperties.show();
+                break;
+            case 'tablewrapper':
+                $controlProperties.children(`:not('.table-controls')`).hide();
+                $controlProperties.children('.table-controls').show();
+                $controlProperties.show();
+                break;
+            case 'table':
+                $controlProperties.children('[data-datafield="HeaderField"]').hide();
+                $controlProperties.children(`:not('[data-datafield="HeaderField"]')`).show();
+                $controlProperties.show();
+                break;
+            case 'footer':
+                break;
+            case 'hide':
+                $controlProperties.hide();
+                break;
         }
     }
     //----------------------------------------------------------------------------------------------
