@@ -2941,7 +2941,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
                             if (avail.exists)
                             {
-                                DateTime renderDateTime = new DateTime(request.FromDate.Year, request.FromDate.Month, theDateTime.Day);
+                                //DateTime renderDateTime = new DateTime(request.FromDate.Year, request.FromDate.Month, theDateTime.Day);
+                                DateTime renderDateTime = new DateTime(request.FromDate.Year, 1 /*January*/, theDateTime.Day);  // using January because it always has 31 days
                                 response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, renderDateTime, theDateTime.ToString(), renderDateTime, theDateTime.ToString(), avail, ref eventId, request.InventoryId, warehouseId, true));
                             }
                             theDateTime = theDateTime.AddDays(1);
