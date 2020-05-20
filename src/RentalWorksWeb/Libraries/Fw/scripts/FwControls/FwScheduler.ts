@@ -926,7 +926,7 @@ class FwSchedulerClass {
                     days = dpmonth.days + dpmonth.startDate.dayOfWeek() + (6 - dpmonth.startDate.addDays(dpmonth.days).dayOfWeek()) // add the first few days from the next month that are visible
                     break;
                 case 'Year':
-                    start = dpyear.startDate.addDays(-dpyear.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible
+                    start = dpyear.startDate; // add the trailing days from the previous month that are visible
                     const endDate = dpyear.startDate.addMonths(12);
                     days = this.getDaysBetween(start, endDate);
                     days -= 1;
