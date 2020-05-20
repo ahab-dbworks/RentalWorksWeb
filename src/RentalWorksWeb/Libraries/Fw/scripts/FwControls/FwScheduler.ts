@@ -927,8 +927,9 @@ class FwSchedulerClass {
                     break;
                 case 'Year':
                     start = dpyear.startDate.addDays(-dpyear.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible
-                    const endDate = dpyear.startDate.addMonths(11);
+                    const endDate = dpyear.startDate.addMonths(12);
                     days = this.getDaysBetween(start, endDate);
+                    days -= 1;
                     break;
                 case 'Schedule':
                     start = dpscheduler.startDate;
