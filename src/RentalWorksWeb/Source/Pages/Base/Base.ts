@@ -319,6 +319,8 @@ class Base {
                                                 , defaultdealstatus: responseGetDefaultSettings.DefaultDealStatus
                                                 , defaultcustomerstatusid: responseGetDefaultSettings.DefaultCustomerStatusId
                                                 , defaultcustomerstatus: responseGetDefaultSettings.DefaultCustomerStatus
+                                                , defaultcustomerpaymenttermsid: responseGetDefaultSettings.DefaultCustomerPaymentTermsId
+                                                , defaultcustomerpaymentterms: responseGetDefaultSettings.DefaultCustomerPaymentTerms
                                                 , defaultdealbillingcycleid: responseGetDefaultSettings.DefaultDealBillingCycleId
                                                 , defaultdealbillingcycle: responseGetDefaultSettings.DefaultDealBillingCycle
                                                 , defaultdealporequired: responseGetDefaultSettings.DefaultDealPoRequired

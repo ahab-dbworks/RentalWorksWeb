@@ -54,9 +54,10 @@ class Customer {
 
         if (mode === 'NEW') {
             let officeLocation = JSON.parse(sessionStorage.getItem('location'));
-            let customerStatus = JSON.parse(sessionStorage.getItem('controldefaults'));
+            let controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', officeLocation.locationid, officeLocation.location);
-            FwFormField.setValue($form, 'div[data-datafield="CustomerStatusId"]', customerStatus.defaultcustomerstatusid, customerStatus.defaultcustomerstatus);
+            FwFormField.setValue($form, 'div[data-datafield="CustomerStatusId"]', controlDefaults.defaultcustomerstatusid, controlDefaults.defaultcustomerstatus);
+            FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', controlDefaults.defaultcustomerpaymenttermsid, controlDefaults.defaultcustomerpaymentterms);
         }
 
         let userassignedcustomerno = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedcustomernumber;

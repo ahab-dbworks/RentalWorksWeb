@@ -79,6 +79,9 @@ class DefaultSettings {
             case 'DefaultCustomerStatusId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedefaultcustomerstatus`);
                 break;
+            case 'DefaultCustomerPaymentTermsId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedefaultpaymentterms`);
+                break;
             case 'DefaultDealStatusId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedefaultdealstatus`);
                 break;

@@ -210,7 +210,7 @@ namespace WebApi.Modules.Administrator.Control
         public bool? Codamountincheckoutprompt { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "customerdefaultpaytermsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string CustomerdefaultpaytermsId { get; set; }
+        public string DefaultCustomerPaymentTermsId { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "availhourlydays", modeltype: FwDataTypes.Integer, sqltype: "int")]
         //public int? Availhourlydays { get; set; }

@@ -64,6 +64,12 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
         [FwLogicProperty(Id: "7aBCzkAxnay6Q", IsReadOnly: true)]
         public string DefaultNonRecurringBillingCycle { get; set; }
 
+        [FwLogicProperty(Id: "6HvjQ2GOCIf7m")]
+        public string DefaultCustomerPaymentTermsId { get { return sysControl.DefaultCustomerPaymentTermsId; } set { sysControl.DefaultCustomerPaymentTermsId = value; } }
+
+        [FwLogicProperty(Id: "srEszDYiKWJP0")]
+        public string DefaultCustomerPaymentTerms { get; set; }
+
         [FwLogicProperty(Id: "4oMzN7Q7LTF3p")]
         public string DefaultContactGroupId { get { return webControl.DefaultContactGroupId; } set { webControl.DefaultContactGroupId = value; } }
 

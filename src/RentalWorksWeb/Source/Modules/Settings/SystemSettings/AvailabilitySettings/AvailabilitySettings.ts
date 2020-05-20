@@ -117,31 +117,6 @@ class AvailabilitySettings {
         });
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        switch (datafield) {
-            case 'DefaultCustomerStatusId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedefaultcustomerstatus`);
-                break;
-            case 'DefaultDealStatusId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedefaultdealstatus`);
-                break;
-            case 'DefaultDealBillingCycleId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedefaultdealbillingcycle`);
-                break;
-            case 'DefaultUnitId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedefaultunit`);
-                break;
-            case 'DefaultRank':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedefaultrank`);
-                break;
-            case 'DefaultNonRecurringBillingCycleId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedefaultnonrecurringbillingcycle`);
-                break;
-            case 'DefaultContactGroupId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedefaultcontactgroup`);
-                break;
-        }
-    }
 }
 
 var AvailabilitySettingsController = new AvailabilitySettings();

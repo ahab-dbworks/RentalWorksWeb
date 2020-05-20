@@ -78,6 +78,14 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
             return await DoBrowseAsync<CustomerStatusLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/availabilitysettings/validatedefaultpaymentterms/browse
+        [HttpPost("validatedefaultpaymentterms/browse")]
+        [FwControllerMethod(Id: "KJayci0dUlZR3", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDefaultPaymentTermsBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CustomerStatusLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/availabilitysettings/validatedefaultdealstatus/browse
         [HttpPost("validatedefaultdealstatus/browse")]
         [FwControllerMethod(Id: "DUF0rFdf1Snr", ActionType: FwControllerActionTypes.Browse)]

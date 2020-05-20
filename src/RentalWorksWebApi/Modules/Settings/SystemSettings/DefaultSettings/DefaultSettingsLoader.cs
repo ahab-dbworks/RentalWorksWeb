@@ -52,6 +52,12 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
         [FwSqlDataField(column: "nonrecurbillperiod", modeltype: FwDataTypes.Text)]
         public string DefaultNonRecurringBillingCycle { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customerdefaultpaytermsid", modeltype: FwDataTypes.Text)]
+        public string DefaultCustomerPaymentTermsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customerdefaultpayterms", modeltype: FwDataTypes.Text)]
+        public string DefaultCustomerPaymentTerms { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultcontactgroupsid", modeltype: FwDataTypes.Text)]
         public string DefaultContactGroupId { get; set; }
         //------------------------------------------------------------------------------------ 
