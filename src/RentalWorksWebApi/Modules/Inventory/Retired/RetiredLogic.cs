@@ -47,7 +47,7 @@ namespace WebApi.Modules.Home.Retired
         [FwLogicProperty(Id: "Iihke6Im8vOm0", IsReadOnly: true)]
         public string RetiredReason { get; set; }
         [FwLogicProperty(Id: "IiR5IRzZ6nXGi", IsReadOnly: true)]
-        public string Retiredby { get; set; }
+        public string RetiredBy { get; set; }
         [FwLogicProperty(Id: "Iiw3ZkMuGealW")]
         public string RetiredReasonId { get { return retired.RetiredReasonId; } set { retired.RetiredReasonId = value; } }
         [FwLogicProperty(Id: "IJ90V3dZZ9mXO")]

@@ -55,7 +55,7 @@ namespace WebApi.Modules.Home.Retired
         public string RetiredReason { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "retiredby", modeltype: FwDataTypes.Text)]
-        public string Retiredby { get; set; }
+        public string RetiredBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text)]
         public string RetiredReasonId { get; set; }
