@@ -24,8 +24,8 @@ namespace WebApi.Modules.Agent.OrderHiatusDiscount
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderhiatusdiscount/exportexcelxlsx/filedownloadname 
-        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        // POST api/v1/orderhiatusdiscount/exportexcelxlsx
+        [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "Q6noniZiwNv6j", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {

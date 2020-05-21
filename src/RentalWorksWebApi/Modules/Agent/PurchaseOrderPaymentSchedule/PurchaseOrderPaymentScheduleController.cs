@@ -23,8 +23,8 @@ namespace WebApi.Modules.Agent.PurchaseOrderPaymentSchedule
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderpaymentschedule/exportexcelxlsx/filedownloadname 
-        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        // POST api/v1/purchaseorderpaymentschedule/exportexcelxlsx
+        [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "niXfO9tQv26Es", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {

@@ -60,8 +60,8 @@ namespace WebApi.Modules.Reports.ManifestReport
             return actionResult;
         }
         ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/manifestreport/exportexcelxlsx/filedownloadname 
-        //[HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        //// POST api/v1/manifestreport/exportexcelxlsx
+        //[HttpPost("exportexcelxlsx")]
         //[FwControllerMethod(Id: "fBLkHuI0p4EA")]
         //public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ManifestReportRequest request)
         //{

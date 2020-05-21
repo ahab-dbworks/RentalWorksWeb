@@ -63,8 +63,8 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseDispatchReport
             return actionResult;
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/warehousedispatchreport/exportexcelxlsx/filedownloadname 
-        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        // POST api/v1/warehousedispatchreport/exportexcelxlsx
+        [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "GsyhDTp5QV53I")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]WarehouseDispatchReportRequest request)
         {
