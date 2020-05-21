@@ -428,12 +428,12 @@ namespace WebApi.Modules.Administrator.User
         public string NotificationSound { get; set; }
         [FwLogicProperty(Id: "jj9nN7EG0ANjG", IsReadOnly: true)]
         public string NotificationSoundFileName { get; set; }
-
         [FwLogicProperty(Id: "OJrOlZkYyD44C")]
         public int? FirstDayOfWeek { get { return webUser.FirstDayOfWeek; } set { webUser.FirstDayOfWeek = value; } }
-
-
-
+        [FwLogicProperty(Id: "V1l821OvHhE4e")]
+        public bool? SettingsNavigationMenuVisible { get { return webUser.SettingsNavigationMenuVisible; } set { webUser.SettingsNavigationMenuVisible = value; } }
+        [FwLogicProperty(Id: "715OUeIzJmXjr")]
+        public bool? ReportsNavigationMenuVisible { get { return webUser.ReportsNavigationMenuVisible; } set { webUser.ReportsNavigationMenuVisible = value; } }
 
         //------------------------------------------------------------------------------------
 

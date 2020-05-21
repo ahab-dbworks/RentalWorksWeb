@@ -61,6 +61,12 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         [FwSqlDataField(column: "webadministrator", modeltype: FwDataTypes.Boolean)]
         public bool? WebAdministrator { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "settingsnavmenuvisible", modeltype: FwDataTypes.Boolean)]
+        public bool? SettingsNavigationMenuVisible { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "reportsnavmenuvisible", modeltype: FwDataTypes.Boolean)]
+        public bool? ReportsNavigationMenuVisible { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

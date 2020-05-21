@@ -124,6 +124,12 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         [FwLogicProperty(Id: "RNSGN6rtM7kOk", IsReadOnly: true)]
         public bool? WebAdministrator{ get; set; }
 
+        [FwLogicProperty(Id: "9XPKV2Nums7NV")]
+        public bool? SettingsNavigationMenuVisible { get { return webUser.SettingsNavigationMenuVisible; } set { webUser.SettingsNavigationMenuVisible = value; } }
+
+        [FwLogicProperty(Id: "vdJ6xJC3Bkqph")]
+        public bool? ReportsNavigationMenuVisible { get { return webUser.ReportsNavigationMenuVisible; } set { webUser.ReportsNavigationMenuVisible = value; } }
+
         [FwLogicProperty(Id:"JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
