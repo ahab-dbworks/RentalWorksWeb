@@ -113,29 +113,32 @@ class CheckOutPendingItemGrid {
                 $confirmation.on('change', '[data-datafield="Code"], [data-datafield="Quantity"]', e => {
                     const code = FwFormField.getValueByDataField($confirmation, 'Code');
                     const quantity = FwFormField.getValueByDataField($confirmation, 'Quantity');
-                    if (code != "" && quantity != "0") {
-                        const request: any = {
-                            SessionId: sessionId,
-                            Code: code,
-                            WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
-                            Quantity: quantity
-                        };
+                    const request: any = {
+                        SessionId: sessionId,
+                        Code: code,
+                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
+                        Quantity: quantity
+                    };
 
-                        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/addsubstituteitemtosession`, request, FwServices.defaultTimeout,
-                            response => {
-                                if (response.success) {
-                                    $confirmation.find('.error-msg').html('');
-                                    FwFormField.setValueByDataField($confirmation, 'Code', '', '', false);
-                                    $confirmation.find('[data-datafield="Quantity"] input').val('');
-                                    FwBrowse.search($grid);
-                                    $confirmation.find('[data-datafield="Code"] input').focus();
+                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/addsubstituteitemtosession`, request, FwServices.defaultTimeout,
+                        response => {
+                            if (response.success) {
+                                $confirmation.find('.error-msg').html('');
+                                FwFormField.setValueByDataField($confirmation, 'Code', '', '', false);
+                                $confirmation.find('[data-datafield="Quantity"] input').val('');
+                                FwBrowse.search($grid);
+                                $confirmation.find('[data-datafield="Code"] input').focus();
+                            } else {
+                                if (response.status === 107) {
+                                    $confirmation.find('[data-datafield="Quantity"] input').focus();
                                 } else {
+                                    $confirmation.find('[data-datafield="Code"] input').select();
                                     $confirmation.find('.error-msg').html(`<span style="margin-left:1em; color:white; background:red;">${response.msg}</span>`);
                                 }
-                                FwFormField.setValueByDataField($confirmation, 'SubstituteItemICode', response.ICode);
-                                FwFormField.setValueByDataField($confirmation, 'SubstituteItemDescription', response.Description);
-                            }, ex => FwFunc.showError(ex), $grid);
-                    }
+                            }
+                            FwFormField.setValueByDataField($confirmation, 'SubstituteItemICode', response.ICode);
+                            FwFormField.setValueByDataField($confirmation, 'SubstituteItemDescription', response.Description);
+                        }, ex => FwFunc.showError(ex), $grid);
                 });
 
                 $confirmation.find('[data-datafield="Code"] input').focus();
@@ -168,7 +171,7 @@ class CheckOutPendingItemGrid {
                     } else {
                         FwConfirmation.destroyConfirmation($confirmation);
                     }
-                  
+
                 });
             }, ex => FwFunc.showError(ex), $control);
     }
