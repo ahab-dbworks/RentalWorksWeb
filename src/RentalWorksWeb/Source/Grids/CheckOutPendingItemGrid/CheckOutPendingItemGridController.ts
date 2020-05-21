@@ -101,8 +101,6 @@ class CheckOutPendingItemGrid {
                     pageSize: 20,
                     addGridMenu: (options: IAddGridMenuOptions) => {
                         options.hasNew = false;
-                        options.hasEdit = false;
-                        options.hasDelete = true;
                     },
                     onDataBind: (request: any) => {
                         request.uniqueids = {

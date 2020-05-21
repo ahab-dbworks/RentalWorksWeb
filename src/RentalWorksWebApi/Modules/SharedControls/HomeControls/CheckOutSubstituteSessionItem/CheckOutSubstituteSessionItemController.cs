@@ -31,6 +31,14 @@ namespace WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // PUT api/v1/checkoutsubstitutesessionitem/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "WkQS5m6qtw6H", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<CheckOutSubstituteSessionItemLogic>> EditAsync([FromRoute] string id, [FromBody]CheckOutSubstituteSessionItemLogic l)
+        {
+            return await DoEditAsync<CheckOutSubstituteSessionItemLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/checkoutsubstitutesessionitem/A0000001 
         [HttpDelete("{id}")]
         [FwControllerMethod(Id: "NsuV0V4UaoVt", ActionType: FwControllerActionTypes.Delete)]
