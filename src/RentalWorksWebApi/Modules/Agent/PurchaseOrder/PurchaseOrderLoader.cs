@@ -859,6 +859,10 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public bool? SubLaborIsComplete { get; set; }
         //------------------------------------------------------------------------------------
 
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------
+
         public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>();
         //------------------------------------------------------------------------------------
 
