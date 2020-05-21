@@ -118,16 +118,16 @@ class RwHome {
     //----------------------------------------------------------------------------------------------
     loadSettings($control) {
         const webusersid = sessionStorage.getItem('webusersid');
-        FwAppData.apiMethod(true, 'GET', `api/v1/dashboardsettings/${webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/dashboardsettings/${webusersid}`, null, FwServices.defaultTimeout, response => {
         const $dashboard = $control.find('.programlogo');
             let hiddenCounter = 0;
             const dashboardButton = '<div class="flexrow dashboard-btn-row"><div class="fwformcontrol dashboardsettings btn-container"><i class="material-icons dashboard systembarcontrol" title="Settings" data-id="settings">settings</i><span>Dashboard Settings</span></div></div>';
-            if (hiddenCounter === response.UserWidgets.length) {
+     //       if (hiddenCounter === response.UserWidgets.length) {
                 jQuery($control).append(dashboardButton);
                 jQuery($control).find('.dashboardsettings').on('click', e => {
                     program.navigate('module/dashboardsettings');
                 });
-            }
+            //}
             for (let i = 0; i < response.UserWidgets.length; i++) {
                 if (response.UserWidgets[i].selected) {
                     response.UserWidgets[i].width = Math.floor(100 / response.WidgetsPerRow).toString() + '%',
