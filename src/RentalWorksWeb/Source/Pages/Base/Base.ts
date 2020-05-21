@@ -233,7 +233,6 @@ class Base {
                                             sessionStorage.setItem('homePage', JSON.stringify(homePage));
                                             sessionStorage.setItem('favorites', favorites);
 
-
                                             // Web admin - security for peek validation show / hide   J.Pace 7/12/19
                                             //justin hoffman 12/16/2019 re-added after merge
                                             const userid = JSON.parse(sessionStorage.getItem('userid'));
@@ -242,6 +241,8 @@ class Base {
                                             } else {
                                                 userid.webadministrator = 'false';
                                             }
+                                            userid.reportnavexpanded = `${responseGetUserSettings.ReportsNavigationMenuVisible}`;
+                                            userid.settingsnavexpanded = `${responseGetUserSettings.SettingsNavigationMenuVisible}`;
                                             sessionStorage.setItem('userid', JSON.stringify(userid));
 
                                             // Include department's default activity selection in sessionStorage for use in Quote / Order
