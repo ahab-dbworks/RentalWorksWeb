@@ -105,8 +105,8 @@ class CustomForm {
         $form.find('[data-datafield="Html"]').addClass('reload');
 
         //Removes fields from the Designer tab so they are ignored in isValid check.
-        $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]').not('#designerContent .fwformfield'));
-        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])').not('#designerContent .fwformfield'));
+        $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]').not('#designerContent .fwformfield, #previewWebForm .fwformfield'));
+        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])').not('#designerContent .fwformfield,  #previewWebForm .fwformfield'));
 
         if (typeof $form.data('selfassign') != 'undefined') {
             const request: any = {
