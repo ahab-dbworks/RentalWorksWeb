@@ -3,9 +3,9 @@
 class QuikSearch {
     Module:    string = 'QuikSearch';
     apiurl:    string = 'api/v1/quiksearch';
-    caption:   string = Constants.Modules.Utilities.children.QuikSearch.caption;
-    nav:       string = Constants.Modules.Utilities.children.QuikSearch.nav;
-    id:        string = Constants.Modules.Utilities.children.QuikSearch.id;
+    caption:   string = Constants.Modules.Inventory.children.QuikSearch.caption;
+    nav:       string = Constants.Modules.Inventory.children.QuikSearch.nav;
+    id:        string = Constants.Modules.Inventory.children.QuikSearch.id;
     SessionId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {

@@ -1,6 +1,6 @@
 class SearchInterface {
     DefaultColumns: any = [];
-    id: string = Constants.Modules.Utilities.children.QuikSearch.id;
+    id: string = Constants.Modules.Inventory.children.QuikSearch.id;
     //----------------------------------------------------------------------------------------------
     renderSearchPopup($form, id, type, gridInventoryType?) {
         let html: any = [];

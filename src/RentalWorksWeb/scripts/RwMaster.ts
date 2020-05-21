@@ -45,6 +45,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Inventory.children.PartsInventory,
                     Constants.Modules.Inventory.children.PurchaseHistory,
                     Constants.Modules.Inventory.children.PhysicalInventory,
+                    Constants.Modules.Inventory.children.QuikSearch,
                     Constants.Modules.Inventory.children.RentalInventory,
                     Constants.Modules.Inventory.children.Repair,
                     Constants.Modules.Inventory.children.SalesInventory
@@ -134,7 +135,6 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Utilities.children.ReceiptProcessBatch,
                     Constants.Modules.Utilities.children.VendorInvoiceProcessBatch,
                     Constants.Modules.Utilities.children.QuikActivityCalendar,
-                    Constants.Modules.Utilities.children.QuikSearch,
                     Constants.Modules.Utilities.children.RateUpdateUtility,
                     Constants.Modules.Utilities.children.RefreshGLHistory,
                 ]
