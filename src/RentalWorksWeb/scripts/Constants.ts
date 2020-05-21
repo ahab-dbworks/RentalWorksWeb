@@ -788,6 +788,7 @@ var Constants = {
             caption: 'Utilities',
             nodetype: 'Category',
             children: {
+                BlankHomePage:             { id: 'OCtX2qmSedHfq', caption: '(None)',                  nav: 'module/blankhomepage', nodetype: 'Module' },
                 ChangeICodeUtility:        { id: 'S794cPbgUARcH', caption: 'Change I-Code',           nav: 'module/changeicodeutility', nodetype: 'Module' },
                 ChangeOrderStatus:         { id: 'SjkAsallYxwNq', caption: 'Change Order Status',     nav: 'module/changeorderstatus', nodetype: 'Module' },
                 Dashboard:                 { id: 'UdmOOUGqu0lKd', caption: 'Dashboard',               nav: 'home',                     nodetype: 'Module' },
