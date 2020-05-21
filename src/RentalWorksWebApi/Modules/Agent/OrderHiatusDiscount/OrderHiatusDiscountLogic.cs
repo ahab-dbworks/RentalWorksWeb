@@ -15,7 +15,7 @@ namespace WebApi.Modules.Agent.OrderHiatusDiscount
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "qAgs0oCocpTKj", IsPrimaryKey: true)]
-        public string OrderDiscountId { get { return orderHiatusDiscount.OrderDiscountId; } set { orderHiatusDiscount.OrderDiscountId = value; } }
+        public string OrderHiatusDiscountId { get { return orderHiatusDiscount.OrderHiatusDiscountId; } set { orderHiatusDiscount.OrderHiatusDiscountId = value; } }
         [FwLogicProperty(Id: "QcjVhNmwhpmvI")]
         public string OrderId { get { return orderHiatusDiscount.OrderId; } set { orderHiatusDiscount.OrderId = value; } }
         [FwLogicProperty(Id: "qaiQX0QD4r5eq")]

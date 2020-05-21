@@ -10,7 +10,7 @@ namespace WebApi.Modules.Agent.OrderHiatusDiscount
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderdiscountid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string OrderDiscountId { get; set; } = "";
+        public string OrderHiatusDiscountId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
