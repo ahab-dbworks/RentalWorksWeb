@@ -47,14 +47,14 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
         public decimal? Quantity { get { return inventorySearch.Quantity; } set { inventorySearch.Quantity = value; } }
 
         //------------------------------------------------------------------------------------
-        public async Task<FwJsonDataTable> PreviewAsync(InventorySearchPreviewBrowseRequest request)
-        {
-            FwJsonDataTable dt = null;
-
-            inventorySearchLoader.UserSession = this.UserSession;
-            dt = await inventorySearchLoader.PreviewAsync(request);
-            return dt;
-        }
-        //------------------------------------------------------------------------------------
+        //public async Task<FwJsonDataTable> PreviewAsync(InventorySearchPreviewBrowseRequest request)
+        //{
+        //    FwJsonDataTable dt = null;
+        //
+        //    inventorySearchLoader.UserSession = this.UserSession;
+        //    dt = await inventorySearchLoader.PreviewAsync(request);
+        //    return dt;
+        //}
+        ////------------------------------------------------------------------------------------
     }
 }

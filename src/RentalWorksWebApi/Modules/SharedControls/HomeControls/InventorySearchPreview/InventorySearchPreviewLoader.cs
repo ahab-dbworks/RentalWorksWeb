@@ -1,5 +1,5 @@
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
@@ -10,12 +10,23 @@ using WebApi.Modules.HomeControls.InventoryAvailability;
 using System.Collections.Generic;
 using WebApi;
 using WebApi.Logic;
+using FwStandard.Data;
+using FwStandard.Models;
 
 namespace WebApi.Modules.HomeControls.InventorySearchPreview
 {
-    [FwSqlTable("inventoryview")]
+    [FwSqlTable("dbo.funcinventorysearchpreview(@sessionid)")]
     public class InventorySearchPreviewLoader : AppDataLoadRecord
     {
+        private bool _showAvailability = false;
+        private DateTime? _availFromDate = null;
+        private DateTime? _availToDate = null;
+
+        //------------------------------------------------------------------------------------ 
+        public InventorySearchPreviewLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string Id { get; set; } = "";
@@ -30,7 +41,7 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
         public string GrandParentId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
-        public string InventoryId { get; set; } 
+        public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
         public string AvailFor { get; set; }
@@ -92,7 +103,7 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
         public string ClassificationColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyavailable", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityAvailable{ get; set; }
+        public decimal? QuantityAvailable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availcolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string QuantityAvailableColor { get; set; }
@@ -154,6 +165,9 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
         [FwSqlDataField(column: "imagewidth", modeltype: FwDataTypes.Integer)]
         public int? ImageWidth { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
+        public string OrderBy { get; set; }
+        //------------------------------------------------------------------------------------ 
         private string getRecTypeDisplay(string recType)
         {
             return AppFunc.GetInventoryRecTypeDisplay(recType);
@@ -164,135 +178,104 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
             return AppFunc.GetInventoryRecTypeColor(recType);
         }
         //------------------------------------------------------------------------------------    
-
-
-        //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> PreviewAsync(InventorySearchPreviewBrowseRequest request)
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            FwJsonDataTable dt = null;
+            useWithNoLock = false;
+            string sessionId = GetUniqueIdAsString("SessionId", request);
+            _showAvailability = GetUniqueIdAsBoolean("ShowAvailability", request).GetValueOrDefault(false);
+            _availFromDate = GetUniqueIdAsDate("FromDate", request);
+            _availToDate = GetUniqueIdAsDate("ToDate", request);
 
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            select.AddParameter("@sessionid", sessionId);
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventorysearchpreview", this.AppConfig.DatabaseSettings.QueryTimeout))
-                {
-                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
-                    if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
-                    {
-                        qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
-                    }
-                    if ((request.ToDate != null) && (request.ToDate > DateTime.MinValue))
-                    {
-                        qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
-                    }
-                    AddPropertiesAsQueryColumns(qry);
-                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
-                }
-            }
-
-            if (request.ShowAvailability.GetValueOrDefault(false))
-            {
-                DateTime fromDateTime = DateTime.MinValue;
-                DateTime toDateTime = DateTime.MinValue;
-
-                if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
-                {
-                    fromDateTime = request.FromDate.GetValueOrDefault(DateTime.MinValue);
-                }
-                if ((request.ToDate != null) && (request.ToDate > DateTime.MinValue))
-                {
-                    toDateTime = request.ToDate.GetValueOrDefault(DateTime.MinValue);
-                }
-
-                if ((fromDateTime != null) && (toDateTime != null))
+                FwJsonDataTable dt = e.DataTable;
+                if (_showAvailability)
                 {
                     if (dt.Rows.Count > 0)
                     {
-                        TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
-                        foreach (List<object> row in dt.Rows)
+                        DateTime fromDateTime = DateTime.MinValue;
+                        DateTime toDateTime = DateTime.MinValue;
+
+                        if ((_availFromDate != null) && (_availFromDate > DateTime.MinValue))
                         {
-                            string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
-                            string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                            fromDateTime = _availFromDate.GetValueOrDefault(DateTime.MinValue);
+                        }
+                        if ((_availToDate != null) && (_availToDate > DateTime.MinValue))
+                        {
+                            toDateTime = _availToDate.GetValueOrDefault(DateTime.MinValue);
                         }
 
-                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false); 
-
-                        foreach (List<object> row in dt.Rows)
+                        if ((fromDateTime != null) && (toDateTime != null))
                         {
-                            string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
-                            string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                            float qty = FwConvert.ToFloat(row[dt.GetColumnNo("Quantity")]);
-
-                            float qtyAvailable = 0;
-                            bool isStale = true;
-                            DateTime? conflictDate = null;
-                            string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
-                            string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
-
-
-                            TInventoryWarehouseAvailability availData = null;
-                            if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
+                            if (dt.Rows.Count > 0)
                             {
-                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime, qty);
+                                TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+                                foreach (List<object> row in dt.Rows)
+                                {
+                                    string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                                    string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                                    availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                                }
 
-                                qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
-                                conflictDate = minAvail.FirstConfict;
-                                isStale = minAvail.IsStale;
-                                availColor = minAvail.Color;
-                                availabilityState = minAvail.AvailabilityState;
+                                TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false).Result;
+
+                                foreach (List<object> row in dt.Rows)
+                                {
+                                    string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                                    string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                                    float qty = FwConvert.ToFloat(row[dt.GetColumnNo("Quantity")]);
+
+                                    float qtyAvailable = 0;
+                                    bool isStale = true;
+                                    DateTime? conflictDate = null;
+                                    string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
+                                    string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
+
+
+                                    TInventoryWarehouseAvailability availData = null;
+                                    if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
+                                    {
+                                        TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime, qty);
+
+                                        qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
+                                        conflictDate = minAvail.FirstConfict;
+                                        isStale = minAvail.IsStale;
+                                        availColor = minAvail.Color;
+                                        availabilityState = minAvail.AvailabilityState;
+                                    }
+
+                                    row[dt.GetColumnNo("QuantityAvailable")] = qtyAvailable;
+                                    if (conflictDate != null)
+                                    {
+                                        row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToUSShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
+                                    }
+
+                                    row[dt.GetColumnNo("QuantityAvailableColor")] = availColor;
+                                    row[dt.GetColumnNo("QuantityAvailableIsStale")] = isStale;
+                                    row[dt.GetColumnNo("AvailabilityState")] = availabilityState;
+                                }
                             }
-
-                            row[dt.GetColumnNo("QuantityAvailable")] = qtyAvailable;
-                            //row[dt.GetColumnNo("ConflictDate")] = conflictDate;
-                            if (conflictDate != null)
-                            {
-                                row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToUSShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
-                            }
-
-                            row[dt.GetColumnNo("QuantityAvailableColor")] = availColor;
-                            row[dt.GetColumnNo("QuantityAvailableIsStale")] = isStale;
-                            row[dt.GetColumnNo("AvailabilityState")] = availabilityState;
-
-
-                            //TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
-                            //TInventoryWarehouseAvailability availData = null;
-                            //row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC); 
-                            //row[dt.GetColumnNo("QuantityAvailableIsStale")] = true;
-                            //if (availCache.TryGetValue(availKey, out availData))
-                            //{
-                            //    row[dt.GetColumnNo("QuantityAvailableColor")] = null;
-                            //    TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
-                            //    row[dt.GetColumnNo("QuantityAvailable")] = minAvail.MinimumAvailable;
-                            //    if (minAvail.MinimumAvailable < 0)
-                            //    {
-                            //        row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE); 
-                            //    }
-                            //    row[dt.GetColumnNo("QuantityAvailableIsStale")] = minAvail.IsStale;
-                            //    if (minAvail.IsStale)
-                            //    {
-                            //        row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC); 
-                            //    }
-
-                            //}
                         }
                     }
                 }
-            }
 
-
-            if (dt.Rows.Count > 0)
-            {
-                foreach (List<object> row in dt.Rows)
+                if (dt.Rows.Count > 0)
                 {
-                    row[dt.GetColumnNo("AvailableForDisplay")] = getRecTypeDisplay(row[dt.GetColumnNo("AvailFor")].ToString());
-                    row[dt.GetColumnNo("AvailableForColor")] = determineRecTypeColor(row[dt.GetColumnNo("AvailFor")].ToString());
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("AvailableForDisplay")] = getRecTypeDisplay(row[dt.GetColumnNo("AvailFor")].ToString());
+                        row[dt.GetColumnNo("AvailableForColor")] = determineRecTypeColor(row[dt.GetColumnNo("AvailFor")].ToString());
+                    }
                 }
             }
-
-
-            return dt;
         }
         //------------------------------------------------------------------------------------
-
     }
 }

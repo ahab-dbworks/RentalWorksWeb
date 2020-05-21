@@ -297,11 +297,26 @@ class SearchInterface {
                 options.hasNew = false;
             },
             onDataBind: (request: any) => {
-                request.SessionId        = id;
-                request.ShowAvailability = true;
-                request.FromDate         = FwFormField.getValueByDataField($popup, 'FromDate');
-                request.ToDate           = FwFormField.getValueByDataField($popup, 'ToDate');
-                request.ShowImages       = true;
+                //request.SessionId        = id;
+                //request.ShowAvailability = true;
+                //request.FromDate         = FwFormField.getValueByDataField($popup, 'FromDate');
+                //request.ToDate           = FwFormField.getValueByDataField($popup, 'ToDate');
+                //request.ShowImages = true;
+
+                let showAvailability: boolean = $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false;
+
+                if (type === 'PurchaseOrder') {
+                    showAvailability = false;
+                }
+
+                request.uniqueids = {
+                    SessionId: id,
+                    ShowAvailability: showAvailability,
+                    ShowImages: true,
+                    FromDate: FwFormField.getValueByDataField($popup, 'FromDate'),
+                    ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
+                }
+
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.updatePreviewTabQuantity($popup, id, false);
@@ -1788,18 +1803,35 @@ class SearchInterface {
     }
     //----------------------------------------------------------------------------------------------
     refreshPreviewGrid($popup, id) {
-        let $searchpopup = $popup.find('#searchpopup');
-        let previewrequest: any = {
-            SessionId:        id,
-            ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-            ShowImages:       true,
-            FromDate:         FwFormField.getValueByDataField($popup, 'FromDate'),
-            ToDate:           FwFormField.getValueByDataField($popup, 'ToDate')
-        };
+        //let $searchpopup = $popup.find('#searchpopup');
+        //let previewrequest: any = {
+        //    SessionId:        id,
+        //    ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+        //    ShowImages:       true,
+        //    FromDate:         FwFormField.getValueByDataField($popup, 'FromDate'),
+        //    ToDate:           FwFormField.getValueByDataField($popup, 'ToDate')
+        //};
 
+        //let type = $popup.find('#itemsearch').attr('data-moduletype');
+        //if (type === 'PurchaseOrder') {
+        //    previewrequest.ShowAvailability = false;
+        //}
+
+        let $searchpopup = $popup.find('#searchpopup');
         let type = $popup.find('#itemsearch').attr('data-moduletype');
+        let showAvailability: boolean = $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false;
+
         if (type === 'PurchaseOrder') {
-            previewrequest.ShowAvailability = false;
+            showAvailability = false;
+        }
+
+        let previewrequest: BrowseRequest = new BrowseRequest();
+        previewrequest.uniqueids = {
+            SessionId: id,
+            ShowAvailability: showAvailability,
+            ShowImages: true,
+            FromDate: FwFormField.getValueByDataField($popup, 'FromDate'),
+            ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
         }
 
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, response => {

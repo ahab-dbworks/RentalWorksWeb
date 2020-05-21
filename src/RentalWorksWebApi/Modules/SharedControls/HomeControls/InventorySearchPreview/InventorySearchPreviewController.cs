@@ -17,39 +17,46 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
     public class InventorySearchPreviewController : AppDataController
     {
 
-        public class InventorySearchPreviewBrowseRequest : BrowseRequest
-        {
-            public string SessionId;
-            public bool? ShowAvailability;
-            //public bool? RefreshAvailability;
-            public DateTime? FromDate;
-            public DateTime? ToDate;
-        }
-        //------------------------------------------------------------------------------------ 
+        //public class InventorySearchPreviewBrowseRequest : BrowseRequest
+        //{
+        //    public string SessionId;
+        //    public bool? ShowAvailability;
+        //    public DateTime? FromDate;
+        //    public DateTime? ToDate;
+        //}
+        ////------------------------------------------------------------------------------------ 
 
 
         public InventorySearchPreviewController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventorySearchPreviewLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearchpreview/browse 
+        //[HttpPost("browse")]
+        //[FwControllerMethod(Id:"3WWbSkyMDadG", ActionType: FwControllerActionTypes.Browse)]
+        //public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]InventorySearchPreviewBrowseRequest browseRequest)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    try
+        //    {
+        //        InventorySearchPreviewLogic l = new InventorySearchPreviewLogic();
+        //        l.SetDependencies(this.AppConfig, this.UserSession);
+        //        FwJsonDataTable dt = await l.PreviewAsync(browseRequest);
+        //        return new OkObjectResult(dt);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return GetApiExceptionResult(ex);
+        //    }
+        //}
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorysearchpreview/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"3WWbSkyMDadG", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]InventorySearchPreviewBrowseRequest browseRequest)
+        [FwControllerMethod(Id: "3WWbSkyMDadG", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                InventorySearchPreviewLogic l = new InventorySearchPreviewLogic();
-                l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.PreviewAsync(browseRequest);
-                return new OkObjectResult(dt);
-            }
-            catch (Exception ex)
-            {
-                return GetApiExceptionResult(ex);
-            }
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearchpreview 
