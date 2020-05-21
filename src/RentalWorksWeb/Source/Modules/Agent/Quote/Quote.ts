@@ -374,10 +374,10 @@ class Quote extends OrderBase {
           <div id="quoteform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="generaltab" class="tab generaltab " data-tabpageid="generaltabpage" data-caption="Quote"></div>
-              <div data-type="tab" id="rentaltab" class="tab rentaltab notcombinedtab " data-tabpageid="rentaltabpage" data-notOnNew="true" data-caption="Rental"></div>
-              <div data-type="tab" id="salestab" class="tab salestab notcombinedtab" data-tabpageid="salestabpage" data-notOnNew="true" data-caption="Sales"></div>
-              <div data-type="tab" id="labortab" class="tab labortab notcombinedtab" data-tabpageid="labortabpage" data-notOnNew="true" data-caption="Labor"></div>
-              <div data-type="tab" id="misctab" class="tab misctab notcombinedtab" data-tabpageid="misctabpage" data-notOnNew="true" data-caption="Miscellaneous"></div>
+              <div data-type="tab" id="rentaltab" class="tab rentaltab notcombinedtab " data-tabpageid="rentaltabpage" data-notOnNew="true" data-inventorytype="Rental" data-caption="Rental"></div>
+              <div data-type="tab" id="salestab" class="tab salestab notcombinedtab" data-tabpageid="salestabpage" data-notOnNew="true" data-inventorytype="Sales" data-caption="Sales"></div>
+              <div data-type="tab" id="labortab" class="tab labortab notcombinedtab" data-tabpageid="labortabpage" data-notOnNew="true" data-inventorytype="Labor" data-caption="Labor"></div>
+              <div data-type="tab" id="misctab" class="tab misctab notcombinedtab" data-tabpageid="misctabpage" data-notOnNew="true" data-inventorytype="Misc" data-caption="Miscellaneous"></div>
               <div data-type="tab" id="usedsaletab" class="tab usedsaletab notcombinedtab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
               <div data-type="tab" id="alltab" class="tab combinedtab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>
               <div data-type="tab" id="billingtab" class="tab billingtab" data-tabpageid="billingtabpage" data-caption="Billing"></div>

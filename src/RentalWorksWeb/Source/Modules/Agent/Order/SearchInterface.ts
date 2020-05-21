@@ -328,8 +328,7 @@ class SearchInterface {
 
         //Sets inventory type by active tab
         if (typeof gridInventoryType == 'undefined') {
-            gridInventoryType = $form.find('.tabs .active[data-type="tab"]').attr('data-caption');
-            if (gridInventoryType == 'Miscellaneous') gridInventoryType = 'Misc';
+            gridInventoryType = $form.find('.tabs .active[data-type="tab"]').attr('data-inventorytype');
         }
 
         switch (gridInventoryType) {
@@ -345,6 +344,9 @@ class SearchInterface {
                 break;
             case 'Misc':
                 FwFormField.setValue($popup, 'div[data-datafield="InventoryType"]', 'M', '', true);
+                break;
+            case 'Parts':
+                FwFormField.setValue($popup, 'div[data-datafield="InventoryType"]', 'P', '', true);
                 break;
         };
 

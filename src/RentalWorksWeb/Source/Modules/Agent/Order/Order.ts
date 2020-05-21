@@ -760,13 +760,13 @@ class Order extends OrderBase {
           <div id="orderform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="generaltab" class="tab generaltab" data-tabpageid="generaltabpage" data-caption="Order"></div>
-              <div data-type="tab" id="rentaltab" class="tab rentaltab notcombinedtab" data-tabpageid="rentaltabpage" data-notOnNew="true" data-caption="Rental"></div>
+              <div data-type="tab" id="rentaltab" class="tab rentaltab notcombinedtab" data-tabpageid="rentaltabpage" data-notOnNew="true" data-inventorytype="Rental" data-caption="Rental"></div>
               <div data-type="tab" id="subrentaltab" class="tab subrentaltab notcombinedtab" data-tabpageid="subrentaltabpage" data-notOnNew="true" data-caption="Sub-Rental"></div>
-              <div data-type="tab" id="salestab" class="tab salestab notcombinedtab" data-tabpageid="salestabpage" data-notOnNew="true" data-caption="Sales"></div>
+              <div data-type="tab" id="salestab" class="tab salestab notcombinedtab" data-tabpageid="salestabpage" data-notOnNew="true" data-inventorytype="Sales" data-caption="Sales"></div>
               <div data-type="tab" id="subsalestab" class="tab subsalestab notcombinedtab" data-tabpageid="subsalestabpage" data-notOnNew="true" data-caption="Sub-Sales"></div>
-              <div data-type="tab" id="misctab" class="tab misctab notcombinedtab" data-tabpageid="misctabpage" data-notOnNew="true" data-caption="Miscellaneous"></div>
+              <div data-type="tab" id="misctab" class="tab misctab notcombinedtab" data-tabpageid="misctabpage" data-notOnNew="true" data-inventorytype="Misc" data-caption="Miscellaneous"></div>
               <div data-type="tab" id="submisctab" class="tab submisctab notcombinedtab" data-tabpageid="submisctabpage" data-notOnNew="true" data-caption="Sub-Miscellaneous"></div>
-              <div data-type="tab" id="labortab" class="tab labortab notcombinedtab" data-tabpageid="labortabpage" data-notOnNew="true" data-caption="Labor"></div>
+              <div data-type="tab" id="labortab" class="tab labortab notcombinedtab" data-tabpageid="labortabpage" data-notOnNew="true" data-inventorytype="Labor" data-caption="Labor"></div>
               <div data-type="tab" id="sublabortab" class="tab sublabortab notcombinedtab" data-tabpageid="sublabortabpage" data-notOnNew="true" data-caption="Sub-Labor"></div>
               <div data-type="tab" id="usedsaletab" class="tab usedsaletab notcombinedtab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
               <div data-type="tab" id="lossdamagetab" class="tab lossdamagetab" data-tabpageid="lossdamagetabpage" data-notOnNew="true" data-caption="Loss &amp; Damage"></div>
