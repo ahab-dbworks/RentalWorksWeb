@@ -68,8 +68,8 @@ class CheckOutPendingItemGrid {
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Items to Substitute">
                         <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Bar Code / I-Code" data-datafield="Code" style="flex:0 1 200px;"></div>
-                            <div data-control="FwFormField" data-type="text" data-enabled="false" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="" style="flex:0 1 200px;"></div>
-                            <div data-control="FwFormField" data-type="text" data-enabled="false" class="fwcontrol fwformfield" data-caption="Description" data-datafield="" style="flex:1 1 400px;"></div>
+                            <div data-control="FwFormField" data-type="text" data-enabled="false" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="SubstituteItemICode" style="flex:0 1 200px;"></div>
+                            <div data-control="FwFormField" data-type="text" data-enabled="false" class="fwcontrol fwformfield" data-caption="Description" data-datafield="SubstituteItemDescription" style="flex:1 1 400px;"></div>
                         </div>
                         <div class="flexrow"> 
                             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="flex:0 1 100px;"></div>
@@ -90,8 +90,7 @@ class CheckOutPendingItemGrid {
                 FwFormField.setValueByDataField($confirmation, 'Ordered', quantity);
                 FwFormField.setValueByDataField($confirmation, 'Remaining', remaining);
                 FwFormField.setValueByDataField($confirmation, 'QtyToSubstitute', 1);
-                FwFormField.setValueByDataField($confirmation, 'Quantity', 1);
-                FwConfirmation.addButton($confirmation, 'Cancel', true);
+                const $cancel = FwConfirmation.addButton($confirmation, 'Cancel', false);
                 $confirmation.find('.fwconfirmationbox').css('width', '40vw');
 
                 const $grid = FwBrowse.renderGrid({
@@ -103,7 +102,7 @@ class CheckOutPendingItemGrid {
                     addGridMenu: (options: IAddGridMenuOptions) => {
                         options.hasNew = false;
                         options.hasEdit = false;
-                        options.hasDelete = false;
+                        options.hasDelete = true;
                     },
                     onDataBind: (request: any) => {
                         request.uniqueids = {
@@ -114,22 +113,31 @@ class CheckOutPendingItemGrid {
                 FwBrowse.search($grid);
 
                 $confirmation.on('change', '[data-datafield="Code"], [data-datafield="Quantity"]', e => {
-                    const request: any = {
-                        SessionId: sessionId,
-                        Code: FwFormField.getValueByDataField($confirmation, 'Code'),
-                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
-                        Quantity: FwFormField.getValueByDataField($confirmation, 'Quantity'),
-                    };
+                    const code = FwFormField.getValueByDataField($confirmation, 'Code');
+                    const quantity = FwFormField.getValueByDataField($confirmation, 'Quantity');
+                    if (code != "" && quantity != "0") {
+                        const request: any = {
+                            SessionId: sessionId,
+                            Code: code,
+                            WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
+                            Quantity: quantity
+                        };
 
-                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/addsubstituteitemtosession`, request, FwServices.defaultTimeout,
-                        response => {
-                            if (response.success) {
-                                $confirmation.find('.error-msg').html('');
-                                FwBrowse.search($grid);
-                            } else {
-                                $confirmation.find('.error-msg').html(`<span style="margin-left:1em; color:white; background:red;">${response.msg}</span>`);
-                            }
-                        }, ex => FwFunc.showError(ex), $grid);
+                        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/addsubstituteitemtosession`, request, FwServices.defaultTimeout,
+                            response => {
+                                if (response.success) {
+                                    $confirmation.find('.error-msg').html('');
+                                    FwFormField.setValueByDataField($confirmation, 'Code', '', '', false);
+                                    $confirmation.find('[data-datafield="Quantity"] input').val('');
+                                    FwBrowse.search($grid);
+                                    $confirmation.find('[data-datafield="Code"] input').focus();
+                                } else {
+                                    $confirmation.find('.error-msg').html(`<span style="margin-left:1em; color:white; background:red;">${response.msg}</span>`);
+                                }
+                                FwFormField.setValueByDataField($confirmation, 'SubstituteItemICode', response.ICode);
+                                FwFormField.setValueByDataField($confirmation, 'SubstituteItemDescription', response.Description);
+                            }, ex => FwFunc.showError(ex), $grid);
+                    }
                 });
 
                 $confirmation.find('[data-datafield="Code"] input').focus();
@@ -149,6 +157,21 @@ class CheckOutPendingItemGrid {
                             }
                         }, ex => FwFunc.showError(ex), $control);
                 })
+
+                $cancel.on('click', e => {
+                    const rowCount = $grid.data('totalRowCount');
+                    if (rowCount) {
+                        const $confirmClose = FwConfirmation.renderConfirmation(`Confirm`, 'Exit without applying substitutes?');
+                        const $confirm = FwConfirmation.addButton($confirmClose, 'Confirm');
+                        FwConfirmation.addButton($confirmClose, 'Cancel');
+                        $confirm.on('click', e => {
+                            FwConfirmation.destroyConfirmation($confirmation);
+                        });
+                    } else {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                    }
+                  
+                });
             }, ex => FwFunc.showError(ex), $control);
     }
     //----------------------------------------------------------------------------------------------
