@@ -267,7 +267,15 @@ namespace FwStandard.Modules.Administrator.Alert
                                         }
                                         else if (field.Equals("Data Change Date/Time"))
                                         {
-                                            value = newObject.GetType().GetProperty("DateStamp").GetValue(newObject);
+                                            //value = newObject.GetType().GetProperty("DateStamp").GetValue(newObject);
+                                            value = DateTime.Now;
+                                            foreach (PropertyInfo property in propertyInfo)
+                                            {
+                                                if (property.Name.ToLower().Equals("datestamp"))
+                                                {
+                                                    value = newObject.GetType().GetProperty(property.Name).GetValue(newObject);
+                                                }
+                                            }
                                         }
                                         else
                                         {
@@ -293,7 +301,15 @@ namespace FwStandard.Modules.Administrator.Alert
                                         }
                                         else if (field.Equals("Data Change Date/Time"))
                                         {
-                                            value = newObject.GetType().GetProperty("DateStamp").GetValue(newObject);
+                                            //value = newObject.GetType().GetProperty("DateStamp").GetValue(newObject);
+                                            value = DateTime.Now;
+                                            foreach (PropertyInfo property in propertyInfo)
+                                            {
+                                                if (property.Name.ToLower().Equals("datestamp"))
+                                                {
+                                                    value = newObject.GetType().GetProperty(property.Name).GetValue(newObject);
+                                                }
+                                            }
                                         }
                                         else
                                         {
