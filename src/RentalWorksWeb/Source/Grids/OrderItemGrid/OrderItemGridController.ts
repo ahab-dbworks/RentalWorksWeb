@@ -906,6 +906,9 @@ class OrderItemGrid {
                             calculateExtended('Extended');
                             break;
                         case 'UnitCost':
+                            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response.Price.toString() });
+                            calculateExtended('Extended');
+                            break;
                         case 'Price':
                             FwBrowse.setFieldValue($control, $generatedtr, 'MarkupPercent', { value: response.MarkupPercent });
                             FwBrowse.setFieldValue($control, $generatedtr, 'MarginPercent', { value: response.MarginPercent });
