@@ -6,7 +6,7 @@
     }
     //----------------------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
-        const html: Array<string> = [];
+        var html = [];
 
         html.push('<div class="fwreportsheader">');
         html.push('  <div class="reports-header-title">Reports</div>');
@@ -30,36 +30,26 @@
         html.push('  <div class="well"></div>');
         html.push('</div>');
 
-        const reportsMenu = this.getHeaderView($control);
+        var reportsMenu = this.getHeaderView($control);
         reportsMenu.append('<div class="flexcolumn menu-collapse"><i class="material-icons">keyboard_arrow_left</i></div>');
         $control.html(html.join(''));
+        let menuCollapse = reportsMenu.find('.menu-collapse');
+        let menuExpand = $control.find('.menu-expand');
 
-        const menuExpand = $control.find('.menu-expand');
-        menuExpand.on('click', e => {
+        menuExpand.on('click', function () {
             menuCollapse.closest('.navigation').show();
-            jQuery(e.currentTarget).hide();
-            FwSettings.updateUserIdNavExpanded('reports', true);
+            jQuery(this).hide();
         });
 
-        const menuCollapse = reportsMenu.find('.menu-collapse');
-        menuCollapse.on('click', e => {
+        menuCollapse.on('click', function () {
             menuExpand.show();
-            jQuery(e.currentTarget).closest('.navigation').hide();
-            FwSettings.updateUserIdNavExpanded('reports', false);
+            jQuery(this).closest('.navigation').hide();
         });
 
         reportsMenu.addClass('flexrow');
         reportsMenu.find('.menu').addClass('flexcolumn');
 
         $control.find('.navigation-menu').append(reportsMenu);
-        setTimeout(() => {
-            const reportsNavExpanded = JSON.parse(sessionStorage.getItem('userid')).reportsnavexpanded;
-            if (reportsNavExpanded === 'true') {
-                menuExpand.click()
-            } else {
-                menuCollapse.click();
-            }
-        }, 0);
     }
     //----------------------------------------------------------------------------------------------
     getCaptions(screen) {
