@@ -68,6 +68,9 @@ html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .sub
 html.theme-material .fwmenu.default .submenubutton.fw {float:right;}
 html.theme-material .fwmenu.default .submenubutton.fw .submenu {right:0;}
 
+html.theme-material .fwmenu.default.search-wrapper {padding-bottom:10px; max-width:none;justify-content:center;}
+html.theme-material .fwmenu.default.search-wrapper .read-only-searchfields {max-width:650px;}
+
 /*#region data-type="btnmenu" (main button)*/
 html.theme-material [data-type="btnmenu"] .btnmenu {float:left;border-radius:2px 0 0 2px;padding: 0 1rem;cursor:pointer;display:inline-block;height: 36px;letter-spacing: .5px;line-height: 36px;font-size: 15px;text-transform: uppercase;will-change: opacity, transform;-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;-o-transition: all 0.3s ease-out;-ms-transition: all 0.3s ease-out;transition: all 0.3s ease-out;}
 html.theme-material [data-type="btnmenu"] .btnmenu {background-color: #01579b;color: #ffffff;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);}
