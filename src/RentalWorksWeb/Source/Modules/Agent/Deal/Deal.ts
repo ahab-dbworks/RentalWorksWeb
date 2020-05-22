@@ -137,6 +137,34 @@ class Deal {
         }
 
         // SUBMODULES
+        const getData = ($form) => {
+            const data = {
+                DealId: FwFormField.getValueByDataField($form, 'DealId'),
+                Deal: FwFormField.getValueByDataField($form, 'Deal'),
+                RateTypeId: FwFormField.getValueByDataField($form, 'DefaultRate'),
+                RateType: FwFormField.getTextByDataField($form, 'DefaultRate'),
+                BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId'),
+                BillingCycle: FwFormField.getTextByDataField($form, 'BillingCycleId'),
+                PaymentTypeId: FwFormField.getValueByDataField($form, 'PaymentTypeId'),
+                PaymentType: FwFormField.getTextByDataField($form, 'PaymentTypeId'),
+                PaymentTermsId: FwFormField.getValueByDataField($form, 'PaymentTermsId'),
+                PaymentTerms: FwFormField.getTextByDataField($form, 'PaymentTermsId'),
+                DealNumber: FwFormField.getValueByDataField($form, 'DealNumber'),
+                CustomerId: FwFormField.getValueByDataField($form, 'CustomerId'),
+                Customer: FwFormField.getTextByDataField($form, 'CustomerId'),
+                BillToAttention1: FwFormField.getValueByDataField($form, 'BillToAttention1'),
+                BillToAttention2: FwFormField.getValueByDataField($form, 'BillToAttention2'),
+                BillToAddress1: FwFormField.getValueByDataField($form, 'BillToAddress1'),
+                BillToAddress2: FwFormField.getValueByDataField($form, 'BillToAddress2'),
+                BillToCity: FwFormField.getValueByDataField($form, 'BillToCity'),
+                BillToState: FwFormField.getValueByDataField($form, 'BillToState'),
+                BillToZipCode: FwFormField.getValueByDataField($form, 'BillToZipCode'),
+                BillToCountryId: FwFormField.getValueByDataField($form, 'BillToCountryId'),
+                BillToCountry: FwFormField.getTextByDataField($form, 'BillToCountryId'),
+                BillToAddressType: FwFormField.getValueByDataField($form, 'BillToAddressType')
+            }
+            return data;
+        }
 
         let nodeQuote = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'jFkSBEur1dluU');
         if (nodeQuote !== undefined && nodeQuote.properties.visible === 'T') {
@@ -146,18 +174,11 @@ class Deal {
             $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
             $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
                 if ($form.attr('data-mode') !== 'NEW') {
-                    const quoteFormData: any = {};
                     const $browse = jQuery(this).closest('.fwbrowse');
                     const controller = $browse.attr('data-controller');
-                    quoteFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
-                    quoteFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
-                    quoteFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
-                    quoteFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
-                    quoteFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
-                    quoteFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
                     if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
                     if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-                    const $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
+                    const $quoteForm = window[controller]['openForm']('NEW', getData($form));
                     FwModule.openSubModuleTab($browse, $quoteForm);
                 } else {
                     FwNotification.renderNotification('WARNING', 'Save the record first.')
@@ -173,18 +194,11 @@ class Deal {
             $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
             $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
                 if ($form.attr('data-mode') !== 'NEW') {
-                    const orderFormData: any = {};
                     const $browse = jQuery(this).closest('.fwbrowse');
                     const controller = $browse.attr('data-controller');
-                    orderFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
-                    orderFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
-                    orderFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
-                    orderFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
-                    orderFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
-                    orderFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
                     if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
                     if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-                    const $orderForm = window[controller]['openForm']('NEW', orderFormData);
+                    const $orderForm = window[controller]['openForm']('NEW', getData($form));
                     FwModule.openSubModuleTab($browse, $orderForm);
                 } else {
                     FwNotification.renderNotification('WARNING', 'Save the record first.')

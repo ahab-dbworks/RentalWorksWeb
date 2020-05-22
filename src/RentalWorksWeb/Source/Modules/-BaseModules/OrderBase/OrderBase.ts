@@ -1312,6 +1312,19 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
             FwFormField.setValue($form, 'div[data-datafield="RateType"]', parentModuleInfo.RateTypeId, parentModuleInfo.RateType);
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', parentModuleInfo.BillingCycleId, parentModuleInfo.BillingCycle);
+            FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', parentModuleInfo.PaymentTermsId, parentModuleInfo.PaymentTerms);
+            FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', parentModuleInfo.PaymentTypeId, parentModuleInfo.PaymentTypeId);
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', parentModuleInfo.DealNumber, parentModuleInfo.DealNumber);
+            FwFormField.setValueByDataField($form, 'CustomerId', parentModuleInfo.CustomerId, parentModuleInfo.Customer);
+            FwFormField.setValueByDataField($form, 'IssuedToAttention', parentModuleInfo.BillToAttention1);
+            FwFormField.setValueByDataField($form, 'IssuedToAttention2', parentModuleInfo.BillToAttention2);
+            FwFormField.setValueByDataField($form, 'IssuedToAddress1', parentModuleInfo.BillToAddress1);
+            FwFormField.setValueByDataField($form, 'IssuedToAddress2', parentModuleInfo.BillToAddress2);
+            FwFormField.setValueByDataField($form, 'IssuedToCity', parentModuleInfo.BillToCity);
+            FwFormField.setValueByDataField($form, 'IssuedToState', parentModuleInfo.BillToState);
+            FwFormField.setValueByDataField($form, 'IssuedToZipCode', parentModuleInfo.BillToZipCode);
+            FwFormField.setValueByDataField($form, 'IssuedToCountryId', parentModuleInfo.BillToCountryId, parentModuleInfo.BillToCountry);
+            FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', parentModuleInfo.BillToAddressType);
         }
 
         //Toggle Buttons - Profit Loss tab
