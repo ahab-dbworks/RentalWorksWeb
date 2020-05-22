@@ -251,7 +251,6 @@ abstract class InventoryBase {
                         availRequest.YearView = true;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
-                        // FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
                         let calendarEvents = response.InventoryAvailabilityCalendarEvents;
                         $control.data('reserveDates', response.Dates);                           // loading reservation data onto control for use in renderDatePopup()
                         for (let i = 0; i < calendarEvents.length; i++) {
@@ -270,18 +269,16 @@ abstract class InventoryBase {
                             resources = response.InventoryAvailabilityScheduleResources;
                             calendarEvents = response.InventoryAvailabilityScheduleEvents;
                             for (let i = 0; i < calendarEvents.length; i++) {
-                                // if (calendarEvents[i].isWarehouseTotal === true) {
-                                //calendarEvents[i].html = `<div class="warehouse" style="color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`
-                                //} else {
-                                //    schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`
-                                let html: string = "";
-                                html += `<div style="`;
-                                if (calendarEvents[i].backColor) {
-                                    html += `background-color:${calendarEvents[i].backColor};`;
-                                }
-                                html += `color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`;
-                                calendarEvents[i].html = html;
+                                //let html: string = "";
+                                //html += `<div style="`;
+                                //if (calendarEvents[i].backColor) {
+                                //    html += `background-color:${calendarEvents[i].backColor};`;
                                 //}
+                                //html += `color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`;
+                                //calendarEvents[i].html = html;
+                                calendarEvents[i].html = `<div style="${calendarEvents[i].backColor ? `background-color:${calendarEvents[i].backColor};` : ''}color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`;
+                                calendarEvents[i].start = calendarEvents[i].startdisplay;
+                                calendarEvents[i].end = calendarEvents[i].enddisplay;
                             }
 
                             $control.closest('div.adjustcontainer').css('max-width', '1670px');
