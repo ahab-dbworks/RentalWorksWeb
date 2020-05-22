@@ -39,8 +39,7 @@ class OrderBase {
             moduleSecurityId: this.id,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasDelete = false;
+
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -54,12 +53,11 @@ class OrderBase {
         // ----------
         FwBrowse.renderGrid({
             nameGrid: 'DealHiatusDiscountGrid',
-            gridSecurityId: '',
+            gridSecurityId: 'qyEHq2bK1WIJ4',
             moduleSecurityId: this.id,
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasDelete = false;
+
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {

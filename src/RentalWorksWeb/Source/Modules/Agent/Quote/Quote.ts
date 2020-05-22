@@ -1378,8 +1378,8 @@ class Quote extends OrderBase {
                 <div class="flexrow">
                   <div class="flexcolumn">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Hiatus Schedule">
-                      <div class="rwGrid" data-control="FwGrid" data-grid="OrderHiatusDiscountGrid" data-securitycaption="Haitus" style="display:none;"></div>
-                      <div class="rwGrid" data-control="FwGrid" data-grid="DealHiatusDiscountGrid" data-securitycaption="Haitus"></div>
+                      <div class="rwGrid" data-control="FwGrid" data-grid="OrderHiatusDiscountGrid" style="display:none;"></div>
+                      <div class="rwGrid" data-control="FwGrid" data-grid="DealHiatusDiscountGrid"></div>
                     </div>
                   </div>
                 </div>
