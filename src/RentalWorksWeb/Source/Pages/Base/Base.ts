@@ -222,13 +222,14 @@ class Base {
                                             const responseGetIsTraining = values[9];
                                             const responseGetWarehouses = values[10];
 
-                                            let sounds: any = {}, homePage: any = {}, favorites: any = {};
+                                            const sounds: any = {}; 
                                             sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
                                             sounds.errorSoundFileName = responseGetUserSettings.ErrorSoundFileName;
                                             sounds.notificationSoundFileName = responseGetUserSettings.NotificationSoundFileName;
+                                            const homePage: any = {};
                                             homePage.guid = responseGetUserSettings.HomeMenuGuid;
                                             homePage.path = responseGetUserSettings.HomeMenuPath;
-                                            favorites = responseGetUserSettings.FavoritesJson;
+                                            const favorites = responseGetUserSettings.FavoritesJson;
                                             sessionStorage.setItem('sounds', JSON.stringify(sounds));
                                             sessionStorage.setItem('homePage', JSON.stringify(homePage));
                                             sessionStorage.setItem('favorites', favorites);
@@ -241,7 +242,7 @@ class Base {
                                             } else {
                                                 userid.webadministrator = 'false';
                                             }
-                                            userid.reportnavexpanded = `${responseGetUserSettings.ReportsNavigationMenuVisible}`;
+                                            userid.reportsnavexpanded = `${responseGetUserSettings.ReportsNavigationMenuVisible}`;
                                             userid.settingsnavexpanded = `${responseGetUserSettings.SettingsNavigationMenuVisible}`;
                                             sessionStorage.setItem('userid', JSON.stringify(userid));
 

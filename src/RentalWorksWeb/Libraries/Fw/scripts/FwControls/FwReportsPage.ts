@@ -6,7 +6,7 @@
     }
     //----------------------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
-        var html = [];
+        const html: Array<string> = [];
 
         html.push('<div class="fwreportsheader">');
         html.push('  <div class="reports-header-title">Reports</div>');
@@ -30,26 +30,42 @@
         html.push('  <div class="well"></div>');
         html.push('</div>');
 
-        var reportsMenu = this.getHeaderView($control);
+        const reportsMenu = this.getHeaderView($control);
         reportsMenu.append('<div class="flexcolumn menu-collapse"><i class="material-icons">keyboard_arrow_left</i></div>');
         $control.html(html.join(''));
-        let menuCollapse = reportsMenu.find('.menu-collapse');
-        let menuExpand = $control.find('.menu-expand');
 
-        menuExpand.on('click', function () {
+        const menuExpand = $control.find('.menu-expand');
+        menuExpand.on('click', e => {
             menuCollapse.closest('.navigation').show();
-            jQuery(this).hide();
+            jQuery(e.currentTarget).hide();
+            FwSettings.updateUserIdNavExpanded('reports', true);
         });
 
-        menuCollapse.on('click', function () {
+        const menuCollapse = reportsMenu.find('.menu-collapse');
+        menuCollapse.on('click', e => {
             menuExpand.show();
-            jQuery(this).closest('.navigation').hide();
+            jQuery(e.currentTarget).closest('.navigation').hide();
+            FwSettings.updateUserIdNavExpanded('reports', false);
         });
 
         reportsMenu.addClass('flexrow');
         reportsMenu.find('.menu').addClass('flexcolumn');
 
         $control.find('.navigation-menu').append(reportsMenu);
+
+        // Remembering user last navigation column state
+        setTimeout(() => {
+            const userid = JSON.parse(sessionStorage.getItem('userid'));
+            if (userid) {
+                if (userid.reportsnavexpanded) {
+                    if (userid.reportsnavexpanded === 'true') {
+                        menuExpand.click()
+                    } else {
+                        menuCollapse.click();
+                    }
+                }
+            }
+        }, 0);
     }
     //----------------------------------------------------------------------------------------------
     getCaptions(screen) {

@@ -16,8 +16,6 @@ class FwSettingsClass {
         const html: Array<string> = [];
 
         html.push('<div class="fwsettingsheader">');
-        //html.push('<div class="settingsmenu">');
-        //html.push('</div>')
         html.push('  <div class="settings-header-title">Settings</div>');
         html.push('  <div class="input-group pull-right">');
         html.push('    <div style="display:flex;width:255px;">');
@@ -44,21 +42,49 @@ class FwSettingsClass {
         settingsMenu.append('<div class="flexcolumn menu-collapse"><i class="material-icons">keyboard_arrow_left</i></div>');
         $control.html(html.join(''));
 
-        const menuCollapse = settingsMenu.find('.menu-collapse');
         const menuExpand = $control.find('.menu-expand');
         menuExpand.on('click', e => {
             menuCollapse.closest('.navigation').show();
             jQuery(e.currentTarget).hide();
+            this.updateUserIdNavExpanded('settings', true);
         });
 
+        const menuCollapse = settingsMenu.find('.menu-collapse');
         menuCollapse.on('click', e => {
             menuExpand.show();
             jQuery(e.currentTarget).closest('.navigation').hide();
+            this.updateUserIdNavExpanded('settings', false);
         });
 
         settingsMenu.find('.menu').addClass('flexcolumn');
         $control.find('.navigation-menu').append(settingsMenu);
+
+        // Remembering user last navigation column state
+        setTimeout(() => {
+            const userid = JSON.parse(sessionStorage.getItem('userid'));
+            if (userid) {
+                if (userid.settingsnavexpanded) {
+                    if (userid.settingsnavexpanded === 'true') {
+                        menuExpand.click()
+                    } else {
+                        menuCollapse.click();
+                    }
+                }
+            }
+        }, 0);
     };
+    //----------------------------------------------------------------------------------------------
+    updateUserIdNavExpanded(module: string, isExpanded: boolean) {
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid) {
+            if (module === 'settings') {
+                userid.settingsnavexpanded = `${isExpanded}`;
+            } else {
+                userid.reportsnavexpanded = `${isExpanded}`;
+            }
+            sessionStorage.setItem('userid', JSON.stringify(userid));
+        }
+    }
     //----------------------------------------------------------------------------------------------
     //saveForm(module, $form, closetab, navigationpath, $control, browseKeys, rowId, moduleName, getRows?) {
     //    var $tabpage, fields, ids, mode, isValid, $tab, request, controllername, controller;
