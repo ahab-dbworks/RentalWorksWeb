@@ -76,13 +76,23 @@ class FwSettingsClass {
     //----------------------------------------------------------------------------------------------
     updateUserIdNavExpanded(module: string, isExpanded: boolean) {
         const userid = JSON.parse(sessionStorage.getItem('userid'));
+        let request: any = {};
         if (userid) {
             if (module === 'settings') {
                 userid.settingsnavexpanded = `${isExpanded}`;
+                request.SettingsNavigationMenuVisible = isExpanded;
             } else {
                 userid.reportsnavexpanded = `${isExpanded}`;
+                request.ReportsNavigationMenuVisible = isExpanded;
+
             }
             sessionStorage.setItem('userid', JSON.stringify(userid));
+
+            const usersid = sessionStorage.getItem('usersid');
+            if (usersid) {
+                request.UserId = usersid;
+                FwAppData.apiMethod(true, 'PUT', `api/v1/user/${usersid}`, request, FwServices.defaultTimeout, response => { }, ex => FwFunc.showError(ex), null);
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
