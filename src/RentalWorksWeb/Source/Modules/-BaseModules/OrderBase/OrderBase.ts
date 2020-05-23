@@ -61,11 +61,11 @@ class OrderBase {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                    DealId: FwFormField.getValueByDataField($form, `DealId`)
                 };
             },
             beforeSave: (request: any) => {
-                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                request.DealId = FwFormField.getValueByDataField($form, `DealId`);
             }
         });
         // ----------
