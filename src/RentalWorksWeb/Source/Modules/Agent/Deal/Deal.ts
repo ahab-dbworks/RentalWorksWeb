@@ -163,7 +163,9 @@ class Deal {
                 BillToZipCode: FwFormField.getValueByDataField($form, 'BillToZipCode'),
                 BillToCountryId: FwFormField.getValueByDataField($form, 'BillToCountryId'),
                 BillToCountry: FwFormField.getTextByDataField($form, 'BillToCountryId'),
-                BillToAddressType: FwFormField.getValueByDataField($form, 'BillToAddressType')
+                BillToAddressType: FwFormField.getValueByDataField($form, 'BillToAddressType'),
+                DefaultOutgoingDeliveryType: FwFormField.getValueByDataField($form, 'DefaultOutgoingDeliveryType'),
+                DefaultIncomingDeliveryType: FwFormField.getValueByDataField($form, 'DefaultIncomingDeliveryType')
             }
             return data;
         }
@@ -247,7 +249,7 @@ class Deal {
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
-       
+
         FwModule.loadForm(this.Module, $form);
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
@@ -272,7 +274,7 @@ class Deal {
             FwTabs.showTab($form.find('.receipttab'));
             $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
         }
-        
+
         return $form;
     }
     //---------------------------------------------------------------------------------------------

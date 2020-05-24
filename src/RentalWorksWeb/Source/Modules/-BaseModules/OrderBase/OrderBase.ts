@@ -1459,6 +1459,26 @@ class OrderBase {
             FwFormField.setValueByDataField($form, 'IssuedToZipCode', parentModuleInfo.BillToZipCode);
             FwFormField.setValueByDataField($form, 'IssuedToCountryId', parentModuleInfo.BillToCountryId, parentModuleInfo.BillToCountry);
 
+
+            FwFormField.setValueByDataField($form, 'OutDeliveryDeliveryType', parentModuleInfo.DefaultOutgoingDeliveryType);
+            FwFormField.setValueByDataField($form, 'InDeliveryDeliveryType', parentModuleInfo.DefaultIncomingDeliveryType);
+            if (parentModuleInfo.DefaultOutgoingDeliveryType === 'DELIVER' || parentModuleInfo.DefaultOutgoingDeliveryType === 'SHIP') {
+                FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
+                this.fillDeliveryAddressFieldsforDeal($form, 'Out');
+            }
+            else if (parentModuleInfo.DefaultOutgoingDeliveryType === 'PICK UP') {
+                FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE');
+                this.getWarehouseAddress($form, 'Out');
+            }
+
+            if (parentModuleInfo.DefaultIncomingDeliveryType === 'DELIVER' || parentModuleInfo.DefaultIncomingDeliveryType === 'SHIP') {
+                FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE');
+                this.getWarehouseAddress($form, 'In');
+            }
+            else if (parentModuleInfo.DefaultIncomingDeliveryType === 'PICK UP') {
+                FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL');
+                this.fillDeliveryAddressFieldsforDeal($form, 'In');
+            }
         }
 
         this.events($form);
@@ -2070,6 +2090,7 @@ class OrderBase {
                 break;
         }
     }
+    //----------------------------------------------------------------------------------------------
     events($form: any) {
         //let weeklyType = $form.find(".weeklyType");
         //let monthlyType = $form.find(".monthlyType");
