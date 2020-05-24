@@ -908,6 +908,7 @@ class Deal {
                 FwFormField.setValueByDataField($form, 'PhoneTollFree', response.PhoneTollFree);
                 FwFormField.setValueByDataField($form, 'Fax', response.Fax);
                 FwFormField.setValueByDataField($form, 'PhoneOther', response.OtherPhone);
+                FwFormField.setValueByDataField($form, 'Email', response.Email);
                 FwFormField.setValue($form, 'div[data-datafield="CountryId"]', response.CountryId, response.Country);
                 FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', response.PaymentTermsId, response.PaymentTerms);
                 // Insurance tab

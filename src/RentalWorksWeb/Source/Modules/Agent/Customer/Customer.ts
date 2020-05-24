@@ -110,6 +110,7 @@ class Customer {
                     dealFormData.Fax = FwFormField.getValueByDataField($form, 'Fax');
                     dealFormData.PhoneTollFree = FwFormField.getValueByDataField($form, 'PhoneTollFree');
                     dealFormData.OtherPhone = FwFormField.getValueByDataField($form, 'OtherPhone');
+                    dealFormData.Email = FwFormField.getValueByDataField($form, 'Email');
 
                     const $browse = jQuery(this).closest('.fwbrowse');
                     const controller = $browse.attr('data-controller');
