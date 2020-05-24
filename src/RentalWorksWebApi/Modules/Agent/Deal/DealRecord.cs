@@ -95,6 +95,9 @@ namespace WebApi.Modules.Agent.Deal
         [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PaymentTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DefaultRate { get; set; }
         //------------------------------------------------------------------------------------ 

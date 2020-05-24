@@ -1,4 +1,5 @@
 //----------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------
 class OrderBase {
     DefaultOrderType: string;
     DefaultOrderTypeId: string;
@@ -1343,26 +1344,6 @@ class OrderBase {
 
         FwFormField.setValue($form, 'div[data-datafield="ShowShipping"]', true);  //justin hoffman 03/12/2020 - this is temporary until the Shipping tab is updated
 
-
-        if (typeof parentModuleInfo !== 'undefined') {
-            FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
-            FwFormField.setValue($form, 'div[data-datafield="RateType"]', parentModuleInfo.RateTypeId, parentModuleInfo.RateType);
-            FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', parentModuleInfo.BillingCycleId, parentModuleInfo.BillingCycle);
-            FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', parentModuleInfo.PaymentTermsId, parentModuleInfo.PaymentTerms);
-            FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', parentModuleInfo.PaymentTypeId, parentModuleInfo.PaymentTypeId);
-            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', parentModuleInfo.DealNumber, parentModuleInfo.DealNumber);
-            FwFormField.setValueByDataField($form, 'CustomerId', parentModuleInfo.CustomerId, parentModuleInfo.Customer);
-            FwFormField.setValueByDataField($form, 'IssuedToAttention', parentModuleInfo.BillToAttention1);
-            FwFormField.setValueByDataField($form, 'IssuedToAttention2', parentModuleInfo.BillToAttention2);
-            FwFormField.setValueByDataField($form, 'IssuedToAddress1', parentModuleInfo.BillToAddress1);
-            FwFormField.setValueByDataField($form, 'IssuedToAddress2', parentModuleInfo.BillToAddress2);
-            FwFormField.setValueByDataField($form, 'IssuedToCity', parentModuleInfo.BillToCity);
-            FwFormField.setValueByDataField($form, 'IssuedToState', parentModuleInfo.BillToState);
-            FwFormField.setValueByDataField($form, 'IssuedToZipCode', parentModuleInfo.BillToZipCode);
-            FwFormField.setValueByDataField($form, 'IssuedToCountryId', parentModuleInfo.BillToCountryId, parentModuleInfo.BillToCountry);
-            FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', parentModuleInfo.BillToAddressType);
-        }
-
         //Toggle Buttons - Profit Loss tab
         FwFormField.loadItems($form.find('div[data-datafield="totalTypeProfitLoss"]'), [
             { value: 'W', caption: 'Weekly' },
@@ -1452,6 +1433,33 @@ class OrderBase {
             { value: 'WAREHOUSE', caption: 'Warehouse' },
             { value: 'OTHER', caption: 'Other' }
         ]);
+
+        if (typeof parentModuleInfo !== 'undefined') {
+            FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
+            FwFormField.setValue($form, 'div[data-datafield="RateType"]', parentModuleInfo.RateTypeId, parentModuleInfo.RateType);
+            FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', parentModuleInfo.BillingCycleId, parentModuleInfo.BillingCycle);
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', parentModuleInfo.CurrencyId, parentModuleInfo.CurrencyCode);
+            FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', parentModuleInfo.PaymentTermsId, parentModuleInfo.PaymentTerms);
+            FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', parentModuleInfo.PaymentTypeId, parentModuleInfo.PaymentType);
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', parentModuleInfo.DealNumber, parentModuleInfo.DealNumber);
+            FwFormField.setValueByDataField($form, 'CustomerId', parentModuleInfo.CustomerId, parentModuleInfo.Customer);
+
+            FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', parentModuleInfo.BillToAddressType);
+            if (parentModuleInfo.BillToAddressType === 'DEAL') {
+                FwFormField.setValueByDataField($form, `IssuedToName`, parentModuleInfo.Deal);
+            } else if (parentModuleInfo.BillToAddressType === 'CUSTOMER') {
+                FwFormField.setValueByDataField($form, `IssuedToName`, parentModuleInfo.Customer);
+            }
+            FwFormField.setValueByDataField($form, 'IssuedToAttention', parentModuleInfo.BillToAttention1);
+            FwFormField.setValueByDataField($form, 'IssuedToAttention2', parentModuleInfo.BillToAttention2);
+            FwFormField.setValueByDataField($form, 'IssuedToAddress1', parentModuleInfo.BillToAddress1);
+            FwFormField.setValueByDataField($form, 'IssuedToAddress2', parentModuleInfo.BillToAddress2);
+            FwFormField.setValueByDataField($form, 'IssuedToCity', parentModuleInfo.BillToCity);
+            FwFormField.setValueByDataField($form, 'IssuedToState', parentModuleInfo.BillToState);
+            FwFormField.setValueByDataField($form, 'IssuedToZipCode', parentModuleInfo.BillToZipCode);
+            FwFormField.setValueByDataField($form, 'IssuedToCountryId', parentModuleInfo.BillToCountryId, parentModuleInfo.BillToCountry);
+
+        }
 
         this.events($form);
         this.activityCheckboxEvents($form, mode);
@@ -2296,11 +2304,13 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Currency"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="CurrencyCode"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
 
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, response => {
                 FwFormField.setValueByDataField($form, 'CustomerId', response.CustomerId, response.Customer); // hidden field needed for other operations
+
+
                 FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
                 FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
                 FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);
@@ -2310,6 +2320,11 @@ class OrderBase {
                 FwFormField.setValueByDataField($form, 'IssuedToZipCode', response.BillToZipCode);
                 FwFormField.setValueByDataField($form, 'IssuedToCountryId', response.BillToCountryId, response.BillToCountry);
                 FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', response.BillToAddressType);
+                if (response.BillToAddressType === 'DEAL') {
+                    FwFormField.setValueByDataField($form, `IssuedToName`, response.Deal);
+                } else if (response.BillToAddressType === 'CUSTOMER') {
+                    FwFormField.setValueByDataField($form, `IssuedToName`, response.Customer);
+                }
 
                 if ($form.attr('data-mode') === 'NEW') {
                     FwFormField.setValueByDataField($form, 'OutDeliveryDeliveryType', response.DefaultOutgoingDeliveryType);

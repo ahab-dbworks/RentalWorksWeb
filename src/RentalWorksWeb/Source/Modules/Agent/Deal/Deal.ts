@@ -152,6 +152,8 @@ class Deal {
                 DealNumber: FwFormField.getValueByDataField($form, 'DealNumber'),
                 CustomerId: FwFormField.getValueByDataField($form, 'CustomerId'),
                 Customer: FwFormField.getTextByDataField($form, 'CustomerId'),
+                CurrencyId: FwFormField.getValueByDataField($form, 'CurrencyId'),
+                CurrencyCode: FwFormField.getTextByDataField($form, 'CurrencyId'),
                 BillToAttention1: FwFormField.getValueByDataField($form, 'BillToAttention1'),
                 BillToAttention2: FwFormField.getValueByDataField($form, 'BillToAttention2'),
                 BillToAddress1: FwFormField.getValueByDataField($form, 'BillToAddress1'),
@@ -1304,6 +1306,9 @@ class Deal {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order Rate" data-datafield="DefaultRate" data-displayfield="DefaultRate" data-validationname="RateTypeValidation" data-validationpeek="false" style="flex:1 1 200px;"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" style="flex:1 1 250px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Assess Finance Charge on Overdue Amount" data-datafield="AssessFinanceCharge" style="flex:1 1 275px;"></div>

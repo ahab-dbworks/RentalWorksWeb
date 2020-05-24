@@ -72,7 +72,6 @@ namespace WebApi.Modules.Agent.Deal
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
-        //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
         public string Address1 { get; set; }
