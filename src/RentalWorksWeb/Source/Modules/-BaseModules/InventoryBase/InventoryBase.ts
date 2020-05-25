@@ -123,7 +123,7 @@ abstract class InventoryBase {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, '.warehousefilter', warehouse.warehouseid, warehouse.warehouse);
 
-        this.calculateYearly();
+        //this.calculateYearly();
 
         const $calendar = $form.find('.calendar');
         this.addCalSchedEvents($form, $calendar, inventoryId);
@@ -277,12 +277,18 @@ abstract class InventoryBase {
                                 //html += `color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`;
                                 //calendarEvents[i].html = html;
                                 calendarEvents[i].html = `<div style="${calendarEvents[i].backColor ? `background-color:${calendarEvents[i].backColor};` : ''}color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`;
-                                calendarEvents[i].start = calendarEvents[i].startdisplay;
-                                calendarEvents[i].end = calendarEvents[i].enddisplay;
+                                //calendarEvents[i].start = calendarEvents[i].startdisplay;
+                                //calendarEvents[i].end = calendarEvents[i].enddisplay;
                             }
 
                             $control.closest('div.adjustcontainer').css('max-width', '1670px');
                             $control.closest('div.inner-cal-container').css('max-width', '1650px');
+
+                            //josh, I'm picturing something like this where after you ge the response, you switch the scheduler view to 01/01/2020 - 01/31/2020 without navigating or refreshing the scheduler
+                            //      note: this actual code below does not work. But I hope it communicates the concept
+                            const dpyear = $control.data('dpyear');
+                            dpyear.startDate = new Date(2020, 1, 1); 
+
 
                         } else {
                             $control.closest('div.adjustcontainer').css('max-width', '1365px');
@@ -1299,522 +1305,522 @@ abstract class InventoryBase {
         };
     }
     //----------------------------------------------------------------------------------------------
-    calculateYearly() {
-        for (var jan = 0; jan <= 30; jan++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-02T00:00:00').add(jan, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-03T00:00:00').add(jan, 'days').format('YYYY-MM-DD'),
-                realStart: "January " + (jan + 1),
-                realEnd: "January " + (jan + 2),
-                id: "1",
-                resource: "A",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-        for (var feb = 0; feb < 28; feb++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-05T00:00:00').add(feb, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-06T00:00:00').add(feb, 'days').format('YYYY-MM-DD'),
-                realStart: "February " + (feb + 1),
-                realEnd: "February " + (feb + 2),
-                id: "1",
-                resource: "B",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-        for (var mar = 0; mar < 31; mar++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-05T00:00:00').add(mar, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-06T00:00:00').add(mar, 'days').format('YYYY-MM-DD'),
-                realStart: "March " + (mar + 1),
-                realEnd: "March " + (mar + 2),
-                id: "1",
-                resource: "C",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-        for (var May = 0; May < 31; May++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-03T00:00:00').add(May, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-04T00:00:00').add(May, 'days').format('YYYY-MM-DD'),
-                realStart: "May " + (May + 1),
-                realEnd: "May " + (May + 2),
-                id: "1",
-                resource: "E",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-        for (var June = 0; June < 30; June++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-06T00:00:00').add(June, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-07T00:00:00').add(June, 'days').format('YYYY-MM-DD'),
-                realStart: "June " + (June + 1),
-                realEnd: "June " + (June + 2),
-                id: "1",
-                resource: "F",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-        for (var July = 0; July < 31; July++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-01T00:00:00').add(July, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-02T00:00:00').add(July, 'days').format('YYYY-MM-DD'),
-                realStart: "July " + (July + 1),
-                realEnd: "July " + (July + 2),
-                id: "1",
-                resource: "G",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-        for (var August = 0; August < 30; August++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-01T00:00:00').add(August, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-02T00:00:00').add(August, 'days').format('YYYY-MM-DD'),
-                realStart: "August " + (August + 1),
-                realEnd: "August " + (August + 2),
-                id: "1",
-                resource: "H",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-        for (var September = 0; September < 31; September++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-07T00:00:00').add(September, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-08T00:00:00').add(September, 'days').format('YYYY-MM-DD'),
-                realStart: "September " + (September + 1),
-                realEnd: "September " + (September + 2),
-                id: "1",
-                resource: "I",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-        for (var October = 0; October < 31; October++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-02T00:00:00').add(October, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-03T00:00:00').add(October, 'days').format('YYYY-MM-DD'),
-                realStart: "October " + (October + 1),
-                realEnd: "October " + (October + 2),
-                id: "1",
-                resource: "J",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-        for (var November = 0; November < 30; November++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-05T00:00:00').add(November, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-06T00:00:00').add(November, 'days').format('YYYY-MM-DD'),
-                realStart: "November " + (November + 1),
-                realEnd: "November " + (November + 2),
-                id: "1",
-                resource: "K",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-        for (var December = 0; December < 31; December++) {
-            this.yearlyEvents.push({
-                start: moment('2018-04-07T00:00:00').add(December, 'days').format('YYYY-MM-DD'),
-                end: moment('2018-04-08T00:00:00').add(December, 'days').format('YYYY-MM-DD'),
-                realStart: "December " + (December + 1),
-                realEnd: "December " + (December + 2),
-                id: "1",
-                resource: "L",
-                text: "Available",
-                backColor: "lime",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            })
-        }
-    }
-    yearlyEvents: any = [
-        {
-            start: "2018-04-01T00:00:00",
-            end: "2018-04-02T00:00:00",
+    //calculateYearly() {
+    //    for (var jan = 0; jan <= 30; jan++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-02T00:00:00').add(jan, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-03T00:00:00').add(jan, 'days').format('YYYY-MM-DD'),
+    //            realStart: "January " + (jan + 1),
+    //            realEnd: "January " + (jan + 2),
+    //            id: "1",
+    //            resource: "A",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //    for (var feb = 0; feb < 28; feb++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-05T00:00:00').add(feb, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-06T00:00:00').add(feb, 'days').format('YYYY-MM-DD'),
+    //            realStart: "February " + (feb + 1),
+    //            realEnd: "February " + (feb + 2),
+    //            id: "1",
+    //            resource: "B",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //    for (var mar = 0; mar < 31; mar++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-05T00:00:00').add(mar, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-06T00:00:00').add(mar, 'days').format('YYYY-MM-DD'),
+    //            realStart: "March " + (mar + 1),
+    //            realEnd: "March " + (mar + 2),
+    //            id: "1",
+    //            resource: "C",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //    for (var May = 0; May < 31; May++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-03T00:00:00').add(May, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-04T00:00:00').add(May, 'days').format('YYYY-MM-DD'),
+    //            realStart: "May " + (May + 1),
+    //            realEnd: "May " + (May + 2),
+    //            id: "1",
+    //            resource: "E",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //    for (var June = 0; June < 30; June++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-06T00:00:00').add(June, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-07T00:00:00').add(June, 'days').format('YYYY-MM-DD'),
+    //            realStart: "June " + (June + 1),
+    //            realEnd: "June " + (June + 2),
+    //            id: "1",
+    //            resource: "F",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //    for (var July = 0; July < 31; July++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-01T00:00:00').add(July, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-02T00:00:00').add(July, 'days').format('YYYY-MM-DD'),
+    //            realStart: "July " + (July + 1),
+    //            realEnd: "July " + (July + 2),
+    //            id: "1",
+    //            resource: "G",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //    for (var August = 0; August < 30; August++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-01T00:00:00').add(August, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-02T00:00:00').add(August, 'days').format('YYYY-MM-DD'),
+    //            realStart: "August " + (August + 1),
+    //            realEnd: "August " + (August + 2),
+    //            id: "1",
+    //            resource: "H",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //    for (var September = 0; September < 31; September++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-07T00:00:00').add(September, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-08T00:00:00').add(September, 'days').format('YYYY-MM-DD'),
+    //            realStart: "September " + (September + 1),
+    //            realEnd: "September " + (September + 2),
+    //            id: "1",
+    //            resource: "I",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //    for (var October = 0; October < 31; October++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-02T00:00:00').add(October, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-03T00:00:00').add(October, 'days').format('YYYY-MM-DD'),
+    //            realStart: "October " + (October + 1),
+    //            realEnd: "October " + (October + 2),
+    //            id: "1",
+    //            resource: "J",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //    for (var November = 0; November < 30; November++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-05T00:00:00').add(November, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-06T00:00:00').add(November, 'days').format('YYYY-MM-DD'),
+    //            realStart: "November " + (November + 1),
+    //            realEnd: "November " + (November + 2),
+    //            id: "1",
+    //            resource: "K",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //    for (var December = 0; December < 31; December++) {
+    //        this.yearlyEvents.push({
+    //            start: moment('2018-04-07T00:00:00').add(December, 'days').format('YYYY-MM-DD'),
+    //            end: moment('2018-04-08T00:00:00').add(December, 'days').format('YYYY-MM-DD'),
+    //            realStart: "December " + (December + 1),
+    //            realEnd: "December " + (December + 2),
+    //            id: "1",
+    //            resource: "L",
+    //            text: "Available",
+    //            backColor: "lime",
+    //            orderNumber: "200002-024",
+    //            orderStatus: "CONFIRMED",
+    //            deal: "Testing"
+    //        })
+    //    }
+    //}
+    //yearlyEvents: any = [
+    //    {
+    //        start: "2018-04-01T00:00:00",
+    //        end: "2018-04-02T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-02T00:00:00",
-            end: "2018-04-03T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-02T00:00:00",
+    //        end: "2018-04-03T00:00:00",
 
-            id: "2",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-03T00:00:00",
-            end: "2018-04-04T00:00:00",
+    //        id: "2",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-03T00:00:00",
+    //        end: "2018-04-04T00:00:00",
 
-            id: "3",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-04T00:00:00",
-            end: "2018-04-05T00:00:00",
+    //        id: "3",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-04T00:00:00",
+    //        end: "2018-04-05T00:00:00",
 
-            id: "3",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-05T00:00:00",
-            end: "2018-04-06T00:00:00",
+    //        id: "3",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-05T00:00:00",
+    //        end: "2018-04-06T00:00:00",
 
-            id: "4",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-06T00:00:00",
-            end: "2018-04-07T00:00:00",
+    //        id: "4",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-06T00:00:00",
+    //        end: "2018-04-07T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-07T00:00:00",
-            end: "2018-04-08T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-07T00:00:00",
+    //        end: "2018-04-08T00:00:00",
 
-            id: "2",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-08T00:00:00",
-            end: "2018-04-09T00:00:00",
+    //        id: "2",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-08T00:00:00",
+    //        end: "2018-04-09T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-09T00:00:00",
-            end: "2018-04-10T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-09T00:00:00",
+    //        end: "2018-04-10T00:00:00",
 
-            id: "2",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-10T00:00:00",
-            end: "2018-04-11T00:00:00",
+    //        id: "2",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-10T00:00:00",
+    //        end: "2018-04-11T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-11T00:00:00",
-            end: "2018-04-12T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-11T00:00:00",
+    //        end: "2018-04-12T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-12T00:00:00",
-            end: "2018-04-13T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-12T00:00:00",
+    //        end: "2018-04-13T00:00:00",
 
-            id: "2",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-13T00:00:00",
-            end: "2018-04-14T00:00:00",
+    //        id: "2",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-13T00:00:00",
+    //        end: "2018-04-14T00:00:00",
 
-            id: "3",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-14T00:00:00",
-            end: "2018-04-15T00:00:00",
+    //        id: "3",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-14T00:00:00",
+    //        end: "2018-04-15T00:00:00",
 
-            id: "3",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-15T00:00:00",
-            end: "2018-04-16T00:00:00",
+    //        id: "3",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-15T00:00:00",
+    //        end: "2018-04-16T00:00:00",
 
-            id: "4",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-16T00:00:00",
-            end: "2018-04-17T00:00:00",
+    //        id: "4",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-16T00:00:00",
+    //        end: "2018-04-17T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-17T00:00:00",
-            end: "2018-04-18T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-17T00:00:00",
+    //        end: "2018-04-18T00:00:00",
 
-            id: "2",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-18T00:00:00",
-            end: "2018-04-19T00:00:00",
+    //        id: "2",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-18T00:00:00",
+    //        end: "2018-04-19T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-19T00:00:00",
-            end: "2018-04-20T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-19T00:00:00",
+    //        end: "2018-04-20T00:00:00",
 
-            id: "2",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-20T00:00:00",
-            end: "2018-04-21T00:00:00",
+    //        id: "2",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-20T00:00:00",
+    //        end: "2018-04-21T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-21T00:00:00",
-            end: "2018-04-22T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-21T00:00:00",
+    //        end: "2018-04-22T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-22T00:00:00",
-            end: "2018-04-23T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-22T00:00:00",
+    //        end: "2018-04-23T00:00:00",
 
-            id: "2",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-23T00:00:00",
-            end: "2018-04-24T00:00:00",
+    //        id: "2",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-23T00:00:00",
+    //        end: "2018-04-24T00:00:00",
 
-            id: "3",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-24T00:00:00",
-            end: "2018-04-25T00:00:00",
+    //        id: "3",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-24T00:00:00",
+    //        end: "2018-04-25T00:00:00",
 
-            id: "3",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-25T00:00:00",
-            end: "2018-04-26T00:00:00",
+    //        id: "3",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-25T00:00:00",
+    //        end: "2018-04-26T00:00:00",
 
-            id: "4",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-26T00:00:00",
-            end: "2018-04-27T00:00:00",
+    //        id: "4",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-26T00:00:00",
+    //        end: "2018-04-27T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-27T00:00:00",
-            end: "2018-04-28T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-27T00:00:00",
+    //        end: "2018-04-28T00:00:00",
 
-            id: "2",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-28T00:00:00",
-            end: "2018-04-29T00:00:00",
+    //        id: "2",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-28T00:00:00",
+    //        end: "2018-04-29T00:00:00",
 
-            id: "1",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-        {
-            start: "2018-04-29T00:00:00",
-            end: "2018-04-30T00:00:00",
+    //        id: "1",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //    {
+    //        start: "2018-04-29T00:00:00",
+    //        end: "2018-04-30T00:00:00",
 
-            id: "2",
-            resource: "D",
-            text: "Available",
-            backColor: "lime",
-            orderNumber: "200002-024",
-            orderStatus: "CONFIRMED",
-            deal: "Testing"
-        },
-    ]
+    //        id: "2",
+    //        resource: "D",
+    //        text: "Available",
+    //        backColor: "lime",
+    //        orderNumber: "200002-024",
+    //        orderStatus: "CONFIRMED",
+    //        deal: "Testing"
+    //    },
+    //]
 }
 //var InventoryBaseController = new InventoryBase();
