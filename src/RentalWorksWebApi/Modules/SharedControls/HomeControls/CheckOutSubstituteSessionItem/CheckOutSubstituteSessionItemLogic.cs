@@ -1,25 +1,29 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using WebApi.Modules.Home.SearchSessionItem;
+
 namespace WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem
 {
     [FwLogic(Id: "qdBmNCyJERMQU")]
     public class CheckOutSubstituteSessionItemLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
+        SearchSessionItemRecord checkOutSubstituteSessionItem = new SearchSessionItemRecord();
         CheckOutSubstituteSessionItemLoader checkOutSubstituteSessionItemLoader = new CheckOutSubstituteSessionItemLoader();
         public CheckOutSubstituteSessionItemLogic()
         {
+            dataRecords.Add(checkOutSubstituteSessionItem);
             dataLoader = checkOutSubstituteSessionItemLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "qdEjCCbvR3HyU", IsPrimaryKey: true, IsReadOnly: true)]
-        public int? Id { get; set; }
-        [FwLogicProperty(Id: "qeLD0OENybtLN", IsReadOnly: true)]
-        public string SessionId { get; set; }
-        [FwLogicProperty(Id: "QEqRd90BGt29d", IsReadOnly: true)]
-        public string InventoryId { get; set; }
-        [FwLogicProperty(Id: "QEUeHXXWhlS6g", IsReadOnly: true)]
-        public string ItemId { get; set; }
+        public int? Id { get { return checkOutSubstituteSessionItem.SearchSessionItemId; } set { checkOutSubstituteSessionItem.SearchSessionItemId = value; } }
+        [FwLogicProperty(Id: "qeLD0OENybtLN")]
+        public string SessionId { get { return checkOutSubstituteSessionItem.SessionId; } set { checkOutSubstituteSessionItem.SessionId = value; } }
+        [FwLogicProperty(Id: "QEqRd90BGt29d")]
+        public string InventoryId { get { return checkOutSubstituteSessionItem.InventoryId; } set { checkOutSubstituteSessionItem.InventoryId = value; } }
+        [FwLogicProperty(Id: "QEUeHXXWhlS6g")]
+        public string ItemId { get { return checkOutSubstituteSessionItem.ItemId; } set { checkOutSubstituteSessionItem.ItemId = value; } }
         [FwLogicProperty(Id: "QEyVODoYvYYwD", IsReadOnly: true)]
         public string ICode { get; set; }
         [FwLogicProperty(Id: "QEZLTm9WIS62W", IsReadOnly: true)]
@@ -29,7 +33,7 @@ namespace WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem
         [FwLogicProperty(Id: "Qgz0qAC6m1blv", IsReadOnly: true)]
         public string SerialNumber { get; set; }
         [FwLogicProperty(Id: "qhaIYjYCgegH5", IsReadOnly: true)]
-        public decimal? Quantity { get; set; }
+        public decimal? Quantity { get { return checkOutSubstituteSessionItem.Quantity; } set { checkOutSubstituteSessionItem.Quantity = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }
