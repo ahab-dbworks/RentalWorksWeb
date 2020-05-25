@@ -162,9 +162,9 @@ class CheckOutPendingItemGrid {
                 $cancel.on('click', e => {
                     const rowCount = $grid.data('totalRowCount');
                     if (rowCount) {
-                        const $confirmClose = FwConfirmation.renderConfirmation(`Confirm`, 'Exit without applying substitutes?');
-                        const $confirm = FwConfirmation.addButton($confirmClose, 'Confirm');
-                        FwConfirmation.addButton($confirmClose, 'Cancel');
+                        const $confirmClose = FwConfirmation.renderConfirmation(`Cancel Substitute`, 'Exit without applying substitutes?');
+                        const $confirm = FwConfirmation.addButton($confirmClose, 'Yes');
+                        FwConfirmation.addButton($confirmClose, 'No');
                         $confirm.on('click', e => {
                             FwConfirmation.destroyConfirmation($confirmation);
                         });
