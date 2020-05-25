@@ -13,6 +13,7 @@ namespace WebApi.Modules.Utilities.VendorInvoiceProcessBatch
 {
     public class VendorInvoiceProcessBatchRequest
     {
+        public string LocationId { get; set; }
     }
 
     public class VendorInvoiceProcessBatchResponse : TSpStatusResponse

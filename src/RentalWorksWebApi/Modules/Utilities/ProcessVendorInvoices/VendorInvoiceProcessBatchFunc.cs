@@ -16,6 +16,7 @@ namespace WebApi.Modules.Utilities.VendorInvoiceProcessBatch
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "createvendorinvoicechargebatch", appConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.LocationId);
                     qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
                     response.BatchId = qry.GetParameter("@chgbatchid").ToString();
