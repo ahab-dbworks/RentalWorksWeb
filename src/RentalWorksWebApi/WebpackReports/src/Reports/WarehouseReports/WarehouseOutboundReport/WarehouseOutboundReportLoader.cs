@@ -41,6 +41,9 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
         [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
         public string OrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
+        public string OrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderstatus", modeltype: FwDataTypes.Text)]
         public string OrderStatus { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -52,6 +55,12 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypedesc", modeltype: FwDataTypes.Text)]
         public string OrderTypeDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
+        public string AgentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
+        public string Agent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitytypeid", modeltype: FwDataTypes.Integer)]
         public int? ActivityTypeId { get; set; }
@@ -94,6 +103,9 @@ namespace WebApi.Modules.Reports.WarehouseReports.WarehouseOutboundReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outgoinglocation", modeltype: FwDataTypes.Text)]
         public string OutgoingLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outgoingattn", modeltype: FwDataTypes.Text)]
+        public string OutgoingAttention { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(WarehouseOutboundReportRequest request)
         {
