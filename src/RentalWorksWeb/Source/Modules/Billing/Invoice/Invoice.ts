@@ -438,7 +438,7 @@ class Invoice {
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('M');
                 $fwgrid.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true')
-                $browse.attr('data-enabled', 'false');
+                //$browse.attr('data-enabled', 'false');
                 $browse.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
             },
@@ -909,11 +909,16 @@ class Invoice {
             },
         });
         // ----------
-        jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
-        jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
-        jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
-        jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
-        jQuery($form.find('.rentalsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
+        //jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
+        //jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
+        //jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
+        //jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+        //jQuery($form.find('.rentalsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
+        jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'GeneralItemValidation');
+        jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'GeneralItemValidation');
+        jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'GeneralItemValidation');
+        jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'GeneralItemValidation');
+        jQuery($form.find('.rentalsalegrid .valtype')).attr('data-validationname', 'GeneralItemValidation');
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {

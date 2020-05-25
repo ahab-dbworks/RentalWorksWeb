@@ -12,6 +12,10 @@
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'S' });
         } else if ($grid.hasClass('P')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'P' });
+        } else if ($grid.hasClass('L')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'L' });
+        } else if ($grid.hasClass('M')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'M' });
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -34,24 +38,27 @@
             case 'InventoryId':
                 const recType = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
                 if (recType !== null) {
-                    switch (recType) {
-                        case 'R':
-                            request.uniqueids = {
-                                AvailFor: 'R'
-                            };
-                            break;
-                        case 'S':
-                            request.uniqueids = {
-                                AvailFor: 'S'
-                            };
-                            break;
-                        case 'P':
-                            request.uniqueids = {
-                                AvailFor: 'P'
-                            };
-                            break;
-                    }
+                    //switch (recType) {
+                    //    case 'R':
+                    //        request.uniqueids = {
+                    //            AvailFor: 'R'
+                    //        };
+                    //        break;
+                    //    case 'S':
+                    //        request.uniqueids = {
+                    //            AvailFor: 'S'
+                    //        };
+                    //        break;
+                    //    case 'P':
+                    //        request.uniqueids = {
+                    //            AvailFor: 'P'
+                    //        };
+                    //        break;
+                    //}
                 }
+                request.uniqueids = {
+                    AvailFor: recType
+                };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                 break;
             case 'ItemId':
