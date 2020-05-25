@@ -13,6 +13,7 @@ class OrderBase {
     DefaultPickTime: string;
     DefaultToTime: string;
     CombineActivity: string;
+    AllowRoundTripRentals: boolean;
     Module: string;
     id: string;
     apiurl: string;
@@ -1221,6 +1222,7 @@ class OrderBase {
                     this.DefaultFromTime = response.DefaultFromTime;
                     this.DefaultToTime = response.DefaultToTime;
                     this.DefaultPickTime = response.DefaultPickTime;
+                    this.AllowRoundTripRentals = response.AllowRoundTripRentals;
                 }, ex => FwFunc.showError(ex), $browse);
             }
 
@@ -1282,6 +1284,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', this.DefaultCoverLetterId, this.DefaultCoverLetter);
             FwFormField.setValue($form, 'div[data-datafield="PresentationLayerId"]', this.DefaultPresentationLayerId, this.DefaultPresentationLayer);
             FwFormField.setValue($form, 'div[data-datafield="PendingPo"]', true);
+            FwFormField.setValueByDataField($form, 'RoundTripRentals', this.AllowRoundTripRentals);
             // Dynamic set value for user's department default activities
             const defaultActivities = department.activities;
             if (defaultActivities) {
@@ -3227,9 +3230,11 @@ class OrderBase {
                     this.DefaultFromTime = response.DefaultFromTime;
                     this.DefaultToTime = response.DefaultToTime;
                     this.DefaultPickTime = response.DefaultPickTime;
+                    this.AllowRoundTripRentals = response.AllowRoundTripRentals;
                     FwFormField.setValueByDataField($form, 'PickTime', this.DefaultPickTime);
                     FwFormField.setValueByDataField($form, 'EstimatedStartTime', this.DefaultFromTime);
                     FwFormField.setValueByDataField($form, 'EstimatedStopTime', this.DefaultToTime);
+                    FwFormField.setValueByDataField($form, 'RoundTripRentals', this.AllowRoundTripRentals);
                 }, ex => FwFunc.showError(ex), $form);
             }
         }
