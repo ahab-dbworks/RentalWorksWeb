@@ -284,21 +284,24 @@ class Deal {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         // ----------
-        // Company Resale Grid
-        //const $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
-        //const $resaleControl = FwBrowse.loadGridFromTemplate('CompanyResaleGrid');
-        //$resaleGrid.empty().append($resaleControl);
-        //$resaleControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-        //    }
-        //});
-        //$resaleControl.data('beforesave', function (request) {
-        //    request.CompanyId = FwFormField.getValueByDataField($form, 'DealId')
-        //});
-        //FwBrowse.init($resaleControl);
-        //FwBrowse.renderRuntimeHtml($resaleControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'DealHiatusDiscountGrid',
+            gridSecurityId: 'qyEHq2bK1WIJ4',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
 
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    DealId: FwFormField.getValueByDataField($form, `DealId`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.DealId = FwFormField.getValueByDataField($form, `DealId`);
+            }
+        });
+        // ----------
         FwBrowse.renderGrid({
             nameGrid: 'CompanyResaleGrid',
             gridSecurityId: 'k48X9sulRpmb',
@@ -314,18 +317,6 @@ class Deal {
             }
         });
         // ----------
-        // Company Tax Option Grid
-        //const $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
-        //const $taxOptionControl = FwBrowse.loadGridFromTemplate('CompanyTaxOptionGrid');
-        //$taxOptionGrid.empty().append($taxOptionControl);
-        //$taxOptionControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-        //    }
-        //});
-        //FwBrowse.init($taxOptionControl);
-        //FwBrowse.renderRuntimeHtml($taxOptionControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'CompanyTaxOptionGrid',
             gridSecurityId: 'B9CzDEmYe1Zf',
@@ -345,21 +336,6 @@ class Deal {
             //}
         });
         // ----------
-        // Deal Note Grid
-        //const $dealNoteGrid = $form.find('div[data-grid="DealNoteGrid"]');
-        //const $dealNoteControl = FwBrowse.loadGridFromTemplate('DealNoteGrid');
-        //$dealNoteGrid.empty().append($dealNoteControl);
-        //$dealNoteControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-        //    }
-        //});
-        //$dealNoteControl.data('beforesave', function (request) {
-        //    request.DealId = FwFormField.getValueByDataField($form, 'DealId');
-        //})
-        //FwBrowse.init($dealNoteControl);
-        //FwBrowse.renderRuntimeHtml($dealNoteControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'DealNoteGrid',
             gridSecurityId: 'jcwmVLFEU88k',
@@ -378,22 +354,6 @@ class Deal {
             }
         });
         // ----------
-        // Deal Shipper Grid
-        //const $dealShipperGrid = $form.find('div[data-grid="DealShipperGrid"]');
-        //const $dealShipperGridControl = FwBrowse.loadGridFromTemplate('DealShipperGrid');
-        //$dealShipperGrid.empty().append($dealShipperGridControl);
-        //$dealShipperGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-        //    }
-        //});
-        //$dealShipperGridControl.data('beforesave', function (request) {
-        //    request.DealId = FwFormField.getValueByDataField($form, 'DealId')
-        //});
-
-        //FwBrowse.init($dealShipperGridControl);
-        //FwBrowse.renderRuntimeHtml($dealShipperGridControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'DealShipperGrid',
             gridSecurityId: '5cMD0y0jSUgz',
@@ -409,20 +369,6 @@ class Deal {
             }
         });
         // ----------
-        //const $companyContactGrid: any = $form.find(`div[data-grid="CompanyContactGrid"]`);
-        //const $companyContactControl: any = FwBrowse.loadGridFromTemplate('CompanyContactGrid');
-        //$companyContactGrid.empty().append($companyContactControl);
-        //$companyContactControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        CompanyId: FwFormField.getValueByDataField($form, 'DealId')
-        //    }
-        //});
-        //$companyContactControl.data('beforesave', function (request) {
-        //    request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
-        //});
-        //FwBrowse.init($companyContactControl);
-        //FwBrowse.renderRuntimeHtml($companyContactControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'CompanyContactGrid',
             gridSecurityId: 'gQHuhVDA5Do2',
@@ -1131,6 +1077,7 @@ class Deal {
               <div data-type="tab" id="dealtab" class="tab" data-tabpageid="dealtabpage" data-caption="Deal"></div>
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
+              <div data-type="tab" id="hiatustab" class="tab" data-tabpageid="hiatustabpage" data-caption="Hiatus"></div>
               <div data-type="tab" id="credittab" class="tab" data-tabpageid="credittabpage" data-caption="Credit"></div>
               <div data-type="tab" id="insurancetab" class="tab" data-tabpageid="insurancetabpage" data-caption="Insurance"></div>
               <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
@@ -1344,6 +1291,15 @@ class Deal {
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- HIATUS TAB -->
+              <div data-type="tabpage" id="hiatustabpage" class="tabpage" data-tabid="hiatustab">
+                <div class="flexpage">
+                  <div class="flexrow">
+                    <div data-control="FwGrid" data-grid="DealHiatusDiscountGrid"></div>
                   </div>
                 </div>
               </div>
