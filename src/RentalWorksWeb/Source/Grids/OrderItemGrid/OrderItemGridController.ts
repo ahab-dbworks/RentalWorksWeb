@@ -1156,7 +1156,32 @@ class OrderItemGrid {
         }
     }
     //----------------------------------------------------------------------------------------------
-
+    afterRowEditMode($grid: JQuery, $tr: JQuery) {
+        $tr.find('.divcancelsaverow').on('click', e => {
+            const itemClass = FwBrowse.getValueByDataField($grid, $tr, 'ItemClass');
+            if (itemClass == 'K' || itemClass == 'C') {
+                const index = $tr.index();
+                const id = FwBrowse.getValueByDataField($grid, $tr, 'OrderItemId');
+                const completeKitAccClasses: any = ['KI', 'KO', 'CI', 'CO'];
+                const rowCount = FwBrowse.getRowCount($grid);
+                for (let i = index + 1; i < rowCount; i++) {
+                    const $nextRow = FwBrowse.selectRowByIndex($grid, i);
+                    const nextRowClass = FwBrowse.getValueByDataField($grid, $nextRow, 'ItemClass');
+                    const parentId = FwBrowse.getValueByDataField($grid, $nextRow, 'ParentId');
+                    if (completeKitAccClasses.includes(nextRowClass) && id == parentId) {
+                        FwBrowse.cancelEditMode($grid, $nextRow);
+                        $nextRow.find('.browsecontextmenucell').show();
+                    } else {
+                        break;
+                    }
+                }
+                const rowsInEditMode = $grid.find('.editmode').length;
+                const $gridmenu = $grid.find('[data-control="FwMenu"]');
+                if (rowsInEditMode == 0) $gridmenu.find('.grid-multi-save').hide();
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     //toggleOrderItemView($form: any, event: any, module) {
     //    // Toggle between Detail and Summary view in all OrderItemGrid
     //    let $element, $orderItemGrid, isSummary, orderId, isSubGrid;
