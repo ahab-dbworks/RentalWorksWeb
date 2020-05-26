@@ -240,6 +240,7 @@ abstract class InventoryBase {
                     if ((request.mode === 'Day') || (request.mode === 'Week')) {
                         includeHours = true;
                     }
+
                     const availRequest: any = {
                         InventoryId: inventoryId,
                         WarehouseId: warehouseId.split(','),
@@ -247,9 +248,11 @@ abstract class InventoryBase {
                         ToDate: endOfMonth,
                         IncludeHours: includeHours,
                     };
+
                     if (request.mode === 'Year') {
                         availRequest.YearView = true;
                     }
+
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
                         let calendarEvents = response.InventoryAvailabilityCalendarEvents;
                         $control.data('reserveDates', response.Dates);                           // loading reservation data onto control for use in renderDatePopup()
@@ -258,38 +261,24 @@ abstract class InventoryBase {
                                 calendarEvents[i].html = `<div style="color:${calendarEvents[i].textColor};">${calendarEvents[i].text}</div>`
                             }
                         }
-                        // Rates
-                        //rates section removed in issue #2114
-                        //FwFormField.setValue($form, 'div[data-totalfield="InventoryDailyRate"]', response.InventoryData.InventoryWarehouse.DailyRate);
-                        //FwFormField.setValue($form, 'div[data-totalfield="InventoryWeeklyRate"]', response.InventoryData.InventoryWarehouse.WeeklyRate);
-                        //FwFormField.setValue($form, 'div[data-totalfield="InventoryMonthlyRate"]', response.InventoryData.InventoryWarehouse.MonthlyRate);
+
                         let resources = [{ id: '1', name: '' }];
                         $control.find('div.adjustcontainer').css('max-width', '1670px');
                         if ($control.find('div.changeview[data-selected="true"]').html() === 'Year') {
                             resources = response.InventoryAvailabilityScheduleResources;
                             calendarEvents = response.InventoryAvailabilityScheduleEvents;
                             for (let i = 0; i < calendarEvents.length; i++) {
-                                //let html: string = "";
-                                //html += `<div style="`;
-                                //if (calendarEvents[i].backColor) {
-                                //    html += `background-color:${calendarEvents[i].backColor};`;
-                                //}
-                                //html += `color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`;
-                                //calendarEvents[i].html = html;
                                 calendarEvents[i].html = `<div style="${calendarEvents[i].backColor ? `background-color:${calendarEvents[i].backColor};` : ''}color:${calendarEvents[i].textColor};text-align:center;">${calendarEvents[i].text}</div>`;
-                                //calendarEvents[i].start = calendarEvents[i].startdisplay;
-                                //calendarEvents[i].end = calendarEvents[i].enddisplay;
                             }
 
                             $control.closest('div.adjustcontainer').css('max-width', '1670px');
                             $control.closest('div.inner-cal-container').css('max-width', '1650px');
 
-                            //josh, I'm picturing something like this where after you ge the response, you switch the scheduler view to 01/01/2020 - 01/31/2020 without navigating or refreshing the scheduler
-                            //      note: this actual code below does not work. But I hope it communicates the concept
                             const dpyear = $control.data('dpyear');
-                            dpyear.startDate = new Date(2020, 1, 1); 
-
-
+                            const today = new Date();
+                            const currentYear = today.getFullYear();
+                            const date = new Date(`01/01/${currentYear}`);
+                            dpyear.startDate = new DayPilot.Date(date);
                         } else {
                             $control.closest('div.adjustcontainer').css('max-width', '1365px');
                             $control.closest('div.inner-cal-container').css('max-width', '1345px');
