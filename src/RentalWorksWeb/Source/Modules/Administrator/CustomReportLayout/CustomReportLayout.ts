@@ -908,7 +908,7 @@ class CustomReportLayout {
 
         $form.on('click', '#reportDesigner table thead#columnHeader tr th', e => {
             e.stopPropagation();
-            const tableName = jQuery(e.currentTarget).parents('table').attr('data-tablename');
+            const tableName = jQuery(e.currentTarget).parents('.table-wrapper').attr('data-tablename');
             FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
             $table = jQuery(e.currentTarget).parents('table');
             $column = jQuery(e.currentTarget);
