@@ -15,15 +15,15 @@
   <table>
     <thead id="columnHeader">
       <tr>
-        <th data-valuefield="ReceiptDate">Date</th>
-        <th data-valuefield="Name">Name</th>
-        <th data-valuefield="PaymentBy">Payment By</th>
-        <th data-valuefield="PaymentType">Type</th>
-        <th data-valuefield="CheckNumber">Ref/Check No.</th>
-        <th data-valuefield="Amount" class="number">Amount</th>
-        <th data-valuefield="Overpayment" class="number">Overpayment</th>
-        <th data-valuefield="InvoiceNumber">Invoice No.</th>
-        <th data-valuefield="Applied" class="number">Applied</th>
+        <th data-linkedcolumn="ReceiptDate" data-valuefield="ReceiptDate">Date</th>
+        <th data-linkedcolumn="Name" data-valuefield="Name">Name</th>
+        <th data-linkedcolumn="PaymentBy" data-valuefield="PaymentBy">Payment By</th>
+        <th data-linkedcolumn="PaymentType" data-valuefield="PaymentType">Type</th>
+        <th data-linkedcolumn="CheckNumber" data-valuefield="CheckNumber">Ref/Check No.</th>
+        <th data-linkedcolumn="Amount" data-valuefield="Amount" class="number">Amount</th>
+        <th data-linkedcolumn="Overpayment" data-valuefield="Overpayment" class="number">Overpayment</th>
+        <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice No.</th>
+        <th data-linkedcolumn="Applied" data-valuefield="Applied" class="number">Applied</th>
       </tr>
     </thead>
     <tbody>
@@ -46,52 +46,52 @@
 
       {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}">
-        <td data-value="{{ReceiptDate}}"></td>
-        <td data-value="{{Name}}"></td>
-        <td data-value="{{PaymentBy}}"></td>
-        <td data-value="{{PaymentType}}"></td>
-        <td data-value="{{CheckNumber}}"></td>
-        <td class="number" data-value="{{Amount}}"></td>
-        <td class="number" data-value="{{Overpayment}}"></td>
-        <td data-value="{{InvoiceNumber}}"></td>
-        <td class="number" data-value="{{Applied}}"></td>
+        <td data-linkedcolumn="ReceiptDate" data-value="{{ReceiptDate}}"></td>
+        <td data-linkedcolumn="Name" data-value="{{Name}}"></td>
+        <td data-linkedcolumn="PaymentBy" data-value="{{PaymentBy}}"></td>
+        <td data-linkedcolumn="PaymentType" data-value="{{PaymentType}}"></td>
+        <td data-linkedcolumn="CheckNumber" data-value="{{CheckNumber}}"></td>
+        <td data-linkedcolumn="Amount" class="number" data-value="{{Amount}}"></td>
+        <td data-linkedcolumn="Overpayment" class="number" data-value="{{Overpayment}}"></td>
+        <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
+        <td data-linkedcolumn="Applied" class="number" data-value="{{Applied}}"></td>
       </tr>
       {{/ifEquals}}
 
       {{#ifEquals RowType "OfficeLocationfooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{Amount}}"></td>
-        <td class="total-val" data-value="{{Overpayment}}"></td>
-        <td class="empty-td total-val" data-linkedcolumn="InvoiceNumber"></td>
-        <td class="total-val" data-value="{{Applied}}"></td>
+        <td data-linkedcolumn="Amount" class="total-val" data-value="{{Amount}}"></td>
+        <td data-linkedcolumn="Overpayment" class="total-val" data-value="{{Overpayment}}"></td>
+        <td data-linkedcolumn="InvoiceNumber" class="empty-td total-val"></td>
+        <td data-linkedcolumn="Applied" class="total-val" data-value="{{Applied}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Namefooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">{{Name}}&nbsp;</td>
-        <td class="total-val" data-value="{{Amount}}"></td>
-        <td class="total-val" data-value="{{Overpayment}}"></td>
-        <td class="empty-td total-val" data-linkedcolumn="InvoiceNumber"></td>
-        <td class="total-val" data-value="{{Applied}}"></td>
+        <td data-linkedcolumn="Amount" class="total-val" data-value="{{Amount}}"></td>
+        <td data-linkedcolumn="Overpayment" class="total-val" data-value="{{Overpayment}}"></td>
+        <td data-linkedcolumn="InvoiceNumber" class="empty-td total-val"></td>
+        <td data-linkedcolumn="Applied" class="total-val" data-value="{{Applied}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "PaymentTypefooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">{{PaymentType}}&nbsp;</td>
-        <td class="total-val" data-value="{{Amount}}"></td>
-        <td class="total-val" data-value="{{Overpayment}}"></td>
-        <td class="empty-td total-val" data-linkedcolumn="InvoiceNumber"></td>
-        <td class="total-val" data-value="{{Applied}}"></td>
+        <td data-linkedcolumn="Amount" class="total-val" data-value="{{Amount}}"></td>
+        <td data-linkedcolumn="Overpayment" class="total-val" data-value="{{Overpayment}}"></td>
+        <td data-linkedcolumn="InvoiceNumber" class="empty-td total-val"></td>
+        <td data-linkedcolumn="Applied" class="total-val" data-value="{{Applied}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Amount}}"></td>
-        <td class="total-val" data-value="{{Overpayment}}"></td>
-        <td class="empty-td total-val" data-linkedcolumn="InvoiceNumber"></td>
-        <td class="total-val" data-value="{{Applied}}"></td>
+        <td data-linkedcolumn="Amount" class="total-val" data-value="{{Amount}}"></td>
+        <td data-linkedcolumn="Overpayment" class="total-val" data-value="{{Overpayment}}"></td>
+        <td data-linkedcolumn="InvoiceNumber" class="empty-td total-val"></td>
+        <td data-linkedcolumn="Applied" class="total-val" data-value="{{Applied}}"></td>
       </tr>
       {{/ifEquals}}
       {{/each}}
