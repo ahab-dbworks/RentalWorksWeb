@@ -251,6 +251,11 @@ abstract class InventoryBase {
 
                     if (request.mode === 'Year') {
                         availRequest.YearView = true;
+
+                        const dpyear = $control.data('dpyear');
+                        const requestYear = startOfMonth.substring(startOfMonth.length - 4)
+                        const date = new Date(`01/01/${requestYear}`);
+                        dpyear.startDate = new DayPilot.Date(date);
                     }
 
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
@@ -273,12 +278,6 @@ abstract class InventoryBase {
 
                             $control.closest('div.adjustcontainer').css('max-width', '1670px');
                             $control.closest('div.inner-cal-container').css('max-width', '1650px');
-
-                            const dpyear = $control.data('dpyear');
-                            const today = new Date();
-                            const currentYear = today.getFullYear();
-                            const date = new Date(`01/01/${currentYear}`);
-                            dpyear.startDate = new DayPilot.Date(date);
                         } else {
                             $control.closest('div.adjustcontainer').css('max-width', '1365px');
                             $control.closest('div.inner-cal-container').css('max-width', '1345px');

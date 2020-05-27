@@ -231,7 +231,7 @@ class Deal {
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
-       
+
         FwModule.loadForm(this.Module, $form);
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
@@ -256,7 +256,7 @@ class Deal {
             FwTabs.showTab($form.find('.receipttab'));
             $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
         }
-        
+
         return $form;
     }
     //---------------------------------------------------------------------------------------------
