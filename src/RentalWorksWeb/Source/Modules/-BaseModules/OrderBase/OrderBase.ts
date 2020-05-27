@@ -3745,6 +3745,8 @@ class OrderBase {
     afterLoad($form, response) {
         //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+
+
         this.applyOrderTypeAndRateTypeToForm($form);
 
         // disable/enable PO Number and Amount based on PO Pending
@@ -3853,33 +3855,57 @@ class OrderBase {
         // color the Rental tab if RentalItems exist
         const hasRentalItem = FwFormField.getValueByDataField($form, 'HasRentalItem');
         if (hasRentalItem) {
-            FwTabs.setTabColor($form.find('.rentaltab'), '#FFFF8d');
+            const $tab = $form.find('.rentaltab');
+            FwTabs.setTabColor($tab, '#FFFF8d');
+            FwFormField.setValueByDataField($form, 'Rental', true);
+            $tab.show();
+            FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
         }
         // color the Sales tab if SalesItems exist
         const hasSalesItem = FwFormField.getValueByDataField($form, 'HasSalesItem');
         if (hasSalesItem) {
-            FwTabs.setTabColor($form.find('.salestab'), '#FFFF8d');
+            const $tab = $form.find('.salestab');
+            FwTabs.setTabColor($tab, '#FFFF8d');
+            FwFormField.setValueByDataField($form, 'Sales', true);
+            $tab.show();
+            FwFormField.disable(FwFormField.getDataField($form, 'Sales'));
         }
         // color the Misc. tab if MiscItems exist
         const hasMiscItem = FwFormField.getValueByDataField($form, 'HasMiscellaneousItem');
         if (hasMiscItem) {
-            FwTabs.setTabColor($form.find('.misctab'), '#FFFF8d');
+            const $tab = $form.find('.misctab');
+            FwTabs.setTabColor($tab, '#FFFF8d');
+            FwFormField.setValueByDataField($form, 'Miscellaneous', true);
+            $tab.show();
+            FwFormField.disable(FwFormField.getDataField($form, 'Miscellaneous'));
         }
         // color the Labor tab if LaborItems exist
         const hasLaborItem = FwFormField.getValueByDataField($form, 'HasLaborItem');
         if (hasLaborItem) {
-            FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
+            const $tab = $form.find('.labortab');
+            FwTabs.setTabColor($tab, '#FFFF8d');
+            FwFormField.setValueByDataField($form, 'Labor', true);
+            $tab.show();
+            FwFormField.disable(FwFormField.getDataField($form, 'Labor'));
         }
         // color the Rental Sale tab if RentalSaleItems exist
         const hasRentalSaleItem = FwFormField.getValueByDataField($form, 'HasRentalSaleItem');
         if (hasRentalSaleItem) {
-            FwTabs.setTabColor($form.find('.usedsaletab'), '#FFFF8d');
+            const $tab = $form.find('.usedsaletab');
+            FwTabs.setTabColor($tab, '#FFFF8d');
+            FwFormField.setValueByDataField($form, 'RentalSale', true);
+            $tab.show();
+            FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
         }
 
         // color the Loss and Damage tab if LossDamageItems exist
         let hasLossAndDamageItem = FwFormField.getValueByDataField($form, 'HasLossAndDamageItem');
         if (hasLossAndDamageItem) {
-            FwTabs.setTabColor($form.find('.lossdamagetab'), '#FFFF8d');
+            const $tab = $form.find('.lossdamagetab');
+            FwTabs.setTabColor($tab, '#FFFF8d');
+            FwFormField.setValueByDataField($form, 'LossAndDamage', true);
+            $tab.show();
+            FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
         }
 
         //Click Event on tabs to load grids/browses
@@ -3915,23 +3941,6 @@ class OrderBase {
                 }
             }
         });
-
-        // disable the Activity checkboxes if Items exist
-        if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
-            FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
-        }
-        if (FwFormField.getValueByDataField($form, 'HasSalesItem')) {
-            FwFormField.disable(FwFormField.getDataField($form, 'Sales'));
-        }
-        if (FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) {
-            FwFormField.disable(FwFormField.getDataField($form, 'Miscellaneous'));
-        }
-        if (FwFormField.getValueByDataField($form, 'HasLaborItem')) {
-            FwFormField.disable(FwFormField.getDataField($form, 'Labor'));
-        }
-        if (FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) {
-            FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
-        }
 
         // Enable/Disable checkboxes and show/hide Profit & Loss sections
         const rentalVal = FwFormField.getValueByDataField($form, 'Rental');
