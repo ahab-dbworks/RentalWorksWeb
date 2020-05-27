@@ -1600,8 +1600,8 @@ class OrderBase {
                     FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
                 }
             } else {
-                const combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-                if (combineActivity == 'false') {
+                const combineActivity = FwFormField.getValueByDataField($form, 'CombineActivity');
+                if (!combineActivity) {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         $rentalTab.show();
                         $subRentalTab.show();
@@ -1631,8 +1631,8 @@ class OrderBase {
                     $form.find('.sales-pl').hide();
                 }
             } else {
-                const combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-                if (combineActivity == 'false') {
+                const combineActivity = FwFormField.getValueByDataField($form, 'CombineActivity');
+                if (!combineActivity) {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         $salesTab.show();
                         $subSalesTab.show();
@@ -1660,8 +1660,8 @@ class OrderBase {
                     $form.find('.misc-pl').hide();
                 }
             } else {
-                const combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-                if (combineActivity == 'false') {
+                const combineActivity = FwFormField.getValueByDataField($form, 'CombineActivity');
+                if (!combineActivity) {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         $miscTab.show();
                         $subMiscTab.show();
@@ -1727,8 +1727,8 @@ class OrderBase {
                     $form.find('.labor-pl').hide();
                 }
             } else {
-                const combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-                if (combineActivity == 'false') {
+                const combineActivity = FwFormField.getValueByDataField($form, 'CombineActivity');
+                if (!combineActivity) {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         $laborTab.show();
                         $subLaborTab.show();
@@ -1756,8 +1756,8 @@ class OrderBase {
                     FwFormField.enable($form.find('[data-datafield="Rental"]'));
                 }
             } else {
-                const combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-                if (combineActivity == 'false') {
+                const combineActivity = FwFormField.getValueByDataField($form, 'CombineActivity');
+                if (!combineActivity) {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         $usedSaleTab.show();
                         $form.find('.usedsale-pl').show();
@@ -3529,7 +3529,7 @@ class OrderBase {
         }
 
         function applyOrderTypeToColumns($form, orderTypeData) {
-            $form.find('[data-datafield="CombineActivity"] input').val(orderTypeData.CombineActivityTabs);
+            FwFormField.setValueByDataField($form, 'CombineActivity', orderTypeData.CombineActivityTabs);
             const $lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss & Damage"]');
 
             if (orderTypeData.CombineActivityTabs === true) {

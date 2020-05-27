@@ -442,7 +442,7 @@ class Quote extends OrderBase {
                       <!-- Activity section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield activity" data-caption="Combine Activity" data-datafield="CombineActivity" style="display:none"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Combine Activity" data-datafield="CombineActivity" style="display:none"></div>
                         </div>
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield anti-LD activity" data-caption="Rental" data-datafield="Rental" style="flex:1 1 100px;"></div>
                         <div class="flexrow">
