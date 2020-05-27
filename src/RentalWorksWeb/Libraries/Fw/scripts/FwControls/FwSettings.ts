@@ -626,7 +626,13 @@ class FwSettingsClass {
                 html.push('      <div style="display:flex;max-width:none;">');
                 html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
                 html.push('        <h4 class="panel-title">');
-                html.push(`        <a id="title" data-toggle="collapse">${menu} - ${title}</a>`);
+
+                if (menu !== title) {
+                    html.push(`        <a id="title" data-toggle="collapse">${menu} - ${title}</a>`);
+                } else {
+                    html.push(`        <a id="title" data-toggle="collapse">${title}</a>`);
+                }
+
                 html.push('        <div id="myDropdown" class="dropdown-content">');
                 html.push('        <div class="flexcolumn">');
                 if (showNew) {
