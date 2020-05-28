@@ -1385,7 +1385,15 @@ namespace FwStandard.BusinessLogic
                 //{
                 //    await WebAuditJsonFunc.AddAuditAsync(this.AppConfig, this.UserSession, original, this);
                 //});
-                AddAudit(original);
+
+
+                //AddAudit(original);
+
+                // don't write an audit record if updating and original is unknown
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert) || (saveMode.Equals(TDataRecordSaveMode.smUpdate) && (original != null)))
+                {
+                    AddAudit(original);
+                }
             }
 
             return rowsAffected;
