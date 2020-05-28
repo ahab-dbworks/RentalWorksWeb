@@ -3888,8 +3888,6 @@ class OrderBase {
         if (hasRentalItem) {
             const $tab = $form.find('.rentaltab');
             FwTabs.setTabColor($tab, '#FFFF8d');
-            FwFormField.setValueByDataField($form, 'Rental', true);
-            $tab.show();
             FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
         }
         // color the Sales tab if SalesItems exist
@@ -3897,8 +3895,6 @@ class OrderBase {
         if (hasSalesItem) {
             const $tab = $form.find('.salestab');
             FwTabs.setTabColor($tab, '#FFFF8d');
-            FwFormField.setValueByDataField($form, 'Sales', true);
-            $tab.show();
             FwFormField.disable(FwFormField.getDataField($form, 'Sales'));
         }
         // color the Misc. tab if MiscItems exist
@@ -3906,8 +3902,6 @@ class OrderBase {
         if (hasMiscItem) {
             const $tab = $form.find('.misctab');
             FwTabs.setTabColor($tab, '#FFFF8d');
-            FwFormField.setValueByDataField($form, 'Miscellaneous', true);
-            $tab.show();
             FwFormField.disable(FwFormField.getDataField($form, 'Miscellaneous'));
         }
         // color the Labor tab if LaborItems exist
@@ -3915,8 +3909,6 @@ class OrderBase {
         if (hasLaborItem) {
             const $tab = $form.find('.labortab');
             FwTabs.setTabColor($tab, '#FFFF8d');
-            FwFormField.setValueByDataField($form, 'Labor', true);
-            $tab.show();
             FwFormField.disable(FwFormField.getDataField($form, 'Labor'));
         }
         // color the Rental Sale tab if RentalSaleItems exist
@@ -3924,8 +3916,6 @@ class OrderBase {
         if (hasRentalSaleItem) {
             const $tab = $form.find('.usedsaletab');
             FwTabs.setTabColor($tab, '#FFFF8d');
-            FwFormField.setValueByDataField($form, 'RentalSale', true);
-            $tab.show();
             FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
         }
 
@@ -3934,8 +3924,6 @@ class OrderBase {
         if (hasLossAndDamageItem) {
             const $tab = $form.find('.lossdamagetab');
             FwTabs.setTabColor($tab, '#FFFF8d');
-            FwFormField.setValueByDataField($form, 'LossAndDamage', true);
-            $tab.show();
             FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
         }
 
