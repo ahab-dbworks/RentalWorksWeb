@@ -11,6 +11,9 @@ using FwStandard.Models;
 using System;
 using WebApi.Modules.Agent.PurchaseOrder;
 using WebApi.Modules.Transfers.TransferOrder;
+using WebApi.Modules.Agent.Quote;
+using System.Reflection;
+using FwStandard.SqlServer;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -1318,6 +1321,62 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
         }
         //------------------------------------------------------------------------------------
+        private void SetActivityOn<T>(AfterSaveEventArgs e)
+        {
+            //05/28/2020 justin hoffman #2504
+            //           This code will set the Rental, Sales, Parts, etc Activity Checkbox to checked/true when the line-item is inserted.
+            //           This is done to prevent a logic flaw where a user can insert a Sales item on the grid, but not save their Order to make the checked Sales Activity box get saved.
+            string propertyName = string.Empty;
+            if (RecType.Equals(RwConstants.RECTYPE_RENTAL))
+            {
+                propertyName = "Rental";
+            }
+            else if (RecType.Equals(RwConstants.RECTYPE_SALE))
+            {
+                propertyName = "Sales";
+            }
+            else if (RecType.Equals(RwConstants.RECTYPE_PARTS))
+            {
+                propertyName = "Parts";
+            }
+            else if (RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS))
+            {
+                propertyName = "Miscellaneous";
+            }
+            else if (RecType.Equals(RwConstants.RECTYPE_LABOR))
+            {
+                propertyName = "Labor";
+            }
+            //else if (RecType.Equals(RwConstants.RECTYPE_FACILITIES))
+            //{
+            //    propertyName = "Facilities";
+            //}
+            else if (RecType.Equals(RwConstants.RECTYPE_USED_SALE))
+            {
+                propertyName = "RentalSale";
+            }
+            else if (RecType.Equals(RwConstants.RECTYPE_LOSS_AND_DAMAGE))
+            {
+                propertyName = "LossAndDamage";
+            }
+            if (!propertyName.Equals(string.Empty))
+            {
+                Type type = typeof(T);
+                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                l.SetPrimaryKeys(new string[] { OrderId });
+                if (l.LoadAsync<T>(e.SqlConnection).Result)
+                {
+                    PropertyInfo prop = l.GetType().GetProperty(propertyName);
+                    bool flag = FwConvert.ToBoolean(prop.GetValue(l).ToString());
+                    if (!flag)
+                    {
+                        prop.SetValue(l, true);
+                        int i = l.SaveAsync(original: null, conn: e.SqlConnection).Result;
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             if (Notes != null)
@@ -1327,6 +1386,31 @@ namespace WebApi.Modules.HomeControls.OrderItem
             if ((InventoryId != null) && (WarehouseId != null))
             {
                 InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, InventoryClass);
+            }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                string orderType = OrderType;
+                if (orderType == null)
+                { 
+                    orderType = AppFunc.GetStringDataAsync(AppConfig, "dealorder", "orderid", OrderId, "ordertype").Result;
+                }
+                if (orderType.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                {
+                    SetActivityOn<QuoteLogic>(e);
+                }
+                else if (orderType.Equals(RwConstants.ORDER_TYPE_ORDER))
+                {
+                    SetActivityOn<OrderLogic>(e);
+                }
+                else if (orderType.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER))
+                {
+                    SetActivityOn<PurchaseOrderLogic>(e);
+                }
+                else if (orderType.Equals(RwConstants.ORDER_TYPE_TRANSFER))
+                {
+                    SetActivityOn<TransferOrderLogic>(e);
+                }
             }
         }
         //------------------------------------------------------------------------------------
