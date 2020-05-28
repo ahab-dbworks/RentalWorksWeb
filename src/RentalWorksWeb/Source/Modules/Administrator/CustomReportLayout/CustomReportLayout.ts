@@ -807,6 +807,8 @@ class CustomReportLayout {
             this.showHideControlProperties($form, 'header');
             const value = $headerField.text();
             FwFormField.setValueByDataField($form, 'HeaderField', value);
+            const styling = $headerField.attr('style') || '';
+            FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
         });
 
         $form.on('change', '[data-datafield="TableName"]', e => {
@@ -840,6 +842,14 @@ class CustomReportLayout {
                     if (typeof $headerField != 'undefined') {
                         const headerFor = jQuery($headerField.parents('[data-section="header"]')).attr('data-headerfor') || '';
                         $headerField.text(value);
+                        $form.data('sectiontoupdate', 'reportheader');
+                        $form.data('reportheaderfor', headerFor);
+                    }
+                    break;
+                case 'HeaderFieldStyle':
+                    if (typeof $headerField != 'undefined') {
+                        const headerFor = jQuery($headerField.parents('[data-section="header"]')).attr('data-headerfor') || '';
+                        $headerField.attr('style', value);
                         $form.data('sectiontoupdate', 'reportheader');
                         $form.data('reportheaderfor', headerFor);
                     }
@@ -1031,8 +1041,8 @@ class CustomReportLayout {
         const $controlProperties = $form.find('#controlProperties');
         switch (section) {
             case 'header':
-                $controlProperties.children(`:not('[data-datafield="HeaderField"]')`).hide();
-                $controlProperties.children('[data-datafield="HeaderField"]').show();
+                $controlProperties.children(`:not('.header-controls')`).hide();
+                $controlProperties.children('.header-controls').show();
                 $controlProperties.show();
                 break;
             case 'tablewrapper':
@@ -1041,8 +1051,8 @@ class CustomReportLayout {
                 $controlProperties.show();
                 break;
             case 'table':
-                $controlProperties.children('[data-datafield="HeaderField"]').hide();
-                $controlProperties.children(`:not('[data-datafield="HeaderField"]')`).show();
+                $controlProperties.children('.header-controls').hide();
+                $controlProperties.children(`:not('.header-controls')`).show();
                 $controlProperties.show();
                 break;
             case 'footer':
