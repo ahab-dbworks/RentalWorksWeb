@@ -52,6 +52,7 @@ class CustomReportLayout {
 
         this.loadModules($form);
         this.events($form);
+        this.designerEvents($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -383,7 +384,6 @@ class CustomReportLayout {
                                     $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
                                 }
                             });
-                            //this.linkColumns($form, $table);
                         }
                         break;
                     case 'footer':
@@ -391,62 +391,7 @@ class CustomReportLayout {
                 }
                 $form.find(`#reportDesigner`).append($wrapper);
             }
-
-            //let $reportHeader = jQuery(this.html).filter('[data-section="header"]');
-            //for (let i = 0; i < $reportHeader.length; i++) {
-            //    const $header = jQuery($reportHeader[i]);
-            //    let headerFor = $header.attr('data-headerfor') || '';
-            //    const $headerWrapper = jQuery(`<div class="header-section">
-            //                                   <span>Report Header ${headerFor == '' ? '' : 'for ' + headerFor}</span>
-            //                                   <div class="header-wrapper"></div>
-            //                               </div>`);
-            //    $headerWrapper.find('.header-wrapper').append($header);
-            //    $form.find(`#reportDesigner`).append($headerWrapper);
-            //}
-            //let $tables = jQuery(this.html).find('table');
-            //for (let i = 0; i < $tables.length; i++) {
-            //    const $table = jQuery($tables[i]);
-            //    const tableName = $table.attr('data-tablename') || 'Default';
-            //    const selected = i === 0 ? true : false;
-            //    const $wrapper = jQuery(`<div class="table-section">
-            //                                <span>Table: ${tableName}</span>
-            //                                <div class="table-wrapper ${selected ? 'selected' : ''}" data-tablename="${tableName}">
-            //                            </div>`);
-            //    $wrapper.find('.table-wrapper').append($table);
-            //    $form.find(`#reportDesigner`).append($wrapper);
-
-            //    let totalColumnCount = this.getTotalColumnCount($table, true);
-            //    $table.data('totalcolumncount', totalColumnCount);
-
-            //    tableList.push({ value: tableName, text: tableName, selected: selected });
-            //    //create sortable for headers
-            //    if ($table.find('#columnHeader tr').length) {
-            //        Sortable.create($table.find('#columnHeader tr').get(0), {
-            //            onStart: e => {
-            //                $table.find('tbody td[data-linkedcolumn]').removeClass('highlight');
-            //                const linkedColumnName = jQuery(e.item).attr('data-linkedcolumn');
-            //                $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
-            //            },
-            //            onEnd: e => {
-            //                const $th = jQuery(e.item);
-            //                $th.removeAttr('draggable');
-            //                const linkedColumnName = $th.attr('data-linkedcolumn');
-
-            //                const $tr = jQuery(e.currentTarget);
-            //                $form.data('columnsmoved', { oldIndex: e.oldIndex, newIndex: e.newIndex });
-            //                $form.data('sectiontoupdate', 'tableheader');
-            //                this.updateHTML($form, $table, $tr, $th);
-
-            //                $form.attr('data-modified', 'true');
-            //                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-            //                $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).removeClass('highlight').addClass('highlight');
-            //            }
-            //        });
-            //        this.linkColumns($form, $table);
-            //    }
-            //}
             FwFormField.loadItems($form.find('[data-datafield="TableName"]'), tableList);
-            this.designerEvents($form);
         } else {
             $form.find(`#reportDesigner`).empty().append(`<div>This report is not currently Designer-provisioned.  Please use the HTML tab to make changes.</div>`);
         }
@@ -495,7 +440,7 @@ class CustomReportLayout {
                                 let $tds = $row.find('td');
                                 if (rowType == 'detail') {
                                     $detailRowTds = $designerTds;
-                                    const $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
+                                    const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
                                     if ($movedTd.length) {
                                         if (oldIndex > newIndex) {
                                             $movedTd.insertBefore($tds[newIndex]);
@@ -554,7 +499,7 @@ class CustomReportLayout {
                                                 }
                                             }
                                         } else { //move totaled columns
-                                            const $movedTd = $row.find(`[data-value="<!--{{${valuefield}}}-->"]`);
+                                            const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
                                             if (oldIndex > newIndex) { //moving LEFT
                                                 if (newIndex <= totalNameIndex) {//to the LEFT of totalname col
                                                     $movedTd.insertBefore($tds[newIndex]);
@@ -636,7 +581,7 @@ class CustomReportLayout {
                                     }
 
                                     //after moving column, check both sides of totalName col and merge if empty tds 
-                                   
+
                                     const mergeTds = () => {
                                         let count = 0;
                                         $designerTds = $designerRow.find('td');  //reassign with new element order
@@ -683,15 +628,14 @@ class CustomReportLayout {
                             const $row = jQuery($rows[i]);
                             const rowType = $row.attr('data-row');
                             const oldNewFields = $form.data('changevaluefield');
-                            if (rowType == 'detail' || rowType == 'footer') {
-                                const $td = $row.find(`[data-value="<!--{{${oldNewFields.oldfield}}}-->"]`);
+                            if (rowType == 'detail'/* || rowType == 'footer'*/) {
+                                const $td = $row.find(`[data-linkedcolumn="${oldNewFields.linkedcolumn}"]`);
+                                const $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]).find(`[data-linkedcolumn="${oldNewFields.linkedcolumn}"]`);
                                 $td.attr('data-value', `<!--{{${oldNewFields.newfield}}}-->`);
-                                jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]).find(`[data-value="{{${oldNewFields.oldfield}}}"]`)
-                                    .attr('data-value', `{{${oldNewFields.newfield}}}`);
-
-                                if (rowType == 'footer') {
-                                    footerCount++;
-                                }
+                                $designerTd.attr('data-value', `{{${oldNewFields.newfield}}}`);
+                                //if (rowType == 'footer') {
+                                //    footerCount++;
+                                //}
                             }
                         }
                         $form.removeData('changevaluefield');
@@ -723,19 +667,18 @@ class CustomReportLayout {
 
                     //delete
                     if (typeof $form.data('deletefield') != 'undefined') {
-                        const valueField = $form.data('deletefield').valuefield;
                         const linkedColumn = $form.data('deletefield').linkedcolumn;
                         let footerCount = 0;
                         for (let i = 0; i < $rows.length; i++) {
                             const $row = jQuery($rows[i]);
                             const rowType = $row.attr('data-row');
                             const $designerRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]);
+                            const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                            const $td = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
                             if (rowType == 'detail') {
-                                $row.find(`[data-value="<!--{{${valueField}}}-->"]`).remove();
-                                $designerRow.find(`[data-value="{{${valueField}}}"]`).remove();
+                                $td.remove();
+                                $designerTd.remove();
                             } else if (rowType == 'footer') {
-                                const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                                const $td = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
                                 if ($designerTd.length) {
                                     $designerTd.remove();
                                     $td.remove();
@@ -746,17 +689,6 @@ class CustomReportLayout {
                                 }
                                 footerCount++;
                             }
-
-                            //const tdIsInRow = $td.length;
-                            //if (tdIsInRow) {
-                            //    const rowType = $row.attr('data-row');
-                            //    $td.remove();
-                            //    $table.find(`tbody tr[data-row="${rowType}"] [data-value="{{${valueField}}}"]`).remove();
-                            //} else {
-                            //    //if it doesn't exist in this row, then total colspan needs to be reduced to match the TotalColumnCount
-                            //    const $designerTableRow = jQuery($table.find('tbody tr')[i]);
-                            //    this.matchColumnCount($form, $table, $row, $designerTableRow);
-                            //}
                         }
                         $form.removeData('deletefield');
                     }
@@ -787,7 +719,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     designerEvents($form: JQuery) {
-        let $table = $form.find('.table-wrapper.selected table');
+        let $table;
         let $column;
         let newColumnNumber = 1;
         const $addColumn = $form.find('.addColumn');
@@ -855,12 +787,19 @@ class CustomReportLayout {
                     }
                     break;
                 case 'CaptionField':
-                    $column.text(value);
+                    if (typeof $column != 'undefined') {
+                        $form.data('sectiontoupdate', 'tableheader');
+                        $column.text(value);
+                    }
                     break;
                 case 'ValueField':
-                    const oldField = $column.attr('data-valuefield');
-                    $column.attr('data-valuefield', value);
-                    $form.data('changevaluefield', { oldfield: oldField, newfield: value });
+                    if (typeof $column != 'undefined') {
+                        const linkedColumn = $column.attr('data-linkedcolumn');
+                        const oldField = $column.attr('data-valuefield');
+                        $form.data('sectiontoupdate', 'tableheader');
+                        $column.attr('data-valuefield', value);
+                        $form.data('changevaluefield', { linkedcolumn: linkedColumn, oldfield: oldField, newfield: value });
+                    }
                     break;
             }
             const section = $form.data('sectiontoupdate');
@@ -890,15 +829,14 @@ class CustomReportLayout {
         //delete table header column
         $form.on('click', '.delete-column', e => {
             if (typeof $column != 'undefined') {
-                const valueField = jQuery($column).attr('data-valuefield');
                 const linkedColumn = jQuery($column).attr('data-linkedcolumn');
                 const colspan = parseInt(jQuery($column).attr('colspan')) || 1;
                 $column.remove();
                 let totalColumnCount = $table.data('totalcolumncount');
                 $table.data('totalcolumncount', totalColumnCount -= colspan);
                 $form.data('sectiontoupdate', 'tableheader');
-                if (typeof valueField != 'undefined') {
-                    $form.data('deletefield', { valuefield: valueField, linkedcolumn: linkedColumn, tdcolspan: colspan });
+                if (typeof linkedColumn != 'undefined') {
+                    $form.data('deletefield', { linkedcolumn: linkedColumn, tdcolspan: colspan });
                 }
                 this.updateHTML($form, $table, $table.find('#columnHeader tr'));
                 this.showHideControlProperties($form, 'hide');
@@ -1024,18 +962,18 @@ class CustomReportLayout {
         }
     }
     //----------------------------------------------------------------------------------------------
-    linkColumns($form: JQuery, $table: JQuery) {                                                //added additional attribute (designer-only) to link table headers with tds 
-        const $ths = $table.find('#columnHeader tr th');                                        //because blank footer total tds need to be linked without actually having
-        for (let i = 0; i < $ths.length; i++) {                                                 //to add a new total field
-            const $th = jQuery($ths[i]);
-            if (typeof $th.attr('data-linkedcolumn') == 'undefined') {
-                const linkedColumn = $th.attr('data-valuefield');
-                $th.attr('data-linkedcolumn', linkedColumn);
-                $table.find(`[data-value="{{${linkedColumn}}}"]`)                               //05-14-20 consider adding linkedcolumns as new required attribute on templates
-                    .attr('data-linkedcolumn', linkedColumn);                                   //for cases where users add a new column and set the value field identical to an existing column
-            }
-        }
-    }
+    //linkColumns($form: JQuery, $table: JQuery) {                                                //added additional attribute (designer-only) to link table headers with tds 
+    //    const $ths = $table.find('#columnHeader tr th');                                        //because blank footer total tds need to be linked without actually having
+    //    for (let i = 0; i < $ths.length; i++) {                                                 //to add a new total field
+    //        const $th = jQuery($ths[i]);
+    //        if (typeof $th.attr('data-linkedcolumn') == 'undefined') {
+    //            const linkedColumn = $th.attr('data-valuefield');
+    //            $th.attr('data-linkedcolumn', linkedColumn);
+    //            $table.find(`[data-value="{{${linkedColumn}}}"]`)                               //05-14-20 consider adding linkedcolumns as new required attribute on templates
+    //                .attr('data-linkedcolumn', linkedColumn);                                   //for cases where users add a new column and set the value field identical to an existing column
+    //        }
+    //    }
+    //}
     //----------------------------------------------------------------------------------------------
     showHideControlProperties($form: JQuery, section: string) {
         const $controlProperties = $form.find('#controlProperties');
