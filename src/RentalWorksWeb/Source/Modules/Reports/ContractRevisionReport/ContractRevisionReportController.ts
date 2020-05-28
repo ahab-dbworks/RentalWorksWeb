@@ -66,6 +66,7 @@ class ContractRevisionReport extends FwWebApiReport {
     constructor() {
         super('ContractRevisionReport', 'api/v1/contractrevisionreport', contractRevisionTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
