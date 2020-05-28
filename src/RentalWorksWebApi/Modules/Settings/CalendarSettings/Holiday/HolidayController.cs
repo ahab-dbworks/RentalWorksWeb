@@ -8,7 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebApi.Modules.Settings.AddressSettings.Country;
 
-namespace WebApi.Modules.Settings.HolidaySettings.Holiday
+namespace WebApi.Modules.Settings.CalendarSettings.Holiday
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

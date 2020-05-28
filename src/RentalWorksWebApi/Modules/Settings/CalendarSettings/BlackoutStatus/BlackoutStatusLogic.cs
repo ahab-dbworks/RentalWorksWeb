@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.ResourceStatus;
 
-namespace WebApi.Modules.Settings.HolidaySettings.BlackoutStatus
+namespace WebApi.Modules.Settings.CalendarSettings.BlackoutStatus
 {
     [FwLogic(Id:"jlBuK8QM4LB")]
     public class BlackoutStatusLogic : AppBusinessLogic

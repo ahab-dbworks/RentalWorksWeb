@@ -1,9 +1,9 @@
 ﻿class Holiday {
     Module: string = 'Holiday';
     apiurl: string = 'api/v1/holiday';
-    caption: string = Constants.Modules.Settings.children.HolidaySettings.children.Holiday.caption;
-    nav: string = Constants.Modules.Settings.children.HolidaySettings.children.Holiday.nav;
-    id: string = Constants.Modules.Settings.children.HolidaySettings.children.Holiday.id;
+    caption: string = Constants.Modules.Settings.children.CalendarSettings.children.Holiday.caption;
+    nav: string = Constants.Modules.Settings.children.CalendarSettings.children.Holiday.nav;
+    id: string = Constants.Modules.Settings.children.CalendarSettings.children.Holiday.id;
 
     getModuleScreen() {
         var screen, $browse;

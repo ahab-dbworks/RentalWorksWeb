@@ -583,8 +583,8 @@
     <TypeScriptCompile Include="Source\Modules\Settings\FacilitySettings\SpaceType\SpaceType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FiscalYear\FiscalYear\FiscalYear.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorSettings\GeneratorMake\GeneratorMake.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\HolidaySettings\BlackoutStatus\BlackoutStatus.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\HolidaySettings\Holiday\Holiday.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\CalendarSettings\BlackoutStatus\BlackoutStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\CalendarSettings\Holiday\Holiday.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventorySettings\InventoryType\InventoryType.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\AvailabilityConflicts\AvailabilityConflicts.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\RemoveFromContainer\RemoveFromContainer.ts" />
@@ -768,10 +768,10 @@
     <Content Include="Source\Modules\Settings\FiscalYear\FiscalYear\FiscalYearForm.htm" />
     <Content Include="Source\Modules\Settings\GeneratorSettings\GeneratorMake\GeneratorMakeBrowse.htm" />
     <Content Include="Source\Modules\Settings\GeneratorSettings\GeneratorMake\GeneratorMakeForm.htm" />
-    <Content Include="Source\Modules\Settings\HolidaySettings\BlackoutStatus\BlackoutStatusBrowse.htm" />
-    <Content Include="Source\Modules\Settings\HolidaySettings\BlackoutStatus\BlackoutStatusForm.htm" />
-    <Content Include="Source\Modules\Settings\HolidaySettings\Holiday\HolidayBrowse.htm" />
-    <Content Include="Source\Modules\Settings\HolidaySettings\Holiday\HolidayForm.htm" />
+    <Content Include="Source\Modules\Settings\CalendarSettings\BlackoutStatus\BlackoutStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\CalendarSettings\BlackoutStatus\BlackoutStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\CalendarSettings\Holiday\HolidayBrowse.htm" />
+    <Content Include="Source\Modules\Settings\CalendarSettings\Holiday\HolidayForm.htm" />
     <Content Include="Source\Modules\Settings\InventorySettings\InventoryType\InventoryTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventorySettings\InventoryType\InventoryTypeForm.htm" />
     <Content Include="Source\Modules\Inventory\AvailabilityConflicts\AvailabilityConflictsForm.htm" />

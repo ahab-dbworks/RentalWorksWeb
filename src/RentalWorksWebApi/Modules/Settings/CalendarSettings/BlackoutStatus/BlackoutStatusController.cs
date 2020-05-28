@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Settings.HolidaySettings.BlackoutStatus
+namespace WebApi.Modules.Settings.CalendarSettings.BlackoutStatus
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

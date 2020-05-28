@@ -356,6 +356,15 @@ var Constants = {
                         BillingCycle: { id: 'FQfXEIcN9q3', caption: 'Billing Cycle', nav: 'settings/billingcyclesettings/billingcycle', nodetype: 'Module', description: 'Define and configure Billing Cycles for your Quotes and Orders' }
                     }
                 },
+                CalendarSettings: {
+                    caption: 'Calendar',
+                    id: 'Settings.CalendarSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Holiday: { id: 'nZBYaMILxWSm', caption: 'Holiday', nav: 'settings/calendarsettings/holiday', nodetype: 'Module', description: '' },
+                        BlackoutStatus: { id: '1B2gGaIJglY', caption: 'Blackout Status', nav: 'settings/calendarsettings/blackoutstatus', nodetype: 'Module', description: '' }
+                    }
+                },
                 ContactSettings: {
                     caption: 'Contact',
                     id: 'Settings.ContactSettings',
@@ -475,15 +484,6 @@ var Constants = {
                         GeneratorRating: { id: 'B0hMFj9s7XGT', caption: 'Generator Rating', nav: 'settings/generatorsettings/rating', nodetype: 'Module', description: '' },
                         GeneratorWatts: { id: 'D2Z3jlFgx8Es', caption: 'Generator Watts', nav: 'settings/generatorsettings/watts', nodetype: 'Module', description: '' },
                         GeneratorType: { id: 'mUQp7GqmQlaR', caption: 'Generator Type', nav: 'settings/generatorsettings/type', nodetype: 'Module', description: '' }
-                    }
-                },
-                HolidaySettings: {
-                    caption: 'Holiday',
-                    id: 'Settings.HolidaySettings',
-                    nodetype: 'Category',
-                    children: {
-                        Holiday: { id: 'nZBYaMILxWSm', caption: 'Holiday', nav: 'settings/holidaysettings/holiday', nodetype: 'Module', description: '' },
-                        BlackoutStatus: { id: '1B2gGaIJglY', caption: 'Blackout Status', nav: 'settings/holidaysettings/blackoutstatus', nodetype: 'Module', description: '' }
                     }
                 },
                 InventorySettings: {
