@@ -212,7 +212,7 @@ class FwSchedulerClass {
         });
         $control.on('click', '.btnNext', e => {
             e.stopImmediatePropagation();
-            let currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed;
+            let currentDay, nextDay, nextWeek, next5Week, nextMonth, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed;
 
             try {
                 const $schedulerControl = $control.parents().find('.realscheduler')
@@ -252,9 +252,9 @@ class FwSchedulerClass {
                         FwSchedulerDetailed.navigate($schedulerControl, nextMonth, 31);
                     }
                 } else if ($control.find('.btnYear').attr('data-selected') === 'true') {
-                    navmonth = $control.data('navmonth');
-                    currentDay = navmonth.selectionStart;
-                    nextYear = currentDay.addMonths(12);
+                    const navYear = $control.data('navyear');
+                    const currentDate = navYear.selectionStart;
+                    const nextYear = currentDate.addMonths(12);
                     FwScheduler.navigate($control, nextYear);
                 } else if ($control.find('.btnSchedule').attr('data-selected') === 'true') {
                     navscheduler = $control.data('navscheduler');
@@ -309,9 +309,9 @@ class FwSchedulerClass {
                         FwSchedulerDetailed.navigate($schedulerControl, previousMonth, 31);
                     }
                 } else if ($control.find('.btnYear').attr('data-selected') === 'true') {
-                    navmonth = $control.data('navmonth');
-                    currentDay = navmonth.selectionStart;
-                    const previousYear = currentDay.addMonths(-12);
+                    const navYear = $control.data('navyear');
+                    const currentDate = navYear.selectionStart;
+                    const previousYear = currentDate.addMonths(-12);
                     FwScheduler.navigate($control, previousYear);
                 } else if ($control.find('.btnSchedule').attr('data-selected') === 'true') {
                     navscheduler = $control.data('navscheduler');
@@ -663,7 +663,9 @@ class FwSchedulerClass {
         dpyear.headerHeight = 25;
         dpyear.days = 37;
         dpyear.scale = "Day";
-        dpyear.timeHeaders = [{ groupBy: "Day", format: "ddd" }];
+        dpyear.timeHeaders = [
+            { groupBy: "Cell", format: "d" },
+        ];
         dpyear.eventClickHandling = 'Enabled';
         dpyear.eventMoveHandling = 'Disabled';
         dpyear.eventResizeHandling = 'Disabled';
@@ -675,7 +677,8 @@ class FwSchedulerClass {
                 args.async = true;  // notify manually using .loaded()
 
                 // simulating slow server-side load
-                args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Date: ${ev.start().toString("MM/dd/yyyy")}</div>`;
+                const date = ev.data.startdisplay;
+                args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Date: ${date.substring(0, date.length - 12)}</div>`; 
                 args.loaded();
 
             }
@@ -923,9 +926,10 @@ class FwSchedulerClass {
                     days = dpmonth.days + dpmonth.startDate.dayOfWeek() + (6 - dpmonth.startDate.addDays(dpmonth.days).dayOfWeek()) // add the first few days from the next month that are visible
                     break;
                 case 'Year':
-                    start = dpyear.startDate.addDays(-dpyear.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible
-                    const endDate = dpyear.startDate.addMonths(11);
-                    days = 330; //temp solution to a more accurate day count
+                    start = dpyear.startDate; // add the trailing days from the previous month that are visible
+                    const endDate = dpyear.startDate.addMonths(12);
+                    days = this.getDaysBetween(start, endDate);
+                    days -= 1;
                     break;
                 case 'Schedule':
                     start = dpscheduler.startDate;
@@ -944,6 +948,7 @@ class FwSchedulerClass {
             throw 'ongetevents is not implemented.';
         }
     };
+ 
     //---------------------------------------------------------------------------------
     loadEventsCallback($control, resources, events) {
         var dpcalendar, dp5week, dpmonth, dpscheduler, dpyear, start, end, request;
@@ -999,32 +1004,13 @@ class FwSchedulerClass {
         }
     };
     //---------------------------------------------------------------------------------
-    //loadYearEventsCallback($control, resources, events) {
-    //    var dpyear, start, end, request;
-    //    dpyear = $control.data('dpyear');
-
-    //    if ((typeof dpyear !== 'undefined')) {
-    //        if ($control.find('div.changeview[data-selected="true"]').html() === 'Year') {
-    //            FwScheduler.setDateCallout($control, dpyear.startDate);
-    //        }
-    //        dpyear.resources = [
-    //            { name: "January", id: "A" },
-    //            { name: "February", id: "B" },
-    //            { name: "March", id: "C" },
-    //            { name: "April", id: "D" },
-    //            { name: "May", id: "E" },
-    //            { name: "June", id: "F" },
-    //            { name: "July", id: "G" },
-    //            { name: "August", id: "H" },
-    //            { name: "September", id: "I" },
-    //            { name: "October", id: "J" },
-    //            { name: "November", id: "K" },
-    //            { name: "December", id: "L" }
-    //        ];
-    //        dpyear.events.list = events;
-    //        dpyear.update();
-    //    }
-    //};
+    getDaysBetween(date1, date2) {
+        date1 = new Date(date1);
+        date2 = new Date(date2);
+        const timeDiff = date2.getTime() - date1.getTime();
+        const dayDiff = timeDiff / (1000 * 3600 * 24); //divide the time difference of both the dates by number of milliseconds in a day 
+        return dayDiff;
+    }
     //---------------------------------------------------------------------------------
     getSelectedTimeRange($control) {
         var result, dpmonth;
@@ -1038,8 +1024,7 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     getSelectedDay($control) {
-        var result;
-        result = $control.data('selectedstartdate');
+        const result = $control.data('selectedstartdate');
         return result;
     };
     //---------------------------------------------------------------------------------
@@ -1064,7 +1049,7 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     setSelectedDay($control, date) {
-        var start, end;
+        let start;
 
         if (typeof date === 'string') {
             start = new DayPilot.Date(new Date(date).toISOString());
@@ -1072,7 +1057,7 @@ class FwSchedulerClass {
             start = date.getDatePart();
         }
         //end = start.addDays(1).addSeconds(-1);
-        end = start;
+        const end = start;
         FwScheduler.setSelectedTimeRange($control, start, end);
     };
     //---------------------------------------------------------------------------------

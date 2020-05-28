@@ -977,6 +977,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public string WarehouseId { get; set; }
         public string start { get; set; }
         public string end { get; set; }
+        public string startdisplay { get; set; }
         public string enddisplay { get; set; }
         public string text { get; set; }
         public string total { get; set; } = "";
@@ -2348,7 +2349,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             }
             //-------------------------------------------------------------------------------------------------------
             //local method to build a schedule event
-            TInventoryAvailabilityScheduleEvent buildScheduleEvent(int resourceId, DateTime startDate, DateTime endDate, TInventoryAvailabilityCalendarData data, /*float? qty, string text, string backColor, string barColor, string textColor,*/ ref int eventId, string inventoryId, string warehouseId, bool isWarehouseTotal)
+            TInventoryAvailabilityScheduleEvent buildScheduleEvent(int resourceId, DateTime startDate, string startDisplay, DateTime endDate, string endDisplay, TInventoryAvailabilityCalendarData data, /*float? qty, string text, string backColor, string barColor, string textColor,*/ ref int eventId, string inventoryId, string warehouseId, bool isWarehouseTotal)
             {
                 eventId++;
                 TInventoryAvailabilityScheduleEvent scheduleEvent = new TInventoryAvailabilityScheduleEvent();
@@ -2358,6 +2359,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 scheduleEvent.WarehouseId = warehouseId;
                 scheduleEvent.start = startDate.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                 scheduleEvent.end = endDate.ToString("yyyy-MM-ddTHH:mm:ss tt");
+                scheduleEvent.startdisplay = startDisplay;
+                scheduleEvent.enddisplay = endDisplay;
                 scheduleEvent.text = data.caption;
                 scheduleEvent.backColor = data.backColor;
                 scheduleEvent.barColor = data.barColor;
@@ -2415,7 +2418,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
                 reservationEvent.start = reservationFromDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                 reservationEvent.end = reservationToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                //reservationEvent.startdisplay = startDisplay;
+                reservationEvent.startdisplay = startDisplay;
                 reservationEvent.enddisplay = endDisplay;
                 reservationEvent.text = reservation.ReservationDescription;
                 reservationEvent.backColor = backColor;
@@ -2468,7 +2471,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
                     qcEvent.start = qcFromDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                     qcEvent.end = qcToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                    //qcEvent.startdisplay = startDisplay;
+                    qcEvent.startdisplay = startDisplay;
                     qcEvent.enddisplay = endDisplay;
                     qcEvent.text = reservation.ReservationDescription;
                     qcEvent.backColor = RwGlobals.AVAILABILITY_COLOR_QC_REQUIRED;
@@ -2841,7 +2844,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     noAvail.barColor = "";
                     noAvail.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_POSITIVE;
                     response.InventoryAvailabilityScheduleResources.Add(newScheduleResource(ref resourceId, availData.InventoryWarehouse.WarehouseCode + " Available (of " + AvailabilityNumberToString(availData.Total.Total) + " Total)"));
-                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, request.FromDate, request.ToDate, noAvail, ref eventId, request.InventoryId, warehouseId, true));
+                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, request.FromDate, request.FromDate.ToString(), request.ToDate, request.ToDate.ToString(), noAvail, ref eventId, request.InventoryId, warehouseId, true));
                 }
                 else
                 {
@@ -2870,41 +2873,78 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 resourceId = tmpResourceId;
                             }
 
-                            DateTime availDateTime = theDateTime;
-                            if ((availDateTime.Equals(DateTime.Today)) && invHasHourlyAvail)
-                            {
-                                availDateTime = currentAvailabilityDateTime;
-                            }
+                            //DateTime availDateTime = theDateTime;
+                            //if ((availDateTime.Equals(DateTime.Today)) && invHasHourlyAvail)
+                            //{
+                            //    //availDateTime = currentAvailabilityDateTime;
+                            //    availDateTime = InventoryAvailabilityFunc.GetCurrentAvailabilityHour();
+                            //}
 
-                            //add the "day" avail event here
                             TInventoryAvailabilityCalendarData avail = new TInventoryAvailabilityCalendarData();
-                            TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = null;
-                            if (availData.AvailabilityDatesAndTimes.TryGetValue(availDateTime, out inventoryWarehouseAvailabilityDateTime))
+                            if (invHasHourlyAvail && !includeHours)  // need to look at each hour individually and figure out min/max for the Date
                             {
-                                avail.exists = true;
-                                avail.barColor = "";
-                                avail.backColor = RwGlobals.AVAILABILITY_COLOR_POSITIVE;
-                                avail.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_POSITIVE;
-                                avail.qty = inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned;
-                                avail.caption = AvailabilityNumberToString(avail.qty.GetValueOrDefault(0));
-                                if (avail.qty < 0)
+                                int hour = 0;
+                                while (hour < 24)
                                 {
-                                    avail.backColor = RwGlobals.AVAILABILITY_COLOR_NEGATIVE;
-                                    avail.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_NEGATIVE;
+                                    DateTime availDateTime = theDateTime.AddHours(hour);
+                                    TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = null;
+                                    if (availData.AvailabilityDatesAndTimes.TryGetValue(availDateTime, out inventoryWarehouseAvailabilityDateTime))
+                                    {
+                                        //available
+                                        //avail.caption = "Available";
+                                        avail.exists = true;
+                                        avail.qty = Math.Min(avail.qty.GetValueOrDefault(inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned), inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned);
+                                        avail.caption = AvailabilityNumberToString(avail.qty.GetValueOrDefault(0));
+                                        if (avail.qty < 0)
+                                        {
+                                            avail.backColor = RwGlobals.AVAILABILITY_COLOR_NEGATIVE;
+                                            avail.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_NEGATIVE;
+                                        }
+                                        else if ((avail.qty > 0) && (availData.InventoryWarehouse.LowAvailabilityPercent > 0) && (avail.qty <= availData.InventoryWarehouse.LowAvailabilityQuantity))
+                                        {
+                                            avail.backColor = RwGlobals.AVAILABILITY_COLOR_LOW;
+                                            avail.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_LOW;
+                                        }
+                                        else
+                                        {
+                                            avail.backColor = RwGlobals.AVAILABILITY_COLOR_POSITIVE;
+                                            avail.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_POSITIVE;
+                                        }
+                                    }
+                                    hour++;
                                 }
-                                else if ((avail.qty > 0) && (availData.InventoryWarehouse.LowAvailabilityPercent > 0) && (avail.qty <= availData.InventoryWarehouse.LowAvailabilityQuantity))
+                            }
+                            else
+                            {
+                                //add the "day" avail event here
+                                TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = null;
+                                if (availData.AvailabilityDatesAndTimes.TryGetValue(theDateTime, out inventoryWarehouseAvailabilityDateTime))
                                 {
-                                    avail.backColor = RwGlobals.AVAILABILITY_COLOR_LOW;
-                                    avail.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_LOW;
+                                    avail.exists = true;
+                                    avail.barColor = "";
+                                    avail.backColor = RwGlobals.AVAILABILITY_COLOR_POSITIVE;
+                                    avail.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_POSITIVE;
+                                    avail.qty = inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned;
+                                    avail.caption = AvailabilityNumberToString(avail.qty.GetValueOrDefault(0));
+                                    if (avail.qty < 0)
+                                    {
+                                        avail.backColor = RwGlobals.AVAILABILITY_COLOR_NEGATIVE;
+                                        avail.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_NEGATIVE;
+                                    }
+                                    else if ((avail.qty > 0) && (availData.InventoryWarehouse.LowAvailabilityPercent > 0) && (avail.qty <= availData.InventoryWarehouse.LowAvailabilityQuantity))
+                                    {
+                                        avail.backColor = RwGlobals.AVAILABILITY_COLOR_LOW;
+                                        avail.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_LOW;
+                                    }
                                 }
                             }
 
                             if (avail.exists)
                             {
-                                DateTime renderDateTime = new DateTime(request.FromDate.Year, request.FromDate.Month, theDateTime.Day);
-                                response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, renderDateTime, renderDateTime, avail, ref eventId, request.InventoryId, warehouseId, true));
+                                //DateTime renderDateTime = new DateTime(request.FromDate.Year, request.FromDate.Month, theDateTime.Day);
+                                DateTime renderDateTime = new DateTime(request.FromDate.Year, 1 /*January*/, theDateTime.Day);  // using January because it always has 31 days
+                                response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, renderDateTime, theDateTime.ToString(), renderDateTime, theDateTime.ToString(), avail, ref eventId, request.InventoryId, warehouseId, true));
                             }
-
                             theDateTime = theDateTime.AddDays(1);
                         }
                     }
@@ -2974,7 +3014,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
                                 if (avail.exists)
                                 {
-                                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDateTime, theDateTime, avail, ref eventId, request.InventoryId, warehouseId, true));
+                                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDateTime, theDateTime.ToString(), theDateTime, theDateTime.ToString(), avail, ref eventId, request.InventoryId, warehouseId, true));
                                 }
 
                                 theDateTime = theDateTime.AddDays(1);
@@ -3044,7 +3084,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
                                 if (avail.exists)
                                 {
-                                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDateTime, theDateTime, avail, ref eventId, request.InventoryId, warehouseId, true));
+                                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDateTime, theDateTime.ToString(), theDateTime, theDateTime.ToString(), avail, ref eventId, request.InventoryId, warehouseId, true));
                                 }
 
                                 theDateTime = theDateTime.AddDays(1); //daily availability
@@ -3070,7 +3110,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                     qc.barColor = RwGlobals.AVAILABILITY_COLOR_QC_REQUIRED;
                                     qc.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_QC_REQUIRED;
                                     qc.qty = whAvailData.QcRequired.OwnedAndConsigned;
-                                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, request.FromDate, qcToDateTime, qc, ref eventId, request.InventoryId, warehouseId, false));
+                                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, request.FromDate, request.FromDate.ToString(), qcToDateTime, qcToDateTime.ToString(), qc, ref eventId, request.InventoryId, warehouseId, false));
                                 }
                             }
 
