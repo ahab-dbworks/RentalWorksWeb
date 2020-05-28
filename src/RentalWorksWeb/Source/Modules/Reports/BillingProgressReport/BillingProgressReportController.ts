@@ -78,6 +78,7 @@ class BillingProgressReport extends FwWebApiReport {
     constructor() {
         super('BillingProgressReport', 'api/v1/billingprogressreport', billingProgressTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

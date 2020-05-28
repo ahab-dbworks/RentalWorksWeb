@@ -30,17 +30,17 @@
       {{#each this}}
       {{#ifEquals RowType "OfficeLocationheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="5" data-valuefield="OfficeLocation" class="header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Nameheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="5" data-valuefield="Name" class="lower header-row">Customer / Deal: {{Name}}</td>
+        <td colspan="5" class="lower header-row">Customer / Deal: {{Name}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "PaymentTypeheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="5" data-valuefield="PaymentType" class="lower header-row">Payment Type: {{PaymentType}}</td>
+        <td colspan="5" class="lower header-row">Payment Type: {{PaymentType}}</td>
       </tr>
       {{/ifEquals}}
 
