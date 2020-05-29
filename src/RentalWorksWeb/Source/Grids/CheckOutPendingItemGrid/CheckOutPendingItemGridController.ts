@@ -83,7 +83,7 @@ class CheckOutPendingItemGrid {
 
                 const $confirmation = FwConfirmation.renderConfirmation(`Substitute Items`, html);
                 FwControl.renderRuntimeControls($confirmation.find('.fwcontrol'));
-                const $ok = FwConfirmation.addButton($confirmation, 'Apply Substitutes');
+                const $ok = FwConfirmation.addButton($confirmation, 'Apply Substitutes', false);
 
                 FwFormField.setValueByDataField($confirmation, 'InventoryId', iCode);
                 FwFormField.setValueByDataField($confirmation, 'Description', description);
