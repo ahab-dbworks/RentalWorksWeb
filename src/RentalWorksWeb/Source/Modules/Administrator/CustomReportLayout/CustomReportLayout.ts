@@ -799,6 +799,8 @@ class CustomReportLayout {
                         const oldField = $column.attr('data-valuefield');
                         $form.data('sectiontoupdate', 'tableheader');
                         $column.attr('data-valuefield', value);
+                        FwFormField.setValueByDataField($form, 'CaptionField', value);
+                        $column.text(value);
                         $form.data('changevaluefield', { linkedcolumn: linkedColumn, oldfield: oldField, newfield: value });
                     }
                     break;
@@ -825,6 +827,7 @@ class CustomReportLayout {
             $form.data('addcolumn', { newcolumnnumber: newColumnNumber, tdcolspan: 1 });
             this.updateHTML($form, $table, $table.find('#columnHeader tr'));
             newColumnNumber++;
+            this.showHideControlProperties($form, 'table');
         });
 
         //delete table header column
