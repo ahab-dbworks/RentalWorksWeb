@@ -91,7 +91,14 @@ class FwSettingsClass {
             const usersid = sessionStorage.getItem('usersid');
             if (usersid) {
                 request.UserId = usersid;
-                FwAppData.apiMethod(true, 'PUT', `api/v1/user/${usersid}`, request, FwServices.defaultTimeout, response => { }, ex => FwFunc.showError(ex), null);
+                FwAppData.apiMethod(true, 'PUT', `api/v1/user/${usersid}`, request, FwServices.defaultTimeout,
+                    response => { },
+                    ex => {
+                        if (ex !== 'Forbidden') {
+                            FwFunc.showError(ex)
+                        }
+                    }
+                    , null);
             }
         }
     }
