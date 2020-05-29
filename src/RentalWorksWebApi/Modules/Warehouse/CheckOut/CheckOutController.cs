@@ -297,6 +297,66 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/checkout/startsubstitutesession
+        [HttpPost("startsubstitutesession")]
+        [FwControllerMethod(Id: "ZyAQhSXyk3dRO", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<StagingStartSubstituteSessionResponse>> StartSubstituteSession([FromBody]StagingStartSubstituteSessionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                StagingStartSubstituteSessionResponse response = await CheckOutFunc.StartSubstituteSession(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
+        // POST api/v1/checkout/addsubstituteitemtosession
+        [HttpPost("addsubstituteitemtosession")]
+        [FwControllerMethod(Id: "VS7M75rAHyAkA", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<StagingAddSubstituteItemToSessionResponse>> AddSubstituteItemToSession([FromBody]StagingAddSubstituteItemToSessionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                StagingAddSubstituteItemToSessionResponse response = await CheckOutFunc.AddSubstituteItemToSession(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
+        // POST api/v1/checkout/applysubstitutesession
+        [HttpPost("applysubstitutesession")]
+        [FwControllerMethod(Id: "QgyD3MfspTX2c", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<StagingApplySubstituteSessionResponse>> ApplySubstituteSession([FromBody]StagingApplySubstituteSessionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                StagingApplySubstituteSessionResponse response = await CheckOutFunc.ApplySubstituteSession(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
         // POST api/v1/checkout/decreaseorderquantity
         [HttpPost("decreaseorderquantity")]
         [FwControllerMethod(Id: "2VoXN2oAIUsF", ActionType: FwControllerActionTypes.Browse)]

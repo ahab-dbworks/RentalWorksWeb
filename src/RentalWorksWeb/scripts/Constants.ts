@@ -841,6 +841,7 @@ var Constants = {
         CheckInQuantityItemsGrid: { id: 'BfClP5w8rjl7', caption: 'Check-In Quantity Items' },
         CheckInSwapGrid: { id: 'hA3FE9ProwUn', caption: 'Check-In Swap' },
         CheckOutPendingItemGrid: { id: 'GO96A3pk0UE', caption: 'Check-Out Pending Items' },
+        CheckOutSubstituteSessionItemGrid: { id: 'qCquw4GIfqRW5', caption: 'Check-Out Substitute Session Items' },
         CompanyContactGrid: { id: 'gQHuhVDA5Do2', caption: 'Company Contact' },
         CompanyResaleGrid: { id: 'k48X9sulRpmb', caption: 'Company Resale' },
         CompanyTaxOptionGrid: { id: 'B9CzDEmYe1Zf', caption: 'Company Tax Option' },

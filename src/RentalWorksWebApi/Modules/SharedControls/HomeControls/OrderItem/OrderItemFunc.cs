@@ -30,6 +30,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public string BelowOrderItemId { get; set; }
         public string PrimaryItemId { get; set; }
     }
+    public class InsertLineItemResponse : TSpStatusResponse
+    {
+        public string OrderItemId { get; set; }
+    }
+
     public class InsertOptionRequest
     {
         public string OrderId { get; set; }
@@ -267,27 +272,27 @@ namespace WebApi.Modules.HomeControls.OrderItem
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
-        public static async Task<TSpStatusResponse> InsertLineItem(FwApplicationConfig appConfig, FwUserSession userSession, InsertLineItemRequest request)
+        public static async Task<InsertLineItemResponse> InsertLineItem(FwApplicationConfig appConfig, FwUserSession userSession, InsertLineItemRequest request, FwSqlConnection conn = null)
         {
-            TSpStatusResponse response = new TSpStatusResponse();
+            InsertLineItemResponse response = new InsertLineItemResponse();
 
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            if (conn == null)
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "insertintocomplete", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
-                qry.AddParameter("@belowmasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.BelowOrderItemId);
-                qry.AddParameter("@completeid", SqlDbType.NVarChar, ParameterDirection.Input, request.PrimaryItemId);
-                qry.AddParameter("@newmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync();
-                response.msg = qry.GetParameter("@newmasteritemid").ToString();
-                response.success = true;
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
             }
+            FwSqlCommand qry = new FwSqlCommand(conn, "insertintocomplete", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+            qry.AddParameter("@belowmasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.BelowOrderItemId);
+            qry.AddParameter("@completeid", SqlDbType.NVarChar, ParameterDirection.Input, request.PrimaryItemId);
+            qry.AddParameter("@newmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            response.success = true;
+            response.OrderItemId = qry.GetParameter("@newmasteritemid").ToString();
 
             if (response.success)
             {
                 TSpStatusResponse response2 = await ReapplyManualSort(appConfig, userSession, request.OrderId);
             }
-
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
