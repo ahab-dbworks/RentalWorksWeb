@@ -158,17 +158,22 @@ class CustomReportLayout {
         $form.find('div.modules').on('change', e => {
             let $this = $form.find('[data-datafield="BaseReport"] option:selected');
             let modulehtml;
-            const reportName = $this.val()
-            FwAppData.apiMethod(true, 'GET', `api/v1/customreportlayout/template/${reportName}`, null, FwServices.defaultTimeout,
-                response => {
-                    //get the html from the template and set it as codemirror's value
-                    modulehtml = response.ReportTemplate;
-                    if (typeof modulehtml !== "undefined") {
-                        codeMirror.setValue(modulehtml);
-                    }
-                    this.renderTab($form, 'Designer');
-                }, ex => FwFunc.showError(ex), $form);
-            this.addValidFields($form, reportName);
+            const reportName = $this.val();
+            if (reportName.length) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/customreportlayout/template/${reportName}`, null, FwServices.defaultTimeout,
+                    response => {
+                        //get the html from the template and set it as codemirror's value
+                        modulehtml = response.ReportTemplate;
+                        if (typeof modulehtml !== "undefined") {
+                            codeMirror.setValue(modulehtml);
+                        }
+                        this.renderTab($form, 'Designer');
+                    }, ex => FwFunc.showError(ex), $form);
+                this.addValidFields($form, reportName);
+            } else {
+                $form.find('.modulefields').empty();
+                codeMirror.setValue('');
+            }
         });
 
         //Updates value for form fields
