@@ -723,19 +723,29 @@ class OrderItemGrid {
 
             // Taxable field
             let taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
-            const rentalTax = FwFormField.getValueByDataField($form, 'RentalTaxRate1');
-            const salesTax = FwFormField.getValueByDataField($form, 'SalesTaxRate1');
-            const laborTax = FwFormField.getValueByDataField($form, 'LaborTaxRate1');
-            const $grid = $control.closest('div[data-control="FwGrid"]');
-            if (($grid.hasClass('R') && controller === 'PurchaseOrderController' && !$grid.hasClass('sub')) && salesTax === '0') { // Sub-Rental on PO
-                taxable = 'F';
-            }
-            else if ($grid.hasClass('R') && rentalTax === '0') { // Rental
-                taxable = 'F';
-            } else if ($grid.hasClass('L') && laborTax === '0') { // Labor
-                taxable = 'F';
-            } else if (!$grid.hasClass('R') && !$grid.hasClass('L') && salesTax === '0') { // All else
-                taxable = 'F';
+            if (taxable === 'T') {
+                const rentalTax = FwFormField.getValueByDataField($form, 'RentalTaxRate1');
+                const salesTax = FwFormField.getValueByDataField($form, 'SalesTaxRate1');
+                const laborTax = FwFormField.getValueByDataField($form, 'LaborTaxRate1');
+                const $grid = $control.closest('div[data-control="FwGrid"]');
+                if (($grid.hasClass('R')) && (controller === 'PurchaseOrderController') && (!$grid.hasClass('sub'))) { // Rental Inventory grid on PO
+                    if (salesTax === '0') {
+                        taxable = 'F';
+                    }
+                }
+                else if ($grid.hasClass('R')) { // All other Rental grids
+                    if (rentalTax === '0') {
+                        taxable = 'F';
+                    }
+                } else if ($grid.hasClass('L')) { // Labor grid
+                    if (laborTax === '0') {
+                        taxable = 'F';
+                    }
+                } else { // All other grids
+                    if (salesTax === '0') {
+                        taxable = 'F';
+                    }
+                }
             }
             FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable });
 
