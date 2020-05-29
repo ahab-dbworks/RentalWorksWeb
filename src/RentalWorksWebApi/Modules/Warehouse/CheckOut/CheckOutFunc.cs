@@ -789,7 +789,15 @@ namespace WebApi.Modules.Warehouse.CheckOut
                                             stageRequest.Code = substituteItem.BarCode;
                                         }
                                         stageRequest.Quantity = FwConvert.ToInt32(substituteItem.Quantity);
-                                        StageItemResponse stageResponse = await StageItem(appConfig, userSession, stageRequest, conn: conn);
+                                        try
+                                        {
+                                            StageItemResponse stageResponse = await StageItem(appConfig, userSession, stageRequest, conn: conn);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            response.success = false;
+                                            response.msg = ex.Message;
+                                        }
 
                                     }
 
@@ -852,8 +860,6 @@ namespace WebApi.Modules.Warehouse.CheckOut
                             response.msg = "Could not delete substitute session.";
                         }
                     }
-
-                    response.success = true;
                 }
                 finally
                 {

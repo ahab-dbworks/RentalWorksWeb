@@ -36,6 +36,15 @@ namespace WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalstatusid", modeltype: FwDataTypes.Text)]
+        public string InventoryStatusId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalstatus", modeltype: FwDataTypes.Text)]
+        public string InventoryStatus { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalstatuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string InventoryStatusColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 

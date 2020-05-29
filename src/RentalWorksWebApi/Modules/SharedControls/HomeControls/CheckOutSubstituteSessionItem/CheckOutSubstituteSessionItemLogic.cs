@@ -34,6 +34,12 @@ namespace WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem
         public string SerialNumber { get; set; }
         [FwLogicProperty(Id: "qhaIYjYCgegH5", IsReadOnly: true)]
         public decimal? Quantity { get { return checkOutSubstituteSessionItem.Quantity; } set { checkOutSubstituteSessionItem.Quantity = value; } }
+        [FwLogicProperty(Id: "VDwZIxm57QZTc", IsReadOnly: true)]
+        public string InventoryStatusId { get; set; }
+        [FwLogicProperty(Id: "aP6X4EoTeDAT1", IsReadOnly: true)]
+        public string InventoryStatus { get; set; }
+        [FwLogicProperty(Id: "M6cC4dhOpCVM4", IsReadOnly: true)]
+        public string InventoryStatusColor { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }
