@@ -124,6 +124,12 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwLogicProperty(Id: "qmOkT9iNfuVgk")]
         public int? FirstDayOfWeek { get { return webUser.FirstDayOfWeek; } set { webUser.FirstDayOfWeek = value; } }
 
+        [FwLogicProperty(Id: "7doEwy76OLkVF")]
+        public bool? SettingsNavigationMenuVisible { get { return webUser.SettingsNavigationMenuVisible; } set { webUser.SettingsNavigationMenuVisible = value; } }
+
+        [FwLogicProperty(Id: "654Ji1gmjrEPD")]
+        public bool? ReportsNavigationMenuVisible { get { return webUser.ReportsNavigationMenuVisible; } set { webUser.ReportsNavigationMenuVisible = value; } }
+
         [FwLogicProperty(Id:"JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
