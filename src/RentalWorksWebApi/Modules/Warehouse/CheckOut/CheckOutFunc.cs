@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using System;
 using WebApi.Modules.HomeControls.StagingSubstituteSession;
+using WebApi.Modules.HomeControls.OrderItem;
+using System.Collections.Generic;
+using WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem;
+using WebApi.Modules.Agent.Order;
 
 namespace WebApi.Modules.Warehouse.CheckOut
 {
@@ -159,7 +163,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
     public class StagingApplySubstituteSessionRequest
     {
         public string SessionId { get; set; }
-        public int? Quantity { get; set; } 
+        public int? Quantity { get; set; }
     }
     public class StagingApplySubstituteSessionResponse : TSpStatusResponse
     {
@@ -636,19 +640,81 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
             else
             {
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                // load the substitute session from the database
+                StagingSubstituteSessionLogic subSession = new StagingSubstituteSessionLogic();
+                subSession.SetDependencies(appConfig, userSession);
+                subSession.SessionId = request.SessionId;
+                await subSession.LoadAsync<StagingSubstituteSessionLogic>();
+
+                // read the OrderItemId from the substitute session
+                // load the OrderItem from the database using the key field above
+                OrderItemLogic oiOrig = new OrderItemLogic();
+                oiOrig.SetDependencies(appConfig, userSession);
+                oiOrig.OrderItemId = subSession.OrderItemId;
+                await oiOrig.LoadAsync<OrderItemLogic>();
+
+                // decrease the Quantity from the OrderItem based on the quantity in this request
+                OrderItemLogic oiMod = oiOrig.MakeCopy<OrderItemLogic>();
+                oiMod.SetDependencies(appConfig, userSession);
+                oiMod.QuantityOrdered = oiMod.QuantityOrdered - 1;
+                await oiMod.SaveAsync(original: oiOrig);
+
+                // insert a new line-item to the Order.
+                //       InventoryId = orig.InventoryId
+                //       OrderId = orig.OrderId
+                //       WarehouseId = orig.WarehouseId
+                //       Description = orig.Description
+                //       (copy all fields from Orig, using orig.MakeCopy(), then blank out the OrderItemId)
+                //       ItemClass = "K"
+                //       Quantity = 1
+                //       ItemOrder = orig.ItemOrder + "A" (to make it sort down immediately beneath the original item)
+                OrderItemLogic oiNew = oiOrig.MakeCopy<OrderItemLogic>();
+                oiNew.SetDependencies(appConfig, userSession);
+                oiNew.ItemClass = RwConstants.ITEMCLASS_KIT;
+                oiNew.QuantityOrdered = 1;
+                oiNew.ItemOrder = oiOrig.ItemOrder + "A";
+                await oiNew.SaveAsync();
+
+                string substituteNote = "";
+
+                //       For each item in the substitute session:
+                //          insert into the new Kit
+                BrowseRequest substituteItemBrowseRequest = new BrowseRequest();
+                substituteItemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                substituteItemBrowseRequest.uniqueids.Add("SessionId", request.SessionId);
+
+                CheckOutSubstituteSessionItemLogic substituteItemSelector = new CheckOutSubstituteSessionItemLogic();
+                substituteItemSelector.SetDependencies(appConfig, userSession);
+                List<CheckOutSubstituteSessionItemLogic> substituteItems = await substituteItemSelector.SelectAsync<CheckOutSubstituteSessionItemLogic>(substituteItemBrowseRequest/*, conn*/);
+                foreach (CheckOutSubstituteSessionItemLogic substituteItem in substituteItems)
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "applystagesubstitutesession", appConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
-                    qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    response.status = qry.GetParameter("@status").ToInt32();
-                    response.success = (response.status == 0);
-                    response.msg = qry.GetParameter("@msg").ToString();
+                    // insert the item into the substitute kit
+                    InsertLineItemRequest insertItemRequest = new InsertLineItemRequest();
+                    insertItemRequest.OrderId = oiOrig.OrderId;
+                    insertItemRequest.PrimaryItemId = oiNew.OrderItemId;
+                    await OrderItemFunc.InsertLineItem(appConfig, userSession, insertItemRequest);
+                    substituteNote += substituteItem.Description;
+                    if (!string.IsNullOrEmpty(substituteItem.BarCode))
+                    {
+                        substituteNote += "(Bar Code: " + substituteItem.BarCode + ")";
+                    }
+                    else if (substituteItem.Quantity > 1)
+                    {
+                        substituteNote += "(Qty: " + substituteItem.Quantity.ToString() + ")";
+                    }
                 }
+
+                //  update line-item note on orig
+                //  "Replaced at Staging with Description 1 (Bar Code: ABC45648), Description 2 (Qty. 2), Description 3 (Bar Code: 60680680)"
+                substituteNote = "Replaced at Staging with " + substituteNote;
+                oiNew.Notes += substituteNote;
+                await oiNew.SaveAsync();
+
+
+
+                //  reapplymanualsort on this Order
+                await OrderFunc.ReapplyManualSort(appConfig, userSession, oiOrig.OrderId);
+
             }
 
             return response;
