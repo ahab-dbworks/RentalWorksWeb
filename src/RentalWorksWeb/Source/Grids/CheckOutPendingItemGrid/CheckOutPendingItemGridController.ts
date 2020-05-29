@@ -155,7 +155,7 @@ class CheckOutPendingItemGrid {
                         } else {
                             $confirmation.find('.error-msg').html(`<span style="margin-left:1em; color:white; background:red;">${response.msg}</span>`);
                         }
-                    }, null, $control);
+                    }, null, $confirmation.find('.fwconfirmationbox'));
                 })
 
                 $cancel.on('click', e => {
