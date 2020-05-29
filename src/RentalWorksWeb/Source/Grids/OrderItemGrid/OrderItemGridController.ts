@@ -720,7 +720,23 @@ class OrderItemGrid {
                 FwBrowse.setFieldValue($control, $generatedtr, 'Price3', { value: week3Rate });
                 FwBrowse.setFieldValue($control, $generatedtr, 'Price4', { value: week4Rate });
             }
-            const taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
+
+            // Taxable field
+            let taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
+            const rentalTax = FwFormField.getValueByDataField($form, 'RentalTaxRate1');
+            const salesTax = FwFormField.getValueByDataField($form, 'SalesTaxRate1');
+            const laborTax = FwFormField.getValueByDataField($form, 'LaborTaxRate1');
+            const $grid = $control.closest('div[data-control="FwGrid"]');
+            if (($grid.hasClass('R') && controller === 'PurchaseOrderController' && !$grid.hasClass('sub')) && salesTax === '0') { // Sub-Rental on PO
+                taxable = 'F';
+            }
+            else if ($grid.hasClass('R') && rentalTax === '0') { // Rental
+                taxable = 'F';
+            } else if ($grid.hasClass('L') && laborTax === '0') { // Labor
+                taxable = 'F';
+            } else if (!$grid.hasClass('R') && !$grid.hasClass('L') && salesTax === '0') { // All else
+                taxable = 'F';
+            }
             FwBrowse.setFieldValue($control, $generatedtr, 'Taxable', { value: taxable });
 
             if (typeof customRatesResponse != 'undefined') {
