@@ -1139,21 +1139,22 @@ namespace WebApi.Modules.Agent.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
-        public static async Task<TSpStatusResponse> ReapplyManualSort(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        public static async Task<TSpStatusResponse> ReapplyManualSort(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, FwSqlConnection conn = null)
         {
             TSpStatusResponse response = new TSpStatusResponse();
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            if (conn == null)
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "reapplymanualsort", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
-                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync();
-                response.status = qry.GetParameter("@status").ToInt32();
-                response.success = (response.status == 0);
-                response.msg = qry.GetParameter("@msg").ToString();
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
             }
+            FwSqlCommand qry = new FwSqlCommand(conn, "reapplymanualsort", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+            qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            response.status = qry.GetParameter("@status").ToInt32();
+            response.success = (response.status == 0);
+            response.msg = qry.GetParameter("@msg").ToString();
             return response;
         }
         //-------------------------------------------------------------------------------------------------------

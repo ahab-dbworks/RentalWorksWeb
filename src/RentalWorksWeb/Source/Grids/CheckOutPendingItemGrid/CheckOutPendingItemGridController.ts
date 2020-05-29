@@ -148,15 +148,14 @@ class CheckOutPendingItemGrid {
                         SessionId: sessionId,
                     };
 
-                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/applysubstitutesession`, request, FwServices.defaultTimeout,
-                        response => {
-                            if (response.success) {
-                                FwConfirmation.destroyConfirmation($confirmation);
-                                FwBrowse.search($control);
-                            } else {
-                                $confirmation.find('.error-msg').html(`<span style="margin-left:1em; color:white; background:red;">${response.msg}</span>`);
-                            }
-                        }, ex => FwFunc.showError(ex), $control);
+                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/applysubstitutesession`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        if (response.success) {
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            FwBrowse.search($control);
+                        } else {
+                            $confirmation.find('.error-msg').html(`<span style="margin-left:1em; color:white; background:red;">${response.msg}</span>`);
+                        }
+                    }, null, $control);
                 })
 
                 $cancel.on('click', e => {

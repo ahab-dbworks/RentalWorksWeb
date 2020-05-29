@@ -172,7 +172,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
     public static class CheckOutFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<StageItemResponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, StageItemRequest request)
+        public static async Task<StageItemResponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, StageItemRequest request, FwSqlConnection conn = null)
         {
             StageItemResponse response = new StageItemResponse();
             if (string.IsNullOrEmpty(request.OrderId))
@@ -185,69 +185,70 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
             else
             {
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                if (conn == null)
                 {
+                    conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+                }
 
-                    //if (request.AddItemToOrder.GetValueOrDefault(false) || request.AddCompleteToOrder.GetValueOrDefault(false)) { }  // do auditing here
+                //if (request.AddItemToOrder.GetValueOrDefault(false) || request.AddCompleteToOrder.GetValueOrDefault(false)) { }  // do auditing here
 
-                    FwSqlCommand qry = new FwSqlCommand(conn, "pdastageitem", appConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
-                    qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.OrderItemId);
-                    qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, request.Code);
-                    qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, request.VendorId);
-                    if (request.Quantity != null)
-                    {
-                        qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
-                    }
-                    qry.AddParameter("@additemtoorder", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddItemToOrder.GetValueOrDefault(false) ? "T" : "F"));
-                    qry.AddParameter("@addcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddCompleteToOrder.GetValueOrDefault(false) ? "T" : "F"));
-                    qry.AddParameter("@unstage", SqlDbType.NVarChar, ParameterDirection.Input, (request.UnstageItem.GetValueOrDefault(false) ? "T" : "F"));
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                    qry.AddParameter("@userwarehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
-                    qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    //qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
+                FwSqlCommand qry = new FwSqlCommand(conn, "pdastageitem", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.OrderItemId);
+                qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, request.Code);
+                qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, request.VendorId);
+                if (request.Quantity != null)
+                {
+                    qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
+                }
+                qry.AddParameter("@additemtoorder", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddItemToOrder.GetValueOrDefault(false) ? "T" : "F"));
+                qry.AddParameter("@addcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddCompleteToOrder.GetValueOrDefault(false) ? "T" : "F"));
+                qry.AddParameter("@unstage", SqlDbType.NVarChar, ParameterDirection.Input, (request.UnstageItem.GetValueOrDefault(false) ? "T" : "F"));
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@userwarehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
+                //qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
 
-                    qry.AddParameter("@isicode", SqlDbType.NVarChar, ParameterDirection.Output);
-                    qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
-                    qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
-                    qry.AddParameter("@qtyordered", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@qtysub", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@qtyout", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@qtyin", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@qtyremaining", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@showadditemtoorder", SqlDbType.NVarChar, ParameterDirection.Output);
-                    qry.AddParameter("@showaddcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Output);
-                    qry.AddParameter("@showunstage", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@isicode", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@qtyordered", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@qtysub", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@qtyout", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@qtyin", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@qtyremaining", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@showadditemtoorder", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@showaddcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@showunstage", SqlDbType.NVarChar, ParameterDirection.Output);
 
-                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    response.InventoryId = qry.GetParameter("@masterid").ToString();
-                    response.OrderItemId = qry.GetParameter("@masteritemid").ToString();
-                    response.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.InventoryId = qry.GetParameter("@masterid").ToString();
+                response.OrderItemId = qry.GetParameter("@masteritemid").ToString();
+                response.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
 
-                    response.InventoryStatus.ICode = qry.GetParameter("@masterno").ToString();
-                    response.InventoryStatus.Description = qry.GetParameter("@description").ToString();
-                    response.InventoryStatus.QuantityOrdered = qry.GetParameter("@qtyordered").ToInt32();
-                    response.InventoryStatus.QuantitySub = qry.GetParameter("@qtysub").ToInt32();
-                    response.InventoryStatus.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
-                    response.InventoryStatus.QuantityOut = qry.GetParameter("@qtyout").ToInt32();
-                    response.InventoryStatus.QuantityIn = qry.GetParameter("@qtyin").ToInt32();
-                    response.InventoryStatus.QuantityRemaining = qry.GetParameter("@qtyremaining").ToInt32();
+                response.InventoryStatus.ICode = qry.GetParameter("@masterno").ToString();
+                response.InventoryStatus.Description = qry.GetParameter("@description").ToString();
+                response.InventoryStatus.QuantityOrdered = qry.GetParameter("@qtyordered").ToInt32();
+                response.InventoryStatus.QuantitySub = qry.GetParameter("@qtysub").ToInt32();
+                response.InventoryStatus.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
+                response.InventoryStatus.QuantityOut = qry.GetParameter("@qtyout").ToInt32();
+                response.InventoryStatus.QuantityIn = qry.GetParameter("@qtyin").ToInt32();
+                response.InventoryStatus.QuantityRemaining = qry.GetParameter("@qtyremaining").ToInt32();
 
-                    response.ShowAddItemToOrder = qry.GetParameter("@showadditemtoorder").ToString().Equals("T");
-                    response.ShowAddCompleteToOrder = qry.GetParameter("@showaddcompletetoorder").ToString().Equals("T");
-                    response.ShowUnstage = qry.GetParameter("@showunstage").ToString().Equals("T");
+                response.ShowAddItemToOrder = qry.GetParameter("@showadditemtoorder").ToString().Equals("T");
+                response.ShowAddCompleteToOrder = qry.GetParameter("@showaddcompletetoorder").ToString().Equals("T");
+                response.ShowUnstage = qry.GetParameter("@showunstage").ToString().Equals("T");
 
-                    response.status = qry.GetParameter("@status").ToInt32();
-                    response.success = (response.status == 0);
-                    response.msg = qry.GetParameter("@msg").ToString();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
 
-                    if ((response.status == 0) && ((request.Quantity == null) || (request.Quantity == 0)) && (qry.GetParameter("@isicode").ToString().Equals("T")))
-                    {
-                        response.status = 107;
-                    }
+                if ((response.status == 0) && ((request.Quantity == null) || (request.Quantity == 0)) && (qry.GetParameter("@isicode").ToString().Equals("T")))
+                {
+                    response.status = 107;
                 }
             }
             return response;
@@ -640,80 +641,232 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
             else
             {
-                // load the substitute session from the database
-                StagingSubstituteSessionLogic subSession = new StagingSubstituteSessionLogic();
-                subSession.SetDependencies(appConfig, userSession);
-                subSession.SessionId = request.SessionId;
-                await subSession.LoadAsync<StagingSubstituteSessionLogic>();
-
-                // read the OrderItemId from the substitute session
-                // load the OrderItem from the database using the key field above
-                OrderItemLogic oiOrig = new OrderItemLogic();
-                oiOrig.SetDependencies(appConfig, userSession);
-                oiOrig.OrderItemId = subSession.OrderItemId;
-                await oiOrig.LoadAsync<OrderItemLogic>();
-
-                // decrease the Quantity from the OrderItem based on the quantity in this request
-                OrderItemLogic oiMod = oiOrig.MakeCopy<OrderItemLogic>();
-                oiMod.SetDependencies(appConfig, userSession);
-                oiMod.QuantityOrdered = oiMod.QuantityOrdered - 1;
-                await oiMod.SaveAsync(original: oiOrig);
-
-                // insert a new line-item to the Order.
-                //       InventoryId = orig.InventoryId
-                //       OrderId = orig.OrderId
-                //       WarehouseId = orig.WarehouseId
-                //       Description = orig.Description
-                //       (copy all fields from Orig, using orig.MakeCopy(), then blank out the OrderItemId)
-                //       ItemClass = "K"
-                //       Quantity = 1
-                //       ItemOrder = orig.ItemOrder + "A" (to make it sort down immediately beneath the original item)
-                OrderItemLogic oiNew = oiOrig.MakeCopy<OrderItemLogic>();
-                oiNew.SetDependencies(appConfig, userSession);
-                oiNew.ItemClass = RwConstants.ITEMCLASS_KIT;
-                oiNew.QuantityOrdered = 1;
-                oiNew.ItemOrder = oiOrig.ItemOrder + "A";
-                await oiNew.SaveAsync();
-
-                string substituteNote = "";
-
-                //       For each item in the substitute session:
-                //          insert into the new Kit
-                BrowseRequest substituteItemBrowseRequest = new BrowseRequest();
-                substituteItemBrowseRequest.uniqueids = new Dictionary<string, object>();
-                substituteItemBrowseRequest.uniqueids.Add("SessionId", request.SessionId);
-
-                CheckOutSubstituteSessionItemLogic substituteItemSelector = new CheckOutSubstituteSessionItemLogic();
-                substituteItemSelector.SetDependencies(appConfig, userSession);
-                List<CheckOutSubstituteSessionItemLogic> substituteItems = await substituteItemSelector.SelectAsync<CheckOutSubstituteSessionItemLogic>(substituteItemBrowseRequest/*, conn*/);
-                foreach (CheckOutSubstituteSessionItemLogic substituteItem in substituteItems)
+                response.success = true;
+                FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+                try
                 {
-                    // insert the item into the substitute kit
-                    InsertLineItemRequest insertItemRequest = new InsertLineItemRequest();
-                    insertItemRequest.OrderId = oiOrig.OrderId;
-                    insertItemRequest.PrimaryItemId = oiNew.OrderItemId;
-                    await OrderItemFunc.InsertLineItem(appConfig, userSession, insertItemRequest);
-                    substituteNote += substituteItem.Description;
-                    if (!string.IsNullOrEmpty(substituteItem.BarCode))
+                    await conn.OpenAsync();
+                    conn.BeginTransaction();
+
+                    // load the substitute session from the database
+                    StagingSubstituteSessionLogic subSession = new StagingSubstituteSessionLogic();
+                    subSession.SetDependencies(appConfig, userSession);
+                    subSession.SessionId = request.SessionId;
+                    if (response.success)
                     {
-                        substituteNote += "(Bar Code: " + substituteItem.BarCode + ")";
+                        response.success = await subSession.LoadAsync<StagingSubstituteSessionLogic>(conn: conn);
+                        if (!response.success)
+                        {
+                            response.msg = "Could not load substitute session.";
+                        }
                     }
-                    else if (substituteItem.Quantity > 1)
+
+                    // read the OrderItemId from the substitute session
+                    // load the OrderItem from the database using the key field above
+                    OrderItemLogic oiOrig = new OrderItemLogic();
+                    oiOrig.SetDependencies(appConfig, userSession);
+                    oiOrig.OrderItemId = subSession.OrderItemId;
+                    if (response.success)
                     {
-                        substituteNote += "(Qty: " + substituteItem.Quantity.ToString() + ")";
+                        response.success = await oiOrig.LoadAsync<OrderItemLogic>(conn: conn);
+                        if (!response.success)
+                        {
+                            response.msg = "Could not load order item.";
+                        }
                     }
+
+                    // decrease the Quantity from the OrderItem based on the quantity in this request
+                    OrderItemLogic oiMod = oiOrig.MakeCopy<OrderItemLogic>();
+                    oiMod.SetDependencies(appConfig, userSession);
+                    oiMod.QuantityOrdered--;
+                    if (response.success)
+                    {
+                        int recordsAffected = await oiMod.SaveAsync(original: oiOrig, conn: conn);
+                        response.success = (recordsAffected > 0);
+                        if (!response.success)
+                        {
+                            response.msg = "Could not decrease quantity of order item.";
+                        }
+                    }
+
+                    // insert a new line-item to the Order.
+                    //       InventoryId = orig.InventoryId
+                    //       OrderId = orig.OrderId
+                    //       WarehouseId = orig.WarehouseId
+                    //       Description = orig.Description
+                    //       (copy all fields from Orig, using orig.MakeCopy(), then blank out the OrderItemId)
+                    //       ItemClass = "K"
+                    //       Quantity = 1
+                    //       ItemOrder = orig.ItemOrder + "A" (to make it sort down immediately beneath the original item)
+                    OrderItemLogic oiNew = oiOrig.MakeCopy<OrderItemLogic>();
+                    oiNew.SetDependencies(appConfig, userSession);
+                    oiNew.ItemClass = RwConstants.ITEMCLASS_KIT;
+                    oiNew.QuantityOrdered = 1;
+                    oiNew.ItemOrder = oiOrig.ItemOrder + "A";
+                    oiNew.OrderItemId = "";
+                    oiNew.copying = true;
+                    if (response.success)
+                    {
+                        int recordsAffected = await oiNew.SaveAsync(conn: conn);
+                        response.success = (recordsAffected > 0);
+                        if (!response.success)
+                        {
+                            response.msg = "Could not add new order item.";
+                        }
+                    }
+
+                    if (response.success)
+                    {
+                        //  reapplymanualsort on this Order
+                        TSpStatusResponse reapplySortResponse = await OrderFunc.ReapplyManualSort(appConfig, userSession, oiOrig.OrderId, conn: conn);
+                        if (!reapplySortResponse.success)
+                        {
+                            response.success = false;
+                            response.msg = reapplySortResponse.msg;
+                        }
+                    }
+
+
+                    string substituteNote = "";
+                    if (response.success)
+                    {
+                        //       For each item in the substitute session:
+                        //          insert into the new Kit
+                        BrowseRequest substituteItemBrowseRequest = new BrowseRequest();
+                        substituteItemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                        substituteItemBrowseRequest.uniqueids.Add("SessionId", request.SessionId);
+
+                        CheckOutSubstituteSessionItemLogic substituteItemSelector = new CheckOutSubstituteSessionItemLogic();
+                        substituteItemSelector.SetDependencies(appConfig, userSession);
+                        List<CheckOutSubstituteSessionItemLogic> substituteItems = await substituteItemSelector.SelectAsync<CheckOutSubstituteSessionItemLogic>(substituteItemBrowseRequest, conn: conn);
+                        foreach (CheckOutSubstituteSessionItemLogic substituteItem in substituteItems)
+                        {
+                            if (response.success)
+                            {
+                                // insert the item into the substitute kit
+                                InsertLineItemRequest insertItemRequest = new InsertLineItemRequest();
+                                insertItemRequest.OrderId = oiOrig.OrderId;
+                                insertItemRequest.PrimaryItemId = oiNew.OrderItemId;
+                                insertItemRequest.BelowInventoryId = oiNew.OrderItemId;
+                                InsertLineItemResponse insertItemResponse = await OrderItemFunc.InsertLineItem(appConfig, userSession, insertItemRequest, conn: conn);
+                                if (insertItemResponse.success)
+                                {
+
+                                    // set InventoryId and Quantity of newly-inserted item
+                                    OrderItemLogic oiSub = new OrderItemLogic();
+                                    oiSub.SetDependencies(appConfig, userSession);
+                                    oiSub.OrderItemId = insertItemResponse.OrderItemId;
+                                    await oiSub.LoadAsync<OrderItemLogic>(conn: conn);
+
+                                    OrderItemLogic oiSubNew = oiSub.MakeCopy<OrderItemLogic>();
+                                    oiSubNew.InventoryId = substituteItem.InventoryId;
+                                    oiSubNew.Description = substituteItem.Description;
+                                    oiSubNew.QuantityOrdered = substituteItem.Quantity;
+
+                                    if (response.success)
+                                    {
+                                        int recordsAffected = await oiSubNew.SaveAsync(original: oiSub, conn: conn);
+                                        response.success = (recordsAffected > 0);
+                                        if (!response.success)
+                                        {
+                                            response.msg = "Could not update new substitute item order item.";
+                                        }
+                                    }
+
+                                    //stage the item(s) to this line
+                                    if (response.success)
+                                    {
+                                        StageItemRequest stageRequest = new StageItemRequest();
+                                        stageRequest.OrderId = oiSubNew.OrderId;
+                                        stageRequest.OrderItemId = oiSubNew.OrderItemId;
+                                        stageRequest.WarehouseId = oiSubNew.WarehouseId;
+                                        if (string.IsNullOrEmpty(substituteItem.BarCode))
+                                        {
+                                            stageRequest.Code = substituteItem.ICode;
+                                        }
+                                        else
+                                        {
+                                            stageRequest.Code = substituteItem.BarCode;
+                                        }
+                                        stageRequest.Quantity = FwConvert.ToInt32(substituteItem.Quantity);
+                                        StageItemResponse stageResponse = await StageItem(appConfig, userSession, stageRequest, conn: conn);
+
+                                    }
+
+                                    if (!substituteNote.Equals(string.Empty))
+                                    {
+                                        substituteNote += ", ";
+                                    }
+
+                                    substituteNote += substituteItem.Description;
+                                    if (!string.IsNullOrEmpty(substituteItem.BarCode))
+                                    {
+                                        substituteNote += " (Bar Code: " + substituteItem.BarCode + ")";
+                                    }
+                                    else if (substituteItem.Quantity > 1)
+                                    {
+                                        substituteNote += " (Qty: " + FwConvert.ToInt32(substituteItem.Quantity).ToString() + ")";
+                                    }
+                                }
+                                else
+                                {
+                                    response.success = false;
+                                    response.msg = insertItemResponse.msg;
+                                }
+                            }
+                        }
+                    }
+
+                    //  update line-item note on orig
+                    //  "Replaced at Staging with Description 1 (Bar Code: ABC45648), Description 2 (Qty. 2), Description 3 (Bar Code: 60680680)"
+                    substituteNote = "Replaced at Staging with " + substituteNote;
+                    oiMod.Notes += substituteNote;
+                    if (response.success)
+                    {
+                        int recordsAffected = await oiMod.SaveAsync(original: oiOrig, conn: conn);
+                        response.success = (recordsAffected > 0);
+                        if (!response.success)
+                        {
+                            response.msg = "Could not add substitution note.";
+                        }
+                    }
+
+
+                    if (response.success)
+                    {
+                        //  reapplymanualsort on this Order
+                        TSpStatusResponse reapplySortResponse = await OrderFunc.ReapplyManualSort(appConfig, userSession, oiOrig.OrderId, conn: conn);
+                        if (!reapplySortResponse.success)
+                        {
+                            response.success = false;
+                            response.msg = reapplySortResponse.msg;
+                        }
+                    }
+
+                    if (response.success)
+                    {
+                        //delete the session
+                        response.success = await subSession.DeleteAsync(conn: conn);
+                        if (!response.success)
+                        {
+                            response.msg = "Could not delete substitute session.";
+                        }
+                    }
+
+                    response.success = true;
                 }
-
-                //  update line-item note on orig
-                //  "Replaced at Staging with Description 1 (Bar Code: ABC45648), Description 2 (Qty. 2), Description 3 (Bar Code: 60680680)"
-                substituteNote = "Replaced at Staging with " + substituteNote;
-                oiNew.Notes += substituteNote;
-                await oiNew.SaveAsync();
-
-
-
-                //  reapplymanualsort on this Order
-                await OrderFunc.ReapplyManualSort(appConfig, userSession, oiOrig.OrderId);
+                finally
+                {
+                    if (response.success)
+                    {
+                        conn.CommitTransaction();
+                    }
+                    else
+                    {
+                        conn.RollbackTransaction();
+                    }
+                    conn.Close();
+                }
 
             }
 
