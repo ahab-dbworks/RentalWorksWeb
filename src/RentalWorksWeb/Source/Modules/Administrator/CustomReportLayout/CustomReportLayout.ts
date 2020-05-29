@@ -393,7 +393,8 @@ class CustomReportLayout {
             }
             FwFormField.loadItems($form.find('[data-datafield="TableName"]'), tableList);
         } else {
-            $form.find(`#reportDesigner`).empty().append(`<div>This report is not currently Designer-provisioned.  Please use the HTML tab to make changes.</div>`);
+            let reportName: string = FwFormField.getValueByDataField($form, 'BaseReport');
+            $form.find(`#reportDesigner`).empty().append(`<div>The ${reportName} is not yet provisioned for this Designer.  Use the HTML tab to make changes to this report layout.</div>`);
         }
     }
     //----------------------------------------------------------------------------------------------
