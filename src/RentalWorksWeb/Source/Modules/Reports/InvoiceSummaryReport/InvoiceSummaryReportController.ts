@@ -77,6 +77,7 @@ class InvoiceSummaryReport extends FwWebApiReport {
     constructor() {
         super('InvoiceSummaryReport', 'api/v1/invoicesummaryreport', invoiceSummaryTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

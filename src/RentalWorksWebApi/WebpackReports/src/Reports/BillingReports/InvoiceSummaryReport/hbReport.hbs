@@ -1,5 +1,5 @@
 ﻿<!--Invoice Summary Report-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,68 +11,86 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
+    <thead id="columnHeader">
       <tr>
-        <th>Invoice No.</th>
-        <th>Order No.</th>
-        <th>Invoice Date</th>
-        <th>Invoice Description</th>
-        <th>Billing Start</th>
-        <th>Billing End</th>
-        <th>Billing Cycle</th>
-        <th class="number">Tax</th>
-        <th class="number">Invoice Total</th>
+        <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice No.</th>
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="InvoiceDate" data-valuefield="InvoiceDate">Invoice Date</th>
+        <th data-linkedcolumn="InvoiceDescription" data-valuefield="InvoiceDescription">Invoice Description</th>
+        <th data-linkedcolumn="BillingStartDate" data-valuefield="BillingStartDate">Billing Start</th>
+        <th data-linkedcolumn="BillingEndDate" data-valuefield="BillingEndDate">Billing End</th>
+        <th data-linkedcolumn="BillingCycle" data-valuefield="BillingCycle">Billing Cycle</th>
+        <th data-linkedcolumn="InvoiceTax" data-valuefield="InvoiceTax" class="number">Tax</th>
+        <th data-linkedcolumn="InvoiceTotal" data-valuefield="InvoiceTotal" class="number">Invoice Total</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerheader"}}
-        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealheader"}}
-        <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td data-value="{{InvoiceNumber}}"></td>
-        <td data-value="{{OrderNumber}}"></td>
-        <td data-value="{{InvoiceDate}}"></td>
-        <td data-value="{{InvoiceDescription}}"></td>
-        <td data-value="{{BillingStartDate}}"></td>
-        <td data-value="{{BillingEndDate}}"></td>
-        <td data-value="{{BillingCycle}}"></td>
-        <td class="number" data-value="{{InvoiceTax}}"></td>
-        <td class="number" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="8" class="total-name">{{Deal}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="8" class="total-name">{{Customer}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="8" class="total-name">{{Department}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="8" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="8" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="lower header-row">Department: {{Department}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="lower header-row">Customer: {{Customer}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="lower header-row">Deal: {{Deal}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="InvoiceDate" data-value="{{InvoiceDate}}"></td>
+        <td data-linkedcolumn="InvoiceDescription" data-value="{{InvoiceDescription}}"></td>
+        <td data-linkedcolumn="BillingStartDate" data-value="{{BillingStartDate}}"></td>
+        <td data-linkedcolumn="BillingEndDate" data-value="{{BillingEndDate}}"></td>
+        <td data-linkedcolumn="BillingCycle" data-value="{{BillingCycle}}"></td>
+        <td data-linkedcolumn="InvoiceTax" class="number" data-value="{{InvoiceTax}}"></td>
+        <td data-linkedcolumn="InvoiceTotal" class="number" data-value="{{InvoiceTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="8" class="total-name">{{Deal}}&nbsp;</td>
+        <td data-linkedcolumn="InvoiceTotal" class="total-val" data-value="{{InvoiceTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="8" class="total-name">{{Customer}}&nbsp;</td>
+        <td data-linkedcolumn="InvoiceTotal" class="total-val" data-value="{{InvoiceTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="8" class="total-name">{{Department}}&nbsp;</td>
+        <td data-linkedcolumn="InvoiceTotal" class="total-val" data-value="{{InvoiceTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" ata-rowtype="{{RowType}}">
+        <td colspan="8" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td data-linkedcolumn="InvoiceTotal" class="total-val" data-value="{{InvoiceTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="8" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="InvoiceTotal" class="total-val" data-value="{{InvoiceTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
