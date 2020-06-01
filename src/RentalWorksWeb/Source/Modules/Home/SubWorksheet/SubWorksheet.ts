@@ -99,47 +99,56 @@ class SubWorksheet {
         });
 
         $form.find('.create-modify-po').on('click', e => {
+            const $grid = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+            const $saveAllBtn = $grid.find('.grid-multi-save:visible');
             try {
-                const $grid = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
-                const $saveAllBtn = $grid.find('.grid-multi-save:visible');
-                if ($saveAllBtn.length) {
-                    $saveAllBtn.click();
+                const completeSession = () => {
+                    const sessionRequest = { SessionId: this.SessionId };
+                    FwAppData.apiMethod(true, 'POST', "api/v1/order/completepoworksheetsession", sessionRequest, FwServices.defaultTimeout, response => {
+                        if (response.success) {
+                            try {
+                                const $purchaseOrderForm = PurchaseOrderController.loadForm({
+                                    PurchaseOrderId: response.PurchaseOrderId
+                                });
+                                FwModule.openSubModuleTab($form, $purchaseOrderForm);
+
+                                const fields = $form.find('.fwformfield');
+                                for (let i = 0; i < fields.length; i++) {
+                                    FwFormField.setValue2(jQuery(fields[i]), '', '');
+                                }
+                                FwFormField.enable($form.find('.subworksheet'));
+                                $form.find('div[data-grid="SubPurchaseOrderItemGrid"]').empty();
+                                $form.find('.completeorder').hide();
+                                $form.find('.openworksheet').show();
+                                $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
+                                this.SessionId = '';
+                                this.OrderId = '';
+                                FwFormField.setValueByDataField($form, 'RequiredDate', parentmoduleinfo.EstimatedStartDate);
+                                FwFormField.setValueByDataField($form, 'FromDate', parentmoduleinfo.EstimatedStartDate);
+                                FwFormField.setValueByDataField($form, 'ToDate', parentmoduleinfo.EstimatedStopDate);
+                                FwFormField.setValueByDataField($form, 'RequiredTime', parentmoduleinfo.EstimatedStartTime);
+                                FwFormField.disable($form.find('div[data-datafield="OfficePhone"]'));
+                                FwFormField.disable($form.find('div[data-datafield="OfficeExtension"]'));
+                                FwFormField.disable($form.find('div[data-datafield="PurchaseOrderId"]'));
+                            }
+                            catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        } else {
+                        }
+                    }, null, $form);
                 }
 
-                const sessionRequest = { SessionId: this.SessionId };
-                FwAppData.apiMethod(true, 'POST', "api/v1/order/completepoworksheetsession", sessionRequest, FwServices.defaultTimeout, response => {
-                    if (response.success) {
-                        try {
-                            const $purchaseOrderForm = PurchaseOrderController.loadForm({
-                                PurchaseOrderId: response.PurchaseOrderId
-                            });
-                            FwModule.openSubModuleTab($form, $purchaseOrderForm);
+                if ($saveAllBtn.length) {
+                    const $trs = $grid.find('tr.editmode.editrow');
+                    FwBrowse.multiSaveRow($grid, $trs)
+                        .then(() => {
+                            completeSession();
+                        });
+                } else {
+                    completeSession();
+                }
 
-                            const fields = $form.find('.fwformfield');
-                            for (let i = 0; i < fields.length; i++) {
-                                FwFormField.setValue2(jQuery(fields[i]), '', '');
-                            }
-                            FwFormField.enable($form.find('.subworksheet'));
-                            $form.find('div[data-grid="SubPurchaseOrderItemGrid"]').empty();
-                            $form.find('.completeorder').hide();
-                            $form.find('.openworksheet').show();
-                            $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
-                            this.SessionId = '';
-                            this.OrderId = '';
-                            FwFormField.setValueByDataField($form, 'RequiredDate', parentmoduleinfo.EstimatedStartDate);
-                            FwFormField.setValueByDataField($form, 'FromDate', parentmoduleinfo.EstimatedStartDate);
-                            FwFormField.setValueByDataField($form, 'ToDate', parentmoduleinfo.EstimatedStopDate);
-                            FwFormField.setValueByDataField($form, 'RequiredTime', parentmoduleinfo.EstimatedStartTime);
-                            FwFormField.disable($form.find('div[data-datafield="OfficePhone"]'));
-                            FwFormField.disable($form.find('div[data-datafield="OfficeExtension"]'));
-                            FwFormField.disable($form.find('div[data-datafield="PurchaseOrderId"]'));
-                        }
-                        catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    } else {
-                    }
-                }, null, $form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
