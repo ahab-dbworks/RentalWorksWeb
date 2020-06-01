@@ -100,6 +100,12 @@ class SubWorksheet {
 
         $form.find('.create-modify-po').on('click', e => {
             try {
+                const $grid = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+                const $saveAllBtn = $grid.find('.grid-multi-save:visible');
+                if ($saveAllBtn.length) {
+                    $saveAllBtn.click();
+                }
+
                 const sessionRequest = { SessionId: this.SessionId };
                 FwAppData.apiMethod(true, 'POST', "api/v1/order/completepoworksheetsession", sessionRequest, FwServices.defaultTimeout, response => {
                     if (response.success) {
