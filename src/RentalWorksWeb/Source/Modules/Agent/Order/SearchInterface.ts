@@ -77,7 +77,6 @@ class SearchInterface {
                                           <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true"></div>
                                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
                                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol" data-caption="Hide Inventory with Zero Quantity" data-datafield="HideZeroQuantity"></div>
-                                          <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Default Select" data-datafield="DefaultSelect"></div>
                                           <div>
                                             <div data-type="button" class="fwformcontrol restoreDefaults" style="width:45px; float:left; margin:10px;">Reset</div>
                                             <div data-type="button" class="fwformcontrol applyOptions" style="width:45px; float:right; margin:10px;">Apply</div>
@@ -846,14 +845,14 @@ class SearchInterface {
 
         $popup.find('#itemlist').attr('data-view', 'GRID');
 
-        FwFormField.loadItems($popup.find('div[data-datafield="DefaultSelect"]'), [
-            { value: '', text: 'All' },
-            { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
-            { value: 'CK', text: 'Complete/Kit' },
-            { value: 'N', text: 'Container' },
-            { value: 'I', text: 'Item' },
-            { value: 'A', text: 'Accessory' }
-        ], true);
+        //FwFormField.loadItems($popup.find('div[data-datafield="DefaultSelect"]'), [
+        //    { value: '', text: 'All' },
+        //    { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
+        //    { value: 'CK', text: 'Complete/Kit' },
+        //    { value: 'N', text: 'Container' },
+        //    { value: 'I', text: 'Item' },
+        //    { value: 'A', text: 'Accessory' }
+        //], true);
 
         //this.saveViewSettings($popup);
     }
@@ -870,7 +869,7 @@ class SearchInterface {
         }, null, null);
     }
     //----------------------------------------------------------------------------------------------
-    saveViewSettings($popup) {
+    saveViewSettings($popup: JQuery, saveonly?: boolean) {
         let $searchpopup = $popup.find('#searchpopup');
         let $columns     = $popup.find('[data-datafield="Columns"] li');
         let columns      = [];
@@ -891,16 +890,20 @@ class SearchInterface {
             WebUserId:                   JSON.parse(sessionStorage.getItem('userid')).webusersid,
             DisableAccessoryAutoExpand:  FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]')) == "T" ? true : false,
             HideZeroQuantity:            FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
-            DefaultSelect:               FwFormField.getValue2($popup.find('[data-datafield="DefaultSelect"]')),
+            DefaultSelect:               FwFormField.getValue2($popup.find('[data-datafield="Select"]')),
             Mode:                        $popup.find('#itemlist').attr('data-view')
         };
 
         FwAppData.apiMethod(true, 'PUT', `api/v1/usersearchsettings/${JSON.parse(sessionStorage.getItem('userid')).webusersid}`, request, FwServices.defaultTimeout,
             response => {
-                this.setViewSettings($popup, response);
+                if (typeof saveonly == 'boolean' && saveonly) {
+                    //do nothing
+                } else {
+                    this.setViewSettings($popup, response);
 
-                if (request.DisableAccessoryAutoExpand) {
-                    $popup.find('.item-accessories').css('display', 'none');
+                    if (request.DisableAccessoryAutoExpand) {
+                        $popup.find('.item-accessories').css('display', 'none');
+                    }
                 }
             }, null, $searchpopup);
     }
@@ -930,18 +933,18 @@ class SearchInterface {
         $popup.find('#itemsearch').data('columnorder', columnOrder);
         $popup.find('#itemsearch').data('columnstohide', columnsToHide);
 
-        FwFormField.loadItems($popup.find('div[data-datafield="DefaultSelect"]'), [
-            { value: '',    text: 'All' },
-            { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
-            { value: 'CK',  text: 'Complete/Kit' },
-            { value: 'N',   text: 'Container' },
-            { value: 'I',   text: 'Item' },
-            { value: 'A',   text: 'Accessory' }
-        ], true);
+        //FwFormField.loadItems($popup.find('div[data-datafield="DefaultSelect"]'), [
+        //    { value: '',    text: 'All' },
+        //    { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
+        //    { value: 'CK',  text: 'Complete/Kit' },
+        //    { value: 'N',   text: 'Container' },
+        //    { value: 'I',   text: 'Item' },
+        //    { value: 'A',   text: 'Accessory' }
+        //], true);
 
         FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', response.DisableAccessoryAutoExpand);
         FwFormField.setValueByDataField($popup, 'HideZeroQuantity', response.HideZeroQuantity);
-        FwFormField.setValueByDataField($popup, 'DefaultSelect', response.DefaultSelect);
+        //FwFormField.setValueByDataField($popup, 'DefaultSelect', response.DefaultSelect);
         FwFormField.setValueByDataField($popup, 'Select', response.DefaultSelect, null, true);
 
         $popup.find('#itemlist').attr('data-view', response.Mode);
@@ -1407,6 +1410,7 @@ class SearchInterface {
 
         $popup.on('change', 'div[data-datafield="Select"]', e => {
             this.getInventory($popup);
+            this.saveViewSettings($popup, true);
         });
 
         //Refresh Availability button
