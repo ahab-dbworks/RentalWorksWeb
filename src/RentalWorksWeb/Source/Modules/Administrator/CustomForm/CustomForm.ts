@@ -84,7 +84,7 @@ class CustomForm {
         $form.find('#codeEditor').change();
         const $customForm = $form.find(`#designerContent`);
         const $fields = $customForm.find('.fwformfield');
-        const $errorMsg = $form.find('.error-msg');
+        //const $errorMsg = $form.find('.error-msg');
         let hasDuplicates: boolean = false;
         const duplicateFields: any = [];
         $fields.each(function (i, e) {
@@ -139,10 +139,12 @@ class CustomForm {
             }
         } else {
             if (hasDuplicates) {
-                $errorMsg.text(`Duplicate fields: ${duplicateFields.join(', ')}`);
-                FwNotification.renderNotification('ERROR', 'Only one duplicate field can be active on a form.  Set the data-enabled property to false on duplicates.');
+                //$errorMsg.text(`Duplicate fields: ${duplicateFields.join(', ')}`);
+                //FwNotification.renderNotification('ERROR', 'Only one duplicate field can be active on a form.  Set the data-enabled property to false on duplicates.');
+                let duplicatedFields: string = duplicateFields.join(', ');
+                FwNotification.renderNotification(`ERROR`, `The following data fields are duplicated on this form: ${duplicatedFields}.<br><br>Set the "data-enabled" property to false on duplicates.`);
             } else {
-                $errorMsg.text('');
+                //$errorMsg.text('');
                 FwModule.saveForm(this.Module, $form, parameters);
             }
         }
