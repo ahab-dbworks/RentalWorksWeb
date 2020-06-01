@@ -121,6 +121,12 @@ namespace WebApi.Modules.Agent.Order
         public string RateType { get { return dealOrder.RateType; } set { dealOrder.RateType = value; } }
 
         //------------------------------------------------------------------------------------
+        [FwLogicProperty(Id: "iZQDvZAabExyg", IsReadOnly: true)]
+        public string RateTypeDisplay { get; set; }
+        //------------------------------------------------------------------------------------
+
+
+        //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "wf6V6mZB8RSQ")]
         public string AgentId { get { return dealOrder.AgentId; } set { dealOrder.AgentId = value; } }
 
@@ -1213,10 +1219,10 @@ namespace WebApi.Modules.Agent.Order
 
 
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "kSfl2WWGJZsWD", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "wXMvGhGwlYbqi", DisableDirectAssign: true, DisableDirectModify: true)]
         public string InputByUserId { get { return dealOrder.InputByUserId; } set { dealOrder.InputByUserId = value; } }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "kSfl2WWGJZsWD", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "dV2QPotbETQju", DisableDirectAssign: true, DisableDirectModify: true)]
         public string ModifiedByUserId { get { return dealOrder.ModifiedByUserId; } set { dealOrder.ModifiedByUserId = value; } }
         //------------------------------------------------------------------------------------ 
 

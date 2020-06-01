@@ -48,6 +48,9 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string RateType { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ratetypedisplay", modeltype: FwDataTypes.Text)]
+        public string RateTypeDisplay { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "flatpo", modeltype: FwDataTypes.Boolean)]
         public bool? FlatPo { get; set; }
         //------------------------------------------------------------------------------------
