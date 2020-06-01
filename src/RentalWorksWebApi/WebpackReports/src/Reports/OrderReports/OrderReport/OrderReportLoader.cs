@@ -228,11 +228,11 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 //--------------------------------------------------------------------------------- 
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-            string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal", "WeeklyTax", "WeeklyTaxSubTotal", "WeeklyExtendedWithTax", "WeeklyExtendedWithTaxSubTotal", 
+            string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal", "WeeklyTax", "WeeklyTaxSubTotal", "WeeklyExtendedWithTax", "WeeklyExtendedWithTaxSubTotal",
                                                  "AverageWeeklyExtended", "AverageWeeklyExtendedSubTotal",
                                                  "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal","MonthlyTax", "MonthlyTaxSubTotal", "MonthlyExtendedWithTax", "MonthlyExtendedWithTaxSubTotal",
                                                  "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal", "PeriodTax", "PeriodTaxSubTotal", "PeriodExtendedWithTax", "PeriodExtendedWithTaxSubTotal", };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2"}, includeGroupColumnValueInFooter: true, totalFor: "");
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
@@ -386,11 +386,66 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
-        public string SerialNumber{ get; set; }
+        public string SerialNumber { get; set; }
         //------------------------------------------------------------------------------------ 
 
     }
     //------------------------------------------------------------------------------------ 
+
+
+    public class OrderNoteReportLoader : AppReportLoader
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.Date)]
+        public string NoteDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notedesc", modeltype: FwDataTypes.Text)]
+        public string Description { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
+        public string Notes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public async Task<List<T>> LoadItems<T>(OrderReportRequest request)
+        {
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintnotes", this.AppConfig.DatabaseSettings.ReportTimeout))
+                {
+                    qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
+                    AddPropertiesAsQueryColumns(qry);
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                }
+                //--------------------------------------------------------------------------------- 
+            }
+            dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+
+            List<T> items = new List<T>();
+            foreach (List<object> row in dt.Rows)
+            {
+                T item = (T)Activator.CreateInstance(typeof(T));
+                PropertyInfo[] properties = item.GetType().GetProperties();
+                foreach (var property in properties)
+                {
+                    string fieldName = property.Name;
+                    int columnIndex = dt.GetColumnNo(fieldName);
+                    if (!columnIndex.Equals(-1))
+                    {
+                        object value = row[dt.GetColumnNo(fieldName)];
+                        property.SetValue(item, (value ?? "").ToString());
+                    }
+                }
+                items.Add(item);
+            }
+
+            return items;
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+
 
 
 
@@ -986,6 +1041,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         public List<OrderActivitySummaryLogic> ActivitySummary { get; set; } = new List<OrderActivitySummaryLogic>(new OrderActivitySummaryLogic[] { new OrderActivitySummaryLogic() });
         //------------------------------------------------------------------------------------ 
+        public List<OrderNoteReportLoader> Notes { get; set; } = new List<OrderNoteReportLoader>(new OrderNoteReportLoader[] { new OrderNoteReportLoader() });
+        //------------------------------------------------------------------------------------ 
+
 
 
 
@@ -1044,7 +1102,13 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     LossAndDamageItems.SetDependencies(AppConfig, UserSession);
                     taskLossAndDamageOrderItems = LossAndDamageItems.LoadItems<LossAndDamageOrderItemReportLoader>(request);
 
-                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskUsedSaleOrderItems, taskLossAndDamageOrderItems });
+                    //notes
+                    Task<List<OrderNoteReportLoader>> taskNotesOrderItems;
+                    OrderNoteReportLoader NotesItems = new OrderNoteReportLoader();
+                    NotesItems.SetDependencies(AppConfig, UserSession);
+                    taskNotesOrderItems = NotesItems.LoadItems<OrderNoteReportLoader>(request);
+
+                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskUsedSaleOrderItems, taskLossAndDamageOrderItems, taskNotesOrderItems });
 
                     Order = taskOrder.Result;
 
@@ -1057,7 +1121,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         Order.LaborItems = taskLaborOrderItems.Result;
                         Order.UsedSaleItems = taskUsedSaleOrderItems.Result;
                         Order.LossAndDamageItems = taskLossAndDamageOrderItems.Result;
-
+                        Order.Notes = taskNotesOrderItems.Result;
 
                         //activity dates and times
                         BrowseRequest activityDatesAndTimesRequest = new BrowseRequest();
