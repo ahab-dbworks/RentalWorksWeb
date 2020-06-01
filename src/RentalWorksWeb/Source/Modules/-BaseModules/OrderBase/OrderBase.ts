@@ -3937,7 +3937,7 @@ class OrderBase {
             }
             else if ($tab.hasClass('audittab') == false) {
                 const $gridControls = $form.find(`#${tabPageId} [data-type="Grid"]`);
-                if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
+                if ((($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) || ($tab.attr('data-hasSubGrid') === 'true') && $gridControls.length > 0) {
                     for (let i = 0; i < $gridControls.length; i++) {
                         try {
                             const $gridcontrol = jQuery($gridControls[i]);
