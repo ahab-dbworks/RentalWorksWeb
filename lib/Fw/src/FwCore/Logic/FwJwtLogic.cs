@@ -4,6 +4,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
@@ -148,5 +149,30 @@ namespace FwCore.Logic
             client.DefaultRequestHeaders.Clear();
             return new OkObjectResult(result);
         }
+        // --------------------------------------------------------------------------------
+        public class ServiceTokenOptions
+        {
+            public List<string> ControllerIds = new List<string>();
+            public DateTime? Expiration = DateTime.Now.AddMinutes(15);
+        }
+
+        public static async Task<string> GetServiceTokenAsync(FwApplicationConfig appConfig, ServiceTokenOptions serviceTokenOptions)
+        {
+            List<Claim> claims = new List<Claim>();
+            claims.Add(new Claim(AuthenticationClaimsTypes.Version, FwProgram.ServerVersion));
+            claims.Add(new Claim(AuthenticationClaimsTypes.TokenType, "REPORT"));
+
+            var jwt = new JwtSecurityToken(
+                    issuer: appConfig.JwtIssuerOptions.Issuer,
+                    audience: appConfig.JwtIssuerOptions.Audience,
+                    claims: claims,
+                    expires: serviceTokenOptions.Expiration,
+                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appConfig.JwtIssuerOptions.SecretKey)), SecurityAlgorithms.HmacSha256));
+
+            string serviceToken = new JwtSecurityTokenHandler().WriteToken(jwt);
+            await Task.CompletedTask;
+            return serviceToken;
+        }
+        // --------------------------------------------------------------------------------
     }
 }

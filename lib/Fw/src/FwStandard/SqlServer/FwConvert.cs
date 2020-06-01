@@ -344,8 +344,8 @@ namespace FwStandard.SqlServer
         //---------------------------------------------------------------------------------------------
         public static bool ToBoolean(string value)
         {
-            //bool isTrue = (value.ToUpper().Trim() == "T");
-            bool isTrue = ((value.ToUpper().Trim().Equals("T")) || (value.ToUpper().Trim().Equals("TRUE")));
+            string cleanedUpValue = value.ToUpper().Trim();
+            bool isTrue = cleanedUpValue.Equals("T") || cleanedUpValue.Equals("TRUE") || cleanedUpValue.Equals("Y");
 
             return isTrue;
         }

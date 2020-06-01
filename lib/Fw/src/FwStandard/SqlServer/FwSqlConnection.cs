@@ -14,6 +14,8 @@ namespace FwStandard.SqlServer
         private string databaseUser = string.Empty;
         private string databasePassword = string.Empty;
         private SqlTransaction activeTransaction;
+
+        public bool LogSql { get; set; } = true;
         //---------------------------------------------------------------------------------------------
         //public FwDatabases DatabaseConnection {get;private set;}
         //---------------------------------------------------------------------------------------------

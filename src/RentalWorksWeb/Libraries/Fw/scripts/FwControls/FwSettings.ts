@@ -668,7 +668,7 @@ class FwSettingsClass {
 
                 html.push(`      <small id="searchId" style="display:none;">${moduleName}</small>`);
                 if (description) {
-                    html.push(`      <small style="margin:0 0 0 32px;" id="description-text">${description}</small>`);
+                    html.push(`      <div style="margin:0 0 0 32px;font-size:.9em;" id="description-text">${description}</div>`);
                 }
 
                 html.push('    </div>');

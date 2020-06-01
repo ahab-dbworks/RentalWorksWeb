@@ -16,5 +16,7 @@ namespace FwStandard.AppManager
         public const string DealId = "dealid";
         public const string CampusId = "campusid";
         public const string Version = "version";
+        public const string TokenType = "tokentype";
+        public const string ControllerIdFilter = "controlleridfilter";
     }
 }

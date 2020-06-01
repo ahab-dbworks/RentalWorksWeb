@@ -1,4 +1,4 @@
-﻿class FwReportsPageClass {
+class FwReportsPageClass {
     filter = [];
     //----------------------------------------------------------------------------------------------
     init() {
@@ -139,11 +139,11 @@
         html.push('      </h4>');
         html.push('      </div>');
         if (description === "") {
-            html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + moduleName + '</small>');
+            html.push('      <div id="description" style="display:none;">' + moduleName + '</div>');
+            html.push('      <div style="margin:0 0 0 32px;font-size:.9em;" id="description-text">' + moduleName + '</div>');
         } else {
-            html.push('      <small id="description" style="display:none;">' + description + '</small>');
-            html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + description + '</small>');
+            html.push('      <div id="description" style="display:none;">' + description + '</div>');
+            html.push('      <div style="margin:0 0 0 32px;font-size:.9em;" id="description-text">' + description + '</div>');
         }
         html.push('    </div>');
         html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');

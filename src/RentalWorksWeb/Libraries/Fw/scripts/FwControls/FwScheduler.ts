@@ -678,7 +678,7 @@ class FwSchedulerClass {
 
                 // simulating slow server-side load
                 const date = ev.data.startdisplay;
-                args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Date: ${date.substring(0, date.length - 12)}</div>`; 
+                args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Date: ${date.substring(0, date.length - 12)}</div>`;
                 args.loaded();
 
             }
@@ -948,7 +948,7 @@ class FwSchedulerClass {
             throw 'ongetevents is not implemented.';
         }
     };
- 
+
     //---------------------------------------------------------------------------------
     loadEventsCallback($control, resources, events) {
         var dpcalendar, dp5week, dpmonth, dpscheduler, dpyear, start, end, request;

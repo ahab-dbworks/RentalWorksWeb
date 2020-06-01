@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
+using PuppeteerSharp;
 
 namespace FwCore.Controllers
 {
@@ -30,8 +31,8 @@ namespace FwCore.Controllers
         protected async Task<ActionResult<FwReportRenderResponse>> DoRender(FwReportRenderRequest request)
         {
             FwReportRenderResponse response = new FwReportRenderResponse();
-            string baseUrl = this.GetFullyQualifiedBaseUrl();
-            Console.WriteLine($"baseurl: {baseUrl}");
+            string apiUrl = this.GetFullyQualifiedBaseUrl();
+            Console.WriteLine($"apiUrl: {apiUrl}");
             string guid = Guid.NewGuid().ToString().Replace("-", string.Empty);
             //string baseFileName = $"{this.GetReportFileName()}{this.UserSession.WebUsersId}_{guid}";
             string reportFileName = this.GetReportFileName(request).Replace(" ", "_").Replace("/", "_").Replace("-", "_");
@@ -40,14 +41,14 @@ namespace FwCore.Controllers
             //string pathHtmlReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), htmlFileName);
             //string urlHtmlReport = $"{baseUrl}/Reports/{reportFileName}/index.html?nocache={Guid.NewGuid().ToString().Replace("-", "")}";
             string reportName = this.GetType().Name.Replace("Controller", "");
-            string urlHtmlReport = $"{baseUrl}/Reports/{reportName}/index.html?nocache={Guid.NewGuid().ToString().Replace("-", "")}";
-            Console.WriteLine($"urlHtmlReport: {urlHtmlReport}");
+            string reportUrl = $"{apiUrl}/Reports/{reportName}/index.html?nocache={Guid.NewGuid().ToString().Replace("-", "")}";
+            Console.WriteLine($"reportUrl: {reportUrl}");
             //string urlHtmlReport = $"{baseUrl}/temp/downloads/{htmlFileName}";
             string authorizationHeader = HttpContext.Request.Headers["Authorization"];
             response.renderMode = request.renderMode;
             if (request.renderMode == "Html")
             {
-                response.htmlReportUrl = urlHtmlReport;
+                response.htmlReportUrl = reportUrl;
             }
             else if (request.renderMode == "Pdf" || request.renderMode == "Email")
             {
@@ -69,8 +70,8 @@ namespace FwCore.Controllers
                 //string pathPdfReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), pdfFileName);
                 string pathPdfReport = Path.Combine(guidDownloadPath, pdfFileName);
                 //response.pdfReportUrl = $"{baseUrl}/temp/downloads/{pdfFileName}";
-                response.pdfReportUrl = $"{baseUrl}/temp/downloads/{guid}/{pdfFileName}";
-                response.consoleOutput = await FwReport.GeneratePdfFromUrlAsync(baseUrl, urlHtmlReport, pathPdfReport, authorizationHeader, request.parameters, GetPdfOptions());
+                response.pdfReportUrl = $"{apiUrl}/temp/downloads/{guid}/{pdfFileName}";
+                response.consoleOutput = await FwReport.GeneratePdfFromUrlAsync(apiUrl, reportUrl, pathPdfReport, authorizationHeader, request.parameters, GetPdfOptions());
 
                 if (request.renderMode == "Email")
                 {
@@ -109,6 +110,56 @@ namespace FwCore.Controllers
                             pdfPath: pathPdfReport,
                             appConfig: this.AppConfig);
                     }
+                }
+            }
+            else if (request.renderMode == "EmailImage")
+            {
+                if (String.IsNullOrEmpty(request.email.from)) this.ModelState.AddModelError("email.from", "E-mail From is required.");
+                if (String.IsNullOrEmpty(request.email.to)) this.ModelState.AddModelError("email.to", "E-mail To is required.");
+                if (this.ModelState.IsValid)
+                {
+                    if (request.email.from == "[me]")
+                    {
+                        using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                        {
+                            request.email.from = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
+                        }
+                    }
+                    if (request.email.to == "[me]")
+                    {
+                        using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                        {
+                            request.email.to = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
+                        }
+                    }
+                    if (request.email.subject == "[reportname]")
+                    {
+                        request.email.subject = GetReportFriendlyName();
+                    }
+                    string uniqueid = this.GetUniqueId(request);
+                    ViewPortOptions viewPortOptions = new ViewPortOptions();
+                    viewPortOptions.Width = request.emailImageOptions.Width;
+                    viewPortOptions.Height = request.emailImageOptions.Height;
+                    viewPortOptions.DeviceScaleFactor = 1;
+                    ScreenshotOptions screenshotOptions = new ScreenshotOptions();
+                    screenshotOptions.Type = ScreenshotType.Png;
+                    await FwReport.EmailImageAsync(
+                        apiUrl: apiUrl,
+                        reportUrl: reportUrl,
+                        authorizationHeader: authorizationHeader,
+                        parameters: request.parameters,
+                        fromusersid: this.UserSession.UsersId,
+                        uniqueid: uniqueid,
+                        title: GetReportFriendlyName(),
+                        from: request.email.from,
+                        to: request.email.to,
+                        cc: request.email.cc,
+                        subject: request.email.subject,
+                        bodyHeader: string.Empty,
+                        bodyFooter: request.email.body,
+                        appConfig: this.AppConfig,
+                        viewPortOptions: viewPortOptions,
+                        screenshotOptions: screenshotOptions);
                 }
             }
             if (!this.ModelState.IsValid) return new BadRequestObjectResult(this.ModelState);

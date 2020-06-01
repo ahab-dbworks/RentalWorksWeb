@@ -79,14 +79,24 @@ namespace Fw.Json.Services
             //    "n+ak9QzznrSmwtqxcKa2wdy0Ww==");
 
             //2018
+            //EO.Pdf.Runtime.AddLicense(
+            //    "op/mpPUM8560psLasXCmtsHctFuX9wYNxLHn7QMQ8nrrwbPcrmuus8PbsHGZ" + 
+            //    "pAcQ8azg8//ooW+ZpMDpjEOXpLHLu6zg6/8M867p6c8d0W6/8Nv256/QxfcN" + 
+            //    "+Gu7veYP1aa4wc7nrqzg6/8M867p6c+4iXWm8PoO5Kfq6c+4iXXj7fQQ7azc" + 
+            //    "wp61n1mXpM0X6Jzc8gQQyJ21usnisW+pusHbsXWm8PoO5Kfq6doPvUaBpLHL" + 
+            //    "n3Xj7fQQ7azc6c/nrqXg5/YZ8p7cwp61n1mXpM0M66Xm+8+4iVmXpLHLn1mX" + 
+            //    "wPIP41nr/QEQvFu807/745+ZpAcQ8azg8//ooWqvssHNn2i1kZvLn1mXwMAM" + 
+            //    "66Xm+8+4iVmXpLHn7qvb6QP07Q==");
+
+            //2020
             EO.Pdf.Runtime.AddLicense(
-                "op/mpPUM8560psLasXCmtsHctFuX9wYNxLHn7QMQ8nrrwbPcrmuus8PbsHGZ" + 
-                "pAcQ8azg8//ooW+ZpMDpjEOXpLHLu6zg6/8M867p6c8d0W6/8Nv256/QxfcN" + 
-                "+Gu7veYP1aa4wc7nrqzg6/8M867p6c+4iXWm8PoO5Kfq6c+4iXXj7fQQ7azc" + 
-                "wp61n1mXpM0X6Jzc8gQQyJ21usnisW+pusHbsXWm8PoO5Kfq6doPvUaBpLHL" + 
-                "n3Xj7fQQ7azc6c/nrqXg5/YZ8p7cwp61n1mXpM0M66Xm+8+4iVmXpLHLn1mX" + 
-                "wPIP41nr/QEQvFu807/745+ZpAcQ8azg8//ooWqvssHNn2i1kZvLn1mXwMAM" + 
-                "66Xm+8+4iVmXpLHn7qvb6QP07Q==");
+                "dKQHEPGs4PP/6KFrp7LBzZ9otZGby59Zl8DADOul5vvPuIlZl6Sx5+6r2+kD" +
+                "9O2f5qT1DPOetKbC2rFwprbB3LRbl/cGDcSx5+0DEPJ668Gz3K5rrrPD27Fq" +
+                "maQHEPGs4PP/6KFvmaTA6YxDl6Sxy7us4Ov/DPOu6enP9bCjwer13sKvrMbm" +
+                "+LKAq94K/eBq3sHO566s4Ov/DPOu6enPuIl1pvD6DuSn6unPuIl14+30EO2s" +
+                "3MKetZ9Zl6TNF+ic3PIEEMidtbrJ4rFvqbrB27F1pvD6DuSn6unaD71GgaSx" +
+                "y5914+30EO2s3OnP566l4Of2GfKe3MKetZ9Zl6TNDOul5vvPuIlZl6Sxy59Z" +
+                "l8DyD+NZ6/0BELxbvNO/++OfmQ==");
         }
         //---------------------------------------------------------------------------------------------
         abstract protected FwSqlConnection GetApplicationSqlConnection();

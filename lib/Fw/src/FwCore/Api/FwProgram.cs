@@ -7,6 +7,8 @@ namespace FwCore.Api
     public class FwProgram
     {
         public static string ServerVersion = "";
+        public static IWebHostBuilder HostBuilder { get; set; } = null;
+        public static IWebHost Host { get; set; } = null;
         //---------------------------------------------------------------------------------------------------------------------------
         public static IWebHostBuilder BuildWebHost(string[] args, Type startupType)
         {

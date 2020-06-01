@@ -100,7 +100,7 @@
             .html('<i class="material-icons">more_vert</i>')
             .appendTo($dropdownbutton)
             .on('click', function(e) {
-                e.stopPropagation();
+                //e.stopPropagation();
                 if ($dropdown.is(':visible')) {
                     $dropdown.removeClass('active');
                 } else {
@@ -127,7 +127,7 @@
                     let $item = jQuery('<div>')
                         .addClass('dropdown-item')
                         .appendTo($dropdown)
-                        .on('click', jQuery.proxy(option.action, me, $grid))
+                        .on('click', (e) => (option as GridMenuOption).action($grid, e))
 
                     let $caption = jQuery('<div>')
                         .addClass('dropdown-item-caption')
@@ -137,7 +137,7 @@
                     let $item = jQuery('<div>')
                         .addClass('dropdown-item')
                         .appendTo($dropdown)
-                        .on('click', jQuery.proxy(this._downloadExcelWorkbook, me, $grid))
+                        .on('click', (e) => this._downloadExcelWorkbook($grid))
 
                     let $caption = jQuery('<div>')
                         .addClass('dropdown-item-caption')
@@ -157,7 +157,7 @@
                 .addClass('grid-menu-button')
                 .html(button.caption)
                 .appendTo($menu)
-                .on('click', jQuery.proxy(button.action, this, $grid));
+                .on('click', (e) => button.action($grid, e));
 
             if (button.icon) {
                 jQuery(`<i class="material-icons left">${button.icon}</i>`).prependTo($button);
@@ -176,7 +176,7 @@
             .html(`${button.caption}<i class="material-icons right">arrow_drop_down</i>`)
             .appendTo($dropdownbutton)
             .on('click', function(e) {
-                e.stopPropagation();
+                //e.stopPropagation();
                 if ($dropdown.is(':visible')) {
                     $dropdown.removeClass('active');
                 } else {
@@ -212,7 +212,7 @@
                     let $item = jQuery('<div>')
                         .addClass('dropdown-item')
                         .appendTo($dropdown)
-                        .on('click', jQuery.proxy(item.action, me, $grid))
+                        .on('click', (e) => (item as GridMenuDropDownButtonItem).action($grid, e))
 
                     let $caption = jQuery('<div>')
                         .addClass('dropdown-item-caption')
@@ -240,7 +240,7 @@
             .html(`${filter.caption}<i class="material-icons right">arrow_drop_down</i>`)
             .appendTo($filter)
             .on('click', function(e) {
-                e.stopPropagation();
+                //e.stopPropagation();
                 if ($dropdown.is(':visible')) {
                     $dropdown.removeClass('active');
                 } else {
@@ -402,6 +402,34 @@
             }
         }
 
+        if (options.selectable === 'checkbox') {
+            let $col = jQuery('<col>')
+                .css('width', '52px')
+                .appendTo($colgroup);
+
+            let $column = jQuery(`<th>`)
+                .addClass('header')
+                .attr('style', 'text-align:center;')
+                .appendTo($tr);
+
+            let $toggleallcheckbox = jQuery('<input>')
+                .attr('type', 'checkbox')
+                .attr('aria-label', 'Select all rows')
+                .addClass('fw-checkbox toggleall-select')
+                .appendTo($column)
+                .on('change', function(e) {
+                    let $trs = $grid.find('.grid-content tbody tr');
+                    for (let tr of $trs) {
+                        let $tr = jQuery(tr);
+                        $tr.find('input.row-select').prop('checked', (jQuery(e.currentTarget).is(':checked') === true)).change();
+                    }
+                });
+
+            if (options.filterable !== false) {
+                me._addColumnFilter($grid, options.filterable, $trfilter, $column, null, false);
+            }
+        }
+
         for (let column of options.columns) {
             if (!column.hidden) {
                 let $col = jQuery('<col>')
@@ -419,7 +447,7 @@
 
                 if (column.sort !== false) {
                     $column.addClass('sortable');
-                    $column.on('click', jQuery.proxy(me._columnHeaderClick, me, $grid));
+                    $column.on('click', (e) => me._columnHeaderClick($grid, e));
                     if (typeof column.sort === 'string') {
                         me._setSort($grid, $column, column.sort);
                     }
@@ -481,7 +509,7 @@
                 .html('<i class="material-icons">filter_list</i>')
                 .appendTo($column)
                 .on('click', function(e) {
-                    e.stopPropagation();
+                    //e.stopPropagation();
                     if ($filterdropdown.is(':visible')) {
                         $filter.removeClass('active');
                     } else {
@@ -618,6 +646,12 @@
             .attr('role', 'rowgroup')
             .appendTo($table);
 
+        if (options.selectable === 'checkbox') {
+            let $col = jQuery('<col>')
+                .css('width', '52px')
+                .appendTo($colgroup);
+        }
+
         for (let column of options.columns) {
             if (!column.hidden) {
                 let $col = jQuery('<col>')
@@ -629,28 +663,50 @@
             }
         }
 
-        if (options.selectable) {
-            $table.on('click', 'tr', jQuery.proxy(me._select, me, $grid));
-        }
-        $table.on('keydown', 'tr', jQuery.proxy(me._keydown, me, $grid));
-        $table.on('click', 'tr', jQuery.proxy(me._singleclick, me, $grid));
-        $table.on('dblclick', 'tr', jQuery.proxy(me._doubleclick, me, $grid));
+        $table.on('keydown',  'tr', (e) => me._keydown($grid, e));
+        $table.on('click',    'tr', (e) => me._singleclick($grid, e));
+        $table.on('dblclick', 'tr', (e) => me._doubleclick($grid, e));
     }
     //---------------------------------------------------------------------------------
-    private _select($grid: JQuery, e: JQuery.ClickEvent) {
-        var $target: JQuery      = jQuery(e.currentTarget);
+    //private _select($grid: JQuery, e: JQuery.ClickEvent) {
+    //    var $target: JQuery      = jQuery(e.currentTarget);
+    //    var options: GridOptions = $grid.data('options');
+    //
+    //    if ((options.selectable !== 'multiple') || (options.selectable == 'multiple') && (!e.ctrlKey)) {
+    //        $target.siblings().removeClass('state-selected');
+    //    }
+    //
+    //    $target.addClass('state-selected');
+    //}
+    //---------------------------------------------------------------------------------
+    private _select($grid: JQuery, $tr: JQuery, ctrlKey?: boolean) {
         var options: GridOptions = $grid.data('options');
 
-        if ((options.selectable !== 'multiple') || (options.selectable == 'multiple') && (!e.ctrlKey)) {
-            $target.siblings().removeClass('state-selected');
+        if (options.selectable) {
+            if (options.selectable === true) {
+                $tr.siblings().removeClass('state-selected');
+                $tr.addClass('state-selected');
+            } else if (options.selectable === 'multiple') {
+                if (!ctrlKey) {
+                    $tr.siblings().removeClass('state-selected');
+                }
+                $tr.addClass('state-selected');
+            } else if (options.selectable === 'checkbox') {
+                let $checkbox = $tr.find('.fw-checkbox.row-select');
+                if ($checkbox.is(':checked') === true) {
+                    $tr.addClass('state-selected');
+                } else {
+                    $tr.removeClass('state-selected');
+                }
+            }
         }
-
-        $target.addClass('state-selected');
     }
     //---------------------------------------------------------------------------------
     private _singleclick($grid: JQuery, e: JQuery.ClickEvent) {
         var $target: JQuery      = jQuery(e.currentTarget);
         var options: GridOptions = $grid.data('options');
+
+        this._select($grid, $target, e.ctrlKey);
 
         if (options.singleclick) {
             options.singleclick($grid, e);
@@ -673,7 +729,7 @@
 
         switch (keycode) {
             case FwFunc.keys.ENTER:
-                //this._handleEnerKey($grid, e)
+                //this._handleEnterKey($grid, e)
                 break;
             case FwFunc.keys.LEFT:
                 
@@ -704,7 +760,7 @@
                 .attr({'aria-label': pager.messages.refresh, 'title': pager.messages.refresh})
                 .html('<i class="material-icons">refresh</i>')
                 .appendTo($pager)
-                .on('click', jQuery.proxy(me._refreshClick, me, $grid));
+                .on('click', (e) => me._refreshClick($grid, e));
         }
 
         let $info = jQuery('<div>')
@@ -722,7 +778,7 @@
             .addClass('pager-control')
             .html(pagercontrol)
             .appendTo($pager)
-            .on('click', '.pager-nav, .pager-page', jQuery.proxy(me._pageChange, me, $grid));
+            .on('click', '.pager-nav, .pager-page', (e) => me._pageChange($grid, e));
         me._pageNumber($grid, 1);
 
         if (pager.pagesizes) {
@@ -733,7 +789,7 @@
             let $select = jQuery('<select>')
                 .html(pageSizeOptions.join(''))
                 .val(pager.pagesize)
-                .on('change', jQuery.proxy(me._pageSizeChange, me, $grid));
+                .on('change', (e) => me._pageSizeChange($grid, e));
 
             let $sizeselector = jQuery('<div>')
                 .addClass('pager-sizes')
@@ -800,7 +856,7 @@
 
         return new Promise<any>(async (resolve, reject) => {
             let request = me._getRequest($grid);
-            FwServices.module.method(request, request.module, options.datasource, $grid, function (response) {
+            FwServices.module.method(request, request.module, `${options.datasource === request.module.toLowerCase() ? '' : options.datasource + '/'}browse`, $grid, function (response) {
                 try {
                     me._databindCallback($grid, request, response);
                     resolve();
@@ -830,6 +886,23 @@
                 .attr('data-rowid', row[response.ColumnIndex[options.rowid]])
                 .appendTo($tbody);
 
+            if (options.selectable === 'checkbox') {
+                let $column = jQuery(`<td>`)
+                    .attr('role', 'gridcell')
+                    .attr('style', 'text-align:center;')
+                    .appendTo($row);
+
+                let $checkbox = jQuery('<input>')
+                    .attr('type', 'checkbox')
+                    .attr('aria-label', 'Select row')
+                    .addClass('fw-checkbox row-select')
+                    .appendTo($column)
+                    .on('change', (e) => {
+                        let $tr = jQuery(e.currentTarget).parents('tr');
+                        this._select($grid, $tr);
+                    });
+            }
+
             for (let column of options.columns) {
                 if (!column.hidden) {
                     let $column = jQuery('<td>')
@@ -856,6 +929,9 @@
             }
             $row.data('recorddata', rowdata);
             //--------------------------------------------------------
+            if ((typeof response.ColumnIndex['Inactive'] === 'number') && (row[response.ColumnIndex['Inactive']] === true)) {
+                $row.addClass('inactive');
+            }
         }
 
         if (options.pager !== false) {
@@ -906,6 +982,11 @@
             .css({'background-color': backgroundcolor, 'color': color})
             .html(htmlvalue)
             .appendTo($column);
+    }
+    //---------------------------------------------------------------------------------
+    applyFilter($grid: JQuery) {
+        this._pageNumber($grid, 1);
+        this.databind($grid);
     }
     //---------------------------------------------------------------------------------
     private _getRequest($grid: JQuery): BrowseRequest {
@@ -1005,7 +1086,7 @@
                 request.IncludeIdColumns    = (FwFormField.getValue($confirmation, 'div[data-datafield="showidcolumns"]')      === 'T') ? true : false;
                 request.IncludeColorColumns = (FwFormField.getValue($confirmation, 'div[data-datafield="showcolorcolumns"]')   === 'T') ? true : false;
 
-                FwServices.module.method(request, request.module, 'exportexcelxlsx', $grid, function (response) {
+                FwServices.module.method(request, request.module, `${options.datasource === request.module.toLowerCase() ? '' : options.datasource + '/'}exportexcelxlsx`, $grid, function (response) {
                     try {
                         const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
                         jQuery('#application').append($iframe);
@@ -1036,7 +1117,7 @@ interface GridOptions {
     pager?: boolean|GridPager;
     editable?: boolean|GridEditable;
     rowid?: string;
-    selectable?: boolean|string;
+    selectable?: boolean|'multiple'|'checkbox'; //string;
     menu?: boolean|GridMenu;
     filterable?: boolean|GridFilterable;
     filter?:($grid: JQuery) => Object;
@@ -1047,7 +1128,7 @@ interface GridOptions {
 }
 
 interface GridFilterable {
-    mode?: 'row'|'menu';
+    mode: 'row'|'menu';
 }
 
 interface GridColumn {
@@ -1062,7 +1143,7 @@ interface GridColumn {
 }
 
 interface GridColumnFilterable {
-    datatype?: string;
+    datatype: string;
 }
 
 interface GridTag {

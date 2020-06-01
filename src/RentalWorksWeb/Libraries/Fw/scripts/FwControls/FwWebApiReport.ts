@@ -70,9 +70,15 @@ abstract class FwWebApiReport {
         const urlHtmlReport = `${applicationConfig.apiurl}Reports/${this.reportName}/index.html`;
         const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
         const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
-        let companyName;
-        if (JSON.parse(sessionStorage.getItem('controldefaults')).companyname != null) {
-            companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
+        let companyName = '';
+        if (sessionStorage.getItem('controldefaults') !== null) {
+            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+            if (typeof controlDefaults !== 'undefined' && typeof controlDefaults.companyname === 'string') {
+                companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
+            }
+        }
+        if (companyName === '' && sessionStorage.getItem('clientCode') !== null) {
+            companyName = sessionStorage.getItem('clientCode');   
         }
 
         // Preview Button

@@ -27,10 +27,7 @@ namespace FwStandard.SqlServer
         private bool eof;
         private List<FwJsonDataTableColumn> columns;
         private FwFields fields;
-        private StringBuilder sql;
         private FwSqlLogEntry sqlLogEntry;
-        //------------------------------------------------------------------------------------
-        public string Sql { get { return sql.ToString(); } }
         //------------------------------------------------------------------------------------
         public int RowCount { get; private set; }
         public int PageNo { get; set; } = 0;
@@ -38,6 +35,7 @@ namespace FwStandard.SqlServer
         public List<string> FieldNames { get { return new List<string>(fields.Keys); } }
         public SqlParameterCollection Parameters { get { return this.sqlCommand.Parameters; } }
         public SqlTransaction Transaction { get { return this.sqlCommand.Transaction; } set { this.sqlCommand.Transaction = value; } }
+        public bool LogSql = true;
         public string QryTextDebug
         {
             get
@@ -463,305 +461,305 @@ namespace FwStandard.SqlServer
             this.columns.Add(column);
         }
         //------------------------------------------------------------------------------------
-        private void LogSql()
-        {
-            bool hasFirstDeclareParameter = false, hasFirstExecParameter = false, hasFirstSelectParameter = false;
-            int maxParameterWidth = 0;
+        //private void LogSql()
+        //{
+        //    bool hasFirstDeclareParameter = false, hasFirstExecParameter = false, hasFirstSelectParameter = false;
+        //    int maxParameterWidth = 0;
 
-            sql = new StringBuilder();
-            if (this.sqlCommand.Parameters.Count > 0)
-            {
-                sql.Append("declare\r\n  ");
-                for (int i = 0; i < this.sqlCommand.Parameters.Count; i++)
-                {
-                    if (sqlCommand.Parameters[i].ParameterName.Length > maxParameterWidth)
-                    {
-                        maxParameterWidth = sqlCommand.Parameters[i].ParameterName.Length;
-                    }
-                }
-                for (int i = 0; i < this.sqlCommand.Parameters.Count; i++)
-                {
-                    if (!hasFirstDeclareParameter)
-                    {
-                        hasFirstDeclareParameter = true;
-                    }
-                    else
-                    {
-                        if (i > 0)
-                        {
-                            sql.Append("\r\n, ");
-                        }
-                    }
-                    sql.Append(this.sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
-                    sql.Append(" ");
-                    switch (this.sqlCommand.Parameters[i].SqlDbType)
-                    {
-                        case SqlDbType.BigInt:
-                            sql.Append("bigint");
-                            if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Binary:
-                            sql.Append("binary(8000)");
-                            if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Bit:
-                            sql.Append("bit");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Char:
-                            sql.Append("char(8000)");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.Date:
-                            sql.Append("date");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.DateTime:
-                            sql.Append("datetime");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.DateTime2:
-                            sql.Append("datetime2");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.DateTimeOffset:
-                            sql.Append("datetimeoffset");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.Decimal:
-                            sql.Append("decimal(16,4)");
-                            if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Float:
-                            sql.Append("float");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Image:
-                            sql.Append("image");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.Int:
-                            sql.Append("int");
-                            if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Money:
-                            sql.Append("money");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.NChar:
-                            sql.Append("nchar(8000)");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.NText:
-                            sql.Append("ntext");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.NVarChar:
-                            sql.Append("nvarchar(max)");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.Real:
-                            sql.Append("real");
-                            if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.SmallDateTime:
-                            sql.Append("smalldatetime");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.SmallInt:
-                            sql.Append("smallint");
-                            if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.SmallMoney:
-                            sql.Append("smallmoney");
-                            if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Structured:
-                            sql.Append("structured");
-                            if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Time:
-                            sql.Append("time");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.Timestamp:
-                            sql.Append("timestamp");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.TinyInt:
-                            sql.Append("tinyint");
-                            if (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString()))
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Udt:
-                            sql.Append("udt");
-                            if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.UniqueIdentifier:
-                            sql.Append("uniqueidentifier");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.VarBinary:
-                            sql.Append("varbinary(max)");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Text:
-                        case SqlDbType.VarChar:
-                            sql.Append("varchar(max)");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
-                        case SqlDbType.Variant:
-                            sql.Append("sql_variant");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
-                            }
-                            break;
-                        case SqlDbType.Xml:
-                            sql.Append("xml");
-                            if (this.sqlCommand.Parameters[i].Value != null)
-                            {
-                                sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
-                            }
-                            break;
+        //    sql = new StringBuilder();
+        //    if (this.sqlCommand.Parameters.Count > 0)
+        //    {
+        //        sql.Append("declare\r\n  ");
+        //        for (int i = 0; i < this.sqlCommand.Parameters.Count; i++)
+        //        {
+        //            if (sqlCommand.Parameters[i].ParameterName.Length > maxParameterWidth)
+        //            {
+        //                maxParameterWidth = sqlCommand.Parameters[i].ParameterName.Length;
+        //            }
+        //        }
+        //        for (int i = 0; i < this.sqlCommand.Parameters.Count; i++)
+        //        {
+        //            if (!hasFirstDeclareParameter)
+        //            {
+        //                hasFirstDeclareParameter = true;
+        //            }
+        //            else
+        //            {
+        //                if (i > 0)
+        //                {
+        //                    sql.Append("\r\n, ");
+        //                }
+        //            }
+        //            sql.Append(this.sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
+        //            sql.Append(" ");
+        //            switch (this.sqlCommand.Parameters[i].SqlDbType)
+        //            {
+        //                case SqlDbType.BigInt:
+        //                    sql.Append("bigint");
+        //                    if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Binary:
+        //                    sql.Append("binary(8000)");
+        //                    if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Bit:
+        //                    sql.Append("bit");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Char:
+        //                    sql.Append("char(8000)");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.Date:
+        //                    sql.Append("date");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.DateTime:
+        //                    sql.Append("datetime");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.DateTime2:
+        //                    sql.Append("datetime2");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.DateTimeOffset:
+        //                    sql.Append("datetimeoffset");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.Decimal:
+        //                    sql.Append("decimal(16,4)");
+        //                    if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Float:
+        //                    sql.Append("float");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Image:
+        //                    sql.Append("image");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.Int:
+        //                    sql.Append("int");
+        //                    if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Money:
+        //                    sql.Append("money");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.NChar:
+        //                    sql.Append("nchar(8000)");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.NText:
+        //                    sql.Append("ntext");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.NVarChar:
+        //                    sql.Append("nvarchar(max)");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.Real:
+        //                    sql.Append("real");
+        //                    if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.SmallDateTime:
+        //                    sql.Append("smalldatetime");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.SmallInt:
+        //                    sql.Append("smallint");
+        //                    if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.SmallMoney:
+        //                    sql.Append("smallmoney");
+        //                    if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Structured:
+        //                    sql.Append("structured");
+        //                    if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Time:
+        //                    sql.Append("time");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.Timestamp:
+        //                    sql.Append("timestamp");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.TinyInt:
+        //                    sql.Append("tinyint");
+        //                    if (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString()))
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Udt:
+        //                    sql.Append("udt");
+        //                    if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.UniqueIdentifier:
+        //                    sql.Append("uniqueidentifier");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.VarBinary:
+        //                    sql.Append("varbinary(max)");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Text:
+        //                case SqlDbType.VarChar:
+        //                    sql.Append("varchar(max)");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
+        //                case SqlDbType.Variant:
+        //                    sql.Append("sql_variant");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
+        //                    }
+        //                    break;
+        //                case SqlDbType.Xml:
+        //                    sql.Append("xml");
+        //                    if (this.sqlCommand.Parameters[i].Value != null)
+        //                    {
+        //                        sql.Append(" = '" + this.sqlCommand.Parameters[i].Value.ToString() + "'");
+        //                    }
+        //                    break;
 
 
-                    }
-                }
-            }
-            if (sqlCommand.CommandType == CommandType.Text)
-            {
-                sql.Append("\r\n\r\n" + qryText);
-            }
-            else if (sqlCommand.CommandType == CommandType.StoredProcedure)
-            {
-                sql.Append("\r\n\r\nexec " + qryText + "\r\n  ");
-                for (int i = 0; i < sqlCommand.Parameters.Count; i++)
-                {
-                    if (!hasFirstExecParameter)
-                    {
-                        hasFirstExecParameter = true;
-                    }
-                    else
-                    {
-                        if (i > 0)
-                        {
-                            sql.Append("\r\n, ");
-                        }
-                    }
-                    sql.Append(this.sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' ') + " = " + sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
-                    if ((sqlCommand.Parameters[i].Direction == ParameterDirection.InputOutput) || (sqlCommand.Parameters[i].Direction == ParameterDirection.Output))
-                    {
-                        sql.Append(" output");
-                    }
-                }
-                if (sqlCommand.Parameters.Count > 0)
-                {
-                    sql.Append("\r\n\r\nselect\r\n  ");
-                    for (int i = 0; i < sqlCommand.Parameters.Count; i++)
-                    {
-                        if ((sqlCommand.Parameters[i].Direction == ParameterDirection.InputOutput) || (sqlCommand.Parameters[i].Direction == ParameterDirection.Output))
-                        {
-                            if (!hasFirstSelectParameter)
-                            {
-                                hasFirstSelectParameter = true;
-                            }
-                            else
-                            {
-                                if (i > 0)
-                                {
-                                    sql.Append("\r\n, ");
-                                }
-                            }
-                            sql.Append(this.sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth - 2, ' ').Replace("@", string.Empty) + " = " + sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' ') + " --" + sqlCommand.Parameters[i].Direction.ToString());
-                        }
-                    }
-                }
-            }
-        }
+        //            }
+        //        }
+        //    }
+        //    if (sqlCommand.CommandType == CommandType.Text)
+        //    {
+        //        sql.Append("\r\n\r\n" + qryText);
+        //    }
+        //    else if (sqlCommand.CommandType == CommandType.StoredProcedure)
+        //    {
+        //        sql.Append("\r\n\r\nexec " + qryText + "\r\n  ");
+        //        for (int i = 0; i < sqlCommand.Parameters.Count; i++)
+        //        {
+        //            if (!hasFirstExecParameter)
+        //            {
+        //                hasFirstExecParameter = true;
+        //            }
+        //            else
+        //            {
+        //                if (i > 0)
+        //                {
+        //                    sql.Append("\r\n, ");
+        //                }
+        //            }
+        //            sql.Append(this.sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' ') + " = " + sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
+        //            if ((sqlCommand.Parameters[i].Direction == ParameterDirection.InputOutput) || (sqlCommand.Parameters[i].Direction == ParameterDirection.Output))
+        //            {
+        //                sql.Append(" output");
+        //            }
+        //        }
+        //        if (sqlCommand.Parameters.Count > 0)
+        //        {
+        //            sql.Append("\r\n\r\nselect\r\n  ");
+        //            for (int i = 0; i < sqlCommand.Parameters.Count; i++)
+        //            {
+        //                if ((sqlCommand.Parameters[i].Direction == ParameterDirection.InputOutput) || (sqlCommand.Parameters[i].Direction == ParameterDirection.Output))
+        //                {
+        //                    if (!hasFirstSelectParameter)
+        //                    {
+        //                        hasFirstSelectParameter = true;
+        //                    }
+        //                    else
+        //                    {
+        //                        if (i > 0)
+        //                        {
+        //                            sql.Append("\r\n, ");
+        //                        }
+        //                    }
+        //                    sql.Append(this.sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth - 2, ' ').Replace("@", string.Empty) + " = " + sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' ') + " --" + sqlCommand.Parameters[i].Direction.ToString());
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         //------------------------------------------------------------------------------------
         public async Task<int> ExecuteNonQueryAsync()
         {
@@ -782,8 +780,11 @@ namespace FwStandard.SqlServer
                 }
                 this.sqlCommand.CommandText = this.qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
             }
             catch (SqlException ex)
@@ -799,7 +800,10 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
                 if (closeConnection)
                 {
                     this.sqlConnection.Close();
@@ -844,13 +848,19 @@ namespace FwStandard.SqlServer
                 }
                 this.sqlCommand.CommandText = "insert into " + tablename + "(" + insertColumnsNames + ")\nvalues (" + insertParameterNames + ")";
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
                 if (closeConnection)
                 {
                     this.sqlConnection.Close();
@@ -902,13 +912,19 @@ namespace FwStandard.SqlServer
                 AddParameter("@primarykeyvalue", primarykeyvalue);
                 this.sqlCommand.CommandText = qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
 
                 if (closeConnection)
                 {
@@ -939,14 +955,20 @@ namespace FwStandard.SqlServer
                 }
                 this.sqlCommand.CommandText = this.qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
                 reader = await this.sqlCommand.ExecuteReaderAsync();
                 this.RowCount = reader.RecordsAffected;
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
 
                 if (closeConnection)
                 {
@@ -1133,8 +1155,11 @@ namespace FwStandard.SqlServer
                 dt.PageNo = pageNo;
                 dt.PageSize = pageSize;
 
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
 
                 closeConnection = (!this.sqlConnection.IsOpen());
                 if (closeConnection)
@@ -1144,7 +1169,10 @@ namespace FwStandard.SqlServer
 
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
-                    this.sqlLogEntry.WriteToConsole("opened", true);
+                    if (this.sqlConnection.LogSql && this.LogSql)
+                    {
+                        this.sqlLogEntry.WriteToConsole("opened", true);
+                    }
                     if (!includeAllColumns)
                     {
                         dt.Columns = columns;
@@ -1295,7 +1323,10 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
 
                 if (closeConnection)
                 {
@@ -1616,14 +1647,20 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 if (this.sqlCommand.CommandType == CommandType.StoredProcedure)
                 {
-                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                    this.sqlLogEntry.Start();
+                    if (this.sqlConnection.LogSql && this.LogSql)
+                    {
+                        this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                        this.sqlLogEntry.Start();
+                    }
                     this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 }
                 else
                 {
-                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                    this.sqlLogEntry.Start();
+                    if (this.sqlConnection.LogSql && this.LogSql)
+                    {
+                        this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                        this.sqlLogEntry.Start();
+                    }
                     using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                     {
                         this.eof = (!reader.HasRows);
@@ -1641,7 +1678,10 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
                 if (closeConnection)
                 {
                     this.sqlCommand.Connection.Close();
@@ -1680,8 +1720,11 @@ namespace FwStandard.SqlServer
                     await this.sqlCommand.Connection.OpenAsync();
                 }
 
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
 
 
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
@@ -1769,7 +1812,10 @@ namespace FwStandard.SqlServer
                     this.sqlCommand.Connection.Close();
                 }
                 //FwFunc.WriteLog("End FwSqlCommand:QueryToDynamicList()");
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
             }
 
             return rows;
@@ -1805,8 +1851,11 @@ namespace FwStandard.SqlServer
                     await this.sqlCommand.Connection.OpenAsync();
                 }
 
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
 
 
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
@@ -1884,7 +1933,10 @@ namespace FwStandard.SqlServer
                     this.sqlCommand.Connection.Close();
                 }
                 //FwFunc.WriteLog("End FwSqlCommand:QueryToDynamicList()");
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
             }
 
             return rows;
@@ -2125,8 +2177,11 @@ namespace FwStandard.SqlServer
             try
             {
                 this.RowCount = 0;
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
                     for (int fieldno = 0; fieldno < reader.FieldCount; fieldno++)
@@ -2191,7 +2246,10 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
             }
 
             if (openAndCloseConnection)
@@ -2241,8 +2299,11 @@ namespace FwStandard.SqlServer
             try
             {
                 this.RowCount = 0;
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
                     for (int fieldno = 0; fieldno < reader.FieldCount; fieldno++)
@@ -2322,7 +2383,10 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
             }
 
             if (openAndCloseConnection)
@@ -2541,8 +2605,11 @@ namespace FwStandard.SqlServer
                     this.sqlCommand.CommandText += "\nset @" + identityProperty.Name + " = scope_identity()";
                 }
 
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
 
                 //jh 02/19/2019 - need to capture the identity value here and update the property on this object
@@ -2558,7 +2625,10 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
                 if (openAndCloseConnection)
                 {
                     this.sqlConnection.Close();
@@ -2695,13 +2765,19 @@ namespace FwStandard.SqlServer
                 sql.Append(" where ");
                 sql.Append(whereClause);
                 this.sqlCommand.CommandText = sql.ToString();
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
                 if (openAndCloseConnection)
                 {
                     this.sqlConnection.Close();
@@ -2764,13 +2840,19 @@ namespace FwStandard.SqlServer
                 sql.AppendLine("where");
                 sql.Append(whereClause);
                 this.sqlCommand.CommandText = sql.ToString();
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-                this.sqlLogEntry.Start();
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                    this.sqlLogEntry.Start();
+                }
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
             }
             finally
             {
-                this.sqlLogEntry.Stop(this.RowCount);
+                if (this.sqlConnection.LogSql && this.LogSql)
+                {
+                    this.sqlLogEntry.Stop(this.RowCount);
+                }
                 if (openAndCloseConnection)
                 {
                     this.sqlConnection.Close();

@@ -64,6 +64,8 @@ html.theme-material .fw-grid .grid-content table {table-layout:fixed;}
 html.theme-material .fw-grid .grid-content table tr {}
 html.theme-material .fw-grid .grid-content table tr:hover {background-color:rgba(0,0,0,.07);}
 html.theme-material .fw-grid .grid-content table tr.state-selected {background-color:#42A5F5;}
+html.theme-material .fw-grid .grid-content table tr.inactive {color:#9e9e9e;}
+html.theme-material .fw-grid .grid-content table tr.inactive.state-selected {color:#fafafa;background-color: #64B5F6;}
 html.theme-material .fw-grid .grid-content table tr td {overflow: hidden;padding:6px;vertical-align: middle;text-overflow: ellipsis;border-style:solid;border-width:0 0 1px 1px;border-color: rgba(0,0,0,0.16);border-left-color: transparent;}
 html.theme-material .fw-grid .grid-content table tr td:first-child {border-left-width:0;}
 html.theme-material .fw-grid .grid-content table tr:last-of-type td {border-bottom: 0;}

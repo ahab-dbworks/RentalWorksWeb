@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -47,6 +48,39 @@ namespace FwCore.AppManager
                     {
                         context.Result = new UnauthorizedResult();
                         return Task.CompletedTask;
+                    }
+                    var hasTokenTypeClaim = context.HttpContext.User.Claims.Any(c => c.Type == AuthenticationClaimsTypes.TokenType && !string.IsNullOrEmpty(c.Value));
+                    if (hasTokenTypeClaim)
+                    {
+                        var tokenType = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.TokenType).Value;
+                        if (tokenType == "REPORT")
+                        {
+                            var controllerAttributes = (FwControllerAttribute[])controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(FwControllerAttribute), false);
+                            if (controllerAttributes.Length == 0)
+                            {
+                                // reject the request, because the [FwController] attribute is missing from the Controller
+                                context.Result = new ForbidResult();
+                                return Task.CompletedTask;
+                            }
+                            var controllerAttribute = controllerAttributes[0];
+                            var hasControllerIdFilterClaim = context.HttpContext.User.Claims.Any(c => c.Type == AuthenticationClaimsTypes.ControllerIdFilter && !string.IsNullOrEmpty(c.Value));
+                            if (hasControllerIdFilterClaim)
+                            {
+                                var controllerIdFilter = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.ControllerIdFilter).Value;
+                                List<string> controllerIds = new List<string>(controllerIdFilter.Split(",", StringSplitOptions.RemoveEmptyEntries));
+                                if (!controllerIds.Contains(controllerAttribute.Id))
+                                {
+                                    context.Result = new ForbidResult();
+                                }
+                                return Task.CompletedTask;
+                            }
+                            
+                            //if (hasTokenTypeClaim && tokenType == "REPORT")
+                            //{
+
+                            //    if (controllerAttribute.Id)
+                            return Task.CompletedTask;
+                        }
                     }
                     var hasWebUsersIdClaim = context.HttpContext.User.Claims.Any(c => c.Type == AuthenticationClaimsTypes.WebUsersId && !string.IsNullOrEmpty(c.Value));
                     if (!hasWebUsersIdClaim)

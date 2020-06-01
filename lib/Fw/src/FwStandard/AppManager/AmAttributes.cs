@@ -70,10 +70,11 @@ namespace FwStandard.AppManager
         public readonly bool IsPrimaryKeyOptional;
         public readonly bool IsNotAudited;
         public readonly bool IsAuditMasked;
+        public readonly bool AuditNoSave;
         public readonly bool DisableDirectAssign;  // for New 
         public readonly bool DisableDirectModify;  // for Editing 
         //---------------------------------------------------------------------------------------------------------------------------
-        public FwLogicPropertyAttribute(string Id, bool IsPrimaryKey = false, bool IsRecordTitle = false, bool IsReadOnly = false, bool IsPrimaryKeyOptional = false, bool IsNotAudited = false, bool IsAuditMasked = false, bool DisableDirectAssign = false, bool DisableDirectModify = false)
+        public FwLogicPropertyAttribute(string Id, bool IsPrimaryKey = false, bool IsRecordTitle = false, bool IsReadOnly = false, bool IsPrimaryKeyOptional = false, bool IsNotAudited = false, bool IsAuditMasked = false, bool AuditNoSave = false, bool DisableDirectAssign = false, bool DisableDirectModify = false)
         {
             this.Id = Id;
             this.IsPrimaryKey         = IsPrimaryKey;
@@ -82,6 +83,7 @@ namespace FwStandard.AppManager
             this.IsPrimaryKeyOptional = IsPrimaryKeyOptional;
             this.IsNotAudited         = IsNotAudited;
             this.IsAuditMasked        = IsAuditMasked;
+            this.AuditNoSave          = AuditNoSave;
             this.DisableDirectAssign  = DisableDirectAssign;
             this.DisableDirectModify  = DisableDirectModify;
         }
