@@ -2635,6 +2635,9 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
                         if (invHasHourlyAvail && !includeHours)  // need to look at each hour individually and figure out min/max for the Date
                         {
+
+                            List<TInventoryWarehouseAvailabilityReservation> reservations = new List<TInventoryWarehouseAvailabilityReservation>();
+
                             int hour = 0;
                             while (hour < 24)
                             {
@@ -2702,9 +2705,32 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                         returning.qty = Math.Max(returning.qty.GetValueOrDefault(inventoryWarehouseAvailabilityDateTime.Returning.OwnedAndConsigned), inventoryWarehouseAvailabilityDateTime.Returning.OwnedAndConsigned);
                                     }
 
+
+
+                                    foreach (TInventoryWarehouseAvailabilityReservation res in inventoryWarehouseAvailabilityDateTime.Reservations)
+                                    {
+                                        bool alreadyAdded = false;
+                                        foreach (TInventoryWarehouseAvailabilityReservation resCheck in reservations)
+                                        {
+                                            if (resCheck.OrderItemId.Equals(res.OrderItemId))
+                                            {
+                                                alreadyAdded = true;
+                                            }
+                                        }
+
+                                        if (!alreadyAdded)
+                                        {
+                                            TInventoryWarehouseAvailabilityReservation resCopy = new TInventoryWarehouseAvailabilityReservation();
+                                            resCopy.CloneFrom(res);
+                                            reservations.Add(resCopy);
+                                        }
+                                    }
                                 }
                                 hour++;
                             }
+
+                            response.Dates.Add(new TInventoryAvailabilityCalendarDate(theDateTime, reservations));
+
                         }
                         else
                         {
