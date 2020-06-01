@@ -35,7 +35,15 @@ namespace FwCore.Controllers
             Console.WriteLine($"apiUrl: {apiUrl}");
             string guid = Guid.NewGuid().ToString().Replace("-", string.Empty);
             //string baseFileName = $"{this.GetReportFileName()}{this.UserSession.WebUsersId}_{guid}";
-            string reportFileName = this.GetReportFileName(request).Replace(" ", "_").Replace("/", "_").Replace("-", "_");
+            //string reportFileName = this.GetReportFileName(request).Replace(" ", "_").Replace("/", "_").Replace("-", "_");
+
+            string reportFileName = this.GetReportFileName(request);
+            foreach (char c in Path.GetInvalidFileNameChars())
+            {
+                reportFileName = reportFileName.Replace(c, '_');
+            }
+            reportFileName = reportFileName.Replace(' ', '_').Replace('-', '_').Replace('+', '_').Replace('#', '_');
+
             string baseFileName = $"{reportFileName}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}";
             string htmlFileName = $"{baseFileName}.html";
             //string pathHtmlReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), htmlFileName);
