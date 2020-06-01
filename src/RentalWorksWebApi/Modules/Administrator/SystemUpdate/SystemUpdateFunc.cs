@@ -23,6 +23,12 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         public bool OnlyIncludeNewerVersions { get; set; }
     }
 
+    public class BuildDocument
+    {
+        public string BuildNumber { get; set; }
+        public DateTime? BuildDate { get; set; }
+    }
+
     public class AvailableVersion
     {
         public string value { get; set; }
@@ -64,6 +70,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
     public class BuildDocumentsResponse : TSpStatusResponse
     {
         public List<string> DocumentsList { get; set; } = new List<string>();
+        public List<BuildDocument> Documents { get; set; } = new List<BuildDocument>();
     }
 
 
@@ -239,6 +246,19 @@ namespace WebApi.Modules.Administrator.SystemUpdate
 
                                 if (includeDocument)
                                 {
+                                    // get the date of the file
+                                    string fullFtpFileName = ftpDirectory + fileName.Replace(currentMajorMinorRelease + "/", "/");
+                                    FtpWebRequest ftpRequest2 = (FtpWebRequest)WebRequest.Create(fullFtpFileName);
+                                    ftpRequest2.Method = WebRequestMethods.Ftp.GetDateTimestamp;
+                                    ftpRequest2.Credentials = new NetworkCredential("update", "update");
+                                    FtpWebResponse ftpResponse2 = (FtpWebResponse)ftpRequest2.GetResponse();
+                                    DateTime lastModifiedDateTime = ftpResponse2.LastModified.AddHours(-7);  // probably not right
+                                    ftpResponse2.Close();
+
+                                    BuildDocument bd = new BuildDocument();
+                                    bd.BuildNumber = version;
+                                    bd.BuildDate = lastModifiedDateTime.Date;
+                                    response.Documents.Add(bd);
                                     response.DocumentsList.Add(version);
                                 }
                             }
