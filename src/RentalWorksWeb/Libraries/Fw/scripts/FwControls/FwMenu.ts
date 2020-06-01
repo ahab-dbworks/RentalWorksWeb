@@ -1056,7 +1056,7 @@ class FwMenuClass {
             })
 
             options.$browse.find('.querysearch').on('click', function (e) {
-                options.$browse.removeData('advancedsearchrequest')
+                options.$browse.removeData('advancedsearchrequest');
                 let request = FwBrowse.getRequest(options.$browse);
                 let advancedSearch: any = {};
                 let queryRows = options.$browse.find('.query').find('.queryrow');
@@ -1071,13 +1071,33 @@ class FwMenuClass {
 
                 //adds container for read-only fields from "Find"
                 const $browsemenu = options.$browse.find('.fwbrowse-menu');
+
                 let $searchFields;
-                if ($browsemenu.find('.read-only-searchfields').length === 0) {
-                    $searchFields = jQuery(`<div class="fwcontrol fwmenu default read-only-searchfields flexcolumn" style="padding-bottom:10px;"></div>`);
+                if ($browsemenu.find('.search-wrapper').length === 0) {
+                    $searchFields = jQuery(`<div class="fwcontrol fwmenu default flexrow search-wrapper">
+                                                <div class="read-only-searchfields flexcolumn"></div>
+                                            </div>`);
                     $browsemenu.append($searchFields);
                 } else {
-                    $searchFields = $browsemenu.find('.read-only-searchfields').empty();
+                    $browsemenu.find('.read-only-searchfields').empty();
+                    $searchFields = $browsemenu.find('.search-wrapper');
                 }
+
+                const $clearFilters = jQuery(`<div class="flexcolumn" style="max-width:200px; margin-top:1em;">
+                                                    <div class="fwformcontrol clear-filters" data-type="button">Clear All Filters</div>
+                                                </div>`);
+                $clearFilters.on('click', e => {
+                    $browsemenu.find('.search-wrapper').remove();
+                    options.$browse.removeData('advancedsearchrequest');
+                    const $queryRows = $menubarbutton.find('.query');
+                    $queryRows.find('.queryrow:not(:first-of-type)').remove();
+                    $queryRows.find('.queryrow .delete-query').css('visibility', 'hidden');
+                    $queryRows.find('.queryrow .add-query').css('visibility', 'visible');
+                    $queryRows.find('.queryrow .find-field select, .queryrow .find-field input').val('');
+                    FwBrowse.search(options.$browse);
+                });
+
+                if (!$browsemenu.find('.clear-filters').length) $browsemenu.find('.search-wrapper').append($clearFilters);
 
                 for (var i = 0; i < queryRows.length; i++) {
                     let valuefield;
@@ -1127,7 +1147,7 @@ class FwMenuClass {
                         FwFormField.setValue2($readOnlyField.find('[data-datafield="Datafield"]'), datafield, datafield);
                         FwFormField.setValue2($readOnlyField.find('[data-datafield="Comparison"]'), comparisonText, comparisonText);
                         FwFormField.setValue2($readOnlyField.find('[data-datafield="Value"]'), valuefield, valuefield);
-                        $searchFields.append($readOnlyField);
+                        $searchFields.find('.read-only-searchfields').append($readOnlyField);
                     }
                     if (i === 0) {
                         advancedSearch.searchconjunctions.push(' ');
