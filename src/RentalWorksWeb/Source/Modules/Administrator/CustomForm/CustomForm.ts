@@ -84,7 +84,9 @@ class CustomForm {
         $form.find('#codeEditor').change();
         const $customForm = $form.find(`#designerContent`);
         const $fields = $customForm.find('.fwformfield');
+        const $errorMsg = $form.find('.error-msg');
         let hasDuplicates: boolean = false;
+        const duplicateFields: any = [];
         $fields.each(function (i, e) {
             const $fwFormField = jQuery(e);
             const dataField = $fwFormField.attr('data-datafield');
@@ -93,8 +95,10 @@ class CustomForm {
                 if ($fieldFound.length > 1) {
                     $fieldFound.addClass('error');
                     hasDuplicates = true;
-                    FwNotification.renderNotification('ERROR', 'Only one duplicate field can be active on a form.  Set the data-enabled property to false on duplicates.');
-                    return false;
+                    if (duplicateFields.indexOf(dataField) === -1) {
+                        duplicateFields.push(dataField);
+                    }
+                    //return false;
                 } else {
                     $customForm.find(`[data-datafield="${dataField}"]`).removeClass('error');
                 }
@@ -134,7 +138,13 @@ class CustomForm {
                 }, ex => FwFunc.showError(ex), $form);
             }
         } else {
-            if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
+            if (hasDuplicates) {
+                $errorMsg.text(`Duplicate fields: ${duplicateFields.join(', ')}`);
+                FwNotification.renderNotification('ERROR', 'Only one duplicate field can be active on a form.  Set the data-enabled property to false on duplicates.');
+            } else {
+                $errorMsg.text('');
+                FwModule.saveForm(this.Module, $form, parameters);
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -431,6 +441,7 @@ class CustomForm {
         //Load Design Tab
         $form.on('click', '[data-type="tab"][data-caption="Designer"]', e => {
             this.renderTab($form, 'Designer');
+            this.displayHiddenElements($form);
         });
 
         //Refreshes and shows CodeMirror upon clicking HTML tab
@@ -1598,7 +1609,22 @@ class CustomForm {
                         $form.data('show-advanced') ? $form.data('show-advanced', false) : $form.data('show-advanced', true)
                     }
                     this.showAdvancedProperties($form);
+                })
+                .off('change', '[data-datafield="ShowHidden"]')
+                .on('change', '[data-datafield="ShowHidden"]', e => {
+                    this.displayHiddenElements($form);
                 });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    displayHiddenElements($form: JQuery) {
+        const showHidden = FwFormField.getValueByDataField($form, 'ShowHidden');
+        const $designer = $form.find('#designerContent');
+        const $hiddenElements = jQuery($designer).find('div[data-datafield][style*="display:none"], div.flexrow[style*="display:none"], div.flexcolumn[style*="display:none"], div.flexrow[style*="display:none"] div[data-datafield], div.flexcolumn[style*="display:none"] div[data-datafield]');
+        if (showHidden) {
+            $hiddenElements.addClass('dsgn-show-hidden');
+        } else {
+            $hiddenElements.removeClass('dsgn-show-hidden');
         }
     }
     //----------------------------------------------------------------------------------------------

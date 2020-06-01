@@ -556,6 +556,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 [data-iscustomfield="true"]::after {content: "[Custom]";font-size: .9em;}
 
 /* Custom Forms */
+#designerContent {overflow:auto;}
 #designerContent .fwform-body [data-control="FwContainer"]:not([data-type="form"]) {border: 1px solid darkblue;}
 #designerContent [data-control="FwContainer"]:not([data-type="form"]):hover {border:3.5px solid darkblue; box-shadow: 0 5px 9px 0 rgba(17, 8, 153, 0.3);cursor: pointer;}
 #designerContent [data-control="FwFormField"] {border: 1px solid #dcdcdc;}
@@ -571,6 +572,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #designerContent div.emptyContainer {min-height:50px;}
 #designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field *{pointer-events: none;}
 #designerContent [data-type="tabpage"] div.fwformfield * {pointer-events: none;}
+#designerContent .dsgn-show-hidden {display:block !important; border:1px dashed red !important;}
 
 #controlProperties .propertyContainer div.properties {width: 100%;display: flex;padding-bottom: 3px;}
 #controlProperties .propertyContainer div.properties div {width: 50%;font-size: .9em;text-indent:5px;}
