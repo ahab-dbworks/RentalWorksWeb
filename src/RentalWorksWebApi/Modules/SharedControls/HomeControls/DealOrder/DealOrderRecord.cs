@@ -335,6 +335,14 @@ namespace WebApi.Modules.HomeControls.DealOrder
         public string QuoteOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inputbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string InputByUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "modbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ModifiedByUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
@@ -383,9 +391,6 @@ public string Hiatusdiscfrom { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean, sqltype: "char")] 
 public bool? Nocharge { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "inputbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
-public string InputbyId { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "labordiscpercent", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 5)] 
 public decimal? Labordiscpercent { get; set; } 
@@ -938,9 +943,6 @@ public string AgentId { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "billname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100)] 
 public string Billname { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "modbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
-public string ModbyId { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "billcity", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30)] 
 public string Billcity { get; set; } 

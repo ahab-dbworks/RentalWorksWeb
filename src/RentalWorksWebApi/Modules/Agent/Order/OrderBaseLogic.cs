@@ -1196,20 +1196,33 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------
 
 
+        //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "JLEETIIuUH1li", IsReadOnly: true)]  // input value supplied from page is ignored, overridden in BeforeSaves
         public bool? IsManualSort { get { return dealOrderDetail.IsManualSort; } set { dealOrderDetail.IsManualSort = value; } }
+        //------------------------------------------------------------------------------------
 
 
 
+        //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "HmfP8Yd1BuDm", IsRecordTitle: true, IsReadOnly: true)]
         public string QuoteOrderTitle { get; set; }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "Ax3fGfGLJouY", IsReadOnly: true)]
         public bool? UnassignedSubs { get; set; }
         //------------------------------------------------------------------------------------
+
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "kSfl2WWGJZsWD", DisableDirectAssign: true, DisableDirectModify: true)]
+        public string InputByUserId { get { return dealOrder.InputByUserId; } set { dealOrder.InputByUserId = value; } }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "kSfl2WWGJZsWD", DisableDirectAssign: true, DisableDirectModify: true)]
+        public string ModifiedByUserId { get { return dealOrder.ModifiedByUserId; } set { dealOrder.ModifiedByUserId = value; } }
+        //------------------------------------------------------------------------------------ 
+
+
         [FwLogicProperty(Id: "Mj4GCUlVtnzB")]
         public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }
-
         //------------------------------------------------------------------------------------
 
 
@@ -1367,6 +1380,7 @@ namespace WebApi.Modules.Agent.Order
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
+                InputByUserId = UserSession.UsersId;
                 // load Deal here for use later in this method
                 DealLogic deal = null;
                 string dealId = DealId;
@@ -1493,6 +1507,7 @@ namespace WebApi.Modules.Agent.Order
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
+                ModifiedByUserId = UserSession.UsersId;
                 if (e.Original != null)
                 {
                     OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
