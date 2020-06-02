@@ -77,8 +77,8 @@ class Customer {
         ]);
         //Toggle Buttons on Tax tab
         FwFormField.loadItems($form.find('div[data-datafield="Taxable"]'), [
-            { value: 'TRUE', caption: 'Taxable', checked: true },
-            { value: 'FALSE', caption: 'Non-Taxable' }
+            { value: 'true', caption: 'Taxable', checked: true },
+            { value: 'false', caption: 'Non-Taxable' }
         ]);
         //Toggle Buttons on Shipping tab
         FwFormField.loadItems($form.find('div[data-datafield="ShippingAddressType"]'), [
@@ -441,6 +441,13 @@ class Customer {
             uniqueid2Name: '',
             getUniqueid2Value: () => ''
         });
+
+        const taxable = FwFormField.getValueByDataField($form, 'Taxable');
+        if (taxable === 'true') {
+            FwFormField.disable($form.find('.non-taxable'));
+        } else {
+            FwFormField.enable($form.find('.non-taxable'));
+        }
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -478,6 +485,14 @@ class Customer {
         $form.on('change', '.exlude_quote input[type=checkbox]', e => {
             const isChecked = jQuery(e.currentTarget).is(':checked');
             this.toggleOptionsTabIfExcludeQuote($form, isChecked);
+        });
+        $form.find('div[data-datafield="Taxable"]').on('change', () => {
+            const taxable = FwFormField.getValueByDataField($form, 'Taxable');
+            if (taxable === 'true') {
+                FwFormField.disable($form.find('.non-taxable'));
+            } else {
+                FwFormField.enable($form.find('.non-taxable'));
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -887,16 +902,16 @@ class Customer {
                       <!-- Non-Taxable section --> 
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Non-Taxable">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Certificate No." data-datafield="NonTaxableCertificateNo" data-enabled="false" style="flex:1 1 225px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield non-taxable" data-caption="Certificate No." data-datafield="NonTaxableCertificateNo" data-enabled="false" style="flex:1 1 225px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Year" data-datafield="NonTaxableYear" data-enabled="false" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield non-taxable" data-caption="Year" data-datafield="NonTaxableYear" data-enabled="false" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Valid Through" data-datafield="NonTaxableCertificateValidThrough" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield non-taxable" data-caption="Valid Through" data-datafield="NonTaxableCertificateValidThrough" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Tax Certificate on File" data-datafield="NonTaxableCertificateOnFile" data-enabled="false" style="flex:1 1 225px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield non-taxable" data-caption="Tax Certificate on File" data-datafield="NonTaxableCertificateOnFile" data-enabled="false" style="flex:1 1 225px;"></div>
                         </div>
                       </div>
                       <!-- Federal section --> 

@@ -70,8 +70,8 @@ class Deal {
 
         //Toggle Buttons on Tax tab - Taxable / Non-Taxable option
         FwFormField.loadItems($form.find('div[data-datafield="Taxable"]'), [
-            { value: 'TRUE', caption: 'Taxable', checked: true },
-            { value: 'FALSE', caption: 'Non-Taxable' }
+            { value: 'true', caption: 'Taxable', checked: true },
+            { value: 'false', caption: 'Non-Taxable' }
         ]);
 
         //Toggle Buttons on Shipping tab
@@ -457,6 +457,14 @@ class Deal {
             }
         });
 
+        const taxable = FwFormField.getValueByDataField($form, 'Taxable');
+        if (taxable === 'true') {
+            FwFormField.disable($form.find('.non-taxable'));
+        } else {
+            FwFormField.enable($form.find('.non-taxable'));
+        }
+
+
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
@@ -554,21 +562,21 @@ class Deal {
             this.billingAddressTypeChange($form);
         });
 
-        $form.on('change', '.billing_use_discount_template input[type=checkbox]', e => {
+        $form.on('change', 'div[data-datafield="UseDiscountTemplate"] input[type=checkbox]', e => {
             //this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));
             this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
         });
 
-        $form.on('change', '.billing_use_customer input[type=checkbox]', e => {
+        $form.on('change', 'div[data-datafield="UseCustomerDiscount"] input[type=checkbox]', e => {
             this.useCustomer($form, jQuery(e.currentTarget).is(':checked'));
         });
 
-        $form.on('change', '.credit_use_customer input[type=checkbox]', e => {
+        $form.on('change', 'div[data-datafield="UseCustomerCredit"] input[type=checkbox]', e => {
             const isChecked = jQuery(e.currentTarget).is(':checked');
             this.toggleCredTabIfUseCustomer($form, isChecked);
         });
 
-        $form.on('change', '.insurance_use_customer input[type=checkbox]', e => {
+        $form.on('change', 'div[data-datafield="UseCustomerInsurance"] input[type=checkbox]', e => {
             const isChecked = jQuery(e.currentTarget).is(':checked');
             this.toggleInsurTabIfUseCustomer($form, isChecked);
             if (isChecked) {
@@ -576,20 +584,21 @@ class Deal {
             }
         });
 
-        $form.on('change', '.tax_use_customer input[type=checkbox]', e => {
-            const isChecked = jQuery(e.currentTarget).is(':checked');
-            this.toggleTaxTabIfUseCustomer($form, isChecked);
-            if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
-                FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
-                FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
-            }
-            else {
-                FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
-                FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+        $form.find('div[data-datafield="Taxable"]').on('change', () => {
+            const taxable = FwFormField.getValueByDataField($form, 'Taxable');
+            if (taxable === 'true') {
+                FwFormField.disable($form.find('.non-taxable'));
+            } else {
+                FwFormField.enable($form.find('.non-taxable'));
             }
         });
 
-        $form.on('change', '.exlude_quote input[type=checkbox]', e => {
+        $form.on('change', 'div[data-datafield="UseCustomerTax"] input[type=checkbox]', e => {
+            const isChecked = jQuery(e.currentTarget).is(':checked');
+            this.toggleTaxTabIfUseCustomer($form, isChecked);
+        });
+
+        $form.on('change', 'div[data-datafield="DisableQuoteOrderActivity"] input[type=checkbox]', e => {
             const isChecked = jQuery(e.currentTarget).is(':checked');
             this.toggleOptionsTabIfExcludeQuote($form, isChecked);
         });
@@ -608,14 +617,14 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     useCustomer($form: any, isChecked: boolean): void {
-        const $temp: JQuery = jQuery('.billing_template');
+        const $temp: JQuery = jQuery('div[data-datafield="DiscountTemplateId"]');
 
         if (isChecked) {
             $temp.attr('data-enabled', 'false');
             $temp.find('input').prop('disabled', true);
             FwFormField.disable($form.find('[data-datafield="UseDiscountTemplate"]'))
         } else {
-            const $discTemp: JQuery = jQuery('.billing_use_discount_template');
+            const $discTemp: JQuery = jQuery('div[data-datafield="UseDiscountTemplate"]');
             if ($discTemp.find('input[type=checkbox]').is(':checked')) {
                 $temp.attr('data-enabled', 'true');
                 $temp.find('input').prop('disabled', false);
@@ -724,7 +733,7 @@ class Deal {
         this.disableFields($form, list);
     }
     //----------------------------------------------------------------------------------------------
-    toggleTaxTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
+    toggleTaxTabIfUseCustomer($form: JQuery, useCustomer: boolean): void {
         const list = ['Taxable',
             'TaxStateOfIncorporationId',
             'TaxFederalNo',
@@ -733,7 +742,19 @@ class Deal {
             'NonTaxableCertificateValidThrough',
             'NonTaxableCertificateOnFile'];
 
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+        if (useCustomer) {
+            this.disableFields($form, list);
+            FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
+            FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="Taxable"]'));
+            const isTaxable = FwFormField.getValueByDataField($form, 'Taxable');
+            if (isTaxable === 'false') {
+                this.enableFields($form, list);
+                FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
+                FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+            }
+        }
     }
     //----------------------------------------------------------------------------------------------
     toggleOptionsTabIfExcludeQuote($form: JQuery, isExcluded: boolean): void {
@@ -1270,13 +1291,13 @@ class Deal {
                       <!-- Discount Template section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Discount Template">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield billing_use_customer" data-caption="Use Customer Template" data-datafield="UseCustomerDiscount" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Customer Template" data-datafield="UseCustomerDiscount" style="flex:1 1 150px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield billing_use_discount_template" data-caption="Use Deal Template" data-datafield="UseDiscountTemplate" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Deal Template" data-datafield="UseDiscountTemplate" style="flex:1 1 150px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield billing_template" data-caption="Template" data-datafield="DiscountTemplateId" data-displayfield="DiscountTemplate" data-validationname="DiscountTemplateValidation" data-enabled="false" style="flex:1 1 200px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Template" data-datafield="DiscountTemplateId" data-displayfield="DiscountTemplate" data-validationname="DiscountTemplateValidation" data-enabled="false" style="flex:1 1 200px;"></div>
                         </div>
                       </div>
                     </div>
@@ -1312,7 +1333,7 @@ class Deal {
                     <div class="flexcolumn" style="flex:1 1 250px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Credit">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield credit_use_customer" data-caption="Use Customer Credit" data-datafield="UseCustomerCredit" style="flex:1 1 100px;padding-left:10px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Customer Credit" data-datafield="UseCustomerCredit" style="flex:1 1 100px;padding-left:10px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Status" data-datafield="CreditStatusId" data-displayfield="CreditStatus" data-validationname="CreditStatusValidation" data-readonly="true" style="flex:1 1 175px;"></div>
@@ -1401,7 +1422,7 @@ class Deal {
                     <div class="flexcolumn" style="flex:0 1 425px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Insurance">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield insurance_use_customer" data-caption="Use Customer Insurance" data-datafield="UseCustomerInsurance" style="flex:0 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Customer Insurance" data-datafield="UseCustomerInsurance" style="flex:0 1 175px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Valid Through" data-datafield="InsuranceCertificationValidThrough" style="flex:1 1 125px;"></div>
@@ -1476,8 +1497,7 @@ class Deal {
                     <div class="flexcolumn" style="flex:1 1 250px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Option">
                         <div class="flexrow">
-                          <!-- <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield tax_use_customer" data-caption="Default Tax" data-datafield="UseCustomerTax"></div> -->
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield tax_use_customer" data-caption="Use Customer Tax" data-datafield="UseCustomerTax" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Customer Tax" data-datafield="UseCustomerTax" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Taxable"></div>
@@ -1487,16 +1507,16 @@ class Deal {
                       <!-- Non-Taxable section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Non-Taxable">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Certificate No." data-datafield="NonTaxableCertificateNo" style="flex:1 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield non-taxable" data-caption="Certificate No." data-datafield="NonTaxableCertificateNo" style="flex:1 1 250px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Year" data-datafield="NonTaxableYear" style="flex:1 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield non-taxable" data-caption="Year" data-datafield="NonTaxableYear" style="flex:1 1 75px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Valid Through" data-datafield="NonTaxableCertificateValidThrough" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield non-taxable" data-caption="Valid Through" data-datafield="NonTaxableCertificateValidThrough" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Certificate on File" data-datafield="NonTaxableCertificateOnFile" style="flex:1 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield non-taxable" data-caption="Certificate on File" data-datafield="NonTaxableCertificateOnFile" style="flex:1 1 175px;"></div>
                         </div>
                       </div>
                       <!-- Federal section -->
@@ -1534,7 +1554,7 @@ class Deal {
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote / Order Activity" style="flex:0 1 375px;">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield exlude_quote" data-caption="Exclude Quote / Order Activity" data-datafield="DisableQuoteOrderActivity" data-enabled="true" style="flex:1 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exclude Quote / Order Activity" data-datafield="DisableQuoteOrderActivity" data-enabled="true" style="flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow" style="border-top:1px solid silver;border-bottom:1px solid silver;">
                         <div class="flexcolumn">
