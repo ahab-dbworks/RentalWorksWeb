@@ -165,8 +165,8 @@ class SystemUpdate {
         };
 
         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/builddocuments`, request, FwServices.defaultTimeout, response => {
-            if (response.DocumentsList.length) {
-                loadDocuments($form, response.DocumentsList);
+            if (response.Documents.length) {
+                loadDocuments($form, response.Documents);
             } else {
                 FwNotification.renderNotification('WARNING', 'There was a problem retrieving build documents.')
             }
@@ -177,8 +177,8 @@ class SystemUpdate {
         function loadDocuments($form, documents) {
             const $container = $form.find('#buildDocuments');
             const html = [];
-            for (let i = documents.length - 1; i >= 0; i--) {
-                html.push(`<li class="pdf" data-buildnumber="${documents[i]}">${documents[i]}<span class="material-icons">picture_as_pdf</span></li>`)
+            for (let i = 0; i < documents.length; i++) {
+                html.push(`<li class="pdf" data-buildnumber="${documents[i].BuildNumber}">${documents[i].BuildNumber}<span class="material-icons">picture_as_pdf</span></li>`)
             }
 
             $container.html(html.join(''));
