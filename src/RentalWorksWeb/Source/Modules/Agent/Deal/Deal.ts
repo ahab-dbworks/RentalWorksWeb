@@ -708,7 +708,7 @@ class Deal {
             'InsuranceCompanyId',
             'InsuranceCompanyAgent'];
 
-        const $insuranceName: JQuery = jQuery('.insurance_name');
+        const $insuranceName: JQuery = jQuery('div[data-datafield="InsuranceCompanyId"]');
 
         isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
 
@@ -1308,7 +1308,7 @@ class Deal {
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Required" data-datafield="PoRequired" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield billing_potype" data-caption="Type" data-datafield="PoType"></div>
+                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Type" data-datafield="PoType"></div>
                         </div>
                       </div>
                     </div>
@@ -1458,7 +1458,7 @@ class Deal {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Insurance Vendor">
                         <!-- Insurance Vendor section -->
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield insurance_name" data-caption="Name" data-datafield="InsuranceCompanyId" data-displayfield="InsuranceCompany" data-validationname="VendorValidation" style="flex:1 1 325px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Name" data-datafield="InsuranceCompanyId" data-displayfield="InsuranceCompany" data-validationname="VendorValidation" style="flex:1 1 325px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="InsuranceCompanyAgent" style="flex:1 1 300px;"></div>
