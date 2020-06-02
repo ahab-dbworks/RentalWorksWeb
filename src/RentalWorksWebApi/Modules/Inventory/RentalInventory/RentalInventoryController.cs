@@ -24,7 +24,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "3ICuf6pSeBh6G")]
-    public class RentalInventoryController : AppDataController
+    public partial class RentalInventoryController : AppDataController
     {
         public RentalInventoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RentalInventoryLogic); }
         //------------------------------------------------------------------------------------ 

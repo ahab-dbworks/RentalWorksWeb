@@ -594,6 +594,23 @@ class PartsInventory extends InventoryBase {
         FwBrowse.search($partsInventoryWarehousePricingGrid);
 
         this.afterLoadSetClassification($form);
+
+        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'PartsInventoryDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${inventoryId}/document`;
+            },
+            gridSecurityId: 'lwYABhj5zknM',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'InventoryId',
+            uniqueid1Name: 'InventoryId',
+            getUniqueid1Value: () => inventoryId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {

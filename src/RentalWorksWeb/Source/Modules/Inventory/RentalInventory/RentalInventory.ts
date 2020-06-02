@@ -676,6 +676,23 @@ class RentalInventory extends InventoryBase {
                 FwFormField.setValue2($confirmTrackedByField, '');
             }
         });
+
+        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'RentalInventoryDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${inventoryId}/document`;
+            },
+            gridSecurityId: 'DCfBWlHhvSDH',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'InventoryId',
+            uniqueid1Name: 'InventoryId',
+            getUniqueid1Value: () => inventoryId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
     }
     //----------------------------------------------------------------------------------------------
     QCRequiredWarehouse($form: JQuery, QcRequired: boolean) {

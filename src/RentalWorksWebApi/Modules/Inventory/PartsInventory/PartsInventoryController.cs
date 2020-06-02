@@ -22,7 +22,7 @@ namespace WebApi.Modules.Inventory.PartsInventory
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"2WDCohbQV6GU")]
-    public class PartsInventoryController : AppDataController
+    public partial class PartsInventoryController : AppDataController
     {
         public PartsInventoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PartsInventoryLogic); }
         //------------------------------------------------------------------------------------ 

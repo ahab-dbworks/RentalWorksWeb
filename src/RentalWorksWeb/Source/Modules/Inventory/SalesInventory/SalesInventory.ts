@@ -781,6 +781,23 @@ class SalesInventory extends InventoryBase {
                 FwFormField.setValue2($confirmTrackedByField, '');
             }
         });
+
+        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'SalesInventoryDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${inventoryId}/document`;
+            },
+            gridSecurityId: 'Fpb2CAabL83x',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'InventoryId',
+            uniqueid1Name: 'InventoryId',
+            getUniqueid1Value: () => inventoryId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
