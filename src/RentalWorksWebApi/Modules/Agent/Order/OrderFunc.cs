@@ -148,6 +148,12 @@ namespace WebApi.Modules.Agent.Order
     {
     }
 
+    public class UpdateOrderItemRatesRequest
+    {
+        public string OrderId { get; set; }
+        public string RateType { get; set; }
+    }
+
     public class ChangeOrderOfficeLocationRequest
     {
         public string OfficeLocationId { get; set; }
@@ -666,6 +672,24 @@ namespace WebApi.Modules.Agent.Order
                 response.msg = qry.GetParameter("@msg").ToString();
             }
             return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> UpdateOrderItemRates(FwApplicationConfig appConfig, FwUserSession userSession, UpdateOrderItemRatesRequest request, FwSqlConnection conn = null)
+        {
+            bool saved = false;
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "updateorderrates", appConfig.DatabaseSettings.QueryTimeout))
+            {
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@ratetype", SqlDbType.NVarChar, ParameterDirection.Input, request.RateType);
+                await qry.ExecuteNonQueryAsync();
+                saved = true;
+            }
+            return saved;
         }
         //-------------------------------------------------------------------------------------------------------    
         public static async Task<TSpStatusResponse> AfterSaveQuoteOrder(FwApplicationConfig appConfig, FwUserSession userSession, string id, FwSqlConnection conn = null)

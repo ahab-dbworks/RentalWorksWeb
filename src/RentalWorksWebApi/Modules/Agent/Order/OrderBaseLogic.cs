@@ -1629,8 +1629,18 @@ namespace WebApi.Modules.Agent.Order
                         change.NewEstimatedStopTime = newEstimatedStopTime;
                         bool b = OrderFunc.UpdateOrderItemDatesAndTimes(AppConfig, UserSession, change, e.SqlConnection).Result;
                     }
-                }
 
+                    if (RateType != null)
+                    {
+                        if (RateType != orig.RateType)
+                        {
+                            UpdateOrderItemRatesRequest request = new UpdateOrderItemRatesRequest();
+                            request.OrderId = GetPrimaryKeys()[0].ToString();
+                            request.RateType = RateType;
+                            bool b = OrderFunc.UpdateOrderItemRates(AppConfig, UserSession, request, e.SqlConnection).Result;
+                        }
+                    }
+                }
             }
 
 
