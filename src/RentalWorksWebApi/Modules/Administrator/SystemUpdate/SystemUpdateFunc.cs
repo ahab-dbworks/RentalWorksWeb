@@ -29,6 +29,25 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         public DateTime? BuildDate { get; set; }
     }
 
+    public class BuildDocumentDateComparer : Comparer<BuildDocument>
+    {
+        public override int Compare(BuildDocument x, BuildDocument y)
+        {
+            if (x.BuildDate > y.BuildDate)
+            {
+                return -1;
+            }
+            else if (x.BuildDate < y.BuildDate)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
+
     public class AvailableVersion
     {
         public string value { get; set; }
@@ -263,6 +282,9 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                                 }
                             }
                         }
+
+                        response.Documents.Sort(new BuildDocumentDateComparer());
+
                         response.success = true;
                     }
                     catch (Exception e)
