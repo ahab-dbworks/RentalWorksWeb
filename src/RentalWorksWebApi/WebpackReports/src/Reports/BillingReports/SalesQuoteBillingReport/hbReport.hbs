@@ -1,5 +1,5 @@
 ﻿<!--SalesQuoteBillingReport-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,70 +11,83 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
+    <thead id="columnHeader">
       <tr>
-        <th>Quote No.</th>
-        <th>Version</th>
-        <th>Deal</th>
-        <th>Description</th>
-        <th>Contact</th>
-        <th>Location</th>
-        <th>PO No.</th>
-        <th>Status</th>
-        <th>Created Date</th>
-        <th>Ship Date</th>
-        <th class="number">Sale</th>
-        <th class="number">Cost</th>
-        <th class="number">Profit</th>
-        <th class="number">Profit %</th>
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Quote No.</th>
+        <th data-linkedcolumn="VersionNumber" data-valuefield="VersionNumber">Version</th>
+        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="Contact" data-valuefield="Contact">Contact</th>
+        <th data-linkedcolumn="OrderLocation" data-valuefield="OrderLocation">Location</th>
+        <th data-linkedcolumn="PurchaseNumber" data-valuefield="PurchaseNumber">PO No.</th>
+        <th data-linkedcolumn="Status" data-valuefield="Status">Status</th>
+        <th data-linkedcolumn="StatusDate" data-valuefield="StatusDate">Created Date</th>
+        <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Ship Date</th>
+        <th data-linkedcolumn="SalesTotal" data-valuefield="SalesTotal" class="number">Sale</th>
+        <th data-linkedcolumn="Cost" data-valuefield="Cost" class="number">Cost</th>
+        <th data-linkedcolumn="Profit" data-valuefield="Profit" class="number">Profit</th>
+        <th data-linkedcolumn="ProfitPercentage" data-valuefield="ProfitPercentage" class="number">Profit %</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="3" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Agentheader"}}
-        <td colspan="3" class="lower header-row">Agent: {{Agent}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td data-value="{{OrderNumber}}"></td>
-        <td data-value="{{VersionNumber}}"></td>
-        <td data-value="{{Deal}}"></td>
-        <td data-value="{{Description}}"></td>
-        <td data-value="{{Contact}}"></td>
-        <td data-value="{{OrderLocation}}"></td>
-        <td data-value="{{PurchaseNumber}}"></td>
-        <td data-value="{{Status}}"></td>
-        <td data-value="{{StatusDate}}"></td>
-        <td data-value="{{OrderDate}}"></td>
-        <td class="number" data-value="{{SalesTotal}}"></td>
-        <td class="number" data-value="{{Cost}}"></td>
-        <td class="number" data-value="{{Profit}}"></td>
-        <td class="number" data-value="{{ProfitPercentage}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Agentfooter"}}
-        <td colspan="10" class="total-name">{{Agent}}&nbsp;</td>
-        <td class="total-val" data-value="{{SalesTotal}}"></td>
-        <td class="total-val" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Profit}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="10" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{SalesTotal}}"></td>
-        <td class="total-val" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Profit}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="10" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{SalesTotal}}"></td>
-        <td class="total-val" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Profit}}"></td>
-        {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Agentheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="lower header-row">Agent: {{Agent}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="VersionNumber" data-value="{{VersionNumber}}"></td>
+        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="Contact" data-value="{{Contact}}"></td>
+        <td data-linkedcolumn="OrderLocation" data-value="{{OrderLocation}}"></td>
+        <td data-linkedcolumn="PurchaseNumber" data-value="{{PurchaseNumber}}"></td>
+        <td data-linkedcolumn="Status" data-value="{{Status}}"></td>
+        <td data-linkedcolumn="StatusDate" data-value="{{StatusDate}}"></td>
+        <td data-linkedcolumn="OrderDate" data-value="{{OrderDate}}"></td>
+        <td data-linkedcolumn="SalesTotal" class="number" data-value="{{SalesTotal}}"></td>
+        <td data-linkedcolumn="Cost" class="number" data-value="{{Cost}}"></td>
+        <td data-linkedcolumn="Profit" class="number" data-value="{{Profit}}"></td>
+        <td data-linkedcolumn="ProfitPercentage" class="number" data-value="{{ProfitPercentage}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Agentfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="10" class="total-name">{{Agent}}&nbsp;</td>
+        <td data-linkedcolumn="SalesTotal" class="total-val" data-value="{{SalesTotal}}"></td>
+        <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
+        <td data-linkedcolumn="Profit" class="total-val" data-value="{{Profit}}"></td>
+        <td data-linkedcolumn="ProfitPercentage" class="empty-td"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="10" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td data-linkedcolumn="SalesTotal" class="total-val" data-value="{{SalesTotal}}"></td>
+        <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
+        <td data-linkedcolumn="Profit" class="total-val" data-value="{{Profit}}"></td>
+        <td data-linkedcolumn="ProfitPercentage" class="empty-td"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="10" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="SalesTotal" class="total-val" data-value="{{SalesTotal}}"></td>
+        <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
+        <td data-linkedcolumn="Profit" class="total-val" data-value="{{Profit}}"></td>
+        <td data-linkedcolumn="ProfitPercentage" class="empty-td"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
