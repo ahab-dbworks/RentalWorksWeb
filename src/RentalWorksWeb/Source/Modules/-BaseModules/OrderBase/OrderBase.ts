@@ -21,7 +21,6 @@ class OrderBase {
     totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
-    HasItems: boolean = false;
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string { return ``; }
     getFormTemplate(): string { return ``; }
@@ -2209,14 +2208,14 @@ class OrderBase {
                 FwConfirmation.addButton($confirmation, 'Ok', true);
             }
 
-            if (this.HasItems) { //from initial load
+            if ($form.data('hasitems')) { //from initial load
                 displayConfirmation();
             } else { //check if items have been added
                 const $grids = $form.find('[data-name="OrderItemGrid"]');
                 for (let i = 0; i < $grids.length; i++) {
                     const totalRows = jQuery($grids[i]).data('totalRowCount') || 0;
                     if (totalRows) {
-                        this.HasItems = true;
+                        $form.data('hasitems', true);
                         displayConfirmation();
                         break;
                     } 
@@ -3908,7 +3907,7 @@ class OrderBase {
         // color the Rental tab if RentalItems exist
         const hasRentalItem = FwFormField.getValueByDataField($form, 'HasRentalItem');
         if (hasRentalItem) {
-            this.HasItems = true;
+            $form.data('hasitems', true);
             const $tab = $form.find('.rentaltab');
             FwTabs.setTabColor($tab, '#FFFF8d');
             FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
@@ -3916,7 +3915,7 @@ class OrderBase {
         // color the Sales tab if SalesItems exist
         const hasSalesItem = FwFormField.getValueByDataField($form, 'HasSalesItem');
         if (hasSalesItem) {
-            this.HasItems = true;
+            $form.data('hasitems', true);
             const $tab = $form.find('.salestab');
             FwTabs.setTabColor($tab, '#FFFF8d');
             FwFormField.disable(FwFormField.getDataField($form, 'Sales'));
@@ -3924,7 +3923,7 @@ class OrderBase {
         // color the Misc. tab if MiscItems exist
         const hasMiscItem = FwFormField.getValueByDataField($form, 'HasMiscellaneousItem');
         if (hasMiscItem) {
-            this.HasItems = true;
+            $form.data('hasitems', true);
             const $tab = $form.find('.misctab');
             FwTabs.setTabColor($tab, '#FFFF8d');
             FwFormField.disable(FwFormField.getDataField($form, 'Miscellaneous'));
@@ -3932,7 +3931,7 @@ class OrderBase {
         // color the Labor tab if LaborItems exist
         const hasLaborItem = FwFormField.getValueByDataField($form, 'HasLaborItem');
         if (hasLaborItem) {
-            this.HasItems = true;
+            $form.data('hasitems', true);
             const $tab = $form.find('.labortab');
             FwTabs.setTabColor($tab, '#FFFF8d');
             FwFormField.disable(FwFormField.getDataField($form, 'Labor'));
@@ -3940,7 +3939,7 @@ class OrderBase {
         // color the Rental Sale tab if RentalSaleItems exist
         const hasRentalSaleItem = FwFormField.getValueByDataField($form, 'HasRentalSaleItem');
         if (hasRentalSaleItem) {
-            this.HasItems = true;
+            $form.data('hasitems', true);
             const $tab = $form.find('.usedsaletab');
             FwTabs.setTabColor($tab, '#FFFF8d');
             FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
@@ -3949,7 +3948,7 @@ class OrderBase {
         // color the Loss and Damage tab if LossDamageItems exist
         let hasLossAndDamageItem = FwFormField.getValueByDataField($form, 'HasLossAndDamageItem');
         if (hasLossAndDamageItem) {
-            this.HasItems = true;
+            $form.data('hasitems', true);
             const $tab = $form.find('.lossdamagetab');
             FwTabs.setTabColor($tab, '#FFFF8d');
             FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
