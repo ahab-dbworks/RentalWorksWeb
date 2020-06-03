@@ -1632,7 +1632,7 @@ namespace WebApi.Modules.Agent.Order
 
                     if (RateType != null)
                     {
-                        if (RateType != orig.RateType)
+                        if (!RateType.Equals(orig.RateType))
                         {
                             UpdateOrderItemRatesRequest request = new UpdateOrderItemRatesRequest();
                             request.OrderId = GetPrimaryKeys()[0].ToString();
