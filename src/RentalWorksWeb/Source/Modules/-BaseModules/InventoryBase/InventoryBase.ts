@@ -546,7 +546,8 @@ abstract class InventoryBase {
                     $form.find('.containerradio').hide();
                     $form.find('.setradio').show();
                     $form.find('.wallradio').show();
-                    FwFormField.setValueByDataField($form, 'Classification', 'W');
+                    //FwFormField.setValueByDataField($form, 'Classification', 'W');
+                    FwFormField.setValueByDataField($form, 'Classification', 'S');  //justin hoffman 06/03/2020 #2567
                     $form.find('[data-datafield="Classification"] .fwformfield-value').change(); // thank you Josh
                 }
                 else {
