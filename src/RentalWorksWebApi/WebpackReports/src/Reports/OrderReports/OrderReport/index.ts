@@ -53,7 +53,20 @@ export class OrderReport extends WebpackReport {
                                 termEl.innerHTML = data.TermsAndConditions;
                                 if (data.TermsAndConditionsNewPage) {
                                     const termsRow = document.getElementById('termsRow');
-                                    termsRow.style.cssText = "page-break-before:always;padding:20px 10px 0px 10px;font-size:1em;";
+                                    termsRow.style.cssText = "page-break-before:always;padding:5px 10px 0px 10px;font-size:1em;";
+                                }
+                            }
+                            if (data.Notes !== null && data.Notes !== '') {
+                                const notesEl = document.getElementById('notes');
+                                const notes = data.Notes;
+                                const container: Array<string> = [];
+                                for (let i = 0; i < notes.length; i++) {
+                                    container.push(`<div>${notes[i].Notes}</div>`);
+                                }
+                                notesEl.innerHTML = container.join('');
+                                if (data.Notes) {
+                                    const notesRow = document.getElementById('notesRow');
+                                    notesRow.style.cssText = "page-break-before:always;padding:5px 10px 0px 10px;font-size:1em;";
                                 }
                             }
                             this.onRenderReportCompleted();
