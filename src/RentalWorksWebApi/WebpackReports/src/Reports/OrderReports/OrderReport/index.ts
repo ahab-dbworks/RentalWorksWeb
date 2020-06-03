@@ -48,25 +48,29 @@ export class OrderReport extends WebpackReport {
                             } else {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
+                            // Order Print Notes
+                            let isNotes = false;
+                            if (data.Notes !== null && data.Notes !== '') {
+                                const notesEl = document.getElementById('notes');
+                                const notes = data.Notes;
+                                if (notes.length) {
+                                    const container: Array<string> = [];
+                                    for (let i = 0; i < notes.length; i++) {
+                                        container.push(`<div><span style="font-weight:700;">${notes[i].Description}:</span><div>${notes[i].Notes}</div></div>`);
+                                    }
+                                    notesEl.innerHTML = container.join('');
+                                    const notesRow = document.getElementById('notesRow');
+                                    notesRow.style.cssText = "page-break-before:always;padding:5px 10px 0px 10px;font-size:1em;width:1110px;";
+                                    isNotes = true;
+                                }
+                            }
+                            // Terms and Conditions
                             if (data.TermsAndConditions !== null && data.TermsAndConditions !== '') {
                                 const termEl = document.getElementById('terms');
                                 termEl.innerHTML = data.TermsAndConditions;
                                 if (data.TermsAndConditionsNewPage) {
                                     const termsRow = document.getElementById('termsRow');
-                                    termsRow.style.cssText = "page-break-before:always;padding:5px 10px 0px 10px;font-size:1em;";
-                                }
-                            }
-                            if (data.Notes !== null && data.Notes !== '') {
-                                const notesEl = document.getElementById('notes');
-                                const notes = data.Notes;
-                                const container: Array<string> = [];
-                                for (let i = 0; i < notes.length; i++) {
-                                    container.push(`<div>${notes[i].Notes}</div>`);
-                                }
-                                notesEl.innerHTML = container.join('');
-                                if (data.Notes) {
-                                    const notesRow = document.getElementById('notesRow');
-                                    notesRow.style.cssText = "page-break-before:always;padding:5px 10px 0px 10px;font-size:1em;";
+                                    termsRow.style.cssText = `${isNotes ? '' : 'page-break-before:always;'}padding:10px 10px 0px 10px;font-size:1em;width:1110px;`;
                                 }
                             }
                             this.onRenderReportCompleted();

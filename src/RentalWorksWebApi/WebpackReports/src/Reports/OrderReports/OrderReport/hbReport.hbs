@@ -1774,10 +1774,13 @@
   {{/each}}
 </div>
 {{#if Notes}}
-<div style="font-weight:700;margin:20px 0 0 0;">Notes:</div>
-<div id="notesRow" class="rpt-flexrow" colspan="7"><span id="notes"></span></div>
+<div id="notesRow" colspan="7">
+  <div style="font-weight:700;margin:20px 0 0 0;">Notes:</div>
+  <div><span id="notes"></span></div>
+</div>
 {{/if}}
 {{#if TermsAndConditions}}
-<div style="font-weight:700;margin:20px 0 0 0;">Terms and Conditions:</div>
-<div id="termsRow" class="rpt-flexrow" colspan="7"><span id="terms"></span></div>
-{{/if}}
+<div id="termsRow" colspan="7">
+  <div style="font-weight:700;margin:20px 0 0 0;">Terms and Conditions:</div>
+  <div><span id="terms"></span></div>
+</div>
