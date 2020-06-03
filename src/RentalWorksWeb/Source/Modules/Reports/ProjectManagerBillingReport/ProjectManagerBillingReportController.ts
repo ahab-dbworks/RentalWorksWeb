@@ -81,6 +81,7 @@ class ProjectManagerBillingReport extends FwWebApiReport {
     constructor() {
         super('ProjectManagerBillingReport', 'api/v1/projectmanagerbillingreport', projectManagerBillingTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
