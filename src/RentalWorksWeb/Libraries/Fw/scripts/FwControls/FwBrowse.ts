@@ -3094,6 +3094,10 @@ class FwBrowseClass {
                                                 }
                                             }
                                         }
+                                        const datePicker = jQuery(document.body).find('.datepicker');
+                                        if (datePicker.length > 0) {
+                                            triggerAutoSave = false;
+                                        }
                                         if (triggerAutoSave) {
                                             this.saveRow($control, $tr);
                                         }
@@ -3370,7 +3374,7 @@ class FwBrowseClass {
                                 $control.data('onafterrowsort')($control, $tr);
                             }
                             $control.attr('data-pageno', pageNo);
-                            $control.data('ondatabind', onDataBind); 
+                            $control.data('ondatabind', onDataBind);
                         } else {
                             FwNotification.renderNotification('ERROR', response.msg);
                         };
@@ -3399,7 +3403,7 @@ class FwBrowseClass {
             $control.find('.btn-manualsort').show();
             $control.removeClass('sort-mode');
             $control.attr('data-pageno', pageNumber);
-            $control.data('ondatabind', onDataBind); 
+            $control.data('ondatabind', onDataBind);
         });
 
         //initialize Sortable
@@ -4299,7 +4303,7 @@ class FwBrowseClass {
 
         if (typeof window[controller].AuditKeyFields != 'undefined') {
             auditKeyFields = window[controller].AuditKeyFields;
-        } 
+        }
 
         let module: string = $tr.parents('[data-type="Grid"]').attr('data-auditmodule') || window[controller].Module;
         if (this.endsWith(module, 'Grid')) {
