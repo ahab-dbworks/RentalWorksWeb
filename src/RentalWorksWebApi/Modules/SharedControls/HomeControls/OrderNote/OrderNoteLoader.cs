@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 namespace WebApi.Modules.HomeControls.OrderNote
 {
-    [FwSqlTable("ordernoteview")]
+    [FwSqlTable("ordernotewebview")]
     public class OrderNoteLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
