@@ -89,7 +89,9 @@
     //---------------------------------------------------------------------------------
     onRemove($fwformfield) {
         const editor = $fwformfield.data('editor');
-        editor.destroy();
+        if (editor !== undefined) {
+            editor.destroy();
+        }
     }
     //---------------------------------------------------------------------------------
 }

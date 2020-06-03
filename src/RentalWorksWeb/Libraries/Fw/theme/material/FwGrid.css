@@ -1,6 +1,6 @@
 ﻿html.theme-material .fw-grid {border: 1px solid #BDBDBD;box-sizing:border-box;display:flex;flex-direction:column;}
 
-html.theme-material .fw-grid table {width:100%;margin:0;empty-cells:show;border-collapse:separate;border-spacing:0;border-width:0;}
+html.theme-material .fw-grid table {width:100%;margin:0;empty-cells:show;border-collapse:separate;border-spacing:0;border-width:0;outline:0;}
 
 html.theme-material .fw-grid .grid-title {font-size: 1.5em;font-weight: 500;padding: 10px;border-style: solid;border-width: 0 0 1px 0;border-color: #BDBDBD;flex:0 0;}
 

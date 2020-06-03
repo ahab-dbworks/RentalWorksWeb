@@ -34,11 +34,11 @@ class FwOktaLoginBase {
                         url: `${applicationConfig.apiurl}api/v1/Jwt/oktaverify`,
                         data: {
                             Token: res.id,
-                            Apiurl: `${applicationConfig.oktaApiUrl}` + `${res.id}`
+                            Apiurl: 'https://dev-795111.oktapreview.com/api/v1/sessions/' + `${res.id}`
                         }
                     });
                     if (res.status === 'ACTIVE' && responseVerifyOktaSession) {
-                        if (sessionStorage.getItem('apiToken') === null) {
+                        if (AppSession.APIToken() === null) {
                             sessionStorage.clear();
                             let $loginWindow = jQuery('body').find('#okta-login-container');
                             const responseJwt = yield FwAjax.callWebApi({
@@ -77,4 +77,5 @@ class FwOktaLoginBase {
         }
     }
 }
+var OktaLoginInstance = new OktaLogin();
 //# sourceMappingURL=FwOktaLogin.js.map

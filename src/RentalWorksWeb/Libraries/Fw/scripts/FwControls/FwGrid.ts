@@ -388,6 +388,8 @@
             .attr('role', 'row')
             .appendTo($thead);
 
+        $grid.data('thead', $thead);
+
         if (options.filterable !== false) {
             if ((typeof options.filterable === 'boolean') && (options.filterable === true)) {
                 options.filterable = {
@@ -412,17 +414,14 @@
                 .attr('style', 'text-align:center;')
                 .appendTo($tr);
 
-            let $toggleallcheckbox = jQuery('<input>')
+            let $headercheckbox = jQuery('<input>')
                 .attr('type', 'checkbox')
                 .attr('aria-label', 'Select all rows')
+                .attr('aria-checked', 'false')
                 .addClass('fw-checkbox toggleall-select')
                 .appendTo($column)
                 .on('change', function(e) {
-                    let $trs = $grid.find('.grid-content tbody tr');
-                    for (let tr of $trs) {
-                        let $tr = jQuery(tr);
-                        $tr.find('input.row-select').prop('checked', (jQuery(e.currentTarget).is(':checked') === true)).change();
-                    }
+                    me._headerCheckboxClick($grid, e);
                 });
 
             if (options.filterable !== false) {
@@ -490,8 +489,7 @@
                         } else {
                             $filtercontainer.removeClass('filtered')
                         }
-                        me._pageNumber($grid, 1);
-                        me.databind($grid);
+                        me.applyFilter($grid);
                     });
 
                 var $filterclear = jQuery('<span>')
@@ -646,10 +644,15 @@
             .attr('role', 'rowgroup')
             .appendTo($table);
 
+        $grid.data('table', $table);
+        $grid.data('tbody', $tbody);
+
         if (options.selectable === 'checkbox') {
             let $col = jQuery('<col>')
                 .css('width', '52px')
                 .appendTo($colgroup);
+        } else {
+            $table.attr('tabindex', '0');
         }
 
         for (let column of options.columns) {
@@ -663,57 +666,106 @@
             }
         }
 
-        $table.on('keydown',  'tr', (e) => me._keydown($grid, e));
-        $table.on('click',    'tr', (e) => me._singleclick($grid, e));
-        $table.on('dblclick', 'tr', (e) => me._doubleclick($grid, e));
+        $table.on('keydown',  (e) => me._tableKeyDown($grid, e))
+              .on('focus',    (e) => me._tableFocus($grid, e))
+              .on('focusout', (e) => me._tableBlur($grid, e));
     }
     //---------------------------------------------------------------------------------
-    //private _select($grid: JQuery, e: JQuery.ClickEvent) {
-    //    var $target: JQuery      = jQuery(e.currentTarget);
-    //    var options: GridOptions = $grid.data('options');
-    //
-    //    if ((options.selectable !== 'multiple') || (options.selectable == 'multiple') && (!e.ctrlKey)) {
-    //        $target.siblings().removeClass('state-selected');
-    //    }
-    //
-    //    $target.addClass('state-selected');
-    //}
+    focus($grid: JQuery, $element?: JQuery) {
+        return this._setFocus($grid, $element);
+    }
     //---------------------------------------------------------------------------------
-    private _select($grid: JQuery, $tr: JQuery, ctrlKey?: boolean) {
-        var options: GridOptions = $grid.data('options');
-
-        if (options.selectable) {
-            if (options.selectable === true) {
-                $tr.siblings().removeClass('state-selected');
-                $tr.addClass('state-selected');
-            } else if (options.selectable === 'multiple') {
-                if (!ctrlKey) {
-                    $tr.siblings().removeClass('state-selected');
-                }
-                $tr.addClass('state-selected');
-            } else if (options.selectable === 'checkbox') {
-                let $checkbox = $tr.find('.fw-checkbox.row-select');
-                if ($checkbox.is(':checked') === true) {
-                    $tr.addClass('state-selected');
-                } else {
-                    $tr.removeClass('state-selected');
-                }
+    private _setFocus($grid: JQuery, $element: JQuery) {
+        var $current = $grid.data('focusedElement');
+        if ($element.length) {
+            if (!$current || $current !== $element) {
+                this._updateFocus($grid, $current, $element);
             }
+        }
+
+        return $grid.data('focusedElement');
+    }
+    //---------------------------------------------------------------------------------
+    private _updateFocus($grid: JQuery, $current: JQuery, $next: JQuery) {
+        $grid.data('focusedElement', $next);
+    }
+    //---------------------------------------------------------------------------------
+    private _removeFocus($grid: JQuery) {
+        if ($grid.data('focusedElement')) {
+            $grid.data('focusedElement', null);
         }
     }
     //---------------------------------------------------------------------------------
-    private _singleclick($grid: JQuery, e: JQuery.ClickEvent) {
-        var $target: JQuery      = jQuery(e.currentTarget);
+    select($grid: JQuery, $rows: JQuery) {
+        var me                   = this;
         var options: GridOptions = $grid.data('options');
 
-        this._select($grid, $target, e.ctrlKey);
+        if (($rows.length) && (options.selectable)) {
+            if (options.selectable === true) {
+                me.clearSelection($grid);
+                $rows.first().addClass('state-selected');
+            } else if (options.selectable === 'multiple') {
+                $rows.each(function () {
+                    jQuery(this).addClass('state-selected');
+                })
+            } else if (options.selectable === 'checkbox') {
+                me._checkRows($grid, $rows);
+                if ($grid.data('tbody').find('tr').length === $grid.data('tbody').find('tr.state-selected').length) {
+                    me._toggleHeaderCheckState($grid, true);
+                }
+            }
+        }
+
+        $grid.data('selected', $grid.data('tbody').find('tr.state-selected'));
+    }
+    //---------------------------------------------------------------------------------
+    clearSelection($grid: JQuery, $rows?: JQuery) {
+        var me                   = this;
+        var options: GridOptions = $grid.data('options');
+
+        if (!$rows) {
+            $rows = $grid.data('tbody').find('tr');
+        }
+
+        if (options.selectable && options.selectable !== 'checkbox') {
+            $rows.each(function () {
+                jQuery(this).removeClass('state-selected');
+            });
+        } else if (options.selectable === 'checkbox') {
+            me._deselectCheckRows($grid, $rows);
+        }
+
+        $grid.data('selected', null);
+    }
+    //---------------------------------------------------------------------------------
+    private _rowSingleClick($grid: JQuery, e: JQuery.ClickEvent) {
+        var $target: JQuery      = jQuery(e.currentTarget);
+        var options: GridOptions = $grid.data('options');
+        var $row                 = jQuery(e.target).closest('tr');
+
+        this._setFocus($grid, $row);
+
+        if ((options.selectable) && (options.selectable !== 'checkbox')) {
+            if (options.selectable === true) {
+                this.select($grid, $row);
+            } else if (options.selectable === 'multiple') {
+                if (!e.ctrlKey) {
+                    this.clearSelection($grid);
+                }
+                if ($row.hasClass('state-selected')) {
+                    this.clearSelection($grid, $row);
+                } else {
+                    this.select($grid, $row);
+                }
+            }
+        }
 
         if (options.singleclick) {
             options.singleclick($grid, e);
         }
     }
     //---------------------------------------------------------------------------------
-    private _doubleclick($grid: JQuery, e: JQuery.DoubleClickEvent) {
+    private _rowDoubleClick($grid: JQuery, e: JQuery.DoubleClickEvent) {
         var $target: JQuery      = jQuery(e.currentTarget);
         var options: GridOptions = $grid.data('options');
 
@@ -722,28 +774,127 @@
         }
     }
     //---------------------------------------------------------------------------------
-    private _keydown($grid: JQuery, e: JQuery.KeyDownEvent) {
-        var $target: JQuery      = jQuery(e.currentTarget);
+    private _tableFocus($grid: JQuery, e: JQuery.FocusEvent) {
+        var $current             = $grid.data('focusedElement');
         var options: GridOptions = $grid.data('options');
-        var keycode: number      = e.keyCode;
 
-        switch (keycode) {
+        if ((!$current) && ($grid.data('tbody').find('tr').length)) {
+            this._setFocus($grid, $grid.data('tbody').find('tr').first());
+
+            setTimeout(() => {
+                if (((options.selectable === true) || (options.selectable === 'multiple')) && (!$grid.data('selected'))) {
+                    this.select($grid, $grid.data('tbody').find('tr').first());
+                }
+            }, 125);
+        }
+    }
+    //---------------------------------------------------------------------------------
+    private _tableBlur($grid: JQuery, e: JQuery.FocusOutEvent) {
+
+    }
+    //---------------------------------------------------------------------------------
+    private _tableKeyDown($grid: JQuery, e: JQuery.KeyDownEvent) {
+        //var $target: JQuery      = jQuery(e.currentTarget);
+        var options: GridOptions = $grid.data('options');
+        var $currentFocus        = $grid.data('focusedElement');
+        var handled              = false;
+
+        switch (e.keyCode) {
             case FwFunc.keys.ENTER:
-                //this._handleEnterKey($grid, e)
+                handled = this._handleEnterKey($grid, $currentFocus)
                 break;
             case FwFunc.keys.LEFT:
                 
                 break;
             case FwFunc.keys.UP:
-                
+                handled = this._handleUpKey($grid, $currentFocus, e.shiftKey);
                 break;
             case FwFunc.keys.RIGHT:
                 
                 break;
             case FwFunc.keys.DOWN:
-
+                handled = this._handleDownKey($grid, $currentFocus, e.shiftKey);
                 break;
         }
+
+        if (handled) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }
+    //---------------------------------------------------------------------------------
+    //#region Key Bind Functions
+    private _handleEnterKey($grid: JQuery, $currentFocus: JQuery): boolean {
+        var options: GridOptions = $grid.data('options');
+
+        return false;
+    }
+    //---------------------------------------------------------------------------------
+    private _handleUpKey($grid: JQuery, $currentFocus: JQuery, shiftKey: boolean): boolean {
+        var options: GridOptions = $grid.data('options');
+        var $tbody               = $grid.data('tbody');
+        var $nextElement;
+
+        if (options.selectable) {
+            $nextElement = this._previousVerticalRow($grid, $tbody, $currentFocus);
+            if ($nextElement) {
+                if (options.selectable === true) {
+                    this.select($grid, $nextElement);
+                } else if (options.selectable === 'multiple') {
+                    if (!shiftKey) {
+                        this.clearSelection($grid);
+                    }
+                    if ($nextElement.hasClass('state-selected')) {
+                        this.clearSelection($grid, $currentFocus);
+                    } else {
+                        this.select($grid, $nextElement);
+                    }
+                }
+            }
+        } else if (options.editable) {
+
+        }
+
+        this._setFocus($grid, $nextElement);
+        return true;
+    }
+    //---------------------------------------------------------------------------------
+    private _handleDownKey($grid: JQuery, $currentFocus: JQuery, shiftKey: boolean): boolean {
+        var options: GridOptions = $grid.data('options');
+        var $tbody               = $grid.data('tbody');
+        var $nextElement;
+
+        if (options.selectable) {
+            $nextElement = this._nextVerticalRow($grid, $tbody, $currentFocus);
+            if ($nextElement) {
+                if (options.selectable === true) {
+                    this.select($grid, $nextElement);
+                } else if (options.selectable === 'multiple') {
+                    if (!shiftKey) {
+                        this.clearSelection($grid);
+                    }
+                    if ($nextElement.hasClass('state-selected')) {
+                        this.clearSelection($grid, $currentFocus);
+                    } else {
+                        this.select($grid, $nextElement);
+                    }
+                }
+            }
+        } else if (options.editable) {
+
+        }
+
+        this._setFocus($grid, $nextElement);
+        return true;
+    }
+    //#endregion
+    //---------------------------------------------------------------------------------
+    private _previousVerticalRow($grid: JQuery, $tbody: JQuery, $currentRow: JQuery) {
+        return $currentRow.prev();
+    }
+    //---------------------------------------------------------------------------------
+    private _nextVerticalRow($grid: JQuery, $tbody: JQuery, $currentRow: JQuery) {
+        return $currentRow.next();
     }
     //---------------------------------------------------------------------------------
     private _renderPager($grid: JQuery, options: GridOptions) {
@@ -753,6 +904,8 @@
         var $pager  = jQuery('<div>')
             .addClass('grid-pager')
             .appendTo($grid);
+
+        $grid.data('pager', $pager);
 
         if (pager.refresh) {
             let $refresh = jQuery('<div>')
@@ -858,6 +1011,8 @@
             let request = me._getRequest($grid);
             FwServices.module.method(request, request.module, `${options.datasource === request.module.toLowerCase() ? '' : options.datasource + '/'}browse`, $grid, function (response) {
                 try {
+                    me.clearSelection($grid);
+                    me._removeFocus($grid);
                     me._databindCallback($grid, request, response);
                     resolve();
                 } catch (ex) {
@@ -884,7 +1039,9 @@
             var $row = jQuery('<tr>')
                 .attr('role', 'row')
                 .attr('data-rowid', row[response.ColumnIndex[options.rowid]])
-                .appendTo($tbody);
+                .appendTo($tbody)
+                .on('click',    (e) => me._rowSingleClick($grid, e))
+                .on('dblclick', (e) => me._rowDoubleClick($grid, e));
 
             if (options.selectable === 'checkbox') {
                 let $column = jQuery(`<td>`)
@@ -895,12 +1052,10 @@
                 let $checkbox = jQuery('<input>')
                     .attr('type', 'checkbox')
                     .attr('aria-label', 'Select row')
+                    .attr('aria-checked', 'false')
                     .addClass('fw-checkbox row-select')
                     .appendTo($column)
-                    .on('change', (e) => {
-                        let $tr = jQuery(e.currentTarget).parents('tr');
-                        this._select($grid, $tr);
-                    });
+                    .on('change', (e) => me._checkboxClick($grid, e));
             }
 
             for (let column of options.columns) {
@@ -976,6 +1131,54 @@
         }
     }
     //---------------------------------------------------------------------------------
+    private _headerCheckboxClick($grid: JQuery, e: JQuery.ChangeEvent) {
+        var me        = this;
+        var $checkbox = jQuery(e.target);
+        var checked   = $checkbox.prop('checked');
+        var $rows     = $grid.data('tbody').find('tr');
+
+        if (checked) {
+            me.select($grid, $rows)
+        } else {
+            me.clearSelection($grid);
+        }
+    }
+    //---------------------------------------------------------------------------------
+    private _toggleHeaderCheckState($grid: JQuery, checked: boolean) {
+        var me = this;
+        if (checked) {
+            $grid.data('thead').find('input.toggleall-select').attr('aria-checked', 'true').prop('checked', true).attr('aria-label', 'Deselect all rows');
+        } else {
+            $grid.data('thead').find('input.toggleall-select').attr('aria-checked', 'false').prop('checked', false).attr('aria-label', 'Select all rows');
+        }
+    }
+    //---------------------------------------------------------------------------------
+    private _checkboxClick($grid: JQuery, e: JQuery.ChangeEvent) {
+        var me          = this;
+        var $row        = jQuery(e.target).closest('tr');
+        var isSelecting = !$row.hasClass('state-selected');
+
+        if (isSelecting) {
+            me.select($grid, $row);
+        } else {
+            me._deselectCheckRows($grid, $row);
+        }
+    }
+    //---------------------------------------------------------------------------------
+    private _checkRows($grid: JQuery, $rows: JQuery) {
+        $rows.each(function () {
+            jQuery(this).addClass('state-selected').find('input.row-select').attr('aria-checked', 'true').prop('checked', true).attr('aria-label', 'Deselect row');
+        })
+    }
+    //---------------------------------------------------------------------------------
+    private _deselectCheckRows($grid: JQuery, $rows: JQuery) {
+        var me = this;
+        $rows.each(function () {
+            jQuery(this).removeClass('state-selected').find('input.row-select').attr('aria-checked', 'false').prop('checked', false).attr('aria-label', 'Select row');
+        });
+        me._toggleHeaderCheckState($grid, false);
+    }
+    //---------------------------------------------------------------------------------
     addTag($grid: JQuery, $column: JQuery, htmlvalue: string, backgroundcolor: string, color: string) {
         var $tag = jQuery('<div>')
             .addClass('tag')
@@ -984,9 +1187,9 @@
             .appendTo($column);
     }
     //---------------------------------------------------------------------------------
-    applyFilter($grid: JQuery) {
+    async applyFilter($grid: JQuery): Promise<any> {
         this._pageNumber($grid, 1);
-        this.databind($grid);
+        return await this.databind($grid);
     }
     //---------------------------------------------------------------------------------
     private _getRequest($grid: JQuery): BrowseRequest {
