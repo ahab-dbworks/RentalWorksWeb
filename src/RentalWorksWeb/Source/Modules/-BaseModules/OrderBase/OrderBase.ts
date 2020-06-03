@@ -1343,7 +1343,7 @@ class OrderBase {
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
 
-            FwFormField.setValueByDataField($form, 'RateType', office.ratetype, office.ratetype);
+            FwFormField.setValueByDataField($form, 'RateType', office.ratetype, office.ratetypedisplay);
         }
 
         let nodeEmailHistory = FwApplicationTree.getNodeById(FwApplicationTree.tree, '3XHEm3Q8WSD8z');

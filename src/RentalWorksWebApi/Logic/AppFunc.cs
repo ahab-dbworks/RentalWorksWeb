@@ -681,6 +681,7 @@ namespace WebApi.Logic
             public string companyname { get; set; } = string.Empty;
             public string locationcolor { get; set; } = string.Empty;
             public string ratetype { get; set; } = string.Empty;
+            public string ratetypedisplay { get; set; } = string.Empty;
             public string defaultcurrency { get; set; } = string.Empty;
             public string defaultcurrencyid { get; set; } = string.Empty;
             public string defaultcurrencycode { get; set; } = string.Empty;
@@ -692,7 +693,7 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select locationid, location, locationcolor, company, ratetype, defaultcurrencyid, defaultcurrency, defaultcurrencycode");
+                    qry.Add("select locationid, location, locationcolor, company, ratetype, ratetypedisplay, defaultcurrencyid, defaultcurrency, defaultcurrencycode");
                     qry.Add("from locationview with (nolock)");
                     qry.Add("where locationid = @locationid");
                     qry.AddParameter("@locationid", locationid);
@@ -702,6 +703,7 @@ namespace WebApi.Logic
                     response.companyname = qry.GetField("company").ToString().TrimEnd();
                     response.locationcolor = qry.GetField("locationcolor").ToHtmlColor();
                     response.ratetype = qry.GetField("ratetype").ToString().TrimEnd();
+                    response.ratetypedisplay = qry.GetField("ratetypedisplay").ToString().TrimEnd();
                     response.defaultcurrencyid = qry.GetField("defaultcurrencyid").ToString().TrimEnd();
                     response.defaultcurrency = qry.GetField("defaultcurrency").ToString().TrimEnd();
                     response.defaultcurrencycode = qry.GetField("defaultcurrencycode").ToString().TrimEnd();

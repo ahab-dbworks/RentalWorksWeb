@@ -68,6 +68,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwLogicProperty(Id: "lGRLyD6Zq20")]
         public string RateType { get { return location.RateType; } set { location.RateType = value; } }
 
+        [FwLogicProperty(Id: "TD0CoCaw0vFpJ", IsReadOnly: true)]
+        public string RateTypeDisplay { get; set; }
+
         [FwLogicProperty(Id: "17YN2fTfnBCZH")]
         public string Color { get { return location.Color; } set { location.Color = value; } }
 

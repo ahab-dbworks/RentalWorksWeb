@@ -57,6 +57,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string RateType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ratetypedisplay", modeltype: FwDataTypes.Text)]
+        public string RateTypeDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationcolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
