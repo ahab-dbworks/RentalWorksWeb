@@ -11,6 +11,7 @@ using System.Data;
 
 namespace WebApi.Modules.Utilities.MigrateItem
 {
+    [FwSqlTable("migrateitemwebview")]
     public class MigrateItemLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -104,11 +105,11 @@ namespace WebApi.Modules.Utilities.MigrateItem
         [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Text)]
         public string OptionColor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outreceiveusersid", modeltype: FwDataTypes.Text)]
-        public string StagedByUserId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outuser", modeltype: FwDataTypes.Text)]
-        public string StagedByUser { get; set; }
+        //[FwSqlDataField(column: "outreceiveusersid", modeltype: FwDataTypes.Text)]
+        //public string StagedByUserId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "outuser", modeltype: FwDataTypes.Text)]
+        //public string StagedByUser { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
         public string ParentId { get; set; }
@@ -131,25 +132,12 @@ namespace WebApi.Modules.Utilities.MigrateItem
         [FwSqlDataField(column: "consignoragreementid", modeltype: FwDataTypes.Text)]
         public string ConsignorAgreementId { get; set; }
         //------------------------------------------------------------------------------------ 
-        public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            string sessionId = GetUniqueIdAsString("SessionId", request) ?? "";
-
-            FwJsonDataTable dt = null;
-
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-            {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getmigrateitems", this.AppConfig.DatabaseSettings.QueryTimeout))
-                {
-                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
-                    AddPropertiesAsQueryColumns(qry);
-                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
-                }
-            }
-            return dt;
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            addFilterToSelect("SessionId", "sessionid", select, request);
         }
         //------------------------------------------------------------------------------------
-
-
     }
 }
