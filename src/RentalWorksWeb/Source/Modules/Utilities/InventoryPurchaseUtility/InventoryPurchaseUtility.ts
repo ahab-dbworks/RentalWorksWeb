@@ -218,6 +218,7 @@ class InventoryPurchaseUtility {
                     const keycode = e.keyCode || e.which;
                     if (keycode === 13) {
                         const $tr = jQuery(e.currentTarget).parents('tr');
+                        const datafield = jQuery(e.currentTarget).attr('data-browsedatafield');
                         let $nextRow = FwBrowse.selectNextRow($browse);
                         const nextIndex = FwBrowse.getSelectedIndex($browse);
                         FwBrowse.saveRow($browse, $tr)
@@ -225,7 +226,7 @@ class InventoryPurchaseUtility {
                                 if (nextIndex != -1) {
                                     $nextRow = FwBrowse.selectRowByIndex($browse, nextIndex);
                                     FwBrowse.setRowEditMode($browse, $nextRow);
-                                    $browse.data('selectedfield', 'BarCode');
+                                    $browse.data('selectedfield', datafield);
                                 }
                             });
                     }
