@@ -42,8 +42,7 @@ FwBasePages.getLoginScreen = function(viewModel) {
     screen = {};
     html = [];
 
-    if (!viewModel.isOktaLogin) {
-
+    if (!viewModel.OktaEnabled) {
         html.push('<div class="login-page">');
         html.push('  <div class="login-container">');
         html.push('    <div class="programlogo">');
@@ -70,11 +69,8 @@ FwBasePages.getLoginScreen = function(viewModel) {
         html.push('    <div id="version">v{{valueVersion}}</div>');
         html.push('  </div>');
         html.push('</div>');
-
     } else {
-
         html.push('  <div id="okta-login-container"></div>');
-
     }
 
     html = html.join('');

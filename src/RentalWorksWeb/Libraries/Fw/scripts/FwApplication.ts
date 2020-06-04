@@ -190,6 +190,7 @@ class FwApplication {
     //---------------------------------------------------------------------------------
     load() {
         var me = this;
+        me.registerScripts();
         window.addEventListener("dragover", function (e) {
             e.preventDefault();
         }, false);
@@ -207,6 +208,20 @@ class FwApplication {
         } else {
             var media = localStorage.getItem('media');
             this.setMedia(media);
+        }
+    }
+    //---------------------------------------------------------------------------------
+    registerScripts() {
+        if (applicationConfig.OktaEnabled) {
+            jQuery('<script>')
+                .attr('type', 'text/javascript')
+                .attr('src', 'https://global.oktacdn.com/okta-signin-widget/3.2.0/js/okta-sign-in.min.js')
+                .appendTo(jQuery('head'));
+            jQuery('<link>')
+                .attr('type', 'text/css')
+                .attr('rel', 'stylesheet')
+                .attr('src', 'https://global.oktacdn.com/okta-signin-widget/3.2.0/css/okta-sign-in.min.css')
+                .appendTo(jQuery('head'));
         }
     }
     //---------------------------------------------------------------------------------
@@ -419,13 +434,13 @@ class FwApplication {
             const apiurlSubStr = applicationConfig.apiurl.replace('api/', '');
             if (applicationConfig.apiurl.indexOf(localSubStr) !== -1) {
                 //okta redirects to the base url without a hash symbol, so if its active and we are there its probaly redirecting with tokens to the base app page, so we redirect to login.
-                if ((window.location.href === "http://localhost/rentalworksweb/" || "http://localhost/gateworksweb") && applicationConfig.isOktaLogin === true) {
+                if ((window.location.href === "http://localhost/rentalworksweb/" || "http://localhost/gateworksweb") && applicationConfig.OktaEnabled === true) {
                     program.navigate('login');
                 } else {
                     FwFunc.showError(`404: Not Found - ${path}`);
                 }
             } else {
-                if ((window.location.href === apiurlSubStr) && applicationConfig.isOktaLogin === true) {
+                if ((window.location.href === apiurlSubStr) && applicationConfig.OktaEnabled === true) {
                     program.navigate('login');
                 } else {
                     FwFunc.showError(`404: Not Found - ${path}`);

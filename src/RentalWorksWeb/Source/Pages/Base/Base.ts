@@ -36,7 +36,7 @@ class Base {
             captionSupport: RwLanguages.translate('Support'),
             valueYear: new Date().getFullYear(),
             valueVersion: applicationConfig.version,
-            isOktaLogin: applicationConfig.isOktaLogin
+            OktaEnabled: applicationConfig.OktaEnabled
         };
         let screen: any = {};
         if ((typeof applicationConfig.customLogin != 'undefined') && (applicationConfig.customLogin == true)) {
@@ -45,10 +45,9 @@ class Base {
             screen = FwBasePages.getLoginScreen(viewModel);
         }
 
-        if (viewModel.isOktaLogin) {
+        if (viewModel.OktaEnabled) {
             OktaLoginInstance.loadOktaLogin();
         } else {
-
             screen.$view
                 .on('click', '.btnLogin', async (e: JQuery.ClickEvent) => {
                     try {
