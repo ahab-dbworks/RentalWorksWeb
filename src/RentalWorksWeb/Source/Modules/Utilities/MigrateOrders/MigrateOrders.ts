@@ -43,7 +43,8 @@ class MigrateOrders {
         const department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         const rateType = JSON.parse(sessionStorage.getItem('defaultlocation')).ratetype;
-        FwFormField.setValueByDataField($form, 'RateType', rateType, rateType);
+        const rateTypeDisplay = JSON.parse(sessionStorage.getItem('defaultlocation')).ratetypedisplay;
+        FwFormField.setValueByDataField($form, 'RateType', rateType, rateTypeDisplay);
         const today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'FromDate', today);
         FwFormField.setValueByDataField($form, 'ToDate', today);
