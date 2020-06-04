@@ -136,17 +136,17 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         public string DateStamp { get { return taxOption.DateStamp; } set { taxOption.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
-        {
-            bool isValid = true;
-            if (isValid)
-            {
-                PropertyInfo property = typeof(TaxOptionLogic).GetProperty(nameof(TaxOptionLogic.TaxCountry));
-                string[] acceptableValues = { RwConstants.TAX_COUNTRY_USA, RwConstants.TAX_COUNTRY_CANADA };
-                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
-            }
-            return isValid;
-        }
+        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        //{
+        //    bool isValid = true;
+        //    if (isValid)
+        //    {
+        //        PropertyInfo property = typeof(TaxOptionLogic).GetProperty(nameof(TaxOptionLogic.TaxCountry));
+        //        string[] acceptableValues = { RwConstants.TAX_COUNTRY_USA, RwConstants.TAX_COUNTRY_CANADA };
+        //        isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+        //    }
+        //    return isValid;
+        //}
         //------------------------------------------------------------------------------------
         public bool ForceRates()
         {

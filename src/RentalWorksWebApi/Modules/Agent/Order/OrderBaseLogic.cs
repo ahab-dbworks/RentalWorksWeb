@@ -410,6 +410,11 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "WzIDTjqbA6Ts", IsReadOnly: true)]
         public string TaxOption { get; set; }
 
+        [FwLogicProperty(Id: "YMJkZK2ebeP5", IsReadOnly: true)]
+        public string Tax1Name { get; set; }
+
+        [FwLogicProperty(Id: "YHKcqIbMokJA", IsReadOnly: true)]
+        public string Tax2Name { get; set; }
 
 
         [FwLogicProperty(Id: "DlnfpRI6Axwa", DisableDirectAssign: true, DisableDirectModify: true)]
