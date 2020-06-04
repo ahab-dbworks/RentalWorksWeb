@@ -525,9 +525,9 @@ class TransferOrder {
         const status = FwFormField.getValueByDataField($form, 'Status');
 
         if (status === 'CONFIRMED') {
-            $form.find('div[data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"] .caption').text('Un-confirm');
+            $form.find('.submenu .submenu-btn[data-securityid="VHP1qrNmwB4"] .caption').text('Un-confirm');
         } else if (status !== 'NEW') {
-            $form.find('div[data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"]').css({ 'pointer-events': 'none', 'color': '#E0E0E0' });
+            $form.find('.submenu .submenu-btn[data-securityid="VHP1qrNmwB4"]').css({ 'pointer-events': 'none', 'color': '#E0E0E0' });
         }
 
         const $orderItemRentalGrid = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
