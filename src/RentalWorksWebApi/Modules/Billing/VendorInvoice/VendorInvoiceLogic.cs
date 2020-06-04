@@ -206,6 +206,12 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwLogicProperty(Id: "qdXCYBN6y8ct", IsReadOnly: true)]
         public string TaxOption { get; set; }
 
+        [FwLogicProperty(Id: "UVm8YGPRqfx6", IsReadOnly: true)]
+        public string Tax1Name { get; set; }
+
+        [FwLogicProperty(Id: "e2akGBUVdA90", IsReadOnly: true)]
+        public string Tax2Name { get; set; }
+
         [FwLogicProperty(Id: "4dw1Z2OPALPa", IsReadOnly: true)]
         public string TaxItemCode { get; set; }
 

@@ -696,6 +696,12 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "gNNYzTTDz8v8", DisableDirectModify: true)]
         public string TaxId { get { return purchaseOrder.TaxId; } set { purchaseOrder.TaxId = value; } }
 
+        [FwLogicProperty(Id: "gLEVVNQ8Daeu", IsReadOnly: true)]
+        public string Tax1Name { get; set; }
+
+        [FwLogicProperty(Id: "IeKfALQLLweJ", IsReadOnly: true)]
+        public string Tax2Name { get; set; }
+
         [FwLogicProperty(Id: "krjw2wDrUP6R")]
         public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
 

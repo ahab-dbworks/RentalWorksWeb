@@ -958,7 +958,7 @@ class Invoice {
         FwModule.loadAudit($form, uniqueid);
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: JQuery): void {
+    afterLoad($form: JQuery, response: any): void {
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
@@ -1036,8 +1036,39 @@ class Invoice {
                 $this.find('div.fwcontextmenu fwcontextmenubox .deleteoption').css('pointer-events', 'none');
             }
         })
-    };
 
+        this.applyTaxOptions($form, response);
+    };
+    //----------------------------------------------------------------------------------------------
+    applyTaxOptions($form: JQuery, response: any) {
+        const $taxFields = $form.find('[data-totalfield="Tax"]');
+        const tax1Name = response.Tax1Name;
+        const tax2Name = response.Tax2Name;
+
+        const updateCaption = ($fields, rate) => {
+            for (let i = 0; i < $fields.length; i++) {
+                const $field = jQuery($fields[i]);
+                const taxType = $field.attr('data-taxtype');
+                const taxRateName = taxType + 'TaxRate' + rate;
+                const taxRatePercentage = response[taxRateName];
+                const caption = tax1Name + ` (${taxRatePercentage.toFixed(3) + '%'})`;
+                $field.find('.fwformfield-caption').text(caption);
+            }
+        }
+
+        if (tax1Name != "") {
+            updateCaption($taxFields, 1);
+        }
+
+        const $tax2Fields = $form.find('[data-totalfield="Tax2"]');
+        if (tax2Name != "") {
+            $tax2Fields.show();
+            updateCaption($tax2Fields, 2);
+        } else {
+            $tax2Fields.hide();
+        }
+
+    }
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form: JQuery): void {
         const invoiceType = FwFormField.getValueByDataField($form, 'InvoiceType');

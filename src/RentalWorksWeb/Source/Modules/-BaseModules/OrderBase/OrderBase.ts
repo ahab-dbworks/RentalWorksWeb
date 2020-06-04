@@ -4093,6 +4093,7 @@ class OrderBase {
        
         const $tax2Fields = $form.find('[data-totalfield="Tax2"]');
         if (tax2Name != "") {
+            $tax2Fields.show();
             updateCaption($tax2Fields, 2);
         } else {
             $tax2Fields.hide();

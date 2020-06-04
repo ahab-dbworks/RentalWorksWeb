@@ -115,6 +115,12 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
         public string TaxOption { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax1name", modeltype: FwDataTypes.Text)]
+        public string Tax1Name { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax2name", modeltype: FwDataTypes.Text)]
+        public string Tax2Name { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentalrate1", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalTaxRate1 { get; set; }
         //------------------------------------------------------------------------------------

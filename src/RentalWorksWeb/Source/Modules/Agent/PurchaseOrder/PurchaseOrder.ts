@@ -1570,7 +1570,38 @@ class PurchaseOrder implements IModule {
         }
 
         this.renderScheduleDateAndTimeSection($form, response);
+        this.applyTaxOptions($form, response);
     };
+    //----------------------------------------------------------------------------------------------
+    applyTaxOptions($form: JQuery, response: any) {
+        const $taxFields = $form.find('[data-totalfield="Tax"]');
+        const tax1Name = response.Tax1Name;
+        const tax2Name = response.Tax2Name;
+
+        const updateCaption = ($fields, rate) => {
+            for (let i = 0; i < $fields.length; i++) {
+                const $field = jQuery($fields[i]);
+                const taxType = $field.attr('data-taxtype');
+                const taxRateName = taxType + 'TaxRate' + rate;
+                const taxRatePercentage = response[taxRateName];
+                const caption = tax1Name + ` (${taxRatePercentage.toFixed(3) + '%'})`;
+                $field.find('.fwformfield-caption').text(caption);
+            }
+        }
+
+        if (tax1Name != "") {
+            updateCaption($taxFields, 1);
+        }
+
+        const $tax2Fields = $form.find('[data-totalfield="Tax2"]');
+        if (tax2Name != "") {
+            $tax2Fields.show();
+            updateCaption($tax2Fields, 2);
+        } else {
+            $tax2Fields.hide();
+        }
+
+    }
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
         // Total and With Tax for all OrderItemGrid
