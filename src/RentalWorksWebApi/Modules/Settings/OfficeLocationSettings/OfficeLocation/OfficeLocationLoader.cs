@@ -21,6 +21,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
         public string CompanyName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittofedid", modeltype: FwDataTypes.Text)]
+        public string FederalId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
         public string Address1 { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -53,6 +56,39 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webaddress", modeltype: FwDataTypes.Text)]
         public string WebAddress { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittocompany", modeltype: FwDataTypes.Text)]
+        public string RemitToCompanyName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittoadd1", modeltype: FwDataTypes.Text)]
+        public string RemitToAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittoadd2", modeltype: FwDataTypes.Text)]
+        public string RemitToAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittocity", modeltype: FwDataTypes.Text)]
+        public string RemitToCity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittozip", modeltype: FwDataTypes.Text)]
+        public string RemitToZip { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittostate", modeltype: FwDataTypes.Text)]
+        public string RemitToState { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittophone", modeltype: FwDataTypes.Text)]
+        public string RemitToPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittocountryid", modeltype: FwDataTypes.Text)]
+        public string RemitToCountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittocountry", modeltype: FwDataTypes.Text)]
+        public string RemitToCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittofax", modeltype: FwDataTypes.Text)]
+        public string RemitToFax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittoemail", modeltype: FwDataTypes.Text)]
+        public string RemitToEmail { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string RateType { get; set; }

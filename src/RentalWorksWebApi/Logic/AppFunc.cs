@@ -685,6 +685,8 @@ namespace WebApi.Logic
             public string defaultcurrency { get; set; } = string.Empty;
             public string defaultcurrencyid { get; set; } = string.Empty;
             public string defaultcurrencycode { get; set; } = string.Empty;
+            public string countryid { get; set; } = string.Empty;
+            public string country { get; set; } = string.Empty;
         }
         public static async Task<SessionLocation> GetSessionLocationAsync(FwApplicationConfig appConfig, string locationid)
         {
@@ -693,9 +695,10 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select locationid, location, locationcolor, company, ratetype, ratetypedisplay, defaultcurrencyid, defaultcurrency, defaultcurrencycode");
-                    qry.Add("from locationview with (nolock)");
-                    qry.Add("where locationid = @locationid");
+                    qry.Add("select locationid, location, locationcolor, company, ratetype, ratetypedisplay, defaultcurrencyid, defaultcurrency, defaultcurrencycode, ");
+                    qry.Add("       countryid, country                                                                                                                ");
+                    qry.Add("from locationview with (nolock)                                                                                                          ");
+                    qry.Add("where locationid = @locationid                                                                                                           ");
                     qry.AddParameter("@locationid", locationid);
                     await qry.ExecuteAsync();
                     response.locationid = qry.GetField("locationid").ToString().TrimEnd();
@@ -707,6 +710,8 @@ namespace WebApi.Logic
                     response.defaultcurrencyid = qry.GetField("defaultcurrencyid").ToString().TrimEnd();
                     response.defaultcurrency = qry.GetField("defaultcurrency").ToString().TrimEnd();
                     response.defaultcurrencycode = qry.GetField("defaultcurrencycode").ToString().TrimEnd();
+                    response.countryid = qry.GetField("countryid").ToString().TrimEnd();
+                    response.country = qry.GetField("country").ToString().TrimEnd();
                 }
             }
             return response;
@@ -821,7 +826,7 @@ namespace WebApi.Logic
                     response.departmentid = qry.GetField("departmentid").ToString().TrimEnd();
                     response.department = qry.GetField("department").ToString().TrimEnd();
                     response.firstdayofweek = FwConvert.ToInt32(qry.GetField("firstdayofweek").ToString().TrimEnd());
-                    
+
                 }
             }
             return response;
@@ -1049,7 +1054,7 @@ namespace WebApi.Logic
                     }
                 }
             }
-            
+
             return userCanModify;
         }
         //-------------------------------------------------------------------------------------------------------    
@@ -1081,7 +1086,7 @@ namespace WebApi.Logic
                     }
                 }
             }
-            
+
             return userCanModify;
         }
         //-------------------------------------------------------------------------------------------------------    

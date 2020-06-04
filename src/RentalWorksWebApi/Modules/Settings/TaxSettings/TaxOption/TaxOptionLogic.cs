@@ -34,7 +34,10 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         public bool? AvailableForPurchases { get { return taxOption.AvailableForPurchases; } set { taxOption.AvailableForPurchases = value; } }
 
         [FwLogicProperty(Id:"T0qmvcp8wGac")]
-        public string TaxCountry { get { return taxOption.TaxCountry; } set { taxOption.TaxCountry = value; } }
+        public string TaxCountryId { get { return taxOption.TaxCountryId; } set { taxOption.TaxCountryId = value; } }
+
+        [FwLogicProperty(Id: "T0qmvcp8wGac", IsReadOnly: true)]
+        public string TaxCountry { get; set; }
 
         [FwLogicProperty(Id:"8YvUWvtvJuPB")]
         public string TaxRule { get { return taxOption.TaxRule; } set { taxOption.TaxRule = value; } }
@@ -113,6 +116,18 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
 
         [FwLogicProperty(Id:"jQ0YgL93DIm3")]
         public string PstExportCode { get { return taxOption.PstExportCode; } set { taxOption.PstExportCode = value; } }
+
+        [FwLogicProperty(Id: "mswUZY0a9A7Fr")]
+        public string Tax1Name { get { return taxOption.Tax1Name; } set { taxOption.Tax1Name = value; } }
+        
+        [FwLogicProperty(Id: "YLQN2uMx7ybu0")]
+        public string Tax1Description { get { return taxOption.Tax1Description; } set { taxOption.Tax1Description = value; } }
+        
+        [FwLogicProperty(Id: "O8HsIRMSEi8q3")]
+        public string Tax2Name { get { return taxOption.Tax2Name; } set { taxOption.Tax2Name = value; } }
+        
+        [FwLogicProperty(Id: "cVxNrUUKtKCnK")]
+        public string Tax2Description { get { return taxOption.Tax2Description; } set { taxOption.Tax2Description = value; } }
 
         [FwLogicProperty(Id:"jM8hPxA7WL5r")]
         public bool? Inactive { get { return taxOption.Inactive; } set { taxOption.Inactive = value; } }

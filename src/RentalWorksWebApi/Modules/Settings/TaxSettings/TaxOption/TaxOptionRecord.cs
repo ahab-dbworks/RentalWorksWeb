@@ -22,8 +22,8 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         [FwSqlDataField(column: "availforpurchase", modeltype: FwDataTypes.Boolean)]
         public bool? AvailableForPurchases { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text, maxlength: 1, required: true)]
-        public string TaxCountry { get; set; }
+        [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text, maxlength: 8, required: true)]
+        public string TaxCountryId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxrule", modeltype: FwDataTypes.Text, maxlength: 1)]
         public string TaxRule { get; set; }
@@ -84,6 +84,18 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "pstexportcode", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string PstExportCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax1name", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20, required: true)]
+        public string Tax1Name { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax1description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string Tax1Description { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax2name", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
+        public string Tax2Name { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax2description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string Tax2Description { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
