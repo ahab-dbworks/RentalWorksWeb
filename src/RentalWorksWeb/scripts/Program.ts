@@ -243,16 +243,10 @@ routes.push({ pattern: /^module\/template$/, action: function (match: RegExpExec
 routes.push({ pattern: /^module\/gldistribution$/, action: function (match: RegExpExecArray) { return GlDistributionController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/crew$/, action: function (match: RegExpExecArray) { return CrewController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/widget$/, action: function (match: RegExpExecArray) { return WidgetController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/dashboard$/, action: function (match: RegExpExecArray) { return DashboardController.loadDashboard(); } });
 routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExecArray) { return ContractController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/physicalinventory$/, action: function (match: RegExpExecArray) { return PhysicalInventoryController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dataexportformat$/, action: function (match: RegExpExecArray) { return DataExportFormatController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/marketsegment$/, action: function (match: RegExpExecArray) { return MarketSegmentController.getModuleScreen(); } });
-
-//Reports                                             
-//routes.push({ pattern: /^module\/dealoutstanding$/, action: function (match: RegExpExecArray) { return RwDealOutstandingController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/invoicesummaryreport$/, action: function (match: RegExpExecArray) { return InvoiceSummaryReportController.getModuleScreen(); } });
 
 //Utilities Modules                                   
 routes.push({ pattern: /^module\/invoiceprocessbatch$/, action: function (match: RegExpExecArray) { return InvoiceProcessBatchController.getModuleScreen(); } });
