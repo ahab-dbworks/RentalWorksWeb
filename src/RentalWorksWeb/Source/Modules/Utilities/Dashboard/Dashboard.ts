@@ -82,7 +82,7 @@ class Dashboard {
             let hiddenCounter = 0;
             const dashboardButton = '<div class="flexrow dashboard-btn-row"><div class="fwformcontrol dashboardsettings btn-container"><i class="material-icons dashboard systembarcontrol" title="Settings" data-id="settings">settings</i><span>Dashboard Settings</span></div></div>';
             //       if (hiddenCounter === response.UserWidgets.length) {
-            jQuery($control).append(dashboardButton);
+            jQuery($control).prepend(dashboardButton);
             jQuery($control).find('.dashboardsettings').on('click', e => {
                 program.navigate('module/dashboardsettings');
             });
@@ -204,9 +204,9 @@ class Dashboard {
 
         jQuery($control).off('click', '#' + widgetData.userWidgetId + 'fullscreen').on('click', '#' + widgetData.userWidgetId + 'fullscreen', e => {
             try {
-                var $confirmation: JQuery = FwConfirmation.renderConfirmation(widgetData.text, '');
-                var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
-                var html = [];
+                const $confirmation: JQuery = FwConfirmation.renderConfirmation(widgetData.text, '');
+                const $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
+                const html = [];
                 html.push('<div class="flexrow" style="max-width:unset"><div class="flexcolumn" style="flex:5 1 0;"><div data-chart="' + widgetData.apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + widgetData.apiname + 'fullscreen"></canvas><div class="fullscreenofficebar">' + widgetData.officeLocationCode + '</div></div></div><div class="flexcolumn fullscreen-fields">');
                 html.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Settings">')
                 html.push(this.getSettingsHtml());
@@ -217,23 +217,23 @@ class Dashboard {
 
                 function applyFullscreenChanges(): void {
                     let fullscreenStacked;
-                    let fullscreenWidgetType = FwFormField.getValue($confirmation, '.widgettype');
+                    const fullscreenWidgetType = FwFormField.getValue($confirmation, '.widgettype');
                     (FwFormField.getValue($confirmation, '.stacked') === 'T') ? fullscreenStacked = true : fullscreenStacked = false;
-                    let fullscreenDataPointCount = FwFormField.getValue($confirmation, '.defaultpoints');
-                    let fullscreenAxisNumberFormatId = FwFormField.getValue($confirmation, '.axisformat');
-                    let fullscreenDataNumberFormatId = FwFormField.getValue($confirmation, '.dataformat');
-                    let fullscreenDateBehaviorId = FwFormField.getValue($confirmation, '.datebehavior');
-                    let fullscreenDateField = FwFormField.getValue($confirmation, '.datefield');
-                    let fullscreenFromDate = FwFormField.getValue($confirmation, '.fromdate');
-                    let fullscreenToDate = FwFormField.getValue($confirmation, '.todate');
-                    let fullscreenOfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
+                    const fullscreenDataPointCount = FwFormField.getValue($confirmation, '.defaultpoints');
+                    const fullscreenAxisNumberFormatId = FwFormField.getValue($confirmation, '.axisformat');
+                    const fullscreenDataNumberFormatId = FwFormField.getValue($confirmation, '.dataformat');
+                    const fullscreenDateBehaviorId = FwFormField.getValue($confirmation, '.datebehavior');
+                    const fullscreenDateField = FwFormField.getValue($confirmation, '.datefield');
+                    const fullscreenFromDate = FwFormField.getValue($confirmation, '.fromdate');
+                    const fullscreenToDate = FwFormField.getValue($confirmation, '.todate');
+                    const fullscreenOfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
 
                     FwAppData.apiMethod(true, 'GET', `api/v1/dashboard/loadwidgetbyname/${widgetData.apiname}?dataPoints=${fullscreenDataPointCount}&locationId=${fullscreenOfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${fullscreenDateBehaviorId}&fromDate=${fullscreenFromDate}&toDate=${fullscreenToDate}&datefield=${fullscreenDateField}&stacked=${fullscreenStacked}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                         try {
                             $confirmation.find('.fullscreenofficebar').text(response.locationCodes);
-                            let titleArray = [];
-                            let fromDate = moment(response.fromDate).format('l');
-                            let toDate = moment(response.toDate).format('l');
+                            const titleArray = [];
+                            const fromDate = moment(response.fromDate).format('l');
+                            const toDate = moment(response.toDate).format('l');
                             titleArray.push(response.options.title.text);
                             if (fromDate !== undefined && fromDate === toDate) {
                                 titleArray.push(toDate);
