@@ -335,7 +335,7 @@ html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divsaverow .mate
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected .divsaverow .material-icons {color:#ffffff;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow {width:24px;height:24px;padding:4px;cursor:pointer;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow .material-icons {color:#607D8B;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected td.browsecontextmenucell {z-index:2;}
+/*html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected td.browsecontextmenucell {z-index:1;}*/ /*removed. causing overlapping issues when scrolling over menubar '+' btn*/
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected .browsecontextmenucell .divcancelsaverow .material-icons {color:#ffffff;}
 html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow {background-color: #efefef;}
 html.theme-material .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.buttons .button[data-enabled="true"]:hover {background-color:rgba(0,0,0,.2);}
