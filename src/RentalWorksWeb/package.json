@@ -13,7 +13,9 @@
     "@types/mustache": "0.8.30",
     "@types/pickadate": "3.5.31"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "3.9.5"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
