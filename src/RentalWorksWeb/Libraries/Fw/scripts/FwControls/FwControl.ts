@@ -6,7 +6,7 @@
         data_control = $this.attr('data-control');
         data_type    = $this.attr('data-type');
         designerObj  = window[data_control];
-        if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw 'Not implemented: ' + data_control + '.' + functionName;
+        if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw new Error('Not implemented: ' + data_control + '.' + functionName);
         html = designerObj[functionName](data_type);
         return html;
     };
@@ -17,7 +17,7 @@
       data_control = $this.attr('data-control');
       data_type = $this.attr('data-type');
       designerObj = window[data_control];
-      if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw 'Not implemented: ' + data_control + '.' + functionName;
+      if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw new Error('Not implemented: ' + data_control + '.' + functionName);
       properties = designerObj[functionName](data_type);
       return properties;
     };
@@ -28,7 +28,7 @@
         data_control = $this.attr('data-control');
         data_type    = $this.attr('data-type');
         designerObj  = window[data_control];
-        if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw 'Not implemented: ' + data_control + '.' + functionName;
+        if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw new Error('Not implemented: ' + data_control + '.' + functionName);
         properties   = designerObj[functionName](data_type);
         return properties;
     };
@@ -43,7 +43,7 @@
                 }
                 const data_control = $this.attr('data-control');
                 const designerObj     = window[data_control];
-                if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw 'Not implemented: ' + data_control + '.' + functionName;
+                if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw new Error('Not implemented: ' + data_control + '.' + functionName);
                 designerObj[functionName]($this);
             })
             .on('click', '.fwdesignerhandlemenu .delete', function() {
@@ -59,7 +59,7 @@
             const data_control = $this.attr('data-control');
             const data_type    = $this.attr('data-type');
             const designerObj     = window[data_control];
-            if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw 'Not implemented: ' + data_control + '.' + functionName;
+            if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw new Error('Not implemented: ' + data_control + '.' + functionName);
             designerObj[functionName]($this);
         });
     };
@@ -75,7 +75,7 @@
             const data_control  = $this.attr('data-control');
             const data_type     = $this.attr('data-type');
             const designerObj   = window[data_control];
-            if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw 'Not implemented: ' + data_control + '.' + functionName;
+            if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw new Error('Not implemented: ' + data_control + '.' + functionName);
             designerObj[functionName]($this);
         });
     };
@@ -90,7 +90,7 @@
             data_control = $this.attr('data-control');
             data_type    = $this.attr('data-type');
             designerObj     = window[data_control];
-            if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw 'Not implemented: ' + data_control + '.' + functionName;
+            if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw new Error('Not implemented: ' + data_control + '.' + functionName);
             designerObj[functionName]($this);
         });
     };
