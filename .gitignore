@@ -36,6 +36,7 @@
 /src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js
 /src/RentalWorksQuikScan/Modules/Staging/Staging.js
 /src/RentalWorksQuikScan/Modules/Staging/Staging.js.map
+/src/RentalWorksQuikScan/node_modules/**/*
 /src/RentalWorksQuikScan/scripts/_references.js
 /src/RentalWorksQuikScan/scripts/NearfieldRfidScanner.js
 /src/RentalWorksQuikScan/scripts/NearfieldRfidScanner.js.map
@@ -49,6 +50,7 @@
 /src/RentalWorksWeb/App_Data/Temp/
 /src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
 /src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
+/src/RentalWorksWeb/node_modules/**/*
 /src/RentalWorksWeb/scripts/_references.js
 /src/RentalWorksWeb/scripts/Constants.js.map
 /src/RentalWorksWeb/scripts/Constants.js
@@ -92,6 +94,7 @@
 /src/TrakitWorksWeb/ApplicationConfig.js
 /src/TrakitWorksWeb/FwApplicationSchema.config
 /src/TrakitWorksWeb/index.htm
+/src/TrakitWorksWeb/node_modules/**/*
 /src/TrakitWorksWeb/scripts/_references.js
 /src/TrakitWorksWeb/Source/**/*.js
 /src/TrakitWorksWeb/Source/**/*.js.map
