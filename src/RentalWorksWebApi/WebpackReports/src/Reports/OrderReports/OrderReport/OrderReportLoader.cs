@@ -79,7 +79,6 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string UnitExtended { get; set; }
-        //------------------------------------------------------------------------------------ 
 
         //WEEKLY
         //------------------------------------------------------------------------------------ 
@@ -187,8 +186,6 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString8Digits)]
         public string PeriodExtendedWithTaxSubTotal { get; set; }
-        //------------------------------------------------------------------------------------ 
-
 
 
         //------------------------------------------------------------------------------------ 
@@ -212,7 +209,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "unit", modeltype: FwDataTypes.Text)]
+        public string Unit { get; set; }
+        //------------------------------------------------------------------------------------
         public async Task<List<T>> LoadItems<T>(OrderReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -988,6 +988,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
         public string TaxOption { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string RateType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentaltaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRentalRate1 { get; set; }
