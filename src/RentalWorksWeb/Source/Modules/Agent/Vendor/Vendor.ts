@@ -358,6 +358,9 @@ class Vendor {
             },
             beforeSave: (request: any) => {
                 request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.renderWideGridColumns($form.find('[data-name="CompanyTaxOptionGrid"]'));
             }
         });
         // ----------
@@ -417,6 +420,23 @@ class Vendor {
                 request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
             }
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    renderWideGridColumns($grid: JQuery) {
+        if ($grid.find('thead tr').length < 2) {
+            const $thead = $grid.find('thead tr').clone(false);
+            $thead.find('[data-sort]').removeAttr('data-sort');
+            $thead.find('td div.divselectrow').hide();
+            $thead.find('td div.field:not([data-sharedcolumn])').hide();
+            const $sharedColumnTds = $thead.find('td div[data-widerow]').parents('td');
+            for (let i = 0; i < $sharedColumnTds.length; i++) {
+                const $td = jQuery($sharedColumnTds[i]);
+                const caption = $td.find('div[data-sharedcolumn]').attr('data-sharedcolumn');
+                $td.find('.caption').text(caption);
+            }
+            $sharedColumnTds.css('text-align', 'center');
+            $grid.find('thead').prepend($thead);
+        }
     }
     //---------------------------------------------------------------------------------
     getBrowseTemplate(): string {
