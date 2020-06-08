@@ -17,19 +17,19 @@
 [data-control="FwAppImage"] div.image {flex:1 1 0;min-height:10px;background-color:#000000;border:1px solid #000000;/*margin:5px;border-radius:5px;*/cursor:pointer;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;}
 [data-control="FwAppImage"] div.image > div.imagecontrol {display:flex;}
 [data-control="FwAppImage"] div.image > div.imagecontrol > div.imagecontainer {display:flex;flex-direction:column;width:200px;height:200px;}
-[data-control="FwAppImage"] div.image > div.imagecontrol > div.imagecontainer > div.btnAdd,
-[data-control="FwAppImage"] div.image > div.imagecontrol > div.imagecontainer > .fullsizeimage > div.btnDelete {border-top-right-radius:5px;border-bottom-left-radius:5px;display:none;cursor:pointer;position:absolute;top:0;right:0;z-index:2;width:32px;height:32px;line-height:32px;vertical-align:middle;text-align:center;background-color:rgba(255,255,255,.7);border-left:1px solid #aaaaaa;border-bottom:1px solid #aaaaaa;}
+/*[data-control="FwAppImage"] div.image > div.imagecontrol > div.imagecontainer > div.btnAdd,
+[data-control="FwAppImage"] div.image > div.imagecontrol > div.imagecontainer > .fullsizeimage > div.btnDelete {border-top-right-radius:5px;border-bottom-left-radius:5px;display:none;cursor:pointer;position:absolute;top:0;right:0;z-index:2;width:32px;height:32px;line-height:32px;vertical-align:middle;text-align:center;background-color:rgba(255,255,255,.7);border-left:1px solid #aaaaaa;border-bottom:1px solid #aaaaaa;}*/
 [data-control="FwAppImage"] div.image > div.imagecontrol > div.imagecontainer > .fullsizeimage {flex:1 1 0;background-size: contain;background-repeat: no-repeat;background-position:center center;}
-[data-control="FwAppImage"] div.image[data-mode="NEW"]:hover > div.imagecontrol > div.imagecontainer > div.btnAdd,
+/*[data-control="FwAppImage"] div.image[data-mode="NEW"]:hover > div.imagecontrol > div.imagecontainer > div.btnAdd,
 [data-control="FwAppImage"] div.image[data-mode="VIEW"]:hover > div.imagecontrol > div.imagecontainer div.btnDelete,
 html.mobile [data-control="FwAppImage"] div.image[data-mode="NEW"] > div.imagecontrol > div.imagecontainer div.btnAdd,
 html.mobile [data-control="FwAppImage"] div.image[data-mode="VIEW"] > div.imagecontrol > div.imagecontainer > div.btnDelete{display:block;}
 [data-control="FwAppImage"][data-enabled="false"] .image > .imagecontrol > .imagecontainer > .btnDelete {display:none !important;}
 [data-control="FwAppImage"] div.image[data-mode="VIEW"]:hover > div.imagecontrol > div.imagecontainer > div.btnDelete,
-
-[data-control="FwAppImage"] div.image > div.imagecontrol > div.pasteimage {display:none;background-size: cover;background-repeat: no-repeat;border-bottom:1px solid #aaaaaa;background-color:#ffffff;border-radius:5px;margin:5px;padding:5px;cursor:text;}
+*/
+/*[data-control="FwAppImage"] div.image > div.imagecontrol > div.pasteimage {display:none;background-size: cover;background-repeat: no-repeat;border-bottom:1px solid #aaaaaa;background-color:#ffffff;border-radius:5px;margin:5px;padding:5px;cursor:text;}
 [data-control="FwAppImage"] div.image[data-mode="NEW"] > div.imagecontrol > div.pasteimage {display:block;}
-[data-control="FwAppImage"] div.image > div.imagecontrol > div.pasteimage:empty:not(:focus):before {content:attr(data-placeholder);color:#bbbbbb;}
+[data-control="FwAppImage"] div.image > div.imagecontrol > div.pasteimage:empty:not(:focus):before {content:attr(data-placeholder);color:#bbbbbb;}*/
 [data-control="FwAppImage"] div.image > div.datestamp {text-align:center;font-size:10px;background-color:#000000;color:#ffffff;}
 
 [data-control="FwAppImage"] div.images .thumbnails {display:flex;flex-wrap:nowrap;overflow:auto;}

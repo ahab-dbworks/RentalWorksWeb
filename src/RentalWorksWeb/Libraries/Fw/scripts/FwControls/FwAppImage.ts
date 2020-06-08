@@ -169,13 +169,12 @@ class FwAppImageClass {
                 }
             })
             .on('click', '.btnDelete', function (e) {
-                var $fullsizeimage, thumbnail, $confirmation, $btnOk;
                 try {
-                    const $fullsizeimage = jQuery(this).closest('.fullsizeimage');
-                    let appimageid = $fullsizeimage.attr('data-appimageid');
+                    const $fullsizeimage = $control.find('.fullsizeimage');
+                    const appimageid = $fullsizeimage.attr('data-appimageid');
                     const $thumbnail = $control.find(`.thumb[data-appimageid="${appimageid}"]`);
-                    $confirmation = FwConfirmation.renderConfirmation('Confirm', 'Delete Image?');
-                    $btnOk = FwConfirmation.addButton($confirmation, 'OK');
+                    const $confirmation = FwConfirmation.renderConfirmation('Confirm', 'Delete Image?');
+                    const $btnOk = FwConfirmation.addButton($confirmation, 'OK');
                     FwConfirmation.addButton($confirmation, 'Cancel');
                     $btnOk.on('click', function () {
                         FwAppImage.deleteImage($control, $fullsizeimage);
@@ -252,121 +251,124 @@ class FwAppImageClass {
         }
     };
     //---------------------------------------------------------------------------------
-    //getHtmlTag(data_type) {
-    //    var html, properties, i;
-    //    properties = this.getDesignerProperties(data_type);
-    //    html = [];
-    //    html.push('<div ');
-    //    for (i = 0; i < properties.length; i++) {
-    //        html.push(properties[i].attribute + '="' + properties[i].defaultvalue + '"');
-    //    }
-    //    html.push('>');
-    //    html.push('</div>');
-    //    html = html.join('');
-    //    return html;
-    //};
+    getHtmlTag(data_type) {
+        var html, properties, i;
+        properties = this.getDesignerProperties(data_type);
+        html = [];
+        html.push('<div ');
+        for (i = 0; i < properties.length; i++) {
+            html.push(properties[i].attribute + '="' + properties[i].defaultvalue + '"');
+        }
+        html.push('>');
+        html.push('</div>');
+        html = html.join('');
+        return html;
+    };
     //---------------------------------------------------------------------------------
-    //getDesignerProperties(data_type) {
-    //    var properties = [];
-    //    //id
-    //    let propId = {
-    //        caption: 'ID'
-    //        , datatype: 'string'
-    //        , attribute: 'id'
-    //        , defaultvalue: ''
-    //        , visible: true
-    //        , enabled: true
-    //    };
-    //    propId.defaultvalue = FwControl.generateControlId('image');
-    //    //class
-    //    let propClass = {
-    //        caption: 'CSS Class'
-    //        , datatype: 'string'
-    //        , attribute: 'class'
-    //        , defaultvalue: 'fwcontrol fwappimage'
-    //        , visible: false
-    //        , enabled: false
-    //    };
-    //    // data-control
-    //    let propDataControl = {
-    //        caption: 'Control'
-    //        , datatype: 'string'
-    //        , attribute: 'data-control'
-    //        , defaultvalue: 'FwAppImage'
-    //        , visible: true
-    //        , enabled: false
-    //    };
-    //    // data-type
-    //    let propDataType = {
-    //        caption: 'Type'
-    //        , datatype: 'string'
-    //        , attribute: 'data-type'
-    //        , defaultvalue: data_type
-    //        , visible: false
-    //        , enabled: false
-    //    };
-    //    // data-version
-    //    let propDataVersion = {
-    //        caption: 'Version'
-    //        , datatype: 'string'
-    //        , attribute: 'data-version'
-    //        , defaultvalue: '1'
-    //        , visible: false
-    //        , enabled: false
-    //    };
-    //    // data-rendermode
-    //    let propRenderMode = {
-    //        caption: 'Render Mode'
-    //        , datatype: 'string'
-    //        , attribute: 'data-rendermode'
-    //        , defaultvalue: 'template'
-    //        , visible: false
-    //        , enabled: false
-    //    };
+    getDesignerProperties(data_type) {
+        var properties = [];
+        //id
+        let propId = {
+            caption: 'ID'
+            , datatype: 'string'
+            , attribute: 'id'
+            , defaultvalue: ''
+            , visible: true
+            , enabled: true
+        };
+        propId.defaultvalue = FwControl.generateControlId('image');
+        //class
+        let propClass = {
+            caption: 'CSS Class'
+            , datatype: 'string'
+            , attribute: 'class'
+            , defaultvalue: 'fwcontrol fwappimage'
+            , visible: false
+            , enabled: false
+        };
+        // data-control
+        let propDataControl = {
+            caption: 'Control'
+            , datatype: 'string'
+            , attribute: 'data-control'
+            , defaultvalue: 'FwAppImage'
+            , visible: true
+            , enabled: false
+        };
+        // data-type
+        let propDataType = {
+            caption: 'Type'
+            , datatype: 'string'
+            , attribute: 'data-type'
+            , defaultvalue: data_type
+            , visible: false
+            , enabled: false
+        };
+        // data-version
+        let propDataVersion = {
+            caption: 'Version'
+            , datatype: 'string'
+            , attribute: 'data-version'
+            , defaultvalue: '1'
+            , visible: false
+            , enabled: false
+        };
+        // data-rendermode
+        let propRenderMode = {
+            caption: 'Render Mode'
+            , datatype: 'string'
+            , attribute: 'data-rendermode'
+            , defaultvalue: 'template'
+            , visible: false
+            , enabled: false
+        };
 
-    //    properties.push(propId);
-    //    properties.push(propClass);
-    //    properties.push(propDataControl);
-    //    properties.push(propDataType);
-    //    properties.push(propDataVersion);
-    //    properties.push(propRenderMode);
+        properties.push(propId);
+        properties.push(propClass);
+        properties.push(propDataControl);
+        properties.push(propDataType);
+        properties.push(propDataVersion);
+        properties.push(propRenderMode);
 
-    //    return properties;
-    //};
-    ////---------------------------------------------------------------------------------
-    //renderDesignerHtml($control) {
-    //    var data_type, data_rendermode, html;
-    //    data_type = $control.attr('data-type');
-    //    data_rendermode = $control.attr('data-rendermode');
-    //    $control.attr('data-rendermode', 'designer');
-    //    html = [];
-    //    html.push('<div class="designer">');
-    //    html.push(FwControl.generateDesignerHandle('Image', $control.attr('id')));
-    //    html.push('<div class="image"></div>');
-    //    html.push('<div class="toolbar"></div>');
-    //    html.push('</div>');
-    //    $control.html(html.join(''));
-    //};
+        return properties;
+    };
+    //---------------------------------------------------------------------------------
+    renderDesignerHtml($control) {
+        var data_type, data_rendermode, html;
+        data_type = $control.attr('data-type');
+        data_rendermode = $control.attr('data-rendermode');
+        $control.attr('data-rendermode', 'designer');
+        html = [];
+        html.push('<div class="designer">');
+        html.push(FwControl.generateDesignerHandle('Image', $control.attr('id')));
+        html.push('<div class="image"></div>');
+        html.push('<div class="toolbar"></div>');
+        html.push('</div>');
+        $control.html(html.join(''));
+    };
     //---------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
-        var data_type, data_rendermode, html, caption = 'Images';
+        var data_type, data_rendermode, html, caption = '';
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
         $control.attr('data-rendermode', 'runtime');
-        if ($control.is('[data-caption]')) {
-            caption = $control.attr('data-caption');
-        }
         html = [];
         html.push('<div class="runtime">');
         html.push('<div class="header">');
-        //html.push('  <div class="fwcontrol fwmenu default" data-control="FwMenu"></div>');
-        //html.push('  <div class="title">' + caption + '</div>');
-        //html.push('</div>');
+        if ($control.is('[data-caption]')) {
+            caption = $control.attr('data-caption');
+            html.push('  <div class="fwcontrol fwmenu default" data-control="FwMenu"></div>');
+            html.push('  <div class="title">' + caption + '</div>');
+            html.push('</div>');
+        }
         html.push('  <div class="toolbar">');
         if ($control.attr('data-hasadd') !== 'false') {
-            html.push('    <div class="button btnAdd"><i class="material-icons">&#xE145;</i><span class="caption">Add</span></div>'); //add
+            html.push('    <div class="button btnAdd"><i class="material-icons">&#xE145;</i></div>'); //add
         }
-        html.push('    <div class="button btnRefresh"><i class="material-icons">&#xE5D5;</i><span class="caption">Refresh</span></div>'); //refresh
+        if ($control.attr('data-hasdelete') !== 'false') {
+            html.push('        <div class="button btnDelete" title="Delete"><i class="material-icons">&#xE872;</i></div>');
+        }
+        html.push('    <div class="button btnRefresh"><i class="material-icons">&#xE5D5;</i></div>'); //refresh
         html.push('  </div>');
         html.push('  <div class="imageviewer">');
         html.push('    <div class="images"></div>');
@@ -409,9 +411,6 @@ class FwAppImageClass {
         html.push('    <div class="imagecontrol">');
         html.push(`      <div class="imagecontainer" style="width:${viewerwidth};height:${viewerheight};">`);
         html.push(`        <div class="fullsizeimage" data-mimetype="${image.MimeType}" style="background-image:url(${url})" data-appimageid="${image.AppImageId}">`);
-        if ($control.attr('data-hasdelete') !== 'false') {
-            html.push('        <div class="btnDelete" title="Delete">X</div>');
-        }
         html.push('        </div>');
        // html.push('        <img class="image" data-mimetype="' + image.MimeType + '" src="' + url + '" data-appimageid="' + image.AppImageId + '" />');
         html.push('      </div>');
@@ -748,7 +747,7 @@ class FwAppImageClass {
         $fullsizeimage = $image.find('.fullsizeimage');
         if (($fullsizeimage.attr('src') !== '') && ($fullsizeimage.attr('src') !== FwAppImage.blankDataUrl)) {
             imagedataurl = $fullsizeimage.attr('src');
-            imagedataurl = imagedataurl.substring(imagedataurl.indexOf(',') + 1, imagedataurl.length);
+            //imagedataurl = imagedataurl.substring(imagedataurl.indexOf(',') + 1, imagedataurl.length);
             filename = $fullsizeimage.attr('data-filename');
             mimetype = $fullsizeimage.attr('data-mimetype');
             extension = mimetype.toString().split('/')[1].toUpperCase().replace('JPEG', 'JPG');
