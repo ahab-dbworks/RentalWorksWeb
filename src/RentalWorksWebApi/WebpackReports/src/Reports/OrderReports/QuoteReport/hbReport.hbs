@@ -238,7 +238,12 @@
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        {{#ifCond ../RateType '===' "DAILY"}}
         <td style="min-width:75px;" class="number alignRight">Days</td>
+        {{/ifCond}}
+        {{#ifCond ../RateType '===' "WEEKLY"}}
+        <td style="min-width:75px;" class="number alignRight">Weeks</td>
+        {{/ifCond}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
         <td style="min-width:140px;" class="number alignRight">Period Extended</td>
@@ -1142,7 +1147,12 @@
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        {{#ifCond ../RateType '===' "DAILY"}}
         <td style="min-width:75px;" class="number alignRight">Days</td>
+        {{/ifCond}}
+        {{#ifCond ../RateType '===' "WEEKLY"}}
+        <td style="min-width:75px;" class="number alignRight">Weeks</td>
+        {{/ifCond}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
         <td style="min-width:140px;" class="number alignRight">Period Extended</td>
@@ -1350,7 +1360,12 @@
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        {{#ifCond ../RateType '===' "DAILY"}}
         <td style="min-width:75px;" class="number alignRight">Days</td>
+        {{/ifCond}}
+        {{#ifCond ../RateType '===' "WEEKLY"}}
+        <td style="min-width:75px;" class="number alignRight">Weeks</td>
+        {{/ifCond}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
         <td style="min-width:140px;" class="number alignRight">Period Extended</td>
@@ -1559,7 +1574,12 @@
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        {{#ifCond ../RateType '===' "DAILY"}}
         <td style="min-width:75px;" class="number alignRight">Days</td>
+        {{/ifCond}}
+        {{#ifCond ../RateType '===' "WEEKLY"}}
+        <td style="min-width:75px;" class="number alignRight">Weeks</td>
+        {{/ifCond}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
         <td style="min-width:140px;" class="number alignRight">Period Extended</td>
