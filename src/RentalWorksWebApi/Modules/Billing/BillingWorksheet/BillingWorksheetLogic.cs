@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Modules.HomeControls.OrderInvoice;
 using FwStandard.BusinessLogic;
 using WebApi.Modules.Billing.Billing;
+using WebApi.Modules.HomeControls.Tax;
 
 namespace WebApi.Modules.Billing.BillingWorksheet
 {
@@ -15,6 +16,7 @@ namespace WebApi.Modules.Billing.BillingWorksheet
         //------------------------------------------------------------------------------------ 
         InvoiceRecord billingWorksheet = new InvoiceRecord();
         OrderInvoiceRecord orderInvoice = new OrderInvoiceRecord();
+        TaxRecord tax = new TaxRecord();
         BillingWorksheetLoader billingWorksheetLoader = new BillingWorksheetLoader();
         public BillingWorksheetLogic()
         {
@@ -62,6 +64,44 @@ namespace WebApi.Modules.Billing.BillingWorksheet
         public string DepartmentId { get { return billingWorksheet.DepartmentId; } set { billingWorksheet.DepartmentId = value; } }
         [FwLogicProperty(Id: "2rkEhKeRBWAoK", IsReadOnly: true)]
         public string Department { get; set; }
+
+
+        [FwLogicProperty(Id: "ivYTIKIYKlxX")]
+        public string TaxOptionId { get { return tax.TaxOptionId; } set { tax.TaxOptionId = value; } }
+
+        [FwLogicProperty(Id: "tQ7f6Bnx4UIU", IsReadOnly: true)]
+        public string TaxOption { get; set; }
+
+        [FwLogicProperty(Id: "aq5QGMEu0uFi", IsReadOnly: true)]
+        public string Tax1Name { get; set; }
+
+        [FwLogicProperty(Id: "4bCpSWTxzHQd", IsReadOnly: true)]
+        public string Tax2Name { get; set; }
+
+
+        //[FwLogicProperty(Id: "oeMnnCMIYYgJ", DisableDirectAssign: true, DisableDirectModify: true)]
+        //public string TaxId { get { return dealOrder.TaxId; } set { dealOrder.TaxId = value; tax.TaxId = value; } }
+
+        [FwLogicProperty(Id: "CGVnuUzvOwtI")]
+        public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
+
+        [FwLogicProperty(Id: "U8G2t76FgMeI")]
+        public decimal? SalesTaxRate1 { get { return tax.SalesTaxRate1; } set { tax.SalesTaxRate1 = value; } }
+
+        [FwLogicProperty(Id: "IbLHuddi2hvX")]
+        public decimal? LaborTaxRate1 { get { return tax.LaborTaxRate1; } set { tax.LaborTaxRate1 = value; } }
+
+        [FwLogicProperty(Id: "jm0Awq6pXxE0")]
+        public decimal? RentalTaxRate2 { get { return tax.RentalTaxRate2; } set { tax.RentalTaxRate2 = value; } }
+
+        [FwLogicProperty(Id: "LTEDTCv9H2IK")]
+        public decimal? SalesTaxRate2 { get { return tax.SalesTaxRate2; } set { tax.SalesTaxRate2 = value; } }
+
+        [FwLogicProperty(Id: "HkyhKAntclj3")]
+        public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
+
+
+
         [FwLogicProperty(Id: "2RQpXvymzs1Tx", IsReadOnly: true)]
         public string PurchaseOrderNumber { get; set; }
         [FwLogicProperty(Id: "2shhvpikconAb")]
