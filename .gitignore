@@ -65,6 +65,8 @@
 /src/RentalWorksWeb/app_scripts.json
 /src/RentalWorksWeb/Application.config
 /src/RentalWorksWeb/ApplicationConfig.js
+/src/RentalWorksWeb/DefaultApplicationConfig.js
+/src/RentalWorksWeb/DefaultApplicationConfig.js.map
 /src/RentalWorksWeb/FwApplicationSchema.config
 /src/RentalWorksWeb/index.htm
 
