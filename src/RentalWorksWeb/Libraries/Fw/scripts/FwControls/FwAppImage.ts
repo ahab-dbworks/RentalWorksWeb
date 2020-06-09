@@ -172,31 +172,33 @@ class FwAppImageClass {
                 try {
                     const $fullsizeimage = $control.find('.fullsizeimage');
                     const appimageid = $fullsizeimage.attr('data-appimageid');
-                    const $thumbnail = $control.find(`.thumb[data-appimageid="${appimageid}"]`);
+                    const $deleteThumbnail = $control.find(`.thumb[data-appimageid="${appimageid}"]`);
                     const $confirmation = FwConfirmation.renderConfirmation('Confirm', 'Delete Image?');
                     const $btnOk = FwConfirmation.addButton($confirmation, 'OK');
                     FwConfirmation.addButton($confirmation, 'Cancel');
                     $btnOk.on('click', function () {
                         FwAppImage.deleteImage($control, $fullsizeimage);
-                        let prevImageNo = -1;
-                        const $thumbs = $thumbnail.closest('.thumbnails').find('.thumb');
+                        let deleteThumnailNo = -1;
+                        const $thumbs = $deleteThumbnail.closest('.thumbnails').find('.thumb');
                         for (let i = 0; i < $thumbs.length; i++) {
                             if ($thumbs.eq(i).attr('data-appimageid') === appimageid) {
-                                if (i > 0) {
-                                    prevImageNo = i - 1;
-                                } else {
-                                    prevImageNo = 0;
-                                }
+                                deleteThumnailNo = i;
                                 break;
                             }
                         }
-                        if (prevImageNo > 0) {
-                            let datestamp = $thumbs.eq(prevImageNo).attr('data-datestamp');
-                            FwAppImage.selectImage($control, appimageid, datestamp);
+                        if (deleteThumnailNo >= 0) {
+                            const $clickThumnail = $thumbs.eq(deleteThumnailNo + 1);
+                            if ($clickThumnail.length > 0) {
+                                let ct_appimageid = $clickThumnail.attr('data-appimageid');
+                                let ct_datestamp = $clickThumnail.attr('data-datestamp');
+                                FwAppImage.selectImage($control, ct_appimageid, ct_datestamp);
+                            }
+                            $deleteThumbnail.remove();
                         } else {
                             FwAppImage.selectImage($control, null, null);
                         }
-                        $thumbnail.remove();
+
+                        
                         
                     });
                     return false;
@@ -691,7 +693,7 @@ class FwAppImageClass {
             if (images.length > 0) {
                 html.push(FwAppImage.getImageHtml($control, 'VIEW', images[0]));
             } else {
-                html.push(FwAppImage.getImageHtml($control, 'New', null));
+                html.push(FwAppImage.getImageHtml($control, 'NEW', null));
                 FwAppImage.selectImage($control, null, null);
             }
             html.push('    <div class="pagerightcontainer"><i class="material-icons">chevron_right</i></div>');
@@ -712,31 +714,31 @@ class FwAppImageClass {
             }
 
             //const $carousel = $control.find('.carousel');
-            //Sortable.create($divimages.find('.thumbnails').get(0), {
-            //    onEnd: function (evt) {
-            //        let imageToDisplay;
-            //        const $item = jQuery(evt.item);
-            //        const $thumbnails = $item.parents('.thumbnails').children();
-            //        for (let i = 0; i < $thumbnails.length; i++) {
-            //            const $thumb = jQuery($thumbnails[i]);
-            //            if (i === 0) {
-            //                imageToDisplay = $thumb.attr('for');
-            //            }
-            //            const request: any = {};
-            //            request.AppImageId = $thumb.attr('data-appimageid');
-            //            request.OrderBy = i + 1;
-            //            FwAppData.apiMethod(true, 'POST', `api/v1/appimage/repositionimage`, request, applicationConfig.ajaxTimeoutSeconds,
-            //                (response: any) => {
-            //                },
-            //                (error: any) => {
-            //                    FwFunc.showError(error);
-            //                }, $control
-            //            );
-            //        }
-            //        $carousel.find('input:checked').attr('checked', false);
-            //        $carousel.find(`#${imageToDisplay}`).attr('checked', true);
-            //    }
-            //});
+            Sortable.create($divimages.find('.thumbnails').get(0), {
+                onEnd: function (evt) {
+                    let imageToDisplay;
+                    const $item = jQuery(evt.item);
+                    const $thumbnails = $item.parents('.thumbnails').children();
+                    for (let i = 0; i < $thumbnails.length; i++) {
+                        const $thumb = jQuery($thumbnails[i]);
+                        if (i === 0) {
+                            imageToDisplay = $thumb.attr('for');
+                        }
+                        const request: any = {};
+                        request.AppImageId = $thumb.attr('data-appimageid');
+                        request.OrderBy = i + 1;
+                        FwAppData.apiMethod(true, 'POST', `api/v1/appimage/repositionimage`, request, applicationConfig.ajaxTimeoutSeconds,
+                            (response: any) => {
+                            },
+                            (error: any) => {
+                                FwFunc.showError(error);
+                            }, $control
+                        );
+                    }
+                    //$carousel.find('input:checked').attr('checked', false);
+                    //$carousel.find(`#${imageToDisplay}`).attr('checked', true);
+                }
+            });
         } catch (ex) {
             FwFunc.showError(ex);
         }
