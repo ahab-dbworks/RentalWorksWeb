@@ -356,9 +356,9 @@ class FwAppImageClass {
         $control.attr('data-rendermode', 'runtime');
         html = [];
         html.push('<div class="runtime">');
-        html.push('<div class="header">');
-        if ($control.is('[data-caption]')) {
-            caption = $control.attr('data-caption');
+        caption = $control.attr('data-caption');
+        if (typeof caption === 'string' && caption.length > 0) {
+            html.push('<div class="header">');
             html.push('  <div class="fwcontrol fwmenu default" data-control="FwMenu"></div>');
             html.push('  <div class="title">' + caption + '</div>');
             html.push('</div>');
