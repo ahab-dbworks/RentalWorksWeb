@@ -474,7 +474,6 @@ class FwAppImageClass {
         html.push(`      <div class="imagecontainer" style="width:${viewerwidth};height:${viewerheight};">`);
         html.push(`        <div class="fullsizeimage" data-mimetype="${image.MimeType}" style="background-image:url(${url})" data-appimageid="${image.AppImageId}">`);
         html.push('        </div>');
-       // html.push('        <img class="image" data-mimetype="' + image.MimeType + '" src="' + url + '" data-appimageid="' + image.AppImageId + '" />');
         html.push('      </div>');
         html.push('    </div>');
         html.push('    <div class="datestamp">');
@@ -727,27 +726,6 @@ class FwAppImageClass {
             $divimages.empty();
             html = [];
             thumbnails = [];
-
-            //html.push('<section class="gallery"><div class="carousel">');
-
-            //for (var i = 0; i < images.length; i++) {
-            //    if (i === 0) {
-            //        html.push('<input type="radio" id="image1" name="gallery-control" checked>');
-            //    } else {
-            //        html.push('<input type="radio" id="image' + (i + 1) + '" name="gallery-control">');
-            //    }
-            //}
-
-            //html.push('<input type="checkbox" id="fullscreen" name="gallery-fullscreen-control"/><div class="wrap">');
-
-            //for (var imageno = 0; imageno < images.length; imageno++) {
-            //    image = images[imageno];
-            //    $image = FwAppImage.getImageHtml($control, 'VIEW', image);
-            //    html.push('<figure class="image' + (imageno + 1) + '">');
-            //    html.push($image);
-            //    html.push('</figure>');
-            //    thumbnails.push('<label for="image' + (imageno + 1) + '" data-appimageid="' + image.AppImageId + '" class="thumb image' + (imageno + 1) + '" style="background-image:url(' + jQuery($image).find('img').attr('src') + '&thumbnail=true)"></label>');
-            //}
             html.push('<div class="fullsizeimagepager">');
             html.push('    <div class="btnPrevImage" title="Previous Image"><i class="material-icons">chevron_left</i></div>');
             if (images.length > 0) {
@@ -764,9 +742,7 @@ class FwAppImageClass {
                 let thumnailurl = `${applicationConfig.apiurl}api/v1/appimage/getimage?appimageid=${image.AppImageId}&thumbnail=true`;
                 html.push(`<label for="image${imageno + 1}" data-appimageid="${image.AppImageId}" data-datestamp="${image.DateStamp}" class="thumb image${imageno + 1}" style="background-image:url(${thumnailurl})"></label>`);
             }
-            //html.push(thumbnails.join(''));
             html.push('</div>');
-            //html.push('</div></section > ');
             html = html.join('');
             $divimages.append(html);
             const showThumbnails = $control.attr('data-showthumbnails') === 'true';
@@ -777,7 +753,6 @@ class FwAppImageClass {
                 $control.data('recenterpopup')();
             }
 
-            //const $carousel = $control.find('.carousel');
             Sortable.create($divimages.find('.thumbnails').get(0), {
                 onEnd: function (evt) {
                     let imageToDisplay;
@@ -799,8 +774,6 @@ class FwAppImageClass {
                             }, $control
                         );
                     }
-                    //$carousel.find('input:checked').attr('checked', false);
-                    //$carousel.find(`#${imageToDisplay}`).attr('checked', true);
                 }
             });
         } catch (ex) {
@@ -813,7 +786,6 @@ class FwAppImageClass {
         $fullsizeimage = $image.find('.fullsizeimage');
         if (($fullsizeimage.attr('src') !== '') && ($fullsizeimage.attr('src') !== FwAppImage.blankDataUrl)) {
             imagedataurl = $fullsizeimage.attr('src');
-            //imagedataurl = imagedataurl.substring(imagedataurl.indexOf(',') + 1, imagedataurl.length);
             filename = $fullsizeimage.attr('data-filename');
             mimetype = $fullsizeimage.attr('data-mimetype');
             extension = mimetype.toString().split('/')[1].toUpperCase().replace('JPEG', 'JPG');
@@ -856,7 +828,6 @@ class FwAppImageClass {
         FwAppData.apiMethod(true, 'DELETE', `api/v1/appimage`, request, applicationConfig.ajaxTimeoutSeconds,
             (response: any) => {
                 try {
-                    //$image.remove();
                     if (typeof $control.data('recenterpopup') === 'function') {
                         $control.data('recenterpopup')();
                     }
