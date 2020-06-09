@@ -172,6 +172,8 @@
 **/Fw/scripts/FwControls/FwValidation2.js.map
 **/Fw/scripts/FwControls/FwWebApiReport.js
 **/Fw/scripts/FwControls/FwWebApiReport.js.map
+**/Fw/scripts/Integration/Authenticate/Okta/FwOktaLogin.js
+**/Fw/scripts/Integration/Authenticate/Okta/FwOktaLogin.js.map
 **/Fw/scripts/Modules/FwGroup.js.map
 **/Fw/scripts/Modules/FwGroup.js
 **/Fw/scripts/FwAjax.js
