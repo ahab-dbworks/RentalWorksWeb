@@ -672,7 +672,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderedbyemail", modeltype: FwDataTypes.Text)]
         public string OrderedByEmail { get; set; }
-
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string RateType { get; set; }
 
 
         //------------------------------------------------------------------------------------
