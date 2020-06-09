@@ -433,7 +433,6 @@ class FwAppImageClass {
         html.push('    <div class="button btnRefresh" title="Refresh"><i class="material-icons">&#xE5D5;</i></div>'); //refresh
         html.push('  </div>');
         html.push('  <div class="imageviewer">');
-        html.push('    <div class="images"></div>');
         html.push('  </div>')
         html.push('</div>');
         html = html.join('');
@@ -713,10 +712,10 @@ class FwAppImageClass {
     }
     //---------------------------------------------------------------------------------
     getAppImagesCallback($control, images) {
-        var $divimages, image, $image, $addimage, html, thumbnails;
+        var $imageviewer, image, $image, $addimage, html, thumbnails;
         try {
-            $divimages = $control.find('div.images');
-            $divimages.empty();
+            $imageviewer = $control.find('div.imageviewer');
+            $imageviewer.empty();
             html = [];
             thumbnails = [];
             html.push('<div class="fullsizeimagepager">');
@@ -737,7 +736,7 @@ class FwAppImageClass {
             }
             html.push('</div>');
             html = html.join('');
-            $divimages.append(html);
+            $imageviewer.append(html);
             const showThumbnails = $control.attr('data-showthumbnails') === 'true';
             if (showThumbnails) {
                 $control.find('.thumbnails').toggle(showThumbnails);
@@ -746,7 +745,7 @@ class FwAppImageClass {
                 $control.data('recenterpopup')();
             }
 
-            Sortable.create($divimages.find('.thumbnails').get(0), {
+            Sortable.create($imageviewer.find('.thumbnails').get(0), {
                 onEnd: function (evt) {
                     let imageToDisplay;
                     const $item = jQuery(evt.item);
