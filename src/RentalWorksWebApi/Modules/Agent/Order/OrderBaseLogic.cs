@@ -1792,7 +1792,10 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------
         public void OnAfterMap(object sender, AfterMapEventArgs e)
         {
-            ActivityDatesAndTimes = ((OrderBaseLoader)e.Source).ActivityDatesAndTimes;
+            if (e.Source != null)
+            {
+                ActivityDatesAndTimes = ((OrderBaseLoader)e.Source).ActivityDatesAndTimes;
+            }
         }
         //-----------------------------------------------------------------------------------
     }
