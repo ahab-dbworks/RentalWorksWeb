@@ -1,6 +1,6 @@
-﻿[data-control="FwAppImage"] {background-color:#333333;}
-[data-control="FwAppImage"] .title {color:#ffffff;text-align:center;padding:5px 0;background-color:#222222;display:none;}
-[data-control="FwAppImage"] .toolbar {color:#ffffff;display:flex;}
+﻿[data-control="FwAppImage"] {background-color:#333333;color:#ffffff;}
+[data-control="FwAppImage"] .title {text-align:center;padding:5px 0;background-color:#222222;display:none;}
+[data-control="FwAppImage"] .toolbar {display:flex;}
 [data-control="FwAppImage"][data-enabled="false"] .toolbar {display:none;}
 [data-control="FwAppImage"] .toolbar .button {flex:0 0 auto;display:flex;padding:2px;cursor:pointer;}
 [data-control="FwAppImage"] .toolbar .button .caption {padding:0 5px;display:none;}
@@ -12,13 +12,16 @@
 [data-control="FwAppImage"] .btnPrevImage:hover {background-color:#1976d2;}
 [data-control="FwAppImage"] .btnNextImage {flex: 0 0 auto;cursor:pointer;color:#ffffff;display:flex;flex-direction:column;align-content:center;justify-content:center;}
 [data-control="FwAppImage"] .btnNextImage:hover {background-color:#1976d2;}
-[data-control="FwAppImage"] div.image {flex:1 1 0;min-height:10px;background-color:#000000;cursor:pointer;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;}
+[data-control="FwAppImage"] .imageviewer {}
+[data-control="FwAppImage"] div.image {flex:1 1 0;min-height:10px;background-color:#000000;cursor:zoom-in;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;}
 [data-control="FwAppImage"] div.image .fullsizeimage {position:absolute;top:0;right:0;bottom:0;left:0;background-size: contain;background-repeat: no-repeat;background-position:center center;}
 [data-control="FwAppImage"] div.image > div.datestamp {text-align:center;font-size:10px;background-color:#000000;color:#ffffff;/*display:none;*/}
 
-[data-control="FwAppImage"] .thumbnails {display:flex;flex-wrap:nowrap;overflow:auto;}
-[data-control="FwAppImage"] .thumbnails .thumb{flex:0 0 auto;cursor:pointer;display:block;margin:2px;height:50px;width:50px;background-repeat:no-repeat;background-size:contain;background-position: center center;}
+[data-control="FwAppImage"] .pageinfo {text-align:center;font-size: .8em;padding: .3em 0;}
 
+[data-control="FwAppImage"] .thumbnails {display:flex;flex-wrap:nowrap;overflow:auto;}
+[data-control="FwAppImage"] .thumbnails .thumb{transition: border-top .5s; flex:0 0 auto;border-top:5px solid transparent;cursor:pointer;display:block;margin:2px;height:50px;width:50px;background-repeat:no-repeat;background-size:contain;background-position: center center;}
+[data-control="FwAppImage"] .thumbnails .thumb[data-selected="true"] {border-top:5px solid #1976d2}
 .FwAppImageUploadImageConfirmation .pasteimage.dragover {outline:1px solid #0000ff;}
 .FwAppImageUploadImageConfirmation .button.default {color: #fff;background-color:#1976d2;text-align:center;cursor:pointer;border: none;border-radius: 2px;display: inline-block;height: 36px;line-height: 36px;outline: 0;padding: 0 2rem;text-transform: uppercase;vertical-align: middle;-webkit-tap-highlight-color: transparent;text-decoration: none;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);letter-spacing: .5px;transition: .2s ease-out;}
 .FwAppImageUploadImageConfirmation .button.default:hover {background-color:#1e88e5;box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15);}
