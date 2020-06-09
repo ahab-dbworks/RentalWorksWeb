@@ -69,6 +69,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercentDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasdiscount", modeltype: FwDataTypes.Text)]
+        public string HasDiscount { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountpctsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercentSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
