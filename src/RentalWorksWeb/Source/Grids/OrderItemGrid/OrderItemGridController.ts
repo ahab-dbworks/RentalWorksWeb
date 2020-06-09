@@ -1174,6 +1174,7 @@ class OrderItemGrid {
                 FwBrowse.setFieldValue($grid, $nextRow, field, { value: newValue });
 
                 if (field == 'DiscountPercentDisplay') {
+                    FwBrowse.setFieldValue($grid, $tr, 'DiscountPercent', { value: newValue }); //updates Parent Item's value 
                     FwBrowse.setFieldValue($grid, $nextRow, 'DiscountPercent', { value: newValue });
                 }
             } else {
