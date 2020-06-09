@@ -13,19 +13,19 @@ class VendorInvoice {
         FwMenu.addBrowseMenuButtons(options);
 
         FwMenu.addSubMenuItem(options.$groupOptions, `Approve`, `qGQ28sAtqVz4`, (e: JQuery.ClickEvent) => {
-                try {
-                    this.browseApproveVendorInvoice(options.$browse);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-            FwMenu.addSubMenuItem(options.$groupOptions, `Unpprove`, `qGQ28sAtqVz4`, (e: JQuery.ClickEvent) => {
-                try {
-                    this.browseUnapproveVendorInvoice(options.$browse);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
+            try {
+                this.browseApproveVendorInvoice(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, `Unpprove`, `qGQ28sAtqVz4`, (e: JQuery.ClickEvent) => {
+            try {
+                this.browseUnapproveVendorInvoice(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
 
         const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
         const $new: JQuery = FwMenu.generateDropDownViewBtn('New', true, "NEW");
@@ -350,7 +350,7 @@ class VendorInvoice {
         }
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: JQuery) {
+    afterLoad($form: JQuery, response: any) {
         //Disables editing when STATUS is CLOSED or PROCESSED 
         let status = FwFormField.getValueByDataField($form, 'Status');
         if ((status === 'CLOSED') || (status === 'PROCESSED')) {
@@ -388,7 +388,47 @@ class VendorInvoice {
 
         const $vendorInvoiceItemGrid = $form.find('[data-name="VendorInvoiceItemGrid"]');
         FwBrowse.search($vendorInvoiceItemGrid);
+
+        this.applyTaxOptions($form, response);
     };
+    //----------------------------------------------------------------------------------------------
+    applyTaxOptions($form: JQuery, response: any) {
+        const $taxFields = $form.find('[data-totalfield="InvoiceItemTax"], [data-totalfield="AdditionalItemTax"]');
+        const tax1Name = response.Tax1Name;
+        const tax2Name = response.Tax2Name;
+
+        const updateCaption = ($fields, taxName, count) => {
+            for (let i = 0; i < $fields.length; i++) {
+                const $field = jQuery($fields[i]);
+                const taxType = $field.attr('data-taxtype');
+                const taxRateName = taxType + 'TaxRate' + count;
+                const taxRatePercentage = response[taxRateName];
+                const caption = taxName + ` (${taxRatePercentage.toFixed(3) + '%'})`;
+                $field.find('.fwformfield-caption').text(caption);
+            }
+
+            const $billingTabTaxFields = $form.find(`[data-datafield="RentalTaxRate${count}"], [data-datafield="SalesTaxRate${count}"], [data-datafield="LaborTaxRate${count}"]`);
+            for (let i = 0; i < $billingTabTaxFields.length; i++) {
+                const $field = jQuery($billingTabTaxFields[i]);
+                let caption = $field.find('.fwformfield-caption').text();
+                const newCaption = caption + ' ' + taxName;
+                $field.find('.fwformfield-caption').text(newCaption);
+                $field.show();
+            }
+        }
+
+        if (tax1Name != "") {
+            updateCaption($taxFields, tax1Name, 1);
+        }
+
+        const $tax2Fields = $form.find('[data-totalfield="InvoiceItemTax2"], [data-totalfield="AdditionalItemTax2"]');
+        if (tax2Name != "") {
+            $tax2Fields.show();
+            updateCaption($tax2Fields, tax2Name, 2);
+        } else {
+            $tax2Fields.hide();
+        }
+    }
     //----------------------------------------------------------------------------------------------
     afterSave($form: JQuery) {
         $form.find('.continue').hide();

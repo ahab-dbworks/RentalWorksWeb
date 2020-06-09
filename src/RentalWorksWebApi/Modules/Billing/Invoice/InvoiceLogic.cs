@@ -288,6 +288,12 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "H0RhmRE6Y7u7", IsReadOnly: true)]
         public string TaxOption { get; set; }
 
+        [FwLogicProperty(Id: "8eTjH77B3Uko", IsReadOnly: true)]
+        public string Tax1Name { get; set; }
+
+        [FwLogicProperty(Id: "MbAzfH623Y9Y", IsReadOnly: true)]
+        public string Tax2Name { get; set; }
+
         [FwLogicProperty(Id: "DHGwxB6DpL9g")]
         public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
 

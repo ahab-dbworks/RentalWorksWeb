@@ -20,6 +20,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 60)]
         public string CompanyName { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittofedid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string FederalId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string Email { get; set; }
         //------------------------------------------------------------------------------------
@@ -89,6 +92,39 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
         public string Fax { get; set; }
         //------------------------------------------------------------------------------------        
+        
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittocompany", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 60)]
+        public string RemitToCompanyName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittoadd1", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
+        public string RemitToAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittoadd2", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
+        public string RemitToAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittocity", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
+        public string RemitToCity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittostate", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string RemitToState { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittozip", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 10)]
+        public string RemitToZip { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittocountryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string RemitToCountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittophone", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
+        public string RemitToPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittofax", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
+        public string RemitToFax { get; set; }
+        //------------------------------------------------------------------------------------        
+        [FwSqlDataField(column: "remittoemail", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string RemitToEmail { get; set; }
+        //------------------------------------------------------------------------------------
+
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

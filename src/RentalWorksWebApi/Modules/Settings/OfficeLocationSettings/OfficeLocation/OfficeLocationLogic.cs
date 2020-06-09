@@ -32,6 +32,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwLogicProperty(Id: "ZeOmhYbh0kY6D")]
         public string CompanyName { get { return location.CompanyName; } set { location.CompanyName = value; } }
 
+        [FwLogicProperty(Id: "bi2KnYhOrPi94")]
+        public string FederalId { get { return location.FederalId; } set { location.FederalId = value; } }
+
         [FwLogicProperty(Id: "DyLYzbbaRHFCB")]
         public string Address1 { get { return location.Address1; } set { location.Address1 = value; } }
 
@@ -64,6 +67,39 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 
         [FwLogicProperty(Id: "U5purbrsmbnUJ")]
         public string WebAddress { get { return location.WebAddress; } set { location.WebAddress = value; } }
+
+        [FwLogicProperty(Id: "fhFrVlijkiDf1")]
+        public string RemitToCompanyName { get { return location.RemitToCompanyName; } set { location.RemitToCompanyName = value; } }
+
+        [FwLogicProperty(Id: "KOdr66LzHCThF")]
+        public string RemitToAddress1 { get { return location.RemitToAddress1; } set { location.RemitToAddress1 = value; } }
+
+        [FwLogicProperty(Id: "r859YheYSjFwu")]
+        public string RemitToAddress2 { get { return location.RemitToAddress2; } set { location.RemitToAddress2 = value; } }
+
+        [FwLogicProperty(Id: "u8IyOKcDaIgUc")]
+        public string RemitToCity { get { return location.RemitToCity; } set { location.RemitToCity = value; } }
+
+        [FwLogicProperty(Id: "O6ku880yQILkN")]
+        public string RemitToZip { get { return location.RemitToZip; } set { location.RemitToZip = value; } }
+
+        [FwLogicProperty(Id: "c6pHG5ziTYrLg")]
+        public string RemitToState { get { return location.RemitToState; } set { location.RemitToState = value; } }
+
+        [FwLogicProperty(Id: "XcZ6rBXgTrCzS")]
+        public string RemitToCountryId { get { return location.RemitToCountryId; } set { location.RemitToCountryId = value; } }
+
+        [FwLogicProperty(Id: "SWBuJkrcUQT1s", IsReadOnly: true)]
+        public string RemitToCountry { get; set; }
+
+        [FwLogicProperty(Id: "m4zDbpqKEr5O5")]
+        public string RemitToPhone { get { return location.RemitToPhone; } set { location.RemitToPhone = value; } }
+
+        [FwLogicProperty(Id: "waIUA6NAfDvhH")]
+        public string RemitToFax { get { return location.RemitToFax; } set { location.RemitToFax = value; } }
+
+        [FwLogicProperty(Id: "AnucOO0fJrtwW")]
+        public string RemitToEmail { get { return location.RemitToEmail; } set { location.RemitToEmail = value; } }
 
         [FwLogicProperty(Id: "lGRLyD6Zq20")]
         public string RateType { get { return location.RateType; } set { location.RateType = value; } }

@@ -892,7 +892,10 @@ class Quote extends OrderBase {
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 125px;"></div>
                           </div>
                           <div class="flexrow rentaltotals">
-                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 125px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" data-taxtype="Rental" style="flex:1 1 125px;"></div>
+                          </div>
+                          <div class="flexrow rentaltotals">
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax 2" data-datafield="" data-enabled="false" data-totalfield="Tax2" data-taxtype="Rental" style="flex:1 1 125px; display:none;"></div>
                           </div>
                           <div class="flexrow rentaltotals">
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 125px;"></div>
@@ -953,7 +956,10 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow salestotals">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" data-taxtype="Sales" style="flex:1 1 75px;"></div>
+                        </div>
+                        <div class="flexrow salestotals">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax 2" data-datafield="" data-enabled="false" data-totalfield="Tax2" data-taxtype="Sales" style="flex:1 1 75px; display:none;"></div>
                         </div>
                         <div class="flexrow salestotals">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
@@ -1001,7 +1007,10 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:2 1 100px;"></div>
                         </div>
                         <div class="flexrow labortotals">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" data-taxtype="Labor" style="flex:1 1 75px;"></div>
+                        </div> 
+                        <div class="flexrow labortotals">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax 2" data-datafield="" data-enabled="false" data-totalfield="Tax2" data-taxtype="Labor" style="flex:1 1 75px; display:none;"></div>
                         </div>
                         <div class="flexrow labortotals">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:2 1 100px;"></div>
@@ -1061,7 +1070,10 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow misctotals">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" data-taxtype="Sales" style="flex:1 1 75px;"></div>
+                        </div>
+                        <div class="flexrow misctotals">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax 2" data-datafield="" data-enabled="false" data-totalfield="Tax2" data-taxtype="Sales" style="flex:1 1 75px; display:none;"></div>
                         </div>
                         <div class="flexrow misctotals">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
@@ -1118,7 +1130,10 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:2 1 175px;"></div>
                         </div>
                         <div class="flexrow usedsaletotals">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" data-taxtype="Sales" style="flex:1 1 175px;"></div>
+                        </div>
+                        <div class="flexrow usedsaletotals">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax 2" data-datafield="" data-enabled="false" data-totalfield="Tax2" data-taxtype="Sales" style="flex:1 1 175px; display:none;"></div>
                         </div>
                         <div class="flexrow usedsaletotals">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:2 1 175px;"></div>
@@ -1166,7 +1181,10 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow combinedAdjustments">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" data-taxtype="Sales" style="flex:1 1 75px;"></div>
+                        </div>
+                        <div class="flexrow combinedAdjustments">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax 2" data-datafield="" data-enabled="false" data-totalfield="Tax2" data-taxtype="Sales" style="flex:1 1 75px; display:none;"></div>
                         </div>
                         <div class="flexrow combinedAdjustments">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
@@ -1274,9 +1292,14 @@ class Quote extends OrderBase {
                         <div data-control="FwFormField" data-type="validation" data-validationname="TaxOptionValidation" class="fwcontrol fwformfield" data-caption="Tax Option" data-datafield="TaxOptionId" data-displayfield="TaxOption" style="flex:1 1 250px"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Rental Tax" data-datafield="RentalTaxRate1" data-enabled="false" style="flex:1 1 75px;"></div>
-                        <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Sales Tax" data-datafield="SalesTaxRate1" data-enabled="false" style="flex:1 1 75px;"></div>
-                        <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Labor Tax" data-datafield="LaborTaxRate1" data-enabled="false" style="flex:1 1 75px;"></div>
+                        <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="RentalTaxRate1" data-enabled="false" style="flex:1 1 75px;"></div>
+                        <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="SalesTaxRate1" data-enabled="false" style="flex:1 1 75px;"></div>
+                        <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Labor" data-datafield="LaborTaxRate1" data-enabled="false" style="flex:1 1 75px;"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="RentalTaxRate2" data-enabled="false" style="flex:1 1 75px; display:none;"></div>
+                        <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="SalesTaxRate2" data-enabled="false" style="flex:1 1 75px; display:none;"></div>
+                        <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Labor" data-datafield="LaborTaxRate2" data-enabled="false" style="flex:1 1 75px; display:none;"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Bill Quantities From" data-datafield="DetermineQuantitiesToBillBasedOn"></div>

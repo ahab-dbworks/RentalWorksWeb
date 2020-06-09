@@ -96,7 +96,10 @@
                 <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="InvoiceItemGrossTotal" style="flex:1 1 150px;"></div>
               </div>
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="InvoiceItemTax" style="flex:1 1 150px;"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="InvoiceItemTax" data-taxtype="Sales" style="flex:1 1 150px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax 2" data-datafield="" data-enabled="false" data-totalfield="InvoiceItemTax2" data-taxtype="Sales" style="flex:1 1 150px; display:none;"></div>
               </div>
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="InvoiceItemTotal" style="flex:1 1 150px;"></div>
@@ -121,7 +124,10 @@
                 <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="AdditionalItemGrossTotal" style="flex:1 1 150px;"></div>
               </div>
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="AdditionalItemTax" style="flex:1 1 150px;"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="AdditionalItemTax" data-taxtype="Sales" style="flex:1 1 150px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax 2" data-datafield="" data-enabled="false" data-totalfield="AdditionalItemTax2" data-taxtype="Sales" style="flex:1 1 150px; display:none;"></div>
               </div>
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="AdditionalItemTotal" style="flex:1 1 150px;"></div>
@@ -142,6 +148,11 @@
                 <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="RentalTaxRate1" data-enabled="false" style="flex:1 1 75px;"></div>
                 <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="SalesTaxRate1" data-enabled="false" style="flex:1 1 75px;"></div>
                 <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Labor" data-datafield="LaborTaxRate1" data-enabled="false" style="flex:1 1 75px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="RentalTaxRate2" data-enabled="false" style="flex:1 1 75px; display:none;"></div>
+                <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="SalesTaxRate2" data-enabled="false" style="flex:1 1 75px; display:none;"></div>
+                <div data-control="FwFormField" data-type="percent" data-digits="4" class="fwcontrol fwformfield" data-caption="Labor" data-datafield="LaborTaxRate2" data-enabled="false" style="flex:1 1 75px; display:none;"></div>
               </div>
             </div>
           </div>

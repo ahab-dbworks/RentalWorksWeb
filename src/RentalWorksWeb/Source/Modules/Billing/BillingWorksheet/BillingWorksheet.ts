@@ -902,7 +902,7 @@ class BillingWorksheet {
         FwModule.loadAudit($form, uniqueid);
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: JQuery): void {
+    afterLoad($form: JQuery, response): void {
         // Disbles form for certain statuses. Maintain position under 'IsStandAloneInvoice' condition since status overrides
         const status = FwFormField.getValueByDataField($form, 'Status');
         if (status === 'CLOSED' || status === 'PROCESSED' || status === 'VOID') {
@@ -932,6 +932,46 @@ class BillingWorksheet {
         });
 
         this.dynamicColumns($form);
+        this.applyTaxOptions($form, response);
+    }
+    //----------------------------------------------------------------------------------------------
+    applyTaxOptions($form: JQuery, response: any) {
+        const $taxFields = $form.find('[data-totalfield="Tax"]');
+        const tax1Name = response.Tax1Name;
+        const tax2Name = response.Tax2Name;
+
+        const updateCaption = ($fields, taxName, count) => {
+            for (let i = 0; i < $fields.length; i++) {
+                const $field = jQuery($fields[i]);
+                const taxType = $field.attr('data-taxtype');
+                const taxRateName = taxType + 'TaxRate' + count;
+                const taxRatePercentage = response[taxRateName];
+                const caption = taxName + ` (${taxRatePercentage.toFixed(3) + '%'})`;
+                $field.find('.fwformfield-caption').text(caption);
+            }
+
+            const $billingTabTaxFields = $form.find(`[data-datafield="RentalTaxRate${count}"], [data-datafield="SalesTaxRate${count}"], [data-datafield="LaborTaxRate${count}"]`);
+            for (let i = 0; i < $billingTabTaxFields.length; i++) {
+                const $field = jQuery($billingTabTaxFields[i]);
+                let caption = $field.find('.fwformfield-caption').text();
+                const newCaption = caption + ' ' + taxName;
+                $field.find('.fwformfield-caption').text(newCaption);
+                $field.show();
+            }
+        }
+
+        if (tax1Name != "") {
+            updateCaption($taxFields, tax1Name, 1);
+        }
+
+        const $tax2Fields = $form.find('[data-totalfield="Tax2"]');
+        if (tax2Name != "") {
+            $tax2Fields.show();
+            updateCaption($tax2Fields, tax2Name, 2);
+        } else {
+            $tax2Fields.hide();
+        }
+
     }
     //----------------------------------------------------------------------------------------------
     approveOrUnaproveWorksheet($form: any, indicator: string) {
