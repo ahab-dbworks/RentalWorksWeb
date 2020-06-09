@@ -1,6 +1,6 @@
 ﻿[data-control="FwAppImage"] {background-color:#333333;}
 [data-control="FwAppImage"] .title {color:#ffffff;text-align:center;padding:5px 0;background-color:#222222;display:none;}
-[data-control="FwAppImage"] .toolbar {/*background-color:rgba(255,255,255,.1);*/color:#ffffff;display:flex;}
+[data-control="FwAppImage"] .toolbar {color:#ffffff;display:flex;}
 [data-control="FwAppImage"][data-enabled="false"] .toolbar {display:none;}
 [data-control="FwAppImage"] .toolbar .button {flex:0 0 auto;display:flex;padding:2px;cursor:pointer;}
 [data-control="FwAppImage"] .toolbar .button .caption {padding:0 5px;display:none;}
@@ -14,11 +14,9 @@
 [data-control="FwAppImage"] .btnPrevImage:hover {background-color:#1976d2;}
 [data-control="FwAppImage"] .btnNextImage {flex: 0 0 auto;cursor:pointer;color:#ffffff;display:flex;flex-direction:column;align-content:center;justify-content:center;}
 [data-control="FwAppImage"] .btnNextImage:hover {background-color:#1976d2;}
-[data-control="FwAppImage"] div.image {flex:1 1 0;min-height:10px;background-color:#000000;/*border:1px solid #000000;*/cursor:pointer;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;}
-[data-control="FwAppImage"] div.image > div.imagecontrol {display:flex;}
-[data-control="FwAppImage"] div.image > div.imagecontrol > div.imagecontainer {display:flex;flex-direction:column;width:200px;height:200px;}
-[data-control="FwAppImage"] div.image > div.imagecontrol > div.imagecontainer > .fullsizeimage {flex:1 1 0;background-size: contain;background-repeat: no-repeat;background-position:center center;}
-[data-control="FwAppImage"] div.image > div.datestamp {text-align:center;font-size:10px;background-color:#000000;color:#ffffff;display:none;}
+[data-control="FwAppImage"] div.image {flex:1 1 0;min-height:10px;background-color:#000000;cursor:pointer;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;}
+[data-control="FwAppImage"] div.image .fullsizeimage {position:absolute;top:0;right:0;bottom:0;left:0;background-size: contain;background-repeat: no-repeat;background-position:center center;}
+[data-control="FwAppImage"] div.image > div.datestamp {text-align:center;font-size:10px;background-color:#000000;color:#ffffff;/*display:none;*/}
 
 [data-control="FwAppImage"] div.images .thumbnails {display:flex;flex-wrap:nowrap;overflow:auto;}
 [data-control="FwAppImage"] div.images .thumbnails .thumb{flex:0 0 auto;cursor:pointer;display:block;margin:2px;height:50px;width:50px;background-repeat:no-repeat;background-size:contain;background-position: center center;}

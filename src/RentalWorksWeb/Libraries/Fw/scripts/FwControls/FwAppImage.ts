@@ -469,16 +469,9 @@ class FwAppImageClass {
         if ($control.attr('data-viewerheight') !== undefined) {
             viewerheight = $control.attr('data-viewerheight');
         }
-        html.push(`  <div class="image" data-mode="${mode}" data-appimageid="${image.AppImageId}">`);
-        html.push('    <div class="imagecontrol">');
-        html.push(`      <div class="imagecontainer" style="width:${viewerwidth};height:${viewerheight};">`);
-        html.push(`        <div class="fullsizeimage" data-mimetype="${image.MimeType}" style="background-image:url(${url})" data-appimageid="${image.AppImageId}">`);
-        html.push('        </div>');
-        html.push('      </div>');
-        html.push('    </div>');
-        html.push('    <div class="datestamp">');
-        html.push('      ' + image.DateStamp);
-        html.push('    </div>');
+        html.push(`  <div class="image" data-mode="${mode}" data-appimageid="${image.AppImageId}" style="width:${viewerwidth};height:${viewerheight};">`);
+        html.push(`    <div class="fullsizeimage" data-mimetype="${image.MimeType}" style="background-image:url(${url})" data-appimageid="${image.AppImageId}"></div>`);
+        //html.push(`    <div class="datestamp">${image.DateStamp}</div>`);
         html.push('  </div>');
         let htmlString = html.join('');
         return htmlString;
