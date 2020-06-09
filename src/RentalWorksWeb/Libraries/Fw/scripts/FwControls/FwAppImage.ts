@@ -197,11 +197,58 @@ class FwAppImageClass {
                         } else {
                             FwAppImage.selectImage($control, null, null);
                         }
-
-                        
-                        
                     });
                     return false;
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
+            .on('click', '.btnPrevImage', function (e) {
+                try {
+                    const $fullsizeimage = $control.find('.fullsizeimage');
+                    const appimageid = $fullsizeimage.attr('data-appimageid');
+                    //const $currentThumbnail = $control.find(`.thumb[data-appimageid="${appimageid}"]`);
+                    let currentThumnailNo = -1;
+                    const $thumbs = $control.find('.thumb');
+                    for (let i = 0; i < $thumbs.length; i++) {
+                        if ($thumbs.eq(i).attr('data-appimageid') === appimageid) {
+                            currentThumnailNo = i;
+                            break;
+                        }
+                    }
+                    if (currentThumnailNo > 0) {
+                        const $clickThumnail = $thumbs.eq(currentThumnailNo - 1);
+                        if ($clickThumnail.length > 0) {
+                            let ct_appimageid = $clickThumnail.attr('data-appimageid');
+                            let ct_datestamp = $clickThumnail.attr('data-datestamp');
+                            FwAppImage.selectImage($control, ct_appimageid, ct_datestamp);
+                        }
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
+            .on('click', '.btnNextImage', function (e) {
+                try {
+                    const $fullsizeimage = $control.find('.fullsizeimage');
+                    const appimageid = $fullsizeimage.attr('data-appimageid');
+                    //const $currentThumbnail = $control.find(`.thumb[data-appimageid="${appimageid}"]`);
+                    let currentThumnailNo = -1;
+                    const $thumbs = $control.find('.thumb');
+                    for (let i = 0; i < $thumbs.length; i++) {
+                        if ($thumbs.eq(i).attr('data-appimageid') === appimageid) {
+                            currentThumnailNo = i;
+                            break;
+                        }
+                    }
+                    if (currentThumnailNo >= 0 && currentThumnailNo < $thumbs.length - 1) {
+                        const $clickThumnail = $thumbs.eq(currentThumnailNo + 1);
+                        if ($clickThumnail.length > 0) {
+                            let ct_appimageid = $clickThumnail.attr('data-appimageid');
+                            let ct_datestamp = $clickThumnail.attr('data-datestamp');
+                            FwAppImage.selectImage($control, ct_appimageid, ct_datestamp);
+                        }
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -231,7 +278,17 @@ class FwAppImageClass {
                     FwFunc.showError(ex);
                 }
             })
-            ;
+            .on('click', '.btnToggleThumbnails', function (event) {
+                try {
+                    const $thumbnails = $control.find('.thumbnails');
+                    const showThumbnails = !$thumbnails.is(':visible');
+                    $control.attr('data-showthumbnails', showThumbnails.toString());
+                    $thumbnails.toggle(showThumbnails);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
+        ;
     };
     //---------------------------------------------------------------------------------
     selectImage($control: JQuery, appimageid: string, datestamp: string) {
@@ -365,12 +422,15 @@ class FwAppImageClass {
         }
         html.push('  <div class="toolbar">');
         if ($control.attr('data-hasadd') !== 'false') {
-            html.push('    <div class="button btnAdd"><i class="material-icons">&#xE145;</i></div>'); //add
+            html.push('    <div class="button btnAdd" title="Add"><i class="material-icons">&#xE145;</i></div>'); //add
         }
         if ($control.attr('data-hasdelete') !== 'false') {
             html.push('        <div class="button btnDelete" title="Delete"><i class="material-icons">&#xE872;</i></div>');
         }
-        html.push('    <div class="button btnRefresh"><i class="material-icons">&#xE5D5;</i></div>'); //refresh
+        if ($control.attr('data-hastogglethumbnails') !== 'false') {
+            html.push('        <div class="button btnToggleThumbnails" title="Toggle Thumbnails"><i class="material-icons">&#xE3B6;</i></div>');
+        }
+        html.push('    <div class="button btnRefresh" title="Refresh"><i class="material-icons">&#xE5D5;</i></div>'); //refresh
         html.push('  </div>');
         html.push('  <div class="imageviewer">');
         html.push('    <div class="images"></div>');
@@ -689,16 +749,16 @@ class FwAppImageClass {
             //    thumbnails.push('<label for="image' + (imageno + 1) + '" data-appimageid="' + image.AppImageId + '" class="thumb image' + (imageno + 1) + '" style="background-image:url(' + jQuery($image).find('img').attr('src') + '&thumbnail=true)"></label>');
             //}
             html.push('<div class="fullsizeimagepager">');
-            html.push('    <div class="pageleftcontainer"><i class="material-icons">chevron_left</i></div>');
+            html.push('    <div class="btnPrevImage" title="Previous Image"><i class="material-icons">chevron_left</i></div>');
             if (images.length > 0) {
                 html.push(FwAppImage.getImageHtml($control, 'VIEW', images[0]));
             } else {
                 html.push(FwAppImage.getImageHtml($control, 'NEW', null));
                 FwAppImage.selectImage($control, null, null);
             }
-            html.push('    <div class="pagerightcontainer"><i class="material-icons">chevron_right</i></div>');
+            html.push('    <div class="btnNextImage" title="Next Image"><i class="material-icons">chevron_right</i></div>');
             html.push('</div>');
-            html.push('<div class="thumbnails">');
+            html.push('<div class="thumbnails" style="display:none">');
             for (var imageno = 0; imageno < images.length; imageno++) {
                 image = images[imageno];
                 let thumnailurl = `${applicationConfig.apiurl}api/v1/appimage/getimage?appimageid=${image.AppImageId}&thumbnail=true`;
@@ -709,6 +769,10 @@ class FwAppImageClass {
             //html.push('</div></section > ');
             html = html.join('');
             $divimages.append(html);
+            const showThumbnails = $control.attr('data-showthumbnails') === 'true';
+            if (showThumbnails) {
+                $control.find('.thumbnails').toggle(showThumbnails);
+            }
             if (typeof $control.data('recenterpopup') === 'function') {
                 $control.data('recenterpopup')();
             }
