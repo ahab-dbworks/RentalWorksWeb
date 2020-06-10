@@ -89,7 +89,7 @@ class SearchInterface {
                                     <div class="columnDescriptions">
                                       <div data-column="ItemImage"></div>
                                       <div class="columnorder" data-column="Description">Description</div>
-                                      <div class="columnorder" data-column="Tags">Tags</div>
+                                      <div class="columnorder" data-column="Tags"></div>
                                       <div class="columnorder" data-column="Quantity">Qty</div>
                                       <div class="columnorder showOnSearch" data-column="Type">Type</div> 
                                       <div class="columnorder showOnSearch" data-column="Category">Category</div>
@@ -1885,7 +1885,7 @@ class SearchInterface {
         if (!(accessoryContainer.find('.accColumns').length)) {
             let accessorycolumnshtml =  `<div class="accColumns" style="width:100%; display:none">
                                            <div class="columnorder" data-column="Description">Description</div>
-                                           <div class="columnorder" data-column="Tags">Tags</div>
+                                           <div class="columnorder" data-column="Tags"></div>
                                            <div class="columnorder" data-column="Quantity">Qty</div>
                                            <div class="columnorder showOnSearch" data-column="Type"></div> 
                                            <div class="columnorder showOnSearch" data-column="Category"></div>
