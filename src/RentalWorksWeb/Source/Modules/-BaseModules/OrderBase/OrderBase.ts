@@ -18,7 +18,7 @@ class OrderBase {
     id: string;
     apiurl: string;
     CachedOrderTypes: any = {};
-    totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
+    totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax1', 'WeeklyTax2', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTax1', 'MonthlyTax2', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTax1', 'PeriodTax2', 'PeriodTotal',]
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -2781,35 +2781,39 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string, totals?): void {
-        let subTotal, discount, salesTax, grossTotal, total;
+        let subTotal, discount, salesTax, salesTax2, grossTotal, total;
 
         let rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
         switch (rateValue) {
             case 'W':
                 subTotal = totals.WeeklyExtended;
                 discount = totals.WeeklyDiscountAmount;
-                salesTax = totals.WeeklyTax;
+                salesTax = totals.WeeklyTax1;
+                salesTax2 = totals.WeeklyTax2;
                 grossTotal = totals.WeeklyExtendedNoDiscount;
                 total = totals.WeeklyTotal;
                 break;
             case 'P':
                 subTotal = totals.PeriodExtended;
                 discount = totals.PeriodDiscountAmount;
-                salesTax = totals.PeriodTax;
+                salesTax = totals.PeriodTax1;
+                salesTax2 = totals.PeriodTax2;
                 grossTotal = totals.PeriodExtendedNoDiscount;
                 total = totals.PeriodTotal;
                 break;
             case 'M':
                 subTotal = totals.MonthlyExtended;
                 discount = totals.MonthlyDiscountAmount;
-                salesTax = totals.MonthlyTax;
+                salesTax = totals.MonthlyTax1;
+                salesTax2 = totals.MonthlyTax2;
                 grossTotal = totals.MonthlyExtendedNoDiscount;
                 total = totals.MonthlyTotal;
                 break;
             default:
                 subTotal = totals.PeriodExtended;
                 discount = totals.PeriodDiscountAmount;
-                salesTax = totals.PeriodTax;
+                salesTax = totals.PeriodTax1;
+                salesTax2 = totals.PeriodTax2;
                 grossTotal = totals.PeriodExtendedNoDiscount;
                 total = totals.PeriodTotal;
         }
@@ -2870,6 +2874,7 @@ class OrderBase {
         $form.find(`.${gridType}totals [data-totalfield="SubTotal"] input`).val(subTotal);
         $form.find(`.${gridType}totals [data-totalfield="Discount"] input`).val(discount);
         $form.find(`.${gridType}totals [data-totalfield="Tax"] input`).val(salesTax);
+        $form.find(`.${gridType}totals [data-totalfield="Tax2"] input`).val(salesTax2);
         $form.find(`.${gridType}totals [data-totalfield="GrossTotal"] input`).val(grossTotal);
         $form.find(`.${gridType}totals [data-totalfield="Total"] input`).val(total);
     };

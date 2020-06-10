@@ -239,6 +239,12 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwLogicProperty(Id: "8FotF6KXPAc9", IsReadOnly: true)]
         public decimal? WeeklyTax { get; set; }
 
+        [FwLogicProperty(Id: "EAkYsyKT0YXJ", IsReadOnly: true)]
+        public decimal? WeeklyTax1 { get; set; }
+
+        [FwLogicProperty(Id: "V66A3352xZZC", IsReadOnly: true)]
+        public decimal? WeeklyTax2 { get; set; }
+
         [FwLogicProperty(Id: "FUB8yskSCpCVj", IsReadOnly: true)]
         public decimal? WeeklyTotal { get; set; }
 
@@ -281,6 +287,12 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwLogicProperty(Id: "NnVFcSmTD2zF", IsReadOnly: true)]
         public decimal? MonthlyTax { get; set; }
 
+        [FwLogicProperty(Id: "dz5ya8EuiGXl", IsReadOnly: true)]
+        public decimal? MonthlyTax1 { get; set; }
+
+        [FwLogicProperty(Id: "lzD4i84lzs8K", IsReadOnly: true)]
+        public decimal? MonthlyTax2 { get; set; }
+
         [FwLogicProperty(Id: "SvZ6addubgvnC", IsReadOnly: true)]
         public decimal? MonthlyTotal { get; set; }
 
@@ -298,6 +310,13 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
         [FwLogicProperty(Id: "Fz0tQ5thjcfX", IsReadOnly: true)]
         public decimal? PeriodTax { get; set; }
+
+
+        [FwLogicProperty(Id: "pYdJ4GULKNLy", IsReadOnly: true)]
+        public decimal? PeriodTax1 { get; set; }
+
+        [FwLogicProperty(Id: "OQ0gDQK7jBB3", IsReadOnly: true)]
+        public decimal? PeriodTax2 { get; set; }
 
         [FwLogicProperty(Id: "7N4hypXEFwSb7", IsReadOnly: true)]
         public decimal? PeriodTotal { get; set; }

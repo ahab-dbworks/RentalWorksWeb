@@ -246,6 +246,12 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "weeklytax", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyTax { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklytax2", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyTax1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklytax2", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyTax2 { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.weeklytax) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -297,6 +303,12 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "monthlytax", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyTax { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlytax1", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyTax1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlytax2", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyTax2 { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.monthlytax) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -329,6 +341,12 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodtax1", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodTax1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodtax2", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodTax2 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.periodtax) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodTaxSubTotal { get; set; }
