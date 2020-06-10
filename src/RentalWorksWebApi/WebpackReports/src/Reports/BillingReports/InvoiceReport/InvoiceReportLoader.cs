@@ -52,6 +52,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "extendednodiscsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string GrossExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasdiscount", modeltype: FwDataTypes.Text)]
+        public string HasDiscount { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountamt", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -183,6 +186,14 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                         else
                         {
                             property.SetValue(item, (value ?? "").ToString());
+                        }
+
+                        if (fieldName.Equals("HasDiscount") && value != null)
+                        {
+                            if (value.Equals("T"))
+                            {
+                                items[0].GetType().GetProperty("HasDiscount").SetValue(items[0], "T");
+                            }
                         }
                     }
                 }

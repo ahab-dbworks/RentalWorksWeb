@@ -292,6 +292,14 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         {
                             property.SetValue(item, (value ?? "").ToString());
                         }
+
+                        if (fieldName.Equals("HasDiscount") && value != null)
+                        {
+                            if (value.Equals("T"))
+                            {
+                                items[0].GetType().GetProperty("HasDiscount").SetValue(items[0], "T");
+                            }
+                        }
                     }
                 }
                 items.Add(item);
