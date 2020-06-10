@@ -275,13 +275,59 @@ class FwAppImageClass {
                     var appimageid = jQuery(this).attr('data-appimageid');
                     if (appimageid.length > 0) {
                         var html = [];
-                        html.push('<img style="max-width:100%;" src="' + applicationConfig.apiurl + 'api/v1/appimage/getimage?appimageid=' + appimageid + '&thumbnail=false' + '\" >');
+                        html.push(`<div style="position:absolute;top:0;right:0;bottom:0;left:0;background-repeat:no-repeat;background-size:contain;background-position:center center;background-image:url(${applicationConfig.apiurl}api/v1/appimage/getimage?appimageid=${appimageid}&thumbnail=false)"></div>`);
                         let htmlString = html.join('\n');
-                        var $confirmation = FwConfirmation.renderConfirmation('Image Viewer', htmlString);
-                        $confirmation.find('.message').css({
-                            'text-align': 'center'
-                        })
-                        var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
+                        let title = '<i class="material-icons btnClose" style="cursor:pointer;color:#ffffff">&#xE5CD;</i>';
+                        var $confirmation = FwConfirmation.renderConfirmation(title, '');
+                        $confirmation.find('.body')
+                            .css({
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position: 'relative'
+                            })
+                            .html(htmlString);
+                        //$confirmation.find('.message').css({
+                        //    'text-align': 'center'
+                        //})
+                        //var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
+                        $confirmation.on('click', '.btnClose', (e) => {
+                            try {
+                                FwConfirmation.destroyConfirmation($confirmation);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        });
+
+                        // adjust css styles and positioning on the confirmation box
+                        $confirmation.find('.fwconfirmationbox').css({
+                            width: '95vw',
+                            height: '95vh',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            backgroundColor: 'rgba(0,0,0,0.85)'
+                        });
+                        $confirmation.find('.title,.more,.fwconfirmation-buttonbar').css({
+                            flex: '0 0 auto'
+                        });
+                        $confirmation.find('.fwconfirmation-button').css({
+                            backgroundColor: '#ffc107'
+                        });
+                        $confirmation.find('.title').css({
+                            backgroundColor: 'unset',
+                            display: 'flex',
+                            justifyContent: 'flex-end'
+                        });
+                        $confirmation.find('.body').css({
+                            flex: '1 1 0',
+                            display: 'flex',
+                            maxHeight: '100vh',
+                            overflow: 'hidden'
+                        });
+                        $confirmation.find('.fwform').css({
+                            flex: '1 1 0',
+                            display: 'flex',
+                            flexDirection: 'column'
+                        });
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
