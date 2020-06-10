@@ -192,7 +192,6 @@ class FwAppImageClass {
                             let newThumbnailNo = deleteThumnailNo;
                             if ($thumbs.length === 0) {
                                 FwAppImage.selectImage($control, null, null);
-                                FwAppImage.updatePageInfo($control, '-', '-');
                             } else {
                                 if (newThumbnailNo > $thumbs.length - 1) {
                                     newThumbnailNo = $thumbs.length - 1;
@@ -202,7 +201,7 @@ class FwAppImageClass {
                                     let ct_appimageid = $newThumbnail.attr('data-appimageid');
                                     let ct_datestamp = $newThumbnail.attr('data-datestamp');
                                     FwAppImage.selectImage($control, ct_appimageid, ct_datestamp);
-                                    FwAppImage.updatePageInfo($control, newThumbnailNo + 1, $thumbs.length);
+                                    //FwAppImage.updatePageInfo($control, newThumbnailNo + 1, $thumbs.length);
                                 } else {
                                     FwAppImage.selectImage($control, null, null);
                                 }
@@ -236,7 +235,7 @@ class FwAppImageClass {
                             let ct_appimageid = $clickThumnail.attr('data-appimageid');
                             let ct_datestamp = $clickThumnail.attr('data-datestamp');
                             FwAppImage.selectImage($control, ct_appimageid, ct_datestamp);
-                            FwAppImage.updatePageInfo($control, clickThumbnailNo + 1, $thumbs.length);
+                            //FwAppImage.updatePageInfo($control, clickThumbnailNo + 1, $thumbs.length);
                         }
                     }
                 } catch (ex) {
@@ -263,7 +262,7 @@ class FwAppImageClass {
                             let ct_appimageid = $clickThumnail.attr('data-appimageid');
                             let ct_datestamp = $clickThumnail.attr('data-datestamp');
                             FwAppImage.selectImage($control, ct_appimageid, ct_datestamp);
-                            FwAppImage.updatePageInfo($control, clickThumbnailNo + 1, $thumbs.length);
+                            //FwAppImage.updatePageInfo($control, clickThumbnailNo + 1, $thumbs.length);
                         }
                     }
                 } catch (ex) {
@@ -363,10 +362,25 @@ class FwAppImageClass {
                 .attr('data-appimageid', appimageid)
                 .css('background-image', `url(${applicationConfig.apiurl}api/v1/appimage/getimage?appimageid=${appimageid}&thumbnail=false)`);
             $control.find(`.thumb[data-appimageid="${appimageid}"]`).attr('data-selected', 'true');
+            const $fullsizeimage = $control.find('.fullsizeimage');
+            let currentThumnailNo = -1;
+            const $thumbs = $control.find('.thumb');
+            for (let i = 0; i < $thumbs.length; i++) {
+                if ($thumbs.eq(i).attr('data-appimageid') === appimageid) {
+                    currentThumnailNo = i;
+                    break;
+                }
+            }
+            if (currentThumnailNo != -1) {
+                FwAppImage.updatePageInfo($control, currentThumnailNo + 1, $thumbs.length);
+            } else {
+                FwAppImage.updatePageInfo($control, '-', '-');
+            }
         } else {
             $control.find('.fullsizeimage')
                 .attr('data-appimageid', '')
                 .css('background-image', `url(${FwAppImage.blankDataUrl})`);
+            FwAppImage.updatePageInfo($control, '-', '-');
         }
         if (datestamp !== null) {
             $control.find('.datestamp')
@@ -796,6 +810,7 @@ class FwAppImageClass {
     //---------------------------------------------------------------------------------
     getAppImagesCallback($control, images) {
         try {
+            console.log(images);
             let imageno: string = '-';
             if (images.length > 0) {
                 imageno = '1';
@@ -823,25 +838,30 @@ class FwAppImageClass {
 
             Sortable.create($thumbnails.get(0), {
                 onEnd: function (evt) {
-                    let imageToDisplay;
+                    //let imageToDisplay;
                     const $item = jQuery(evt.item);
+                    const $fullsizeimage = $control.find('.fullsizeimage');
+                    const appimageid = $fullsizeimage.attr('data-appimageid');
                     const $thumbs = $thumbnails.find('.thumb');
+                    let currentThumnailNo = -1;
                     for (let i = 0; i < $thumbs.length; i++) {
                         const $thumb = $thumbs.eq(i);
-                        if (i === 0) {
-                            imageToDisplay = $thumb.attr('for');
+                        if ($thumbs.eq(i).attr('data-appimageid') === appimageid) {
+                            currentThumnailNo = i;
                         }
                         const request: any = {};
                         request.AppImageId = $thumb.attr('data-appimageid');
                         request.OrderBy = i + 1;
                         FwAppData.apiMethod(true, 'POST', `api/v1/appimage/repositionimage`, request, applicationConfig.ajaxTimeoutSeconds,
                             (response: any) => {
+                                
                             },
                             (error: any) => {
                                 FwFunc.showError(error);
                             }, $control
                         );
                     }
+                    FwAppImage.updatePageInfo($control, currentThumnailNo + 1, $thumbs.length);
                 }
             });
 
