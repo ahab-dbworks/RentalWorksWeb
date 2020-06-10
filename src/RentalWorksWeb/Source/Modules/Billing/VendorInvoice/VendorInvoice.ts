@@ -162,11 +162,12 @@ class VendorInvoice {
                 request.uniqueids = {
                     VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
                 };
-                request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"];
+                request.totalfields = ["LineTotal", "Tax1", "Tax2", "LineTotalWithTax"];
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemGrossTotal"]', dt.Totals.LineTotal);
-                FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTax"]', dt.Totals.Tax);
+                FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTax"]', dt.Totals.Tax1);
+                FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTax2"]', dt.Totals.Tax2);
                 FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTotal"]', dt.Totals.LineTotalWithTax);
             },
         });
@@ -327,7 +328,7 @@ class VendorInvoice {
                     VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId'),
                     PurchaseOrderId: "",
                 };
-                request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"];
+                request.totalfields = ["LineTotal", "Tax1", "Tax2", "LineTotalWithTax"];
             },
             beforeSave: (request: any) => {
                 request.VendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
@@ -335,7 +336,8 @@ class VendorInvoice {
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemGrossTotal"]', dt.Totals.LineTotal);
-                FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTax"]', dt.Totals.Tax);
+                FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTax"]', dt.Totals.Tax1);
+                FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTax2"]', dt.Totals.Tax2);
                 FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTotal"]', dt.Totals.LineTotalWithTax);
             },
         });
