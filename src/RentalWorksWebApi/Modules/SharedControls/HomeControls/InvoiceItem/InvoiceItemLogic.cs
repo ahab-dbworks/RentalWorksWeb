@@ -179,6 +179,10 @@ namespace WebApi.Modules.HomeControls.InvoiceItem
         [FwLogicProperty(Id: "JIhwZoleX2ti8", IsReadOnly: true)]
         public decimal? Tax { get; set; }
 
+
+        [FwLogicProperty(Id: "7RYojk7yYvTf", IsReadOnly: true)]
+        public decimal? Tax2 { get; set; }
+
         [FwLogicProperty(Id: "K4EkPdPU2v4Fb", IsReadOnly: true)]
         public decimal? LineTotalWithTax { get; set; }
 

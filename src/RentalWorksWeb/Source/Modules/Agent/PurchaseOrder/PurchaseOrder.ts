@@ -13,6 +13,7 @@ class PurchaseOrder implements IModule {
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     CachedPurchaseOrderTypes: any = {};
+    totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax1', 'WeeklyTax2', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTax1', 'MonthlyTax2', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTax1', 'PeriodTax2', 'PeriodTotal',]
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasInactive = false;
@@ -444,6 +445,7 @@ class PurchaseOrder implements IModule {
                     OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                     RecType: 'R'
                 };
+                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
@@ -459,7 +461,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.calculateOrderItemGridTotals($form, 'rental');
+                this.calculateOrderItemGridTotals($form, 'rental', dt.Totals);
                 const rentalItems = $form.find('.rentalgrid tbody').children();
                 rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
             },
@@ -534,6 +536,7 @@ class PurchaseOrder implements IModule {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                     RecType: 'S'
                 };
+                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -548,7 +551,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.calculateOrderItemGridTotals($form, 'sales');
+                this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);
                 const salesItems = $form.find('.salesgrid tbody').children();
                 salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
             },
@@ -623,6 +626,7 @@ class PurchaseOrder implements IModule {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                     RecType: 'P'
                 };
+                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -637,7 +641,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.calculateOrderItemGridTotals($form, 'parts');
+                this.calculateOrderItemGridTotals($form, 'parts', dt.Totals);
                 const partItems = $form.find('.partsgrid tbody').children();
                 partItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Parts"]')) : FwFormField.enable($form.find('[data-datafield="Parts"]'));
             },
@@ -712,6 +716,7 @@ class PurchaseOrder implements IModule {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                     RecType: 'L'
                 };
+                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -727,7 +732,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.calculateOrderItemGridTotals($form, 'labor');
+                this.calculateOrderItemGridTotals($form, 'labor', dt.Totals);
                 const laborItems = $form.find('.laborgrid tbody').children();
                 laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
             },
@@ -802,6 +807,7 @@ class PurchaseOrder implements IModule {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                     RecType: 'M'
                 };
+                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -817,7 +823,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.calculateOrderItemGridTotals($form, 'misc');
+                this.calculateOrderItemGridTotals($form, 'misc', dt.Totals);
                 const miscItems = $form.find('.miscgrid tbody').children();
                 miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
             },
@@ -893,6 +899,7 @@ class PurchaseOrder implements IModule {
                     RecType: 'R',
                     Subs: true,
                 };
+                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -907,7 +914,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.calculateOrderItemGridTotals($form, 'subrental');
+                this.calculateOrderItemGridTotals($form, 'subrental', dt.Totals);
                 const subrentItems = $form.find('.subrentalgrid tbody').children();
                 subrentItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubRent"]')) : FwFormField.enable($form.find('[data-datafield="SubRent"]'));
             },
@@ -982,6 +989,7 @@ class PurchaseOrder implements IModule {
                     RecType: 'S',
                     Subs: true,
                 };
+                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -996,7 +1004,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.calculateOrderItemGridTotals($form, 'subsales');
+                this.calculateOrderItemGridTotals($form, 'subsales', dt.Totals);
                 const subsalesItems = $form.find('.subsalesgrid tbody').children();
                 subsalesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubSale"]')) : FwFormField.enable($form.find('[data-datafield="SubSale"]'));
             },
@@ -1064,6 +1072,7 @@ class PurchaseOrder implements IModule {
                     RecType: 'L',
                     Subs: true,
                 };
+                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -1079,7 +1088,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.calculateOrderItemGridTotals($form, 'sublabor');
+                this.calculateOrderItemGridTotals($form, 'sublabor', dt.Totals);
                 const sublaborItems = $form.find('.sublaborgrid tbody').children();
                 sublaborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubLabor"]')) : FwFormField.enable($form.find('[data-datafield="SubLabor"]'));
             },
@@ -1147,6 +1156,7 @@ class PurchaseOrder implements IModule {
                     RecType: 'M',
                     Subs: true,
                 };
+                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -1162,7 +1172,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.calculateOrderItemGridTotals($form, 'submisc');
+                this.calculateOrderItemGridTotals($form, 'submisc', dt.Totals);
                 const submiscItems = $form.find('.submiscgrid tbody').children();
                 submiscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubMisc"]')) : FwFormField.enable($form.find('[data-datafield="SubMisc"]'));
             },
@@ -2058,52 +2068,94 @@ class PurchaseOrder implements IModule {
     //    }, null, null);
     //};
     ////----------------------------------------------------------------------------------------------
-    calculateOrderItemGridTotals($form: any, gridType: string): void {
-        let subTotal, discount, salesTax, grossTotal, total, rateType;
-        let extendedTotal = new Decimal(0);
-        let discountTotal = new Decimal(0);
-        let taxTotal = new Decimal(0);
+    calculateOrderItemGridTotals($form: any, gridType: string, totals?): void {
+        let subTotal, discount, salesTax, salesTax2, grossTotal, total, rateType;
+        //let extendedTotal = new Decimal(0);
+        //let discountTotal = new Decimal(0);
+        //let taxTotal = new Decimal(0);
+        //let taxTotal2 = new Decimal(0);
 
         let rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
+        //switch (rateValue) {
+        //    case 'W':
+        //        rateType = 'Weekly';
+        //        break;
+        //    case 'P':
+        //        rateType = 'Period';
+        //        break;
+        //    case 'M':
+        //        rateType = 'Monthly';
+        //        break;
+        //    default:
+        //        rateType = 'Period';
+        //}
+
+
+        //const extendedColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Extended"]`);
+        //const discountColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}DiscountAmount"]`);
+        //const taxColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Tax"]`);
+        //const taxColumn2: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Tax2"]`);
+
+        //for (let i = 1; i < extendedColumn.length; i++) {
+        //    // Extended Column
+        //    let inputValueFromExtended: any = +extendedColumn.eq(i).attr('data-originalvalue');
+        //    extendedTotal = extendedTotal.plus(inputValueFromExtended);
+        //    // DiscountAmount Column
+        //    let inputValueFromDiscount: any = +discountColumn.eq(i).attr('data-originalvalue');
+        //    discountTotal = discountTotal.plus(inputValueFromDiscount);
+        //    // Tax Column
+        //    let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
+        //    taxTotal = taxTotal.plus(inputValueFromTax);
+
+        //    // Tax2 Column
+        //    let inputValueFromTax2: any = +taxColumn2.eq(i).attr('data-originalvalue');
+        //    taxTotal2 = taxTotal2.plus(inputValueFromTax2);
+        //};
+
+        //subTotal = extendedTotal.toFixed(2);
+        //discount = discountTotal.toFixed(2);
+        //salesTax = taxTotal.toFixed(2);
+        //salesTax2 = taxTotal2.toFixed(2);
+        //grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
+        //total = taxTotal.plus(extendedTotal).toFixed(2);
         switch (rateValue) {
             case 'W':
-                rateType = 'Weekly';
+                subTotal = totals.WeeklyExtended;
+                discount = totals.WeeklyDiscountAmount;
+                salesTax = totals.WeeklyTax1;
+                salesTax2 = totals.WeeklyTax2;
+                grossTotal = totals.WeeklyExtendedNoDiscount;
+                total = totals.WeeklyTotal;
                 break;
             case 'P':
-                rateType = 'Period';
+                subTotal = totals.PeriodExtended;
+                discount = totals.PeriodDiscountAmount;
+                salesTax = totals.PeriodTax1;
+                salesTax2 = totals.PeriodTax2;
+                grossTotal = totals.PeriodExtendedNoDiscount;
+                total = totals.PeriodTotal;
                 break;
             case 'M':
-                rateType = 'Monthly';
+                subTotal = totals.MonthlyExtended;
+                discount = totals.MonthlyDiscountAmount;
+                salesTax = totals.MonthlyTax1;
+                salesTax2 = totals.MonthlyTax2;
+                grossTotal = totals.MonthlyExtendedNoDiscount;
+                total = totals.MonthlyTotal;
                 break;
             default:
-                rateType = 'Period';
+                subTotal = totals.PeriodExtended;
+                discount = totals.PeriodDiscountAmount;
+                salesTax = totals.PeriodTax1;
+                salesTax2 = totals.PeriodTax2;
+                grossTotal = totals.PeriodExtendedNoDiscount;
+                total = totals.PeriodTotal;
         }
-
-        const extendedColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Extended"]`);
-        const discountColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}DiscountAmount"]`);
-        const taxColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Tax"]`);
-
-        for (let i = 1; i < extendedColumn.length; i++) {
-            // Extended Column
-            let inputValueFromExtended: any = +extendedColumn.eq(i).attr('data-originalvalue');
-            extendedTotal = extendedTotal.plus(inputValueFromExtended);
-            // DiscountAmount Column
-            let inputValueFromDiscount: any = +discountColumn.eq(i).attr('data-originalvalue');
-            discountTotal = discountTotal.plus(inputValueFromDiscount);
-            // Tax Column
-            let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
-            taxTotal = taxTotal.plus(inputValueFromTax);
-        };
-
-        subTotal = extendedTotal.toFixed(2);
-        discount = discountTotal.toFixed(2);
-        salesTax = taxTotal.toFixed(2);
-        grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
-        total = taxTotal.plus(extendedTotal).toFixed(2);
 
         $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
         $form.find(`.${gridType}-totals [data-totalfield="Discount"] input`).val(discount);
         $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
+        $form.find(`.${gridType}-totals [data-totalfield="Tax2"] input`).val(salesTax2);
         $form.find(`.${gridType}-totals [data-totalfield="GrossTotal"] input`).val(grossTotal);
         $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
     };

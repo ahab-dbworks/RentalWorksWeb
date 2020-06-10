@@ -117,8 +117,14 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "taxrate", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string TaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "tax", modeltype: FwDataTypes.DecimalString2Digits)]
         public string Tax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax2", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string Tax2 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string TaxSubTotal { get; set; }
@@ -145,8 +151,8 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                 //--------------------------------------------------------------------------------- 
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-            string[] totalFields = new string[] { "GrossExtended", "GrossExtendedSubTotal", "DiscountAmount", "DiscountAmountSubTotal", "Extended", "ExtendedSubTotal", "Tax", "TaxSubTotal", "ExtendedWithTax" };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate" }, includeGroupColumnValueInFooter: true, totalFor: "");
+            string[] totalFields = new string[] { "GrossExtended", "GrossExtendedSubTotal", "DiscountAmount", "DiscountAmountSubTotal", "Extended", "ExtendedSubTotal", "Tax", "Tax2", "TaxSubTotal", "ExtendedWithTax" };
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate", "TaxRate2" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
@@ -675,6 +681,12 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string RateType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax1name", modeltype: FwDataTypes.Text)]
+        public string Tax1Name { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax2name", modeltype: FwDataTypes.Text)]
+        public string Tax2Name { get; set; }
 
 
         //------------------------------------------------------------------------------------
