@@ -78,7 +78,7 @@ namespace WebApi.Controllers.SharedControls.AppImage
         {
             return await base.DoAddAsync(request.Uniqueid1, request.Uniqueid2, request.Uniqueid3, request.Description, request.Extension, request.RecType, request.ImageDataUrl);
         }
-        //----------------------------------------------------------------------------------, ActionType: FwControllerActionTypes.Delete--
+        //----------------------------------------------------------------------------------
         public class DeleteAsyncRequest
         {
             public string AppImageId { get; set; }
