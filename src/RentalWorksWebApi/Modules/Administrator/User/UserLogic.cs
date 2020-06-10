@@ -1,6 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
+
 namespace WebApi.Modules.Administrator.User
 {
     [FwLogic(Id: "0ccx5woMungnC")]
@@ -434,9 +435,9 @@ namespace WebApi.Modules.Administrator.User
         public bool? SettingsNavigationMenuVisible { get { return webUser.SettingsNavigationMenuVisible; } set { webUser.SettingsNavigationMenuVisible = value; } }
         [FwLogicProperty(Id: "715OUeIzJmXjr")]
         public bool? ReportsNavigationMenuVisible { get { return webUser.ReportsNavigationMenuVisible; } set { webUser.ReportsNavigationMenuVisible = value; } }
-
+        [FwLogicProperty(Id: "sjKqUWSqxjd0")]
+        public bool? WebQuoteRequest { get { return webUser.WebQuoteRequest; } set { webUser.WebQuoteRequest = value; } }
         //------------------------------------------------------------------------------------
-
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
@@ -449,7 +450,6 @@ namespace WebApi.Modules.Administrator.User
             }
         }
         //------------------------------------------------------------------------------------
-
         private void AfterSaveUser(object sender, AfterSaveDataRecordEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)

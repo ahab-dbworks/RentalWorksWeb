@@ -104,6 +104,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "reportsnavmenuvisible", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
         public bool? ReportsNavigationMenuVisible { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "webquoterequest", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
+        public bool? WebQuoteRequest { get; set; }
+        //------------------------------------------------------------------------------------
         public async Task<bool> SaveFavoritesJsonAsync(string Note)
         {
             return await AppFunc.SaveNoteAsync(AppConfig, UserSession, WebUserId, RwConstants.WEBUSER_NOTE_TYPE_FAVORITES, "", Note);

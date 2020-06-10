@@ -195,6 +195,9 @@ namespace WebApi.Modules.Agent.Contact
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webquoterequest", modeltype: FwDataTypes.Boolean)]
+        public bool? WebQuoteRequest { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

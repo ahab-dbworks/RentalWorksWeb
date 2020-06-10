@@ -208,6 +208,9 @@ namespace WebApi.Modules.Agent.Contact
         [FwLogicProperty(Id: "bBBteohngzfI")]
         public string Warehouse { get; set; }
 
+        [FwLogicProperty(Id:"CRSHb9L0gpcD")]
+        public bool? WebQuoteRequest { get { return webUser.WebQuoteRequest; } set { webUser.WebQuoteRequest = value; } }
+
         //------------------------------------------------------------------------------------
         private void BeforeValidateContact(object sender, BeforeValidateEventArgs e)
         {

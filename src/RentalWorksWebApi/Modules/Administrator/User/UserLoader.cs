@@ -3,7 +3,6 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Administrator.User
@@ -389,6 +388,9 @@ namespace WebApi.Modules.Administrator.User
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webquoterequest", modeltype: FwDataTypes.Boolean)]
+        public bool? WebQuoteRequest { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

@@ -1125,13 +1125,14 @@ class Deal {
               <div data-type="tab" id="optionstab" class="tab" data-tabpageid="optionstabpage" data-caption="Options"></div>
               <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
               <div data-type="tab" id="quotetab" class="tab submodule quotetab" data-tabpageid="quotetabpage" data-caption="Quotes"></div>
-              <div data-type="tab" id="ordertab" class="tab submodule ordertab" data-tabpageid="ordertabpage" data-caption="Orders"></div>              
+              <div data-type="tab" id="ordertab" class="tab submodule ordertab" data-tabpageid="ordertabpage" data-caption="Orders"></div>
               <div data-type="tab" id="contracttab" class="tab submodule contracttab" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule invoicetab" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="receipttab" class="tab submodule receipttab" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
               <div data-type="tab" id="creditstab" class="tab submodule creditstab" data-tabpageid="creditstabpage" data-caption="Credits"></div>
               <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
+              <div data-type="tab" id="rwnettab" class="tab" data-tabpageid="rwnettabpage" data-caption="Rw.NET"></div>
             </div>
             <div class="tabpages">
              <!-- DEAL TAB -->
@@ -1734,6 +1735,18 @@ class Deal {
                   </div>
                 </div>
               </div>
+
+              <!-- RW.NET TAB -->
+              <div data-type="tabpage" id="rwnettabpage" class="tabpage" data-tabid="rwnettab">
+                <div class="formpage">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rw.NET Settings">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Quote Request" data-datafield="EnableWebQuoteRequest"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>`;

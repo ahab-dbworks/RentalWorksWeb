@@ -423,6 +423,7 @@ class User {
               <div data-type="tab" id="settingstab" class="tab" data-tabpageid="settingstabpage" data-caption="Settings"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
               <div data-type="tab" id="picturetab" class="tab" data-tabpageid="picturetabpage" data-caption="Picture"></div>
+              <div data-type="tab" id="rwnettab" class="tab" data-tabpageid="rwnettabpage" data-caption="Rw.NET"></div>
             </div>
             <div class="tabpages">
               <div data-type="tabpage" id="usertabpage" class="tabpage" data-tabid="usertab">
@@ -742,6 +743,16 @@ class User {
                   <div class="flexcolumn" style="flex: 0 1 800px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User Photo">
                       <div class="fwcontrol fwappimage" data-control="FwAppImage" data-type="" data-uniqueid1field="UserId" data-description="" data-rectype=""></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--RW.NET TAB-->
+              <div data-type="tabpage" id="rwnettabpage" class="tabpage" data-tabid="rwnettab">
+                <div class="flexrow">
+                  <div class="flexcolumn" style="flex: 0 1 800px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rw.NET Settings">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Quote Request" data-datafield="WebQuoteRequest"></div>
                     </div>
                   </div>
                 </div>

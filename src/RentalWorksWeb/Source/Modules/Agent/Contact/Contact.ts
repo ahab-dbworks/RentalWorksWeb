@@ -368,6 +368,7 @@ class Contact {
               <div data-type="tab" id="accesstab" class="tab accesstab" data-tabpageid="accesstabpage" data-caption="Web Access"></div>
               <div data-type="tab" id="quotetab" class="tab submodule quotetab" data-tabpageid="quotetabpage" data-caption="Quote"></div>
               <div data-type="tab" id="ordertab" class="tab submodule ordertab" data-tabpageid="ordertabpage" data-caption="Order"></div>
+              <div data-type="tab" id="rwnettab" class="tab" data-tabpageid="rwnettabpage" data-caption="Rw.NET"></div>
             </div>
             <div class="tabpages">
               <!-- CONTACT TAB -->
@@ -555,6 +556,16 @@ class Contact {
                 </div>
               </div>
               -->
+              <!--RW.NET TAB-->
+              <div data-type="tabpage" id="rwnettabpage" class="tabpage" data-tabid="rwnettab">
+                <div class="flexrow">
+                  <div class="flexcolumn" style="flex: 0 1 800px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rw.NET Settings">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Quote Request" data-datafield="WebQuoteRequest"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>`;
