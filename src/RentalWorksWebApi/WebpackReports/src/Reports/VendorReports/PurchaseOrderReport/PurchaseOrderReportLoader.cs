@@ -853,6 +853,12 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
         public string TaxOption { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax1name", modeltype: FwDataTypes.Text)]
+        public string Tax1Name { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax2name", modeltype: FwDataTypes.Text)]
+        public string Tax2Name { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentaltaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRentalRate1 { get; set; }
         //------------------------------------------------------------------------------------ 
