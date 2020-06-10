@@ -412,8 +412,8 @@ class VendorInvoice {
             const $billingTabTaxFields = $form.find(`[data-datafield="RentalTaxRate${count}"], [data-datafield="SalesTaxRate${count}"], [data-datafield="LaborTaxRate${count}"]`);
             for (let i = 0; i < $billingTabTaxFields.length; i++) {
                 const $field = jQuery($billingTabTaxFields[i]);
-                let caption = $field.find('.fwformfield-caption').text();
-                const newCaption = caption + ' ' + taxName;
+                const taxType = $field.attr('data-taxtype');
+                const newCaption = taxType + ' ' + taxName;
                 $field.find('.fwformfield-caption').text(newCaption);
                 $field.show();
             }
@@ -429,6 +429,7 @@ class VendorInvoice {
             updateCaption($tax2Fields, tax2Name, 2);
         } else {
             $tax2Fields.hide();
+            $form.find(`[data-datafield="RentalTaxRate2"], [data-datafield="SalesTaxRate2"], [data-datafield="LaborTaxRate2"]`).hide();
         }
     }
     //----------------------------------------------------------------------------------------------
