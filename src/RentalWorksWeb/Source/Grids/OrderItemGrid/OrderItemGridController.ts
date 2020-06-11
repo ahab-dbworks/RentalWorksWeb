@@ -824,10 +824,20 @@ class OrderItemGrid {
             }
         });
         $generatedtr.find('div[data-browsedatafield="DiscountPercentDisplay"]').on('change', 'input.value', e => {
-            calculateExtended('Extended', 'DiscountPercent');
-            const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
-            if (itemClass == 'K' || itemClass == 'C') {
-                this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'DiscountPercentDisplay');
+            const $this = jQuery(e.currentTarget);
+            const maxDiscount = parseFloat(FwBrowse.getValueByDataField($control, $generatedtr, 'MaxDiscount'));
+            let val: any = $this.val();
+            val = parseFloat(val);
+            if (val > maxDiscount) {
+                $this.val(0);
+                $this.select();
+                FwNotification.renderNotification("WARNING", 'Discount is greater than Max Discount');
+            } else {
+                calculateExtended('Extended', 'DiscountPercent');
+                const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
+                if (itemClass == 'K' || itemClass == 'C') {
+                    this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'DiscountPercentDisplay');
+                }
             }
         });
         $generatedtr.find('div[data-browsedatafield="UnitExtended"]').on('change', 'input.value', function ($tr) {

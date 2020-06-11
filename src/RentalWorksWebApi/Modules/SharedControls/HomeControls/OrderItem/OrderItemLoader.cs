@@ -201,6 +201,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.Decimal)]
         public decimal? DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "maxdiscount", modeltype: FwDataTypes.Decimal)]
+        public decimal? MaxDiscount { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.Decimal)]
         public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
