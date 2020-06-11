@@ -216,7 +216,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "taxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
-
+        [FwSqlDataField(column: "hasrecurring", modeltype: FwDataTypes.Text)]
+        public string HasRecurring { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isrecurring", modeltype: FwDataTypes.Boolean)]
         public bool? IsRecurring { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -298,6 +300,14 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                             if (value.Equals("T"))
                             {
                                 items[0].GetType().GetProperty("HasDiscount").SetValue(items[0], "T");
+                            }
+                        }
+
+                        if (fieldName.Equals("IsRecurring") && value != null)
+                        {
+                            if (value.Equals(true))
+                            {
+                                items[0].GetType().GetProperty("HasRecurring").SetValue(items[0], "T");
                             }
                         }
                     }

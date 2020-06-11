@@ -111,6 +111,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasrecurring", modeltype: FwDataTypes.Text)]
+        public string HasRecurring { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isrecurring", modeltype: FwDataTypes.Boolean)]
         public bool? IsRecurring { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -193,6 +196,14 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                             if (value.Equals("T"))
                             {
                                 items[0].GetType().GetProperty("HasDiscount").SetValue(items[0], "T");
+                            }
+                        }
+
+                        if (fieldName.Equals("IsRecurring") && value != null)
+                        {
+                            if (value.Equals(true))
+                            {
+                                items[0].GetType().GetProperty("HasRecurring").SetValue(items[0], "T");
                             }
                         }
                     }
