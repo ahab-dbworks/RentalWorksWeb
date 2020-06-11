@@ -94,6 +94,22 @@
                 $tr.css('background-color', "#ffff80");
                 $tr.find('.field:not(.subtotalline) ').text('');
             }
+
+            const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
+            let peekForm;
+            switch (recType) {
+                case 'R':
+                    peekForm = 'RentalInventory';
+                    break;
+                case 'S':
+                    peekForm = 'SalesInventory';
+                    break;
+                case 'P':
+                    peekForm = 'PartsInventory';
+                    break;
+            }
+            const $td = $tr.find('[data-validationname="GeneralItemValidation"]');
+            $td.attr('data-peekForm', peekForm);
         });
 
         //$generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
