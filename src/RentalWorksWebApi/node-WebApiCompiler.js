@@ -60,29 +60,53 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Cleaning compiled files...')
         //________________________________________________________
-        console.log('Deleting: ../../lib/Fw/src/FwStandard/bin');
-        await rmfr('../../lib/Fw/src/FwStandard/bin');
+        if (this.buildConfiguration === 'dev') {
+            console.log('Deleting: ../../lib/Fw/src/FwStandard/bin/Debug');
+            await rmfr('../../lib/Fw/src/FwStandard/bin/Debug');
+        } else if (this.buildConfiguration === 'prod') {
+            console.log('Deleting: ../../lib/Fw/src/FwStandard/bin/Release');
+            await rmfr('../../lib/Fw/src/FwStandard/bin/Release');
+        }
         //________________________________________________________
-        console.log('Deleting: ../../lib/Fw/src/FwStandard/obj');
-        await rmfr('../../lib/Fw/src/FwStandard/obj');
+        if (this.buildConfiguration === 'dev') {
+            console.log('Deleting: ../../lib/Fw/src/FwStandard/obj/Debug');
+            await rmfr('../../lib/Fw/src/FwStandard/obj/Debug');
+        } else if (this.buildConfiguration === 'prod') {
+            console.log('Deleting: ../../lib/Fw/src/FwStandard/obj/Release');
+            await rmfr('../../lib/Fw/src/FwStandard/obj/Release');
+        }
         //________________________________________________________
-        console.log('Deleting: ../../lib/Fw/src/FwCore/bin');
-        await rmfr('../../lib/Fw/src/FwCore/bin');
+        if (this.buildConfiguration === 'dev') {
+            console.log('Deleting: ../../lib/Fw/src/FwCore/bin/Debug');
+            await rmfr('../../lib/Fw/src/FwCore/bin/Debug');
+        } else if (this.buildConfiguration === 'prod') {
+            console.log('Deleting: ../../lib/Fw/src/FwCore/bin/Release');
+            await rmfr('../../lib/Fw/src/FwCore/bin/Release');
+        }
         //________________________________________________________
-        console.log('Deleting: ../../lib/Fw/src/FwCore/obj');
-        await rmfr('../../lib/Fw/src/FwCore/obj');
+        if (this.buildConfiguration === 'dev') {
+            console.log('Deleting: ../../lib/Fw/src/FwCore/obj/Debug');
+            await rmfr('../../lib/Fw/src/FwCore/obj/Debug');
+        } else if (this.buildConfiguration === 'prod') {
+            console.log('Deleting: ../../lib/Fw/src/FwCore/obj/Release');
+            await rmfr('../../lib/Fw/src/FwCore/obj/Release');
+        }
         //________________________________________________________
-        console.log('Deleting: ../RentalWorksWebLibrary/bin');
-        await rmfr('../RentalWorksWebLibrary/bin');
+        if (this.buildConfiguration === 'dev') {
+            console.log('Deleting: bin/Debug');
+            await rmfr('bin/Debug');
+        } else if (this.buildConfiguration === 'prod') {
+            console.log('Deleting: bin/Release');
+            await rmfr('bin/Release');
+        }
         //________________________________________________________
-        console.log('Deleting: ../RentalWorksWebLibrary/obj');
-        await rmfr('../RentalWorksWebLibrary/obj');
-        //________________________________________________________
-        console.log('Deleting: bin');
-        await rmfr('bin');
-        //________________________________________________________
-        console.log('Deleting: obj');
-        await rmfr('obj');
+        if (this.buildConfiguration === 'dev') {
+            console.log('Deleting: obj/Release');
+            await rmfr('obj/Debug');
+        } else if (this.buildConfiguration === 'prod') {
+            console.log('Deleting: obj/Release');
+            await rmfr('obj/Release');
+        }
     }
     //------------------------------------------------------------------------------------
     async build_webpack_reports() {
