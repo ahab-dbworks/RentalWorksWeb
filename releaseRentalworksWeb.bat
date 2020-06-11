@@ -112,6 +112,8 @@ rem We need to commit the version files and Tag the repo here because other comm
 IF "%commitandftp%"=="y" (
     rem rem command-line Git push in the modified version and assemply files
     cd %DwRentalWorksWebPath%
+    call npm i
+
     git config --global gc.auto 0
     git add "src/%productname%Web/version.txt"
     git add "src/%productname%Web/Properties/AssemblyInfo.cs"
@@ -134,11 +136,11 @@ IF "%commitandftp%"=="y" (
     rem command-line gren make Build Release Document for all issues between the previous version's tag and this current tag
     cd %DwRentalWorksWebPath%\build
     rem call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%fullversionno% -c ..\config.grenrc
-    call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%previousversionno%..%tagprefix%/v%fullversionno% -c ..\config.grenrc
+    call npx gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%previousversionno%..%tagprefix%/v%fullversionno% -c ..\config.grenrc
 
     rem produce a PDF of the MD file
     cd %DwRentalWorksWebPath%
-    call md-to-pdf build\v%fullversionno%.md
+    call npx md-to-pdf build\v%fullversionno%.md
 	set pdffilename=v%fullversionno%.pdf
     start build\v%fullversionno%.pdf
 

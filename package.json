@@ -1,0 +1,28 @@
+{
+  "name": "rentalworksweb",
+  "version": "1.0.0",
+  "description": "Complete Inventory Tracking & Asset Management Software",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "lib": "lib"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "github-release-notes": "^0.17.3",
+    "md-to-pdf": "^3.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DatabaseWorks/RentalWorksWeb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DatabaseWorks/RentalWorksWeb/issues"
+  },
+  "homepage": "https://github.com/DatabaseWorks/RentalWorksWeb#readme"
+}
