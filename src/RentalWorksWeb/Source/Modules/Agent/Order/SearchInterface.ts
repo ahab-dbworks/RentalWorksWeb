@@ -945,7 +945,7 @@ class SearchInterface {
         FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', response.DisableAccessoryAutoExpand);
         FwFormField.setValueByDataField($popup, 'HideZeroQuantity', response.HideZeroQuantity);
         //FwFormField.setValueByDataField($popup, 'DefaultSelect', response.DefaultSelect);
-        FwFormField.setValueByDataField($popup, 'Select', response.DefaultSelect, null, true);
+        FwFormField.setValueByDataField($popup, 'Select', response.DefaultSelect/*, null, true*/); //jason h - 06/11/20 the "true" flag here was triggering the settings to save again, overwriting previously saved settings
 
         $popup.find('#itemlist').attr('data-view', response.Mode);
         this.listGridView($popup);
