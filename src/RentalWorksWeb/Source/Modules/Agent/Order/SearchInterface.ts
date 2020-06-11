@@ -1509,7 +1509,7 @@ class SearchInterface {
         });
 
         if (jQuery('html').hasClass('desktop')) {
-            let interval = 0;
+            let interval: any = 0;
             $popup
                 .on('mousedown', '.incrementQuantity, .decrementQuantity', e => {
                     const $button = jQuery(e.currentTarget),
