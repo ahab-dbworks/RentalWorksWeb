@@ -54,7 +54,9 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercentDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-
+        [FwSqlDataField(column: "hasdiscount", modeltype: FwDataTypes.Text)]
+        public string HasDiscount { get; set; }
+        //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitdiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
         public string UnitDiscountAmount { get; set; }
@@ -187,9 +189,6 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         [FwSqlDataField(column: "taxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
-
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -255,6 +254,14 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                         else
                         {
                             property.SetValue(item, (value ?? "").ToString());
+                        }
+
+                        if (fieldName.Equals("HasDiscount") && value != null)
+                        {
+                            if (value.Equals("T"))
+                            {
+                                items[0].GetType().GetProperty("HasDiscount").SetValue(items[0], "T");
+                            }
                         }
                     }
                 }
