@@ -89,6 +89,7 @@
   <!-- Billing Dates, Usage Dates, Terms, Reference Number-->
   <div class="rpt-flexcolumn" style="flex:0 0 321px;border-top: 2px solid #027cc5;padding:1px;margin-left:10px;">
     <table>
+      {{#ifCond UsageDates '!=' " -"}}
       <tr>
         <td style="width:105px;" class="shaded-block">Billing Period: </td>
         <td class="meta-content">{{BillingDates}}</td>
@@ -97,6 +98,13 @@
         <td style="width:105px;" class="shaded-block">Usage Period: </td>
         <td class="meta-content">{{UsageDates}}</td>
       </tr>
+      {{/ifCond}}
+      {{#ifCond BillingCycle '===' "IMMEDIATE"}}
+      <tr>
+        <td style="width:105px;" class="shaded-block">Start Date:</td>
+        <td class="">{{BillingStartDate}}</td>
+      </tr>
+      {{/ifCond}}
       <tr>
         <td style="width:105px;" class="shaded-block">Terms: </td>
         <td class="meta-content">{{PaymentTerms}}</td>
@@ -221,7 +229,11 @@
         <td style="min-width:75px;" class="number alignRight">Months</td>
         {{/ifCond}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
+        {{#if HasDiscount}}
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        {{else}}
+        <td style="min-width:140px;" class="number alignRight">&nbsp;</td>
+        {{/if}}
         <td style="min-width:140px;" class="number alignRight">Extended</td>
       </tr>
     </tbody>
@@ -341,7 +353,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-        <td class="alignRight">{{DiscountPercent}}</td>
+          {{#if HasDiscount}}
+            <td class="alignRight">{{DiscountPercent}}</td>
+          {{else}}
+            <td class="alignRight">&nbsp;</td>
+          {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -449,7 +465,11 @@
         <td style="min-width:85px;" class="">Bar Code</td>
         <td style="min-width:105px;" class="">Serial Number</td>
         <td style="min-width:95px;" class="number alignRight">Price</td>
-        <td style="min-width:95px;" class="number alignRight">Discount %</td>
+        {{#if HasDiscount}}
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        {{else}}
+        <td style="min-width:140px;" class="number alignRight">&nbsp;</td>
+        {{/if}}
         <td style="min-width:105px;" class="number alignRight">Extended</td>
       </tr>
     </tbody>
@@ -575,7 +595,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
+        {{#if HasDiscount}}
         <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -684,7 +708,11 @@
         <td style="min-width:85px;" class="">Bar Code</td>
         <td style="min-width:105px;" class="">Serial Number</td>
         <td style="min-width:95px;" class="number alignRight">Price</td>
-        <td style="min-width:95px;" class="number alignRight">Discount %</td>
+        {{#if HasDiscount}}
+        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        {{else}}
+        <td style="min-width:140px;" class="number alignRight">&nbsp;</td>
+        {{/if}}
         <td style="min-width:105px;" class="number alignRight">Extended</td>
       </tr>
     </tbody>
@@ -834,7 +862,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
+        {{#if HasDiscount}}
         <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -939,9 +971,13 @@
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
-        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:75px;" class="number alignRight">Unit</td>
         <td style="min-width:100px;" class="number alignRight">Price</td>
+        {{#if HasDiscount}}
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        {{else}}
+        <td style="min-width:140px;" class="number alignRight">&nbsp;</td>
+        {{/if}}
         <td style="min-width:140px;" class="number alignRight">Extended</td>
       </tr>
     </tbody>
@@ -1013,13 +1049,13 @@
         {{/ifCond}}
         {{/ifNotEquals}}
 
-        <!-- spacer column -->
+        <!-- Unit of Measure -->
         {{#ifEquals ItemClass "ST"}}
         <td class="subTotalRow"></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-        <td class="alignRight"></td>
+        <td class="alignRight">{{Unit}}</td>
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1051,7 +1087,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-        <td class="alignRight">{{DiscountPercent}}</td>
+          {{#if HasDiscount}}
+            <td class="alignRight">{{DiscountPercent}}</td>
+          {{else}}
+            <td class="alignRight">&nbsp;</td>
+          {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1166,7 +1206,11 @@
         <td style="min-width:75px;" class="number alignRight">Months</td>
         {{/ifCond}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
+        {{#if HasDiscount}}
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        {{else}}
+        <td style="min-width:140px;" class="number alignRight">&nbsp;</td>
+        {{/if}}
         <td style="min-width:140px;" class="number alignRight">Extended</td>
       </tr>
     </tbody>
@@ -1244,7 +1288,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
+        {{#if IsRecurring}}
         <td class="alignRight">{{BillablePeriods}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}        
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1276,7 +1324,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
+        {{#if HasDiscount}}
         <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1391,7 +1443,11 @@
         <td style="min-width:75px;" class="number alignRight">Months</td>
         {{/ifCond}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
+        {{#if HasDiscount}}
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        {{else}}
+        <td style="min-width:140px;" class="number alignRight">&nbsp;</td>
+        {{/if}}
         <td style="min-width:140px;" class="number alignRight">Extended</td>
       </tr>
     </tbody>
@@ -1469,7 +1525,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
+        {{#if IsRecurring}}
         <td class="alignRight">{{BillablePeriods}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}        
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1501,7 +1561,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
+        {{#if HasDiscount}}
         <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1616,7 +1680,11 @@
         <td style="min-width:75px;" class="number alignRight">Months</td>
         {{/ifCond}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
+        {{#if HasDiscount}}
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        {{else}}
+        <td style="min-width:140px;" class="number alignRight">&nbsp;</td>
+        {{/if}}
         <td style="min-width:140px;" class="number alignRight">Extended</td>
       </tr>
     </tbody>
@@ -1726,7 +1794,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
+        {{#if HasDiscount}}
         <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1805,6 +1877,221 @@
       <td class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;" data-value="{{Tax2}}"></td>
     </tr>
     {{/ifNotEquals}}
+    {{/ifNotEquals}}
+    <tr>
+      <td colspan="2"></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color:#e3f2fd;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td class="display-footer-total" data-value="{{ExtendedWithTax}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{/each}}
+  </table>
+</div>
+<!-- Adjustments -->
+<div class="rpt-flexrow">
+  <table style="table-layout:fixed;">
+    {{#each AdjustmentItems}}
+    {{#ifEquals RowType "RecTypeDisplayheader"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr>
+        <td>&nbsp;</td>
+      </tr><!-- spacer row -->
+      <tr>
+        <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+      </tr>
+      <tr class="rectype-header">
+        <td style="min-width:115px;">I-Code</td>
+        <td style="min-width:364px;">Description</td>
+        <td style="min-width:90px;padding-right:15px;" class="number alignRight">Quantity</td>
+        <td style="min-width:95px;" class="">Bar Code</td>
+        <td style="min-width:100px;" class="">Serial Number</td>
+        <td style="min-width:120px;" class="number alignRight">Price</td>
+        <td style="min-width:140px;" class="number alignRight">Extended</td>
+      </tr>
+    </tbody>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr data-isbold="{{Bold}}">
+        <!-- I-Code -->
+        {{#ifEquals ItemClass "ST"}}
+        <td data-itemclass="{{ItemClass}}" class="subTotalRow"></td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        {{#ifCond ItemClass '===' "CI"}}
+        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{ICode}}</td><!-- Complete Accessory -->
+        {{else}}
+        {{#ifCond ItemClass '===' "KI"}}
+        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{ICode}}</td><!-- Kit Accessory -->
+        {{else}}
+        <td data-itemclass="{{ItemClass}}">{{ICode}}</td><!-- Item -->
+        {{/ifCond}}
+        {{/ifCond}}
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td data-itemclass="{{ItemClass}}" class="textRow"></td>
+        {{else}}
+        <td data-itemclass="{{ItemClass}}" class="headerRow"></td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+
+        <!-- Description -->
+        {{#ifEquals ItemClass "ST"}}
+        <td data-itemclass="{{ItemClass}}" class="subTotalRow">{{Description}}</td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        {{#ifCond ItemClass '===' "CI"}}
+        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{Description}}</td><!-- Complete Accessory -->
+        {{else}}
+        {{#ifCond ItemClass '===' "KI"}}
+        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{Description}}</td><!-- Kit Accessory -->
+        {{else}}
+        <td data-itemclass="{{ItemClass}}">{{Description}}</td><!-- Item -->
+        {{/ifCond}}
+        {{/ifCond}}
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td data-itemclass="{{ItemClass}}" class="textRow">{{Description}}</td>
+        {{else}}
+        <td data-itemclass="{{ItemClass}}" class="headerRow">{{Description}}</td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+
+        <!-- Quantity Ordered -->
+        {{#ifEquals ItemClass "ST"}}
+        <td class="subTotalRow"></td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        <td class="alignRight" style="padding-right:15px;">{{Quantity}}</td>
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td class="textRow"></td>
+        {{else}}
+        <td class="headerRow"></td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+
+        <!-- Bar Code -->
+        {{#ifEquals ItemClass "ST"}}
+        <td class="subTotalRow"></td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        <td class="" style="padding-left:6px;">{{BarCode}}</td>
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td class="textRow"></td>
+        {{else}}
+        <td class="headerRow"></td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+
+        <!-- Serial Number -->
+        {{#ifEquals ItemClass "ST"}}
+        <td class="subTotalRow"></td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        <td class="" style="padding-left:6px;">{{SerialNumber}}</td>
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td class="textRow"></td>
+        {{else}}
+        <td class="headerRow"></td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+
+        <!-- Price -->
+        {{#ifEquals ItemClass "ST"}}
+        <td class="subTotalRow" style="text-align:center;"></td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        <td class="alignRight">{{Rate}}</td>
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td class="textRow"></td>
+        {{else}}
+        <td class="headerRow"></td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+
+        <!-- Period Extended / Sub-Totals -->
+        {{#ifEquals ItemClass "ST"}}
+        <td class="subTotalRow alignRight">{{ExtendedSubTotal}}</td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        <td class="alignRight">{{Extended}}</td>
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td class="textRow"></td>
+        {{else}}
+        <td class="headerRow"></td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+      </tr>
+      {{#if Notes}}
+      <tr>
+        <td>&nbsp;</td>
+        {{#ifEquals ItemClass "ST"}}
+        <td colspan="6" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
+        {{/ifEquals}}
+        {{#ifNotEquals ItemClass "ST"}}
+        {{#ifCond ICode '!=' ""}}
+        {{#ifCond ItemClass '===' "CI"}}
+        <td colspan="6" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
+        {{else}}
+        {{#ifCond ItemClass '===' "KI"}}
+        <td colspan="6" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
+        {{else}}
+        {{#ifCond ItemClass '===' "NI"}}
+        <td colspan="6" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Container Accessory -->
+        {{else}}
+        <td colspan="6" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifCond}}
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td colspan="6" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
+        {{else}}
+        <td colspan="6" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
+        {{/ifCond}}
+        {{/ifCond}}
+        {{/ifNotEquals}}
+        <td>&nbsp;</td>
+      </tr>
+      {{/if}}
+    </tbody>
+    {{/ifEquals}}
+    {{#ifEquals RowType "RecTypeDisplayfooter"}}
+    {{#ifNotEquals Tax 0}}
+    <tr>
+      <td colspan="2"></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
+      <td class="" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{Extended}}"></td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+      <td colspan="4" class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;">{{../Tax1Name}} ({{TaxRate}}%)</td>
+      <td class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;" data-value="{{Tax}}"></td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+      <td colspan="4" class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
+      <td class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;" data-value="{{Tax2}}"></td>
+    </tr>
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>

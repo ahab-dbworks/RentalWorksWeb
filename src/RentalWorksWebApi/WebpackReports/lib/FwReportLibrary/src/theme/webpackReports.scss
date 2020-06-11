@@ -110,20 +110,9 @@ body {
     color: #000000;
 }
 
-.shaded-block {
-    background-color: #e3f2fd;
-    font-weight: 600;
-    vertical-align: top;
-}
 
-.section-header {
-    border: 1px dashed #027cc5;
-    font-weight: bold;
-    text-align: left;
-    font-size: 35px;
-    padding-top: 5px;
-    color: #027cc5;
-}
+
+
 // Special shading for Order, Invoice report footers
 .display-footer {
     width: 172px;
@@ -133,22 +122,9 @@ body {
     padding-top: 11px;
     border-top: 1.5px solid black;
 }
-// Special shading for Order, Invoice report footers
-.display-footer-total {
-    background-color: #F4FFCC;
-    width: 110px;
-    text-align: right;
-    font-weight: bold;
-    border-top: 1.5px solid black;
-    padding-top: 10px;
-}
-// Large title for Order, Invoice report
-.title {
-    align-self: center;
-    font-family: Arial, sans-serif;
-    font-size: 38px;
-    font-weight: bold;
-}
+
+
+
 // sub title for Order, Invoice report
 .sub-title {
     align-self: center;
@@ -222,4 +198,37 @@ body {
     .rpt-footer {
         font-size: .9em;
     }
+}
+
+/* Report Colors */
+.shaded-block {
+  background-color: #e3f2fd;
+  font-weight: 600;
+  vertical-align: top;
+}
+
+.section-header {
+  border: 1px dashed #027cc5;
+  color: #027cc5;
+  font-weight: bold;
+  text-align: left;
+  font-size: 35px;
+  padding-top: 5px;
+}
+
+.title {
+  color: #027cc5;
+  align-self: center;
+  font-family: Arial, sans-serif;
+  font-size: 38px;
+  font-weight: bold;
+}
+
+.display-footer-total {
+  background-color: #f4ffcc;
+  width: 110px;
+  text-align: right;
+  font-weight: bold;
+  border-top: 1.5px solid black;
+  padding-top: 10px;
 }
