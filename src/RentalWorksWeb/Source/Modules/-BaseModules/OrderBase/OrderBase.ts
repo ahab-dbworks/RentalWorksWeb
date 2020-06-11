@@ -2032,7 +2032,7 @@ class OrderBase {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemarkettype`);
                 break;
             case 'MarketSegmentId':
-                const marketTypeValue = jQuery($form.find('[data-validationname="MarketTypeValidation"] input')).val();
+                const marketTypeValue = FwFormField.getValueByDataField($form, 'MarketTypeId');
                 if (marketTypeValue !== "") {
                     request.uniqueids = {
                         MarketTypeId: marketTypeValue
@@ -2041,11 +2041,12 @@ class OrderBase {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemarketsegment`);
                 break;
             case 'MarketSegmentJobId':
-                const marketSegmentValue = jQuery($form.find('[data-validationname="MarketSegmentValidation"] input')).val();
-                if (marketSegmentValue !== "") {
+                const marketTypeId = FwFormField.getValueByDataField($form, 'MarketTypeId');
+                const marketSegmentId = FwFormField.getValueByDataField($form, 'MarketSegmentId');
+                if (marketTypeId !== "" && marketSegmentId !== "") {
                     request.uniqueids = {
-                        MarketTypeId: marketTypeValue,
-                        MarketSegmentId: marketSegmentValue,
+                        MarketTypeId: marketTypeId,
+                        MarketSegmentId: marketSegmentId
                     };
                 }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemarketsegmentjob`);
