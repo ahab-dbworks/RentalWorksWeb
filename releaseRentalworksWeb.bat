@@ -51,13 +51,17 @@ IF NOT "%commitandftp%"=="y" set commitandftp=n
 
 rem if posting to FTP, make sure the user/pass environment variables are set
 IF "%commitandftp%"=="y" (
-   IF "%DwFtpUploadUser%"=="" ECHO Environment Variable DwFtpUploadUser is NOT defined
-   IF "%DwFtpUploadUser%"=="" set /p=Hit ENTER to exit
-   IF "%DwFtpUploadUser%"=="" exit /B
+  IF "%fullversionno%"=="%previousversionno%" (
+    echo New Version matches previous version, please enter previous version no 
+    set /p previousversionno="Previous %productname%Web Version: " 
+  )
+  IF "%DwFtpUploadUser%"=="" ECHO Environment Variable DwFtpUploadUser is NOT defined
+  IF "%DwFtpUploadUser%"=="" set /p=Hit ENTER to exit
+  IF "%DwFtpUploadUser%"=="" exit /B
    
-   IF "%DwFtpUploadPassword%"=="" ECHO Environment Variable DwFtpUploadPassword is NOT defined
-   IF "%DwFtpUploadPassword%"=="" set /p=Hit ENTER to exit
-   IF "%DwFtpUploadPassword%"=="" exit /B
+  IF "%DwFtpUploadPassword%"=="" ECHO Environment Variable DwFtpUploadPassword is NOT defined
+  IF "%DwFtpUploadPassword%"=="" set /p=Hit ENTER to exit
+  IF "%DwFtpUploadPassword%"=="" exit /B
 )
 
 rem determine ZIP filename
