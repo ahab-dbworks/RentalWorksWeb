@@ -21,13 +21,13 @@
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 40%;">
     <span class="sub-title" style="font-size:20px;">{{Department}}</span>
-    <span class="title blue">{{Report}}</span>
+    <span class="title">{{Report}}</span>
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 30%;">
     <table>
       <tr>
         <td style="width:50%;font-size:18px;font-weight:700;text-align:right;">No:</td>
-        <td style="background-color:#e3f2fd;color:#027cc5;border:2px solid #212121;padding:5px 10px;font-size:26px;text-align:center;">{{InvoiceNumber}}</td>
+        <td class="rptNumberSection" style="width:50%;">{{InvoiceNumber}}</td>
       </tr>
       <tr>
         <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;">Invoice Date:</td>
@@ -43,7 +43,7 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="padding-left:3px;">
-  <div class="rpt-flexcolumn" style="flex:0 0 422px;border-top: 2px solid #027cc5;padding:1px;margin-right:10px;">
+  <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 422px;margin-right:10px;">
     <table>
       <tr>
         <td style="width:80px;" class="shaded-block">Order: </td>
@@ -70,7 +70,7 @@
     </table>
   </div>
   <!-- Agent -->
-  <div class="rpt-flexcolumn" style="flex:0 0 321px;border-top: 2px solid #027cc5;padding:1px;margin:0px 10px;">
+  <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin:0px 10px;">
     <table>
       <tr>
         <td style="width:55px;" class="shaded-block">Agent: </td>
@@ -87,7 +87,7 @@
     </table>
   </div>
   <!-- Billing Dates, Usage Dates, Terms, Reference Number-->
-  <div class="rpt-flexcolumn" style="flex:0 0 321px;border-top: 2px solid #027cc5;padding:1px;margin-left:10px;">
+  <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin-left:10px;">
     <table>
       {{#ifCond UsageDates '!=' " -"}}
       <tr>
@@ -116,8 +116,6 @@
       </tr>
       {{/if}}
     </table>
-
-
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:25px;">
@@ -125,7 +123,7 @@
   <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-right:10px;">
     <table>
       <tr>
-        <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Billed To</th>
+        <th class="sub text" style="text-align:left;padding:5px;">Billed To</th>
       </tr>
       <tr>
         <td class="" style="font-weight:700;">{{BillToName}}</td>
@@ -150,7 +148,7 @@
       {{/if}}
     </table>
   </div>
-  <div class="rpt-flexcolumn" style="flex:0 0 321px;border-top: 2px solid #027cc5;padding:1px;margin:0px 10px;">
+  <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin:0px 10px;">
     <!-- Ordered By -->
     <table>
       <tr>
@@ -171,7 +169,7 @@
     <!-- Remit To (front-end option) -->
     <table>
       <tr>
-        <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Remit To</th>
+        <th class="sub text" style="text-align:left;padding:5px;">Remit To</th>
       </tr>
       {{#if RemitToCompany}}
       <tr>
@@ -439,7 +437,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color:#e3f2fd;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{ExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -681,7 +679,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="5" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color:#e3f2fd;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="5" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{ExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -948,7 +946,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="6" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color:#e3f2fd;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="6" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{ExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -1173,7 +1171,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color:#e3f2fd;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{ExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -1410,7 +1408,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color:#e3f2fd;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{ExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -1647,7 +1645,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color:#e3f2fd;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{ExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -1880,7 +1878,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color:#e3f2fd;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{ExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -2095,7 +2093,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color:#e3f2fd;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{ExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}

@@ -61,11 +61,14 @@ thead {
         border-bottom: 2px solid #000000;
     }
 }
-.sub {
-    border-top: 2px solid #027cc5;
-    border-bottom: 2px solid #027cc5;
-    background-color: #DCDCDC;
+
+.rectype-header td {
+  font-weight: bold;
+  padding: 5px;
+  white-space: nowrap;
+  border-bottom: 2px solid #000000;
 }
+
 span {
     .marker {
         background-color: yellow;
@@ -92,6 +95,36 @@ span {
 
 .alignRight {
   text-align:right;
+}
+
+/* Report Colors */
+.rptNumberSection {
+  background-color: #e3f2fd;
+  color: #027cc5;
+  border: 2px solid #212121;
+  padding: 5px 10px;
+  font-size: 26px;
+  text-align: center;
+}
+
+.sub {
+  border-top: 2px solid #027cc5;
+  border-bottom: 2px solid #027cc5;
+  background-color: #e3f2fd;
+}
+
+.sectionBorder {
+  border-top: 2px solid #027cc5;
+}
+
+.shaded-activity-total {
+  background-color: #e3f2fd;
+  font-weight: 600;
+  vertical-align: top;
+}
+
+.shaded-totals {
+  background-color: #ffffff;
 }
 
 .grandTotalAllActivities {

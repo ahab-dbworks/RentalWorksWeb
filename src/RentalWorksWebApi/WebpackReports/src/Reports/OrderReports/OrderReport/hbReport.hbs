@@ -97,8 +97,6 @@
         <td class="">{{EstimatedStartDate}}</td>
       </tr>
       {{/ifCond}}
-
-
       <tr>
         <td style="width:105px;" class="shaded-block">Terms:</td>
         <td class="">{{PaymentTerms}}</td>
@@ -121,7 +119,7 @@
   <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-right:10px;">
     <table id="issuedTo">
       <tr>
-        <td class="sub text shaded-block" style="text-align:left;padding:5px;">Issued To</td>
+        <th class="sub text" style="text-align:left;padding:5px;">Issued To</th>
       </tr>
       <tr>
         <td class="" style="font-weight:700;">{{IssuedToCompany}}</td>
@@ -176,7 +174,7 @@
   <div class="rpt-flexcolumn" style="flex:0 0 321px;margin:0px 10px;">
     <table id="outgoing">
       <tr>
-        <td class="sub text shaded-block" style="text-align:left;padding:5px;">Outgoing ({{OutDeliveryType}})</td>
+        <th class="sub text" style="text-align:left;padding:5px;">Outgoing ({{OutDeliveryType}})</th>
       </tr>
       <tr>
         <td class=""><span style="font-weight:700;">Location: </span>{{OutDeliveryLocation}}</td>
@@ -210,7 +208,7 @@
     {{#ifCond RentalItems.length '>' 0}}
     <table id="incoming">
       <tr>
-        <td class="sub text shaded-block" style="text-align:left;padding:5px;">Incoming ({{InDeliveryType}})</td>
+        <th class="sub text" style="text-align:left;padding:5px;">Incoming ({{InDeliveryType}})</th>
       </tr>
       <tr>
         <td class=""><span style="font-weight:700;">Location: </span>{{InDeliveryLocation}}</td>
@@ -475,7 +473,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-block" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -715,7 +713,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="5" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-block" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="5" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -980,7 +978,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="6" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-block" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="6" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -1203,7 +1201,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-block" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -1438,7 +1436,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-block" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -1671,7 +1669,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-block" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
@@ -1901,7 +1899,7 @@
     {{/ifNotEquals}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-block" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
       <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
