@@ -82,6 +82,9 @@ namespace WebApi.Modules.HomeControls.DealOrderDetail
         [FwSqlDataField(column: "salesrepresentativecontactid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string OutsideSalesRepresentativeId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "markettypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string MarketTypeId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "marketsegmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string MarketSegmentId { get; set; }
         //------------------------------------------------------------------------------------

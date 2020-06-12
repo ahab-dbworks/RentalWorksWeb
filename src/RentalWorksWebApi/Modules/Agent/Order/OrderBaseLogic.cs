@@ -584,8 +584,8 @@ namespace WebApi.Modules.Agent.Order
 
         //------------------------------------------------------------------------------------
 
-        [FwLogicProperty(Id: "PDdHN0EKetWp", IsReadOnly: true)]
-        public string MarketTypeId { get; set; }
+        [FwLogicProperty(Id: "PDdHN0EKetWp")]
+        public string MarketTypeId { get { return dealOrderDetail.MarketTypeId; } set { dealOrderDetail.MarketTypeId = value; } }
 
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "3YIp8tQZm1nM", IsReadOnly: true)]
