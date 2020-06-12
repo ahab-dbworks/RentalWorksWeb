@@ -13,11 +13,11 @@ class MigrateOrders {
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
 
         screen.load = () => {
             FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
@@ -176,40 +176,41 @@ class MigrateOrders {
 
         //finalize migration
         $form.find('.finalize-migration').on('click', e => {
-            let request: any = {};
-            request = {
-                SessionId: $migrateItemGrid.data('sessionId')
-                , MigrateToNewOrder: FwFormField.getValueByDataField($form, 'CreateNewOrder')
-                , NewOrderOfficeLocationId: FwFormField.getValueByDataField($form, 'OfficeLocationId')
-                , NewOrderWarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
-                , NewOrderDealId: FwFormField.getValueByDataField($form, 'CreateNewDealId')
-                , NewOrderDescription: FwFormField.getValueByDataField($form, 'NewOrderDescription')
-                , NewOrderRateType: FwFormField.getValueByDataField($form, 'RateType')
-                , NewOrderFromDate: FwFormField.getValueByDataField($form, 'FromDate')
-                , NewOrderFromTime: FwFormField.getValueByDataField($form, 'FromTime')
-                , NewOrderToDate: FwFormField.getValueByDataField($form, 'ToDate')
-                , NewOrderToTime: FwFormField.getValueByDataField($form, 'ToTime')
-                , NewOrderBillingStopDate: FwFormField.getValueByDataField($form, 'BillingStopDate')
-                , NewOrderPendingPO: FwFormField.getValueByDataField($form, 'PendingPO')
-                , NewOrderFlatPO: FwFormField.getValueByDataField($form, 'FlatPO')
-                , NewOrderPurchaseOrderNumber: FwFormField.getValueByDataField($form, 'PurchaseOrderNumber')
-                , NewOrderPurchaseOrderAmount: FwFormField.getValueByDataField($form, 'PurchaseOrderAmount')
-                , MigrateToExistingOrder: FwFormField.getValueByDataField($form, 'MigrateToExistingOrder')
-                , ExistingOrderId: FwFormField.getValueByDataField($form, 'OrderId')
-                , InventoryFulfillIncrement: FwFormField.getValueByDataField($form, 'InventoryFulfillIncrement')
-                , InventoryCheckedOrStaged: FwFormField.getValueByDataField($form, 'InventoryCheckedOrStaged')
-                , CopyLineItemNotes: FwFormField.getValueByDataField($form, 'CopyLineItemNotes')
-                , CopyOrderNotes: FwFormField.getValueByDataField($form, 'CopyOrderNotes')
-                , CopyRentalRates: FwFormField.getValueByDataField($form, 'CopyRentalRates')
-                , UpdateBillingStopDate: FwFormField.getValueByDataField($form, 'UpdateBillingStopDate')
-                , BillingStopDate: FwFormField.getValueByDataField($form, 'MigrateBillingStopDate')
+            const request: any = {
+                SessionId: $migrateItemGrid.data('sessionId'),
+                MigrateToNewOrder: FwFormField.getValueByDataField($form, 'CreateNewOrder'),
+                NewOrderOfficeLocationId: FwFormField.getValueByDataField($form, 'OfficeLocationId'),
+                NewOrderWarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                NewOrderDealId: FwFormField.getValueByDataField($form, 'CreateNewDealId'),
+                NewOrderDescription: FwFormField.getValueByDataField($form, 'NewOrderDescription'),
+                NewOrderRateType: FwFormField.getValueByDataField($form, 'RateType'),
+                NewOrderFromDate: FwFormField.getValueByDataField($form, 'FromDate'),
+                NewOrderFromTime: FwFormField.getValueByDataField($form, 'FromTime'),
+                NewOrderToDate: FwFormField.getValueByDataField($form, 'ToDate'),
+                NewOrderToTime: FwFormField.getValueByDataField($form, 'ToTime'),
+                NewOrderBillingStopDate: FwFormField.getValueByDataField($form, 'BillingStopDate'),
+                NewOrderPendingPO: FwFormField.getValueByDataField($form, 'PendingPO'),
+                NewOrderFlatPO: FwFormField.getValueByDataField($form, 'FlatPO'),
+                NewOrderPurchaseOrderNumber: FwFormField.getValueByDataField($form, 'PurchaseOrderNumber'),
+                NewOrderPurchaseOrderAmount: FwFormField.getValueByDataField($form, 'PurchaseOrderAmount'),
+                MigrateToExistingOrder: FwFormField.getValueByDataField($form, 'MigrateToExistingOrder'),
+                ExistingOrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                InventoryFulfillIncrement: FwFormField.getValueByDataField($form, 'InventoryFulfillIncrement'),
+                InventoryCheckedOrStaged: FwFormField.getValueByDataField($form, 'InventoryCheckedOrStaged'),
+                CopyLineItemNotes: FwFormField.getValueByDataField($form, 'CopyLineItemNotes'),
+                CopyOrderNotes: FwFormField.getValueByDataField($form, 'CopyOrderNotes'),
+                CopyRentalRates: FwFormField.getValueByDataField($form, 'CopyRentalRates'),
+                UpdateBillingStopDate: FwFormField.getValueByDataField($form, 'UpdateBillingStopDate'),
+                BillingStopDate: FwFormField.getValueByDataField($form, 'MigrateBillingStopDate'),
             }
+            FwFormField.disable($form.find('.finalize-migration'));
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/completesession`, request, FwServices.defaultTimeout,
                 response => {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
                         FwFunc.playErrorSound();
                         $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
+                        FwFormField.enable($form.find('.finalize-migration'));
                     } else {
                         FwFunc.playSuccessSound();
                         if (response.Contracts.length > 0) {
@@ -223,7 +224,11 @@ class MigrateOrders {
                         }
                         $form.empty().append(MigrateOrdersController.openForm('NEW')); //reset migrate orders tab
                     }
-                }, ex => FwFunc.showError(ex), $migrateItemGrid);
+                }, ex => {
+                    FwFunc.showError(ex);
+                    FwFormField.enable($form.find('.finalize-migration'));
+                },
+                $migrateItemGrid);
         });
     }
     //----------------------------------------------------------------------------------------------
