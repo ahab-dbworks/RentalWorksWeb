@@ -253,7 +253,7 @@ class FwReportsPageClass {
                 }
 
                 const filter = [];
-                const $reportDescriptions = jQuery('small#description');
+                const $reportDescriptions = jQuery('#description');
                 const $reportTitles = jQuery('a#title');
                 const $reports = jQuery('.panel-group');
                 if (val === "") {
