@@ -541,6 +541,10 @@ class OrderItemGrid {
         }
 
         $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
+            $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val($tr.find('.field[data-browsedatafield="ItemId"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedisplayfield="BarCode"] input.text').val($tr.find('.field[data-browsedatafield="BarCode"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedisplayfield="SerialNumber"] input.text').val($tr.find('.field[data-browsedatafield="SerialNumber"]').attr('data-originalvalue'));
+
             $generatedtr.find('.field[data-browsedatafield="InventoryId"] input').val($tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="InventoryId"] input.text').val($tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
