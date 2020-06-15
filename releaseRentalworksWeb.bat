@@ -140,12 +140,12 @@ IF "%commitandftp%"=="y" (
     rem command-line gren make Build Release Document for all issues between the previous version's tag and this current tag
     cd %DwRentalWorksWebPath%\build
     rem call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%fullversionno% -c ..\config.grenrc
-    call npx gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%previousversionno%..%tagprefix%/v%fullversionno% -c ..\config.grenrc
+    call npx gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%fullversionno%..%tagprefix%/v%previousversionno% -c ..\config.grenrc
 
     rem produce a PDF of the MD file
     cd %DwRentalWorksWebPath%
     call npx md-to-pdf build\v%fullversionno%.md
-	set pdffilename=v%fullversionno%.pdf
+    set pdffilename=v%fullversionno%.pdf
     start build\v%fullversionno%.pdf
 
     rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
