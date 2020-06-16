@@ -443,7 +443,7 @@ class RwAsset {
             <div class="field" data-caption="As Of" data-datafield="StatusDate" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
-            <div class="field" data-caption="Location" data-datafield="CurrentLocation" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Warehouse / Deal" data-datafield="CurrentLocation" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
             <div class="field" data-caption="Warehouse" data-datafield="Warehouse" data-browsedatatype="text" data-sort="off"></div>
