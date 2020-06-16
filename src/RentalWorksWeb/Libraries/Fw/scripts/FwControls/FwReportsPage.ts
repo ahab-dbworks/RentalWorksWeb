@@ -308,7 +308,7 @@ class FwReportsPageClass {
 
                     var matchDescriptionTitle = function ($control) {
                         for (var j = 0; j < $control.length; j++) {
-                            let description = jQuery($control[j]).find('small#description-text');
+                            let description = jQuery($control[j]).find('#description-text');
                             let title = jQuery($control[j]).find('a#title');
                             let descriptionIndex = jQuery(description).text().toUpperCase().indexOf(val);
                             let titleIndex = jQuery(title).text().toUpperCase().indexOf(val);
