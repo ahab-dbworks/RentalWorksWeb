@@ -1274,7 +1274,7 @@ class Deal {
                         </div>
                       </div>
                       <!-- Commission section -->
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Commission">
+                      <!-- <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Commission">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales Representative" data-datafield="OutsideSalesRepresentativeId" data-displayfield="OutsideSalesRepresentative" data-validationname="ContactValidation" style="flex:1 1 250px;"></div>
                         </div>
@@ -1282,7 +1282,7 @@ class Deal {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Invoice Percentage" data-datafield="CommissionRate" style="flex:1 1 150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Sub-Rentals" data-datafield="CommissionIncludesVendorItems" style="flex:1 1 150px;margin-top:10px;"></div>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                     <div class="flexcolumn" style="flex:1 1 325px;">
                     <!-- Billing Options section -->
