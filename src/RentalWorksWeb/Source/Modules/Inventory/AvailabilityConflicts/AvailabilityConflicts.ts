@@ -153,48 +153,48 @@ class AvailabilityConflicts {
         $form.find('#availabilityTable table tr td i.btnpeek')
             .off('click')
             .on('click', e => {
-            try {
-                //$control.find('.btnpeek').hide();
-                //$validationbrowse.data('$control').find('.validation-loader').show();
-                //setTimeout(function () {
-                const $control = jQuery(e.currentTarget).closest('td');
-                const validationId = $control.attr('data-id');
-                let datafield;
-                let validationPeekFormName;
-                if ($control.hasClass('order-number')) {
-                    const orderType = $control.attr('data-ordertype');
-                    switch (orderType) {
-                        case 'O':
-                            datafield = 'OrderId';
-                            validationPeekFormName = 'Order';
-                            break;
-                        case 'Q':
-                            datafield = 'QuoteId';
-                            validationPeekFormName = 'Quote';
-                            break;
-                        case 'R':
-                            datafield = 'RepairId';
-                            validationPeekFormName = 'Repair';
-                            break;
-                        //
+                try {
+                    //$control.find('.btnpeek').hide();
+                    //$validationbrowse.data('$control').find('.validation-loader').show();
+                    //setTimeout(function () {
+                    const $control = jQuery(e.currentTarget).closest('td');
+                    const validationId = $control.attr('data-id');
+                    let datafield;
+                    let validationPeekFormName;
+                    if ($control.hasClass('order-number')) {
+                        const orderType = $control.attr('data-ordertype');
+                        switch (orderType) {
+                            case 'O':
+                                datafield = 'OrderId';
+                                validationPeekFormName = 'Order';
+                                break;
+                            case 'Q':
+                                datafield = 'QuoteId';
+                                validationPeekFormName = 'Quote';
+                                break;
+                            case 'R':
+                                datafield = 'RepairId';
+                                validationPeekFormName = 'Repair';
+                                break;
+                            //
+                        }
+                    } else if ($control.hasClass('inventory-number')) {
+                        datafield = 'InventoryId';
+                        validationPeekFormName = 'RentalInventory';
+                    } else {
+                        datafield = 'DealId';
+                        validationPeekFormName = 'Deal';
                     }
-                } else if ($control.hasClass('inventory-number')) {
-                    datafield = 'InventoryId';
-                    validationPeekFormName = 'RentalInventory';
-                } else {
-                    datafield = 'DealId';
-                    validationPeekFormName = 'Deal';
-                }
-                const title = $control.find('span').text();
+                    const title = $control.find('span').text();
 
-                FwValidation.validationPeek($control, validationPeekFormName, validationId, datafield, null, title);
-                //$validationbrowse.data('$control').find('.validation-loader').hide();
-                //$control.find('.btnpeek').show()
-                //})
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+                    FwValidation.validationPeek($control, validationPeekFormName, validationId, datafield, null, title);
+                    //$validationbrowse.data('$control').find('.validation-loader').hide();
+                    //$control.find('.btnpeek').show()
+                    //})
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
 
         //add availability calendar and schedule
         $form.find('#availabilityTable table tr td.quantity-available')
@@ -219,20 +219,20 @@ class AvailabilityConflicts {
                 if (showingAvail) {
                     FwScheduler.renderRuntimeHtml($calendar);
                     FwScheduler.init($calendar);
-                    FwScheduler.loadControl($calendar);
                     RentalInventoryController.addCalSchedEvents($form, $calendar, inventoryId);
+                    FwScheduler.loadControl($calendar);
                     const schddate = FwScheduler.getTodaysDate();
                     FwScheduler.navigate($calendar, schddate);
                     FwScheduler.refresh($calendar);
-
+                    // sequence of these invocations is important so that events are properly stored on the control ^ v
                     FwSchedulerDetailed.renderRuntimeHtml($scheduler);
                     FwSchedulerDetailed.init($scheduler);
-                    FwSchedulerDetailed.loadControl($scheduler);
                     RentalInventoryController.addCalSchedEvents($form, $scheduler, inventoryId);
+                    FwSchedulerDetailed.loadControl($scheduler);
                     FwSchedulerDetailed.navigate($scheduler, schddate, 35);
                     FwSchedulerDetailed.refresh($scheduler);
                 }
-        });
+            });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {

@@ -123,8 +123,6 @@ abstract class InventoryBase {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, '.warehousefilter', warehouse.warehouseid, warehouse.warehouse);
 
-        //this.calculateYearly();
-
         const $calendar = $form.find('.calendar');
         this.addCalSchedEvents($form, $calendar, inventoryId);
 
