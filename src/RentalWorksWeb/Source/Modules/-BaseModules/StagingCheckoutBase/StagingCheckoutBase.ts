@@ -750,7 +750,6 @@ abstract class StagingCheckoutBase {
     createContract(args): void {
         const $form = args[0];
         const event = args[1];
-        const type = this.Type;
         const errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
         const type = this.Type;
