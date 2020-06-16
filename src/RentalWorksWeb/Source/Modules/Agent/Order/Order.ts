@@ -616,11 +616,11 @@ class Order extends OrderBase {
             if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { lossDamageTab.hide(), FwFormField.disable($form.find('[data-datafield="Rental"]')); }
         }
 
-        if (FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) {
-            FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
-        } else {
-            FwFormField.enable(FwFormField.getDataField($form, 'LossAndDamage'));
-        }
+        //if (FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) {      //the LossAndDamage checkbox availability is taken care of in OrderBase.
+        //    FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
+        //} else {
+        //    FwFormField.enable(FwFormField.getDataField($form, 'LossAndDamage'));
+        //}
 
         if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) {
             lossDamageTab.hide();
