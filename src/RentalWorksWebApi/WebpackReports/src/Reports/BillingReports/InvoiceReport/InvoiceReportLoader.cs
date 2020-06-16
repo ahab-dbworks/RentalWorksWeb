@@ -162,6 +162,8 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
+            bool hasDiscount = false;
+            bool hasRecurring = false;
             foreach (List<object> row in dt.Rows)
             {
                 T item = (T)Activator.CreateInstance(typeof(T));
@@ -191,19 +193,35 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                             property.SetValue(item, (value ?? "").ToString());
                         }
 
-                        if (fieldName.Equals("HasDiscount") && value != null)
+                        if (fieldName.Equals("HasDiscount"))
                         {
-                            if (value.Equals("T"))
+                            if (value != null)
                             {
-                                items[0].GetType().GetProperty("HasDiscount").SetValue(items[0], "T");
+                                if (value.Equals(true))
+                                {
+                                    hasDiscount = true;
+                                    items[0].GetType().GetProperty("HasDiscount").SetValue(items[0], true);
+                                }
+                            }
+                            else
+                            {
+                                item.GetType().GetProperty("HasDiscount").SetValue(item, hasDiscount);
                             }
                         }
 
                         if (fieldName.Equals("IsRecurring") && value != null)
                         {
-                            if (value.Equals(true))
+                            if (value != null)
                             {
-                                items[0].GetType().GetProperty("HasRecurring").SetValue(items[0], "T");
+                                if (value.Equals(true))
+                                {
+                                    hasDiscount = true;
+                                    items[0].GetType().GetProperty("HasRecurring").SetValue(items[0], true);
+                                }
+                            }
+                            else
+                            {
+                                item.GetType().GetProperty("HasRecurring").SetValue(item, hasRecurring);
                             }
                         }
                     }
