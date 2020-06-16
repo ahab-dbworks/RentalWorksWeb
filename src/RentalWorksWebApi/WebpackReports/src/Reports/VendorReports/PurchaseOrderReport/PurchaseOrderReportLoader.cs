@@ -54,8 +54,8 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercentDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hasdiscount", modeltype: FwDataTypes.Text)]
-        public string HasDiscount { get; set; }
+        [FwSqlDataField(column: "hasdiscount", modeltype: FwDataTypes.Boolean)]
+        public bool? HasDiscount { get; set; }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitdiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
@@ -220,6 +220,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
+            bool hasDiscount = false;
             foreach (List<object> row in dt.Rows)
             {
                 T item = (T)Activator.CreateInstance(typeof(T));
@@ -256,13 +257,22 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                             property.SetValue(item, (value ?? "").ToString());
                         }
 
-                        if (fieldName.Equals("HasDiscount") && value != null)
+                        if (fieldName.Equals("HasDiscount"))
                         {
-                            if (value.Equals("T"))
+                            if (value != null)
                             {
-                                items[0].GetType().GetProperty("HasDiscount").SetValue(items[0], "T");
+                                if (value.Equals(true))
+                                {
+                                    hasDiscount = true;
+                                    items[0].GetType().GetProperty("HasDiscount").SetValue(items[0], true);
+                                }
+                            }
+                            else
+                            {
+                                item.GetType().GetProperty("HasDiscount").SetValue(item, hasDiscount);
                             }
                         }
+
                     }
                 }
                 items.Add(item);
