@@ -345,8 +345,14 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
-
-
+    public class PartsOrderItemReportLoader : OrderItemReportLoader
+    {
+        public PartsOrderItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_PARTS;
+        }
+    }
+    //------------------------------------------------------------------------------------ 
 
     public class PurchaseOrderReportLoader : AppReportLoader
     {
@@ -936,6 +942,8 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         //------------------------------------------------------------------------------------ 
         public List<LaborOrderItemReportLoader> LaborItems { get; set; } = new List<LaborOrderItemReportLoader>(new LaborOrderItemReportLoader[] { new LaborOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
+        public List<PartsOrderItemReportLoader> PartsItems { get; set; } = new List<PartsOrderItemReportLoader>(new PartsOrderItemReportLoader[] { new PartsOrderItemReportLoader() });
+        //------------------------------------------------------------------------------------ 
         public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>(new OrderDatesLogic[] { new OrderDatesLogic() });
@@ -988,7 +996,13 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                     LaborItems.SetDependencies(AppConfig, UserSession);
                     taskLaborOrderItems = LaborItems.LoadItems<LaborOrderItemReportLoader>(request);
 
-                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems });
+                    //parts items
+                    Task<List<PartsOrderItemReportLoader>> taskPartsOrderItems;
+                    PartsOrderItemReportLoader PartsItems = new PartsOrderItemReportLoader();
+                    PartsItems.SetDependencies(AppConfig, UserSession);
+                    taskPartsOrderItems = PartsItems.LoadItems<PartsOrderItemReportLoader>(request);
+
+                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskPartsOrderItems });
 
                     Order = taskOrder.Result;
 
@@ -999,6 +1013,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                         Order.SalesItems = taskSalesOrderItems.Result;
                         Order.MiscItems = taskMiscOrderItems.Result;
                         Order.LaborItems = taskLaborOrderItems.Result;
+                        Order.PartsItems = taskPartsOrderItems.Result;
 
 
                         //activity dates and times
