@@ -516,6 +516,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "lotno", modeltype: FwDataTypes.Text)]
         public string LotNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
+        public string Agent { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

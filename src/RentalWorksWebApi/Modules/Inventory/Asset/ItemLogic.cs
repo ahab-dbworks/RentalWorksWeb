@@ -339,6 +339,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "CmK0ij8S7Zxp", IsReadOnly: true)]
         public string ResponsiblePersonId { get; set; }
 
+        [FwLogicProperty(Id: "yJshigV0Lw4Wu", IsReadOnly: true)]
+        public string Agent { get; set; }
+
         [FwLogicProperty(Id: "CmK0ij8S7Zxp", IsReadOnly: true)]
         public string ResponsiblePerson { get; set; }
 
