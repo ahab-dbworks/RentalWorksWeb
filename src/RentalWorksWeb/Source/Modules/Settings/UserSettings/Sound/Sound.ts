@@ -75,7 +75,7 @@ class Sound {
         });
 
         $form.find('#soundInput').on('change', e => {
-
+            const reader = new FileReader();
             // if NEW vs EDIT
             const $this = jQuery(e.currentTarget);
             const folder: any = $this[0];
@@ -88,9 +88,9 @@ class Sound {
                         $form.find('#soundSrc').attr("src", url);
                         const audioElement: any = document.getElementById('audio');
                         audioElement.load();
-                        FwFormField.setValueByDataField($form, 'FileName', file.name);
+                        FwFormField.setValueByDataField($form, 'FileName', url);
                         FwFormField.setValueByDataField($form, 'Blob', file);
-
+         
                         const formData = new FormData();
                         formData.append('fname', 'blob');
                         formData.append('data', file);
@@ -101,6 +101,8 @@ class Sound {
                 }
             }
         });
+
+        // files play everywhere else will have to be refactored also
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -108,6 +110,11 @@ class Sound {
             FwFormField.disable($form.find('div[data-datafield="Sound"]'));
             FwFormField.disable($form.find('div[data-datafield="FileName"]'));
         }
+        const blob = FwFormField.getValueByDataField($form, 'Blob');
+        const blob2 = new Blob([JSON.stringify(blob)]);
+        const url = URL.createObjectURL(blob2);
+        FwFormField.setValueByDataField($form, 'FileName', url);
+
     }
 }
 

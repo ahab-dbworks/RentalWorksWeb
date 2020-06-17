@@ -16,6 +16,9 @@ namespace WebApi.Modules.Settings.UserSettings.Sound
         [FwSqlDataField(column: "sound", modeltype: FwDataTypes.Text)]
         public string Sound { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "blob", modeltype: FwDataTypes.Text)]
+        public string Blob { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "filename", modeltype: FwDataTypes.Text)]
         public string FileName { get; set; }
         //------------------------------------------------------------------------------------ 

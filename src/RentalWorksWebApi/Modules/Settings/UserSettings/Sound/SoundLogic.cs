@@ -21,6 +21,9 @@ namespace WebApi.Modules.Settings.UserSettings.Sound
         [FwLogicProperty(Id:"BxnmypNOOR1km", IsRecordTitle:true)]
         public string Sound { get { return sound.Sound; } set { sound.Sound = value; } }
 
+        [FwLogicProperty(Id: "m9qb4BHJp59YS")]
+        public string Blob { get { return sound.Blob; } set { sound.Blob = value; } }
+
         [FwLogicProperty(Id:"eATtkRbvm9BL")]
         public string FileName { get { return sound.FileName; } set { sound.FileName = value; } }
 
