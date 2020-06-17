@@ -14,7 +14,7 @@ namespace WebApi.Modules.Settings.UserSettings.Sound
         [FwSqlDataField(column: "sound", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string Sound { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "blob", modeltype: FwDataTypes.Text, sqltype: "varchar")]
+        [FwSqlDataField(column: "blob", modeltype: FwDataTypes.Text, sqltype: "varbinary")]
         public string Blob { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "filename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]

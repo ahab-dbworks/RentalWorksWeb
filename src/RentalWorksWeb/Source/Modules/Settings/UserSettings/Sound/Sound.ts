@@ -75,7 +75,6 @@ class Sound {
         });
 
         $form.find('#soundInput').on('change', e => {
-            const reader = new FileReader();
             // if NEW vs EDIT
             const $this = jQuery(e.currentTarget);
             const folder: any = $this[0];
@@ -89,11 +88,26 @@ class Sound {
                         const audioElement: any = document.getElementById('audio');
                         audioElement.load();
                         FwFormField.setValueByDataField($form, 'FileName', url);
-                        FwFormField.setValueByDataField($form, 'Blob', file);
-         
+
                         const formData = new FormData();
                         formData.append('fname', 'blob');
                         formData.append('data', file);
+
+
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onloadend = () => {
+                            const base64data = reader.result;
+                            //console.log('base64data', base64data);
+                            FwFormField.setValueByDataField($form, 'Blob', base64data.toString());
+                            // this works and is saving to db. next steps:
+                           // parse file from db when loads and assign to $form
+                            // blob url so that can be played
+                            // figure out how to stream files when played elsewhere i.e fwfunc.playerrorSound() etc
+                            // deal w/ existing system sounds
+                            // disable add new for system sounds
+                            // trigger save ability for altering existing sound
+                        }
                     } else {
                         $form.find('#soundInput').val('');
                         FwNotification.renderNotification('WARNING', 'Only MP3, WAV or OGG file types supported.')
@@ -101,8 +115,6 @@ class Sound {
                 }
             }
         });
-
-        // files play everywhere else will have to be refactored also
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -110,10 +122,10 @@ class Sound {
             FwFormField.disable($form.find('div[data-datafield="Sound"]'));
             FwFormField.disable($form.find('div[data-datafield="FileName"]'));
         }
-        const blob = FwFormField.getValueByDataField($form, 'Blob');
-        const blob2 = new Blob([JSON.stringify(blob)]);
-        const url = URL.createObjectURL(blob2);
-        FwFormField.setValueByDataField($form, 'FileName', url);
+        //const blob = FwFormField.getValueByDataField($form, 'File');
+        //const blob2 = new Blob([JSON.stringify(blob)]);
+        //const url = URL.createObjectURL(blob2);
+        //FwFormField.setValueByDataField($form, 'FileName', url);
 
     }
 }
