@@ -769,7 +769,7 @@ class Order extends OrderBase {
               <div data-type="tab" id="labortab" class="tab labortab notcombinedtab" data-tabpageid="labortabpage" data-notOnNew="true" data-inventorytype="Labor" data-caption="Labor"></div>
               <div data-type="tab" id="sublabortab" class="tab sublabortab notcombinedtab" data-hasSubGrid="true" data-tabpageid="sublabortabpage" data-notOnNew="true" data-caption="Sub-Labor"></div>
               <div data-type="tab" id="usedsaletab" class="tab usedsaletab notcombinedtab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
-              <div data-type="tab" id="lossdamagetab" class="tab lossdamagetab" data-tabpageid="lossdamagetabpage" data-notOnNew="true" data-caption="Loss &amp; Damage"></div>
+              <div data-type="tab" id="lossdamagetab" class="tab lossdamagetab" data-tabpageid="lossdamagetabpage" data-notOnNew="true" data-caption="Loss &amp; Damage" style="display:none;"></div>
               <div data-type="tab" id="alltab" class="tab combinedtab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>
               <div data-type="tab" id="subpurchaseordertab" class="tab submodule subpurchaseordertab" data-tabpageid="subpurchaseordertabpage" data-caption="Sub POs"></div>
               <div data-type="tab" id="billingtab" class="tab billingtab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
