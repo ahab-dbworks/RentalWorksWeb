@@ -362,6 +362,30 @@ class OrderItemGrid {
                 $td.attr('data-peekForm', peekForm);
             }
 
+            if ($control.parents('[data-control="FwGrid"]').hasClass('A')) { //set peek forms for Items tab
+                let peekForm;
+                switch (recType) {
+                    case 'R':
+                        peekForm = 'RentalInventory';
+                        break;
+                    case 'RS':
+                    case 'S':
+                        peekForm = 'SalesInventory';
+                        break;
+                    case 'P':
+                        peekForm = 'PartsInventory';
+                        break;
+                    case 'M':
+                        peekForm = 'MiscRate';
+                        break;
+                    case 'L':
+                        peekForm = 'LaborRate';
+                        break;
+                }
+                const $td = $tr.find('[data-validationname="GeneralItemValidation"]');
+                $td.attr('data-peekForm', peekForm);
+            }
+
             //Allow searching on description field
             const validDescriptionValidationTypes: any = ['R', 'S', 'P', 'M', 'L'];
             const validTextItemClasses: any = ['M', 'GH', 'T', 'ST'];
