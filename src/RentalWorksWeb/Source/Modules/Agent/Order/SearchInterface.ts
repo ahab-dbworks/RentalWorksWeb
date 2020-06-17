@@ -1286,7 +1286,8 @@ class SearchInterface {
                             .find('.value')
                             .text(response.QuantityAvailableAllWarehouses);
 
-                        item.find('[data-column="ConflictDate"] value').text(response.ConflictDate || "");
+                        let conflictdate = response.ConflictDate ? moment(response.ConflictDate).format('L') : '';
+                        item.find('[data-column="ConflictDate"] .value').text(conflictdate);
 
                         //Updates Preview tab with total # of items
                         $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession} items)`);
