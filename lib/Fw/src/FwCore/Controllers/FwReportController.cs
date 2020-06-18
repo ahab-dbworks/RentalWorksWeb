@@ -13,11 +13,13 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using PuppeteerSharp;
+using System.Text.RegularExpressions;
 
 namespace FwCore.Controllers
 {
     public abstract class FwReportController : FwController
     {
+        static Regex RegexFilenameWhitelist = new Regex("[^a-zA-Z0-9-]");
         public FwReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //---------------------------------------------------------------------------------------------
         protected Type loaderType = null;
@@ -65,12 +67,13 @@ namespace FwCore.Controllers
 
                 if ((string.IsNullOrEmpty(reportFileName)) || (reportFileName.Equals(reportName)))  // default
                 {
-                    pdfFileName = $"{baseFileName}.pdf";
+                    pdfFileName = baseFileName;
                 }
                 else 
-                { 
-                    pdfFileName = $"{reportFileName}.pdf";
+                {
+                    pdfFileName = reportFileName;
                 }
+                pdfFileName = RegexFilenameWhitelist.Replace(pdfFileName, "-") + ".pdf";
 
                 string guidDownloadPath = Path.Combine(FwDownloadController.GetDownloadsDirectory(), guid);
                 System.IO.Directory.CreateDirectory(guidDownloadPath);

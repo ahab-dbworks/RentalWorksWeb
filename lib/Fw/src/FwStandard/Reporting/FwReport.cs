@@ -1,15 +1,10 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
 using PuppeteerSharp;
-using PuppeteerSharp.Media;
 using System;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
-using System.Net.Mime;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,6 +51,7 @@ namespace FwStandard.Reporting
                     pdfOptions.FooterTemplate = await page.EvaluateExpressionAsync<string>("report.footerHtml");
                     pdfOptions.HeaderTemplate = (pdfOptions.HeaderTemplate == null) ? string.Empty : pdfOptions.HeaderTemplate;
                     pdfOptions.FooterTemplate = (pdfOptions.FooterTemplate == null) ? string.Empty : pdfOptions.FooterTemplate;
+
                     await page.PdfAsync(pdfOutputPath, pdfOptions);
 
                     // Clean up pdf directory, a different approach is probably needed so this isn't getting fired off by a bunch of users at the same time
