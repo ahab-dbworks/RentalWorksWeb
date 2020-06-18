@@ -508,7 +508,7 @@ class User {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Home" data-datafield="HomePhone" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Cellular" data-datafield="Cellular" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Mobile" data-datafield="Cellular" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Pager No." data-datafield="Pager" style="flex:1 1 125px;"></div>

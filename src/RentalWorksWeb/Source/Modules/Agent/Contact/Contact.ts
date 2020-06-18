@@ -398,7 +398,7 @@ class Contact {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Direct" data-datafield="DirectPhone" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Cellular" data-datafield="MobilePhone" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Mobile" data-datafield="MobilePhone" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Home" data-datafield="HomePhone" style="flex:1 1 125px;"></div>
