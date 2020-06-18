@@ -13,6 +13,7 @@ class FwSettingsClass {
     };
     //----------------------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
+        const me = this;
         const html: Array<string> = [];
 
         html.push('<div class="fwsettingsheader">');
@@ -72,6 +73,184 @@ class FwSettingsClass {
                 }
             }
         }, 0);
+
+        // Clear 'X' button
+        $control.find('.input-group-clear').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            const event = jQuery.Event("keyup", { which: 13 });
+            $this.parent().find('#settingsSearch').val('').trigger(event);
+        });
+        // Search Input and icon
+        $control.find('.input-group-search').on('click', e => {
+            const $search = jQuery(e.currentTarget).parent().find('#settingsSearch');
+            const event = jQuery.Event("keyup", { which: 13 });
+            $search.trigger(event);
+        });
+        $control.find('#settingsSearch').on('change', e => {
+            const $search = jQuery(e.currentTarget);
+            const event = jQuery.Event("keyup", { which: 13 });
+            $search.trigger(event);
+        });
+        $control.find('#settingsSearch').on('keyup', function (e) {
+            const val = jQuery.trim(this.value).toUpperCase();
+            const $searchClear = jQuery(this).parent().find('.input-group-clear');
+            if ($searchClear.is(":hidden") && val !== '') {
+                $searchClear.show();
+            } else if (val === '') {
+                $searchClear.hide();
+            }
+            if (e.which === 13) {
+                var $settings, $module, $settingsTitles, $settingsDescriptions, filter, customFilter, sectionFilter;
+                $control.find('.selected').removeClass('selected');
+
+                filter = [];
+                customFilter = [];
+                sectionFilter = [];
+                $settings = jQuery('#searchId');
+                $settingsTitles = $control.find('a#title');
+                $settingsDescriptions = jQuery('#description-text');
+                $module = jQuery('.panel-group');
+                $module.find('.highlighted').removeClass('highlighted');
+                if (val === "") {
+                    $module.show();
+                } else {
+                    var results = [];
+                    results.push(val);
+                    $searchClear.show();
+                    //$settings.closest('div.panel-group').hide();
+                    $module.hide();
+                    for (var caption in me.screen.moduleCaptions) {
+                        if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {
+                            for (var moduleName in me.screen.moduleCaptions[caption]) {
+                                if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
+                                    customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
+                                } else if (me.screen.moduleCaptions[caption][moduleName][0].data('type') === 'section') {
+                                    sectionFilter.push(me.screen.moduleCaptions[caption][moduleName][0].data('caption'));
+                                } else {
+                                    filter.push(me.screen.moduleCaptions[caption][moduleName][0].data('datafield'));
+                                }
+                                results.push(moduleName.toUpperCase());
+                            }
+                        }
+                    }
+                    me.filter = filter;
+                    me.sectionFilter = sectionFilter;
+                    me.customFilter = customFilter;
+                    me.searchValue = val;
+
+                    var highlightSearch = function (element, search) {
+                        let searchStrLen = search.length;
+                        let startIndex = 0, index, indicies = [];
+                        let htmlStringBuilder = [];
+                        search = search.toUpperCase();
+                        while ((index = element.textContent.toUpperCase().indexOf(search, startIndex)) > -1) {
+                            indicies.push(index);
+                            startIndex = index + searchStrLen;
+                        }
+                        for (var i = 0; i < indicies.length; i++) {
+                            if (i === 0) {
+                                htmlStringBuilder.push(jQuery(element).text().substring(0, indicies[0]));
+                            } else {
+                                htmlStringBuilder.push(jQuery(element).text().substring(indicies[i - 1] + searchStrLen, indicies[i]))
+                            }
+                            htmlStringBuilder.push('<span class="highlighted">' + jQuery(element).text().substring(indicies[0], indicies[0] + searchStrLen) + '</span>');
+                            if (i === indicies.length - 1) {
+                                htmlStringBuilder.push(jQuery(element).text().substring(indicies[i] + searchStrLen, jQuery(element).text().length));
+                                element.innerHTML = htmlStringBuilder.join('');
+                            }
+                        }
+                    }
+
+                    var module: any = [];
+                    for (var i = 0; i < results.length; i++) {
+                        //check descriptions for match
+                        for (var k = 0; k < $module.length; k++) {
+                            // match results
+                            if ($module.eq(k).attr('id').toUpperCase() === results[i]) {
+                                module.push($module.eq(k)[0]);
+                            }
+                            // search titles
+                            if ($settingsTitles.eq(k).text().toUpperCase().indexOf(val) !== -1) {
+                                module.push($settingsTitles.eq(k).closest('.panel-group')[0]);
+                            }
+                            // search descriptions
+                            if ($settingsDescriptions.eq(k).text().toUpperCase().indexOf(val) !== -1) {
+                                module.push($settingsDescriptions.eq(k).closest('.panel-group')[0]);
+                            }
+                        }
+                        module = jQuery(module);
+                    }
+
+                    let description = module.find('#description-text');
+                    let title = module.find('a#title');
+
+                    for (var j = 0; j < title.length; j++) {
+                        if (title[j] !== undefined) {
+                            let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
+                            let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
+                            if (descriptionIndex > -1) {
+                                highlightSearch(description[j], val);
+                            }
+                            if (titleIndex > -1) {
+                                highlightSearch(title[j], val);
+                            }
+                        }
+                    }
+
+                    if (module.length === 0) {
+                        $settings.filter(function () {
+                            return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
+                        }).closest('div.panel-group').show();
+                    }
+                    module.show().find('#searchId').hide();
+
+                    let searchResults = $control.find('.panel-heading:visible');
+
+                    if (searchResults.length === 1 && searchResults.parent().find('.panel-body.header-content').is(':empty')) {
+                        searchResults[0].click();
+                    }
+                }
+            }
+            jQuery(this).focus();
+        });
+
+        $control.on('click', '.appmenu', function (e) {
+            let searchInput = $control.find('#settingsSearch');
+            if (searchInput.val() !== '') {
+                let event = jQuery.Event('keypress');
+                event.which = 13;
+                searchInput.val('');
+                searchInput.trigger(event);
+            }
+        });
+
+        $control.on('click', '.btn-delete', function (e) {
+            let $form = jQuery(this).closest('.panel-record').find('.fwform');
+            let ids: any = {};
+            let $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Delete this record?');
+            let $yes = FwConfirmation.addButton($confirmation, 'Yes');
+            FwConfirmation.addButton($confirmation, 'No');
+            $yes.focus();
+            $yes.on('click', function () {
+                const controller = $form.data('controller');
+                ids = FwModule.getFormUniqueIds($form);
+                let request = {
+                    module: (<any>window[controller]).Module,
+                    ids: ids
+                };
+                try {
+                    FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $form, function (response) {
+                        $form = FwModule.getFormByUniqueIds(ids);
+                        if ((typeof $form != 'undefined') && ($form.length > 0)) {
+                            $form.closest('.panel-record').remove();
+                        }
+                        FwNotification.renderNotification('SUCCESS', 'Record deleted.');
+                    }, null);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        });
     };
     //----------------------------------------------------------------------------------------------
     updateUserIdNavExpanded(module: string, isExpanded: boolean) {
@@ -478,32 +657,32 @@ class FwSettingsClass {
                 $body.find('#recordSearch').focus();
             }
 
-            $body.find('#recordSearch').on('keypress', function (e) {
-                if (e.which === 13) {
-                    let dataKeys = [];
-                    let query = jQuery.trim(this.value).toUpperCase();
-                    let matches = [];
-                    let $panelBody = jQuery(this).closest('.panel-body')
-                    for (var key in response[0]) {
-                        if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
-                            dataKeys.push(key)
-                        }
-                    }
-                    for (var i = 0; i < dataKeys.length; i++) {
-                        for (var j = 0; j < response.length; j++) {
-                            if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
-                                matches.push(response[j][rowId]);
-                            }
-                        }
-                    }
-                    $panelBody.find('.panel-record').hide();
-                    for (var k = 0; k < matches.length; k++) {
-                        $panelBody.find('#' + matches[k]).show();
-                    }
-                }
-            })
-
+            //$body.find('#recordSearch')
+            //    .off('keypress')
+            //    .on('keypress', function (e) {
+            //        let dataKeys = [];
+            //        let query = jQuery.trim(this.value).toUpperCase();
+            //        let matches = [];
+            //        let $panelBody = jQuery(this).closest('.panel-body')
+            //        for (var key in response[0]) {
+            //            if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
+            //                dataKeys.push(key)
+            //            }
+            //        }
+            //        for (var i = 0; i < dataKeys.length; i++) {
+            //            for (var j = 0; j < response.length; j++) {
+            //                if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
+            //                    matches.push(response[j][rowId]);
+            //                }
+            //            }
+            //        }
+            //        $panelBody.find('.panel-record').hide();
+            //        for (var k = 0; k < matches.length; k++) {
+            //            $panelBody.find('#' + matches[k]).show();
+            //        }
+            //    });
             $control
+                .off('click', '.row-heading')
                 .on('click', '.row-heading', function (e) {
                     e.stopPropagation();
                     const recordData = jQuery(this).parent().parent().data('recorddata');
@@ -892,30 +1071,29 @@ class FwSettingsClass {
                                     $body.find('#recordSearch').focus();
                                 }
 
-                                $body.find('#recordSearch').on('keypress', function (e) {
-                                    if (e.which === 13) {
-                                        let dataKeys = [];
-                                        let query = jQuery.trim(this.value).toUpperCase();
-                                        let matches = [];
-                                        let $panelBody = jQuery(this).closest('.panel-body')
-                                        for (let key in response[0]) {
-                                            if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
-                                                dataKeys.push(key)
-                                            }
-                                        }
-                                        for (var i = 0; i < dataKeys.length; i++) {
-                                            for (var j = 0; j < response.length; j++) {
-                                                if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
-                                                    matches.push(response[j][rowId]);
-                                                }
-                                            }
-                                        }
-                                        $panelBody.find('.panel-record').hide();
-                                        for (var k = 0; k < matches.length; k++) {
-                                            $panelBody.find('#' + matches[k]).show();
-                                        }
-                                    }
-                                })
+                                // mv 6/18/2020 why is this being defined for every module and in 2 places?
+                                //$body.find('#recordSearch').on('keypress', function (e) {
+                                //    let dataKeys = [];
+                                //    let query = jQuery.trim(this.value).toUpperCase();
+                                //    let matches = [];
+                                //    let $panelBody = jQuery(this).closest('.panel-body')
+                                //    for (let key in response[0]) {
+                                //        if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
+                                //            dataKeys.push(key)
+                                //        }
+                                //    }
+                                //    for (var i = 0; i < dataKeys.length; i++) {
+                                //        for (var j = 0; j < response.length; j++) {
+                                //            if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
+                                //                matches.push(response[j][rowId]);
+                                //            }
+                                //        }
+                                //    }
+                                //    $panelBody.find('.panel-record').hide();
+                                //    for (var k = 0; k < matches.length; k++) {
+                                //        $panelBody.find('#' + matches[k]).show();
+                                //    }
+                                //})
                             }, null, $modulecontainer);
                         }
 
@@ -1126,184 +1304,7 @@ class FwSettingsClass {
                                 }
                             }
                         }
-                    })
-
-                // Clear 'X' button
-                $control.on('click', '.input-group-clear', e => {
-                    const $this = jQuery(e.currentTarget);
-                    const event = jQuery.Event("keyup", { which: 13 });
-                    $this.parent().find('#settingsSearch').val('').trigger(event);
-                });
-                // Search Input and icon
-                $control.on('click', '.input-group-search', e => {
-                    const $search = jQuery(e.currentTarget).parent().find('#settingsSearch');
-                    const event = jQuery.Event("keyup", { which: 13 });
-                    $search.trigger(event);
-                });
-                $control.on('change', '#settingsSearch', e => {
-                    const $search = jQuery(e.currentTarget);
-                    const event = jQuery.Event("keyup", { which: 13 });
-                    $search.trigger(event);
-                });
-                $control.on('keyup', '#settingsSearch', function (e) {
-                    const val = jQuery.trim(this.value).toUpperCase();
-                    const $searchClear = jQuery(this).parent().find('.input-group-clear');
-                    if ($searchClear.is(":hidden") && val !== '') {
-                        $searchClear.show();
-                    } else if (val === '') {
-                        $searchClear.hide();
-                    }
-                    if (e.which === 13) {
-                        var $settings, $module, $settingsTitles, $settingsDescriptions, filter, customFilter, sectionFilter;
-                        $control.find('.selected').removeClass('selected');
-
-                        filter = [];
-                        customFilter = [];
-                        sectionFilter = [];
-                        $settings = jQuery('small#searchId');
-                        $settingsTitles = $control.find('a#title');
-                        $settingsDescriptions = jQuery('small#description-text');
-                        $module = jQuery('.panel-group');
-                        $module.find('.highlighted').removeClass('highlighted');
-                        if (val === "") {
-                            $settings.closest('div.panel-group').show();
-                        } else {
-                            var results = [];
-                            results.push(val);
-                            $searchClear.show();
-                            $settings.closest('div.panel-group').hide();
-                            for (var caption in me.screen.moduleCaptions) {
-                                if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {
-                                    for (var moduleName in me.screen.moduleCaptions[caption]) {
-                                        if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
-                                            customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
-                                        } else if (me.screen.moduleCaptions[caption][moduleName][0].data('type') === 'section') {
-                                            sectionFilter.push(me.screen.moduleCaptions[caption][moduleName][0].data('caption'));
-                                        } else {
-                                            filter.push(me.screen.moduleCaptions[caption][moduleName][0].data('datafield'));
-                                        }
-                                        results.push(moduleName.toUpperCase());
-                                    }
-                                }
-                            }
-                            me.filter = filter;
-                            me.sectionFilter = sectionFilter;
-                            me.customFilter = customFilter;
-                            me.searchValue = val;
-
-                            var highlightSearch = function (element, search) {
-                                let searchStrLen = search.length;
-                                let startIndex = 0, index, indicies = [];
-                                let htmlStringBuilder = [];
-                                search = search.toUpperCase();
-                                while ((index = element.textContent.toUpperCase().indexOf(search, startIndex)) > -1) {
-                                    indicies.push(index);
-                                    startIndex = index + searchStrLen;
-                                }
-                                for (var i = 0; i < indicies.length; i++) {
-                                    if (i === 0) {
-                                        htmlStringBuilder.push(jQuery(element).text().substring(0, indicies[0]));
-                                    } else {
-                                        htmlStringBuilder.push(jQuery(element).text().substring(indicies[i - 1] + searchStrLen, indicies[i]))
-                                    }
-                                    htmlStringBuilder.push('<span class="highlighted">' + jQuery(element).text().substring(indicies[0], indicies[0] + searchStrLen) + '</span>');
-                                    if (i === indicies.length - 1) {
-                                        htmlStringBuilder.push(jQuery(element).text().substring(indicies[i] + searchStrLen, jQuery(element).text().length));
-                                        element.innerHTML = htmlStringBuilder.join('');
-                                    }
-                                }
-                            }
-
-                            var module: any = [];
-                            for (var i = 0; i < results.length; i++) {
-                                //check descriptions for match
-                                for (var k = 0; k < $module.length; k++) {
-                                    // match results
-                                    if ($module.eq(k).attr('id').toUpperCase() === results[i]) {
-                                        module.push($module.eq(k)[0]);
-                                    }
-                                    // search titles
-                                    if ($settingsTitles.eq(k).text().toUpperCase().indexOf(val) !== -1) {
-                                        module.push($settingsTitles.eq(k).closest('.panel-group')[0]);
-                                    }
-                                    // search descriptions
-                                    if ($settingsDescriptions.eq(k).text().toUpperCase().indexOf(val) !== -1) {
-                                        module.push($settingsDescriptions.eq(k).closest('.panel-group')[0]);
-                                    }
-                                }
-                                module = jQuery(module);
-                            }
-
-                            let description = module.find('small#description-text');
-                            let title = module.find('a#title');
-
-                            for (var j = 0; j < title.length; j++) {
-                                if (title[j] !== undefined) {
-                                    let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
-                                    let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
-                                    if (descriptionIndex > -1) {
-                                        highlightSearch(description[j], val);
-                                    }
-                                    if (titleIndex > -1) {
-                                        highlightSearch(title[j], val);
-                                    }
-                                }
-                            }
-
-                            if (module.length === 0) {
-                                $settings.filter(function () {
-                                    return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
-                                }).closest('div.panel-group').show();
-                            }
-                            module.show().find('#searchId').hide();
-
-                            let searchResults = $control.find('.panel-heading:visible');
-
-                            if (searchResults.length === 1 && searchResults.parent().find('.panel-body.header-content').is(':empty')) {
-                                searchResults[0].click();
-                            }
-                        }
-                    }
-                    jQuery(this).focus();
-                });
-
-                $control.on('click', '.appmenu', function (e) {
-                    let searchInput = $control.find('#settingsSearch');
-                    if (searchInput.val() !== '') {
-                        let event = jQuery.Event('keypress');
-                        event.which = 13;
-                        searchInput.val('');
-                        searchInput.trigger(event);
-                    }
-                });
-
-                $control.on('click', '.btn-delete', function (e) {
-                    let $form = jQuery(this).closest('.panel-record').find('.fwform');
-                    let ids: any = {};
-                    let $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Delete this record?');
-                    let $yes = FwConfirmation.addButton($confirmation, 'Yes');
-                    FwConfirmation.addButton($confirmation, 'No');
-                    $yes.focus();
-                    $yes.on('click', function () {
-                        const controller = $form.data('controller');
-                        ids = FwModule.getFormUniqueIds($form);
-                        let request = {
-                            module: (<any>window[controller]).Module,
-                            ids: ids
-                        };
-                        try {
-                            FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $form, function (response) {
-                                $form = FwModule.getFormByUniqueIds(ids);
-                                if ((typeof $form != 'undefined') && ($form.length > 0)) {
-                                    $form.closest('.panel-record').remove();
-                                }
-                                FwNotification.renderNotification('SUCCESS', 'Record deleted.');
-                            }, null);
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
                     });
-                });
             }
         }
 

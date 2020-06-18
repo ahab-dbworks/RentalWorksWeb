@@ -6,6 +6,7 @@ class FwReportsPageClass {
     }
     //----------------------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
+        const me = this;
         const html: Array<string> = [];
 
         html.push('<div class="fwreportsheader">');
@@ -66,176 +67,29 @@ class FwReportsPageClass {
                 }
             }
         }, 0);
-    }
-    //----------------------------------------------------------------------------------------------
-    getCaptions(screen) {
-        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
-        var modules = FwApplicationTree.getChildrenByType(node, 'Module');
-        for (var i = 0; i < modules.length; i++) {
-            var moduleName = modules[i].caption + 'Controller';
-            if (typeof (<any>window[moduleName]) != 'undefined') {
-                if (typeof (<any>window[moduleName]).openForm === 'function') {
-                    var $form = (<any>window[moduleName]).openForm();
-                    var $fwformfields = $form.find('.fwformfield[data-caption]');
-                    for (var j = 0; j < $fwformfields.length; j++) {
-                        var $field = $fwformfields.eq(j);
-                        var caption = $field.attr('data-caption').toUpperCase();
-                        if ($field.attr('data-type') === 'radio') {
-                            var radioCaptions = $field.find('div');
-                            for (var k = 0; k < radioCaptions.length; k++) {
-                                var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
-                                screen.moduleCaptions[radioCaption] = {};
-                                screen.moduleCaptions[radioCaption][moduleName] = [];
-                                screen.moduleCaptions[radioCaption][moduleName].push($field);
-                            }
-                        }
-                        if (typeof screen.moduleCaptions[caption] === 'undefined') {
-                            screen.moduleCaptions[caption] = {};
-                        }
-                        if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
-                            screen.moduleCaptions[caption][moduleName] = [];
-                        }
-                        screen.moduleCaptions[caption][moduleName].push($field);
-                    }
-                    //add section headings to search
-                    const $sectionHeadings = $form.find('.fwform-section[data-caption]');
-                    for (let l = 0; l < $sectionHeadings.length; l++) {
-                        const $section = $sectionHeadings.eq(l);
-                        const sectionCaption = $section.attr('data-caption').toUpperCase();
-                        if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
-                            screen.moduleCaptions[sectionCaption] = {};
-                        }
-                        if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
-                            screen.moduleCaptions[sectionCaption][moduleName] = [];
-                        }
-                        screen.moduleCaptions[sectionCaption][moduleName].push($section);
-                    }
-                }
-            }
-        }
-    }
-    //---------------------------------------------------------------------------------------------- 
-    renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
-        var me = this;
-        var $rowBody, $body, browseKeys = [], rowId, screen = { 'moduleCaptions': {} };
 
-        const $modulecontainer = $control.find(`#${moduleName}`);
-        const $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-        const html = [];
-        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
-        html.push('  <div class="panel panel-primary">');
-        html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
-        html.push('      <div class="flexrow" style="max-width:none;">');
-        html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
-        html.push('        <h4 class="panel-title">');
-        html.push('          <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
-        html.push('          <div id="myDropdown" class="dropdown-content">');
-        html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
-        html.push('          </div>');
-        html.push('        <div style="margin-left:auto;">');
-        html.push('          <i class="material-icons pop-out" title="Pop Out">open_in_new</i>');
-        html.push('          <i class="material-icons heading-menu">more_vert</i>');
-        html.push('        </div>');
-        html.push('      </h4>');
-        html.push('      </div>');
-        if (description === "") {
-            html.push('      <div id="description" style="display:none;">' + moduleName + '</div>');
-            html.push('      <div style="margin:0 0 0 32px;font-size:.9em;" id="description-text">' + moduleName + '</div>');
-        } else {
-            html.push('      <div id="description" style="display:none;">' + description + '</div>');
-            html.push('      <div style="margin:0 0 0 32px;font-size:.9em;" id="description-text">' + description + '</div>');
-        }
-        html.push('    </div>');
-        html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
-        html.push('  </div>');
-        html.push('</div>');
 
-        const $reportsPageModules = jQuery(html.join(''));
-        $control.find('.well').append($reportsPageModules);
-
-        $reportsPageModules.on('click', '.btn', e => {
-            $reportsPageModules.find('.heading-menu').next().css('display', 'none');
-            $body = $control.find('#' + moduleName + '.panel-body');
-        });
-
-        $reportsPageModules.on('click', '.pop-out', function (e) {
-            e.stopPropagation();
-            program.popOutTab(`#/reports/${moduleName}`);
-            if (jQuery(this).closest('#myDropdown').length !== 0) {
-                jQuery(this).parent().hide();
-            }
-        });
-
-        $reportsPageModules
-            .on('click', '.panel-heading', function (e) {
-
-                const $this = jQuery(this);
-                const moduleName = $this.closest('.panel-group').attr('id');
-                const $body = $control.find('#' + moduleName + '.panel-body');
-
-                if ($body.is(':empty')) {
-                    const $reports = window[moduleName + 'Controller'].openForm();
-                    window[moduleName + 'Controller'].onLoadForm($reports);
-                    $body.append($reports);
-
-                    for (var i = 0; i < me.filter.length; i++) {
-                        var filterField = $reports.find('[data-datafield="' + me.filter[i] + '"]');
-                        if (filterField.length > 0 && filterField.attr('data-type') === 'checkbox') {
-                            $reports.find('[data-datafield="' + me.filter[i] + '"] label').addClass('highlighted');
-                        } else if (filterField.length > 0) {
-                            $reports.find('[data-datafield="' + me.filter[i] + '"]').find('.fwformfield-caption').addClass('highlighted');
-                        }
-                    };
-                }
-
-                if ($reportsPageModules.find('.panel-collapse').css('display') === 'none') {
-                    $reportsPageModules.find('.arrow-selector').html('keyboard_arrow_up')
-                    $reportsPageModules.find('.panel-collapse').show("fast");
-                } else {
-                    $reportsPageModules.find('.arrow-selector').html('keyboard_arrow_down')
-                    $reportsPageModules.find('.panel-collapse').hide('fast');
-                }
-            })
-            .on('click', '.heading-menu', function (e) {
-                e.stopPropagation();
-                let activeMenu = $control.find('.active-menu');
-                let $this: any = jQuery(this);
-                let $dropdown = $this.closest('.panel-title').find('#myDropdown');
-                if ($dropdown.css('display') === 'none') {
-                    $dropdown.css('display', 'block').addClass('active-menu');
-                    jQuery(document).one('click', function closeMenu(e) {
-                        if ($this.has(e.target).length === 0) {
-                            $dropdown.removeClass('active-menu').css('display', 'none');
-                        } else {
-                            $dropdown.css('display', 'block');
-                        }
-                    })
-                } else {
-                    $dropdown.removeClass('active-menu').css('display', 'none');
-                }
-
-                if (activeMenu.length > 0) {
-                    activeMenu.removeClass('active-menu').hide();
-                }
-            })
+        var screen = {
+            moduleCaptions: {}
+        };
         // Clear 'X' button
-        $control.on('click', '.input-group-clear', e => {
+        $control.find('.input-group-clear').on('click', e => {
             const $this = jQuery(e.currentTarget);
             const event = jQuery.Event("keyup", { which: 13 });
             $this.parent().find('#reportsSearch').val('').trigger(event);
         });
         // Search Input and icon
-        $control.on('click', '.input-group-search', e => {
+        $control.find('.input-group-search').on('click', e => {
             const $search = jQuery(e.currentTarget).parent().find('#reportsSearch');
             const event = jQuery.Event("keyup", { which: 13 });
             $search.trigger(event);
         });
-        $control.on('change', '#reportsSearch', e => {
+        $control.find('#reportsSearch').on('change', e => {
             const $search = jQuery(e.currentTarget).parent().find('#reportsSearch');
             const event = jQuery.Event("keyup", { which: 13 });
             $search.trigger(event);
         });
-        $control.on('keyup', '#reportsSearch', function (e) {
+        $control.find('#reportsSearch').on('keyup', function (e) {
             const val = jQuery.trim(this.value).toUpperCase();
             const $searchClear = jQuery(this).parent().find('.input-group-clear');
             if ($searchClear.is(":hidden") && val !== '') {
@@ -258,11 +112,13 @@ class FwReportsPageClass {
                 const $reports = jQuery('.panel-group');
                 if (val === "") {
                     $control.find('.highlighted').removeClass('highlighted');
-                    $reportDescriptions.closest('div.panel-group').show();
+                    //$reportDescriptions.closest('div.panel-group').show();
+                    $reports.show();
                 } else {
                     var results = [];
                     results.push(val);
-                    $reportDescriptions.closest('div.panel-group').hide();
+                    //$reportDescriptions.closest('div.panel-group').hide();
+                    $reports.hide();
                     for (var caption in screen.moduleCaptions) {
                         if (caption.indexOf(val) !== -1) {
                             for (var moduleName in screen.moduleCaptions[caption]) {
@@ -364,6 +220,160 @@ class FwReportsPageClass {
             }
             jQuery(this).focus();
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    getCaptions(screen) {
+        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
+        var modules = FwApplicationTree.getChildrenByType(node, 'Module');
+        for (var i = 0; i < modules.length; i++) {
+            var moduleName = modules[i].caption + 'Controller';
+            if (typeof (<any>window[moduleName]) != 'undefined') {
+                if (typeof (<any>window[moduleName]).openForm === 'function') {
+                    var $form = (<any>window[moduleName]).openForm();
+                    var $fwformfields = $form.find('.fwformfield[data-caption]');
+                    for (var j = 0; j < $fwformfields.length; j++) {
+                        var $field = $fwformfields.eq(j);
+                        var caption = $field.attr('data-caption').toUpperCase();
+                        if ($field.attr('data-type') === 'radio') {
+                            var radioCaptions = $field.find('div');
+                            for (var k = 0; k < radioCaptions.length; k++) {
+                                var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
+                                screen.moduleCaptions[radioCaption] = {};
+                                screen.moduleCaptions[radioCaption][moduleName] = [];
+                                screen.moduleCaptions[radioCaption][moduleName].push($field);
+                            }
+                        }
+                        if (typeof screen.moduleCaptions[caption] === 'undefined') {
+                            screen.moduleCaptions[caption] = {};
+                        }
+                        if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
+                            screen.moduleCaptions[caption][moduleName] = [];
+                        }
+                        screen.moduleCaptions[caption][moduleName].push($field);
+                    }
+                    //add section headings to search
+                    const $sectionHeadings = $form.find('.fwform-section[data-caption]');
+                    for (let l = 0; l < $sectionHeadings.length; l++) {
+                        const $section = $sectionHeadings.eq(l);
+                        const sectionCaption = $section.attr('data-caption').toUpperCase();
+                        if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
+                            screen.moduleCaptions[sectionCaption] = {};
+                        }
+                        if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
+                            screen.moduleCaptions[sectionCaption][moduleName] = [];
+                        }
+                        screen.moduleCaptions[sectionCaption][moduleName].push($section);
+                    }
+                }
+            }
+        }
+    }
+    //---------------------------------------------------------------------------------------------- 
+    renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
+        var me = this;
+        var $rowBody, $body, browseKeys = [], rowId;
+
+        const $modulecontainer = $control.find(`#${moduleName}`);
+        const $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+        const html = [];
+        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
+        html.push('  <div class="panel panel-primary">');
+        html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
+        html.push('      <div class="flexrow" style="max-width:none;">');
+        html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
+        html.push('        <h4 class="panel-title">');
+        html.push('          <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
+        html.push('          <div id="myDropdown" class="dropdown-content">');
+        html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
+        html.push('          </div>');
+        html.push('        <div style="margin-left:auto;">');
+        html.push('          <i class="material-icons pop-out" title="Pop Out">open_in_new</i>');
+        html.push('          <i class="material-icons heading-menu">more_vert</i>');
+        html.push('        </div>');
+        html.push('      </h4>');
+        html.push('      </div>');
+        if (description === "") {
+            html.push('      <div id="description" style="display:none;">' + moduleName + '</div>');
+            html.push('      <div style="margin:0 0 0 32px;font-size:.9em;" id="description-text">' + moduleName + '</div>');
+        } else {
+            html.push('      <div id="description" style="display:none;">' + description + '</div>');
+            html.push('      <div style="margin:0 0 0 32px;font-size:.9em;" id="description-text">' + description + '</div>');
+        }
+        html.push('    </div>');
+        html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
+        html.push('  </div>');
+        html.push('</div>');
+
+        const $reportsPageModules = jQuery(html.join(''));
+        $control.find('.well').append($reportsPageModules);
+
+        $reportsPageModules.on('click', '.btn', e => {
+            $reportsPageModules.find('.heading-menu').next().css('display', 'none');
+            $body = $control.find('#' + moduleName + '.panel-body');
+        });
+
+        $reportsPageModules.on('click', '.pop-out', function (e) {
+            e.stopPropagation();
+            program.popOutTab(`#/reports/${moduleName}`);
+            if (jQuery(this).closest('#myDropdown').length !== 0) {
+                jQuery(this).parent().hide();
+            }
+        });
+
+        $reportsPageModules
+            .on('click', '.panel-heading', function (e) {
+
+                const $this = jQuery(this);
+                const moduleName = $this.closest('.panel-group').attr('id');
+                const $body = $control.find('#' + moduleName + '.panel-body');
+
+                if ($body.is(':empty')) {
+                    const $reports = window[moduleName + 'Controller'].openForm();
+                    window[moduleName + 'Controller'].onLoadForm($reports);
+                    $body.append($reports);
+
+                    for (var i = 0; i < me.filter.length; i++) {
+                        var filterField = $reports.find('[data-datafield="' + me.filter[i] + '"]');
+                        if (filterField.length > 0 && filterField.attr('data-type') === 'checkbox') {
+                            $reports.find('[data-datafield="' + me.filter[i] + '"] label').addClass('highlighted');
+                        } else if (filterField.length > 0) {
+                            $reports.find('[data-datafield="' + me.filter[i] + '"]').find('.fwformfield-caption').addClass('highlighted');
+                        }
+                    };
+                }
+
+                if ($reportsPageModules.find('.panel-collapse').css('display') === 'none') {
+                    $reportsPageModules.find('.arrow-selector').html('keyboard_arrow_up')
+                    $reportsPageModules.find('.panel-collapse').show("fast");
+                } else {
+                    $reportsPageModules.find('.arrow-selector').html('keyboard_arrow_down')
+                    $reportsPageModules.find('.panel-collapse').hide('fast');
+                }
+            })
+            .on('click', '.heading-menu', function (e) {
+                e.stopPropagation();
+                let activeMenu = $control.find('.active-menu');
+                let $this: any = jQuery(this);
+                let $dropdown = $this.closest('.panel-title').find('#myDropdown');
+                if ($dropdown.css('display') === 'none') {
+                    $dropdown.css('display', 'block').addClass('active-menu');
+                    jQuery(document).one('click', function closeMenu(e) {
+                        if ($this.has(e.target).length === 0) {
+                            $dropdown.removeClass('active-menu').css('display', 'none');
+                        } else {
+                            $dropdown.css('display', 'block');
+                        }
+                    })
+                } else {
+                    $dropdown.removeClass('active-menu').css('display', 'none');
+                }
+
+                if (activeMenu.length > 0) {
+                    activeMenu.removeClass('active-menu').hide();
+                }
+            })
+        ;
+        
         return $reportsPageModules;
     };
     //---------------------------------------------------------------------------------------------- 
