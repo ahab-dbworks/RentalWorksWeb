@@ -654,35 +654,35 @@ class FwSettingsClass {
                 $moduleRows.data('recorddata', response[i]);
                 $moduleRows.data('browsedata', browseData);
                 $body.append($moduleRows);
-                $body.find('#recordSearch').focus();
+                $body.find('.recordSearch').focus();
             }
 
-            //$body.find('#recordSearch')
-            //    .off('keypress')
-            //    .on('keypress', function (e) {
-            //        let dataKeys = [];
-            //        let query = jQuery.trim(this.value).toUpperCase();
-            //        let matches = [];
-            //        let $panelBody = jQuery(this).closest('.panel-body')
-            //        for (var key in response[0]) {
-            //            if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
-            //                dataKeys.push(key)
-            //            }
-            //        }
-            //        for (var i = 0; i < dataKeys.length; i++) {
-            //            for (var j = 0; j < response.length; j++) {
-            //                if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
-            //                    matches.push(response[j][rowId]);
-            //                }
-            //            }
-            //        }
-            //        $panelBody.find('.panel-record').hide();
-            //        for (var k = 0; k < matches.length; k++) {
-            //            $panelBody.find('#' + matches[k]).show();
-            //        }
-            //    });
+            $body.find('.recordSearch')
+                .on('keypress', function (e) {
+                    if (e.which === 13) {
+                        let dataKeys = [];
+                        let query = jQuery.trim(this.value).toUpperCase();
+                        let matches = [];
+                        let $panelBody = jQuery(this).closest('.panel-body')
+                        for (var key in response[0]) {
+                            if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
+                                dataKeys.push(key)
+                            }
+                        }
+                        for (var i = 0; i < dataKeys.length; i++) {
+                            for (var j = 0; j < response.length; j++) {
+                                if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
+                                    matches.push(response[j][rowId]);
+                                }
+                            }
+                        }
+                        $panelBody.find('.panel-record').hide();
+                        for (var k = 0; k < matches.length; k++) {
+                            $panelBody.find('#' + matches[k]).show();
+                        }
+                    }
+                });
             $control
-                .off('click', '.row-heading')
                 .on('click', '.row-heading', function (e) {
                     e.stopPropagation();
                     const recordData = jQuery(this).parent().parent().data('recorddata');
@@ -1068,32 +1068,33 @@ class FwSettingsClass {
                                     $moduleRows.data('recorddata', response[i]);
                                     $moduleRows.data('browsedata', browseData);
                                     $body.append($moduleRows);
-                                    $body.find('#recordSearch').focus();
+                                    $body.find('.recordSearch').focus();
                                 }
 
-                                // mv 6/18/2020 why is this being defined for every module and in 2 places?
-                                //$body.find('#recordSearch').on('keypress', function (e) {
-                                //    let dataKeys = [];
-                                //    let query = jQuery.trim(this.value).toUpperCase();
-                                //    let matches = [];
-                                //    let $panelBody = jQuery(this).closest('.panel-body')
-                                //    for (let key in response[0]) {
-                                //        if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
-                                //            dataKeys.push(key)
-                                //        }
-                                //    }
-                                //    for (var i = 0; i < dataKeys.length; i++) {
-                                //        for (var j = 0; j < response.length; j++) {
-                                //            if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
-                                //                matches.push(response[j][rowId]);
-                                //            }
-                                //        }
-                                //    }
-                                //    $panelBody.find('.panel-record').hide();
-                                //    for (var k = 0; k < matches.length; k++) {
-                                //        $panelBody.find('#' + matches[k]).show();
-                                //    }
-                                //})
+                                $body.find('.recordSearch').on('keypress', function (e) {
+                                    if (e.which === 13) {
+                                        let dataKeys = [];
+                                        let query = jQuery.trim(this.value).toUpperCase();
+                                        let matches = [];
+                                        let $panelBody = jQuery(this).closest('.panel-body')
+                                        for (let key in response[0]) {
+                                            if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
+                                                dataKeys.push(key)
+                                            }
+                                        }
+                                        for (var i = 0; i < dataKeys.length; i++) {
+                                            for (var j = 0; j < response.length; j++) {
+                                                if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
+                                                    matches.push(response[j][rowId]);
+                                                }
+                                            }
+                                        }
+                                        $panelBody.find('.panel-record').hide();
+                                        for (var k = 0; k < matches.length; k++) {
+                                            $panelBody.find('#' + matches[k]).show();
+                                        }
+                                    }
+                                })
                             }, null, $modulecontainer);
                         }
 
@@ -1492,7 +1493,7 @@ class FwSettingsClass {
               </div>
               <div class="record-search">
                 <span class="input-group-addon search"><i class="material-icons">search</i></span>
-                <input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus="">
+                <input type="text" class="form-control recordSearch" placeholder="Record Search" autofocus="">
               </div>
             </div>
        `;

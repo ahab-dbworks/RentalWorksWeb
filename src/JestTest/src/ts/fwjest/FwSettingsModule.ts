@@ -135,7 +135,7 @@ export class FwSettingsModule extends FwModuleBase {
         await page.click(refreshButtonSelector);
         await FwModuleBase.wait(this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors); // let the refresh occur, or at least start
 
-        let searchFieldSelector = `.panel-group[id="${this.moduleName}"] input#recordSearch`;
+        let searchFieldSelector = `.panel-group[id="${this.moduleName}"] .recordSearch`;
         await page.waitForSelector(searchFieldSelector, { visible: true });
 
         let keyField = "";
