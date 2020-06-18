@@ -243,8 +243,8 @@ namespace FwStandard.SqlServer
         //---------------------------------------------------------------------------------------------
         public void InsertSubTotalRows(string nameGroupbyColumn, string nameRowTypeColumn, string[] nameSumColumns, string[] nameHeaderColumns = null, bool includeGroupColumnValueInHeader = true, bool includeGroupColumnValueInFooter = true, string totalFor = "Total for")
         {
-            int indexGroupByColumn, indexRowTypeColumn, rowcount;
-            string thisRowGroupByText, nextRowGroupByText, thisRowType, nextRowType, checkRowType;
+            int indexGroupByColumn, indexRowTypeColumn, indexItemClassColumn, rowcount;
+            string thisRowGroupByText, nextRowGroupByText, thisRowType, nextRowType, checkRowType, itemClass;
             decimal[] subtotals;
             decimal cellvalue;
             object cellvalueobj;
@@ -309,36 +309,50 @@ namespace FwStandard.SqlServer
                 // sum the detail row
                 if (Rows[rowno][indexGroupByColumn] != null)  //justin 05/02/2018
                 {
-                    thisRowGroupByText = Rows[rowno][indexGroupByColumn].ToString();
-                    for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
+                    //exclude subtotal rows
+                    this.ColumnIndex.TryGetValue("ItemClass", out indexItemClassColumn);
+                    if (Rows[rowno][indexItemClassColumn] != null)
                     {
-                        cellvalueobj = Rows[rowno][indexSumColumns[sumcolno]];
-                        if ((cellvalueobj is Decimal) ||
-                            (cellvalueobj is Int16) ||
-                            (cellvalueobj is Int32) ||
-                            (cellvalueobj is Int64) ||
-                            (cellvalueobj is Single) ||
-                            (cellvalueobj is Double))
+                        itemClass = Rows[rowno][indexItemClassColumn].ToString();
+                    }
+                    else
+                    {
+                        itemClass = "";
+                    }
+
+                    if (!itemClass.Equals("ST"))
+                    {
+                        thisRowGroupByText = Rows[rowno][indexGroupByColumn].ToString();
+                        for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                         {
-                            cellvalue = FwConvert.ToDecimal(cellvalueobj);
+                            cellvalueobj = Rows[rowno][indexSumColumns[sumcolno]];
+                            if ((cellvalueobj is Decimal) ||
+                                (cellvalueobj is Int16) ||
+                                (cellvalueobj is Int32) ||
+                                (cellvalueobj is Int64) ||
+                                (cellvalueobj is Single) ||
+                                (cellvalueobj is Double))
+                            {
+                                cellvalue = FwConvert.ToDecimal(cellvalueobj);
+                            }
+                            else if ((cellvalueobj is string) && (decimal.TryParse(cellvalueobj.ToString().Replace("%", string.Empty).Replace("(", "-").Replace(")", string.Empty), out cellvalue)))
+                            {
+                                // the TryParse already stored the value in cellvalue
+                            }
+                            else if (cellvalueobj == null)
+                            {
+                                cellvalue = 0;
+                            }
+                            else if ((cellvalueobj is String) && (cellvalueobj.ToString().TrimEnd() == string.Empty))
+                            {
+                                cellvalue = 0;
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid type: " + cellvalueobj.GetType().FullName + " for column: " + nameSumColumns[sumcolno] + " [index: " + sumcolno.ToString() + "] row: " + rowno.ToString() + " value: \"" + cellvalueobj.ToString() + "\"");
+                            }
+                            subtotals[sumcolno] += cellvalue;
                         }
-                        else if ((cellvalueobj is string) && (decimal.TryParse(cellvalueobj.ToString().Replace("%", string.Empty).Replace("(", "-").Replace(")", string.Empty), out cellvalue)))
-                        {
-                            // the TryParse already stored the value in cellvalue
-                        }
-                        else if (cellvalueobj == null)
-                        {
-                            cellvalue = 0;
-                        }
-                        else if ((cellvalueobj is String) && (cellvalueobj.ToString().TrimEnd() == string.Empty))
-                        {
-                            cellvalue = 0;
-                        }
-                        else
-                        {
-                            throw new Exception("Invalid type: " + cellvalueobj.GetType().FullName + " for column: " + nameSumColumns[sumcolno] + " [index: " + sumcolno.ToString() + "] row: " + rowno.ToString() + " value: \"" + cellvalueobj.ToString() + "\"");
-                        }
-                        subtotals[sumcolno] += cellvalue;
                     }
                 }
 
@@ -450,13 +464,14 @@ namespace FwStandard.SqlServer
         //---------------------------------------------------------------------------------------------        
         public void InsertTotalRow(string nameRowTypeColumn, string rowTypeFilter, string newTotalRowType, string[] nameSumColumns)
         {
-            int indexRowTypeColumn, rowcount;
+            int indexRowTypeColumn, indexItemClassColumn, rowcount;
             int[] indexSumColumns;
             decimal[] totals;
             decimal cellvalue;
             object cellvalueobj;
             bool isLastRow;
             List<object> row;
+            string itemClass;
 
             indexRowTypeColumn = this.ColumnIndex[nameRowTypeColumn];
             indexSumColumns = new int[nameSumColumns.Length];
@@ -471,35 +486,48 @@ namespace FwStandard.SqlServer
             {
                 if (rowTypeFilter == Rows[rowno][indexRowTypeColumn].ToString())
                 {
-                    for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
+                    this.ColumnIndex.TryGetValue("ItemClass", out indexItemClassColumn);
+                    if (Rows[rowno][indexItemClassColumn] != null)
                     {
-                        cellvalueobj = Rows[rowno][indexSumColumns[sumcolno]];
-                        if ((cellvalueobj is Decimal) ||
-                            (cellvalueobj is Int16) ||
-                            (cellvalueobj is Int32) ||
-                            (cellvalueobj is Int64) ||
-                            (cellvalueobj is Single) ||
-                            (cellvalueobj is Double))
+                        itemClass = Rows[rowno][indexItemClassColumn].ToString();
+                    }
+                    else
+                    {
+                        itemClass = "";
+                    }
+
+                    if (!itemClass.Equals("ST"))
+                    {
+                        for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                         {
-                            cellvalue = FwConvert.ToDecimal(cellvalueobj);
+                            cellvalueobj = Rows[rowno][indexSumColumns[sumcolno]];
+                            if ((cellvalueobj is Decimal) ||
+                                (cellvalueobj is Int16) ||
+                                (cellvalueobj is Int32) ||
+                                (cellvalueobj is Int64) ||
+                                (cellvalueobj is Single) ||
+                                (cellvalueobj is Double))
+                            {
+                                cellvalue = FwConvert.ToDecimal(cellvalueobj);
+                            }
+                            else if ((cellvalueobj is string) && (decimal.TryParse(cellvalueobj.ToString().Replace("%", string.Empty).Replace("(", "-").Replace(")", string.Empty), out cellvalue)))
+                            {
+                                // the TryParse already stored the value in cellvalue
+                            }
+                            else if (cellvalueobj == null)
+                            {
+                                cellvalue = 0;
+                            }
+                            else if ((cellvalueobj is String) && (cellvalueobj.ToString().TrimEnd() == string.Empty))
+                            {
+                                cellvalue = 0;
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid type: " + cellvalueobj.GetType().FullName + " for column: " + nameSumColumns[sumcolno] + " [index: " + sumcolno.ToString() + "] row: " + rowno.ToString());
+                            }
+                            totals[sumcolno] += cellvalue;
                         }
-                        else if ((cellvalueobj is string) && (decimal.TryParse(cellvalueobj.ToString().Replace("%", string.Empty).Replace("(", "-").Replace(")", string.Empty), out cellvalue)))
-                        {
-                            // the TryParse already stored the value in cellvalue
-                        }
-                        else if (cellvalueobj == null)
-                        {
-                            cellvalue = 0;
-                        }
-                        else if ((cellvalueobj is String) && (cellvalueobj.ToString().TrimEnd() == string.Empty))
-                        {
-                            cellvalue = 0;
-                        }
-                        else
-                        {
-                            throw new Exception("Invalid type: " + cellvalueobj.GetType().FullName + " for column: " + nameSumColumns[sumcolno] + " [index: " + sumcolno.ToString() + "] row: " + rowno.ToString());
-                        }
-                        totals[sumcolno] += cellvalue;
                     }
                 }
                 isLastRow = ((rowno + 1) == this.Rows.Count);
