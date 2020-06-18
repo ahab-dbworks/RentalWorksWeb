@@ -19,12 +19,14 @@ td.order-header {
     font-weight: 600;
     border-bottom: 1px solid black;
 }
+
 .top {
     vertical-align: top;
 }
 
-
-@page {
-    size: landscape;
-    margin: 10px 10px 35px 10px; // Adds margin on the pdf
+@media print {
+    @page {
+        margin: 20px 20px 40px 20px;
+        size: landscape;
+    }
 }
