@@ -213,44 +213,6 @@ class FwSettingsClass {
             }
             jQuery(this).focus();
         });
-
-        $control.on('click', '.appmenu', function (e) {
-            let searchInput = $control.find('#settingsSearch');
-            if (searchInput.val() !== '') {
-                let event = jQuery.Event('keypress');
-                event.which = 13;
-                searchInput.val('');
-                searchInput.trigger(event);
-            }
-        });
-
-        $control.on('click', '.btn-delete', function (e) {
-            let $form = jQuery(this).closest('.panel-record').find('.fwform');
-            let ids: any = {};
-            let $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Delete this record?');
-            let $yes = FwConfirmation.addButton($confirmation, 'Yes');
-            FwConfirmation.addButton($confirmation, 'No');
-            $yes.focus();
-            $yes.on('click', function () {
-                const controller = $form.data('controller');
-                ids = FwModule.getFormUniqueIds($form);
-                let request = {
-                    module: (<any>window[controller]).Module,
-                    ids: ids
-                };
-                try {
-                    FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $form, function (response) {
-                        $form = FwModule.getFormByUniqueIds(ids);
-                        if ((typeof $form != 'undefined') && ($form.length > 0)) {
-                            $form.closest('.panel-record').remove();
-                        }
-                        FwNotification.renderNotification('SUCCESS', 'Record deleted.');
-                    }, null);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-        });
     };
     //----------------------------------------------------------------------------------------------
     updateUserIdNavExpanded(module: string, isExpanded: boolean) {
@@ -1306,6 +1268,44 @@ class FwSettingsClass {
                             }
                         }
                     });
+
+                $control.on('click', '.appmenu', function (e) {
+                    let searchInput = $control.find('#settingsSearch');
+                    if (searchInput.val() !== '') {
+                        let event = jQuery.Event('keypress');
+                        event.which = 13;
+                        searchInput.val('');
+                        searchInput.trigger(event);
+                    }
+                });
+
+                $control.on('click', '.btn-delete', function (e) {
+                    let $form = jQuery(this).closest('.panel-record').find('.fwform');
+                    let ids: any = {};
+                    let $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Delete this record?');
+                    let $yes = FwConfirmation.addButton($confirmation, 'Yes');
+                    FwConfirmation.addButton($confirmation, 'No');
+                    $yes.focus();
+                    $yes.on('click', function () {
+                        const controller = $form.data('controller');
+                        ids = FwModule.getFormUniqueIds($form);
+                        let request = {
+                            module: (<any>window[controller]).Module,
+                            ids: ids
+                        };
+                        try {
+                            FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $form, function (response) {
+                                $form = FwModule.getFormByUniqueIds(ids);
+                                if ((typeof $form != 'undefined') && ($form.length > 0)) {
+                                    $form.closest('.panel-record').remove();
+                                }
+                                FwNotification.renderNotification('SUCCESS', 'Record deleted.');
+                            }, null);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                });
             }
         }
 
