@@ -2162,11 +2162,12 @@ class OrderBase {
         $form.find('.bottom_line_total_tax').on('change', event => {
             this.bottomLineTotalWithTaxChange($form, event);
         });
-        $form.find('.bottom_line_total_tax').on('keyup', event => {
-            if (event.which === 13) {
-                this.bottomLineTotalWithTaxChange($form, event);
-            }
-        });
+        //06/19/2020 - the buttom code causes a bug and allows the event to fire twice
+        //$form.find('.bottom_line_total_tax').on('keyup', event => {
+        //    if (event.which === 13) {
+        //        this.bottomLineTotalWithTaxChange($form, event);
+        //    }
+        //});
         // Bottom Line Discount
         $form.find('.bottom_line_discount').on('change', event => {
             this.bottomLineDiscountChange($form, event);
