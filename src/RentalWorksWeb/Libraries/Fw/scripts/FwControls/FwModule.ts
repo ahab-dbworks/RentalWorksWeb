@@ -433,11 +433,11 @@ class FwModule {
                                 gridSecurityId: 'xepjGBf0rdL',
                                 pageSize: 10,
                                 onDataBind: request => {
-                                    const apiurl = (<any>window[controller]).apiurl;
-                                    const sliceIndex = apiurl.lastIndexOf('/');
-                                    const moduleName = apiurl.slice(sliceIndex + 1);
-                                    request.uniqueids = {};
-                                    request.uniqueids.ModuleName = moduleName;
+                                    //const apiurl = (<any>window[controller]).apiurl;
+                                    //const sliceIndex = apiurl.lastIndexOf('/');                    // jason h - 06/19/20
+                                    //const moduleName = apiurl.slice(sliceIndex + 1);               // retrieving the module name from the controller instead of slicing up the apiurl
+                                    request.uniqueids = {};                                          // (for cases like the Asset module where the apiurl doesnt match the module name (Item instead of Asset))
+                                    request.uniqueids.ModuleName = moduleController.Module;  
                                     for (let i = 0; i < 2; i++) {
                                         let uniqueIdValue = jQuery($keys[i]).find('input').val();
                                         if (typeof uniqueIdValue !== 'undefined') {
