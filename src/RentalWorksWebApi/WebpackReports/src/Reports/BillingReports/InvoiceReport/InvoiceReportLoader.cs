@@ -727,6 +727,25 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "tax2name", modeltype: FwDataTypes.Text)]
         public string Tax2Name { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentaltaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string TaxRentalRate1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentaltaxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string TaxRentalRate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salestaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string TaxSalesRate1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salestaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string TaxSalesRate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labortaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string TaxLaborRate1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labortaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string TaxLaborRate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         //------------------------------------------------------------------------------------
