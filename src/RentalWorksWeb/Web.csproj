@@ -604,6 +604,7 @@
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferStatus\TransferStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Transfers\TransferIn\TransferIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\Container\Container.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\BlankHomePage\BlankHomePage.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\RateUpdateUtility\RateUpdateUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\ChangeOrderStatus\ChangeOrderStatus.ts" />
@@ -1067,6 +1068,7 @@
     <Content Include="Source\Modules\Settings\VendorSettings\VendorClass\VendorClassForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerSettings\CustomerType\CustomerTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\CustomerSettings\CustomerType\CustomerTypeForm.htm" />
+    <Content Include="Source\Modules\Utilities\BlankHomePage\BlankHomePageForm.htm" />
     <Content Include="Source\Modules\Utilities\RateUpdateUtility\RateUpdateUtilityForm.htm" />
     <Content Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtilityForm.htm" />
     <Content Include="Source\Modules\Utilities\RefreshGLHistory\RefreshGLHistoryForm.htm" />

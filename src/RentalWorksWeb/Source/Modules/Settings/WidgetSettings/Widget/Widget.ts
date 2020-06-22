@@ -1,3 +1,5 @@
+routes.push({ pattern: /^module\/widget$/, action: function (match: RegExpExecArray) { return WidgetController.getModuleScreen(); } });
+
 class Widget {
     Module: string = 'Widget';
     apiurl: string = 'api/v1/widget';
