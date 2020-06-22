@@ -324,7 +324,7 @@
     {{#if @first}}
     <tr><td>&nbsp;</td></tr><!-- spacer row -->
     <tr>
-      <td colspan="10" class="section-header">LABOR&nbsp;</td>
+      <td colspan="12" class="section-header">LABOR&nbsp;</td>
     </tr>
     {{/if}}
     <tbody>
@@ -350,10 +350,12 @@
         <td style="border-right:3px solid black;">Daily Rate</td>
         <td style="border-right:3px solid black;">Weekly Rate</td>
         <td style="border-right:3px solid black;">Monthly Rate</td>
+        <td style="border-right:3px solid black;">Price</td>
         <td style="border-right:3px solid black;">Hourly Cost</td>
         <td style="border-right:3px solid black;">Daily Cost</td>
         <td style="border-right:3px solid black;">Weekly Cost</td>
-        <td>Monthly Cost</td>
+        <td style="border-right:3px solid black;">Monthly Cost</td>
+        <td style="border-right:3px solid black;">Cost</td>
       </tr>
       <tr>
         <td class="row1">I-Code</td>
@@ -366,6 +368,8 @@
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
       </tr>
       <tr>
         <td class="row2"></td>
@@ -378,46 +382,56 @@
         <td class="row2 number">New</td>
         <td class="row2 number">New</td>
         <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
       </tr>
       {{/ifEquals}}
 
       {{#ifEquals RowType "detail"}}
-      <tr data-rowtype={{RowType}}>
-        <td class="nowrap">{{ICode}}</td>
-        <td data-value="{{Description}}"></td>
-        <td>
-          <div class="number" data-value="{{OldHourlyRate}}"></div>
-          <div class="number" data-value="{{NewHourlyRate}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldDailyRate}}"></div>
-          <div class="number" data-value="{{NewDailyRate}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldWeeklyRate}}"></div>
-          <div class="number" data-value="{{NewWeeklyRate}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldMonthlyRate}}"></div>
-          <div class="number" data-value="{{NewMonthlyRate}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldHourlyCost}}"></div>
-          <div class="number" data-value="{{NewHourlyCost}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldDailyCost}}"></div>
-          <div class="number" data-value="{{NewDailyCost}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldWeeklyCost}}"></div>
-          <div class="number" data-value="{{NewWeeklyCost}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldMonthlyCost}}"></div>
-          <div class="number" data-value="{{NewMonthlyCost}}"></div>
-        </td>
-      </tr>
+    <tr data-rowtype={{RowType}}>
+      <td class="nowrap">{{ICode}}</td>
+      <td data-value="{{Description}}"></td>
+      <td>
+        <div class="number" data-value="{{OldHourlyRate}}"></div>
+        <div class="number" data-value="{{NewHourlyRate}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldDailyRate}}"></div>
+        <div class="number" data-value="{{NewDailyRate}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldWeeklyRate}}"></div>
+        <div class="number" data-value="{{NewWeeklyRate}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldMonthlyRate}}"></div>
+        <div class="number" data-value="{{NewMonthlyRate}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldPrice}}"></div>
+        <div class="number" data-value="{{NewPrice}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldHourlyCost}}"></div>
+        <div class="number" data-value="{{NewHourlyCost}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldDailyCost}}"></div>
+        <div class="number" data-value="{{NewDailyCost}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldWeeklyCost}}"></div>
+        <div class="number" data-value="{{NewWeeklyCost}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldMonthlyCost}}"></div>
+        <div class="number" data-value="{{NewMonthlyCost}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldCost}}"></div>
+        <div class="number" data-value="{{NewCost}}"></div>
+      </td>
+    </tr>
       {{/ifEquals}}
     </tbody>
     {{/each}}
@@ -431,7 +445,7 @@
     {{#if @first}}
     <tr><td>&nbsp;</td></tr><!-- spacer row -->
     <tr>
-      <td colspan="10" class="section-header">MISCELLANEOUS&nbsp;</td>
+      <td colspan="12" class="section-header">MISCELLANEOUS&nbsp;</td>
     </tr>
     {{/if}}
     <tbody>
@@ -458,10 +472,12 @@
         <td style="border-right:3px solid black;">Daily Rate</td>
         <td style="border-right:3px solid black;">Weekly Rate</td>
         <td style="border-right:3px solid black;">Monthly Rate</td>
+        <td style="border-right:3px solid black;">Price</td>
         <td style="border-right:3px solid black;">Hourly Cost</td>
         <td style="border-right:3px solid black;">Daily Cost</td>
         <td style="border-right:3px solid black;">Weekly Cost</td>
-        <td>Monthly Cost</td>
+        <td style="border-right:3px solid black;">Monthly Cost</td>
+        <td style="border-right:3px solid black;">Cost</td>
       </tr>
       <tr>
         <td class="row1">I-Code</td>
@@ -474,6 +490,8 @@
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
         <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
+        <td class="row1 number">Current</td>
       </tr>
       <tr>
         <td class="row2"></td>
@@ -486,46 +504,56 @@
         <td class="row2 number">New</td>
         <td class="row2 number">New</td>
         <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
+        <td class="row2 number">New</td>
       </tr>
       {{/ifEquals}}
 
       {{#ifEquals RowType "detail"}}
-      <tr data-rowtype={{RowType}}>
-        <td class="nowrap">{{ICode}}</td>
-        <td data-value="{{Description}}"></td>
-        <td>
-          <div class="number" data-value="{{OldHourlyRate}}"></div>
-          <div class="number" data-value="{{NewHourlyRate}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldDailyRate}}"></div>
-          <div class="number" data-value="{{NewDailyRate}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldWeeklyRate}}"></div>
-          <div class="number" data-value="{{NewWeeklyRate}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldMonthlyRate}}"></div>
-          <div class="number" data-value="{{NewMonthlyRate}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldHourlyCost}}"></div>
-          <div class="number" data-value="{{NewHourlyCost}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldDailyCost}}"></div>
-          <div class="number" data-value="{{NewDailyCost}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldWeeklyCost}}"></div>
-          <div class="number" data-value="{{NewWeeklyCost}}"></div>
-        </td>
-        <td>
-          <div class="number" data-value="{{OldMonthlyCost}}"></div>
-          <div class="number" data-value="{{NewMonthlyCost}}"></div>
-        </td>
-      </tr>
+    <tr data-rowtype={{RowType}}>
+      <td class="nowrap">{{ICode}}</td>
+      <td data-value="{{Description}}"></td>
+      <td>
+        <div class="number" data-value="{{OldHourlyRate}}"></div>
+        <div class="number" data-value="{{NewHourlyRate}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldDailyRate}}"></div>
+        <div class="number" data-value="{{NewDailyRate}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldWeeklyRate}}"></div>
+        <div class="number" data-value="{{NewWeeklyRate}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldMonthlyRate}}"></div>
+        <div class="number" data-value="{{NewMonthlyRate}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldPrice}}"></div>
+        <div class="number" data-value="{{NewPrice}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldHourlyCost}}"></div>
+        <div class="number" data-value="{{NewHourlyCost}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldDailyCost}}"></div>
+        <div class="number" data-value="{{NewDailyCost}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldWeeklyCost}}"></div>
+        <div class="number" data-value="{{NewWeeklyCost}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldMonthlyCost}}"></div>
+        <div class="number" data-value="{{NewMonthlyCost}}"></div>
+      </td>
+      <td>
+        <div class="number" data-value="{{OldCost}}"></div>
+        <div class="number" data-value="{{NewCost}}"></div>
+      </td>
+    </tr>
       {{/ifEquals}}
     </tbody>
     {{/each}}

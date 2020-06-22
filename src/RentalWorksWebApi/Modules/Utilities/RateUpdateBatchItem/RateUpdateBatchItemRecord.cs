@@ -115,6 +115,12 @@ namespace WebApi.Modules.Utilities.RateUpdateBatchItem
         [FwSqlDataField(column: "oldprice", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         public decimal? OldPrice { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "newcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
+        public decimal? NewCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "oldcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
+        public decimal? OldCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "newdefaultcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         public decimal? NewDefaultCost { get; set; }
         //------------------------------------------------------------------------------------ 

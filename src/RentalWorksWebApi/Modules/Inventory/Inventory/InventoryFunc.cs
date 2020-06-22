@@ -133,6 +133,7 @@ namespace WebApi.Modules.Inventory.Inventory
             sb.Append("  (newreplacementcost   <> 0) or ");
             sb.Append("  (newretail            <> 0) or ");
             sb.Append("  (newprice             <> 0) or ");
+            sb.Append("  (newcost              <> 0) or ");
             sb.Append("  (newdefaultcost       <> 0) or ");
             sb.Append("  (newmaxdiscount       <> 0) or ");
             sb.Append("  (newmindw             <> 0)    ");
@@ -385,8 +386,8 @@ namespace WebApi.Modules.Inventory.Inventory
                             batchItem.NewMonthlyCost = i.NewMonthlyCost;
                             batchItem.OldMonthlyRate = i.MonthlyRate;
                             batchItem.NewMonthlyRate = i.NewMonthlyRate;
-                            //batchItem.OldCost = i.Cost;
-                            //batchItem.NewCost = i.NewCost;
+                            batchItem.OldCost = i.Cost;
+                            batchItem.NewCost = i.NewCost;
                             batchItem.OldDefaultCost = i.DefaultCost;
                             batchItem.NewDefaultCost = i.NewDefaultCost;
                             batchItem.OldPrice = i.Price;
@@ -424,7 +425,7 @@ namespace WebApi.Modules.Inventory.Inventory
                             iwNew.Week4Rate = i.NewWeek4Rate;
                             iwNew.MonthlyCost = i.NewMonthlyCost;
                             iwNew.MonthlyRate = i.NewMonthlyRate;
-                            //iwNew.Cost = i.NewCost;
+                            iwNew.AverageCost = i.NewCost;
                             iwNew.DefaultCost = i.NewDefaultCost;
                             iwNew.Price = i.NewPrice;
                             iwNew.Retail = i.NewRetail;
@@ -450,7 +451,7 @@ namespace WebApi.Modules.Inventory.Inventory
                             item.NewWeek4Rate = 0;
                             item.NewMonthlyCost = 0;
                             item.NewMonthlyRate = 0;
-                            //item.NewCost = 0;
+                            item.NewCost = 0;
                             item.NewDefaultCost = 0;
                             item.NewPrice = 0;
                             item.NewRetail = 0;

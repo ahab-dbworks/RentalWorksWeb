@@ -58,6 +58,10 @@ namespace WebApi.Modules.Utilities.RateUpdateBatchItem
         public decimal? OldDefaultCost { get { return rateUpdateBatchItem.OldDefaultCost; } set { rateUpdateBatchItem.OldDefaultCost = value; } }
         [FwLogicProperty(Id: "Pa2VXhhGsIZOU")]
         public decimal? NewDefaultCost { get { return rateUpdateBatchItem.NewDefaultCost; } set { rateUpdateBatchItem.NewDefaultCost = value; } }
+        [FwLogicProperty(Id: "FWzXfuKj2KdLw")]
+        public decimal? OldCost { get { return rateUpdateBatchItem.OldCost; } set { rateUpdateBatchItem.OldCost = value; } }
+        [FwLogicProperty(Id: "N2nOMxIK6LqwK")]
+        public decimal? NewCost { get { return rateUpdateBatchItem.NewCost; } set { rateUpdateBatchItem.NewCost = value; } }
         [FwLogicProperty(Id: "pA7oetArOuTTs")]
         public decimal? OldPrice { get { return rateUpdateBatchItem.OldPrice; } set { rateUpdateBatchItem.OldPrice = value; } }
         [FwLogicProperty(Id: "pAEJO8DrzwKAb")]

@@ -86,12 +86,12 @@ namespace WebApi.Modules.Reports.RateUpdateReport
         [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
         public string PartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Cost { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "newcost", modeltype: FwDataTypes.Decimal)]
-        //public decimal? NewCost { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "oldcost", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string OldCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "newcost", modeltype: FwDataTypes.DecimalString3Digits)]
+        public string NewCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "olddefaultcost", modeltype: FwDataTypes.DecimalString3Digits)]
         public string OldDefaultCost { get; set; }
         //------------------------------------------------------------------------------------ 

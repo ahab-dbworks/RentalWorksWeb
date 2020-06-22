@@ -130,7 +130,7 @@ class RateUpdateUtility {
     toggleAvailableFor($form: JQuery) {
         const rentalColumns: Array<string> = ['Manufacturer', 'PartNumber', 'Rank', 'DailyRate', 'WeeklyRate', 'Week2Rate', 'Week3Rate', 'Week4Rate', 'MonthlyRate', 'MaxDiscount', 'MinDaysPerWeek', 'ReplacementCost', 'UnitValue'];
         const salesColumns: Array<string> = ['Manufacturer', 'PartNumber', 'Rank', 'Retail', 'Price', 'DefaultCost', 'MaxDiscount'];
-        const laborColumns: Array<string> = ['HourlyRate', 'DailyRate', 'WeeklyRate', 'MonthlyRate', 'HourlyCost', 'DailyCost', 'WeeklyCost', 'MonthlyCost'];
+        const laborColumns: Array<string> = ['HourlyRate', 'DailyRate', 'WeeklyRate', 'MonthlyRate', 'Price', 'HourlyCost', 'DailyCost', 'WeeklyCost', 'MonthlyCost', 'Cost'];
         const threeWeekPricingColumns: Array<string> = ['Week2Rate', 'Week3Rate', 'Week4Rate'];
         const activityType = FwFormField.getValueByDataField($form, 'AvailableFor');
         const $rateUpdateItemGrid = $form.find('[data-name="RateUpdateItemGrid"]');
