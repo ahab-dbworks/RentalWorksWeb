@@ -49,6 +49,8 @@ namespace WebApi.Modules.Billing.Billing
         public string OrderTypeId { get; set; }
         [FwLogicProperty(Id: "6mpKOQYI3znF", IsReadOnly: true)]
         public string OrderTypeType { get; set; }
+        [FwLogicProperty(Id: "tFq5aTmXLhpF0", IsReadOnly: true)]
+        public string OrderType { get; set; }
         [FwLogicProperty(Id: "SWMTTQP4LiUS", IsReadOnly: true)]
         public string BillingCycleId { get; set; }
         [FwLogicProperty(Id: "mEdqS0VBF562", IsReadOnly: true)]

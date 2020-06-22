@@ -67,6 +67,9 @@ namespace WebApi.Modules.Billing.Billing
         [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
         public string OrderTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
+        public string OrderType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordtype", modeltype: FwDataTypes.Text)]
         public string OrderTypeType { get; set; }
         //------------------------------------------------------------------------------------ 
