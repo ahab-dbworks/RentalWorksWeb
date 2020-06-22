@@ -1198,7 +1198,10 @@ class PurchaseOrder implements IModule {
                 }
                 request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
                 request.CompanyId = companyId;
-            }
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.find('div[data-datafield="IsOrderedBy"]').attr('data-caption', 'Ordered From');
+            },
         });
         // ----------
         FwBrowse.renderGrid({
@@ -2583,7 +2586,7 @@ class PurchaseOrder implements IModule {
         const $orderStatusForm = PurchaseOrderStatusController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $orderStatusForm);
         const $tab = FwTabs.getTabByElement($orderStatusForm);
-       $tab.find('.caption').html('Purchase Order Status');
+        $tab.find('.caption').html('Purchase Order Status');
     }
     //----------------------------------------------------------------------------------------------	
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
