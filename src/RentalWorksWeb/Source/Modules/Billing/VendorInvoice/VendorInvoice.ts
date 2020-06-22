@@ -403,18 +403,24 @@ class VendorInvoice {
             for (let i = 0; i < $fields.length; i++) {
                 const $field = jQuery($fields[i]);
                 const taxType = $field.attr('data-taxtype');
-                const taxRateName = taxType + 'TaxRate' + count;
-                const taxRatePercentage = response[taxRateName];
-                const caption = taxName + ` (${taxRatePercentage.toFixed(3) + '%'})`;
-                $field.find('.fwformfield-caption').text(caption);
+                if (typeof taxType != 'undefined') {
+                    const taxRateName = taxType + 'TaxRate' + count;
+                    const taxRatePercentage = response[taxRateName];
+                    if (typeof taxRatePercentage == 'number') {
+                        const caption = taxName + ` (${taxRatePercentage.toFixed(3) + '%'})`;
+                        $field.find('.fwformfield-caption').text(caption);
+                    }
+                }
             }
 
             const $billingTabTaxFields = $form.find(`[data-datafield="RentalTaxRate${count}"], [data-datafield="SalesTaxRate${count}"], [data-datafield="LaborTaxRate${count}"]`);
             for (let i = 0; i < $billingTabTaxFields.length; i++) {
                 const $field = jQuery($billingTabTaxFields[i]);
                 const taxType = $field.attr('data-taxtype');
-                const newCaption = taxType + ' ' + taxName;
-                $field.find('.fwformfield-caption').text(newCaption);
+                if (typeof taxType != 'undefined') {
+                    const newCaption = taxType + ' ' + taxName;
+                    $field.find('.fwformfield-caption').text(newCaption);
+                }
                 $field.show();
             }
         }
