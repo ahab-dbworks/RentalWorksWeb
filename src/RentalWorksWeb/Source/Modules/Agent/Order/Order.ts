@@ -1727,7 +1727,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Center column -->
-                  <div class="flexcolumn" style="flex:0 1 345px;">
+                  <div class="flexcolumn" style="flex:0 1 413px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Issued To">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Issue To" data-datafield="PrintIssuedToAddressFrom"></div>
@@ -1757,7 +1757,7 @@ class Order extends OrderBase {
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Options">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Check-Out items without increasing Order qty" data-datafield="RoundTripRentals"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Check-Out items again without increasing Order quantity" data-datafield="RoundTripRentals"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Require Contact Confirmation" data-datafield="RequireContactConfirmation" style="flex:1 1 125px;"></div>
