@@ -51,6 +51,9 @@ namespace WebApi.Modules.HomeControls.CompanyTaxOption
         [FwLogicProperty(Id:"sKP7i7P6qFr7", IsReadOnly:true)]
         public bool? RentalExempt { get; set; }
 
+        [FwLogicProperty(Id: "EGi468fgmzJ6M", IsReadOnly: true)]
+        public string RentalTaxDisplay { get; set; }
+
         [FwLogicProperty(Id:"eKeiHJSzgrrg", IsReadOnly:true)]
         public decimal? SalesTaxRate1 { get; set; }
 
@@ -60,6 +63,9 @@ namespace WebApi.Modules.HomeControls.CompanyTaxOption
         [FwLogicProperty(Id:"r1w9NybUhGO8", IsReadOnly:true)]
         public bool? SalesExempt { get; set; }
 
+        [FwLogicProperty(Id: "UDhzbPEDBv0vC", IsReadOnly: true)]
+        public string SalesTaxDisplay { get; set; }
+
         [FwLogicProperty(Id:"LFjmIzmsjAQ0", IsReadOnly:true)]
         public decimal? LaborTaxRate1 { get; set; }
 
@@ -68,6 +74,9 @@ namespace WebApi.Modules.HomeControls.CompanyTaxOption
 
         [FwLogicProperty(Id:"EffEZhvjbY9O", IsReadOnly:true)]
         public bool? LaborExempt { get; set; }
+
+        [FwLogicProperty(Id: "FqwhcdBcv6A60", IsReadOnly: true)]
+        public string LaborTaxDisplay { get; set; }
 
         [FwLogicProperty(Id:"FsMCJPisgLs")]
         public string DateStamp { get { return dealLocation.DateStamp; } set { dealLocation.DateStamp = value; } }

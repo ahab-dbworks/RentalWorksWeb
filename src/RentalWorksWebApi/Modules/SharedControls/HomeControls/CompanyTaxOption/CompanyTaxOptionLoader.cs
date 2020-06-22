@@ -47,6 +47,9 @@ namespace WebApi.Modules.HomeControls.CompanyTaxOption
         [FwSqlDataField(column: "donottaxrental", modeltype: FwDataTypes.Boolean)]
         public bool? RentalExempt { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentaltaxdisplay", modeltype: FwDataTypes.Text)]
+        public string RentalTaxDisplay { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salestaxrate1", modeltype: FwDataTypes.Decimal)]
         public decimal? SalesTaxRate1 { get; set; }
         //------------------------------------------------------------------------------------
@@ -56,6 +59,9 @@ namespace WebApi.Modules.HomeControls.CompanyTaxOption
         [FwSqlDataField(column: "donottaxsales", modeltype: FwDataTypes.Boolean)]
         public bool? SalesExempt { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salestaxdisplay", modeltype: FwDataTypes.Text)]
+        public string SalesTaxDisplay { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "labortaxrate1", modeltype: FwDataTypes.Decimal)]
         public decimal? LaborTaxRate1 { get; set; }
         //------------------------------------------------------------------------------------
@@ -64,6 +70,9 @@ namespace WebApi.Modules.HomeControls.CompanyTaxOption
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "donottaxlabor", modeltype: FwDataTypes.Boolean)]
         public bool? LaborExempt { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "labortaxdisplay", modeltype: FwDataTypes.Text)]
+        public string LaborTaxDisplay { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

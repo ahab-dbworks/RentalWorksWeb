@@ -51,6 +51,9 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         [FwLogicProperty(Id:"dBGD91qvsA0J")]
         public bool? RentalExempt { get { return taxOption.RentalExempt; } set { taxOption.RentalExempt = value; } }
 
+        [FwLogicProperty(Id: "mGB3h2jVz1Fxf", IsReadOnly: true)]
+        public string RentalTaxDisplay { get; set; }
+
         [FwLogicProperty(Id:"EjkJyV94zLpQ")]
         public decimal? SalesTaxRate1 { get { return taxOption.SalesTaxRate1; } set { taxOption.SalesTaxRate1 = value; } }
 
@@ -60,6 +63,9 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         [FwLogicProperty(Id:"hFNqXVmKoUWv")]
         public bool? SalesExempt { get { return taxOption.SalesExempt; } set { taxOption.SalesExempt = value; } }
 
+        [FwLogicProperty(Id: "yWWTlurMzdj3P", IsReadOnly: true)]
+        public string SalesTaxDisplay { get; set; }
+
         [FwLogicProperty(Id:"UIzUjlNa4aTS")]
         public decimal? LaborTaxRate1 { get { return taxOption.LaborTaxRate1; } set { taxOption.LaborTaxRate1 = value; } }
 
@@ -68,6 +74,9 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
 
         [FwLogicProperty(Id:"SPHvVmh9crXo")]
         public bool? LaborExempt { get { return taxOption.LaborExempt; } set { taxOption.LaborExempt = value; } }
+
+        [FwLogicProperty(Id: "Hi26T3WpQ6fIz", IsReadOnly: true)]
+        public string LaborTaxDisplay { get; set; }
 
         [FwLogicProperty(Id:"S4ZjoYCpTrZa")]
         public bool? TaxOnTax { get { return taxOption.TaxOnTax; } set { taxOption.TaxOnTax = value; } }
