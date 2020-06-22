@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 
 //dummy-security-controller 
-namespace WebApi.Modules.Utilities.QuikSearch
+namespace WebApi.Modules.Inventory.QuikSearch
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
