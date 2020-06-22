@@ -366,9 +366,9 @@ class OrderItemGrid {
                 let peekForm;
                 switch (recType) {
                     case 'R':
+                    case 'RS':
                         peekForm = 'RentalInventory';
                         break;
-                    case 'RS':
                     case 'S':
                         peekForm = 'SalesInventory';
                         break;
