@@ -16,78 +16,39 @@
 /***************************
 Master
 ***************************/
-#master { /*min-width:1183px;*/
-}
 
-#master-header .usercontrol #logoff {
-    cursor: pointer;
-}
+#fw-app-header .app-title .bgothm {cursor:pointer;}
+#fw-app-header .app-usercontrols.nondefaultlocation {background-color:#fff59d;}
+#fw-app-header .app-usercontrols .officelocation {padding: 0 10px;display: flex;align-items: center;cursor: pointer;}
+#fw-app-header .app-usercontrols .officelocation .locationcolor {width: 1em;height: 1em;margin: auto 4px auto 0;}
 
-#master-header #officelocation {
-    cursor: pointer;
-    position: relative;
-}
-
-#master-header #officelocation .caption {
-    display: inline-block;
-}
-
-#master-header #officelocation .value {
-    display: inline-block;
-    margin-left: 2px;
-}
-
-#master-header .user-controls .officelocation {
-    padding: 0 10px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-#master-header .user-controls .officelocation .locationcolor {
-    width: 1em;
-    height: 1em;
-    margin: auto 4px auto 0;
-}
-
-#master-header .user-controls .officelocation .value {
-}
-
-#master-header .user-controls .dashboard {
-    cursor: pointer;
-    padding: 0 .3em;
-}
-
-#master-body { /*padding:10px;*/
-}
-
-#master-body .programlogo {
+#fw-app-body .programlogo {
     flex-wrap: wrap;
     width: 99%;
 }
 
-#master-body .programlogo .chart-container {
+#fw-app-body .programlogo .chart-container {
     display: flex;
     float: left;
     position: relative;
 }
 
-#master-body .programlogo .chart-container .fwoverlay {
+#fw-app-body .programlogo .chart-container .fwoverlay {
     z-index: 1;
     position:absolute;
 }
 
-#master-body .programlogo .chart-container .officebar {
+#fw-app-body .programlogo .chart-container .officebar {
     display: block;
     position: absolute;
     right: 2%;
 }
 
-#master-body .programlogo .chart-container:hover .toolbar {
+#fw-app-body .programlogo .chart-container:hover .toolbar {
     display: block;
 }
 
-#master-body .programlogo .chart-container .toolbar {
+#fw-app-body .programlogo .chart-container .toolbar {
     display: none;
     position: absolute;
     top: 5%;
@@ -103,11 +64,6 @@ Master
 
 #master-footer #dbworkslink {
     cursor: pointer;
-}
-
-.homepage .programlogo {
-    text-align: center;
-    width: 100%;
 }
 
 .fwconfirmation .chart-container .fullscreenofficebar {

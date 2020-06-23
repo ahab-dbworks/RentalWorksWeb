@@ -34,7 +34,7 @@ class RwHome {
 
                 window.firstLoadCompleted = true;
 
-                this.addDuplicateCustomFormAlerts(jQuery('#master-header'));
+                this.addDuplicateCustomFormAlerts(jQuery('#fw-app-header'));
             }
 
             const redirectPath = sessionStorage.getItem('redirectPath');

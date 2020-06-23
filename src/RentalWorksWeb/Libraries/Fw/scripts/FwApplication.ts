@@ -413,12 +413,12 @@ class FwApplication {
             this.screens[0] = screen;
 
             var $applicationContainer = jQuery('#application');
-            if ((jQuery('#master').length == 0) && FwAppData.verifyHasAuthToken()) {
+            if ((jQuery('#fw-app').length == 0) && FwAppData.verifyHasAuthToken()) {
                 $applicationContainer.empty().append(masterController.getMasterView()).removeClass('hidden');
             }
 
-            if (jQuery('#master').length > 0) {
-                $appendToContainer = jQuery('#master-body');
+            if (jQuery('#fw-app').length > 0) {
+                $appendToContainer = jQuery('#fw-app-body');
             } else {
                 $appendToContainer = $applicationContainer;
             }
@@ -524,7 +524,7 @@ window.onhashchange = function () {
 window.addEventListener("error", e => {
     // if logged in on the desktop, but the master section doesn't come up, need to logout to clear the error
     // this can avoid the user getting a blank white screen under certain error conditions
-    if (jQuery('#master').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {
+    if (jQuery('#fw-app').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {
         sessionStorage.clear();
         window.location.reload(true);
     } else {
@@ -536,7 +536,7 @@ window.addEventListener("error", e => {
 window.addEventListener("unhandledrejection", e => {
     // if logged in on the desktop, but the master section doesn't come up, need to logout to clear the error
     // this can avoid the user getting a blank white screen under certain error conditions
-    if (jQuery('#master').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {
+    if (jQuery('#fw-app').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {
         sessionStorage.clear();
         window.location.reload(true);
     } else {
