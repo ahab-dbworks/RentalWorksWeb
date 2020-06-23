@@ -67,7 +67,7 @@ class CompleteQc {
                 ItemQcId: this.itemQcId,
                 ConditionId: FwFormField.getValue2($form.find('div[data-datafield="Condition"]')),
                 Note: FwFormField.getValue2($form.find('div[data-datafield="Note"]')),
-                CurrentFootCandles: FwFormField.getValueByDataField($form, 'CurrentFootCandles'),
+                CurrentFootCandles: +FwFormField.getValueByDataField($form, 'CurrentFootCandles'),
                 SoftwareEffectiveDate: FwFormField.getValueByDataField($form, 'SoftwareEffectiveDate'),
                 CurrentSoftwareVersion: FwFormField.getValueByDataField($form, 'CurrentSoftwareVersion'),
             }
