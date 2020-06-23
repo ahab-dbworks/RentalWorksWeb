@@ -21,7 +21,7 @@ namespace WebApi.Modules.Inventory.CompleteQc
         public string ItemId { get; set; }
         public string ItemQcId { get; set; }
         public string ConditionId { get; set; }
-        public int CurrentFootCandles { get; set; }
+        public string CurrentFootCandles { get; set; }
         public string CurrentSoftwareVersion { get; set; }
         public string SoftwareEffectiveDate { get; set; }
         public string Note { get; set; }
