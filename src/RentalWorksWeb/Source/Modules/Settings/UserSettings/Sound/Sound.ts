@@ -68,11 +68,11 @@ class Sound {
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         // Sound Preview
-        $form.find('.sound-play-button').on('click', e => {
-            const soundFileName = FwFormField.getValueByDataField($form, 'FileName');
-            const sound = new Audio(soundFileName);
-            sound.play();
-        });
+        //$form.find('.sound-play-button').on('click', e => {
+        //    const soundFileName = FwFormField.getValueByDataField($form, 'FileName');
+        //    const sound = new Audio(soundFileName);
+        //    sound.play();
+        //});
 
         $form.find('#soundInput').on('change', e => {
             // if NEW vs EDIT
@@ -89,24 +89,17 @@ class Sound {
                         audioElement.load();
                         FwFormField.setValueByDataField($form, 'FileName', url);
 
-                        const formData = new FormData();
-                        formData.append('fname', 'blob');
-                        formData.append('data', file);
-
-
                         const reader = new FileReader();
                         reader.readAsDataURL(file);
                         reader.onloadend = () => {
                             const base64data = reader.result;
-                            //console.log('base64data', base64data);
-                            FwFormField.setValueByDataField($form, 'Blob', base64data.toString());
-                            // this works and is saving to db. next steps:
-                           // parse file from db when loads and assign to $form
-                            // blob url so that can be played
-                            // figure out how to stream files when played elsewhere i.e fwfunc.playerrorSound() etc
-                            // deal w/ existing system sounds
-                            // disable add new for system sounds
-                            // trigger save ability for altering existing sound
+                            FwFormField.setValueByDataField($form, 'Base64Sound', base64data.toString()); //possible need of replacing audio tags in the str like done in b64toBlob
+                            $form.find('div[data-datafield="Base64Sound"]').change();
+
+                            // next steps:
+
+                            // figure out how to stream files when played elsewhere i.e fwfunc.playerrorSound() etc this method currently requires a filename
+                            // limit size and length of new sounds
                         }
                     } else {
                         $form.find('#soundInput').val('');
@@ -118,15 +111,43 @@ class Sound {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        if ($form.find('div[data-datafield="SystemSound"]').attr('data-originalvalue') === "true") {
+        if (FwFormField.getValueByDataField($form, 'SystemSound') === true) {
             FwFormField.disable($form.find('div[data-datafield="Sound"]'));
-            FwFormField.disable($form.find('div[data-datafield="FileName"]'));
+            $form.find('div.btn-row').hide();
+            // load audio element with file url from local
+            const fileName = FwFormField.getValueByDataField($form, 'FileName');
+            $form.find('#soundSrc').attr("src", fileName);
+            const audioElement: any = document.getElementById('audio');
+            audioElement.load();
+        } else {
+            // getting base64data from page load and loading a blob on the page
+            const base64Sound = FwFormField.getValueByDataField($form, 'Base64Sound');
+            const blob = this.b64toBlob(base64Sound);
+            const blobUrl = URL.createObjectURL(blob);
+            $form.find('#soundSrc').attr("src", blobUrl);
+            const audioElement: any = document.getElementById('audio');
+            audioElement.load();
         }
-        //const blob = FwFormField.getValueByDataField($form, 'File');
-        //const blob2 = new Blob([JSON.stringify(blob)]);
-        //const url = URL.createObjectURL(blob2);
-        //FwFormField.setValueByDataField($form, 'FileName', url);
+    }
+    //----------------------------------------------------------------------------------------------
+    b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+        const byteCharacters = atob(b64Data.replace(/^data:audio\/(wav|mp3|ogg);base64,/, ''));
+        const byteArrays = [];
 
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, { type: contentType });
+        return blob;
     }
 }
 
