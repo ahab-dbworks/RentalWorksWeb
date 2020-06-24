@@ -146,6 +146,8 @@ class User {
         if (mode === 'NEW') {
             FwFormField.setValue2($browsedefaultrows, '25', '25');
             FwFormField.setValue2($defaultHomePage, 'UdmOOUGqu0lKd', 'Dashboard');
+            const dataNav = $defaultHomePage.find(':selected').attr('data-nav');
+            FwFormField.setValueByDataField($form, 'HomeMenuPath', dataNav);
         }
 
         this.events($form);
