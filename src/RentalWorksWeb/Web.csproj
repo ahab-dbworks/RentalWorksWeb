@@ -553,6 +553,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustment.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\RetiredHistory\RetiredHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ManifestReport\ManifestReportController.ts" />
@@ -735,6 +736,8 @@
     <Content Include="Source\Modules\Agent\Order\Order.css" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetBrowse.htm" />
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetForm.htm" />
+    <Content Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustmentBrowse.htm" />
+    <Content Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustmentForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettingsForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\GlAccount\GlAccountBrowse.htm" />
@@ -1101,6 +1104,7 @@
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
     <Content Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\InventoryAdjustmentReasonValidation\InventoryAdjustmentReasonValidationBrowse.htm" />
     <Content Include="Source\Validations\OrderStatusValidation\OrderStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\PresentationLayerValidation\PresentationLayerValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomerCreditValidation\CustomerCreditValidationBrowse.htm" />

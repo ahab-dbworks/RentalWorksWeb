@@ -857,6 +857,46 @@ class SalesInventory extends InventoryBase {
                 break;
         };
     };
+    //----------------------------------------------------------------------------------------------
+    events($form) {
+        super.events($form);
+        //populate inventory adjustment form fields
+        $form.on('click', '[data-name="InventoryAdjustment"] [data-type="NewMenuBarButton"]', e => {
+            const iCode = FwFormField.getValueByDataField($form, 'ICode');
+            const description = FwFormField.getValueByDataField($form, 'Description');
+            const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+            const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            const $tab = FwTabs.getTabByElement($form);
+            const subTabIds = $tab.data('subtabids');
+            const subTabLength = subTabIds.length;
+            if (subTabLength > 0) {
+                try {
+                    FwAppData.apiMethod(true, 'GET', `api/v1/inventorywarehouse/${inventoryId}~${warehouseId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        const subTabId = subTabIds[subTabLength - 1];
+                        const $subTab = jQuery(`#${subTabId}`);
+                        const $subTabPage = FwTabs.getTabPageByTab($subTab);
+                        const today = FwFunc.getDate();
+                        const time = FwFunc.getTime(false);
+                        const userId = JSON.parse(sessionStorage.getItem('userid'));
+                        FwFormField.setValueByDataField($subTabPage, 'AdjustmentDate', today);
+                        FwFormField.setValueByDataField($subTabPage, 'AdjustmentTime', time);
+                        FwFormField.setValueByDataField($subTabPage, 'ModifiedByUserId', userId.usersid, userId.name);
+                        FwFormField.setValueByDataField($subTabPage, 'InventoryId', inventoryId, iCode);
+                        FwFormField.setValueByDataField($subTabPage, 'Description', description);
+                        FwFormField.setValueByDataField($subTabPage, 'OldUnitCost', response.AverageCost);
+                        FwFormField.setValueByDataField($subTabPage, 'OldQuantity', response.Qty);
+                        FwFormField.setValueByDataField($subTabPage, 'UnitCost', response.AverageCost);
+                        FwFormField.setValueByDataField($subTabPage, 'WarehouseId', warehouseId);
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $form)
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
 };
 //----------------------------------------------------------------------------------------------
 var SalesInventoryController = new SalesInventory();

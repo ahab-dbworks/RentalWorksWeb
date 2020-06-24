@@ -1,5 +1,8 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+using WebApi.Modules.Inventory.SalesInventory;
+
 namespace WebApi.Modules.Inventory.InventoryAdjustment
 {
     [FwLogic(Id: "s6S5lvMtCCZeq")]
@@ -16,8 +19,6 @@ namespace WebApi.Modules.Inventory.InventoryAdjustment
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(IsPrimaryKey: true, Id: "SestxkqyhQbGq")]
         public string InventoryAdjustmentId { get { return inventoryAdjustment.InventoryAdjustmentId; } set { inventoryAdjustment.InventoryAdjustmentId = value; } }
-        [FwLogicProperty(Id: "S82TveGQaP2I1")]
-        public string AdjustmentDate { get { return inventoryAdjustment.AdjustmentDate; } set { inventoryAdjustment.AdjustmentDate = value; } }
         [FwLogicProperty(Id: "S8QpLvyjHlCmu", IsReadOnly: true)]
         public string Warehouse { get; set; }
         [FwLogicProperty(Id: "S8Z3pdC0B0R5a", IsReadOnly: true)]
@@ -48,7 +49,9 @@ namespace WebApi.Modules.Inventory.InventoryAdjustment
         public string WarehouseId { get { return inventoryAdjustment.WarehouseId; } set { inventoryAdjustment.WarehouseId = value; } }
         [FwLogicProperty(Id: "SeThG6DXQ8tMY")]
         public string PhysicalInventoryId { get { return inventoryAdjustment.PhysicalInventoryId; } set { inventoryAdjustment.PhysicalInventoryId = value; } }
-        [FwLogicProperty(Id: "SEyqtxtuH9KKd")]
+        [FwLogicProperty(Id: "S82TveGQaP2I1", IsRecordTitle: true)]
+        public string AdjustmentDate { get { return inventoryAdjustment.AdjustmentDate; } set { inventoryAdjustment.AdjustmentDate = value; } }
+        [FwLogicProperty(Id: "SEyqtxtuH9KKd", IsRecordTitle: true)]
         public string Reference { get { return inventoryAdjustment.Reference; } set { inventoryAdjustment.Reference = value; } }
         [FwLogicProperty(Id: "seyZ0nZJyxntJ")]
         public string AdjustmentType { get { return inventoryAdjustment.AdjustmentType; } set { inventoryAdjustment.AdjustmentType = value; } }
@@ -60,6 +63,8 @@ namespace WebApi.Modules.Inventory.InventoryAdjustment
         public decimal? AverageCostAdjustment { get { return inventoryAdjustment.AverageCostAdjustment; } set { inventoryAdjustment.AverageCostAdjustment = value; } }
         [FwLogicProperty(Id: "SgStOxDsPn7tf")]
         public string ModifiedByUserId { get { return inventoryAdjustment.ModifiedByUserId; } set { inventoryAdjustment.ModifiedByUserId = value; } }
+        [FwLogicProperty(Id: "n2g5w15AZyIF", IsReadOnly: true)]
+        public string ModifiedByUserName { get; set; }
         [FwLogicProperty(Id: "SgV4KWGVvojxx")]
         public string Notes { get { return inventoryAdjustment.Notes; } set { inventoryAdjustment.Notes = value; } }
         [FwLogicProperty(Id: "Shk6ydT1e1I1E")]
@@ -69,12 +74,29 @@ namespace WebApi.Modules.Inventory.InventoryAdjustment
         [FwLogicProperty(Id: "Shwt9xjiT5atV")]
         public string DateStamp { get { return inventoryAdjustment.DateStamp; } set { inventoryAdjustment.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
+        { 
+            bool isValid = true;
+
+            SalesInventoryLogic l = new SalesInventoryLogic();
+            l.SetDependencies(AppConfig, UserSession);
+            l.InventoryId = InventoryId;
+            if (l.LoadAsync<SalesInventoryLogic>().Result)
+            {
+                if (!l.TrackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_QUANTITY))
+                {
+                    isValid = false;
+                    validateMsg = "Adjustments can only be made to Inventory that is tracked by Quantity.";
+                }
+            }
+            else
+            {
+                isValid = false;
+                validateMsg = "Invalid InventoryId";
+            }
+
+            return isValid; 
+        } 
         //------------------------------------------------------------------------------------ 
     }
 }

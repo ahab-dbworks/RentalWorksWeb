@@ -78,6 +78,9 @@ namespace WebApi.Modules.Inventory.InventoryAdjustment
         [FwSqlDataField(column: "moduserid", modeltype: FwDataTypes.Text)]
         public string ModifiedByUserId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "modusername", modeltype: FwDataTypes.Text)]
+        public string ModifiedByUserName { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }
         //------------------------------------------------------------------------------------ 

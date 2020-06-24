@@ -58,6 +58,9 @@ namespace WebApi.Modules.Inventory.InventoryAdjustment
         }
         //------------------------------------------------------------------------------------ 
         //// PUT api/v1/inventoryadjustment/A0000001 
+        //
+        // editing is prohibited
+        //
         //[HttpPut("{id}")]
         //[FwControllerMethod(Id: "S5KyNp2DGXLnE", ActionType: FwControllerActionTypes.Edit)]
         //public async Task<ActionResult<InventoryAdjustmentLogic>> EditAsync([FromRoute] string id, [FromBody]InventoryAdjustmentLogic l)
@@ -66,6 +69,9 @@ namespace WebApi.Modules.Inventory.InventoryAdjustment
         //}
         ////------------------------------------------------------------------------------------ 
         //// DELETE api/v1/inventoryadjustment/A0000001 
+        //
+        // deleting is prohibited
+        //
         //[HttpDelete("{id}")]
         //[FwControllerMethod(Id: "S63wfHZRyIV6C", ActionType: FwControllerActionTypes.Delete)]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)

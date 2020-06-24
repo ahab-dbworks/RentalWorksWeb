@@ -1254,14 +1254,11 @@ abstract class InventoryBase {
                             }
                             break;
                         case 'Order':
+                        case 'InventoryAdjustment':
                         case 'Invoice':
                         case 'TransferOrder':
                         case 'PurchaseOrder':
                         case 'PurchaseHistory':
-                            $browseControl = this.openSubModuleBrowse($form, submoduleName);
-                            $tabpage.append($browseControl);
-                            FwBrowse.search($browseControl);
-                            break;
                         case 'RetiredHistory':
                             $browseControl = this.openSubModuleBrowse($form, submoduleName);
                             $tabpage.append($browseControl);
