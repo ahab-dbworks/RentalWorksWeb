@@ -32,6 +32,7 @@ namespace WebApi.Modules.Inventory.Asset
             itemStatus.AssignPrimaryKeys += ItemStatusAssignPrimaryKeys;
 
             UseTransactionToSave = true;
+            ForceSave = true;
         }
 
         [JsonIgnore]
@@ -187,7 +188,8 @@ namespace WebApi.Modules.Inventory.Asset
         public string BuildingRoom { get; set; }
 
         [FwLogicProperty(Id: "KuffVP7JGBWn")]
-        public string ItemNotes { get { return item.ItemNotes; } set { item.ItemNotes = value; } }
+        //public string ItemNotes { get { return item.ItemNotes; } set { item.ItemNotes = value; } }
+        public string ItemNotes { get; set; }
 
         [FwLogicProperty(Id: "vJkjhjNt3T1h")]
         public string PhysicalId { get { return item.PhysicalId; } set { item.PhysicalId = value; } }

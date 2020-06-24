@@ -46,9 +46,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "itemdesc", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string ItemDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalitemnotes", modeltype: FwDataTypes.Text, sqltype: "varchar")]
-        public string ItemNotes { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "rentalitemnotes", modeltype: FwDataTypes.Text, sqltype: "varchar")]
+        //public string ItemNotes { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vehicleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string VehicleId { get; set; }
         //------------------------------------------------------------------------------------ 
