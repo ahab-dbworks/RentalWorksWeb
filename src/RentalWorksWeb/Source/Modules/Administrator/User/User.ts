@@ -145,6 +145,7 @@ class User {
 
         if (mode === 'NEW') {
             FwFormField.setValue2($browsedefaultrows, '25', '25');
+            FwFormField.setValue2($defaultHomePage, 'UdmOOUGqu0lKd', 'Dashboard');
         }
 
         this.events($form);
@@ -198,6 +199,22 @@ class User {
         const userid = JSON.parse(sessionStorage.getItem('userid'));
         userid.firstdayofweek = +FwFormField.getValueByDataField($form, 'FirstDayOfWeek');
         sessionStorage.setItem('userid', JSON.stringify(userid));
+
+        const homePage: any = {
+            guid: FwFormField.getValueByDataField($form, 'HomeMenuGuid'),
+            path: FwFormField.getValueByDataField($form, 'HomeMenuPath'),
+        };
+        sessionStorage.setItem('homePage', JSON.stringify(homePage));
+
+        const sounds: any = {
+            successSoundFileName: FwFormField.getValueByDataField($form, 'SuccessSoundFileName'),
+            errorSoundFileName: FwFormField.getValueByDataField($form, 'ErrorSoundFileName'),
+            notificationSoundFileName: FwFormField.getValueByDataField($form, 'NotificationSoundFileName'),
+        };
+        sessionStorage.setItem('sounds', JSON.stringify(sounds));
+
+        sessionStorage.setItem('browsedefaultrows', FwFormField.getValueByDataField($form, 'BrowseDefaultRows'));
+        sessionStorage.setItem('applicationtheme', FwFormField.getValueByDataField($form, 'ApplicationTheme'));
 
         //setFormProperties = function ($form) {
         //    var $cbSecurityExpirePassword, $txtSecurityExpire, $cbNetExpirePassword, $txtNetExpire;
@@ -282,8 +299,8 @@ class User {
             notificationSound.play();
         });
         $form.find('div[data-datafield="HomeMenuGuid"]').on("change", e => {
-            const moduleUrl = jQuery(e.currentTarget).find(':selected').attr('data-apiurl')
-            FwFormField.setValueByDataField($form, 'HomeMenuPath', moduleUrl)
+            const dataNav = jQuery(e.currentTarget).find(':selected').attr('data-nav');
+            FwFormField.setValueByDataField($form, 'HomeMenuPath', dataNav);
         });
     }
     //----------------------------------------------------------------------------------------------

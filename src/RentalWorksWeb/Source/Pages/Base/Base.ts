@@ -221,7 +221,7 @@ class Base {
                                             const responseGetIsTraining = values[9];
                                             const responseGetWarehouses = values[10];
 
-                                            const sounds: any = {}; 
+                                            const sounds: any = {};
                                             sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
                                             sounds.errorSoundFileName = responseGetUserSettings.ErrorSoundFileName;
                                             sounds.notificationSoundFileName = responseGetUserSettings.NotificationSoundFileName;
@@ -368,7 +368,7 @@ class Base {
                         FwFunc.showError(ex);
                     }
                 })
-                .on('click', '.btnCancel', function (e) {
+                .on('click', '.btnCancel', e => {
                     try {
                         program.navigate('default');
                     } catch (ex) {
@@ -380,16 +380,16 @@ class Base {
                 .find('.programlogo').empty().html(`<div class="bgothm">Rental<span class="rwpurple">Works</span></div>`);
         }
 
-            screen.load = function () {
-                setTimeout(function () {
-                    if (screen.$view.find('#email').val() == '') {
-                        screen.$view.find('#email').focus();
-                    } else {
-                        screen.$view.find('#password').focus();
-                    }
-                }, 0);
-            };
-        
+        screen.load = function () {
+            setTimeout(() => {
+                if (screen.$view.find('#email').val() == '') {
+                    screen.$view.find('#email').focus();
+                } else {
+                    screen.$view.find('#password').focus();
+                }
+            }, 0);
+        };
+
 
         return screen;
     }
