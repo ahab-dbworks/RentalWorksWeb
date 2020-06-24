@@ -699,9 +699,9 @@
         <td colspan="9" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
-        <td style="min-width:90px;">Order</td>
-        <td style="min-width:90px;">I-Code</td>
-        <td style="min-width:265px;">Description</td>
+        <td style="min-width:85px;">Order</td>
+        <td style="min-width:85px;">I-Code</td>
+        <td style="min-width:224px;">Description</td>
         <td style="min-width:80px;padding-right:15px;" class="number alignRight">Quantity</td>
         <td style="min-width:85px;" class="">Bar Code</td>
         <td style="min-width:105px;" class="">Serial Number</td>
@@ -933,13 +933,13 @@
     </tr>
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;">{{../Tax1Name}} ({{TaxRate}}%)</td>
+      <td colspan="6" class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;">{{../Tax1Name}} ({{TaxRate}}%)</td>
       <td class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;" data-value="{{Tax}}"></td>
     </tr>
     {{#ifNotEquals ../Tax2Name ""}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
+      <td colspan="6" class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
       <td class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;" data-value="{{Tax2}}"></td>
     </tr>
     {{/ifNotEquals}}
@@ -1194,6 +1194,7 @@
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        {{#if HasRecurring}}
         {{#ifCond ../RateType '===' "DAILY"}}
         <td style="min-width:75px;" class="number alignRight">Days</td>
         {{/ifCond}}
@@ -1203,6 +1204,9 @@
         {{#ifCond ../RateType '===' "MONTHLY"}}
         <td style="min-width:75px;" class="number alignRight">Months</td>
         {{/ifCond}}
+        {{else}}
+          <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        {{/if}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
         {{#if HasDiscount}}
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
@@ -1431,6 +1435,7 @@
         <td style="min-width:115px;">I-Code</td>
         <td style="min-width:379px;">Description</td>
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
+        {{#if HasRecurring}}
         {{#ifCond ../RateType '===' "DAILY"}}
         <td style="min-width:75px;" class="number alignRight">Days</td>
         {{/ifCond}}
@@ -1440,6 +1445,10 @@
         {{#ifCond ../RateType '===' "MONTHLY"}}
         <td style="min-width:75px;" class="number alignRight">Months</td>
         {{/ifCond}}
+        {{else}}
+        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        {{/if}}
+
         <td style="min-width:100px;" class="number alignRight">Price</td>
         {{#if HasDiscount}}
         <td style="min-width:140px;" class="number alignRight">Discount %</td>
@@ -1527,7 +1536,7 @@
         <td class="alignRight">{{BillablePeriods}}</td>
         {{else}}
         <td class="alignRight">&nbsp;</td>
-        {{/if}}        
+        {{/if}}  
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
