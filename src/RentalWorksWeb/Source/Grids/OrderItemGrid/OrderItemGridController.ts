@@ -563,24 +563,17 @@ class OrderItemGrid {
                 }
             });
         }
+        // when user clears out one ItemId field within the Used Sale grid, we must also clear out the other ItemId field (BarCode & SerialNumber)
+        $generatedtr.find('div[data-browsedatafield="ItemId"]').on('change', evt => {
+            const val = $generatedtr.find('.field[data-browsedatafield="ItemId"] input')
+                .val()
+                .trim();
+            if (val === '') {
+                FwBrowse.setFieldValue($control, $generatedtr, 'ItemId', { value: '', text: '' });
+            }
+        });
 
-         //$generatedtr.find('div[data-browsedatafield="ItemId"]').on('change', evt => {
-        //    let val = $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val();
-        //    val = val.trim();
-        //    //let text = $generatedtr.find('.field[data-browsedatafield="ItemId"] input.text').val();
-        //    //text = text.trim();
-        //    if (val === '' /*|| text === ''*/) {
-        //        //$generatedtr.find('.field[data-browsedatafield="ItemId"]').attr('data-originaltext', '');
-        //        //$generatedtr.find('.field[data-browsedatafield="ItemId"]').attr('data-originalvalue', '');
-        //        //$generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
-        //        FwBrowse.setFieldValue($control, $generatedtr, 'ItemId', { value: '', text: '' });
-        //        //$generatedtr.find('.field[data-browsedisplayfield="SerialNumber"]').attr('data-originaltext', '');
-        //        //$generatedtr.find('.field[data-browsedisplayfield="SerialNumber"]').attr('data-originalvalue', '');
-        //        //$generatedtr.find('.field[data-browsedisplayfield="SerialNumber"] input').val('');
-        //    }
-        //});
-
-        $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', $tr => {
             $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val($tr.find('.field[data-browsedatafield="ItemId"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedisplayfield="BarCode"] input.text').val($tr.find('.field[data-browsedatafield="BarCode"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedisplayfield="SerialNumber"] input.text').val($tr.find('.field[data-browsedatafield="SerialNumber"]').attr('data-originalvalue'));
