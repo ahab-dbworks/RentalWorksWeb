@@ -228,7 +228,7 @@
                     var $bookmark = jQuery('<div>')
                         .addClass('bookmark')
                         .data('bookmark', bookmark)
-                        .appendTo($usercontrols)
+                        //.appendTo($usercontrols)
                         .on('click', (e) => {
                             if (jQuery(e.currentTarget).data('bookmark').navigation !== '') {
                                 program.getModule(jQuery(e.currentTarget).data('bookmark').navigation);
@@ -238,6 +238,7 @@
                         });
 
                     if (bookmark.type === 'system') {
+                        $bookmark.appendTo($usercontrols);
                         jQuery('<i>')
                             .addClass('material-icons')
                             .html(bookmark.icon)

@@ -19,7 +19,7 @@
 #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .staticinfo {border-top: 1px solid;border-bottom: 1px solid;font-size: .75em;text-align: center;padding: .375em;}
 
 #fw-app #fw-app-header .app-usercontrols.minified .usercontrol  {padding: 6px .625em;}
-#fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .container {background-color: #E0E0E0;border-bottom: 1px solid #9E9E9E;}
+#fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .container {border-bottom: 1px solid;}
 #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .bookmarkcaption {padding: 6px .625em;font-weight: bold;}
 #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .bookmarkicons {display:flex;}
 
@@ -51,37 +51,23 @@
 }
 
 
-/*html.theme-material #fw-app #fw-app-header {background-color:#EEEEEE;color:#37474F;border-color:#9E9E9E;}
-html.theme-material #fw-app #fw-app-header .app-menu-button:hover > i {background-color:#BDBDBD;}
-html.theme-material #fw-app #fw-app-header .app-menu-button.active > i {background-color:#BDBDBD;}
+html.theme-material #fw-app #fw-app-header {background-color:#FFFDE7;color:#212121;border-color:#9E9E9E;}
+html.theme-material #fw-app #fw-app-header .app-menu-button:hover > i {background-color:rgba(0,0,0,0.2);}
+html.theme-material #fw-app #fw-app-header .app-menu-button.active > i {background-color:rgba(0,0,0,0.2);}
 
-html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu:hover > i {background-color:#BDBDBD;}
-html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu.active > i {background-color:#BDBDBD;}
-html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray {background-color:#FAFAFA;color:#282628;border-color:rgba(0, 0, 0, 0.2);}
-html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .link:hover {background-color:#e0e0e0;}
-html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .staticinfo {background-color: #E0E0E0;border-color:rgba(0, 0, 0, 0.2);}
-
-html.theme-material #fw-app #fw-app-menu {background-color:#EEEEEE;color:#37474F;border-color:#9E9E9E;}
-html.theme-material #fw-app #fw-app-menu.active .menu-category.hovered {background-color:#e0e0e0;}
-html.theme-material #fw-app #fw-app-menu .menu-category .module-tray {background-color: #fafafa;border-color:#9E9E9E;}
-html.theme-material #fw-app #fw-app-menu .menu-category.selected {background-color:#bdbdbd;}
-html.theme-material #fw-app #fw-app-menu .menu-category .module-tray .module:hover {background-color:#e0e0e0;}*/
-
-html.theme-material #fw-app #fw-app-header {background-color:#f5f5f5;color:#212121;border-color:#9E9E9E;}
-html.theme-material #fw-app #fw-app-header .app-menu-button:hover > i {background-color:#BDBDBD;}
-html.theme-material #fw-app #fw-app-header .app-menu-button.active > i {background-color:#BDBDBD;}
-
-html.theme-material #fw-app #fw-app-header .app-usercontrols .bookmark:hover {background-color:#BDBDBD;}
-html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu:hover > i {background-color:#BDBDBD;}
-html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu.active > i {background-color:#BDBDBD;}
-html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray {background-color:#ffffff;color:#212121;border-color:#9E9E9E}
-html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .link:hover {background-color:#E0E0E0;}
-html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .staticinfo {background-color: #BDBDBD;border-color:#9E9E9E;}
+html.theme-material #fw-app #fw-app-header .app-usercontrols .bookmark:hover {background-color:rgba(0,0,0,0.2);}
+html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu:hover > i {background-color:rgba(0,0,0,0.2);}
+html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu.active > i {background-color:rgba(0,0,0,0.2);}
+html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray {background-color:#E3F2FD;color:#212121;border-color:#9E9E9E}
+html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .container {background-color: #E3F2FD;border-color:#9E9E9E;}
+html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .bookmark:hover {background-color:#64B5F6;}
+html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .link:hover {background-color:#64B5F6;}
+html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .staticinfo {background-color: #eeeeee;border-color:#9E9E9E;}
 
 html.theme-material #fw-app #fw-app-menu {background-color:#2196F3;color:#FAFAFA;border-color:#1976D2;}
 /*html.theme-material #fw-app #fw-app-menu.active {background-color:#ffffff;color:#212121}
 html.theme-material #fw-app #fw-app-menu.active .menu-category > i {color:#2196F3;}*/
 html.theme-material #fw-app #fw-app-menu.active .menu-category.hovered {background-color:#64B5F6;}
-html.theme-material #fw-app #fw-app-menu .menu-category .module-tray {background-color: #ffffff;color:#212121;border-color:#1976D2;}
+html.theme-material #fw-app #fw-app-menu .menu-category .module-tray {background-color: #E3F2FD;color:#212121;border-color:#1976D2;}
 html.theme-material #fw-app #fw-app-menu .menu-category.selected {background-color:#64B5F6;}
 html.theme-material #fw-app #fw-app-menu .menu-category .module-tray .module:hover {background-color:#64B5F6;}
