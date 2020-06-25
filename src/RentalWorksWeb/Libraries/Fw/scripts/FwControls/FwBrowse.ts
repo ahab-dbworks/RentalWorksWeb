@@ -4200,6 +4200,7 @@ class FwBrowseClass {
                     if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
                         $confirmation.find('#fileName').text(file.name);
                         const url = URL.createObjectURL(file);
+                        $confirmation.find('#uploadExcel').attr("src", url);
                     } else {
                         $confirmation.find('#uploadExcel').val('');
                         FwNotification.renderNotification('WARNING', 'Only Excel file types supported.')
@@ -4210,7 +4211,40 @@ class FwBrowseClass {
         // ----------
         $yes.on('click', e => {
             if ($confirmation.find('#uploadExcel').attr("src") !== '') {
+                // ----------
+                (function ExcelToJSON() {
+                    const $this = $confirmation.find('#uploadExcel');
+                    const folder: any = $this[0];
+                    const excelFile: any = folder.files[0];
+                    // ----------
+                    function parseExcel(file) {
+                        const reader = new FileReader();
 
+                        reader.onload = e => {
+                            const data = e.target.result;
+                            const workbook = XLSX.read(data, {
+                                type: 'binary'
+                            });
+
+                            workbook.SheetNames.forEach(sheetName => {
+                                // Here is your object
+                                const XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                                const json_object = JSON.stringify(XL_row_object);
+                                console.log(json_object);
+                            })
+                        };
+
+                        reader.onerror = ex => {
+                            console.error(ex);
+                        };
+
+                        reader.readAsBinaryString(file);
+                    };
+                    parseExcel(excelFile);
+                })();
+
+                // if satisfactory file
+                FwConfirmation.destroyConfirmation($confirmation);
             } else {
                 FwNotification.renderNotification('WARNING', 'Upload a file first.')
             }
