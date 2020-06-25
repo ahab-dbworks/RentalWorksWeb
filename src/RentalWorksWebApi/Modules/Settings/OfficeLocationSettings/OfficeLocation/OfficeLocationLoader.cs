@@ -141,6 +141,18 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "defaultcurrency", modeltype: FwDataTypes.Text)]
         public string DefaultCurrency { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax1referencename", modeltype: FwDataTypes.Text)]
+        public string Tax1ReferenceName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax1referenceno", modeltype: FwDataTypes.Text)]
+        public string Tax1ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax2referencename", modeltype: FwDataTypes.Text)]
+        public string Tax2ReferenceName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax2referenceno", modeltype: FwDataTypes.Text)]
+        public string Tax2ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

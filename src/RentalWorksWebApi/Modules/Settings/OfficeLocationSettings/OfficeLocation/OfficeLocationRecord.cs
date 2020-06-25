@@ -124,7 +124,18 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "remittoemail", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string RemitToEmail { get; set; }
         //------------------------------------------------------------------------------------
-
+        [FwSqlDataField(column: "tax1referencename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string Tax1ReferenceName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax1referenceno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string Tax1ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax2referencename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string Tax2ReferenceName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax2referenceno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string Tax2ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

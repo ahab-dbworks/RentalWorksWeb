@@ -143,7 +143,7 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwLogicProperty(Id: "oUX9anIe2VxyM")]
         public bool? UseHInHiatusInvoiceNumbers { get { return location.UseHInHiatusInvoiceNumbers; } set { location.UseHInHiatusInvoiceNumbers = value; } }
 
-        [FwLogicProperty(Id: "vOrKm2KiBUh1p")]
+        [FwLogicProperty(Id: "vOrKm2KiBUh1p", IsReadOnly: true)]
         public string DefaultCurrencyId { get; set; }
 
         [FwLogicProperty(Id: "Lr66u6QGlFEH0", IsReadOnly: true)]
@@ -151,6 +151,18 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 
         [FwLogicProperty(Id: "TNVs0dD8Wk87t", IsReadOnly: true)]
         public string DefaultCurrency { get; set; }
+
+        [FwLogicProperty(Id: "2i7CCRqzReILc")]
+        public string Tax1ReferenceName { get { return location.Tax1ReferenceName; } set { location.Tax1ReferenceName = value; } }
+
+        [FwLogicProperty(Id: "VRj4ZBLmKRjpU")]
+        public string Tax1ReferenceNumber { get { return location.Tax1ReferenceNumber; } set { location.Tax1ReferenceNumber = value; } }
+
+        [FwLogicProperty(Id: "XhHpy8VEchE8J")]
+        public string Tax2ReferenceName { get { return location.Tax2ReferenceName; } set { location.Tax2ReferenceName = value; } }
+
+        [FwLogicProperty(Id: "xTQ5PrPy55wqo")]
+        public string Tax2ReferenceNumber { get { return location.Tax2ReferenceNumber; } set { location.Tax2ReferenceNumber = value; } }
 
         [FwLogicProperty(Id: "GDXu3A4umCh")]
         public bool? Inactive { get { return location.Inactive; } set { location.Inactive = value; } }
