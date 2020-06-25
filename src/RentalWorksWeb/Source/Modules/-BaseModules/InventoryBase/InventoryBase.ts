@@ -974,7 +974,8 @@ abstract class InventoryBase {
         FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
         $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
+            const $this = jQuery(this);
+            const classification = $this.val();
 
             $form.find('.completeskitstab').show();
             $form.find('.containertab').hide();
@@ -985,58 +986,60 @@ abstract class InventoryBase {
             $form.find('.manufacturersection').show();
             $form.find('.settab').hide();
 
-            if ($this.val() === 'I') {
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').show();
-            }
-            else if ($this.val() === 'A') {
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').show();
-            }
-            else if ($this.val() === 'C') {
-                $form.find('.completetab').show();
-                $form.find('.completeskitstab').hide();
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').hide();
-                $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-            }
-            else if ($this.val() === 'K') {
-                $form.find('.kittab').show();
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').hide();
-                $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-            }
-            else if ($this.val() === 'N') {
-                $form.find('.containertab').show();
-                $form.find('.completeskitstab').hide();
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').hide();
-                $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-            }
-            else if ($this.val() === 'S') {
-                $form.find('.settab').show();
-                $form.find('.wallsection').hide();
-                $form.find('.optionssection').hide();
-                $form.find('.manufacturersection').hide();
-                $form.find('.completeskitstab').hide();
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').hide();
-                $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-            }
-            else if ($this.val() === 'W') {
-                $form.find('.wallsection').show();
-                $form.find('.optionssection').hide();
-                $form.find('.manufacturersection').hide();
-                $form.find('.settab').hide();
-                $form.find('.completeskitstab').hide();
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').hide();
-                $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-            }
-            else if ($this.val() === 'M') {
-                FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');
-                FwFormField.disable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').show();
+            switch (classification) {
+                case 'I':
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').show();
+                    break;
+                case 'A':
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').show();
+                    break;
+                case 'C':
+                    $form.find('.completetab').show();
+                    $form.find('.completeskitstab').hide();
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').hide();
+                    $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
+                    break;
+                case 'K':
+                    $form.find('.kittab').show();
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').hide();
+                    $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
+                    break;
+                case 'N':
+                    $form.find('.containertab').show();
+                    $form.find('.completeskitstab').hide();
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').hide();
+                    $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
+                    break;
+                case 'S':
+                    $form.find('.settab').show();
+                    $form.find('.wallsection').hide();
+                    $form.find('.optionssection').hide();
+                    $form.find('.manufacturersection').hide();
+                    $form.find('.completeskitstab').hide();
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').hide();
+                    $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
+                    break;
+                case 'W':
+                    $form.find('.wallsection').show();
+                    $form.find('.optionssection').hide();
+                    $form.find('.manufacturersection').hide();
+                    $form.find('.settab').hide();
+                    $form.find('.completeskitstab').hide();
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').hide();
+                    $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
+                    break;
+                case 'M':
+                    FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');
+                    FwFormField.disable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').show();
+                    break;
             }
         })
     }
