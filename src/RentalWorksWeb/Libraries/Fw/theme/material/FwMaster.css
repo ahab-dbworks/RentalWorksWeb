@@ -61,6 +61,7 @@ html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu.activ
 html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray {background-color:#E3F2FD;color:#212121;border-color:#9E9E9E}
 html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .container {background-color: #E3F2FD;border-color:#9E9E9E;}
 html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .bookmark:hover {background-color:#64B5F6;}
+html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .bookmarkcaption {background-color:#2196F3;color:#FAFAFA;}
 html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .link:hover {background-color:#64B5F6;}
 html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .staticinfo {background-color: #eeeeee;border-color:#9E9E9E;}
 
