@@ -1195,7 +1195,14 @@ class FwMenuClass {
             const gridName = options.$browse.data('name');
             FwMenu.addSubMenuItem(options.$groupExport, 'Download Excel Workbook (*.xlsx)', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
-                    FwBrowse.downloadExcelWorkbook(options.$browse, gridName + 'Controller');
+                    FwBrowse.downloadExcelWorkbook(options.$browse, `${gridName}Controller`);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            FwMenu.addSubMenuItem(options.$groupExport, 'Import data from Excel', gridSecurityId, (e: JQuery.ClickEvent) => {
+                try {
+                    FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }

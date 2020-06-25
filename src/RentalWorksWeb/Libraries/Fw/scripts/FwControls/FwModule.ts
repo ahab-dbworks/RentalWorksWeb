@@ -268,7 +268,7 @@ class FwModule {
         const $colOptions = FwMenu.addSubMenuColumn($subMenu);
         const $groupOptions = FwMenu.addSubMenuGroup($colOptions, 'Options');
         const $colExport = FwMenu.addSubMenuColumn($subMenu);
-        const $groupExport = FwMenu.addSubMenuGroup($colExport, 'Export');
+        const $groupExport = FwMenu.addSubMenuGroup($colExport, 'Import / Export');
         const options: IAddBrowseMenuOptions = {
             $browse,
             $menu: $menu,

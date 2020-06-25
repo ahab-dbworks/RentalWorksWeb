@@ -1875,7 +1875,7 @@ class FwBrowseClass {
             const gridName = options.$browse.data('name');
             FwMenu.addSubMenuItem(options.$groupExport, 'Download Excel Workbook (*.xlsx)', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
-                    FwBrowse.downloadExcelWorkbook(options.$browse, gridName + 'Controller');
+                    FwBrowse.downloadExcelWorkbook(options.$browse, `${gridName}Controller`);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -4156,6 +4156,65 @@ class FwBrowseClass {
         } else {
             FwNotification.renderNotification('WARNING', 'There are no records to export.');
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    importExcelFromBrowse($browse, controller) {
+        const $confirmation = FwConfirmation.renderConfirmation('Import Excel', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '350px');
+        //const html: Array<string> = [];
+        //html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        //html.push('  <div class="flexrow">');
+        //html.push('  <div class="flexcolumn">');
+        //html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
+        //html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records-input" data-caption="Select Excel file to import:" data-datafield="" style="width:327px;"></div>');
+        //html.push('  </div>');
+        //html.push('  </div>');
+        //html.push('</div>');
+
+        //html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        //html.push('  <div class="flexrow">');
+        //html.push('  <input type="file" id="excelImport" />< label for= "file" class= "import-excel" > <span>select < /span></label>');
+        //html.push('</div>');
+
+        const htmlStr = `<div class="fwform" data-controller="none" style="background-color: transparent;">
+                           <div class="flexrow import-excel">
+                             <div class="btn-wrapper">
+                               <label class ="import-excel-label" for="uploadExcel"> Upload</label>
+                               <input id="uploadExcel" type="file" >
+                             <div>
+                             <div id="fileName"><div>
+                           </div>
+                         </div>`
+
+        FwConfirmation.addControls($confirmation, htmlStr);
+        const $yes = FwConfirmation.addButton($confirmation, 'Import', false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        // ----------
+        $confirmation.find('#uploadExcel').on('change', e => {
+            const $this = jQuery(e.currentTarget);
+            const folder: any = $this[0];
+            if (folder.files) {
+                $confirmation.find('#uploadExcel').attr("src", '');
+                const file: any = folder.files[0];
+                if (file) {
+                    if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                        $confirmation.find('#fileName').text(file.name);
+                        const url = URL.createObjectURL(file);
+                    } else {
+                        $confirmation.find('#uploadExcel').val('');
+                        FwNotification.renderNotification('WARNING', 'Only Excel file types supported.')
+                    }
+                }
+            }
+        });
+        // ----------
+        $yes.on('click', e => {
+            if ($confirmation.find('#uploadExcel').attr("src") !== '') {
+
+            } else {
+                FwNotification.renderNotification('WARNING', 'Upload a file first.')
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     customizeColumns($control: JQuery, name: any, type: any) {

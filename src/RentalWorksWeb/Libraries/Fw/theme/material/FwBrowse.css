@@ -460,89 +460,112 @@ html.theme-material .fwbrowse table tbody tr.selected.rowtextcolor {outline:2px 
 html.theme-material .fwbrowse[data-type="Validation"] table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td {outline:2px solid #03A9F4;}*/
 html.theme-material .fwbrowse table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td {background-color:#2196f3 !important;color:#ffffff !important;}
 html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;}
-/*------------------------------------------------------------------------------------------------*/
-/*Collapsible grid flex flow col*/
-@media only screen and (max-width: 1200px) {
-    div[data-type="Grid"][data-flexgrid="true"] table thead {
-        display: none;
-    }
 
-    div[data-type="Grid"][data-flexgrid="true"] td[data-th]:before {
-        content: attr(data-th);
-        font-size: .8em;
-        font-weight: bold;
-        float: left;
-        width: 10em;
-        word-wrap: break-word;
-        background-color: #EEEEEE;
-        padding-left: .3em;
-    }
+/*import excel files from browse*/
+input[type="file"]#uploadExcel {
+    position: absolute;
+    z-index: -1;
+    top: 6px;
+    left: 0;
+    font-size: 15px;
+    color: rgb(153,153,153);
+}
 
-    div[data-type="Grid"][data-flexgrid="true"] tr.selected td[data-th]:before {
-        background-color: #2196f3;
-    }
-
-    div[data-type="Grid"][data-flexgrid="true"] tr.newmode td[data-th]:before {
-        content: attr(data-th);
-        font-size: .8em;
-        font-weight: bold;
-        height: 1.3em;
-        float: left;
-        width: 10em;
-        word-wrap: break-word;
-        background-color: #EEEEEE;
-        padding-left: .3em;
-    }
-
-    div[data-type="Grid"][data-flexgrid="true"] table tbody tr td:not(:first-child):not(:last-child) {
-        width: 46%;
-        height: 1em;
-    }
-
-    div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:last-of-type {
-        right: 0;
-        position: absolute !important;
-    }
-
-    div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.flexgridspacer {
-        height: 6.6em !important;
-        min-width: 2em;
-        width: 4% !important;
-        float: right;
-        display: unset !important;
-    }
-
-    div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:first-of-type,
-    div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:last-of-type {
-        height: 6.6em;
-        min-width: 2em;
-        width: 4% !important;
-    }
-
-    div[data-type="Grid"][data-flexgrid="true"] table tbody tr {
-        display: flex;
-        flex-flow: column wrap;
-        max-height: 7em;
-        border-bottom: 1px solid gray;
-    }
-
-    div[data-type="Grid"][data-flexgrid="true"] tr td div {
-        min-width: unset !important;
-        padding-right: .5em;
-    }
-
-        div[data-type="Grid"][data-flexgrid="true"] tr td div[data-browsedatatype="note"] i {
-            position: relative;
-            left: 6em;
+.import-excel-label {
+    display: inline-block;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #000077;
+    font-size: 16px;
+    color: #fff;
+}
+.import-excel .btn-wrapper {
+    position: relative;
+}
+    /*------------------------------------------------------------------------------------------------*/
+    /*Collapsible grid flex flow col*/
+    @media only screen and (max-width: 1200px) {
+        div[data-type="Grid"][data-flexgrid="true"] table thead {
+            display: none;
         }
 
-    div[data-type="Grid"][data-flexgrid="true"] tr td.cellColor::after {
-        left: 8em !important;
-    }
+        div[data-type="Grid"][data-flexgrid="true"] td[data-th]:before {
+            content: attr(data-th);
+            font-size: .8em;
+            font-weight: bold;
+            float: left;
+            width: 10em;
+            word-wrap: break-word;
+            background-color: #EEEEEE;
+            padding-left: .3em;
+        }
 
-    div[data-type="Grid"][data-flexgrid="true"] tr td.tdselectrow div.divselectrow,
-    div[data-type="Grid"][data-flexgrid="true"] tr td.browsecontextmenucell div.browsecontextmenu {
-        line-height: 6em;
-        overflow: unset !important;
+        div[data-type="Grid"][data-flexgrid="true"] tr.selected td[data-th]:before {
+            background-color: #2196f3;
+        }
+
+        div[data-type="Grid"][data-flexgrid="true"] tr.newmode td[data-th]:before {
+            content: attr(data-th);
+            font-size: .8em;
+            font-weight: bold;
+            height: 1.3em;
+            float: left;
+            width: 10em;
+            word-wrap: break-word;
+            background-color: #EEEEEE;
+            padding-left: .3em;
+        }
+
+        div[data-type="Grid"][data-flexgrid="true"] table tbody tr td:not(:first-child):not(:last-child) {
+            width: 46%;
+            height: 1em;
+        }
+
+        div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:last-of-type {
+            right: 0;
+            position: absolute !important;
+        }
+
+        div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.flexgridspacer {
+            height: 6.6em !important;
+            min-width: 2em;
+            width: 4% !important;
+            float: right;
+            display: unset !important;
+        }
+
+        div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:first-of-type,
+        div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:last-of-type {
+            height: 6.6em;
+            min-width: 2em;
+            width: 4% !important;
+        }
+
+        div[data-type="Grid"][data-flexgrid="true"] table tbody tr {
+            display: flex;
+            flex-flow: column wrap;
+            max-height: 7em;
+            border-bottom: 1px solid gray;
+        }
+
+        div[data-type="Grid"][data-flexgrid="true"] tr td div {
+            min-width: unset !important;
+            padding-right: .5em;
+        }
+
+            div[data-type="Grid"][data-flexgrid="true"] tr td div[data-browsedatatype="note"] i {
+                position: relative;
+                left: 6em;
+            }
+
+        div[data-type="Grid"][data-flexgrid="true"] tr td.cellColor::after {
+            left: 8em !important;
+        }
+
+        div[data-type="Grid"][data-flexgrid="true"] tr td.tdselectrow div.divselectrow,
+        div[data-type="Grid"][data-flexgrid="true"] tr td.browsecontextmenucell div.browsecontextmenu {
+            line-height: 6em;
+            overflow: unset !important;
+        }
     }
-}
