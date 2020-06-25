@@ -299,7 +299,7 @@
                 .addClass('app-menu-tray')
                 .appendTo($usermenu);
 
-            if (userControls.bookmarks) {
+            if (userControls.bookmarks.some(e => e.type === 'userdefined')) {
                 var $bookmarkcontainer = jQuery('<div>')
                     .addClass('container')
                     .appendTo($menutray);
