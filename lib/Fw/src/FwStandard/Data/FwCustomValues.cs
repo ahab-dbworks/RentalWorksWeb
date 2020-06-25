@@ -83,39 +83,44 @@ namespace FwStandard.Data
                         k++;
                     }
 
-                    int indexOfBoolean = 0;
-                    int indexOfString = 0;
-                    int indexOfInteger = 0;
-                    int indexOfFloat = 0;
-                    int indexOfDateTime = 0;
+                    //int indexOfBoolean = 0;
+                    //int indexOfString = 0;
+                    //int indexOfInteger = 0;
+                    //int indexOfFloat = 0;
+                    //int indexOfDateTime = 0;
 
                     foreach (FwCustomField f in CustomFields)
                     {
-
+                        string customFieldIndex = f.CustomFieldName.Substring(f.CustomFieldName.Length - 2, 2);  // get the last 2 characters of the custom field name (ie. "custom02" ==> "02")
                         if (f.FieldType.Equals("True/False"))
                         {
-                            indexOfBoolean++;
-                            paramName = "@customboolean" + indexOfBoolean.ToString().PadLeft(2, '0');
+                            //indexOfBoolean++;
+                            //paramName = "@customboolean" + indexOfBoolean.ToString().PadLeft(2, '0');
+                            paramName = "@customboolean" + customFieldIndex;
                         }
                         else if (f.FieldType.Equals("Text"))
                         {
-                            indexOfString++;
-                            paramName = "@customstring" + indexOfString.ToString().PadLeft(2, '0');
+                            //indexOfString++;
+                            //paramName = "@customstring" + indexOfString.ToString().PadLeft(2, '0');
+                            paramName = "@customstring" + customFieldIndex;
                         }
                         else if (f.FieldType.Equals("Integer"))
                         {
-                            indexOfInteger++;
-                            paramName = "@customint" + indexOfInteger.ToString().PadLeft(2, '0');
+                            //indexOfInteger++;
+                            //paramName = "@customint" + indexOfInteger.ToString().PadLeft(2, '0');
+                            paramName = "@customint" + customFieldIndex;
                         }
                         else if (f.FieldType.Equals("Float"))
                         {
-                            indexOfFloat++;
-                            paramName = "@customnumeric" + indexOfFloat.ToString().PadLeft(2, '0');
+                            //indexOfFloat++;
+                            //paramName = "@customnumeric" + indexOfFloat.ToString().PadLeft(2, '0');
+                            paramName = "@customnumeric" + customFieldIndex;
                         }
                         else if (f.FieldType.Equals("Date"))
                         {
-                            indexOfDateTime++;
-                            paramName = "@customdatetime" + indexOfDateTime.ToString().PadLeft(2, '0');
+                            //indexOfDateTime++;
+                            //paramName = "@customdatetime" + indexOfDateTime.ToString().PadLeft(2, '0');
+                            paramName = "@customdatetime" + customFieldIndex;
                         }
                         else
                         {
