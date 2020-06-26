@@ -4198,7 +4198,7 @@ class FwBrowseClass {
                 $confirmation.find('#uploadExcel').attr("src", '');
                 const file: any = folder.files[0];
                 if (file) {
-                    if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                    if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
                         $confirmation.find('#fileName').text(file.name);
                         const url = URL.createObjectURL(file);
                         $confirmation.find('#uploadExcel').attr("src", url);
@@ -4231,7 +4231,7 @@ class FwBrowseClass {
                                 // Here is your object
                                 const XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
                                 const json_object = JSON.stringify(XL_row_object);
-                                console.log(json_object);
+                                console.log('JSON: ', json_object);
                             })
                         };
                         // TO DO
