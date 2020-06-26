@@ -126,25 +126,25 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "taxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string Tax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "tax2", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "tax2", modeltype: FwDataTypes.DecimalString8Digits)]
         public string Tax2 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "taxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "taxsubtotal", modeltype: FwDataTypes.DecimalString8Digits)]
         public string TaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "extendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "extendedwithtax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string ExtendedWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "extendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "extendedwithtaxsubtotal", modeltype: FwDataTypes.DecimalString8Digits)]
         public string ExtendedWithTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "totalextended", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "totalextended", modeltype: FwDataTypes.DecimalString8Digits)]
         public string TotalExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "totalextendedwithtax", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "totalextendedwithtax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string TotalExtendedWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
 
