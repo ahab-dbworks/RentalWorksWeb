@@ -97,7 +97,7 @@ class FwAppImageClass {
                             var blob;
                             try {
                                 for (var i = 0; i < this.files.length; i++) {
-                                    if (this.files[i].type.indexOf("fullsizeimage") === 0) {
+                                    if (this.files[i].type.indexOf("image") === 0) {
                                         blob = this.files[i];
                                         break;
                                     }
