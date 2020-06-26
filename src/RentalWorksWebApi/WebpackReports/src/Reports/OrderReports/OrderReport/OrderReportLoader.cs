@@ -360,6 +360,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "replacementcostextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string ReplacementCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -372,6 +375,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         {
             recType = RwConstants.RECTYPE_SALE;
         }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class MiscOrderItemReportLoader : OrderItemReportLoader
@@ -423,6 +430,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
         public string SerialNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class LossAndDamageOrderItemReportLoader : OrderItemReportLoader
@@ -444,6 +454,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
         public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
 
     }

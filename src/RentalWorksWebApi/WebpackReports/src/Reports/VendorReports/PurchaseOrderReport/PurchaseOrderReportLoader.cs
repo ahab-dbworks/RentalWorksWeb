@@ -299,6 +299,9 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
         public string ToDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class SalesOrderItemReportLoader : OrderItemReportLoader
@@ -307,6 +310,9 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         {
             recType = RwConstants.RECTYPE_SALE;
         }
+        [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class MiscOrderItemReportLoader : OrderItemReportLoader
@@ -351,6 +357,9 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         {
             recType = RwConstants.RECTYPE_PARTS;
         }
+        [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
 
