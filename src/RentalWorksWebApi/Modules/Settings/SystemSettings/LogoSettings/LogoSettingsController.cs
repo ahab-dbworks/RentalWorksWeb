@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.SystemSettings.LogoSettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/logosettings
         [HttpGet]
-        [FwControllerMethod(Id: "fltHROiaWTc1m", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "fltHROiaWTc1m", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<IEnumerable<LogoSettingsLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<LogoSettingsLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.SystemSettings.LogoSettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/logosettings/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "Z5Vhjt4wF2jjU", ActionType: FwControllerActionTypes.View)]
+        [FwControllerMethod(Id: "Z5Vhjt4wF2jjU", ActionType: FwControllerActionTypes.View, ValidateSecurityGroup: false)]
         public async Task<ActionResult<LogoSettingsLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<LogoSettingsLogic>(id);
