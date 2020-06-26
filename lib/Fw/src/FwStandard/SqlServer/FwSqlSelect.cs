@@ -212,7 +212,14 @@ namespace FwStandard.SqlServer
             //SqlParameter param = new SqlParameter();
             SqlParameter param = new SqlParameter(paramName, SqlDbType.VarChar);  //justin 04/17/2018 using VarChar here instead of NVarChar to avoid implicit conversion in the query optimizer
             param.ParameterName = paramName;
+
+            if (paramValue is bool)
+            {
+                paramValue = (bool)paramValue ? "T" : "F";
+            }
+
             param.Value = paramValue;
+
             if (!(paramValue is string))  //justin 04/17/2018  have the driver set the actual data type here when not a string data type (ie. integers, decimals, etc)
             {
                 param.ResetSqlDbType();
