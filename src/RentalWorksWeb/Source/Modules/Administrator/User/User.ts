@@ -438,6 +438,7 @@ class User {
               <div data-type="tab" id="contacttab" class="tab" data-tabpageid="contacttabpage" data-caption="Contact"></div>
               <div data-type="tab" id="securitytab" class="tab" data-tabpageid="securitytabpage" data-caption="Security"></div>
               <div data-type="tab" id="departmenttab" class="tab" data-tabpageid="departmenttabpage" data-caption="Department"></div>
+              <div data-type="tab" id="inventorytypestab" class="tab" data-tabpageid="inventorytypestabpage" data-caption="Inventory Types"></div>
               <div data-type="tab" id="permissionstab" class="tab" data-tabpageid="permissionstabpage" data-caption="Permissions"></div>
               <div data-type="tab" id="settingstab" class="tab" data-tabpageid="settingstabpage" data-caption="Settings"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
@@ -605,6 +606,32 @@ class User {
                     </div>
                     <div class="flexcolumn" style="flex:1 1 240px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Rate Departments">
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Labor" data-datafield="LaborTypeId" data-displayfield="LaborType" data-validationname="LaborTypeValidation" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Misc" data-datafield="MiscTypeId" data-displayfield="MiscType" data-validationname="MiscTypeValidation" style="flex:1 1 125px;"></div>
+                      </div>
+                    </div>
+                    <div class="flexcolumn" style="flex:1 1 175px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Facilities Types">
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Facilities" data-datafield="FacilityTypeId" data-displayfield="FacilityType" data-validationname="FacilityTypeValidation" style="flex:0 1 125px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+             <!--INVENTORY TYPES PAGE-->
+              <div data-type="tabpage" id="inventorytypestabpage" class="tabpage" data-tabid="inventorytypestab">
+                <div class="flexpage">
+                  <div class="flexrow">
+                    <div class="flexcolumn" style="flex:1 1 185px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Inventory Types">
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="RentalInventoryTypeId" data-displayfield="RentalInventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="SalesInventoryTypeId" data-displayfield="SalesInventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Parts" data-datafield="PartsInventoryTypeId" data-displayfield="PartsInventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transportation" data-datafield="TransportationTypeId" data-displayfield="TransportationType" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
+                      </div>
+                    </div>
+                    <div class="flexcolumn" style="flex:1 1 240px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Rate Types">
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Labor" data-datafield="LaborTypeId" data-displayfield="LaborType" data-validationname="LaborTypeValidation" style="flex:1 1 125px;"></div>
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Misc" data-datafield="MiscTypeId" data-displayfield="MiscType" data-validationname="MiscTypeValidation" style="flex:1 1 125px;"></div>
                       </div>

@@ -38,6 +38,11 @@ class RwLaborRate {
 
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'));
+
+            const user = JSON.parse(sessionStorage.getItem('userid'));
+            const laborTypeId = user.laborinventorydepartmentid;
+            const laborType = user.laborinventorydepartment;
+            FwFormField.setValueByDataField($form, 'LaborTypeId', laborTypeId, laborType, true);
         }
 
         let userassignedicodes = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedicodes;

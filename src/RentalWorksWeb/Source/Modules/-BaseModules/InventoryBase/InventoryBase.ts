@@ -111,6 +111,25 @@ abstract class InventoryBase {
             $form.find('.setradio').hide();
             $form.find('.wallradio').hide();
 
+            //default inventory types
+            const user = JSON.parse(sessionStorage.getItem('userid'));
+            let inventoryType, inventoryTypeId;
+            switch (this.Module) {
+                case 'RentalInventory':
+                    inventoryType = user.rentalinventorydepartment;
+                    inventoryTypeId = user.rentalinventorydepartmentid ;
+                    break;
+                case 'SalesInventory':
+                    inventoryType = user.salesinventorydepartment;
+                    inventoryTypeId = user.salesinventorydepartmentid;
+                    break;
+                case 'PartsInventory':
+                    inventoryType = user.partsinventorydepartment;
+                    inventoryTypeId = user.partsinventorydepartmentid;
+                    break;
+            }
+            FwFormField.setValueByDataField($form, 'InventoryTypeId', inventoryTypeId, inventoryType);
+            $form.find('[data-datafield="InventoryTypeId"] input').change();
         }
 
         let inventoryId;

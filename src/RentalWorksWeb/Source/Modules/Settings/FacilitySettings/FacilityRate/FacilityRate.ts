@@ -38,6 +38,11 @@ class FacilityRate {
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true')
+
+            const user = JSON.parse(sessionStorage.getItem('userid'));
+            const facilityTypeId = user.spaceinventorydepartmentid;
+            const facilityType = user.spaceinventorydepartment;
+            FwFormField.setValueByDataField($form, 'FacilityTypeId', facilityTypeId, facilityType, true);
         }
 
         let userassignedicodes = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedicodes;

@@ -788,7 +788,20 @@ namespace WebApi.Logic
             public string department { get; set; } = string.Empty;
             public bool webadministrator { get; set; } = false;
             public int firstdayofweek { get; set; } = 0;
-
+            public string rentalinventorydepartmentid { get; set; } = string.Empty;
+            public string rentalinventorydepartment { get; set; } = string.Empty;
+            public string salesinventorydepartmentid { get; set; } = string.Empty;
+            public string salesinventorydepartment { get; set; } = string.Empty;
+            public string partsinventorydepartmentid { get; set; } = string.Empty;
+            public string partsinventorydepartment { get; set; } = string.Empty;
+            public string transportationinvdepartmentid { get; set; } = string.Empty;
+            public string transportationinvdepartment { get; set; } = string.Empty;
+            public string laborinventorydepartmentid { get; set; } = string.Empty;
+            public string laborinventorydepartment { get; set; } = string.Empty;
+            public string miscinventorydepartmentid { get; set; } = string.Empty;
+            public string miscinventorydepartment { get; set; } = string.Empty;
+            public string spaceinventorydepartmentid { get; set; } = string.Empty;
+            public string spaceinventorydepartment { get; set; } = string.Empty;
         }
         public static async Task<SessionUser> GetSessionUserAsync(FwApplicationConfig appConfig, FwUserSession userSession)
         {
@@ -797,7 +810,9 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select webusersid, usersid, contactid, usertype, email, fullname, name, browsedefaultrows, applicationtheme, locationid, location, warehouseid, warehouse, departmentid, department, webadministrator, firstdayofweek");
+                    qry.Add("select webusersid, usersid, contactid, usertype, email, fullname, name, browsedefaultrows, applicationtheme, locationid, location, warehouseid, warehouse, departmentid, department, webadministrator, firstdayofweek, ");
+                    qry.Add("       rentalinventorydepartmentid, rentalinventorydepartment, salesinventorydepartmentid, salesinventorydepartment, partsinventorydepartmentid, partsinventorydepartment, transportationinvdepartmentid, ");
+                    qry.Add("       transportationinvdepartment, laborinventorydepartmentid, laborinventorydepartment, miscinventorydepartmentid, miscinventorydepartment, spaceinventorydepartmentid, spaceinventorydepartment");
                     qry.Add("from webusersview with (nolock)");
                     qry.Add("where webusersid = @webusersid");
                     qry.AddParameter("@webusersid", userSession.WebUsersId);
@@ -826,6 +841,21 @@ namespace WebApi.Logic
                     response.departmentid = qry.GetField("departmentid").ToString().TrimEnd();
                     response.department = qry.GetField("department").ToString().TrimEnd();
                     response.firstdayofweek = FwConvert.ToInt32(qry.GetField("firstdayofweek").ToString().TrimEnd());
+
+                    response.rentalinventorydepartmentid = qry.GetField("rentalinventorydepartmentid").ToString().TrimEnd();
+                    response.rentalinventorydepartment = qry.GetField("rentalinventorydepartment").ToString().TrimEnd();
+                    response.salesinventorydepartmentid = qry.GetField("salesinventorydepartmentid").ToString().TrimEnd();
+                    response.salesinventorydepartment = qry.GetField("salesinventorydepartment").ToString().TrimEnd();
+                    response.partsinventorydepartmentid = qry.GetField("partsinventorydepartmentid").ToString().TrimEnd();
+                    response.partsinventorydepartment = qry.GetField("partsinventorydepartment").ToString().TrimEnd();
+                    response.transportationinvdepartmentid = qry.GetField("transportationinvdepartmentid").ToString().TrimEnd();
+                    response.transportationinvdepartment = qry.GetField("transportationinvdepartment").ToString().TrimEnd();
+                    response.laborinventorydepartmentid = qry.GetField("laborinventorydepartmentid").ToString().TrimEnd();
+                    response.laborinventorydepartment = qry.GetField("laborinventorydepartment").ToString().TrimEnd();
+                    response.miscinventorydepartmentid = qry.GetField("miscinventorydepartmentid").ToString().TrimEnd();
+                    response.miscinventorydepartment = qry.GetField("miscinventorydepartment").ToString().TrimEnd();
+                    response.spaceinventorydepartmentid = qry.GetField("spaceinventorydepartmentid").ToString().TrimEnd();
+                    response.spaceinventorydepartment = qry.GetField("spaceinventorydepartment").ToString().TrimEnd();
 
                 }
             }

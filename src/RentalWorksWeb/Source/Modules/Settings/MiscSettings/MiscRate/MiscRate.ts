@@ -38,6 +38,11 @@ class MiscRate {
 
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'));
+
+            const user = JSON.parse(sessionStorage.getItem('userid'));
+            const miscTypeId = user.miscinventorydepartmentid;
+            const miscType = user.miscinventorydepartment;
+            FwFormField.setValueByDataField($form, 'MiscTypeId', miscTypeId, miscType, true);
         }
 
         let userassignedicodes = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedicodes;
