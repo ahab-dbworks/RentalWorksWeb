@@ -116,7 +116,6 @@ rem We need to commit the version files and Tag the repo here because other comm
 IF "%commitandftp%"=="y" (
     rem rem command-line Git push in the modified version and assemply files
     cd %DwRentalWorksWebPath%
-    call npm i
 
     git config --global gc.auto 0
     git add "src/%productname%Web/version.txt"
@@ -135,6 +134,7 @@ IF "%commitandftp%"=="y" (
     if not exist build\ mkdir build
     copy releasedocumentlogo.png build /y
 
+    call npm i
 
 
     rem command-line gren make Build Release Document for all issues between the previous version's tag and this current tag
