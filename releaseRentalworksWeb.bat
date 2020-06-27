@@ -144,7 +144,8 @@ IF "%commitandftp%"=="y" (
 
     rem produce a PDF of the MD file
     cd %DwRentalWorksWebPath%
-    call npx md-to-pdf build\v%fullversionno%.md
+    rem call npx md-to-pdf build\v%fullversionno%.md
+    call md-to-pdf build\v%fullversionno%.md
     set pdffilename=v%fullversionno%.pdf
     start build\v%fullversionno%.pdf
 
