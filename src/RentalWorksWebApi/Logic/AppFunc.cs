@@ -315,6 +315,17 @@ namespace WebApi.Logic
             return result;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> GetBooleanDataAsync(FwApplicationConfig appConfig, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
+        {
+            FwDatabaseField field;
+            bool result = false;
+
+            field = await GetDataAsync(appConfig, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
+            result = ((field != null) ? field.ToString().Equals("T") : false);
+
+            return result;
+        }
+        //-------------------------------------------------------------------------------------------------------
 
         /// <summary>
         /// Gets the next counter from the "syscontrol" table based on the counter column name provided
