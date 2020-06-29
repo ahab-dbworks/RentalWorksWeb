@@ -346,7 +346,91 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
+    public class PaymentsInvoiceItemReportLoader: AppReportLoader
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paymentdate", modeltype: FwDataTypes.Date)]
+        public string PaymentDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
+        public string PayType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text)]
+        public string CheckNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "amount", modeltype: FwDataTypes.DecimalString8Digits)]
+        public string Amount { get; set; }
+        //------------------------------------------------------------------------------------
 
+        public async Task<List<T>> LoadPaymentItems<T>(InvoiceReportRequest request)
+        {
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select rowtype = 'detail', v.paymentdate, v.paytype, v.checkno, v.amount");
+                    qry.Add(" from  invoicepaymentview v  with (nolock)");
+                    qry.Add(" where v.invoiceid = @invoiceid");
+                    qry.Add(" and v.amount <> 0");
+                    qry.Add(" order by v.paymentdate");
+                    qry.AddParameter("@invoiceid", request.InvoiceId);
+                    AddPropertiesAsQueryColumns(qry);
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                }
+            }
+
+            dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+            string[] totalFields = new string[] { "Amount" };
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+            List<T> items = new List<T>();
+            foreach (List<object> row in dt.Rows)
+            {
+                T item = (T)Activator.CreateInstance(typeof(T));
+                PropertyInfo[] properties = item.GetType().GetProperties();
+                foreach (var property in properties)
+                {
+                    string fieldName = property.Name;
+                    int columnIndex = dt.GetColumnNo(fieldName);
+                    if (!columnIndex.Equals(-1))
+                    {
+                        object value = row[dt.GetColumnNo(fieldName)];
+                        FwDataTypes propType = dt.Columns[columnIndex].DataType;
+                        bool isDecimal = false;
+                        NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+
+                        // we need the 8-digit precision for summing above. But now that we have our sums, we need to go back down to 2-digit display
+                        if (propType.Equals(FwDataTypes.DecimalString8Digits))
+                        {
+                            propType = FwDataTypes.DecimalString2Digits;
+                        }
+
+                        FwSqlCommand.FwDataTypeIsDecimal(propType, value, ref isDecimal, ref numberFormat);
+                        if (isDecimal)
+                        {
+                            decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
+                            property.SetValue(item, d.ToString("N", numberFormat));
+                        }
+                        else if (propType.Equals(FwDataTypes.Boolean))
+                        {
+                            property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
+                        }
+                        else
+                        {
+                            property.SetValue(item, (value ?? "").ToString());
+                        }
+                    }
+                }
+                items.Add(item);
+            }
+            return items;
+        }
+    }
+    //------------------------------------------------------------------------------------ 
 
     public class InvoiceReportLoader : AppReportLoader
     {
@@ -794,6 +878,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------ 
         public List<InvoiceItemReportLoader> Items { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
+        public List<PaymentsInvoiceItemReportLoader> PaymentItems { get; set; } = new List<PaymentsInvoiceItemReportLoader>(new PaymentsInvoiceItemReportLoader[] { new PaymentsInvoiceItemReportLoader() });
+        //------------------------------------------------------------------------------------ 
+
 
 
         public async Task<InvoiceReportLoader> RunReportAsync(InvoiceReportRequest request)
@@ -850,7 +937,13 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     AdjustmentItems.SetDependencies(AppConfig, UserSession);
                     taskAdjustmentInvoiceItems = AdjustmentItems.LoadItems<AdjustmentInvoiceItemReportLoader>(request);
 
-                    await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems, taskRentalInvoiceItems, taskSalesInvoiceItems, taskMiscInvoiceItems, taskLaborInvoiceItems, taskLossAndDamageInvoiceItems, taskAdjustmentInvoiceItems });
+                    //payment items
+                    Task<List<PaymentsInvoiceItemReportLoader>> taskPaymentInvoiceItems;
+                    PaymentsInvoiceItemReportLoader PaymentItems = new PaymentsInvoiceItemReportLoader();
+                    PaymentItems.SetDependencies(AppConfig, UserSession);
+                    taskPaymentInvoiceItems = PaymentItems.LoadPaymentItems<PaymentsInvoiceItemReportLoader>(request);
+
+                    await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems, taskRentalInvoiceItems, taskSalesInvoiceItems, taskMiscInvoiceItems, taskLaborInvoiceItems, taskLossAndDamageInvoiceItems, taskAdjustmentInvoiceItems, taskPaymentInvoiceItems });
 
                     Invoice = taskInvoice.Result;
 
@@ -863,6 +956,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                         Invoice.LaborItems = taskLaborInvoiceItems.Result;
                         Invoice.LossAndDamageItems = taskLossAndDamageInvoiceItems.Result;
                         Invoice.AdjustmentItems = taskAdjustmentInvoiceItems.Result;
+                        Invoice.PaymentItems = taskPaymentInvoiceItems.Result;
                     }
                 }
             }
