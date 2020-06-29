@@ -429,6 +429,11 @@ namespace WebApi.Modules.HomeControls.Inventory
         public bool? IsFixedAsset { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "masterakatext", modeltype: FwDataTypes.Text)]
+        public string DescriptionWithAkas { get; set; }
+        //------------------------------------------------------------------------------------
+
+
 
         // for cusomizing browse 
         ////------------------------------------------------------------------------------------ 

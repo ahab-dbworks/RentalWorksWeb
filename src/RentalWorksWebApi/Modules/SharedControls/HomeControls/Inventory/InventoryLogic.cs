@@ -376,6 +376,9 @@ namespace WebApi.Modules.HomeControls.Inventory
         public bool? IsFixedAsset { get { return master.IsFixedAsset; } set { master.IsFixedAsset = value; } }
 
 
+        [FwLogicProperty(Id: "YMbiQMc91vTlT", IsReadOnly: true)]
+        public string DescriptionWithAkas { get; set; }
+
 
         // for cusomizing browse 
         //------------------------------------------------------------------------------------ 
