@@ -1073,15 +1073,18 @@ class Invoice {
 
         if (tax1Name != "") {
             updateCaption($taxFields, tax1Name, 1);
+            $form.find('[data-datafield="InvoiceTax"] .fwformfield-caption').text(tax1Name);
         }
 
         const $tax2Fields = $form.find('[data-totalfield="Tax2"]');
         if (tax2Name != "") {
             $tax2Fields.show();
             updateCaption($tax2Fields, tax2Name, 2);
+            $form.find('[data-datafield="InvoiceTax2"]').show();
+            $form.find('[data-datafield="InvoiceTax2"] .fwformfield-caption').text(tax2Name);
         } else {
             $tax2Fields.hide();
-            $form.find(`[data-datafield="RentalTaxRate2"], [data-datafield="SalesTaxRate2"], [data-datafield="LaborTaxRate2"]`).hide();
+            $form.find(`[data-datafield="RentalTaxRate2"], [data-datafield="SalesTaxRate2"], [data-datafield="LaborTaxRate2"], [data-datafield="InvoiceTax2"]`).hide();
         }
 
     }
