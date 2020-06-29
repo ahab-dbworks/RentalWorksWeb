@@ -358,7 +358,7 @@ namespace FwStandard.Data
                                         result.IsValid = ((propertyValue as string).Length <= dataFieldAttribute.MaxLength);
                                         if (!result.IsValid)
                                         {
-                                            result.ValidateMsg = property.Name + " cannot be longer than " + dataFieldAttribute.MaxLength.ToString() + " characters.";
+                                            result.ValidateMsg = "The \"" + property.Name + "\" field cannot be longer than " + dataFieldAttribute.MaxLength.ToString() + " characters.  (The value provided is " + (propertyValue as string).Length.ToString() + " characters.)";
                                         }
                                     }
                                     else if (propertyValue is int)
