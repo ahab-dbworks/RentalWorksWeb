@@ -5,6 +5,7 @@
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
       <div data-type="tab" id="defaultstab" class="tab" data-tabpageid="defaultstabpage" data-caption="Defaults"></div>
       <div data-type="tab" id="numberstab" class="tab" data-tabpageid="numberstabpage" data-caption="System Numbers"></div>
+      <div data-type="tab" id="settingstab" class="tab" data-tabpageid="settingstabpage" data-caption="Settings"></div>
       <div data-type="tab" id="accountingtab" class="tab" data-tabpageid="accountingtabpage" data-caption="Accounting"></div>
       <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
       <div data-type="tab" id="remittotab" class="tab" data-tabpageid="remittotabpage" data-caption="Remit To"></div>
@@ -75,6 +76,27 @@
           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use the same number for Quotes and Orders (ORDER Module Number will not be used)" data-datafield="UseSameNumberForQuoteAndOrder" style="float:left;width:100px;"></div>
         </div>
       </div>
+
+      <!--SETTINGS TAB-->
+      <div data-type="tabpage" id="settingstabpage" class="tabpage" data-tabid="settingstab">
+        <div class="formpage">
+          <div class="flexrow">
+            <div class="flexcolumn" style="flex:0 1 575px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Credit / Insurance">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield credit-insurance" data-caption="Disable Credit Status Messages" data-datafield="DisableCreditStatusMessages" style="flex:1 1 275px;"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Credit &quot;Through Date&quot; Messages" data-datafield="DisableCreditThroughDateMessages" style="flex:1 1 275px;"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield credit-insurance" data-caption="Disable Insurance Status Messages" data-datafield="DisableInsuranceStatusMessages" style="flex:1 1 275px;"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Insurance &quot;Through Date&quot; Messages" data-datafield="DisableInsuranceThroughDateMessages" style="flex:1 1 275px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div data-type="tabpage" id="accountingtabpage" class="tabpage" data-tabid="accountingtab">
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Office Location G/L Accounts">
@@ -85,6 +107,7 @@
           </div>
         </div>
       </div>
+
       <div data-type="tabpage" id="taxtabpage" class="tabpage" data-tabid="taxtab">
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Office Location Tax Reference Numbers">

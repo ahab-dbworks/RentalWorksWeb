@@ -41,6 +41,7 @@
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        this.events($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -49,7 +50,6 @@
             nameGrid: 'SystemNumberGrid',
             gridSecurityId: 'aUMum8mzxVrWc',
             moduleSecurityId: this.id,
-
             $form: $form,
             pageSize: 20,
             addGridMenu: (options: IAddGridMenuOptions) => {
@@ -81,6 +81,13 @@
         const $systemNumberGrid = $form.find('[data-name="SystemNumberGrid"]');
         FwBrowse.search($systemNumberGrid);
 
+        this.creditCheckboxes($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form) {
+        $form.find('.credit-insurance').on('change', e => {
+            this.creditCheckboxes($form);
+        })
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -88,6 +95,23 @@
             case 'LocationId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelocation`);
                 break;
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    creditCheckboxes($form) {
+        const disableCreditStatus = FwFormField.getValueByDataField($form, 'DisableCreditStatusMessages');
+        if (disableCreditStatus === true) {
+            FwFormField.setValueByDataField($form, 'DisableCreditThroughDateMessages', true);
+            FwFormField.disable($form.find('div[data-datafield="DisableCreditThroughDateMessages"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="DisableCreditThroughDateMessages"]'));
+        }
+        const disableInsuranceStatus = FwFormField.getValueByDataField($form, 'DisableInsuranceStatusMessages');
+        if (disableInsuranceStatus === true) {
+            FwFormField.setValueByDataField($form, 'DisableInsuranceThroughDateMessages', true);
+            FwFormField.disable($form.find('div[data-datafield="DisableInsuranceThroughDateMessages"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="DisableInsuranceThroughDateMessages"]'));
         }
     }
     //----------------------------------------------------------------------------------------------
