@@ -189,6 +189,11 @@ export abstract class FwBaseTest {
                 newMe.SalesDepartment = me.SalesDepartment;
                 newMe.MiscDepartment = me.MiscDepartment;
                 newMe.LaborDepartment = me.LaborDepartment;
+
+                newMe.SuccessSound = me.SuccessSound;
+                newMe.ErrorSound = me.ErrorSound;
+                newMe.NotificationSound = me.NotificationSound;
+
                 await userModule.createNewRecord();
                 await userModule.populateFormWithRecord(newMe);
                 await userModule.saveRecord(true);
