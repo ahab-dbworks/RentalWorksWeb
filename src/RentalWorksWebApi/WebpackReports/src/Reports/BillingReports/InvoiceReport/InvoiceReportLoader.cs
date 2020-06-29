@@ -184,6 +184,13 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                         FwDataTypes propType = dt.Columns[columnIndex].DataType;
                         bool isDecimal = false;
                         NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+
+                        // we need the 8-digit precision for summing above. But now that we have our sums, we need to go back down to 2-digit display
+                        if (propType.Equals(FwDataTypes.DecimalString8Digits))
+                        {
+                            propType = FwDataTypes.DecimalString2Digits;
+                        }
+
                         FwSqlCommand.FwDataTypeIsDecimal(propType, value, ref isDecimal, ref numberFormat);
                         if (isDecimal)
                         {
