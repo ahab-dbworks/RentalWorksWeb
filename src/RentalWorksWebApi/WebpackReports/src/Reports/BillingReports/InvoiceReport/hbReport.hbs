@@ -20,8 +20,11 @@
     {{/if}}
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 40%;">
-    <span class="sub-title" style="font-size:20px;">{{Department}}</span>
+    {{#if IsNoCharge}}
+    <span class="title">NO CHARGE {{Report}}</span>
+    {{else}}
     <span class="title">{{Report}}</span>
+    {{/if}}
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 30%;">
     <table>
@@ -351,11 +354,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-          {{#if HasDiscount}}
-            <td class="alignRight">{{DiscountPercent}}</td>
-          {{else}}
-            <td class="alignRight">&nbsp;</td>
-          {{/if}}
+        {{#if HasDiscount}}
+        <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1085,11 +1088,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-          {{#if HasDiscount}}
-            <td class="alignRight">{{DiscountPercent}}</td>
-          {{else}}
-            <td class="alignRight">&nbsp;</td>
-          {{/if}}
+        {{#if HasDiscount}}
+        <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1205,7 +1208,7 @@
         <td style="min-width:75px;" class="number alignRight">Months</td>
         {{/ifCond}}
         {{else}}
-          <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
         {{/if}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
         {{#if HasDiscount}}
@@ -1294,7 +1297,7 @@
         <td class="alignRight">{{BillablePeriods}}</td>
         {{else}}
         <td class="alignRight">&nbsp;</td>
-        {{/if}}        
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1536,7 +1539,7 @@
         <td class="alignRight">{{BillablePeriods}}</td>
         {{else}}
         <td class="alignRight">&nbsp;</td>
-        {{/if}}  
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -2138,6 +2141,13 @@
       <td style="min-width:300px;text-align:right;padding-right:10px;font-weight:bold;">GRAND TOTAL</td>
       <td class="number grandTotalAllActivities" style="min-width:150px;padding-right:3px;" data-value="{{TotalExtendedWithTax}}"></td>
     </tr>
+    {{#if ../IsNoCharge}}
+    <tr>
+      <td style="min-width:638px;"></td>
+      <td style="min-width:300px;text-align:right;padding-right:10px;"></td>
+      <td class="number" style="min-width:150px;padding-right:3px;font-weight:bold;">(No Charge)</td>
+    </tr>
+    {{/if}}
   </table>
   {{/ifEquals}}
   {{/each}}
