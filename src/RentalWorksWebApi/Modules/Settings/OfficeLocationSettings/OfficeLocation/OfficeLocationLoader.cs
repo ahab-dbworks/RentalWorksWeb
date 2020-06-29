@@ -153,6 +153,18 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "tax2referenceno", modeltype: FwDataTypes.Text)]
         public string Tax2ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "disablecredit", modeltype: FwDataTypes.Boolean)]
+        public bool? DisableCreditStatusMessages { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disablecreditthroughdate", modeltype: FwDataTypes.Boolean)]
+        public bool? DisableCreditThroughDateMessages { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disableinsurance", modeltype: FwDataTypes.Boolean)]
+        public bool? DisableInsuranceStatusMessages { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disableinsurancethroughdate", modeltype: FwDataTypes.Boolean)]
+        public bool? DisableInsuranceThroughDateMessages { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -92,7 +92,7 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
         public string Fax { get; set; }
         //------------------------------------------------------------------------------------        
-        
+
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "remittocompany", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 60)]
         public string RemitToCompanyName { get; set; }
@@ -136,6 +136,18 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "tax2referenceno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string Tax2ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "disablecredit", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DisableCreditStatusMessages { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disablecreditthroughdate", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DisableCreditThroughDateMessages { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disableinsurance", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DisableInsuranceStatusMessages { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disableinsurancethroughdate", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DisableInsuranceThroughDateMessages { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

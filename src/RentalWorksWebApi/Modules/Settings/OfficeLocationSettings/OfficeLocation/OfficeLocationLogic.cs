@@ -164,6 +164,18 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwLogicProperty(Id: "xTQ5PrPy55wqo")]
         public string Tax2ReferenceNumber { get { return location.Tax2ReferenceNumber; } set { location.Tax2ReferenceNumber = value; } }
 
+        [FwLogicProperty(Id: "h4mK8U5crfAu0")]
+        public bool? DisableCreditStatusMessages { get { return location.DisableCreditStatusMessages; } set { location.DisableCreditStatusMessages = value; } }
+
+        [FwLogicProperty(Id: "aQsSV5xGtr3y0")]
+        public bool? DisableCreditThroughDateMessages { get { return location.DisableCreditThroughDateMessages; } set { location.DisableCreditThroughDateMessages = value; } }
+
+        [FwLogicProperty(Id: "BdpPMKmIsknKp")]
+        public bool? DisableInsuranceStatusMessages { get { return location.DisableInsuranceStatusMessages; } set { location.DisableInsuranceStatusMessages = value; } }
+
+        [FwLogicProperty(Id: "j2AP4pitbCGE7")]
+        public bool? DisableInsuranceThroughDateMessages { get { return location.DisableInsuranceThroughDateMessages; } set { location.DisableInsuranceThroughDateMessages = value; } }
+
         [FwLogicProperty(Id: "GDXu3A4umCh")]
         public bool? Inactive { get { return location.Inactive; } set { location.Inactive = value; } }
 
