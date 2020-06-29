@@ -129,7 +129,10 @@ class OrderBase {
                 }
                 request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
                 request.CompanyId = companyId;
-            }
+            }, 
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.data('deletewithnoids', OrderContactGridController.deleteWithNoIds);
+            },
         });
         // ----------
         FwBrowse.renderGrid({

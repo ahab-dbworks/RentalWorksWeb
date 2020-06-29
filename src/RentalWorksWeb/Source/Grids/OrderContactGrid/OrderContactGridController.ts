@@ -16,8 +16,7 @@
     };
 
     addLegend($control) {
-        let $form;
-        $form = $control.closest('.fwform');
+        const $form = $control.closest('.fwform');
 
         const controller = $form.attr('data-controller');
         switch (controller) {
@@ -40,6 +39,18 @@
             case 'ContactTitleId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontacttitle`);
                 break;
+        }
+    }
+    deleteWithNoIds($control, $tr) {
+        const orderContactId = $tr.find('div[data-browsedatafield="OrderContactId"]').attr('data-originalvalue');
+        if (orderContactId === '') {
+            const contactName = $tr.find('div[data-browsedatafield="ContactId"]').attr('data-originaltext');
+            FwNotification.renderNotification('WARNING', `${contactName !== '' ? contactName : 'This Contact'} is related to the parent company and cannot be deleted here.`);
+        } else {
+            FwBrowse.deleteRecord($control, $tr)
+                .then(() => {
+                    FwBrowse.databind($control);
+                });
         }
     }
 }
