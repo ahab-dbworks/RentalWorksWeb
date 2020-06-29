@@ -2009,10 +2009,15 @@ class FwBrowseClass {
             sort = $field.attr('data-sort');
             sortSequence = $field.attr('data-sortsequence');
             fieldtype = $field.attr('data-browsedatatype') || $field.attr('data-datatype');
-            if (fieldtype === "validation") {
-                browsedatafield = $field.attr('data-browsedisplayfield') || $field.attr('data-displayfield');
+
+            if (typeof $field.attr('data-searchfield') !== 'undefined') {
+                browsedatafield = $field.attr('data-searchfield'); 
             } else {
-                browsedatafield = $field.attr('data-browsedatafield') || $field.attr('data-datafield');
+                if (fieldtype === "validation") {
+                    browsedatafield = $field.attr('data-browsedisplayfield') || $field.attr('data-displayfield');
+                } else {
+                    browsedatafield = $field.attr('data-browsedatafield') || $field.attr('data-datafield');
+                }
             }
             searchSeparator = $field.attr('data-multiwordseparator') || ",";
 

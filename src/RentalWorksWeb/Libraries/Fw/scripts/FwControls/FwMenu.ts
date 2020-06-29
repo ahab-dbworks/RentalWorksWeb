@@ -1100,14 +1100,24 @@ class FwMenuClass {
                 if (!$browsemenu.find('.clear-filters').length) $browsemenu.find('.search-wrapper').append($clearFilters);
 
                 for (var i = 0; i < queryRows.length; i++) {
-                    let valuefield;
+                    let valuefield, altsearchfield;
                     const comparisonText = jQuery(queryRows[i]).find('.datafieldcomparison').find(':selected').text();
                     const comparisonfield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]'));
                     const datafield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]'));
+
+                    const $browseDataField = options.$browse.find(`thead [data-browsedatafield="${datafield}"]`);
+                    if (typeof $browseDataField.attr('data-searchfield') !== 'undefined') {
+                        altsearchfield = $browseDataField.attr('data-searchfield');
+                    }
+                  
                     let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type');
                     if (datafield != '') {
                         advancedSearch.searchfieldtypes.push(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
-                        advancedSearch.searchfields.push(datafield);
+                        if (typeof altsearchfield !== 'undefined') {
+                            advancedSearch.searchfields.push(altsearchfield);
+                        } else {
+                            advancedSearch.searchfields.push(datafield);
+                        }
                         switch (type) {
                             case 'True/False':
                             case 'Boolean':
