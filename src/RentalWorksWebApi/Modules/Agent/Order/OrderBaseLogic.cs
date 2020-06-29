@@ -22,6 +22,7 @@ using System.Reflection;
 using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.HomeControls.CompanyTaxOption;
 using FwStandard.Models;
+using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -34,6 +35,8 @@ namespace WebApi.Modules.Agent.Order
         protected TaxRecord tax = new TaxRecord();
         protected DeliveryRecord outDelivery = new DeliveryRecord();
         protected DeliveryRecord inDelivery = new DeliveryRecord();
+
+        private DealLogic insertingDeal = null;  // this object is loaded once during "Validate" (for speed) and used downstream 
         //------------------------------------------------------------------------------------
         public OrderBaseLogic()
         {
@@ -1235,8 +1238,24 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "Mj4GCUlVtnzB")]
         public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-
-
+        private string determineDefaultBillingCycleId()
+        {
+            string defaultBillingCycleId = string.Empty;
+            if (insertingDeal == null)
+            {
+                DefaultSettingsLogic defaults = new DefaultSettingsLogic();
+                defaults.SetDependencies(AppConfig, UserSession);
+                defaults.DefaultSettingsId = RwConstants.CONTROL_ID;
+                bool b = defaults.LoadAsync<DefaultSettingsLogic>().Result;
+                defaultBillingCycleId = defaults.DefaultDealBillingCycleId;
+            }
+            else
+            {
+                defaultBillingCycleId = insertingDeal.BillingCycleId;
+            }
+            return defaultBillingCycleId;
+        }
+        //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
@@ -1244,6 +1263,8 @@ namespace WebApi.Modules.Agent.Order
             bool? tempB;
 
             //OrderTypeCombineActivityTabs
+
+            string orderId = GetPrimaryKeys()[0].ToString();
 
             if (isValid)
             {
@@ -1261,98 +1282,147 @@ namespace WebApi.Modules.Agent.Order
 
             OrderBaseLogic lOrig = null;
 
-            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+            if (isValid)
             {
-                rental = Rental.GetValueOrDefault(false);
-                sales = Sales.GetValueOrDefault(false);
-                labor = Labor.GetValueOrDefault(false);
-                misc = Miscellaneous.GetValueOrDefault(false);
-                rentalsale = RentalSale.GetValueOrDefault(false);
-                ld = LossAndDamage.GetValueOrDefault(false);
-            }
-            else  //  (updating)
-            {
-                if (original != null)
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
                 {
-                    if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                    rental = Rental.GetValueOrDefault(false);
+                    sales = Sales.GetValueOrDefault(false);
+                    labor = Labor.GetValueOrDefault(false);
+                    misc = Miscellaneous.GetValueOrDefault(false);
+                    rentalsale = RentalSale.GetValueOrDefault(false);
+                    ld = LossAndDamage.GetValueOrDefault(false);
+
+                    if (!string.IsNullOrEmpty(DealId))
                     {
-                        lOrig = ((QuoteLogic)original);
+                        // load the Deal object once here for use downstream
+                        insertingDeal = new DealLogic();
+                        insertingDeal.SetDependencies(AppConfig, UserSession);
+                        insertingDeal.DealId = DealId;
+                        bool b = insertingDeal.LoadAsync<DealLogic>().Result;
                     }
-                    else
+                }
+                else  //  (updating)
+                {
+                    if (original != null)
                     {
-                        lOrig = ((OrderLogic)original);
-                    }
-                    tempB = (Rental ?? lOrig.Rental);
-                    rental = tempB.GetValueOrDefault(false);
-
-                    tempB = (Sales ?? lOrig.Sales);
-                    sales = tempB.GetValueOrDefault(false);
-
-                    tempB = (Labor ?? lOrig.Labor);
-                    labor = tempB.GetValueOrDefault(false);
-
-                    tempB = (Miscellaneous ?? lOrig.Miscellaneous);
-                    misc = tempB.GetValueOrDefault(false);
-
-                    tempB = (RentalSale ?? lOrig.RentalSale);
-                    rentalsale = tempB.GetValueOrDefault(false);
-
-                    tempB = (LossAndDamage ?? lOrig.LossAndDamage);
-                    ld = tempB.GetValueOrDefault(false);
-
-                    if (DealId != null)
-                    {
-                        if (lOrig.DealId == null)
+                        if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
                         {
-                            lOrig.DealId = "";
+                            lOrig = ((QuoteLogic)original);
                         }
-                        if (!DealId.Equals(lOrig.DealId))  // changing the Deal on this Quote/Order
+                        else
                         {
-                            if (lOrig.HasLossAndDamageItem.GetValueOrDefault(false))
+                            lOrig = ((OrderLogic)original);
+                        }
+                        tempB = (Rental ?? lOrig.Rental);
+                        rental = tempB.GetValueOrDefault(false);
+
+                        tempB = (Sales ?? lOrig.Sales);
+                        sales = tempB.GetValueOrDefault(false);
+
+                        tempB = (Labor ?? lOrig.Labor);
+                        labor = tempB.GetValueOrDefault(false);
+
+                        tempB = (Miscellaneous ?? lOrig.Miscellaneous);
+                        misc = tempB.GetValueOrDefault(false);
+
+                        tempB = (RentalSale ?? lOrig.RentalSale);
+                        rentalsale = tempB.GetValueOrDefault(false);
+
+                        tempB = (LossAndDamage ?? lOrig.LossAndDamage);
+                        ld = tempB.GetValueOrDefault(false);
+
+                        if (DealId != null)
+                        {
+                            if (lOrig.DealId == null)
+                            {
+                                lOrig.DealId = "";
+                            }
+                            if (!DealId.Equals(lOrig.DealId))  // changing the Deal on this Quote/Order
+                            {
+                                if (lOrig.HasLossAndDamageItem.GetValueOrDefault(false))
+                                {
+                                    isValid = false;
+                                    validateMsg = "Cannot change the Deal on this " + BusinessLogicModuleName + " because Loss and Damage items have already been added.";
+                                }
+                            }
+                        }
+
+                        //// make sure certain values are not modified directly
+                        //if (isValid)
+                        //{
+
+                        //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.OfficeLocationId)), lOrig, ref validateMsg));
+                        //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.WarehouseId)), lOrig, ref validateMsg));
+                        //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.Status)), lOrig, ref validateMsg));
+                        //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.StatusDate)), lOrig, ref validateMsg));
+
+                        //    PropertyInfo[] properties = {
+                        //       this.GetType().GetProperty(nameof(OrderBaseLogic.OfficeLocationId)),
+                        //       this.GetType().GetProperty(nameof(OrderBaseLogic.WarehouseId)),
+                        //       this.GetType().GetProperty(nameof(OrderBaseLogic.Status)),
+                        //       this.GetType().GetProperty(nameof(OrderBaseLogic.StatusDate))
+                        //    };
+                        //    isValid = (isValid && ValidateNotChangingProperty(properties, lOrig, ref validateMsg));
+                        //}
+
+                        if (isValid)
+                        {
+                            if ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (lOrig.Status.Equals(RwConstants.QUOTE_STATUS_ORDERED) || lOrig.Status.Equals(RwConstants.QUOTE_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.QUOTE_STATUS_CANCELLED)))
                             {
                                 isValid = false;
-                                validateMsg = "Cannot change the Deal on this " + BusinessLogicModuleName + " because Loss and Damage items have already been added.";
+                                validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
+                            }
+                        }
+
+                        if (isValid)
+                        {
+                            if ((Type.Equals(RwConstants.ORDER_TYPE_ORDER)) && (lOrig.Status.Equals(RwConstants.ORDER_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.ORDER_STATUS_SNAPSHOT) || lOrig.Status.Equals(RwConstants.ORDER_STATUS_CANCELLED)))
+                            {
+                                isValid = false;
+                                validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
                             }
                         }
                     }
 
-                    //// make sure certain values are not modified directly
-                    //if (isValid)
-                    //{
+                }
+            }
 
-                    //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.OfficeLocationId)), lOrig, ref validateMsg));
-                    //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.WarehouseId)), lOrig, ref validateMsg));
-                    //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.Status)), lOrig, ref validateMsg));
-                    //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.StatusDate)), lOrig, ref validateMsg));
-
-                    //    PropertyInfo[] properties = {
-                    //       this.GetType().GetProperty(nameof(OrderBaseLogic.OfficeLocationId)),
-                    //       this.GetType().GetProperty(nameof(OrderBaseLogic.WarehouseId)),
-                    //       this.GetType().GetProperty(nameof(OrderBaseLogic.Status)),
-                    //       this.GetType().GetProperty(nameof(OrderBaseLogic.StatusDate))
-                    //    };
-                    //    isValid = (isValid && ValidateNotChangingProperty(properties, lOrig, ref validateMsg));
-                    //}
-
-                    if (isValid)
+            // if this quote/order has line-items, then make sure the Billing Cycle will work
+            if (isValid)
+            {
+                if (OrderFunc.OrderHasItems(AppConfig, UserSession, orderId).Result)
+                {
+                    string billingCycleId = BillingCycleId;
+                    if (string.IsNullOrEmpty(billingCycleId) && (lOrig != null))
                     {
-                        if ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (lOrig.Status.Equals(RwConstants.QUOTE_STATUS_ORDERED) || lOrig.Status.Equals(RwConstants.QUOTE_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.QUOTE_STATUS_CANCELLED)))
-                        {
-                            isValid = false;
-                            validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
-                        }
+                        billingCycleId = lOrig.BillingCycleId;
                     }
-
-                    if (isValid)
+                    if (string.IsNullOrEmpty(billingCycleId))
                     {
-                        if ((Type.Equals(RwConstants.ORDER_TYPE_ORDER)) && (lOrig.Status.Equals(RwConstants.ORDER_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.ORDER_STATUS_SNAPSHOT) || lOrig.Status.Equals(RwConstants.ORDER_STATUS_CANCELLED)))
+                        billingCycleId = determineDefaultBillingCycleId();
+                    }
+                    if (!string.IsNullOrEmpty(billingCycleId))
+                    {
+                        BillingCycleLogic bc = new BillingCycleLogic();
+                        bc.SetDependencies(AppConfig, UserSession);
+                        bc.BillingCycleId = billingCycleId;
+                        bool b = bc.LoadAsync<BillingCycleLogic>().Result;
+                        bool hasRecurring = OrderFunc.OrderHasRecurring(AppConfig, UserSession, orderId).Result;
+
+                        if (hasRecurring && bc.BillingCycleType.Equals(RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE))
                         {
                             isValid = false;
-                            validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
+                            validateMsg = "The " + bc.BillingCycle + " Billing Cycle can only be used when the " + BusinessLogicModuleName + " has no recurring charges.  Switch to a recurring-type Billing Cycle.";
                         }
+                        else if (!hasRecurring && (!bc.BillingCycleType.Equals(RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE)))
+                        {
+                            isValid = false;
+                            validateMsg = "The " + bc.BillingCycle + " Billing Cycle can only be used when the " + BusinessLogicModuleName + " has recurring charges.  Switch to an " + RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE + " Billing Cycle.";
+                        }
+
                     }
                 }
-
             }
 
             if (isValid)
@@ -1389,19 +1459,21 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------ 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+            string orderId = GetPrimaryKeys()[0].ToString();
+
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 InputByUserId = UserSession.UsersId;
-                // load Deal here for use later in this method
-                DealLogic deal = null;
-                string dealId = DealId;
-                if (!string.IsNullOrEmpty(dealId))
-                {
-                    deal = new DealLogic();
-                    deal.SetDependencies(AppConfig, UserSession);
-                    deal.DealId = dealId;
-                    bool b = deal.LoadAsync<DealLogic>().Result;
-                }
+                //// load Deal here for use later in this method
+                //DealLogic deal = null;
+                //string dealId = DealId;
+                //if (!string.IsNullOrEmpty(dealId))
+                //{
+                //    deal = new DealLogic();
+                //    deal.SetDependencies(AppConfig, UserSession);
+                //    deal.DealId = dealId;
+                //    bool b = deal.LoadAsync<DealLogic>().Result;
+                //}
 
                 // load Department here for use later in this method
                 DepartmentLogic department = null;
@@ -1414,38 +1486,38 @@ namespace WebApi.Modules.Agent.Order
                     bool b = department.LoadAsync<DepartmentLogic>().Result;
                 }
 
-
                 if (string.IsNullOrEmpty(BillingCycleId))
                 {
-                    if (string.IsNullOrEmpty(DealId))
-                    {
-                        DefaultSettingsLogic defaults = new DefaultSettingsLogic();
-                        defaults.SetDependencies(AppConfig, UserSession);
-                        defaults.DefaultSettingsId = RwConstants.CONTROL_ID;
-                        bool b = defaults.LoadAsync<DefaultSettingsLogic>().Result;
-                        BillingCycleId = defaults.DefaultDealBillingCycleId;
-                    }
-                    else
-                    {
-                        if (deal != null)
-                        {
-                            BillingCycleId = deal.BillingCycleId;
-                        }
-                    }
+                    //if (string.IsNullOrEmpty(DealId))
+                    //{
+                    //    DefaultSettingsLogic defaults = new DefaultSettingsLogic();
+                    //    defaults.SetDependencies(AppConfig, UserSession);
+                    //    defaults.DefaultSettingsId = RwConstants.CONTROL_ID;
+                    //    bool b = defaults.LoadAsync<DefaultSettingsLogic>().Result;
+                    //    BillingCycleId = defaults.DefaultDealBillingCycleId;
+                    //}
+                    //else
+                    //{
+                    //    if (deal != null)
+                    //    {
+                    //        BillingCycleId = deal.BillingCycleId;
+                    //    }
+                    //}
+                    BillingCycleId = determineDefaultBillingCycleId();
                 }
 
                 if (string.IsNullOrEmpty(TaxOptionId))
                 {
-                    if (deal != null)
+                    if (insertingDeal != null)
                     {
                         string companyId = string.Empty;
-                        if (deal.UseCustomerTax.GetValueOrDefault(false))
+                        if (insertingDeal.UseCustomerTax.GetValueOrDefault(false))
                         {
-                            companyId = deal.CustomerId;
+                            companyId = insertingDeal.CustomerId;
                         }
                         else
                         {
-                            companyId = deal.DealId;
+                            companyId = insertingDeal.DealId;
                         }
 
                         BrowseRequest companyTaxBrowseRequest = new BrowseRequest();
@@ -1470,15 +1542,15 @@ namespace WebApi.Modules.Agent.Order
                 }
 
 
-                if (deal != null)
+                if (insertingDeal != null)
                 {
-                    if ((deal.UseDiscountTemplate.GetValueOrDefault(false) && (!string.IsNullOrEmpty(deal.DiscountTemplateId))) || (deal.UseCustomerDiscount.GetValueOrDefault(false) && (!string.IsNullOrEmpty(deal.CustomerDiscountTemplateId))))
+                    if ((insertingDeal.UseDiscountTemplate.GetValueOrDefault(false) && (!string.IsNullOrEmpty(insertingDeal.DiscountTemplateId))) || (insertingDeal.UseCustomerDiscount.GetValueOrDefault(false) && (!string.IsNullOrEmpty(insertingDeal.CustomerDiscountTemplateId))))
                     {
-                        RentalDaysPerWeek = deal.RentalDaysPerWeek;
-                        RentalDiscountPercent = deal.RentalDiscountPercent;
-                        SalesDiscountPercent = deal.SalesDiscountPercent;
-                        SpaceDaysPerWeek = deal.FacilitiesDaysPerWeek;
-                        SpaceDiscountPercent = deal.FacilitiesDiscountPercent;
+                        RentalDaysPerWeek = insertingDeal.RentalDaysPerWeek;
+                        RentalDiscountPercent = insertingDeal.RentalDiscountPercent;
+                        SalesDiscountPercent = insertingDeal.SalesDiscountPercent;
+                        SpaceDaysPerWeek = insertingDeal.FacilitiesDaysPerWeek;
+                        SpaceDiscountPercent = insertingDeal.FacilitiesDiscountPercent;
                     }
                     else
                     {

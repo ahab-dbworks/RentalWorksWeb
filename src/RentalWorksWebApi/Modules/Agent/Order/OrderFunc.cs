@@ -1182,5 +1182,49 @@ namespace WebApi.Modules.Agent.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> OrderHasItems(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, FwSqlConnection conn = null)
+        {
+            bool response = false;
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+
+            FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+            qry.Add("select hasitems = (case when exists (select * from masteritem where orderid = @orderid) then 'T' else 'F' end)");
+            qry.AddParameter("@orderid", orderId);
+            FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+            foreach (List<object> row in dt.Rows)
+            {
+                string hasItems = row[dt.GetColumnNo("hasitems")].ToString();
+                response = FwConvert.ToBoolean(hasItems);
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> OrderHasRecurring(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, FwSqlConnection conn = null)
+        {
+            bool response = false;
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+
+            FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+            qry.Add("select hasrecurring = dbo.funcorderhasrecurring(@orderid)");
+            qry.AddParameter("@orderid", orderId);
+            FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+            foreach (List<object> row in dt.Rows)
+            {
+                string hasRecurring = row[dt.GetColumnNo("hasrecurring")].ToString();
+                response = FwConvert.ToBoolean(hasRecurring);
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }
