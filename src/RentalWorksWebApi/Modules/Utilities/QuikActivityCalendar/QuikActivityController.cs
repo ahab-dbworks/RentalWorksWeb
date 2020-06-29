@@ -46,6 +46,14 @@ namespace WebApi.Modules.Utilities.QuikActivity
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/quikactivity/exportexcelxlsx
+        [HttpPost("exportexcelxlsx")]
+        [FwControllerMethod(Id: "w1UwGTR6LxorC", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
         // PUT api/v1/quikactivity/A0000001 
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "jGm20mzeOp7Qi", ActionType: FwControllerActionTypes.Edit)]
