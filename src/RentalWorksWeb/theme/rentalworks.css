@@ -624,8 +624,9 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner table tr[data-row="detail"] td { font-size:.9em;font-weight: 600;height:2em;position:relative;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 #reportDesigner table tr[data-row="detail"] td.hover-cell { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);margin: 5px; }
 #reportDesigner table tr[data-row="footer"] td { height:2em;position:relative;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ffffff;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
-#reportDesigner table tr[data-row="footer"] td.total-name {cursor:pointer;}
-#reportDesigner table tr[data-row="header"] td { cursor:pointer;}
+#reportDesigner table tr[data-row="footer"] td.total-name {cursor:default;}
+#reportDesigner table tr[data-row="header"] td { cursor:default;}
+#reportDesigner table tr.preview .placeholder { border:2px dashed #4caf50 !important; text-align:center;}
 
 /* Custom Report Header Section (note: copied from webpackreports.scss) */
 #reportDesigner .header-wrapper .rpt-flexrow {display: flex;flex-wrap: nowrap;justify-content: space-between;width: 1110px;}

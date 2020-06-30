@@ -50,6 +50,8 @@ class CustomReportLayout {
         //removes field propagation
         $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
 
+        $form.find('.tabpages').css('overflow', 'unset'); //override overflow:auto for sticky properties section
+
         this.loadModules($form);
         this.events($form);
         this.designerEvents($form);
@@ -724,6 +726,7 @@ class CustomReportLayout {
         let $column;
         let newColumnNumber = 1;
         const $addColumn = $form.find('.addColumn');
+        const $addRow = $form.find('.addRow');
         let $headerField;
 
         $form.on('click', '#reportDesigner .header-wrapper', e => {
@@ -755,6 +758,8 @@ class CustomReportLayout {
             $table = $form.find('.table-wrapper.selected table');
             const tableName = jQuery(e.currentTarget).attr('data-tablename');
             FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
+            this.addRowLoadSelect($form, tableName);
+            this.addColumnLoadSelect($form, tableName);
             this.showHideControlProperties($form, 'tablewrapper');
         });
 
@@ -816,7 +821,7 @@ class CustomReportLayout {
         });
 
         //add header column
-        $addColumn.off().on('click', e => {
+        $addColumn.on('click', e => {
             $column = jQuery(`<th data-linkedcolumn="NewColumn${newColumnNumber}" data-valuefield="NewColumn${newColumnNumber}">New Column</th>`);
             $table.find('#columnHeader tr').append($column);
             this.setControlValues($form, $column);
@@ -828,6 +833,28 @@ class CustomReportLayout {
             this.updateHTML($form, $table, $table.find('#columnHeader tr'));
             newColumnNumber++;
             this.showHideControlProperties($form, 'table');
+        });
+
+        //add rows
+        $addRow.on('click', e => {
+            const rowType = FwFormField.getValueByDataField($form, 'AddRow');
+            if (rowType != '') {
+                
+            } else {
+                $form.find('[data-datafield="AddRow"]').addClass('error');
+                FwNotification.renderNotification('WARNING', 'Select a Row Type to add.');
+            }
+        });
+
+        //Select Row Type change events
+        $form.on('change', '[data-datafield="AddRow"]', e => {
+            const rowType = FwFormField.getValueByDataField($form, 'AddRow');
+            $form.find('#reportDesigner table .preview').remove();
+            if (rowType != '') {
+                $form.find('[data-datafield="AddRow"]').removeClass('error');
+                //add preview
+                this.addRowPreview($form, rowType);
+            }
         });
 
         //delete table header column
@@ -898,11 +925,70 @@ class CustomReportLayout {
         FwFormField.setValueByDataField($form, 'ValueField', $column.attr('data-valuefield'), $column.attr('data-valuefield'));
     }
     //----------------------------------------------------------------------------------------------
+    addRowLoadSelect($form, tableName) {
+        const rowTypes = [
+            { value: 'header', text: 'Header Row' },
+            { value: 'sub-header', text: 'Sub-Header Row' },
+            { value: 'detail', text: 'Detail Row' }
+        ];
+        FwFormField.loadItems($form.find('[data-datafield="AddRow"]'), rowTypes);
+    }
+    //----------------------------------------------------------------------------------------------
+    addRowPreview($form, rowType) {
+        let $row;
+        const tableName = FwFormField.getValueByDataField($form, 'TableName');
+        const $table = $form.find(`table[data-tablename="${tableName}"]`);
+        switch (rowType) {
+            case 'header':
+                $row = $table.find('thead tr:last');
+                break;
+            case 'sub-header':
+                $row = $table.find('tr[data-row="sub-header"]:last');
+                break;
+            case 'detail':
+                $row = $table.find('tr[data-row="detail"]:last');
+                break;
+        }
+
+        const colspan = $table.data('totalcolumncount') || 1;
+        let html = [];
+        html.push(`<tr class="preview"`);
+        if (rowType != 'header') {
+            html.push(` data-row="${rowType}">`);
+            html.push(`<td colspan=${colspan} class="placeholder">New Row Preview</td>`);
+        } else {
+            html.push(`>`);
+            html.push(`<th colspan=${colspan} class="placeholder">New Row Preview</th>`);
+        }
+        html.push(`</tr>`);
+
+        const $newRow = jQuery(html.join(''));
+        $newRow.insertAfter($row);
+    }
+    //----------------------------------------------------------------------------------------------
+    addColumnLoadSelect($form, tableName) {
+        const columnTypes = [];
+        const $table = $form.find(`table[data-tablename="${tableName}"]`);
+        const $headerRows = $table.find('thead tr');
+        for (let i = 0; i < $headerRows.length; i++) {
+            columnTypes.push({ value: 'header|'+ i, text: 'Header Row ' + i + 1 });
+        }
+        const $subheaderRows = $table.find('tbody tr[data-row="sub-header"]');
+        for (let i = 0; i < $subheaderRows.length; i++) {
+            columnTypes.push({ value: 'subheader|' + i, text: 'Sub-Header Row ' + i + 1 });
+        }
+        const $detailRows = $table.find('tbody tr[data-row="detail"]');
+        for (let i = 0; i < $detailRows.length; i++) {
+            columnTypes.push({ value: 'detail|' + i, text: 'Detail Row ' + i + 1 });
+        }
+        FwFormField.loadItems($form.find('[data-datafield="AddColumn"]'), columnTypes);
+    }
+    //----------------------------------------------------------------------------------------------
     getTotalColumnCount($table: JQuery, isTableHeader: boolean, $row?: JQuery) {
         let count = 0;
         let $columns;
         if (isTableHeader) {
-            $columns = $table.find(`#columnHeader tr th`);
+            $columns = $table.find(`#columnHeader tr:first th`);
         } else {
             $columns = $row.find('td');
         }
