@@ -437,7 +437,7 @@ class FwModule {
                                     //const sliceIndex = apiurl.lastIndexOf('/');                    // jason h - 06/19/20
                                     //const moduleName = apiurl.slice(sliceIndex + 1);               // retrieving the module name from the controller instead of slicing up the apiurl
                                     request.uniqueids = {};                                          // (for cases like the Asset module where the apiurl doesnt match the module name (Item instead of Asset))
-                                    request.uniqueids.ModuleName = moduleController.Module;  
+                                    request.uniqueids.ModuleName = moduleController.Module;
                                     for (let i = 0; i < 2; i++) {
                                         let uniqueIdValue = jQuery($keys[i]).find('input').val();
                                         if (typeof uniqueIdValue !== 'undefined') {
@@ -756,7 +756,7 @@ class FwModule {
 
         // work around for when devs add fields in the afterLoad
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
-        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
+        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"]):not(.find-field)')); // excludes browse "Find" fields from a parent form within a submodule
         $form.data('grids', $form.find('div[data-control="FwGrid"]'));
         if ($form.data('mode') !== undefined && $form.data('mode') === 'READONLY') {
             FwModule.setFormReadOnly($form);

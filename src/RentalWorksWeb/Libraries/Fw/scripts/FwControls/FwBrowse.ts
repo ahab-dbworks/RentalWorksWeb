@@ -1809,7 +1809,7 @@ class FwBrowseClass {
                                             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                                                 $confirmation.find('.recordno').html((i + 1).toString());
                                                 $confirmation.find('.progress').attr('value', (i + 1).toString());
-                                                let $tr = $selectedCheckBoxes.eq(i).closest('tr');
+                                                const $tr = $selectedCheckBoxes.eq(i).closest('tr');
                                                 await this.deleteRecord(options.$browse, $tr);
                                             }
                                         } catch (ex) {
@@ -2011,7 +2011,7 @@ class FwBrowseClass {
             fieldtype = $field.attr('data-browsedatatype') || $field.attr('data-datatype');
 
             if (typeof $field.attr('data-searchfield') !== 'undefined') {
-                browsedatafield = $field.attr('data-searchfield'); 
+                browsedatafield = $field.attr('data-searchfield');
             } else {
                 if (fieldtype === "validation") {
                     browsedatafield = $field.attr('data-browsedisplayfield') || $field.attr('data-displayfield');
