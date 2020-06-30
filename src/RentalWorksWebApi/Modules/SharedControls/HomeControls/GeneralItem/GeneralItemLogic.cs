@@ -27,6 +27,9 @@ namespace WebApi.Modules.HomeControls.GeneralItem
         [FwLogicProperty(Id:"8EMfqweWdvRj")]
         public string Description { get; set; }
 
+        [FwLogicProperty(Id: "Ej6uB0z7lfLDq")]
+        public string DescriptionWithAkas { get; set; }
+
         [JsonIgnore]
         [FwLogicProperty(Id:"Gg1vZrs1TQta")]
         public string AvailFor { get; set; }

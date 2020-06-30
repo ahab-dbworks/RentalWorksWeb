@@ -29,6 +29,9 @@ namespace WebApi.Modules.HomeControls.GeneralItem
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterakatext", modeltype: FwDataTypes.Text)]
+        public string DescriptionWithAkas { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
         public string AvailFor { get; set; }
         //------------------------------------------------------------------------------------ 
