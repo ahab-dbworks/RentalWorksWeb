@@ -817,10 +817,16 @@ class FwModule {
                             $form.attr('data-mode', 'EDIT');
                             $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
                             $form.find('.submenu-btn').css({ 'pointer-events': 'auto', 'color': '' });
+                            FwFormField.loadForm($formfields, response);
+
+                            // Update FwAppImage control to edit mode rendering
+                            const $fwcontrols = $form.find('.fwappimage');
+                            FwControl.loadControls($fwcontrols);
                         } else {
                             $formfields = $form.data('fields');
+                            FwFormField.loadForm($formfields, response);
                         }
-                        FwFormField.loadForm($formfields, response);
+
                         $form.attr('data-modified', 'false');
                         if (typeof controller['afterLoad'] === 'function') {
                             controller['afterLoad']($form, response);

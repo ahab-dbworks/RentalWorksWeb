@@ -474,11 +474,8 @@ class FwAppImageClass {
     };
     //---------------------------------------------------------------------------------
     renderDesignerHtml($control) {
-        var data_type, data_rendermode, html;
-        data_type = $control.attr('data-type');
-        data_rendermode = $control.attr('data-rendermode');
         $control.attr('data-rendermode', 'designer');
-        html = [];
+        let html = [];
         html.push('<div class="designer">');
         html.push(FwControl.generateDesignerHandle('Image', $control.attr('id')));
         html.push('<div class="image"></div>');
@@ -489,18 +486,7 @@ class FwAppImageClass {
     //---------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
         let caption = '';
-        const data_type = $control.attr('data-type');
-        const data_rendermode = $control.attr('data-rendermode');
         $control.attr('data-rendermode', 'runtime');
-        const $fwform = $control.closest('.fwform');
-        let mode = 'EDIT';
-        if ($fwform.length > 0) {
-            mode = $fwform.attr('data-mode');
-        }
-        let viewerheight: string = '200px';
-        if ($control.attr('data-viewerheight') !== undefined) {
-            viewerheight = $control.attr('data-viewerheight');
-        }
         let html: string|string[] = [];
         html.push('<div class="runtime">');
         caption = $control.attr('data-caption');
@@ -511,28 +497,9 @@ class FwAppImageClass {
             html.push('</div>');
         }
         html.push('  <div class="toolbar">');
-        if (mode !== 'NEW') {
-            if ($control.attr('data-hasadd') !== 'false') {
-                html.push('    <div class="button btnAdd" title="Add"><i class="material-icons">&#xE145;</i></div>'); //add
-            }
-            if ($control.attr('data-hasdelete') !== 'false') {
-                html.push('        <div class="button btnDelete" title="Delete"><i class="material-icons">&#xE872;</i></div>');
-            }
-            if ($control.attr('data-hastogglethumbnails') !== 'false') {
-                html.push('        <div class="button btnToggleThumbnails" title="Toggle Thumbnails"><i class="material-icons">&#xE3B6;</i></div>');
-            }
-            html.push('    <div class="button btnRefresh" title="Refresh"><i class="material-icons">&#xE5D5;</i></div>'); //refresh
-        }
         html.push('  </div>');
         html.push('  <div class="imageviewer">');
         html.push('    <div class="fullsizeimagepager">');
-        if (mode !== 'NEW') {
-            html.push('      <div class="btnPrevImage" title="Previous Image"><i class="material-icons">chevron_left</i></div>');
-        }
-        html.push(`      <div class="image" style="height:${viewerheight};"></div>`);
-        if (mode !== 'NEW') {
-            html.push('      <div class="btnNextImage" title="Next Image"><i class="material-icons">chevron_right</i></div>');
-        }
         html.push('    </div>');
         html.push('  </div>')
         html.push('  <div class="pageinfo">- of -</div>');
@@ -593,9 +560,48 @@ class FwAppImageClass {
     //---------------------------------------------------------------------------------
     loadControl($control) {
         const $form = $control.closest('.fwform');
-        if (($form.length === 0) || ($form.attr('data-mode') !== 'NEW')) {
+        let mode = 'EDIT';
+        if ($form.length > 0) {
+            mode = $form.attr('data-mode');
+        }
+
+        if (mode !== 'NEW') {
+            let html: string | string[] = [];
+            if ($control.attr('data-hasadd') !== 'false') {
+                html.push('    <div class="button btnAdd" title="Add"><i class="material-icons">&#xE145;</i></div>'); //add
+            }
+            if ($control.attr('data-hasdelete') !== 'false') {
+                html.push('        <div class="button btnDelete" title="Delete"><i class="material-icons">&#xE872;</i></div>');
+            }
+            if ($control.attr('data-hastogglethumbnails') !== 'false') {
+                html.push('        <div class="button btnToggleThumbnails" title="Toggle Thumbnails"><i class="material-icons">&#xE3B6;</i></div>');
+            }
+            html.push('    <div class="button btnRefresh" title="Refresh"><i class="material-icons">&#xE5D5;</i></div>'); //refresh
+            html = html.join('\n');
+            const $toolbar = $control.find('.toolbar');
+            $toolbar.html(html);
+        }
+
+        let viewerheight: string = '200px';
+        if ($control.attr('data-viewerheight') !== undefined) {
+            viewerheight = $control.attr('data-viewerheight');
+        }
+        const fullsizeImageHtml: string | string[] = [];
+        if (mode !== 'NEW') {
+            fullsizeImageHtml.push('      <div class="btnPrevImage" title="Previous Image"><i class="material-icons">chevron_left</i></div>');
+        }
+        fullsizeImageHtml.push(`      <div class="image" style="height:${viewerheight};"></div>`);
+        if (mode !== 'NEW') {
+            fullsizeImageHtml.push('      <div class="btnNextImage" title="Next Image"><i class="material-icons">chevron_right</i></div>');
+        }
+        const $fullsizeimagepager = $control.find('.fullsizeimagepager');
+        $fullsizeimagepager.html(fullsizeImageHtml);
+
+
+        if (($form.length === 0) || (mode !== 'NEW')) {
             FwAppImage.getAppImages($control);
         } else {
+
             FwAppImage.getAppImagesCallback($control, []);
         }
     }
