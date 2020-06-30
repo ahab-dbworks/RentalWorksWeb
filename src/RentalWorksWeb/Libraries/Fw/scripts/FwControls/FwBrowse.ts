@@ -4226,17 +4226,23 @@ class FwBrowseClass {
                             const workbook = XLSX.read(data, {
                                 type: 'binary'
                             });
+                            const sheetNames = workbook.SheetNames;
 
-                            workbook.SheetNames.forEach(sheetName => {
-                                // Here is your object
-                                const XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                            for (let i = 0; i < sheetNames.length; i++) {
+                                const XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetNames[i]]);
                                 const json_object = JSON.stringify(XL_row_object);
                                 console.log('JSON: ', json_object);
-                            })
+                            }
+                            //workbook.SheetNames.forEach(sheetName => {
+                            //    // Here is your object
+                            //    const XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                            //    const json_object = JSON.stringify(XL_row_object);
+                            //    console.log('JSON: ', json_object);
+                            //})
                         };
                         // TO DO
                         // seems to be problem with very large files
-                        // incorporate progress meter
+                        // incorporate progress meter for upload and processing the data
                         // add file type concerns
                         // allow download of template
                         // err handling - incorrect or blank fields and types
@@ -4259,26 +4265,20 @@ class FwBrowseClass {
         $confirmation.find('.dl-template').on('click', e => {
             FwAppData.apiMethod(true, 'GET', `${(<any>window[controller]).apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
 
-                const fields = [];
                 const resFields = response._Fields
-                //for (let key in response._Fields) {
-                //    if (!key.startsWith('_')) {
-                //        console.log('key: ', {key: 'h'})
-                //        fields.push({ key: '' });
-                //    }
-                //}
 
                 const obj = {}
                 for (let i = 0; i < resFields.length; i++) {
                     const curr = resFields[i];
                     obj[curr.Name] = "";
                 }
+                const fields = [];
                 fields.push(obj)
                 console.log('fields', JSON.stringify(fields));
 
-                const sortedFields = fields.slice();
-                sortedFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
-                console.log('sortedFields', sortedFields);
+                //const sortedFields = fields.slice();
+                //sortedFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
+                //console.log('sortedFields', sortedFields);
 
                 //function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
                 //    //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
