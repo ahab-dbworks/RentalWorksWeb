@@ -3861,7 +3861,6 @@ class FwBrowseClass {
                 if (typeof $control.data('getapiurl') === 'function') {
                     url = $control.data('getapiurl')('DELETE');
                 }
-                let escape = false;
                 if (url.length === 0 && typeof controller.apiurl !== 'undefined' || typeof $control.data('getbaseapiurl') === 'function') {
                     if (typeof $control.data('getbaseapiurl') !== 'undefined') {
                         url = $control.data('getbaseapiurl')();
@@ -3880,38 +3879,33 @@ class FwBrowseClass {
                     if (ids.length === 0) {
                         if (typeof $control.data('deletewithnoids') === 'function') {
                             $control.data('deletewithnoids')($tr);
-                            escape = true;
+                            return resolve();
+
                         } else {
                             throw new Error('primary key id(s) cannot be blank');
                         }
                     }
                     url += `/${ids}`;
                 }
-                if (!escape) {
-                    request.url = applicationConfig.apiurl + url;
-                    request.httpMethod = 'DELETE';
 
-                    const response = await FwAjax.callWebApi<any, any>(request);
-                    if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
-                        //perform after delete
-                        if (($control.attr('data-type') === 'Grid') && (typeof $control.data('afterdelete') === 'function')) {
-                            $control.data('afterdelete')($control, $tr);
-                        }
-                        else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                            if (controller.afterDelete === 'function') {
-                                controller.afterDelete($control, $tr);
-                            }
-                        }
-                        //if (refreshAfterDelete) {
-                        //    me.search($control);
-                        //}
-                        resolve();
+                request.url = applicationConfig.apiurl + url;
+                request.httpMethod = 'DELETE';
+
+                const response = await FwAjax.callWebApi<any, any>(request);
+                if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
+                    //perform after delete
+                    if (($control.attr('data-type') === 'Grid') && (typeof $control.data('afterdelete') === 'function')) {
+                        $control.data('afterdelete')($control, $tr);
                     }
-                    else {
-                        reject(response);
+                    else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                        if (controller.afterDelete === 'function') {
+                            controller.afterDelete($control, $tr);
+                        }
                     }
-                } else {
                     resolve();
+                }
+                else {
+                    reject(response);
                 }
             }
             catch (ex) {
