@@ -3880,7 +3880,6 @@ class FwBrowseClass {
                         if (typeof $control.data('deletewithnoids') === 'function') {
                             $control.data('deletewithnoids')($tr);
                             return resolve();
-
                         } else {
                             throw new Error('primary key id(s) cannot be blank');
                         }
