@@ -4213,6 +4213,7 @@ class FwBrowseClass {
         // ----------
         $yes.on('click', e => {
             if ($confirmation.find('#uploadExcel').attr("src") !== '') {
+                const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Processing your Excel file. This may take some time...');
                 // ----------
                 (function ExcelToJSON() {
                     const $this = $confirmation.find('#uploadExcel');
@@ -4227,22 +4228,17 @@ class FwBrowseClass {
                             const workbook = XLSX.read(data, {
                                 type: 'binary'
                             });
-                            const sheetNames = workbook.SheetNames;
 
+                            const sheetNames = workbook.SheetNames;
                             for (let i = 0; i < sheetNames.length; i++) {
                                 const XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetNames[i]]);
                                 const json_object = JSON.stringify(XL_row_object);
                                 console.log('JSON: ', json_object);
+                                FwNotification.closeNotification($notification);
                             }
-                            //workbook.SheetNames.forEach(sheetName => {
-                            //    // Here is your object
-                            //    const XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-                            //    const json_object = JSON.stringify(XL_row_object);
-                            //    console.log('JSON: ', json_object);
-                            //})
                         };
                         // TO DO
-                        // seems to be problem with very large files
+                        // problem with very large files (> 32MB)
                         // incorporate progress meter for upload and processing the data
                         // add file type concerns
                         // upload file to server
@@ -4253,10 +4249,14 @@ class FwBrowseClass {
 
                         reader.readAsBinaryString(file);
                     };
-                    parseExcel(excelFile);
+                    if (excelFile.size <= 32691405) { // 22800 records
+                        parseExcel(excelFile);
+                    } else {
+                        FwNotification.renderNotification('WARNING', 'File size limit is 32.6MB.');
+                    }
                 })();
 
-                // if satisfactory file
+                // if satisfactory excelFile
                 FwConfirmation.destroyConfirmation($confirmation);
             } else {
                 FwNotification.renderNotification('WARNING', 'Upload a file first.')
@@ -4270,11 +4270,11 @@ class FwBrowseClass {
 
                 const obj = {}
                 for (let i = 0; i < resFields.length; i++) {
-                    const curr = resFields[i];
-                    obj[curr.Name] = "";
+                    const item = resFields[i];
+                    obj[item.Name] = "";
                 }
                 const fields = [];
-                fields.push(obj)
+                fields.push(obj);
                 console.log('fields', JSON.stringify(fields));
 
                 //const sortedFields = fields.slice();
