@@ -4161,22 +4161,8 @@ class FwBrowseClass {
     importExcelFromBrowse($browse, controller) {
         const $confirmation = FwConfirmation.renderConfirmation('Import an Excel File', '');
         $confirmation.find('.fwconfirmationbox').css('width', '350px');
-        //const html: Array<string> = [];
-        //html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        //html.push('  <div class="flexrow">');
-        //html.push('  <div class="flexcolumn">');
-        //html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-        //html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records-input" data-caption="Select Excel file to import:" data-datafield="" style="width:327px;"></div>');
-        //html.push('  </div>');
-        //html.push('  </div>');
-        //html.push('</div>');
-
-        //html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        //html.push('  <div class="flexrow">');
-        //html.push('  <input type="file" id="excelImport" />< label for= "file" class= "import-excel" > <span>select < /span></label>');
-        //html.push('</div>');
-
         const htmlStr = `<div class="fwform" data-controller="none" style="background-color: transparent;">
+                          <div class="import-title" style="font-size: 13px;margin-bottom:3px;">Select Excel file to import</div>
                           <div class="flexrow import-excel">
                             <div class="btn-wrapper" style="max-width:77px;">
                               <label class="import-excel-label" for="uploadExcel">Browse</label>
@@ -4184,17 +4170,20 @@ class FwBrowseClass {
                             </div>
                             <div id="fileName" style="margin:8px;"></div>
                           </div>
-
                         </div>`;
 
         FwConfirmation.addControls($confirmation, htmlStr);
-        $confirmation.find('.body').css('min-height', '40px')
+        $confirmation.find('.body').css({
+            'min-height': '40px',
+            'padding': '4px 10px 10px 10px',
+        })
         const $yes = FwConfirmation.addButton($confirmation, 'Import', false);
         $yes.css('pointer-events', 'none');
         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
         $confirmation.find('.fwconfirmation-buttonbar').append('<div class="dl-template" style="font-size:.8em;color:#2626f3;cursor:pointer;float:left;margin:10px 10px 10px 20px;">Download an Excel template file to use for this import</div>');
         // ----------
         $confirmation.find('#uploadExcel').on('change', e => {
+            $confirmation.find('.import-title').css('visibility', 'hidden');
             $confirmation.find('#fileName').text('');
             $yes.css('pointer-events', '');
             const $this = jQuery(e.currentTarget);
