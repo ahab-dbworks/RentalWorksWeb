@@ -4179,20 +4179,24 @@ class FwBrowseClass {
         const htmlStr = `<div class="fwform" data-controller="none" style="background-color: transparent;">
                           <div class="flexrow import-excel">
                             <div class="btn-wrapper" style="max-width:77px;">
-                              <label class="import-excel-label" for="uploadExcel"> Upload</label>
+                              <label class="import-excel-label" for="uploadExcel">Browse</label>
                               <input id="uploadExcel" type="file">
                             </div>
                             <div id="fileName" style="margin:8px;"></div>
                           </div>
-                          <div class="dl-template" style="font-size:.8em;color:#2626f3;cursor:pointer;float:left;margin:10px;">Download an Excel template file to use for this import</div>
+
                         </div>`;
 
         FwConfirmation.addControls($confirmation, htmlStr);
+        $confirmation.find('.body').css('min-height', '40px')
         const $yes = FwConfirmation.addButton($confirmation, 'Import', false);
+        $yes.css('pointer-events', 'none');
         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        $confirmation.find('.fwconfirmation-buttonbar').append('<div class="dl-template" style="font-size:.8em;color:#2626f3;cursor:pointer;float:left;margin:10px 10px 10px 20px;">Download an Excel template file to use for this import</div>');
         // ----------
         $confirmation.find('#uploadExcel').on('change', e => {
             $confirmation.find('#fileName').text('');
+            $yes.css('pointer-events', '');
             const $this = jQuery(e.currentTarget);
             const folder: any = $this[0];
             if (folder.files) {
