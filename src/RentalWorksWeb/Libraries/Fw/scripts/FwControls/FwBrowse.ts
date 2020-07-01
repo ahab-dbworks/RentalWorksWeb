@@ -4226,16 +4226,20 @@ class FwBrowseClass {
                             for (let i = 0; i < sheetNames.length; i++) {
                                 const XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetNames[i]]);
                                 const json_object = JSON.stringify(XL_row_object);
-                                console.log('JSON: ', json_object);
                                 FwNotification.closeNotification($notification);
+                                
+                                // determine primary key
+                                // if line primary key is blank, POST, else PUT (edit)
+                                // count rows, give progress meter 
+                                // err handling ?
+                                // iterate and send to API one line at a time
+
+                                console.log('JSON: ', json_object);
                             }
                         };
                         // TO DO
-                        // problem with very large files (> 32MB)
-                        // incorporate progress meter for upload and processing the data
+  
                         // add file type concerns
-                        // upload file to server
-                        // err handling - incorrect or blank fields and types
                         // disable upload btn after file cancel
                         reader.onerror = ex => {
                             console.error(ex);
@@ -4259,9 +4263,7 @@ class FwBrowseClass {
         // ----------
         $confirmation.find('.dl-template').on('click', e => {
             FwAppData.apiMethod(true, 'GET', `${(<any>window[controller]).apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
-
                 const resFields = response._Fields
-
                 const obj = {}
                 for (let i = 0; i < resFields.length; i++) {
                     const item = resFields[i];
