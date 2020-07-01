@@ -438,6 +438,13 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "TQdn8N1xdrKn")]
         public decimal? InvoiceSubTotal { get { return invoice.InvoiceSubTotal; } set { invoice.InvoiceSubTotal = value; } }
 
+
+        [FwLogicProperty(Id: "rvnnlVfaPZ6qa")]
+        public decimal? InvoiceTax1 { get { return invoice.InvoiceTax1; } set { invoice.InvoiceTax1 = value; } }
+
+        [FwLogicProperty(Id: "1dWAWCcP18XgS")]
+        public decimal? InvoiceTax2 { get { return invoice.InvoiceTax2; } set { invoice.InvoiceTax2 = value; } }
+
         [FwLogicProperty(Id: "wga1bXifBm3L")]
         public decimal? InvoiceTax { get { return invoice.InvoiceTax; } set { invoice.InvoiceTax = value; } }
 

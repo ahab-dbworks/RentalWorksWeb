@@ -1073,7 +1073,7 @@ class Invoice {
 
         if (tax1Name != "") {
             updateCaption($taxFields, tax1Name, 1);
-            $form.find('[data-datafield="InvoiceTax"] .fwformfield-caption').text(tax1Name);
+            $form.find('[data-datafield="InvoiceTax1"] .fwformfield-caption').text(tax1Name);
         }
 
         const $tax2Fields = $form.find('[data-totalfield="Tax2"]');

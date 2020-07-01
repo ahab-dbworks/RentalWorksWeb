@@ -289,6 +289,12 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "invoicesubtotal", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicetax1", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceTax1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicetax2", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceTax2 { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceTax { get; set; }
         //------------------------------------------------------------------------------------ 
