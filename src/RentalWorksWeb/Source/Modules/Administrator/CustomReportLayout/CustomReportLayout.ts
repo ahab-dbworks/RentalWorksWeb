@@ -401,6 +401,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, $table: JQuery, $tr: JQuery, $th?) {
+        let valuefield, $column, newHTML;
         const sectionToUpdate = $form.data('sectiontoupdate');
         if (typeof sectionToUpdate != 'undefined' && typeof sectionToUpdate == 'string') {
             const $wrapper = jQuery('<div class="custom-report-wrapper"></div>');
@@ -409,10 +410,10 @@ class CustomReportLayout {
             if (sectionToUpdate == 'reportheader') {
                 const headerFor = $form.data('reportheaderfor');
                 if (headerFor == '') {
-                    const newHTML = $form.find('#reportDesigner .header-wrapper').get(0).innerHTML;
+                    newHTML = $form.find('#reportDesigner .header-wrapper').get(0).innerHTML;
                     $wrapper.find('[data-section="header"]').html(newHTML);
                 } else {
-                    const newHTML = $form.find(`#reportDesigner .header-wrapper [data-headerfor="${headerFor}"]`).get(0).outerHTML;
+                     newHTML = $form.find(`#reportDesigner .header-wrapper [data-headerfor="${headerFor}"]`).get(0).outerHTML;
                     $wrapper.find(`[data-section="header"][data-headerfor="${headerFor}"]`).html(newHTML);
                 }
                 $form.removeData('reportheaderfor');
@@ -420,296 +421,316 @@ class CustomReportLayout {
                 const tableName = $table.attr('data-tablename') || '';
                 let tableNameSelector = tableName == '' ? '' : `table[data-tablename="${tableName}"]`;
                 const totalColumnCount = $table.data('totalcolumncount');
-                const newHTML = $tr.get(0).innerHTML.trim();
-                if (sectionToUpdate == 'tableheader') {
-                    const rowSelector = `${tableNameSelector} tbody tr`;
-                    const $rows = $wrapper.find(rowSelector);
+                switch (sectionToUpdate) {
+                    case 'tableheader':
+                        newHTML = $tr.get(0).innerHTML.trim();
+                        const rowSelector = `${tableNameSelector} tbody tr`;
+                        const $rows = $wrapper.find(rowSelector);
 
-                    //move columns to match column order in the header
-                    if (typeof $form.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
-                        const valuefield = $th.attr('data-valuefield');
-                        const linkedColumn = $th.attr('data-linkedcolumn');
-                        if (typeof valuefield != 'undefined') {
-                            const oldIndex = $form.data('columnsmoved').oldIndex;
-                            const newIndex = $form.data('columnsmoved').newIndex;
-                            let $detailRowTds;
+                        //move columns to match column order in the header
+                        if (typeof $form.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
+                            valuefield = $th.attr('data-valuefield');
+                            const linkedColumn = $th.attr('data-linkedcolumn');
+                            if (typeof valuefield != 'undefined') {
+                                const oldIndex = $form.data('columnsmoved').oldIndex;
+                                const newIndex = $form.data('columnsmoved').newIndex;
+                                let $detailRowTds;
+                                let footerCount = 0;
+                                for (let i = 0; i < $rows.length; i++) {
+                                    const $row = jQuery($rows[i]);
+                                    const rowType = $row.attr('data-row');
+                                    const $designerRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]);
+                                    let $designerTds = $designerRow.find('td');
+                                    const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                                    let $tds = $row.find('td');
+                                    if (rowType == 'detail') {
+                                        $detailRowTds = $designerTds;
+                                        const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                                        if ($movedTd.length) {
+                                            if (oldIndex > newIndex) {
+                                                $movedTd.insertBefore($tds[newIndex]);
+                                                $designerTd.insertBefore($designerTds[newIndex]);
+                                            } else {
+                                                $movedTd.insertAfter($tds[newIndex]);
+                                                $designerTd.insertAfter($designerTds[newIndex]);
+                                            }
+                                        }
+                                    } else if (rowType == 'footer') {
+                                        const totalNameColSpan = parseInt($designerTds.filter('.total-name').attr('colspan')) || 1;
+                                        const totalNameIndex = $designerTds.filter('.total-name').index();
+                                        const endTotalNameColumnIndex = totalNameIndex + (totalNameColSpan - 1);
+                                        if ($designerTd.length) {
+                                            if ($designerTd.hasClass('empty-td')) { //move newly added columns
+                                                const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                                                if (oldIndex > newIndex) { //moving LEFT
+                                                    if (newIndex > endTotalNameColumnIndex) { //moved to the right of the totalName column
+                                                        if (newIndex == endTotalNameColumnIndex + 1) { //merge with totalName column
+                                                            $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                            $designerTd.remove();
+                                                            $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                            $movedTd.remove();
+                                                        } else {
+                                                            $movedTd.insertBefore($tds[newIndex - (totalNameColSpan - 1)]);
+                                                            $designerTd.insertBefore($designerTds[newIndex - (totalNameColSpan - 1)]);
+                                                        }
+                                                    } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //moved within the totalName column
+                                                        $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1); //merge
+                                                        $designerTd.remove();
+                                                        $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                        $movedTd.remove();
+                                                    } else { //moved to the left of totalName column
+                                                        if (newIndex <= totalNameIndex) { //merge
+                                                            $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                            $designerTd.remove();
+                                                            $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                            $movedTd.remove();
+                                                        } else {
+                                                            $movedTd.insertBefore($tds[newIndex]);
+                                                            $designerTd.insertBefore($designerTds[newIndex]);
+                                                        }
+                                                    }
+                                                } else if (newIndex > oldIndex) { //moving RIGHT
+                                                    if (newIndex > endTotalNameColumnIndex) { //moved to the right of the totalName column
+                                                        $movedTd.insertAfter($tds[newIndex - (totalNameColSpan - 1)]);
+                                                        $designerTd.insertAfter($designerTds[newIndex - (totalNameColSpan - 1)]);
+                                                    } else if ((newIndex >= totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //moved within the totalName column
+                                                        $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1); //merge
+                                                        $designerTd.remove();
+                                                        $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
+                                                        $movedTd.remove();
+                                                    } else { //moved to the left of totalName column
+                                                        $movedTd.insertAfter($tds[newIndex]);
+                                                        $designerTd.insertAfter($designerTds[newIndex]);
+                                                    }
+                                                }
+                                            } else { //move totaled columns
+                                                const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                                                if (oldIndex > newIndex) { //moving LEFT
+                                                    if (newIndex <= totalNameIndex) {//to the LEFT of totalname col
+                                                        $movedTd.insertBefore($tds[newIndex]);
+                                                        $designerTd.insertBefore($designerTds[newIndex]);
+                                                    } else if (newIndex > endTotalNameColumnIndex) {//to the RIGHT of totalname col
+                                                        $movedTd.insertAfter($tds[newIndex - totalNameColSpan]);
+                                                        $designerTd.insertAfter($designerTds[newIndex - totalNameColSpan]);
+                                                    } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //INTO the totalname col
+                                                        let columnsToUnmerge = totalNameColSpan - (newIndex - totalNameIndex);
+                                                        const newTotalNameColSpan = totalNameColSpan - columnsToUnmerge;
+                                                        $designerTds.filter('.total-name').attr('colspan', newTotalNameColSpan);
+                                                        $tds.filter('.total-name').attr('colspan', newTotalNameColSpan);
+                                                        $movedTd.insertAfter($tds[totalNameIndex]);
+                                                        $designerTd.insertAfter($designerTds[totalNameIndex]);
+
+                                                        $designerTds = $designerRow.find('td');  //reassign with new element order
+                                                        $tds = $row.find('td');
+
+                                                        //split tds to the right into empty tds
+                                                        for (let j = 1; j <= columnsToUnmerge; j++) {
+                                                            const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
+                                                            const linkedCol = jQuery($detailRowTds[columnToLinkIndex]).attr('data-linkedcolumn');
+                                                            const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedCol}"></td>`);
+
+                                                            $newTd.clone().insertAfter($tds[newIndex + 1 - newTotalNameColSpan]);
+                                                            $newTd.insertAfter($designerTds[newIndex + 1 - newTotalNameColSpan]);
+                                                        }
+                                                    }
+                                                } else if (oldIndex < newIndex) { //moving RIGHT
+                                                    if (newIndex > endTotalNameColumnIndex) { //to the RIGHt of totalname col
+                                                        $movedTd.insertAfter($tds[newIndex - totalNameColSpan + 1]);
+                                                        $designerTd.insertAfter($designerTds[newIndex - totalNameColSpan + 1]);
+                                                    } else if (newIndex <= totalNameIndex) {//to the LEFT of totalname col
+                                                        $movedTd.insertAfter($tds[newIndex]);
+                                                        $designerTd.insertAfter($designerTds[newIndex]);
+                                                    } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //INTO the totalname col
+                                                        let columnsToUnmerge = endTotalNameColumnIndex - newIndex;
+                                                        const newTotalNameColSpan = totalNameColSpan - columnsToUnmerge;
+                                                        $designerTds.filter('.total-name').attr('colspan', newTotalNameColSpan);
+                                                        $tds.filter('.total-name').attr('colspan', newTotalNameColSpan);
+                                                        $movedTd.insertAfter($tds[totalNameIndex]);
+                                                        $designerTd.insertAfter($designerTds[totalNameIndex]);
+
+                                                        $designerTds = $designerRow.find('td');  //reassign with new element order
+                                                        $tds = $row.find('td');
+
+                                                        //split tds to the right into empty tds
+                                                        for (let j = 1; j <= columnsToUnmerge; j++) {
+                                                            const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
+                                                            const linkedCol = jQuery($detailRowTds[columnToLinkIndex]).attr('data-linkedcolumn');
+                                                            const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedCol}"></td>`);
+
+                                                            $newTd.clone().insertAfter($tds[newIndex + 1 - newTotalNameColSpan]);
+                                                            $newTd.insertAfter($designerTds[newIndex + 1 - newTotalNameColSpan]);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else { //it wont find a designertd if it merged into a footer total-name column
+                                            const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedColumn}"></td>`);
+                                            let footerRowIndex = newIndex;
+                                            if (oldIndex < newIndex) { //moving RIGHT
+                                                if (newIndex > endTotalNameColumnIndex) { //add new empty tds
+                                                    $designerTds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
+                                                    $tds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
+                                                    footerRowIndex = newIndex - (totalNameColSpan - 1);
+                                                    $newTd.clone().insertAfter($tds[footerRowIndex]);
+                                                    $newTd.insertAfter($designerTds[footerRowIndex]);
+                                                }
+                                            } else if (oldIndex > newIndex) { //MOVING LEFT
+                                                if (newIndex < totalNameIndex) {
+                                                    $designerTds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
+                                                    $tds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
+                                                    const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedColumn}"></td>`);
+                                                    $newTd.clone().insertBefore($tds[newIndex]);
+                                                    $newTd.insertBefore($designerTds[newIndex]);
+                                                }
+                                            }
+                                        }
+
+                                        //after moving column, check both sides of totalName col and merge if empty tds 
+
+                                        const mergeTds = () => {
+                                            let count = 0;
+                                            $designerTds = $designerRow.find('td');  //reassign with new element order
+                                            $tds = $row.find('td');
+                                            let newTotalNameIndex = $designerTds.filter('.total-name').index();
+                                            const $tdBefore = jQuery($designerTds[newTotalNameIndex - 1]);
+                                            const $tdAfter = jQuery($designerTds[newTotalNameIndex + 1]);
+                                            if ($tdBefore.length) {
+                                                if ($tdBefore.hasClass('empty-td')) { //merge
+                                                    $tdBefore.remove();
+                                                    jQuery($tds[newTotalNameIndex - 1]).remove();
+                                                    const colspan = parseInt(jQuery($designerTds[newTotalNameIndex]).attr('colspan'));
+                                                    jQuery($designerTds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                                    jQuery($tds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                                    count++;
+                                                }
+                                            }
+                                            if ($tdAfter.length) {
+                                                if ($tdAfter.hasClass('empty-td')) { //merge
+                                                    $tdAfter.remove();
+                                                    jQuery($tds[newTotalNameIndex + 1]).remove();
+                                                    const colspan = parseInt(jQuery($designerTds[newTotalNameIndex]).attr('colspan'));
+                                                    jQuery($designerTds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                                    jQuery($tds[newTotalNameIndex]).attr('colspan', colspan + 1);
+                                                    count++;
+                                                }
+                                            }
+                                            if (count != 0) {
+                                                mergeTds();
+                                            }
+                                        }
+                                        mergeTds();
+                                        footerCount++;
+                                    }
+                                }
+                            }
+                            $form.removeData('columnsmoved');
+                        }
+
+                        //change value field
+                        if (typeof $form.data('changevaluefield') != 'undefined') {
+                            let footerCount = 0;
+                            for (let i = 0; i < $rows.length; i++) {
+                                const $row = jQuery($rows[i]);
+                                const rowType = $row.attr('data-row');
+                                const oldNewFields = $form.data('changevaluefield');
+                                if (rowType == 'detail'/* || rowType == 'footer'*/) {
+                                    const $td = $row.find(`[data-linkedcolumn="${oldNewFields.linkedcolumn}"]`);
+                                    const $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]).find(`[data-linkedcolumn="${oldNewFields.linkedcolumn}"]`);
+                                    $td.attr('data-value', `<!--{{${oldNewFields.newfield}}}-->`);
+                                    $designerTd.attr('data-value', `{{${oldNewFields.newfield}}}`);
+                                    //if (rowType == 'footer') {
+                                    //    footerCount++;
+                                    //}
+                                }
+                            }
+                            $form.removeData('changevaluefield');
+                        }
+
+                        //add
+                        if (typeof $form.data('addcolumn') != 'undefined') {
+                            const newColumnData = $form.data('addcolumn');
+                            const valueField = `NewColumn${newColumnData.newcolumnnumber}`;
+                            let footerCount = 0;
+                            for (let i = 0; i < $rows.length; i++) {
+                                const $row = jQuery($rows[i]);
+                                const rowType = $row.attr('data-row');
+                                if (rowType == 'detail') {
+                                    const $td = jQuery(`<td data-linkedcolumn="${valueField}" data-value="<!--{{${valueField}}}-->"></td>`);
+                                    $row.append($td);  //add to row in wrapper (memory)
+                                    $table.find(`tbody tr[data-row="${rowType}"]`).append(`<td data-linkedcolumn="${valueField}" data-value="{{${valueField}}}"></td>`); //add to row on designer
+                                } else if (rowType == 'header') {
+                                    const $designerTableRow = jQuery($table.find(`tbody tr`)[i]);
+                                    this.matchColumnCount($form, $table, $row, $designerTableRow);
+                                } else if (rowType == 'footer') {
+                                    jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]).append(`<td class="empty-td" data-linkedcolumn="${valueField}"></td>`); //add to row on designer
+                                    $row.append(jQuery(`<td class="empty-td" data-linkedcolumn="${valueField}"></td>`));
+                                    footerCount++;
+                                }
+                            }
+                            $form.removeData('addcolumn');
+                        }
+
+                        //delete
+                        if (typeof $form.data('deletefield') != 'undefined') {
+                            const linkedColumn = $form.data('deletefield').linkedcolumn;
                             let footerCount = 0;
                             for (let i = 0; i < $rows.length; i++) {
                                 const $row = jQuery($rows[i]);
                                 const rowType = $row.attr('data-row');
                                 const $designerRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]);
-                                let $designerTds = $designerRow.find('td');
                                 const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                                let $tds = $row.find('td');
+                                const $td = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
                                 if (rowType == 'detail') {
-                                    $detailRowTds = $designerTds;
-                                    const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                                    if ($movedTd.length) {
-                                        if (oldIndex > newIndex) {
-                                            $movedTd.insertBefore($tds[newIndex]);
-                                            $designerTd.insertBefore($designerTds[newIndex]);
-                                        } else {
-                                            $movedTd.insertAfter($tds[newIndex]);
-                                            $designerTd.insertAfter($designerTds[newIndex]);
-                                        }
-                                    }
+                                    $td.remove();
+                                    $designerTd.remove();
                                 } else if (rowType == 'footer') {
-                                    const totalNameColSpan = parseInt($designerTds.filter('.total-name').attr('colspan')) || 1;
-                                    const totalNameIndex = $designerTds.filter('.total-name').index();
-                                    const endTotalNameColumnIndex = totalNameIndex + (totalNameColSpan - 1);
                                     if ($designerTd.length) {
-                                        if ($designerTd.hasClass('empty-td')) { //move newly added columns
-                                            const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                                            if (oldIndex > newIndex) { //moving LEFT
-                                                if (newIndex > endTotalNameColumnIndex) { //moved to the right of the totalName column
-                                                    if (newIndex == endTotalNameColumnIndex + 1) { //merge with totalName column
-                                                        $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
-                                                        $designerTd.remove();
-                                                        $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
-                                                        $movedTd.remove();
-                                                    } else {
-                                                        $movedTd.insertBefore($tds[newIndex - (totalNameColSpan - 1)]);
-                                                        $designerTd.insertBefore($designerTds[newIndex - (totalNameColSpan - 1)]);
-                                                    }
-                                                } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //moved within the totalName column
-                                                    $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1); //merge
-                                                    $designerTd.remove();
-                                                    $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
-                                                    $movedTd.remove();
-                                                } else { //moved to the left of totalName column
-                                                    if (newIndex <= totalNameIndex) { //merge
-                                                        $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
-                                                        $designerTd.remove();
-                                                        $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
-                                                        $movedTd.remove();
-                                                    } else {
-                                                        $movedTd.insertBefore($tds[newIndex]);
-                                                        $designerTd.insertBefore($designerTds[newIndex]);
-                                                    }
-                                                }
-                                            } else if (newIndex > oldIndex) { //moving RIGHT
-                                                if (newIndex > endTotalNameColumnIndex) { //moved to the right of the totalName column
-                                                    $movedTd.insertAfter($tds[newIndex - (totalNameColSpan - 1)]);
-                                                    $designerTd.insertAfter($designerTds[newIndex - (totalNameColSpan - 1)]);
-                                                } else if ((newIndex >= totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //moved within the totalName column
-                                                    $designerTds.filter('.total-name').attr('colspan', totalNameColSpan + 1); //merge
-                                                    $designerTd.remove();
-                                                    $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
-                                                    $movedTd.remove();
-                                                } else { //moved to the left of totalName column
-                                                    $movedTd.insertAfter($tds[newIndex]);
-                                                    $designerTd.insertAfter($designerTds[newIndex]);
-                                                }
-                                            }
-                                        } else { //move totaled columns
-                                            const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                                            if (oldIndex > newIndex) { //moving LEFT
-                                                if (newIndex <= totalNameIndex) {//to the LEFT of totalname col
-                                                    $movedTd.insertBefore($tds[newIndex]);
-                                                    $designerTd.insertBefore($designerTds[newIndex]);
-                                                } else if (newIndex > endTotalNameColumnIndex) {//to the RIGHT of totalname col
-                                                    $movedTd.insertAfter($tds[newIndex - totalNameColSpan]);
-                                                    $designerTd.insertAfter($designerTds[newIndex - totalNameColSpan]);
-                                                } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //INTO the totalname col
-                                                    let columnsToUnmerge = totalNameColSpan - (newIndex - totalNameIndex);
-                                                    const newTotalNameColSpan = totalNameColSpan - columnsToUnmerge;
-                                                    $designerTds.filter('.total-name').attr('colspan', newTotalNameColSpan);
-                                                    $tds.filter('.total-name').attr('colspan', newTotalNameColSpan);
-                                                    $movedTd.insertAfter($tds[totalNameIndex]);
-                                                    $designerTd.insertAfter($designerTds[totalNameIndex]);
-
-                                                    $designerTds = $designerRow.find('td');  //reassign with new element order
-                                                    $tds = $row.find('td');
-
-                                                    //split tds to the right into empty tds
-                                                    for (let j = 1; j <= columnsToUnmerge; j++) {
-                                                        const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
-                                                        const linkedCol = jQuery($detailRowTds[columnToLinkIndex]).attr('data-linkedcolumn');
-                                                        const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedCol}"></td>`);
-
-                                                        $newTd.clone().insertAfter($tds[newIndex + 1 - newTotalNameColSpan]);
-                                                        $newTd.insertAfter($designerTds[newIndex + 1 - newTotalNameColSpan]);
-                                                    }
-                                                }
-                                            } else if (oldIndex < newIndex) { //moving RIGHT
-                                                if (newIndex > endTotalNameColumnIndex) { //to the RIGHt of totalname col
-                                                    $movedTd.insertAfter($tds[newIndex - totalNameColSpan + 1]);
-                                                    $designerTd.insertAfter($designerTds[newIndex - totalNameColSpan + 1]);
-                                                } else if (newIndex <= totalNameIndex) {//to the LEFT of totalname col
-                                                    $movedTd.insertAfter($tds[newIndex]);
-                                                    $designerTd.insertAfter($designerTds[newIndex]);
-                                                } else if ((newIndex > totalNameIndex) && (newIndex <= endTotalNameColumnIndex)) { //INTO the totalname col
-                                                    let columnsToUnmerge = endTotalNameColumnIndex - newIndex;
-                                                    const newTotalNameColSpan = totalNameColSpan - columnsToUnmerge;
-                                                    $designerTds.filter('.total-name').attr('colspan', newTotalNameColSpan);
-                                                    $tds.filter('.total-name').attr('colspan', newTotalNameColSpan);
-                                                    $movedTd.insertAfter($tds[totalNameIndex]);
-                                                    $designerTd.insertAfter($designerTds[totalNameIndex]);
-
-                                                    $designerTds = $designerRow.find('td');  //reassign with new element order
-                                                    $tds = $row.find('td');
-
-                                                    //split tds to the right into empty tds
-                                                    for (let j = 1; j <= columnsToUnmerge; j++) {
-                                                        const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
-                                                        const linkedCol = jQuery($detailRowTds[columnToLinkIndex]).attr('data-linkedcolumn');
-                                                        const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedCol}"></td>`);
-
-                                                        $newTd.clone().insertAfter($tds[newIndex + 1 - newTotalNameColSpan]);
-                                                        $newTd.insertAfter($designerTds[newIndex + 1 - newTotalNameColSpan]);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    } else { //it wont find a designertd if it merged into a footer total-name column
-                                        const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedColumn}"></td>`);
-                                        let footerRowIndex = newIndex;
-                                        if (oldIndex < newIndex) { //moving RIGHT
-                                            if (newIndex > endTotalNameColumnIndex) { //add new empty tds
-                                                $designerTds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
-                                                $tds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
-                                                footerRowIndex = newIndex - (totalNameColSpan - 1);
-                                                $newTd.clone().insertAfter($tds[footerRowIndex]);
-                                                $newTd.insertAfter($designerTds[footerRowIndex]);
-                                            }
-                                        } else if (oldIndex > newIndex) { //MOVING LEFT
-                                            if (newIndex < totalNameIndex) {
-                                                $designerTds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
-                                                $tds.filter('.total-name').attr('colspan', totalNameColSpan - 1);
-                                                const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedColumn}"></td>`);
-                                                $newTd.clone().insertBefore($tds[newIndex]);
-                                                $newTd.insertBefore($designerTds[newIndex]);
-                                            }
-                                        }
+                                        $designerTd.remove();
+                                        $td.remove();
+                                    } else {
+                                        const colspan = parseInt(jQuery($designerRow.find('.total-name')).attr('colspan'));
+                                        jQuery($row.find('.total-name')).attr('colspan', colspan - 1);
+                                        jQuery($designerRow.find('.total-name')).attr('colspan', colspan - 1);
                                     }
-
-                                    //after moving column, check both sides of totalName col and merge if empty tds 
-
-                                    const mergeTds = () => {
-                                        let count = 0;
-                                        $designerTds = $designerRow.find('td');  //reassign with new element order
-                                        $tds = $row.find('td');
-                                        let newTotalNameIndex = $designerTds.filter('.total-name').index();
-                                        const $tdBefore = jQuery($designerTds[newTotalNameIndex - 1]);
-                                        const $tdAfter = jQuery($designerTds[newTotalNameIndex + 1]);
-                                        if ($tdBefore.length) {
-                                            if ($tdBefore.hasClass('empty-td')) { //merge
-                                                $tdBefore.remove();
-                                                jQuery($tds[newTotalNameIndex - 1]).remove();
-                                                const colspan = parseInt(jQuery($designerTds[newTotalNameIndex]).attr('colspan'));
-                                                jQuery($designerTds[newTotalNameIndex]).attr('colspan', colspan + 1);
-                                                jQuery($tds[newTotalNameIndex]).attr('colspan', colspan + 1);
-                                                count++;
-                                            }
-                                        }
-                                        if ($tdAfter.length) {
-                                            if ($tdAfter.hasClass('empty-td')) { //merge
-                                                $tdAfter.remove();
-                                                jQuery($tds[newTotalNameIndex + 1]).remove();
-                                                const colspan = parseInt(jQuery($designerTds[newTotalNameIndex]).attr('colspan'));
-                                                jQuery($designerTds[newTotalNameIndex]).attr('colspan', colspan + 1);
-                                                jQuery($tds[newTotalNameIndex]).attr('colspan', colspan + 1);
-                                                count++;
-                                            }
-                                        }
-                                        if (count != 0) {
-                                            mergeTds();
-                                        }
-                                    }
-                                    mergeTds();
                                     footerCount++;
                                 }
                             }
+                            $form.removeData('deletefield');
                         }
-                        $form.removeData('columnsmoved');
-                    }
 
-                    //change value field
-                    if (typeof $form.data('changevaluefield') != 'undefined') {
-                        let footerCount = 0;
-                        for (let i = 0; i < $rows.length; i++) {
-                            const $row = jQuery($rows[i]);
-                            const rowType = $row.attr('data-row');
-                            const oldNewFields = $form.data('changevaluefield');
-                            if (rowType == 'detail'/* || rowType == 'footer'*/) {
-                                const $td = $row.find(`[data-linkedcolumn="${oldNewFields.linkedcolumn}"]`);
-                                const $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]).find(`[data-linkedcolumn="${oldNewFields.linkedcolumn}"]`);
-                                $td.attr('data-value', `<!--{{${oldNewFields.newfield}}}-->`);
-                                $designerTd.attr('data-value', `{{${oldNewFields.newfield}}}`);
-                                //if (rowType == 'footer') {
-                                //    footerCount++;
-                                //}
-                            }
+                        $wrapper.find(`${tableNameSelector} #columnHeader tr`).html(newHTML);                     //replace old headers
+                        break;
+                    case 'headerrow':
+                        newHTML = $tr.get(0).innerHTML.trim();
+                        valuefield = $tr.attr('data-valuefield');
+                        $column = $wrapper.find(`table[data-tablename="${tableName}"] .header-row[data-valuefield="${valuefield}"]`);
+                        if ($column.length) {
+                            $column.html(newHTML);
                         }
-                        $form.removeData('changevaluefield');
-                    }
-
-                    //add
-                    if (typeof $form.data('addcolumn') != 'undefined') {
-                        const newColumnData = $form.data('addcolumn');
-                        const valueField = `NewColumn${newColumnData.newcolumnnumber}`;
-                        let footerCount = 0;
-                        for (let i = 0; i < $rows.length; i++) {
-                            const $row = jQuery($rows[i]);
-                            const rowType = $row.attr('data-row');
-                            if (rowType == 'detail') {
-                                const $td = jQuery(`<td data-linkedcolumn="${valueField}" data-value="<!--{{${valueField}}}-->"></td>`);
-                                $row.append($td);  //add to row in wrapper (memory)
-                                $table.find(`tbody tr[data-row="${rowType}"]`).append(`<td data-linkedcolumn="${valueField}" data-value="{{${valueField}}}"></td>`); //add to row on designer
-                            } else if (rowType == 'header') {
-                                const $designerTableRow = jQuery($table.find(`tbody tr`)[i]);
-                                this.matchColumnCount($form, $table, $row, $designerTableRow);
-                            } else if (rowType == 'footer') {
-                                jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]).append(`<td class="empty-td" data-linkedcolumn="${valueField}"></td>`); //add to row on designer
-                                $row.append(jQuery(`<td class="empty-td" data-linkedcolumn="${valueField}"></td>`));
-                                footerCount++;
-                            }
+                        break;
+                    case 'footerrow':
+                        newHTML = $tr.get(0).innerHTML.trim();
+                        valuefield = $tr.attr('data-valuefield');
+                        $column = $wrapper.find(`${tableNameSelector} .total-name[data-valuefield="${valuefield}"]`);
+                        if ($column.length) {
+                            $column.html(newHTML);
                         }
-                        $form.removeData('addcolumn');
-                    }
-
-                    //delete
-                    if (typeof $form.data('deletefield') != 'undefined') {
-                        const linkedColumn = $form.data('deletefield').linkedcolumn;
-                        let footerCount = 0;
-                        for (let i = 0; i < $rows.length; i++) {
-                            const $row = jQuery($rows[i]);
-                            const rowType = $row.attr('data-row');
-                            const $designerRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerCount]);
-                            const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                            const $td = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                            if (rowType == 'detail') {
-                                $td.remove();
-                                $designerTd.remove();
-                            } else if (rowType == 'footer') {
-                                if ($designerTd.length) {
-                                    $designerTd.remove();
-                                    $td.remove();
-                                } else {
-                                    const colspan = parseInt(jQuery($designerRow.find('.total-name')).attr('colspan'));
-                                    jQuery($row.find('.total-name')).attr('colspan', colspan - 1);
-                                    jQuery($designerRow.find('.total-name')).attr('colspan', colspan - 1);
-                                }
-                                footerCount++;
-                            }
-                        }
-                        $form.removeData('deletefield');
-                    }
-
-                    $wrapper.find(`${tableNameSelector} #columnHeader tr`).html(newHTML);                     //replace old headers
-
-                } else if (sectionToUpdate == 'headerrow') {
-                    const valuefield = $tr.attr('data-valuefield');
-                    const $column = $wrapper.find(`table[data-tablename="${tableName}"] .header-row[data-valuefield="${valuefield}"]`);
-                    if ($column.length) {
-                        $column.html(newHTML);
-                    }
-                } else if (sectionToUpdate == 'footerrow') {
-                    const valuefield = $tr.attr('data-valuefield');
-                    const $column = $wrapper.find(`${tableNameSelector} .total-name[data-valuefield="${valuefield}"]`);
-                    if ($column.length) {
-                        $column.html(newHTML);
-                    }
+                        break;
+                    case 'addrow-header':
+                        $wrapper.find(`${tableNameSelector} #columnHeader`).append($tr.clone(true));
+                        const $lastDetailRow = $wrapper.find(`${tableNameSelector} tr[data-row="detail"]:last`)
+                        const $newDetailRow = $table.find(`.preview[data-row="detail"]`);
+                        $newDetailRow.removeAttr('class');
+                        $newDetailRow.children().text('New Column').removeAttr('class');
+                        $newDetailRow.clone(true).insertAfter($lastDetailRow);
+                        break;
+                    case 'addrow-subheader':
+                       // $wrapper.find(`${tableNameSelector}`).append($tr.clone(true));
+                        break;
+                    //case 'addrow-detail':
+                        //const $lastDetailRow = $wrapper.find(`${tableNameSelector} tr[data-row="detail"]:last`)
+                        //$tr.clone(true).insertAfter($lastDetailRow);
+                        //break;
                 }
             }
 
@@ -722,8 +743,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     designerEvents($form: JQuery) {
-        let $table;
-        let $column;
+        let $table, $row, $column;
         let newColumnNumber = 1;
         const $addColumn = $form.find('.addColumn');
         const $addRow = $form.find('.addRow');
@@ -764,7 +784,7 @@ class CustomReportLayout {
         });
 
         //control properties events
-        $form.on('change', '#controlProperties [data-datafield]', e => {
+        $form.on('change', '#controlProperties [data-datafield]:not(.add-row-column)', e => {
             const $property = jQuery(e.currentTarget);
             const fieldname = $property.attr('data-datafield');
             const value = FwFormField.getValue2($property);
@@ -839,7 +859,24 @@ class CustomReportLayout {
         $addRow.on('click', e => {
             const rowType = FwFormField.getValueByDataField($form, 'AddRow');
             if (rowType != '') {
-                
+                switch (rowType) {
+                    case 'header':
+                        $form.data('sectiontoupdate', 'addrow-header');
+                        break;
+                    case 'sub-header':
+                        $form.data('sectiontoupdate', 'addrow-subheader');
+                        break;
+                    //case 'detail':
+                    //    $form.data('sectiontoupdate', 'addrow-detail');
+                    //    break;
+                }
+                if (typeof $row != 'undefined') {
+                    $row.removeAttr('class');
+                    $row.children().text('New Column').removeAttr('class');
+                    this.updateHTML($form, $table, $row);
+                    const tableName = FwFormField.getValueByDataField($form, 'TableName');
+                    this.addColumnLoadSelect($form, tableName);
+                }
             } else {
                 $form.find('[data-datafield="AddRow"]').addClass('error');
                 FwNotification.renderNotification('WARNING', 'Select a Row Type to add.');
@@ -853,7 +890,7 @@ class CustomReportLayout {
             if (rowType != '') {
                 $form.find('[data-datafield="AddRow"]').removeClass('error');
                 //add preview
-                this.addRowPreview($form, rowType);
+                $row = this.addRowPreview($form, rowType);
             }
         });
 
@@ -863,8 +900,9 @@ class CustomReportLayout {
                 const linkedColumn = jQuery($column).attr('data-linkedcolumn');
                 const colspan = parseInt(jQuery($column).attr('colspan')) || 1;
                 $column.remove();
-                let totalColumnCount = $table.data('totalcolumncount');
-                $table.data('totalcolumncount', totalColumnCount -= colspan);
+                //let totalColumnCount = $table.data('totalcolumncount');
+                let totalColumnCount = this.getTotalColumnCount($table, true);
+                $table.data('totalcolumncount', totalColumnCount);
                 $form.data('sectiontoupdate', 'tableheader');
                 if (typeof linkedColumn != 'undefined') {
                     $form.data('deletefield', { linkedcolumn: linkedColumn, tdcolspan: colspan });
@@ -895,7 +933,7 @@ class CustomReportLayout {
             this.setControlValues($form, $column);
             const linkedColumn = $column.attr('data-linkedColumn');
             $form.find('#reportDesigner .highlight').removeClass('highlight');
-            $table.find(`tbody td[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight');
+            $table.find(`[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight');
             this.showHideControlProperties($form, 'table');
         });
 
@@ -929,41 +967,50 @@ class CustomReportLayout {
         const rowTypes = [
             { value: 'header', text: 'Header Row' },
             { value: 'sub-header', text: 'Sub-Header Row' },
-            { value: 'detail', text: 'Detail Row' }
+            //{ value: 'detail', text: 'Detail Row' }
         ];
         FwFormField.loadItems($form.find('[data-datafield="AddRow"]'), rowTypes);
     }
     //----------------------------------------------------------------------------------------------
     addRowPreview($form, rowType) {
-        let $row;
+        let $row, $row2, $newRow, $newDetailRow;
         const tableName = FwFormField.getValueByDataField($form, 'TableName');
         const $table = $form.find(`table[data-tablename="${tableName}"]`);
-        switch (rowType) {
-            case 'header':
-                $row = $table.find('thead tr:last');
-                break;
-            case 'sub-header':
-                $row = $table.find('tr[data-row="sub-header"]:last');
-                break;
-            case 'detail':
-                $row = $table.find('tr[data-row="detail"]:last');
-                break;
-        }
-
         const colspan = $table.data('totalcolumncount') || 1;
-        let html = [];
+
+        //build header and detail rows with linkedcolumns
+        const html = [];
+        const detailRowHtml = [];
         html.push(`<tr class="preview"`);
-        if (rowType != 'header') {
+        if (rowType === 'sub-header') {
             html.push(` data-row="${rowType}">`);
-            html.push(`<td colspan=${colspan} class="placeholder">New Row Preview</td>`);
         } else {
-            html.push(`>`);
-            html.push(`<th colspan=${colspan} class="placeholder">New Row Preview</th>`);
+                html.push(`>`);
+        }
+        detailRowHtml.push(`<tr class="preview" data-row="detail" data-rowtype="{{RowType}}">`);
+        for (let i = 0; i < colspan; i++) {
+            const newId = program.uniqueId(8);
+            html.push(`<th class="placeholder" data-linkedcolumn="${newId}">PREVIEW</th>`);
+            detailRowHtml.push(`<td class="placeholder" data-linkedcolumn="${newId}">PREVIEW</td>`);
         }
         html.push(`</tr>`);
+        detailRowHtml.push(`</tr>`);
+        $newRow = jQuery(html.join(''));
+        $newDetailRow = jQuery(detailRowHtml.join(''));
 
-        const $newRow = jQuery(html.join(''));
+        if (rowType === 'header') {
+            $row = $table.find('thead tr:last');
+        } else {
+            $row = $table.find('tr[data-row="sub-header"]:last');
+        }
+
+        //detail row
+        $row2 = $table.find('tr[data-row="detail"]:last'); 
+
+        $newDetailRow.insertAfter($row2);
         $newRow.insertAfter($row);
+
+        return $newRow;
     }
     //----------------------------------------------------------------------------------------------
     addColumnLoadSelect($form, tableName) {
@@ -971,16 +1018,16 @@ class CustomReportLayout {
         const $table = $form.find(`table[data-tablename="${tableName}"]`);
         const $headerRows = $table.find('thead tr');
         for (let i = 0; i < $headerRows.length; i++) {
-            columnTypes.push({ value: 'header|'+ i, text: 'Header Row ' + i + 1 });
+            columnTypes.push({ value: `header|${i}`, text: `Header Row ${i + 1}`});
         }
         const $subheaderRows = $table.find('tbody tr[data-row="sub-header"]');
         for (let i = 0; i < $subheaderRows.length; i++) {
-            columnTypes.push({ value: 'subheader|' + i, text: 'Sub-Header Row ' + i + 1 });
+            columnTypes.push({ value: `subheader|${i}`, text: `Sub-Header Row ${i + 1}` });
         }
-        const $detailRows = $table.find('tbody tr[data-row="detail"]');
-        for (let i = 0; i < $detailRows.length; i++) {
-            columnTypes.push({ value: 'detail|' + i, text: 'Detail Row ' + i + 1 });
-        }
+        //const $detailRows = $table.find('tbody tr[data-row="detail"]');
+        //for (let i = 0; i < $detailRows.length; i++) {
+        //    columnTypes.push({ value: `detail|${i}` + i, text: `Detail Row ${i + 1}`});
+        //}
         FwFormField.loadItems($form.find('[data-datafield="AddColumn"]'), columnTypes);
     }
     //----------------------------------------------------------------------------------------------
