@@ -1795,7 +1795,7 @@ class FwBrowseClass {
                     if (options.$browse.attr('data-enabled') !== 'false') {
                         try {
                             e.stopPropagation();
-                            var $selectedCheckBoxes = options.$browse.find('tbody .cbselectrow:checked');
+                            const $selectedCheckBoxes = options.$browse.find('tbody .cbselectrow:checked');
                             const recordCount = $selectedCheckBoxes.length;
                             if (recordCount === 0) {
                                 FwFunc.showMessage('Select one or more rows to delete');
@@ -1803,9 +1803,6 @@ class FwBrowseClass {
                                 const $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?',
                                     //on yes
                                     async () => {
-                                        // only render if there are ids
-                                        // instead of recordCount values in the progress bar, insert the number of viable keys
-
                                         const $confirmation = FwConfirmation.renderConfirmation('Deleting...', '');
                                         FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${recordCount}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;">Deleting Record <span class="recordno">1</span> of ${recordCount}<div>`);
                                         try {
