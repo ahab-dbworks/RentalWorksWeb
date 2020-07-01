@@ -290,7 +290,8 @@
     }
     //---------------------------------------------------------------------------------
     static playErrorSound() {
-        const errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        //const errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        const errorSoundFileName = jQuery('#application').attr('data-errsoundurl');
 
         if (errorSoundFileName && typeof errorSoundFileName === 'string') {
             const sound = new Audio(errorSoundFileName);

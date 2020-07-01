@@ -99,6 +99,10 @@ class Sound {
                             // next steps:
 
                             // figure out how to stream files when played elsewhere i.e fwfunc.playerrorSound() etc this method currently requires a filename
+                            // add issystemsound flag to responseGetUserSettings to be used in base.ts
+                            // in base.ts - if not sys sound, load base64 and url into #application, else load filename
+                            // on change evt in user and user profile, reload #application attr
+                            // add check in fwfunc.play... to see if attr is empty (browser refresh)
                             // limit size and length of new sounds
                         }
                     } else {
@@ -125,6 +129,8 @@ class Sound {
             const blob = this.b64toBlob(base64Sound);
             const blobUrl = URL.createObjectURL(blob);
             $form.find('#soundSrc').attr("src", blobUrl);
+            jQuery('#application').attr('data-errsoundurl', blobUrl);
+
             const audioElement: any = document.getElementById('audio');
             audioElement.load();
         }
