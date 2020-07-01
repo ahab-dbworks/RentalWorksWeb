@@ -1807,7 +1807,6 @@ class FwBrowseClass {
                                         FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${recordCount}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;">Deleting Record <span class="recordno">1</span> of ${recordCount}<div>`);
                                         try {
                                             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                                                const $tr = $selectedCheckBoxes.eq(i).closest('tr');
                                                 $confirmation.find('.recordno').html((i + 1).toString());
                                                 $confirmation.find('.progress').attr('value', (i + 1).toString());
                                                 const $tr = $selectedCheckBoxes.eq(i).closest('tr');
