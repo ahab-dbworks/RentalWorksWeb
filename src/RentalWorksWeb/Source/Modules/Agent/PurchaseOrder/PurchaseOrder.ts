@@ -1200,6 +1200,7 @@ class PurchaseOrder implements IModule {
                 request.CompanyId = companyId;
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.data('deletewithnoids', OrderContactGridController.deleteWithNoIds);
                 $browse.find('div[data-datafield="IsOrderedBy"]').attr('data-caption', 'Ordered From');
             },
         });

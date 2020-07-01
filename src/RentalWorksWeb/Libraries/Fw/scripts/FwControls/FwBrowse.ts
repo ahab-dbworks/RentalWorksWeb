@@ -1795,18 +1795,19 @@ class FwBrowseClass {
                     if (options.$browse.attr('data-enabled') !== 'false') {
                         try {
                             e.stopPropagation();
-                            var $selectedCheckBoxes = options.$browse.find('tbody .cbselectrow:checked');
-                            if ($selectedCheckBoxes.length === 0) {
-                                FwFunc.showMessage('Select one or more rows to delete!');
+                            const $selectedCheckBoxes = options.$browse.find('tbody .cbselectrow:checked');
+                            const recordCount = $selectedCheckBoxes.length;
+                            if (recordCount === 0) {
+                                FwFunc.showMessage('Select one or more rows to delete');
                             } else {
-                                var $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?',
+                                const $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?',
                                     //on yes
                                     async () => {
-                                        const recordCount = $selectedCheckBoxes.length;
                                         const $confirmation = FwConfirmation.renderConfirmation('Deleting...', '');
                                         FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${recordCount}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;">Deleting Record <span class="recordno">1</span> of ${recordCount}<div>`);
                                         try {
                                             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                                                const $tr = $selectedCheckBoxes.eq(i).closest('tr');
                                                 $confirmation.find('.recordno').html((i + 1).toString());
                                                 $confirmation.find('.progress').attr('value', (i + 1).toString());
                                                 const $tr = $selectedCheckBoxes.eq(i).closest('tr');
@@ -1824,7 +1825,6 @@ class FwBrowseClass {
                                     () => {
                                         // do nothing
                                     });
-
                             }
                         } catch (ex) {
                             FwFunc.showError(ex);
@@ -1837,7 +1837,6 @@ class FwBrowseClass {
                 }
             });
         }
-
 
         if (typeof options.hasEdit === 'boolean' && options.hasEdit && nodeGridEdit !== null && nodeGridEdit.properties.visible === 'T') {
             options.$browse.data('hasedit', true);
@@ -3810,30 +3809,26 @@ class FwBrowseClass {
     }
     //----------------------------------------------------------------------------------------------
     deleteRow($control: JQuery, $tr: JQuery) {
-        let me = this;
-        var rowuniqueids, formuniqueids, name, $form, $confirmation, $ok, $cancel, candelete, miscfields;
-        candelete = true;
-        miscfields = {};
+        let candelete = true;
         if (($control.attr('data-type') === 'Grid') && (typeof $control.data('beforedelete') === 'function')) {
             $control.data('beforedelete')($control, $tr);
         }
         else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-            var controller;
-            controller = $control.attr('data-controller');
+            const controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
             if (typeof window[controller]['beforeDelete'] === 'function') {
                 candelete = window[controller]['beforeDelete']($control, $tr);
             }
         }
         if (($tr.length == 1) && (candelete)) {
-            $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Delete Record?');
-            $ok = FwConfirmation.addButton($confirmation, 'OK');
-            $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
+            const $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Delete Record?');
+            const $ok = FwConfirmation.addButton($confirmation, 'OK');
+            const $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
 
             $ok.on('click', async () => {
                 try {
-                    await me.deleteRecord($control, $tr);
-                    await me.databind($control);
+                    await this.deleteRecord($control, $tr);
+                    await this.databind($control);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -3844,12 +3839,11 @@ class FwBrowseClass {
     async deleteRecord($control: JQuery, $tr: JQuery): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
             try {
-                let me = this;
                 this.autoSave($control, $tr);
                 let miscfields = {};
                 let name = $control.attr('data-name');
-                let $form = $control.closest('.fwform');
-                let rowuniqueids = this.getRowFormUniqueIds($control, $tr);
+                const $form = $control.closest('.fwform');
+                const rowuniqueids = this.getRowFormUniqueIds($control, $tr);
                 const request = new FwAjaxRequest<any>();
                 request.data = {
                     module: name,
@@ -3857,13 +3851,14 @@ class FwBrowseClass {
                     miscfields: miscfields
                 };
                 if ($form.length > 0) {
-                    let formuniqueids = ($form.length > 0) ? FwModule.getFormUniqueIds($form) : [];
+                    const formuniqueids = ($form.length > 0) ? FwModule.getFormUniqueIds($form) : [];
                     request.data.miscfields = jQuery.extend({}, miscfields, formuniqueids);
                 }
 
-                var controller: any = window[name + 'Controller'];
+                const controller: any = window[name + 'Controller'];
                 if (typeof controller === 'undefined') {
-                    throw name + 'Controller is not defined.'
+                    throw new Error(`${name}Controller is not defined.`);
+
                 }
                 let url = '';
                 if (typeof $control.data('getapiurl') === 'function') {
@@ -3877,22 +3872,28 @@ class FwBrowseClass {
                         url = controller.apiurl;
                     }
                     else {
-                        throw `No apiurl defined for Grid: ${name}`;
+                        throw new Error(`No apiurl defined for Grid: ${name}`);
                     }
-                    var ids: any = [];
-                    for (var key in request.data.ids) {
+                    let ids: any = [];
+                    for (let key in request.data.ids) {
                         ids.push(request.data.ids[key].value);
                     }
                     ids = ids.join('~');
                     if (ids.length === 0) {
-                        throw 'primary key id(s) cannot be blank';
+                        if (typeof $control.data('deletewithnoids') === 'function') {
+                            $control.data('deletewithnoids')($tr);
+                            return resolve();
+                        } else {
+                            throw new Error('primary key id(s) cannot be blank');
+                        }
                     }
-                    url += '/' + ids;
+                    url += `/${ids}`;
                 }
+
                 request.url = applicationConfig.apiurl + url;
                 request.httpMethod = 'DELETE';
 
-                const response = await FwAjax.callWebApi<any, any>(request)
+                const response = await FwAjax.callWebApi<any, any>(request);
                 if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
                     //perform after delete
                     if (($control.attr('data-type') === 'Grid') && (typeof $control.data('afterdelete') === 'function')) {
@@ -3903,9 +3904,6 @@ class FwBrowseClass {
                             controller.afterDelete($control, $tr);
                         }
                     }
-                    //if (refreshAfterDelete) {
-                    //    me.search($control);
-                    //}
                     resolve();
                 }
                 else {
