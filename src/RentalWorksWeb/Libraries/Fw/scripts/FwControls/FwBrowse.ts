@@ -4245,7 +4245,7 @@ class FwBrowseClass {
                         // seems to be problem with very large files
                         // incorporate progress meter for upload and processing the data
                         // add file type concerns
-                        // allow download of template
+                        // upload file to server
                         // err handling - incorrect or blank fields and types
                         reader.onerror = ex => {
                             console.error(ex);
