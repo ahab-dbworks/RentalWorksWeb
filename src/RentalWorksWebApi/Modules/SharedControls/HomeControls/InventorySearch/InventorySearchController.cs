@@ -36,7 +36,9 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public string SearchText;
         public bool? ShowAvailability;
         public DateTime FromDate;
+        public string FromTime;
         public DateTime ToDate;
+        public string ToTime;
         public bool? ShowImages;
         public bool? HideInventoryWithZeroQuantity;
         public string SortBy;
@@ -51,7 +53,9 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public string WarehouseId;
         public bool? ShowAvailability;
         public DateTime FromDate;
+        public string FromTime;
         public DateTime ToDate;
+        public string ToTime;
         public bool? ShowImages;
     }
     //------------------------------------------------------------------------------------ 

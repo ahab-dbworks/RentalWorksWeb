@@ -285,7 +285,21 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                 }
             }
 
-            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId);
+            DateTime availFromDateTime = request.FromDate;
+            DateTime availToDateTime = request.ToDate;
+            if (!string.IsNullOrEmpty(request.FromTime))
+            {
+                DateTime t = FwConvert.ToDateTime(request.FromTime);
+                availFromDateTime = availFromDateTime.Add(t.TimeOfDay);
+            }
+
+            if (!string.IsNullOrEmpty(request.ToTime))
+            {
+                DateTime t = FwConvert.ToDateTime(request.ToTime);
+                availToDateTime = availToDateTime.Add(t.TimeOfDay);
+            }
+
+            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), availFromDateTime, availToDateTime, request.SessionId);
 
             return dt;
         }
@@ -317,7 +331,21 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                 }
             }
 
-            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId); 
+            DateTime availFromDateTime = request.FromDate;
+            DateTime availToDateTime = request.ToDate;
+            if (!string.IsNullOrEmpty(request.FromTime))
+            {
+                DateTime t = FwConvert.ToDateTime(request.FromTime);
+                availFromDateTime = availFromDateTime.Add(t.TimeOfDay);
+            }
+
+            if (!string.IsNullOrEmpty(request.ToTime))
+            {
+                DateTime t = FwConvert.ToDateTime(request.ToTime);
+                availToDateTime = availToDateTime.Add(t.TimeOfDay);
+            }
+
+            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), availFromDateTime, availToDateTime, request.SessionId); 
 
             return dt;
         }
