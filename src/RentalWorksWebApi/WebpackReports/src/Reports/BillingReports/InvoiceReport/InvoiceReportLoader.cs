@@ -346,7 +346,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
-    public class PaymentsInvoiceItemReportLoader: AppReportLoader
+    public class PaymentsInvoiceItemReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -861,6 +861,16 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         public string Tax2ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------
 
+
+        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string InvoiceTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receiptstotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string ReceiptsTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remainingbalance", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string RemainingBalance { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         //------------------------------------------------------------------------------------
