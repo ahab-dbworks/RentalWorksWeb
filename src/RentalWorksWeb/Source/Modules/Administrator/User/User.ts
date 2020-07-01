@@ -276,6 +276,8 @@ class User {
         });
         // Sound Validation
         $form.find('div[data-datafield="SuccessSoundId"]').data('onchange', $tr => {
+            // if not sys sound, set base64 to #application url
+            // every time change or load, set SS filename to blob url or actual filename?
             FwFormField.setValue($form, 'div[data-datafield="SuccessSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
         });
         $form.find('div[data-datafield="ErrorSoundId"]').data('onchange', $tr => {

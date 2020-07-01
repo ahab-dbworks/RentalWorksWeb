@@ -290,8 +290,9 @@
     }
     //---------------------------------------------------------------------------------
     static playErrorSound() {
-        //const errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        const errorSoundFileName = jQuery('#application').attr('data-errsoundurl');
+        const errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        // if errorIsSystemSound, use SS filename, else use #application url. if null, API to get base64 and assign to #application
+       // const errorSoundFileName = jQuery('#application').attr('data-errsoundurl');
 
         if (errorSoundFileName && typeof errorSoundFileName === 'string') {
             const sound = new Audio(errorSoundFileName);

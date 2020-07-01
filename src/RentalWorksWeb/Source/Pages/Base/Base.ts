@@ -222,6 +222,9 @@ class Base {
                                             const responseGetWarehouses = values[10];
 
                                             const sounds: any = {};
+                                            // if base64sound is blank, use fileName add successIsSystemSound=truein SS
+                                           // if not blank, add base64 and url to #application successIsSystemSound=false
+                                            // potentially leave out filename to SS if base64
                                             sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
                                             sounds.errorSoundFileName = responseGetUserSettings.ErrorSoundFileName;
                                             sounds.notificationSoundFileName = responseGetUserSettings.NotificationSoundFileName;
