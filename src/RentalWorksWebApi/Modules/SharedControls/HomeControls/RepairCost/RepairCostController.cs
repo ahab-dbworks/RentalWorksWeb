@@ -8,7 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
-using WebApi.Modules.Settings.MiscellaneousSettings.MiscRate;
+using WebApi.Modules.HomeControls.RateItem;
 
 namespace WebApi.Modules.HomeControls.RepairCost
 {
@@ -119,9 +119,8 @@ namespace WebApi.Modules.HomeControls.RepairCost
         [FwControllerMethod(Id: "mv3Aae8R7Nau", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateAttributeValueBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<MiscRateLogic>(browseRequest);
+            return await DoBrowseAsync<RateItemLogic>(browseRequest);
         }
-
-
+        //------------------------------------------------------------------------------------
     }
 }

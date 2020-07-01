@@ -1122,6 +1122,7 @@
     <Content Include="Source\Validations\InventoryChangeTransactionTypeValidation\InventoryChangeTransactionTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\DataExportFormatValidation\DataExportFormatValidationBrowse.htm" />
     <Content Include="Source\Validations\RateUpdateBatchValidation\RateUpdateBatchValidationBrowse.htm" />
+    <Content Include="Source\Validations\RateValidation\RateValidationBrowse.htm" />
     <Content Include="Source\Validations\RentalInventoryDescriptionValidation\RentalInventoryDescriptionValidationBrowse.htm" />
     <Content Include="Source\Validations\RepairValidation\RepairValidationBrowse.htm" />
     <Content Include="Source\Validations\TransferOrderValidation\TransferOrderValidationBrowse.htm" />
@@ -1374,6 +1375,7 @@
     <TypeScriptCompile Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\BaseInventoryValidation\BaseInventoryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\CountryValidation\CountryValidationController.ts" />
+    <TypeScriptCompile Include="Source\Validations\RateValidation\RateValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\ReceiptValidation\ReceiptValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\SoundValidation\SoundValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\CompanyValidation\CompanyValidationController.ts" />
