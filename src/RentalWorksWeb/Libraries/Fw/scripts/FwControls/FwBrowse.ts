@@ -4159,7 +4159,7 @@ class FwBrowseClass {
     }
     //----------------------------------------------------------------------------------------------
     importExcelFromBrowse($browse, controller) {
-        const $confirmation = FwConfirmation.renderConfirmation('Import Excel', '');
+        const $confirmation = FwConfirmation.renderConfirmation('Import an Excel File', '');
         $confirmation.find('.fwconfirmationbox').css('width', '350px');
         //const html: Array<string> = [];
         //html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
@@ -4178,13 +4178,13 @@ class FwBrowseClass {
 
         const htmlStr = `<div class="fwform" data-controller="none" style="background-color: transparent;">
                           <div class="flexrow import-excel">
-                            <div class="btn-wrapper">
+                            <div class="btn-wrapper" style="max-width:77px;">
                               <label class="import-excel-label" for="uploadExcel"> Upload</label>
                               <input id="uploadExcel" type="file">
                             </div>
-                            <div id="fileName"></div>
+                            <div id="fileName" style="margin:8px;"></div>
                           </div>
-                          <div class="dl-template" style="font-size:.8em;color:#2626f3;cursor:pointer;float:left;">Download an Excel template file to use for this import</div>
+                          <div class="dl-template" style="font-size:.8em;color:#2626f3;cursor:pointer;float:left;margin:10px;">Download an Excel template file to use for this import</div>
                         </div>`;
 
         FwConfirmation.addControls($confirmation, htmlStr);
@@ -4192,6 +4192,7 @@ class FwBrowseClass {
         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
         // ----------
         $confirmation.find('#uploadExcel').on('change', e => {
+            $confirmation.find('#fileName').text('');
             const $this = jQuery(e.currentTarget);
             const folder: any = $this[0];
             if (folder.files) {
