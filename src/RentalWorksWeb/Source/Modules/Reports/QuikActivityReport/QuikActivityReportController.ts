@@ -50,7 +50,7 @@ const quikActivityReportTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="ActivityType" data-displayfield="ActivityType"  data-validationname="QuikActivityTypeValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="ActivityTypeId" data-displayfield="ActivityType" data-validationname="ActivityTypeValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-validationname="UserValidation" data-showinactivemenu="true" style="min-width:400px;"></div>
@@ -113,7 +113,7 @@ class QuikActivityReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
         FwFormField.loadItems($form.find('div[data-datafield="OrderType"]'), [
-            { value: "RESERVED", text: "Reserved Quotes", selected: "T" },
+            { value: "RESERVED QUOTE", text: "Reserved Quotes", selected: "T" },
             { value: "ORDER", text: "Orders", selected: "T" },
             { value: "TRANSFER", text: "Transfers", selected: "T" },
             { value: "PO", text: "Purchase Orders", selected: "T" },

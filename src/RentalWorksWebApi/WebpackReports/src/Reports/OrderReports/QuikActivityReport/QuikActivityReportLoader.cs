@@ -126,18 +126,15 @@ namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getquikactivityrptweb", this.AppConfig.DatabaseSettings.ReportTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getquikactivityrptweb2", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.IsSummary);
                     qry.AddParameter("@ordertype", SqlDbType.Text, ParameterDirection.Input, request.OrderType.ToString());
-                    qry.AddParameter("@activitytype", SqlDbType.Text, ParameterDirection.Input, request.ActivityType);
-                    //qry.AddParameter("@includeinuse", SqlDbType.Text, ParameterDirection.Input, request.IncludeInUse);
-                    qry.AddParameter("@onlysubs", SqlDbType.Text, ParameterDirection.Input, request.OnlySubs);
-                    qry.AddParameter("@rectype", SqlDbType.Text, ParameterDirection.Input, request.RecType);
                     qry.AddParameter("@warehouseid", SqlDbType.Text, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
+                    qry.AddParameter("@activitytypeid", SqlDbType.Text, ParameterDirection.Input, request.ActivityTypeId);
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
                     qry.AddParameter("@agentid", SqlDbType.Text, ParameterDirection.Input, request.AgentId);
                     AddPropertiesAsQueryColumns(qry);

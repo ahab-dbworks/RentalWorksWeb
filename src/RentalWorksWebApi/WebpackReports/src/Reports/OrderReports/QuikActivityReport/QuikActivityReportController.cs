@@ -23,15 +23,12 @@ namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        //public bool? IncludeInUse { get; set; }
-        public bool? OnlySubs { get; set; }
-        public string RecType { get; set; }
-        public string DepartmentId { get; set; }
-        public string AgentId { get; set; }
-        public string WarehouseId { get; set; }
-        public string InventoryTypeId { get; set; }
-        public string ActivityType { get; set; }
         public SelectedCheckBoxListItems OrderType { get; set; } = new SelectedCheckBoxListItems();
+        public string WarehouseId { get; set; }
+        public string DepartmentId { get; set; }
+        public string ActivityTypeId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public string AgentId { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
