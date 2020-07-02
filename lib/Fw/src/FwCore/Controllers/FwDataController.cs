@@ -268,6 +268,42 @@ namespace FwCore.Controllers
             return await DoGetEmptyObjectAsync();
         }
         //------------------------------------------------------------------------------------
+        protected virtual async Task<IActionResult> DoGetKeyFieldNamesAsync(Type type = null)
+        {
+            try
+            {
+                if (type == null)
+                {
+                    type = logicType;
+                }
+                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                List<PropertyInfo> pkProperties = l.GetPrimaryKeyProperties();
+                List<string> fieldNames = new List<string>();
+                foreach (PropertyInfo property in pkProperties)
+                {
+                    fieldNames.Add(property.Name);
+                }
+                await Task.CompletedTask;
+                return new OkObjectResult(fieldNames);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // GET api/v1/{module}/keyfieldnames
+        /// <summary>
+        /// Get an array of primary key field names
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("keyfieldnames")]
+        [FwControllerMethod("", FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public virtual async Task<IActionResult> GetKeyFieldNamesAsync()
+        {
+            return await DoGetKeyFieldNamesAsync();
+        }
+        //------------------------------------------------------------------------------------
         /// <summary>
         /// Gets a list of objects using the type argument as the BusinessLogicType and maps the results onto the generic type T.  If type is null, the logicType of the controller is used for the BusinessLogicType.
         /// </summary>

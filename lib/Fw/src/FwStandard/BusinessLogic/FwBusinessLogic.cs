@@ -623,7 +623,7 @@ namespace FwStandard.BusinessLogic
             return await LoadAsync<T>(GetPrimaryKeys(), conn);
         }
         //------------------------------------------------------------------------------------
-        protected virtual List<PropertyInfo> GetPrimaryKeyProperties(bool includeOptional = true)
+        public virtual List<PropertyInfo> GetPrimaryKeyProperties(bool includeOptional = true)
         {
             List<PropertyInfo> primaryKeyProperties = new List<PropertyInfo>();
             PropertyInfo[] properties = this.GetType().GetProperties();
