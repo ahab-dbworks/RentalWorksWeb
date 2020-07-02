@@ -65,14 +65,16 @@
 <!--SOME DETAIL VIEW TABLE-->
 {{#ifEquals IsSomeDetail true}}
 <div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
-  <table data-tablename="Some Detail View - NOT PROVISIONED">
+  <table data-tablename="Some Detail View">
     <thead id="columnHeader">
       <tr>
-        <th data-linkedcolumn="AccountNumber">G/L No.</th>
-        <th data-linkedcolumn="InvoiceNumber"></th>
-        <th colspan="3">Account Description</th>
-        <th data-linkedcolumn="Debit" class="number">Debit</th>
-        <th data-linkedcolumn="Credit" class="number">Credit</th>
+        <th data-linkedcolumn="AccountNumber" data-valuefield="AccountNumber">G/L No.</th>
+        <th data-linkedcolumn="AccountDescription" data-valuefield="AccountDescription">Account Description</th>
+        <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice Number</th>
+        <th data-linkedcolumn="GlDate" data-valuefield="GlDate">Date</th>
+        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="Debit" data-valuefield="Debit" class="number">Debit</th>
+        <th data-linkedcolumn="Credit" data-valuefield="Credit" class="number">Credit</th>
       </tr>
     </thead>
     <tbody>
@@ -87,29 +89,15 @@
         <td colspan="7" class="header-row">{{GroupHeading}}</td>
       </tr>
       {{/ifEquals}}
-      {{#ifEquals RowType "AccountNumberheader"}}
-      <tr data-row="header" data-rowtype="{{RowType}}">
-        <td class="lower header-row" data-value="{{AccountNumber}}"></td>
-        <td></td>
-        <td class="lower header-row" colspan="5" data-value="{{AccountDescription}}"></td>
-      </tr>
-      <tr data-row="header">
-        <th class="no-border"></th>
-        <th class="sub-header">Invoice No.</th>
-        <th class="sub-header">Date</th>
-        <th class="sub-header" colspan="2">Deal</th>
-        <th class="sub-header number">Debit</th>
-        <th class="sub-header number">Credit</th>
-      </tr>
-      {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}">
-        <td data-linkedcolumn="AccountNumber" class="no-border"></td>
+        <td data-linkedcolumn="AccountNumber" data-value="{{AccountNumber}}"></td>
+        <td data-linkedcolumn="AccountDescription" data-value="{{AccountDescription}}"></td>
         <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
         <td data-linkedcolumn="GlDate" data-value="{{GlDate}}"></td>
-        <td colspan="2" data-value="{{Deal}}"></td>
-        <td class="number" data-value="{{Debit}}"></td>
-        <td class="number" data-value="{{Credit}}"></td>
+        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="Debit" class="number" data-value="{{Debit}}"></td>
+        <td data-linkedcolumn="Credit" class="number" data-value="{{Credit}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "AccountNumberfooter"}}
