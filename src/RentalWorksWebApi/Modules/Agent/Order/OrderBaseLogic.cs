@@ -1391,36 +1391,39 @@ namespace WebApi.Modules.Agent.Order
             // if this quote/order has line-items, then make sure the Billing Cycle will work
             if (isValid)
             {
-                if (OrderFunc.OrderHasItems(AppConfig, UserSession, orderId).Result)
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate)) // only need to check on Update because Insert mode has no line-items yet
                 {
-                    string billingCycleId = BillingCycleId;
-                    if (string.IsNullOrEmpty(billingCycleId) && (lOrig != null))
+                    if (OrderFunc.OrderHasItems(AppConfig, UserSession, orderId).Result)
                     {
-                        billingCycleId = lOrig.BillingCycleId;
-                    }
-                    if (string.IsNullOrEmpty(billingCycleId))
-                    {
-                        billingCycleId = determineDefaultBillingCycleId();
-                    }
-                    if (!string.IsNullOrEmpty(billingCycleId))
-                    {
-                        BillingCycleLogic bc = new BillingCycleLogic();
-                        bc.SetDependencies(AppConfig, UserSession);
-                        bc.BillingCycleId = billingCycleId;
-                        bool b = bc.LoadAsync<BillingCycleLogic>().Result;
-                        bool hasRecurring = OrderFunc.OrderHasRecurring(AppConfig, UserSession, orderId).Result;
-
-                        if (hasRecurring && bc.BillingCycleType.Equals(RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE))
+                        string billingCycleId = BillingCycleId;
+                        if (string.IsNullOrEmpty(billingCycleId) && (lOrig != null))
                         {
-                            isValid = false;
-                            validateMsg = "The " + bc.BillingCycle + " Billing Cycle can only be used when the " + BusinessLogicModuleName + " has no recurring charges.  Switch to a recurring-type Billing Cycle.";
+                            billingCycleId = lOrig.BillingCycleId;
                         }
-                        else if (!hasRecurring && (!bc.BillingCycleType.Equals(RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE)))
+                        if (string.IsNullOrEmpty(billingCycleId))
                         {
-                            isValid = false;
-                            validateMsg = "The " + bc.BillingCycle + " Billing Cycle can only be used when the " + BusinessLogicModuleName + " has recurring charges.  Switch to an " + RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE + " Billing Cycle.";
+                            billingCycleId = determineDefaultBillingCycleId();
                         }
+                        if (!string.IsNullOrEmpty(billingCycleId))
+                        {
+                            BillingCycleLogic bc = new BillingCycleLogic();
+                            bc.SetDependencies(AppConfig, UserSession);
+                            bc.BillingCycleId = billingCycleId;
+                            bool b = bc.LoadAsync<BillingCycleLogic>().Result;
+                            bool hasRecurring = OrderFunc.OrderHasRecurring(AppConfig, UserSession, orderId).Result;
 
+                            if (hasRecurring && bc.BillingCycleType.Equals(RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE))
+                            {
+                                isValid = false;
+                                validateMsg = "The " + bc.BillingCycle + " Billing Cycle can only be used when the " + BusinessLogicModuleName + " has no recurring charges.  Switch to a recurring-type Billing Cycle.";
+                            }
+                            else if (!hasRecurring && (!bc.BillingCycleType.Equals(RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE)))
+                            {
+                                isValid = false;
+                                validateMsg = "The " + bc.BillingCycle + " Billing Cycle can only be used when the " + BusinessLogicModuleName + " has recurring charges.  Switch to an " + RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE + " Billing Cycle.";
+                            }
+
+                        }
                     }
                 }
             }
