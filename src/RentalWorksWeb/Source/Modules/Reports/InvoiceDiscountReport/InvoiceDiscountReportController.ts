@@ -73,6 +73,7 @@ class InvoiceDiscountReport extends FwWebApiReport {
     constructor() {
         super('InvoiceDiscountReport', 'api/v1/invoicediscountreport', invoiceDiscountTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
