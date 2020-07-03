@@ -29,9 +29,6 @@ class RwMaster extends WebMaster {
         }
 
         if (userType == 'USER') {
-            if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
-                menuAgent.children.push(Constants.Modules.Transfers.children.TransferOrder)
-            }
             menuAgent.children.push(Constants.Modules.Agent.children.Vendor);
         }
 
@@ -72,6 +69,14 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Inventory.children.SalesInventory
                 ]
             };
+            if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
+                menuInventory.children.push(Constants.Modules.Transfers.children.TransferIn)
+                menuInventory.children.push(Constants.Modules.Transfers.children.Manifest)
+                menuInventory.children.push(Constants.Modules.Transfers.children.TransferOrder)
+                menuInventory.children.push(Constants.Modules.Transfers.children.TransferOut)
+                menuInventory.children.push(Constants.Modules.Transfers.children.TransferReceipt)
+                menuInventory.children.push(Constants.Modules.Transfers.children.TransferStatus)
+            }
             this.navigation.push(menuInventory);
             // Warehouse Menu
             let menuWarehouse = {
@@ -95,14 +100,14 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Container.children.RemoveFromContainer
                 ]
             };
-            if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
-                menuWarehouse.children.push(Constants.Modules.Transfers.children.TransferIn)
-                menuWarehouse.children.push(Constants.Modules.Transfers.children.Manifest)
-                menuWarehouse.children.push(Constants.Modules.Transfers.children.TransferOut)
-                menuWarehouse.children.push(Constants.Modules.Transfers.children.TransferReceipt)
-                menuWarehouse.children.push(Constants.Modules.Transfers.children.TransferStatus)
-            }
             this.navigation.push(menuWarehouse);
+            let menuReports = {
+                caption:    Constants.Modules.Administrator.children.Reports.caption,
+                navigation: Constants.Modules.Administrator.children.Reports.nav,
+                id:         Constants.Modules.Administrator.children.Reports.id,
+                icon:       'assignment'
+            }
+            this.navigation.push(menuReports);
             // Containers Menu
             //const menuContainer = {
             //    caption: 'Container',
@@ -162,6 +167,14 @@ class RwMaster extends WebMaster {
             };
             this.navigation.push(menuUtilities);
 
+            let menuSettings = {
+                caption:    Constants.Modules.Administrator.children.Settings.caption,
+                navigation: Constants.Modules.Administrator.children.Settings.nav,
+                id:         Constants.Modules.Administrator.children.Settings.id,
+                icon:       'settings'
+            }
+            this.navigation.push(menuSettings);
+
             // Administrator Menu
             let menuAdministrator = {
                 caption: 'Administrator',
@@ -176,14 +189,13 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Administrator.children.DuplicateRule,
                     Constants.Modules.Administrator.children.EmailHistory,
                     Constants.Modules.Administrator.children.Group,
-                    Constants.Modules.Administrator.children.Reports,
-                    Constants.Modules.Administrator.children.Settings,
+                    //Constants.Modules.Administrator.children.Reports,
+                    //Constants.Modules.Administrator.children.Settings,
                     Constants.Modules.Administrator.children.SystemUpdate,
                     Constants.Modules.Administrator.children.User
                 ]
             };
             this.navigation.push(menuAdministrator);
-
 
             // Settings
             this.settings = Constants.Modules.Settings.children;
@@ -300,33 +312,43 @@ class RwMaster extends WebMaster {
         }
     }
     //----------------------------------------------------------------------------------------------
-    buildMainMenu(): MenuCategory[] {
+    buildMainMenu(): (MenuCategory | MenuModule)[] {
         this.initMainMenu();
         var nodeApplication = FwApplicationTree.getMyTree();
 
-        var applicationMenu: MenuCategory[] = [];
+        var applicationMenu: (MenuCategory | MenuModule)[] = [];
         for (var node of this.navigation) {
             var categorySecurityObject = FwFunc.getObjects(nodeApplication, 'id', node.id);
             if (node.id === '' || (categorySecurityObject !== undefined && categorySecurityObject.length > 0 && categorySecurityObject[0].properties.visible === 'T')) {
-                var modules: MenuCategoryModule[] = [];
-                for (var child of node.children) {
-                    var moduleSecurityObject = FwFunc.getObjects(nodeApplication, 'id', child.id);
-                    if (child.id === '' || (moduleSecurityObject !== undefined && moduleSecurityObject.length > 0 && moduleSecurityObject[0].properties.visible === 'T')) {
-                        var module: MenuCategoryModule = {
-                            title:       child.caption,
-                            navigation:  child.nav,
-                            securityid:  child.id
-                        };
-                        modules.push(module);
+                if (node.children) {
+                    var modules: MenuCategoryModule[] = [];
+                    for (var child of node.children) {
+                        var moduleSecurityObject = FwFunc.getObjects(nodeApplication, 'id', child.id);
+                        if (child.id === '' || (moduleSecurityObject !== undefined && moduleSecurityObject.length > 0 && moduleSecurityObject[0].properties.visible === 'T')) {
+                            var module: MenuCategoryModule = {
+                                title:       child.caption,
+                                navigation:  child.nav,
+                                securityid:  child.id
+                            };
+                            modules.push(module);
+                        }
                     }
-                }
-                if (modules.length > 0) {
-                    var category: MenuCategory = {
-                        title:   node.caption,
-                        icon:    node.icon,
-                        modules: modules
-                    };
-                    applicationMenu.push(category);
+                    if (modules.length > 0) {
+                        var category: MenuCategory = {
+                            title:   node.caption,
+                            icon:    node.icon,
+                            modules: modules
+                        };
+                        applicationMenu.push(category);
+                    }
+                } else {
+                    var lv1module: MenuModule = {
+                        title:      node.caption,
+                        icon:       node.icon,
+                        securityid: node.id,
+                        navigation: node.navigation
+                    }
+                    applicationMenu.push(lv1module);
                 }
             }
         }
@@ -531,15 +553,15 @@ class RwMaster extends WebMaster {
 
             bookmarks.push({ title: 'Dashboard', icon: 'dashboard', navigation: 'module/dashboard', type: 'system' });
 
-            const nodeSettings = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Settings');
-            if (typeof nodeSettings === 'object' && nodeSettings.properties.visible === 'T') {
-                bookmarks.push({ title: 'Settings', icon: 'settings', navigation: 'module/settings', type: 'system' });
-            }
+            //const nodeSettings = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Settings');
+            //if (typeof nodeSettings === 'object' && nodeSettings.properties.visible === 'T') {
+            //    bookmarks.push({ title: 'Settings', icon: 'settings', navigation: 'module/settings', type: 'system' });
+            //}
 
-            const nodeReports = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
-            if (typeof nodeReports === 'object' && nodeReports.properties.visible === 'T') {
-                bookmarks.push({ title: 'Reports', icon: 'assignment', navigation: 'module/reports', type: 'system' });
-            }
+            //const nodeReports = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
+            //if (typeof nodeReports === 'object' && nodeReports.properties.visible === 'T') {
+            //    bookmarks.push({ title: 'Reports', icon: 'assignment', navigation: 'module/reports', type: 'system' });
+            //}
         }
 
         return (bookmarks.length > 0) ? bookmarks : null;
@@ -551,8 +573,39 @@ class RwMaster extends WebMaster {
             const userLocation = JSON.parse(sessionStorage.getItem('location'));
             const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
             if (userLocation.location !== defaultLocation.location) {
-                $appmaster.data('header').find('.app-usercontrols').addClass('nondefaultlocation');
+                $appmaster.data('header').find('.header-wrapper').css('border-color', `${userLocation.locationcolor}`); 
             }
+        }
+
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid) {
+            if (userid.mainmenupinned === false) {
+                $appmaster.data('menu').removeAttr('pinned');
+            }
+            $appmaster.data('menu').find('.pin-unpin').off('click');
+            $appmaster.data('menu').find('.pin-unpin').on('click', (e) => {
+                let request: any = {};
+                if ($appmaster.data('menu')[0].hasAttribute('pinned')) {
+                    $appmaster.data('menu').removeAttr('pinned');
+                    userid.mainmenupinned = false;
+                    request.MainMenuPinned = false;
+                } else {
+                    $appmaster.data('menu').attr('pinned', '');
+                    userid.mainmenupinned = true;
+                    request.MainMenuPinned = true;
+                }
+                sessionStorage.setItem('userid', JSON.stringify(userid));
+
+                const webusersid = sessionStorage.getItem('webusersid');
+                if (webusersid) {
+                    request.UserId = webusersid;
+                    FwAppData.apiMethod(true, 'PUT', `api/v1/userprofile/${webusersid}`, request, FwServices.defaultTimeout, response => { }, ex => {
+                        if (ex !== 'Forbidden') {
+                            FwFunc.showError(ex)
+                        }
+                    }, null);
+                }
+            });
         }
     }
     //----------------------------------------------------------------------------------------------

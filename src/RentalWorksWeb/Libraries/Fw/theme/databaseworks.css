@@ -7,12 +7,7 @@ input,textarea {-webkit-touch-callout:default;-webkit-user-select:text;-khtml-us
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url('fwfonts/materialicons/MaterialIcons-Regular.eot'); /* For IE6-8 */
-  src: local('Material Icons'),
-       local('MaterialIcons-Regular'),
-       url('fwfonts/materialicons/MaterialIcons-Regular.woff2') format('woff2'),
-       url('fwfonts/materialicons/MaterialIcons-Regular.woff') format('woff'),
-       url('fwfonts/materialicons/MaterialIcons-Regular.ttf') format('truetype');
+  src: url('fwfonts/materialicons/MaterialIcons-Regular.woff2') format('woff2');
 }
 .material-icons {font-family: 'Material Icons';font-weight: normal;font-style: normal;display: inline-block;width: 1em;height: 1em;line-height: 1;text-transform: none;letter-spacing: normal;
                  font-size: 24px;                      /* Preferred icon size */

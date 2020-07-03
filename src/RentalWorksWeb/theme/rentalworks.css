@@ -18,13 +18,13 @@ Master
 ***************************/
 
 #fw-app-header .app-title .bgothm {cursor:pointer;}
-#fw-app-header .app-usercontrols.nondefaultlocation {background-color:#6a3aaf;color: #FAFAFA;}
+/*#fw-app-header .app-usercontrols.nondefaultlocation {background-color:#6a3aaf;color: #FAFAFA;}
 html.theme-material #fw-app #fw-app-header .app-usercontrols.nondefaultlocation .bookmark:hover {background-color:rgba(255,255,255,0.2);}
 html.theme-material #fw-app #fw-app-header .app-usercontrols.nondefaultlocation .app-usermenu:hover > i {background-color:rgba(255,255,255,0.2);}
-html.theme-material #fw-app #fw-app-header .app-usercontrols.nondefaultlocation .app-usermenu.active > i {background-color:rgba(255,255,255,0.2);}
+html.theme-material #fw-app #fw-app-header .app-usercontrols.nondefaultlocation .app-usermenu.active > i {background-color:rgba(255,255,255,0.2);}*/
 #fw-app-header .app-usercontrols .officelocation {padding: 0 10px;display: flex;align-items: center;cursor: pointer;}
 #fw-app-header .app-usercontrols .officelocation:hover {background-color:rgba(0,0,0,0.2);}
-#fw-app-header .app-usercontrols.nondefaultlocation .officelocation:hover {background-color:rgba(255,255,255,0.2);}
+/*#fw-app-header .app-usercontrols.nondefaultlocation .officelocation:hover {background-color:rgba(255,255,255,0.2);}*/
 #fw-app-header .app-usercontrols .officelocation .locationcolor {width: 1em;height: 1em;margin: auto 4px auto 0;}
 
 #fw-app-body .programlogo {

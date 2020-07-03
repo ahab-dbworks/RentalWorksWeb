@@ -32,8 +32,9 @@
         jQuery(window).resize((e) => {
             var $usercontrols = $appmaster.data('header').find('.app-usercontrols');
             if (((window.innerWidth <= 1239) && (!$usercontrols.hasClass('minified'))) || ((window.innerWidth > 1239) && ($usercontrols.hasClass('minified')))) {
+                this._closeMainMenu($appmaster);
                 $usercontrols.remove();
-                this._renderUserControls($appmaster.data('header'), this.getUserControls());
+                this._renderUserControls($appmaster.data('header').find('.header-wrapper'), this.getUserControls());
 
                 this.events($appmaster);
             }
@@ -49,10 +50,14 @@
 
         $appmaster.data('header', $appheader);
 
+        let $headerwrapper = jQuery('<div>')
+            .addClass('header-wrapper')
+            .appendTo($appheader);
+
         var $appmenubutton = jQuery('<div>')
             .addClass('app-menu-button')
             .attr('tabindex', '-1')
-            .appendTo($appheader);
+            .appendTo($headerwrapper);
 
         var $menuicon = jQuery('<i>')
             .addClass('material-icons main')
@@ -76,7 +81,7 @@
             var $title = jQuery('<div>')
                 .addClass('app-title')
                 //.html(title)
-                .appendTo($appheader);
+                .appendTo($headerwrapper);
             if (typeof options.title === 'string')
                 $title.html(options.title)
             else
@@ -84,7 +89,7 @@
         }
 
         if (options.userControls) {
-            this._renderUserControls($appheader, ((options.userControls === true) ? this.headerOptions.userControls : options.userControls) as MenuUserControls);
+            this._renderUserControls($headerwrapper, ((options.userControls === true) ? this.headerOptions.userControls : options.userControls) as MenuUserControls);
         }
 
         return $appheader;
@@ -223,42 +228,6 @@
                 .html(`${applicationConfig.version}`)
                 .appendTo($staticinfo);
         } else {
-            if (userControls.bookmarks) {
-                for (let bookmark of userControls.bookmarks) {
-                    var $bookmark = jQuery('<div>')
-                        .addClass('bookmark')
-                        .data('bookmark', bookmark)
-                        //.appendTo($usercontrols)
-                        .on('click', (e) => {
-                            if (jQuery(e.currentTarget).data('bookmark').navigation !== '') {
-                                program.getModule(jQuery(e.currentTarget).data('bookmark').navigation);
-                            } else {
-                                FwNotification.renderNotification('ERROR', 'Module navigation not set up.');
-                            }
-                        });
-
-                    if (bookmark.type === 'system') {
-                        $bookmark.appendTo($usercontrols);
-                        jQuery('<i>')
-                            .addClass('material-icons')
-                            .html(bookmark.icon)
-                            .attr('title', bookmark.title)
-                            .appendTo($bookmark);
-                    }
-                    //else if (bookmark.title) {
-                    //    jQuery('<i>')
-                    //        .addClass('material-icons')
-                    //        .html('star')
-                    //        .appendTo($bookmark);
-                    //    jQuery('<div>')
-                    //        .addClass('bookmark-title')
-                    //        .html(bookmark.title)
-                    //        .appendTo($bookmark);
-                    //    $bookmark.attr('title', bookmark.title);
-                    //}
-                }
-            }
-
             if (userControls.controls) {
                 for (let usercontrol of userControls.controls) {
                     usercontrol.control.addClass('usercontrol').appendTo($usercontrols);
@@ -299,45 +268,50 @@
                 .addClass('app-menu-tray')
                 .appendTo($usermenu);
 
-            if (userControls.bookmarks.some(e => e.type === 'userdefined')) {
-                var $bookmarkcontainer = jQuery('<div>')
-                    .addClass('container')
-                    .appendTo($menutray);
-                var $bookmarktitle = jQuery('<div>')
-                    .addClass('bookmarkcaption')
-                    .html('Favorites')
-                    .appendTo($bookmarkcontainer);
-                var $bookmarkicons = jQuery('<div>')
-                    .addClass('bookmarkicons')
-                    .appendTo($bookmarkcontainer);
-                var $bookmarktitles = jQuery('<div>')
-                    .addClass('bookmarktitles')
-                    .appendTo($bookmarkcontainer);
-                for (let bookmark of userControls.bookmarks) {
-                    var $bookmark = jQuery('<div>')
-                        .addClass('bookmark')
-                        .data('bookmark', bookmark)
-                        //.appendTo($usercontrols)
-                        .on('click', (e) => {
-                            if (jQuery(e.currentTarget).data('bookmark').navigation !== '') {
-                                program.getModule(jQuery(e.currentTarget).data('bookmark').navigation);
-                            } else {
-                                FwNotification.renderNotification('ERROR', 'Module navigation not set up.');
-                            }
-                        });
+            var $bookmarkcontainer = jQuery('<div>')
+                .addClass('container')
+                .appendTo($menutray);
+            var $bookmarktitle = jQuery('<div>')
+                .addClass('bookmarkcaption')
+                .html('Favorites')
+                .appendTo($bookmarkcontainer);
+            var $bookmarkicons = jQuery('<div>')
+                .addClass('bookmarkicons')
+                .appendTo($bookmarkcontainer);
+            var $bookmarktitles = jQuery('<div>')
+                .addClass('bookmarktitles')
+                .appendTo($bookmarkcontainer);
+            for (let bookmark of userControls.bookmarks) {
+                var $bookmark = jQuery('<div>')
+                    .addClass('bookmark')
+                    .data('bookmark', bookmark)
+                    //.appendTo($usercontrols)
+                    .on('click', (e) => {
+                        if (jQuery(e.currentTarget).data('bookmark').navigation !== '') {
+                            program.getModule(jQuery(e.currentTarget).data('bookmark').navigation);
+                        } else {
+                            FwNotification.renderNotification('ERROR', 'Module navigation not set up.');
+                        }
+                    });
 
-                    if (bookmark.type === 'userdefined') {
-                        $bookmark.appendTo($bookmarktitles);
-                        jQuery('<i>')
-                            .addClass('material-icons')
-                            .html('star')
-                            .appendTo($bookmark);
-                        jQuery('<div>')
-                            .addClass('bookmark-title')
-                            .html(bookmark.title)
-                            .appendTo($bookmark);
-                        $bookmark.attr('title', bookmark.title);
-                    }
+                if (bookmark.type === 'system') {
+                    $bookmark.appendTo($bookmarkicons);
+                    jQuery('<i>')
+                        .addClass('material-icons')
+                        .html(bookmark.icon)
+                        .attr('title', bookmark.title)
+                        .appendTo($bookmark);
+                } else if (bookmark.type === 'userdefined') {
+                    $bookmark.appendTo($bookmarktitles);
+                    jQuery('<i>')
+                        .addClass('material-icons')
+                        .html('star')
+                        .appendTo($bookmark);
+                    jQuery('<div>')
+                        .addClass('bookmark-title')
+                        .html(bookmark.title)
+                        .appendTo($bookmark);
+                    $bookmark.attr('title', bookmark.title);
                 }
             }
 
@@ -379,10 +353,8 @@
         let $appmenu = jQuery('<div>')
             .attr('id', 'fw-app-menu')
             .attr('tabindex', '-1')
+            .attr('pinned', '')
             .data('options', options)
-            //.on('click', (e) => {
-            //    $appmenu.addClass('focused');
-            //})
             .on('focusout', (e) => {
                 setTimeout(function() {
                     if (document.hasFocus() && !jQuery.contains($appmenu[0], e.currentTarget) && e) {
@@ -394,63 +366,74 @@
         $appmaster.data('menu', $appmenu);
 
         var $menutray = jQuery('<div>')
-            .addClass('app-menu-tray')
+            .addClass('app-menu-tray tray')
             .appendTo($appmenu);
 
-        for (let category of options.menu) {
-            var $category = jQuery('<div>')
-                .addClass('menu-category')
-                .appendTo($menutray)
-                .on('click', (e) => {
-                    if (jQuery(e.currentTarget).hasClass('selected')) {
-                        jQuery(e.currentTarget).removeClass('selected');
-                    } else if (!$appmenu.hasClass('active')) {
-                        jQuery(e.currentTarget).siblings().removeClass('selected');
-                        jQuery(e.currentTarget).addClass('selected');
-                    }
-                })
-                .on('mouseenter', (e) => {
-                    if ($appmenu.hasClass('active')) {
-                        jQuery(e.currentTarget).siblings().removeClass('hovered');
-                        jQuery(e.currentTarget).addClass('hovered');
-                    }
-                })
-                //.on('mouseleave', (e) => {
-                //    if ($appmenu.hasClass('active')) {
-                //        jQuery(e.currentTarget).removeClass('hovered');
-                //    }
-                //});
+        for (let menuobject of options.menu) {
+            if ((menuobject as MenuCategory).modules) {
+                var $category = jQuery('<div>')
+                    .addClass('menu-lv1object')
+                    .appendTo($menutray)
+                    .on('click', (e) => {
+                        if (jQuery(e.currentTarget).hasClass('selected')) {
+                            jQuery(e.currentTarget).removeClass('selected');
+                        } else if (!$appmenu.hasClass('active')) {
+                            jQuery(e.currentTarget).siblings().removeClass('selected');
+                            jQuery(e.currentTarget).addClass('selected');
+                        }
+                    })
+                    .on('mouseenter', (e) => {
+                        if ($appmenu.hasClass('active')) {
+                            jQuery(e.currentTarget).siblings().removeClass('hovered');
+                            jQuery(e.currentTarget).addClass('hovered');
+                        }
+                    });
 
-            var $categoryicon = jQuery('<i>')
-                .addClass('material-icons')
-                .html(category.icon)
-                .attr('title', category.title)
-                .appendTo($category);
+                var $categoryicon = jQuery('<i>')
+                    .addClass('material-icons')
+                    .html(menuobject.icon)
+                    .attr('title', menuobject.title)
+                    .appendTo($category);
 
-            var $collapseabletray = jQuery('<div>')
-                .addClass('category-tray')
-                .appendTo($category);
+                var $collapseabletray = jQuery('<div>')
+                    .addClass('lv1object-tray')
+                    .appendTo($category);
 
-            var $categorytitle = jQuery('<div>')
-                .addClass('menu-category-title')
-                .html(category.title)
-                .appendTo($collapseabletray);
+                var $categorytitle = jQuery('<div>')
+                    .addClass('menu-lv1object-title')
+                    .html(menuobject.title)
+                    .appendTo($collapseabletray);
 
-            var $categoryarrow = jQuery('<i>')
-                .addClass('material-icons')
-                .html('chevron_right')
-                .appendTo($collapseabletray);
+                var $categoryarrow = jQuery('<i>')
+                    .addClass('material-icons')
+                    .html('chevron_right')
+                    .appendTo($collapseabletray);
 
-            var $moduletray = jQuery('<div>')
-                .addClass('module-tray')
-                .appendTo($category);
+                var $moduletray = jQuery('<div>')
+                    .addClass('module-tray')
+                    .appendTo($category);
 
-            for (let module of category.modules) {
-                var $module = jQuery('<div>')
-                    .addClass('module')
-                    .html(module.title)
-                    .data('module', module)
-                    .appendTo($moduletray)
+                for (let module of (menuobject as MenuCategory).modules) {
+                    var $module = jQuery('<div>')
+                        .addClass('module')
+                        .html(module.title)
+                        .data('module', module)
+                        .appendTo($moduletray)
+                        .on('click', (e) => {
+                            e.stopPropagation();
+                            $appmenu.blur();
+                            if (jQuery(e.currentTarget).data('module').navigation !== '') {
+                                program.navigate(jQuery(e.currentTarget).data('module').navigation);
+                            } else {
+                                FwNotification.renderNotification('ERROR', 'Module navigation not set up.');
+                            }
+                        });
+                }
+            } else if ((menuobject as MenuModule).navigation) {
+                var $lv1module = jQuery('<div>')
+                    .addClass('menu-lv1object')
+                    .data('module', menuobject)
+                    .appendTo($menutray)
                     .on('click', (e) => {
                         e.stopPropagation();
                         $appmenu.blur();
@@ -459,9 +442,58 @@
                         } else {
                             FwNotification.renderNotification('ERROR', 'Module navigation not set up.');
                         }
+                    })
+                    .on('mouseenter', (e) => {
+                        if ($appmenu.hasClass('active')) {
+                            jQuery(e.currentTarget).siblings().removeClass('hovered');
+                            jQuery(e.currentTarget).addClass('hovered');
+                        }
                     });
+
+                var $lv1moduleicon = jQuery('<i>')
+                    .addClass('material-icons')
+                    .html(menuobject.icon)
+                    .attr('title', menuobject.title)
+                    .appendTo($lv1module);
+
+                var $collapseabletray = jQuery('<div>')
+                    .addClass('lv1object-tray')
+                    .appendTo($lv1module);
+
+                var $lv1moduletitle = jQuery('<div>')
+                    .addClass('menu-lv1object-title')
+                    .html(menuobject.title)
+                    .appendTo($collapseabletray);
             }
         }
+
+        var $auxtray = jQuery('<div>')
+            .addClass('auxiliary-tray tray')
+            .appendTo($appmenu);
+
+        var $togglebuttons = jQuery('<div>')
+            .addClass('toggle-buttons')
+            .appendTo($auxtray);
+
+        var $pintoggle = jQuery('<div>')
+            .addClass('toggle-button pin-unpin')
+            .attr('title', 'Pin/Unpin Menu')
+            .appendTo($togglebuttons)
+            .on('mouseenter', (e) => {
+                $menutray.find('.menu-lv1object').removeClass('hovered');
+            })
+            .on('click', (e) => {
+                if ($appmenu[0].hasAttribute('pinned')) {
+                    $appmenu.removeAttr('pinned');
+                } else {
+                    $appmenu.attr('pinned', '');
+                }
+            });
+
+        var $pintoggleicon = jQuery('<i>')
+            .addClass('material-icons pin-unpin-icon')
+            .html('push_pin')
+            .appendTo($pintoggle);
 
         return $appmenu;
     }
@@ -528,10 +560,10 @@
         $header.find('.app-menu-button .close').css('display', 'none');
         $menu.removeClass('active');
 
-        $menu.find('.menu-category').removeClass('hovered selected');
+        $menu.find('.menu-lv1object').removeClass('hovered selected');
     }
     //----------------------------------------------------------------------------------------------
-    buildMainMenu(): MenuCategory[] {
+    buildMainMenu(): (MenuCategory | MenuModule)[] {
         return null;
     }
     //----------------------------------------------------------------------------------------------
@@ -572,13 +604,20 @@ interface UserControlControl {
 }
 
 interface MenuOptions {
-    menu: MenuCategory[];
+    menu: (MenuCategory | MenuModule)[];
+}
+
+interface MenuModule {
+    title: string;
+    icon: string;
+    navigation: string;
+    securityid: string;
 }
 
 interface MenuCategory {
     title: string;
-    icon?: string;
-    modules: MenuCategoryModule[];
+    icon: string;
+    modules?: MenuCategoryModule[];
 }
 
 interface MenuCategoryModule {

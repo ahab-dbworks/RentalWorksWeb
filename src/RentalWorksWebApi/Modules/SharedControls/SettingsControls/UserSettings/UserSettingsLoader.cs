@@ -67,6 +67,9 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         [FwSqlDataField(column: "reportsnavmenuvisible", modeltype: FwDataTypes.Boolean)]
         public bool? ReportsNavigationMenuVisible { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mainmenupinned", modeltype: FwDataTypes.Boolean)]
+        public bool? MainMenuPinned { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

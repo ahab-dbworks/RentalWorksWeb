@@ -1,6 +1,9 @@
-﻿#fw-app {display: block;left: 0;min-height: 100%;position: absolute;right: 0;top: 0;}
+﻿
 
-#fw-app #fw-app-header {position: fixed;top: 0;width: 100%;z-index: 2020;transform: translateY(0);transition: transform 0.3s ease;display:flex;flex-wrap:wrap;align-items:stretch;border-bottom:1px solid;}
+#fw-app {display: block;left: 0;min-height: 100%;position: absolute;right: 0;top: 0;--header-hight:51px;}
+
+#fw-app #fw-app-header {position: fixed;top: 0;width: 100%;z-index: 2020;transform: translateY(0);transition: transform 0.3s ease;/*display:flex;*/flex-wrap:wrap;align-items:stretch;border-bottom:1px solid;}
+#fw-app #fw-app-header .header-wrapper {display:flex;border-top:3px solid;border-bottom:3px solid;}
 #fw-app #fw-app-header .app-menu-button:focus {outline:none;}
 #fw-app #fw-app-header .app-menu-button > i {cursor:pointer;font-size:2em;padding:6px;}
 #fw-app #fw-app-header .app-title {flex:1 0 auto;font-size: 2em;cursor:default;margin-left:.1em;display:flex;align-items:center;}
@@ -12,7 +15,7 @@
 #fw-app #fw-app-header .app-usercontrols .usercontrol {padding: 0 .625em;}
 #fw-app #fw-app-header .app-usercontrols .app-usermenu:focus {outline:none;}
 #fw-app #fw-app-header .app-usercontrols .app-usermenu > i {cursor:pointer;font-size:2em;padding:6px;}
-#fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray {width:240px;position:fixed;-webkit-transition:-webkit-transform 0.2s;top:45px;right:0;-webkit-transform:translateX(100%);z-index:200;border-left: 1px solid;}
+#fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray {width:240px;position:fixed;-webkit-transition:-webkit-transform 0.2s;top:var(--header-hight);right:0;-webkit-transform:translateX(100%);z-index:200;border-left: 1px solid;}
 #fw-app #fw-app-header .app-usercontrols .app-usermenu.active .app-menu-tray {-webkit-transform:translateX(0);}
 #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .link {padding:10px 20px;font-size:0.9em;cursor:pointer;}
 #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .link:first-of-type {margin-top:.375em;}
@@ -23,21 +26,36 @@
 #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .bookmarkcaption {padding: 6px .625em;font-weight: bold;}
 #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .bookmarkicons {display:flex;}
 
-#fw-app #fw-app-menu {position: fixed;top: 45px;bottom: 0;left: 0;border-right: 1px solid;z-index: 2020;}
+#fw-app #fw-app-menu {position: fixed;top: var(--header-hight);bottom: 0;left: 0;border-right: 1px solid;z-index: 2020;display: flex;flex-direction: column;}
+#fw-app #fw-app-menu:not([pinned]) {-webkit-transition:-webkit-transform 0.2s;-webkit-transform:translateX(-100%);}
+#fw-app #fw-app-menu:not([pinned]).active {-webkit-transform:translateX(0);}
 #fw-app #fw-app-menu:focus {outline:none;}
-#fw-app #fw-app-menu .app-menu-tray {padding:10px 0;}
-#fw-app #fw-app-menu .menu-category {display:flex;cursor:pointer;padding: 4px 0;/*position:relative;*/}
-#fw-app #fw-app-menu .menu-category > i {font-size:2em;padding:6px;}
-#fw-app #fw-app-menu .menu-category .category-tray {display:flex;align-items:center;width:0;-webkit-transition:width 0.2s, opacity 0.2s;opacity:0;visibility:hidden;}
-#fw-app #fw-app-menu.active .menu-category .category-tray {width: 160px;opacity:1;visibility:visible;}
-#fw-app #fw-app-menu .menu-category .category-tray .menu-category-title {flex:1;line-height:24px;}
-#fw-app #fw-app-menu .menu-category .module-tray {position:absolute;left:-99999em;width: 220px;border: 1px solid;-webkit-overflow-scrolling:touch;opacity:0;visibility:hidden;-webkit-transform:scaleX(0);-webkit-transform-origin:left;-webkit-transition:-webkit-transform 0.12s, opacity 0.12s;}
-#fw-app #fw-app-menu .menu-category.selected .module-tray,
-#fw-app #fw-app-menu.active .menu-category.hovered .module-tray {left:100%;top:10px;opacity:1;visibility:visible;-webkit-transform:scaleX(1);}
-#fw-app #fw-app-menu .menu-category .module-tray .module {padding:10px 20px;font-size:0.9em;}
+#fw-app #fw-app-menu > .tray {padding:10px 0;}
 
-#fw-app #fw-app-body {display:flex;margin-top:45px;margin-left:45px;}
+#fw-app #fw-app-menu .app-menu-tray {border-bottom:1px solid;}
+#fw-app #fw-app-menu .app-menu-tray .menu-lv1object {display:flex;cursor:pointer;padding: 2px 0;position:relative;}
+#fw-app #fw-app-menu .app-menu-tray .menu-lv1object > i {font-size:2em;padding:6px;}
+#fw-app #fw-app-menu .app-menu-tray .menu-lv1object .lv1object-tray {display:flex;align-items:center;width:0;-webkit-transition:width 0.2s, opacity 0.2s;opacity:0;visibility:hidden;}
+#fw-app #fw-app-menu.active .app-menu-tray .menu-lv1object .lv1object-tray {width: 160px;opacity:1;visibility:visible;}
+#fw-app #fw-app-menu .app-menu-tray .menu-lv1object .lv1object-tray .menu-lv1object-title {flex:1;line-height:24px;}
+#fw-app #fw-app-menu .app-menu-tray .menu-lv1object .module-tray {position:absolute;left:-99999em;width: 220px;border: 1px solid;-webkit-overflow-scrolling:touch;opacity:0;visibility:hidden;-webkit-transform:scaleX(0);-webkit-transform-origin:left;-webkit-transition:-webkit-transform 0.12s, opacity 0.12s;}
+#fw-app #fw-app-menu .app-menu-tray .menu-lv1object.selected .module-tray,
+#fw-app #fw-app-menu.active .app-menu-tray .menu-lv1object.hovered .module-tray {left:100%;top:0px;opacity:1;visibility:visible;-webkit-transform:scaleX(1);}
+#fw-app #fw-app-menu .app-menu-tray .menu-lv1object .module-tray .module {padding:10px 20px;font-size:0.9em;}
+
+#fw-app #fw-app-menu .auxiliary-tray {opacity:0;visibility:hidden;-webkit-transform:scaleX(0);-webkit-transform-origin:left;-webkit-transition:-webkit-transform 0.12s, opacity 0.12s;}
+#fw-app #fw-app-menu.active .auxiliary-tray {opacity:1;visibility:visible;-webkit-transform:scaleX(1);}
+#fw-app #fw-app-menu .auxiliary-tray .toggle-buttons {display:flex;justify-content:flex-end;}
+#fw-app #fw-app-menu .auxiliary-tray .toggle-buttons .toggle-button {padding:2px;cursor:pointer;}
+#fw-app #fw-app-menu .auxiliary-tray .toggle-buttons .toggle-button:last-of-type {margin-right:10px;}
+
+#fw-app #fw-app-menu .auxiliary-tray .toggle-buttons .pin-unpin-icon {padding:4px;}
+#fw-app #fw-app-menu:not([pinned]) .auxiliary-tray .toggle-buttons .pin-unpin-icon {transform:rotate(45deg)}
+
+#fw-app #fw-app-body {display:flex;margin-top:var(--header-hight);margin-left:47px;}
 #fw-app #fw-app-body > * {flex:1;}
+
+#fw-app #fw-app-menu:not([pinned]) + #fw-app-body {margin-left:0;}
 
 @media only screen and (max-width: 1239px) {
     #fw-app #fw-app-menu {-webkit-transition:-webkit-transform 0.2s;-webkit-transform:translateX(-100%);}
@@ -51,7 +69,8 @@
 }
 
 
-html.theme-material #fw-app #fw-app-header {background-color:#FFFDE7;color:#212121;border-color:#9E9E9E;}
+html.theme-material #fw-app #fw-app-header {background-color:#F5F5F5;color:#212121;border-color:#BDBDBD;}
+html.theme-material #fw-app #fw-app-header .header-wrapper {border-color:#F5F5F5;}
 html.theme-material #fw-app #fw-app-header .app-menu-button:hover > i {background-color:rgba(0,0,0,0.2);}
 html.theme-material #fw-app #fw-app-header .app-menu-button.active > i {background-color:rgba(0,0,0,0.2);}
 
@@ -66,9 +85,10 @@ html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-
 html.theme-material #fw-app #fw-app-header .app-usercontrols .app-usermenu .app-menu-tray .staticinfo {background-color: #eeeeee;border-color:#9E9E9E;}
 
 html.theme-material #fw-app #fw-app-menu {background-color:#2196F3;color:#FAFAFA;border-color:#1976D2;}
-/*html.theme-material #fw-app #fw-app-menu.active {background-color:#ffffff;color:#212121}
-html.theme-material #fw-app #fw-app-menu.active .menu-category > i {color:#2196F3;}*/
-html.theme-material #fw-app #fw-app-menu.active .menu-category.hovered {background-color:#64B5F6;}
-html.theme-material #fw-app #fw-app-menu .menu-category .module-tray {background-color: #E3F2FD;color:#212121;border-color:#1976D2;}
-html.theme-material #fw-app #fw-app-menu .menu-category.selected {background-color:#64B5F6;}
-html.theme-material #fw-app #fw-app-menu .menu-category .module-tray .module:hover {background-color:#64B5F6;}
+html.theme-material #fw-app #fw-app-menu .app-menu-tray {border-color:#64b5f6;}
+html.theme-material #fw-app #fw-app-menu.active .app-menu-tray .menu-lv1object.hovered {background-color:#64B5F6;}
+html.theme-material #fw-app #fw-app-menu .app-menu-tray .menu-lv1object .module-tray {background-color: #E3F2FD;color:#212121;border-color:#1976D2;}
+html.theme-material #fw-app #fw-app-menu .app-menu-tray .menu-lv1object.selected {background-color:#64B5F6;}
+html.theme-material #fw-app #fw-app-menu .app-menu-tray .menu-lv1object .module-tray .module:hover {background-color:#64B5F6;}
+
+html.theme-material #fw-app #fw-app-menu .auxiliary-tray .toggle-buttons .toggle-button:hover {background-color:#64B5F6;}
