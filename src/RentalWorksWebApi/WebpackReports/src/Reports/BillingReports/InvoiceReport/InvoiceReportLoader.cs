@@ -514,6 +514,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "custtype", modeltype: FwDataTypes.Text)]
         public string CustomerType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "custphone", modeltype: FwDataTypes.Text)]
+        public string CustomerPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
