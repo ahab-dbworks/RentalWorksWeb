@@ -87,7 +87,6 @@ class Sound {
                         $form.find('#soundSrc').attr("src", url);
                         const audioElement: any = document.getElementById('audio');
                         audioElement.load();
-                        FwFormField.setValueByDataField($form, 'FileName', url);
 
                         const reader = new FileReader();
                         reader.readAsDataURL(file);
@@ -100,7 +99,8 @@ class Sound {
 
                             // limit size and length of new sounds
                             // add base64 sound to user and user profile
-                          //  deal with change evt in user and user profile. there will only be a soundId there?
+                            //  deal with change evt in user and user profile. there will only be a soundId there?
+                            // userprofilelogic needs some work
                         }
                     } else {
                         $form.find('#soundInput').val('');
@@ -116,17 +116,16 @@ class Sound {
             FwFormField.disable($form.find('div[data-datafield="Sound"]'));
             $form.find('div.btn-row').hide();
         }
-            // load audio element with file url from local
-            // getting base64data from page load and loading a blob on the page
-            const base64Sound = FwFormField.getValueByDataField($form, 'Base64Sound');
-            const blob = FwFunc.b64toBlob(base64Sound);
-            const blobUrl = URL.createObjectURL(blob);
-            $form.find('#soundSrc').attr("src", blobUrl);
+        // load audio element with file url from local
+        // getting base64data from page load and loading a blob on the page
+        const base64Sound = FwFormField.getValueByDataField($form, 'Base64Sound');
+        const blob = FwFunc.b64SoundtoBlob(base64Sound);
+        const blobUrl = URL.createObjectURL(blob);
+        $form.find('#soundSrc').attr("src", blobUrl);
 
-            const audioElement: any = document.getElementById('audio');
-            audioElement.load();
+        const audioElement: any = document.getElementById('audio');
+        audioElement.load();
     }
-   
 }
 
 var SoundController = new Sound();

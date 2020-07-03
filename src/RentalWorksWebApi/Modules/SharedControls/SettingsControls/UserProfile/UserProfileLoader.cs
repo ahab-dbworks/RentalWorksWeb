@@ -34,8 +34,8 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwSqlDataField(column: "successsound", modeltype: FwDataTypes.Text)]
         public string SuccessSound { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "successsoundfilename", modeltype: FwDataTypes.Text)]
-        public string SuccessSoundFileName { get; set; }
+        [FwSqlDataField(column: "successbase64sound", modeltype: FwDataTypes.Text)]
+        public string SuccessBase64Sound { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "errorsoundid", modeltype: FwDataTypes.Text)]
         public string ErrorSoundId { get; set; }
@@ -43,8 +43,8 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwSqlDataField(column: "errorsound", modeltype: FwDataTypes.Text)]
         public string ErrorSound { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "errorsoundfilename", modeltype: FwDataTypes.Text)]
-        public string ErrorSoundFileName { get; set; }
+        [FwSqlDataField(column: "errorbase64sound", modeltype: FwDataTypes.Text)]
+        public string ErrorBase64Sound { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notificationsoundid", modeltype: FwDataTypes.Text)]
         public string NotificationSoundId { get; set; }
@@ -52,8 +52,8 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwSqlDataField(column: "notificationsound", modeltype: FwDataTypes.Text)]
         public string NotificationSound { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "notificationsoundfilename", modeltype: FwDataTypes.Text)]
-        public string NotificationSoundFileName { get; set; }
+        [FwSqlDataField(column: "notificationbase64sound", modeltype: FwDataTypes.Text)]
+        public string NotificationBase64Sound { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "toolbarjson", modeltype: FwDataTypes.Text)]
         public string FavoritesJson { get; set; }

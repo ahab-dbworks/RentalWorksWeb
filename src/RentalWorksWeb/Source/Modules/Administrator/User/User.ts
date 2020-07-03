@@ -209,21 +209,7 @@ class User {
         sessionStorage.setItem('browsedefaultrows', FwFormField.getValueByDataField($form, 'BrowseDefaultRows'));
         sessionStorage.setItem('applicationtheme', FwFormField.getValueByDataField($form, 'ApplicationTheme'));
 
-        // sounds
-        const successBase64Sound = FwFormField.getValueByDataField($form, 'SuccessBase64Sound');
-        const successBlob = FwFunc.b64toBlob(successBase64Sound);
-        const successBlobUrl = URL.createObjectURL(successBlob);
-        $form.find(`div[data-datafield="SuccessBase64Sound"]`).attr(`data-SuccessSoundUrl`, successBlobUrl);
-
-        const errorBase64Sound = FwFormField.getValueByDataField($form, 'ErrorBase64Sound');
-        const errorBlob = FwFunc.b64toBlob(errorBase64Sound);
-        const errorBlobUrl = URL.createObjectURL(errorBlob);
-        $form.find(`div[data-datafield="ErrorBase64Sound"]`).attr(`data-ErrorSoundUrl`, errorBlobUrl);
-
-        const notificationBase64Sound = FwFormField.getValueByDataField($form, 'NotificationBase64Sound');
-        const notificationBlob = FwFunc.b64toBlob(notificationBase64Sound);
-        const notificationBlobUrl = URL.createObjectURL(notificationBlob);
-        $form.find(`div[data-datafield="NotificationBase64Sound"]`).attr(`data-NotificationSoundUrl`, notificationBlobUrl);
+        this.soundsToUrl($form);
 
 
         //setFormProperties = function ($form) {
@@ -246,6 +232,27 @@ class User {
         //        FwFormField.disable($txtNetExpire);
         //    }
         //};
+    }
+    //----------------------------------------------------------------------------------------------
+    soundsToUrl($form) {
+        // Success
+        const successBase64Sound = FwFormField.getValueByDataField($form, 'SuccessBase64Sound');
+        const successBlob = FwFunc.b64SoundtoBlob(successBase64Sound);
+        const successBlobUrl = URL.createObjectURL(successBlob);
+        $form.find(`div[data-datafield="SuccessBase64Sound"]`).attr(`data-SuccessSoundUrl`, successBlobUrl);
+        jQuery('#application').attr(`data-SuccessSoundUrl`, successBlobUrl);
+        // Error
+        const errorBase64Sound = FwFormField.getValueByDataField($form, 'ErrorBase64Sound');
+        const errorBlob = FwFunc.b64SoundtoBlob(errorBase64Sound);
+        const errorBlobUrl = URL.createObjectURL(errorBlob);
+        $form.find(`div[data-datafield="ErrorBase64Sound"]`).attr(`data-ErrorSoundUrl`, errorBlobUrl);
+        jQuery('#application').attr(`data-ErrorSoundUrl`, errorBlobUrl);
+        // Notification
+        const notificationBase64Sound = FwFormField.getValueByDataField($form, 'NotificationBase64Sound');
+        const notificationBlob = FwFunc.b64SoundtoBlob(notificationBase64Sound);
+        const notificationBlobUrl = URL.createObjectURL(notificationBlob);
+        $form.find(`div[data-datafield="NotificationBase64Sound"]`).attr(`data-NotificationSoundUrl`, notificationBlobUrl);
+        jQuery('#application').attr(`data-NotificationSoundUrl`, notificationBlobUrl);
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -294,7 +301,7 @@ class User {
             }
 
             FwFormField.setValue($form, `div[data-datafield="${tag}Base64Sound"]`, $tr.find(`.field[data-formdatafield="Base64Sound"]`).attr('data-originalvalue'));
-            const blob = FwFunc.b64toBlob($tr.find(`.field[data-formdatafield="Base64Sound"]`).attr('data-originalvalue'));
+            const blob = FwFunc.b64SoundtoBlob($tr.find(`.field[data-formdatafield="Base64Sound"]`).attr('data-originalvalue'));
             const blobUrl = URL.createObjectURL(blob);
             $form.find(`div[data-datafield="${tag}Base64Sound"]`).attr(`data-${tag}SoundUrl`, blobUrl);
         });
@@ -314,16 +321,7 @@ class User {
             const sound = new Audio(soundUrl);
             sound.play();
         });
-        //$form.find('.error-play-button').on('click', e => {
-        //    const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
-        //    const errorSound = new Audio(errorSoundFileName);
-        //    errorSound.play();
-        //});
-        //$form.find('.notification-play-button').on('click', e => {
-        //    const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName');
-        //    const notificationSound = new Audio(notificationSoundFileName);
-        //    notificationSound.play();
-        //});
+
         $form.find('div[data-datafield="HomeMenuGuid"]').on("change", e => {
             const dataNav = jQuery(e.currentTarget).find(':selected').attr('data-nav');
             FwFormField.setValueByDataField($form, 'HomeMenuPath', dataNav);
@@ -765,7 +763,7 @@ class User {
                       <div class="flexrow" style="width:243px;">
                         <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Calendar Start Day" data-datafield="FirstDayOfWeek" style="flex:1 1 350px;"></div>
                       </div>
-                      <!--Hidden Sound Filenames-->
+                      <!--Hidden Sound fields-->
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Home Page Path" data-datafield="HomeMenuPath" style="flex:1 1 0; display:none;"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="SuccessBase64Sound" data-SuccessSoundUrl="" data-datafield="SuccessBase64Sound" data-allcaps="false" style="float:left;width:455px;display:none;"></div>

@@ -279,78 +279,102 @@
     }
     //---------------------------------------------------------------------------------
     static playSuccessSound() {
-        const successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        const successSoundUrl = jQuery('#application').attr('data-SuccessSoundUrl');
 
-        if (successSoundFileName && typeof successSoundFileName === 'string') {
-            const sound = new Audio(successSoundFileName);
+        if (successSoundUrl !== '') {
+            const sound = new Audio(successSoundUrl);
             sound.play();
         } else {
-            FwNotification.renderNotification('INFO', 'No Success Sound set up. Visit User Settings to choose a sound.')
+            this.getBase64Sound('Success')
+                .then(() => {
+                    if (successSoundUrl !== null) {
+                        const sound = new Audio(successSoundUrl);
+                        sound.play();
+                    } else {
+                        FwNotification.renderNotification('INFO', 'No Success Sound set up. Visit User Settings to choose a sound.')
+                    }
+                });
         }
     }
     //---------------------------------------------------------------------------------
     static playErrorSound() {
-        const errorSoundUrl = jQuery('#application').attr('data-errsoundurl');
+        const errorSoundUrl = jQuery('#application').attr('data-ErrorSoundUrl');
 
         if (errorSoundUrl !== '') {
             const sound = new Audio(errorSoundUrl);
             sound.play();
         } else {
-            this.getBase64Sound('Error');
-            if (errorSoundUrl !== null) {
-                const sound = new Audio(errorSoundUrl);
-                sound.play();
-            } else {
-                FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Settings to choose a sound.')
-            }
+            this.getBase64Sound('Error')
+                .then(() => {
+                    if (errorSoundUrl !== null) {
+                        const sound = new Audio(errorSoundUrl);
+                        sound.play();
+                    } else {
+                        FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Settings to choose a sound.')
+                    }
+                });
         }
     }
     //---------------------------------------------------------------------------------
     static playNotificationSound() {
-        const notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
+        const notificationSoundUrl = jQuery('#application').attr('data-NotificationSoundUrl');
 
-        if (notificationSoundFileName && typeof notificationSoundFileName === 'string') {
-            const sound = new Audio(notificationSoundFileName);
+        if (notificationSoundUrl !== '') {
+            const sound = new Audio(notificationSoundUrl);
             sound.play();
         } else {
-            FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Settings to choose a sound.')
-        }
-    }
-    //---------------------------------------------------------------------------------
-    static getBase64Sound(tag: string, userSettingsObject?: any) {
-        // gets base64sound for input tag and loads into app and assigns url from blob to stream
-
-        if (userSettingsObject) {
-            const base64Sound = userSettingsObject[`${tag}Base64Sound`];
-            const blob = this.b64toBlob(base64Sound);
-            const blobUrl = URL.createObjectURL(blob);
-            jQuery('#application').attr(`data-${tag}SoundUrl`, blobUrl);
-        } else {
-            const webUsersId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
-            const promiseGetUserSettings = FwAjax.callWebApi<any, any>({
-                httpMethod: 'GET',
-                url: `${applicationConfig.apiurl}api/v1/usersettings/${webUsersId}`,
-                $elementToBlock: jQuery('#application'),
-            });
-            Promise.all([
-                promiseGetUserSettings,
-            ])
-                .then((values: any) => {
-                    const responseGetUserSettings = values[0];
-                    const base64Sound = responseGetUserSettings[`${tag}Base64Sound`];
-                    const blob = this.b64toBlob(base64Sound);
-                    const blobUrl = URL.createObjectURL(blob);
-                    jQuery('#application').attr(`data-${tag}SoundUrl`, blobUrl);
+            this.getBase64Sound('Notification')
+                .then(() => {
+                    if (notificationSoundUrl !== null) { // will this value be updated?
+                        const sound = new Audio(notificationSoundUrl);
+                        sound.play();
+                    } else {
+                        FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Settings to choose a sound.')
+                    }
                 });
         }
     }
+    //---------------------------------------------------------------------------------
+    static getBase64Sound(tag: string, userSettingsObject?: any): Promise<any> {
+        // gets base64sound for input tag and loads into app and assigns url from blob to stream
+        return new Promise<any>(async (resolve, reject) => {
+            try {
+                if (userSettingsObject) {
+                    const base64Sound = userSettingsObject[`${tag}Base64Sound`];
+                    const blob = this.b64SoundtoBlob(base64Sound);
+                    const blobUrl = URL.createObjectURL(blob);
+                    jQuery('#application').attr(`data-${tag}SoundUrl`, blobUrl);
+                } else {
+                    const webUsersId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+                    const promiseGetUserSettings = FwAjax.callWebApi<any, any>({
+                        httpMethod: 'GET',
+                        url: `${applicationConfig.apiurl}api/v1/usersettings/${webUsersId}`,
+                        $elementToBlock: jQuery('#application'),
+                    });
+                    Promise.all([
+                        promiseGetUserSettings, // this could be removed?
+                    ])
+                        .then((values: any) => {
+                            const responseGetUserSettings = values[0];
+                            const base64Sound = responseGetUserSettings[`${tag}Base64Sound`];
+                            const blob = this.b64SoundtoBlob(base64Sound);
+                            const blobUrl = URL.createObjectURL(blob);
+                            jQuery('#application').attr(`data-${tag}SoundUrl`, blobUrl);
+                            resolve();
+                        });
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
-    static b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+    static b64SoundtoBlob(b64Data) {
         const byteCharacters = atob(b64Data.replace(/^data:audio\/(wav|mp3|ogg);base64,/, ''));
         const byteArrays = [];
 
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
+        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+            const slice = byteCharacters.slice(offset, offset + 512);
 
             const byteNumbers = new Array(slice.length);
             for (let i = 0; i < slice.length; i++) {
@@ -361,7 +385,7 @@
             byteArrays.push(byteArray);
         }
 
-        const blob = new Blob(byteArrays, { type: contentType });
+        const blob = new Blob(byteArrays, { type: '' });
         return blob;
     }
     //---------------------------------------------------------------------------------
