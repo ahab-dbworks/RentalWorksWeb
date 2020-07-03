@@ -99,7 +99,7 @@ class Sound {
                             // next steps:
 
                             // limit size and length of new sounds
-
+                            // add base64 sound to user and user profile
                           //  deal with change evt in user and user profile. there will only be a soundId there?
                         }
                     } else {
