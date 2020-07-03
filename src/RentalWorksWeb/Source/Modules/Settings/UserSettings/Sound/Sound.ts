@@ -98,12 +98,9 @@ class Sound {
 
                             // next steps:
 
-                            // figure out how to stream files when played elsewhere i.e fwfunc.playerrorSound() etc this method currently requires a filename
-                            // add issystemsound flag to responseGetUserSettings to be used in base.ts
-                            // in base.ts - if not sys sound, load base64 and url into #application, else load filename
-                            // on change evt in user and user profile, reload #application attr
-                            // add check in fwfunc.play... to see if attr is empty (browser refresh)
                             // limit size and length of new sounds
+
+                          //  deal with change evt in user and user profile. there will only be a soundId there?
                         }
                     } else {
                         $form.find('#soundInput').val('');
@@ -118,43 +115,18 @@ class Sound {
         if (FwFormField.getValueByDataField($form, 'SystemSound') === true) {
             FwFormField.disable($form.find('div[data-datafield="Sound"]'));
             $form.find('div.btn-row').hide();
+        }
             // load audio element with file url from local
-            const fileName = FwFormField.getValueByDataField($form, 'FileName');
-            $form.find('#soundSrc').attr("src", fileName);
-            const audioElement: any = document.getElementById('audio');
-            audioElement.load();
-        } else {
             // getting base64data from page load and loading a blob on the page
             const base64Sound = FwFormField.getValueByDataField($form, 'Base64Sound');
-            const blob = this.b64toBlob(base64Sound);
+            const blob = FwFunc.b64toBlob(base64Sound);
             const blobUrl = URL.createObjectURL(blob);
             $form.find('#soundSrc').attr("src", blobUrl);
-            jQuery('#application').attr('data-errsoundurl', blobUrl);
 
             const audioElement: any = document.getElementById('audio');
             audioElement.load();
-        }
     }
-    //----------------------------------------------------------------------------------------------
-    b64toBlob(b64Data, contentType = '', sliceSize = 512) {
-        const byteCharacters = atob(b64Data.replace(/^data:audio\/(wav|mp3|ogg);base64,/, ''));
-        const byteArrays = [];
-
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
-            byteArrays.push(byteArray);
-        }
-
-        const blob = new Blob(byteArrays, { type: contentType });
-        return blob;
-    }
+   
 }
 
 var SoundController = new Sound();

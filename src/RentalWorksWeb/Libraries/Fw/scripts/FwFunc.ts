@@ -290,15 +290,19 @@
     }
     //---------------------------------------------------------------------------------
     static playErrorSound() {
-        const errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        // if errorIsSystemSound, use SS filename, else use #application url. if null, API to get base64 and assign to #application
-       // const errorSoundFileName = jQuery('#application').attr('data-errsoundurl');
+        const errorSoundUrl = jQuery('#application').attr('data-errsoundurl');
 
-        if (errorSoundFileName && typeof errorSoundFileName === 'string') {
-            const sound = new Audio(errorSoundFileName);
+        if (errorSoundUrl !== '') {
+            const sound = new Audio(errorSoundUrl);
             sound.play();
         } else {
-            FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Settings to choose a sound.')
+            this.getBase64Sound('Error');
+            if (errorSoundUrl !== null) {
+                const sound = new Audio(errorSoundUrl);
+                sound.play();
+            } else {
+                FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Settings to choose a sound.')
+            }
         }
     }
     //---------------------------------------------------------------------------------
@@ -311,6 +315,54 @@
         } else {
             FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Settings to choose a sound.')
         }
+    }
+    //---------------------------------------------------------------------------------
+    static getBase64Sound(tag: string, userSettingsObject?: any) {
+        // gets base64sound for input tag and loads into app and assigns url from blob to stream
+
+        if (userSettingsObject) {
+            const base64Sound = userSettingsObject[`${tag}Base64Sound`];
+            const blob = this.b64toBlob(base64Sound);
+            const blobUrl = URL.createObjectURL(blob);
+            jQuery('#application').attr(`data-${tag}SoundUrl`, blobUrl);
+        } else {
+            const webUsersId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+            const promiseGetUserSettings = FwAjax.callWebApi<any, any>({
+                httpMethod: 'GET',
+                url: `${applicationConfig.apiurl}api/v1/usersettings/${webUsersId}`,
+                $elementToBlock: jQuery('#application'),
+            });
+            Promise.all([
+                promiseGetUserSettings,
+            ])
+                .then((values: any) => {
+                    const responseGetUserSettings = values[0];
+                    const base64Sound = responseGetUserSettings[`${tag}Base64Sound`];
+                    const blob = this.b64toBlob(base64Sound);
+                    const blobUrl = URL.createObjectURL(blob);
+                    jQuery('#application').attr(`data-${tag}SoundUrl`, blobUrl);
+                });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    static b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+        const byteCharacters = atob(b64Data.replace(/^data:audio\/(wav|mp3|ogg);base64,/, ''));
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, { type: contentType });
+        return blob;
     }
     //---------------------------------------------------------------------------------
     static getWeekStartInt(): number {
