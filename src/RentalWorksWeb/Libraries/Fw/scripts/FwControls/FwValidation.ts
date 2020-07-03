@@ -411,7 +411,7 @@
         $searchfield.val(text);
 
         if (typeof $control.data('onchange') === 'function') {
-            $control.data('onchange')($tr);
+            $control.data('onchange')($tr, $control);
         }
 
         this.showHidePeek($control, uniqueid);

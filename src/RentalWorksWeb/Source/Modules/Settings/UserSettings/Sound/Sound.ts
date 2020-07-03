@@ -93,7 +93,7 @@ class Sound {
                         reader.readAsDataURL(file);
                         reader.onloadend = () => {
                             const base64data = reader.result;
-                            FwFormField.setValueByDataField($form, 'Base64Sound', base64data.toString()); //possible need of replacing audio tags in the str like done in b64toBlob
+                            FwFormField.setValueByDataField($form, 'Base64Sound', base64data.toString().replace(/^data:audio\/(wav|mp3|ogg);base64,/, ''));
                             $form.find('div[data-datafield="Base64Sound"]').change();
 
                             // next steps:
