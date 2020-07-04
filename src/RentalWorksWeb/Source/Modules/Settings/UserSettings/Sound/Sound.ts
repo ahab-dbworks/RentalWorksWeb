@@ -82,29 +82,32 @@ class Sound {
                 $form.find('#soundSrc').attr("src", '');
                 const file: any = folder.files[0];
                 if (file) { //possible must handle clear out file and leave blank?
-                    if (file.type === 'audio/mp3' || file.type === 'audio/wav' || file.type === 'audio/ogg') {
-                        const url = URL.createObjectURL(file);
-                        $form.find('#soundSrc').attr("src", url);
-                        const audioElement: any = document.getElementById('audio');
-                        audioElement.load();
+                    if (file.type === 'audio/mp3' || file.type === 'audio/wav' || file.type === 'audio/ogg' || file.type === 'audio/mpeg') {
+                        if (file.size < 2000000) {
+                            const url = URL.createObjectURL(file);
+                            $form.find('#soundSrc').attr("src", url);
+                            const audioElement: any = document.getElementById('audio');
+                            audioElement.load();
 
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.onloadend = () => {
-                            const base64data = reader.result;
-                            FwFormField.setValueByDataField($form, 'Base64Sound', base64data.toString().replace(/^data:audio\/(wav|mp3|ogg);base64,/, ''));
-                            $form.find('div[data-datafield="Base64Sound"]').change();
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onloadend = () => {
+                                const base64data = reader.result;
+                                FwFormField.setValueByDataField($form, 'Base64Sound', base64data.toString().replace(/^data:audio\/(wav|mp3|ogg|mpeg);base64,/, ''));
+                                $form.find('div[data-datafield="Base64Sound"]').change();
 
-                            // next steps:
-
-                            // limit size and length of new sounds
-                            // add base64 sound to user and user profile
-                            //  deal with change evt in user and user profile. there will only be a soundId there?
-                            // userprofilelogic needs some work
+                                // NEXT STEPS:
+                                // add base64 sound to user and user profile
+                                //  deal with change evt in user and user profile. there will only be a soundId there?
+                                // userprofilelogic needs some work
+                            }
+                        } else {
+                            $form.find('#soundInput').val('');
+                            FwNotification.renderNotification('WARNING', 'File must be less than 2MB in size.')
                         }
                     } else {
                         $form.find('#soundInput').val('');
-                        FwNotification.renderNotification('WARNING', 'Only MP3, WAV or OGG file types supported.')
+                        FwNotification.renderNotification('WARNING', 'Only MP3, WAV or OGG file types supported.');
                     }
                 }
             }

@@ -370,7 +370,7 @@
     }
     //----------------------------------------------------------------------------------------------
     static b64SoundtoBlob(b64Data) {
-        const byteCharacters = atob(b64Data.replace(/^data:audio\/(wav|mp3|ogg);base64,/, ''));
+        const byteCharacters = atob(b64Data.replace(/^data:audio\/(wav|mp3|ogg\mpeg);base64,/, ''));
         const byteArrays = [];
 
         for (let offset = 0; offset < byteCharacters.length; offset += 512) {
