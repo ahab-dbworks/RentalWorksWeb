@@ -249,7 +249,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "weeklytax", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "weeklytax2", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "weeklytax1", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyTax1 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklytax2", modeltype: FwDataTypes.Decimal)]
