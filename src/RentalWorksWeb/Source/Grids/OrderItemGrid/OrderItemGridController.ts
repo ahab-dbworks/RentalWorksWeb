@@ -1482,6 +1482,8 @@ class OrderItemGrid {
             subWorksheetData.RateType = FwFormField.getValueByDataField($form, 'RateType');
             subWorksheetData.CurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
             subWorksheetData.CurrencyCode = FwFormField.getTextByDataField($form, 'CurrencyId');
+            subWorksheetData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
+            subWorksheetData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
             subWorksheetData.EstimatedStartDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');
             subWorksheetData.EstimatedStopDate = FwFormField.getValue($form, 'div[data-dateactivitytype="STOP"]');
             subWorksheetData.EstimatedStartTime = FwFormField.getValue($form, 'div[data-timeactivitytype="START"]');

@@ -32,10 +32,15 @@ class SubWorksheet {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        FwFormField.loadItems($form.find('div[data-datafield="CreateModifyToggle"]'), [
+            { value: 'CREATE', caption: 'Create New Purchase Order', checked: 'checked' },
+            { value: 'MODIFY', caption: 'Modify Existing Purchase Order' }
+        ]);
+
         if (typeof parentmoduleinfo !== 'undefined') {
             this.OrderId = parentmoduleinfo.OrderId;
             this.RecType = parentmoduleinfo.RecType;
-            $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
+            FwFormField.setValueByDataField($form, 'CreateModifyToggle', 'CREATE');
             //disables asterisk and save prompt
             $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
@@ -44,59 +49,91 @@ class SubWorksheet {
             FwFormField.setValueByDataField($form, 'ToDate', parentmoduleinfo.EstimatedStopDate);
             FwFormField.setValueByDataField($form, 'RequiredTime', parentmoduleinfo.EstimatedStartTime);
             FwFormField.setValueByDataField($form, 'OrderRateType', parentmoduleinfo.RateType);
+            FwFormField.setValueByDataField($form, 'RateId', parentmoduleinfo.RateType, parentmoduleinfo.RateType);
+            FwFormField.setValueByDataField($form, 'BillingCycleId', parentmoduleinfo.BillingCycleId, parentmoduleinfo.BillingCycle);
             FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', parentmoduleinfo.CurrencyId, parentmoduleinfo.CurrencyCode);
 
             this.events($form, parentmoduleinfo);
+            this.createNewWorksheet($form, parentmoduleinfo);
         }
 
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery, parentmoduleinfo?): void {
-        const createNew = $form.find('div[data-datafield="CreateNew"] input');
-        const modifyExisting = $form.find('div[data-datafield="ModifyExisting"] input');
+        //const createNew = $form.find('div[data-datafield="CreateNew"] input');
+        //const modifyExisting = $form.find('div[data-datafield="ModifyExisting"] input');
         const newPo = $form.find('.new');
         const existingPo = $form.find('.existing');
-        // Create new checkbox
-        createNew.on('change', e => {
-            if (jQuery(e.currentTarget).prop('checked')) {
-                modifyExisting.prop('checked', false);
+        //// Create new checkbox
+        //createNew.on('change', e => {
+        //    if (jQuery(e.currentTarget).prop('checked')) {
+        //        modifyExisting.prop('checked', false);
+        //        for (let i = 0; i < newPo.length; i++) {
+        //            FwFormField.enable(jQuery(newPo[i]));
+        //        }
+        //        FwFormField.disable(existingPo);
+        //    } else {
+        //        modifyExisting.prop('checked', true);
+        //        for (let i = 0; i < newPo.length; i++) {
+        //            FwFormField.disable(jQuery(newPo[i]));
+        //        }
+        //        FwFormField.enable(existingPo);
+        //    }
+        //});
+        //// Modify Existing checkbox
+        //modifyExisting.on('change', e => {
+        //    if (jQuery(e.currentTarget).prop('checked')) {
+        //        createNew.prop('checked', false);
+        //        for (let i = 0; i < newPo.length; i++) {
+        //            FwFormField.disable(jQuery(newPo[i]));
+        //        }
+        //        FwFormField.enable(existingPo);
+        //    } else {
+        //        createNew.prop('checked', true);
+        //        for (let i = 0; i < newPo.length; i++) {
+        //            FwFormField.enable(jQuery(newPo[i]));
+        //        }
+        //        FwFormField.disable(existingPo);
+        //    }
+        //});
+
+        $form.on('change', '[data-datafield="CreateModifyToggle"]', e => {
+            const val = FwFormField.getValueByDataField($form, 'CreateModifyToggle');
+            if (val === 'CREATE') {
                 for (let i = 0; i < newPo.length; i++) {
                     FwFormField.enable(jQuery(newPo[i]));
                 }
                 FwFormField.disable(existingPo);
-            } else {
-                modifyExisting.prop('checked', true);
+                $form.find('[data-datafield="PurchaseOrderId"]').css('visibility', 'hidden');
+            } else if (val === 'MODIFY') {
                 for (let i = 0; i < newPo.length; i++) {
                     FwFormField.disable(jQuery(newPo[i]));
                 }
                 FwFormField.enable(existingPo);
+                $form.find('[data-datafield="PurchaseOrderId"]').css('visibility', 'visible');
             }
         });
-        // Modify Existing checkbox
-        modifyExisting.on('change', e => {
-            if (jQuery(e.currentTarget).prop('checked')) {
-                createNew.prop('checked', false);
-                for (let i = 0; i < newPo.length; i++) {
-                    FwFormField.disable(jQuery(newPo[i]));
-                }
-                FwFormField.enable(existingPo);
-            } else {
-                createNew.prop('checked', true);
-                for (let i = 0; i < newPo.length; i++) {
-                    FwFormField.enable(jQuery(newPo[i]));
-                }
-                FwFormField.disable(existingPo);
+
+        $form.on('change', '.subworksheet', e => {
+            const worksheetOpened = $form.data('worksheet-opened-flag');
+            if (worksheetOpened) {
+                //this.updatePOWorksheetSession($form);
             }
+        })
+
+        $form.on('change', '[data-datafield="PurchaseOrderId"]', e => {
+            this.modifyWorksheet($form, parentmoduleinfo);
         });
+
         // Open Worksheet button
-        $form.find('.openworksheet').on('click', e => {
-            if (FwFormField.getValueByDataField($form, 'CreateNew') === 'T') {
-                this.createNewWorksheet($form, parentmoduleinfo);
-            } else {
-                this.modifyWorksheet($form, parentmoduleinfo);
-            }
-        });
+        //$form.find('.openworksheet').on('click', e => {
+        //    if (FwFormField.getValueByDataField($form, 'CreateNew') === 'T') {
+        //        this.createNewWorksheet($form, parentmoduleinfo);
+        //    } else {
+        //        this.modifyWorksheet($form, parentmoduleinfo);
+        //    }
+        //});
 
         $form.find('.create-modify-po').on('click', e => {
             const $grid = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
@@ -288,8 +325,9 @@ class SubWorksheet {
                 if (response.success) {
                     this.SessionId = response.SessionId;
                     $form.find('.error-msg:not(.qty)').html('');
-                    FwFormField.disable($form.find('.subworksheet'));
-                    $form.find('.openworksheet').hide();
+                    $form.data('worksheet-opened-flag', true);
+                    //FwFormField.disable($form.find('.subworksheet'));
+                    //$form.find('.openworksheet').hide();
                     const gridUniqueIds: any = {
                         SessionId: response.SessionId
                     };
@@ -334,8 +372,9 @@ class SubWorksheet {
                     if (response.success) {
                         this.SessionId = response.SessionId;
                         $form.find('.error-msg:not(.qty)').html('');
-                        FwFormField.disable($form.find('.subworksheet'));
-                        $form.find('.openworksheet').hide();
+                        $form.data('worksheet-opened-flag', true);
+                        //FwFormField.disable($form.find('.subworksheet'));
+                        //$form.find('.openworksheet').hide();
 
                         // fill in form fields
                         FwFormField.setValueByDataField($form, 'RequiredDate', response.RequiredDate);
@@ -536,6 +575,16 @@ class SubWorksheet {
 
         FwFormField.setValueByDataField($form, 'GridView', 'P');
     };
+    //----------------------------------------------------------------------------------------------
+    updatePOWorksheetSession($form: JQuery) {
+        const request = [
+            //SessionId: this.SessionId
+        ];
+        FwAppData.apiMethod(true, 'POST', "api/v1/order/updatepoworksheetsession", request, FwServices.defaultTimeout, response => {
+            //refresh grid and totals
+            FwBrowse.search($form.find('[data-name="SubPurchaseOrderItemGrid"]'));
+        }, ex => FwFunc.showError(ex), $form);
+    }
     //----------------------------------------------------------------------------------------------
 }
 var SubWorksheetController = new SubWorksheet();

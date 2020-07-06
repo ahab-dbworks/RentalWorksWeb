@@ -2,7 +2,7 @@
   <div class="flexrow" style="max-width:140em">
     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub Worksheet">
       <div class="flexrow" style="max-width:140em">
-        <div class="flexcolumn" style="max-width:20em">
+        <!--<div class="flexcolumn" style="max-width:20em">
           <div class="flexrow">
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield subworksheet" data-caption="Create New Purchase Order" data-datafield="CreateNew" style="float:left;width:100px;"></div>
           </div>
@@ -15,8 +15,12 @@
           <div class="flexrow">
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield subworksheet" data-caption="Modify Existing Purchase Order" data-datafield="ModifyExisting" style="float:left;width:100px;"></div>
           </div>
-        </div>
+        </div>-->
         <div class="flexcolumn" style="max-width:120em">
+          <div class="flexrow" style="width:800px; margin-bottom:1em;">
+            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield subworksheet" data-caption="" data-datafield="CreateModifyToggle" style="float:left;width:100px;"></div>
+            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subworksheet existing" data-caption="PO Number" data-datafield="PurchaseOrderId" data-enabled="false" data-displayfield="PO" data-validationname="PurchaseOrderValidation" style="flex:0 1 250px; visibility:hidden;"></div>
+          </div>
           <div class="flexrow" style="max-width:120em">
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subworksheet new" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" data-formbeforevalidate="beforeValidateVendor" style="flex:0 1 350px;"></div>
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subworksheet new" data-caption="Rate" data-datafield="RateId" data-displayfield="Rate" data-validationname="RateTypeValidation" style="flex:0 1 200px;"></div>
@@ -26,7 +30,7 @@
           </div>
           <div class="flexrow" style="max-width:120em">
             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield subworksheet new" data-caption="Required Date" data-datafield="RequiredDate" style="flex:0 1 200px;"></div>
-            <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield subworksheet new" data-timeformat="24" data-caption="Required Time" data-datafield="RequiredTime" style="flex:0 1 200px;"></div>
+            <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield subworksheet new" data-timeformat="24" data-caption="Required Time" data-datafield="RequiredTime" style="flex:0 1 150px;"></div>
             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield subworksheet new" data-caption="Estimated From Date" data-datafield="FromDate" style="flex:0 1 200px;"></div>
             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield subworksheet new" data-caption="Estimated To Date" data-datafield="ToDate" style="flex:0 1 200px;"></div>
           </div>
@@ -35,12 +39,9 @@
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subworksheet" data-caption="Office Phone" data-datafield="OfficePhone" style="flex:0 1 250px;" data-enabled="false"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subworksheet" data-caption="Ext" data-datafield="OfficeExtension" style="flex:0 1 150px;" data-enabled="false"></div>
           </div>
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subworksheet existing" data-caption="PO Number" data-datafield="PurchaseOrderId" data-enabled="false" data-displayfield="PO" data-validationname="PurchaseOrderValidation" style="flex:0 1 250px;"></div>
-          </div>
-          <div class="flexrow" style="margin-top:1em;">
+          <!--<div class="flexrow" style="margin-top:1em;">
             <div class="openworksheet fwformcontrol" data-type="button" style="margin: 0 0 5px 5px;flex: 0 1 140px;">Open Worksheet</div>
-          </div>
+          </div>-->
           <div class="flexrow error-msg"></div>
         </div>
       </div>
