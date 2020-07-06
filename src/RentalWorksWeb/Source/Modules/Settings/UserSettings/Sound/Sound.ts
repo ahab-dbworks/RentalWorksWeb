@@ -67,21 +67,15 @@ class Sound {
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        // Sound Preview
-        //$form.find('.sound-play-button').on('click', e => {
-        //    const soundFileName = FwFormField.getValueByDataField($form, 'FileName');
-        //    const sound = new Audio(soundFileName);
-        //    sound.play();
-        //});
-
         $form.find('#soundInput').on('change', e => {
-            // if NEW vs EDIT
             const $this = jQuery(e.currentTarget);
             const folder: any = $this[0];
             if (folder.files) {
+                // clear out any previous selection in case user abandons previous selection and saves $form
                 $form.find('#soundSrc').attr("src", '');
+                FwFormField.setValueByDataField($form, 'Base64Sound', '');
                 const file: any = folder.files[0];
-                if (file) { //possible must handle clear out file and leave blank?
+                if (file) {
                     if (file.type === 'audio/mp3' || file.type === 'audio/wav' || file.type === 'audio/ogg' || file.type === 'audio/mpeg') {
                         if (file.size < 2000000) {
                             const url = URL.createObjectURL(file);
@@ -97,8 +91,7 @@ class Sound {
                                 $form.find('div[data-datafield="Base64Sound"]').change();
 
                                 // NEXT STEPS:
-                                // add base64 sound to user and user profile
-                                //  deal with change evt in user and user profile. there will only be a soundId there?
+                                // add base64 sound to user and user profile loader
                                 // userprofilelogic needs some work
                             }
                         } else {
@@ -119,8 +112,7 @@ class Sound {
             FwFormField.disable($form.find('div[data-datafield="Sound"]'));
             $form.find('div.btn-row').hide();
         }
-        // load audio element with file url from local
-        // getting base64data from page load and loading a blob on the page
+        // load audio element with blob url from base64data
         const base64Sound = FwFormField.getValueByDataField($form, 'Base64Sound');
         const blob = FwFunc.b64SoundtoBlob(base64Sound);
         const blobUrl = URL.createObjectURL(blob);
@@ -129,6 +121,31 @@ class Sound {
         const audioElement: any = document.getElementById('audio');
         audioElement.load();
     }
+    //----------------------------------------------------------------------------------------------
+    soundsToUrl($form) {
+        // This method takes a base64 string stored on a $form, creates a blob url that can be streamed on the $form, and updates the RWW url attribute used to play the sound elsewhere. 
+        // It is to be invoked in afterLoad or similar stage in the $form lifecycle to capture any changes made for the app - wide sounds for the user.
+
+        // Success
+        const successBase64Sound = FwFormField.getValueByDataField($form, 'SuccessBase64Sound');
+        const successBlob = FwFunc.b64SoundtoBlob(successBase64Sound);
+        const successBlobUrl = URL.createObjectURL(successBlob);
+        $form.find(`div[data-datafield="SuccessBase64Sound"]`).attr(`data-SuccessSoundUrl`, successBlobUrl);
+        jQuery('#application').attr(`data-SuccessSoundUrl`, successBlobUrl);
+        // Error
+        const errorBase64Sound = FwFormField.getValueByDataField($form, 'ErrorBase64Sound');
+        const errorBlob = FwFunc.b64SoundtoBlob(errorBase64Sound);
+        const errorBlobUrl = URL.createObjectURL(errorBlob);
+        $form.find(`div[data-datafield="ErrorBase64Sound"]`).attr(`data-ErrorSoundUrl`, errorBlobUrl);
+        jQuery('#application').attr(`data-ErrorSoundUrl`, errorBlobUrl);
+        // Notification
+        const notificationBase64Sound = FwFormField.getValueByDataField($form, 'NotificationBase64Sound');
+        const notificationBlob = FwFunc.b64SoundtoBlob(notificationBase64Sound);
+        const notificationBlobUrl = URL.createObjectURL(notificationBlob);
+        $form.find(`div[data-datafield="NotificationBase64Sound"]`).attr(`data-NotificationSoundUrl`, notificationBlobUrl);
+        jQuery('#application').attr(`data-NotificationSoundUrl`, notificationBlobUrl);
+    }
+    //----------------------------------------------------------------------------------------------
 }
 
 var SoundController = new Sound();

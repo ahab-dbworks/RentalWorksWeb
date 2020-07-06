@@ -208,7 +208,7 @@
         sessionStorage.setItem('applicationtheme', FwFormField.getValueByDataField($form, 'ApplicationTheme'));
         sessionStorage.setItem('favorites', FwFormField.getValueByDataField($form, 'FavoritesJson'));
 
-        UserController.soundsToUrl($form);
+        SoundController.soundsToUrl($form);
 
         //remove unchecked modules
         $form.find('.selected-modules li[data-selected="F"]').remove();
