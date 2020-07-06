@@ -44,8 +44,11 @@ class SearchInterface {
                               <div style="display:flex;flex:0 0 auto;align-items:center;">
                                 <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryType"></div>
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Pick Date" data-datafield="PickDate" style="flex: 0 1 135px;"></div>                                
+                                <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield fwformcontrol" data-caption="Pick Time" data-datafield="PickTime" style="flex: 0 1 100px;"></div>                                                     
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="From Date" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
+                                <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield fwformcontrol" data-caption="From Time" data-datafield="FromTime" style="flex: 0 1 100px;"></div>                                
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="To Date" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
+                                <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield fwformcontrol" data-caption="To Time" data-datafield="ToTime" style="flex: 0 1 100px;"></div>    
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
                                
                                 <div data-type="button" class="fwformcontrol addToOrder">Add to ${buttonCaption}</div>
@@ -232,23 +235,19 @@ class SearchInterface {
                 break;
             case 'Order':
             case 'Quote':
-                //pickDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="PICK"]');
-                //FwFormField.setValueByDataField($popup, 'PickDate', pickDate);
-                //startDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="START"]');
-                //FwFormField.setValueByDataField($popup, 'FromDate', startDate);
-                //stopDate = OrderBaseController.getPickStartStop($form, 'div[data-dateactivitytype="STOP"]');
-                //FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
-
-
                 let pickStartStop: PickStartStop = OrderBaseController.getPickStartStop($form);
                 FwFormField.setValueByDataField($popup, 'PickDate', pickStartStop.PickDate);
                 FwFormField.setValueByDataField($popup, 'FromDate', pickStartStop.StartDate);
                 FwFormField.setValueByDataField($popup, 'ToDate', pickStartStop.StopDate);
+                FwFormField.setValueByDataField($popup, 'PickTime', pickStartStop.PickTime);
+                FwFormField.setValueByDataField($popup, 'FromTime', pickStartStop.StartTime);
+                FwFormField.setValueByDataField($popup, 'ToTime', pickStartStop.StopTime);
 
                 $popup.data('ratetype', FwFormField.getValueByDataField($form, 'RateType'));
                 break;
             case 'PurchaseOrder':
                 $popup.find('[data-datafield="PickDate"], [data-datafield="FromDate"], [data-datafield="ToDate"]').hide();
+                $popup.find('[data-datafield="PickTime"], [data-datafield="FromTime"], [data-datafield="ToTime"]').hide();
                 startDate = FwFormField.getValueByDataField($form, 'PurchaseOrderDate');
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);
                 break;
@@ -1792,9 +1791,9 @@ class SearchInterface {
             HideInventoryWithZeroQuantity: FwFormField.getValueByDataField($popup, 'HideZeroQuantity') == "T" ? true : false,
             WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
             FromDate:                      FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-            //FromTime:                      "9:00",
+            FromTime:                      FwFormField.getValueByDataField($popup, 'FromTime') || undefined,
             ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
-            //ToTime:                        "10:00",
+            ToTime:                        FwFormField.getValueByDataField($popup, 'ToTime') || undefined,
             InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined,
             CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
             SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
@@ -1860,8 +1859,10 @@ class SearchInterface {
             WarehouseId:      warehouseId,
             ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
             ShowImages:       true,
-            FromDate:         FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-            ToDate:           FwFormField.getValueByDataField($popup, 'ToDate') || undefined
+            FromDate:           FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+            FromTime:           FwFormField.getValueByDataField($popup, 'FromTime') || undefined,
+            ToDate:             FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
+            Toime:              FwFormField.getValueByDataField($popup, 'ToTime') || undefined
         }
 
         const isNestedAccessory = $el.attr('data-isnestedaccessory');
