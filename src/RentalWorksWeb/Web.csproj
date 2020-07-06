@@ -1411,6 +1411,7 @@
     <Content Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridController.js.map" />
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.js.map" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js.map" />
+    <Content Include="Libraries\excelreader\README.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
