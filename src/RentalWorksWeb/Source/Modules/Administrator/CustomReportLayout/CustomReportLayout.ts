@@ -647,11 +647,8 @@ class CustomReportLayout {
                                                         $tds.filter('.total-name').attr('colspan', totalNameColSpan + 1);
                                                     }
                                                 }
-                                               
                                             }
-
                                             //after moving column, check both sides of totalName col and merge if empty tds 
-
                                             const mergeTds = () => {
                                                 let count = 0;
                                                 $designerTds = $designerRow.find('td');  //reassign with new element order
@@ -871,7 +868,8 @@ class CustomReportLayout {
         });
 
         //control properties events
-        $form.on('change', '#controlProperties [data-datafield]:not(.add-row-column)', e => {
+        $form.on('change', '#controlProperties [data-datafield]', e => {
+            //$form.on('change', '#controlProperties [data-datafield]:not(.add-row-column)', e => {
             const $property = jQuery(e.currentTarget);
             const fieldname = $property.attr('data-datafield');
             const value = FwFormField.getValue2($property);
@@ -948,42 +946,49 @@ class CustomReportLayout {
 
         //add rows
         $addRow.on('click', e => {
-            const rowType = FwFormField.getValueByDataField($form, 'AddRow');
-            if (rowType != '') {
-                switch (rowType) {
-                    case 'header':
-                        $form.data('sectiontoupdate', 'addrow-header');
-                        break;
-                    case 'sub-header':
-                        $form.data('sectiontoupdate', 'addrow-subheader');
-                        break;
-                    //case 'detail':
-                    //    $form.data('sectiontoupdate', 'addrow-detail');
-                    //    break;
-                }
-                if (typeof $row != 'undefined') {
-                    $row.removeAttr('class');
-                    $row.children().text('New Column').removeAttr('class');
-                    this.updateHTML($form, $table, $row);
-                    const tableName = FwFormField.getValueByDataField($form, 'TableName');
-                    this.addColumnLoadSelect($form, tableName);
-                }
-            } else {
-                $form.find('[data-datafield="AddRow"]').addClass('error');
-                FwNotification.renderNotification('WARNING', 'Select a Row Type to add.');
-            }
+            //const rowType = FwFormField.getValueByDataField($form, 'AddRow');
+            //if (rowType != '') {
+            //    switch (rowType) {
+            //        case 'header':
+            //            $form.data('sectiontoupdate', 'addrow-header');
+            //            break;
+            //        case 'sub-header':
+            //            $form.data('sectiontoupdate', 'addrow-subheader');
+            //            break;
+            //        //case 'detail':
+            //        //    $form.data('sectiontoupdate', 'addrow-detail');
+            //        //    break;
+            //    }
+            //    if (typeof $row != 'undefined') {
+            //        $row.removeAttr('class');
+            //        $row.children().text('New Column').removeAttr('class');
+            //        this.updateHTML($form, $table, $row);
+            //        const tableName = FwFormField.getValueByDataField($form, 'TableName');
+            //        this.addColumnLoadSelect($form, tableName);
+            //    }
+            //} else {
+            //    $form.find('[data-datafield="AddRow"]').addClass('error');
+            //    FwNotification.renderNotification('WARNING', 'Select a Row Type to add.');
+            //}
+            $row = this.addRowPreview($form);
+            $form.data('sectiontoupdate', 'addrow-header');
+            $row.removeAttr('class');
+            $row.children().text('New Column').removeAttr('class');
+            this.updateHTML($form, $table, $row);
+            const tableName = FwFormField.getValueByDataField($form, 'TableName');
+            this.addColumnLoadSelect($form, tableName);
         });
 
-        //Select Row Type change events
-        $form.on('change', '[data-datafield="AddRow"]', e => {
-            const rowType = FwFormField.getValueByDataField($form, 'AddRow');
-            $form.find('#reportDesigner table .preview').remove();
-            if (rowType != '') {
-                $form.find('[data-datafield="AddRow"]').removeClass('error');
-                //add preview
-                $row = this.addRowPreview($form, rowType);
-            }
-        });
+        ////Select Row Type change events
+        //$form.on('change', '[data-datafield="AddRow"]', e => {
+        //    const rowType = FwFormField.getValueByDataField($form, 'AddRow');
+        //    $form.find('#reportDesigner table .preview').remove();
+        //    if (rowType != '') {
+        //        $form.find('[data-datafield="AddRow"]').removeClass('error');
+        //        //add preview
+        //        $row = this.addRowPreview($form, rowType);
+        //    }
+        //});
 
         //delete table header column
         $form.on('click', '.delete-column', e => {
@@ -1064,7 +1069,7 @@ class CustomReportLayout {
         FwFormField.loadItems($form.find('[data-datafield="AddRow"]'), rowTypes);
     }
     //----------------------------------------------------------------------------------------------
-    addRowPreview($form, rowType) {
+    addRowPreview($form) {
         let $table, $row, $row2, $newRow, $newDetailRow;
         const tableName = FwFormField.getValueByDataField($form, 'TableName');
         if (tableName === '' || tableName === 'Default') {
@@ -1080,11 +1085,12 @@ class CustomReportLayout {
             const html = [];
             const detailRowHtml = [];
             html.push(`<tr class="preview"`);
-            if (rowType === 'sub-header') {
-                html.push(` data-row="${rowType}">`);
-            } else {
-                html.push(`>`);
-            }
+            html.push(`>`);
+            //if (rowType === 'sub-header') {
+            //    html.push(` data-row="${rowType}">`);
+            //} else {
+            //    html.push(`>`);
+            //}
             detailRowHtml.push(`<tr class="preview" data-row="detail" data-rowtype="{{RowType}}">`);
             for (let i = 0; i < colspan; i++) {
                 const newId = program.uniqueId(8);
@@ -1096,11 +1102,12 @@ class CustomReportLayout {
             $newRow = jQuery(html.join(''));
             $newDetailRow = jQuery(detailRowHtml.join(''));
 
-            if (rowType === 'header') {
-                $row = $table.find('thead tr:last');
-            } else {
-                $row = $table.find('tr[data-row="sub-header"]:last');
-            }
+            //if (rowType === 'header') {
+            //    $row = $table.find('thead tr:last');
+            //} else {
+            //    $row = $table.find('tr[data-row="sub-header"]:last');
+            //}
+            $row = $table.find('thead tr:last');
 
             //detail row
             $row2 = $table.find('tr[data-row="detail"]:last');
