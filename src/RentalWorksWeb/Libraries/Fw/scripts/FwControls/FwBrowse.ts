@@ -4200,6 +4200,8 @@ class FwBrowseClass {
                         $confirmation.find('#uploadExcel').val('');
                         FwNotification.renderNotification('WARNING', 'Only Excel file types supported.')
                     }
+                } else {
+                    $yes.css('pointer-events', 'none');
                 }
             }
         });
@@ -4212,41 +4214,59 @@ class FwBrowseClass {
                     const $this = $confirmation.find('#uploadExcel');
                     const folder: any = $this[0];
                     const excelFile: any = folder.files[0];
+                    // add file type concerns
                     // ----------
                     function parseExcel(file) {
                         const reader = new FileReader();
-
+                        // ----------
                         reader.onload = e => {
                             const data = e.target.result;
-                            const workbook = XLSX.read(data, {
-                                type: 'binary'
-                            });
+                            const workbook = XLSX.read(data, { type: 'binary' });
 
                             const sheetNames = workbook.SheetNames;
+                            let excelObject;
                             for (let i = 0; i < sheetNames.length; i++) {
-                                const XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetNames[i]]);
-                                const json_object = JSON.stringify(XL_row_object);
+                                excelObject = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNames[i]], { raw: true, defval: '' })
+                                //let JSON_arr = JSON.stringify(excelObject);
                                 FwNotification.closeNotification($notification);
-                                
-                                // determine primary key
-                                // if line primary key is blank, POST, else PUT (edit)
-                                // count rows, give progress meter 
-                                // err handling ?
-                                // iterate and send to API one line at a time
-
-                                console.log('JSON: ', json_object);
                             }
+                            // ----------
+                            // Getting PrimaryKey
+                            FwAppData.apiMethod(true, 'GET', `${(<any>window[controller]).apiurl}/keyfieldnames`, null, FwServices.defaultTimeout, function onSuccess(response) { // could this be async?
+                                if (response.length) {
+                                    if (response.length > 1) {
+                                    }
+                                    // deal with multiple ids
+                                    const id = response[0];
+                                    // progress meter based on excelObject.length
+                                    for (let i = 0; i < excelObject.length; i++) {
+                                        if (excelObject[i].hasOwnProperty(id)) {
+                                            if (excelObject[i].id === '') {
+                                                let here;
+                                                // POST
+                                                // err handling ?
+                                            } else {
+                                                let here;
+                                                // PUT
+                                                // err handling ?
+                                            }
+                                        } else {
+                                            FwNotification.renderNotification('ERROR', `Line number ${i + 1} doesn't have a Primary Key (${id}) and will not be uploaded`); // if prop is blank should i create one with a blank val and POST?
+                                        }
+                                    }
+                                }
+                            }, function onError(response) {
+                                FwFunc.showError(response);
+                            }, null);
                         };
-                        // TO DO
-  
-                        // add file type concerns
-                        // disable upload btn after file cancel
+
                         reader.onerror = ex => {
                             console.error(ex);
                         };
 
                         reader.readAsBinaryString(file);
                     };
+
                     if (excelFile.size <= 32691405) { // 22800 records
                         parseExcel(excelFile);
                     } else {
@@ -4338,7 +4358,7 @@ class FwBrowseClass {
                     link.href = uri;
 
                     //set the visibility hidden so it will not effect on your web-layout
-                   // link.style = "visibility:hidden";
+                    // link.style = "visibility:hidden";
                     link.download = fileName + ".csv";
 
                     //this part will append the anchor tag and remove it after automatic click
