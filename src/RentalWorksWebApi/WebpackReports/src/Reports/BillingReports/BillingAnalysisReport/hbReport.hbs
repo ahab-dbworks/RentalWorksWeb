@@ -1,5 +1,5 @@
 ﻿<!--Billing Analysis Report-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,117 +11,122 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead class="main-header">
+    <thead id="columnHeader" class="main-header">
       <tr>
-        <th>Order No.</th>
-        <th>Deal</th>
-        <th>Order Description</th>
-        <th>Status</th>
-        <th>PO No.</th>
-        <th class="number">Order Total</th>
-        <th class="number">Cost</th>
-        <th class="number">To Bill</th>
-        <th class="number">Vendor Invoice</th>
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Order Description</th>
+        <th data-linkedcolumn="Status" data-valuefield="Status">Status</th>
+        <th data-linkedcolumn="PurchaseOrderNumber" data-valuefield="PurchaseOrderNumber">PO No.</th>
+        <th data-linkedcolumn="OrderTotal" data-valuefield="OrderTotal" class="number">Order Total</th>
+        <th data-linkedcolumn="OrderCost" data-valuefield="OrderCost" class="number">Cost</th>
+        <th data-linkedcolumn="InvoicedTotal" data-valuefield="InvoicedTotal" class="number">To Bill</th>
+        <th data-linkedcolumn="VendorInvoiceTotal" data-valuefield="VendorInvoiceTotal" class="number">Vendor Invoice</th>
       </tr>
       <tr>
-        <th>Project No.</th>
-        <th>Primary Contact</th>
-        <th colspan="2"></th>
-        <th>Ship Date</th>
-        <th colspan="4"></th>
+        <th data-linkedcolumn="ProjectNumber" data-valuefield="ProjectNumber">Project No.</th>
+        <th data-linkedcolumn="PrimaryContact" data-valuefield="PrimaryContact">Primary Contact</th>
+        <th data-linkedcolumn="EmptyTd-1" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-2" data-valuefield=""></th>
+        <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Ship Date</th>
+        <th data-linkedcolumn="EmptyTd-3" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-4" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-5" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-6" data-valuefield=""></th>
       </tr>
     </thead>
-    {{#each this}}
-    {{#ifEquals RowType "OfficeLocationheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="header-row" colspan="4">Office Location: {{OfficeLocation}}</th>
+    <tbody>
+      {{#each this}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <th class="header-row" colspan="9">Office Location: {{OfficeLocation}}</th>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Agentheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="lower header-row" colspan="4">Agent: {{Agent}}</th>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Agentheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <th class="lower header-row" colspan="9">Agent: {{Agent}}</th>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "detail"}}
-    <tbody data-rowtype="{{RowType}}">
-      <tr>
-        <td data-value="{{OrderNumber}}"></td>
-        <td data-value="{{Deal}}"></td>
-        <td data-value="{{OrderDescription}}"></td>
-        <td data-value="{{Status}}"></td>
-        <td data-value="{{PurchaseOrderNumber}}"></td>
-        <td class="number" data-value="{{OrderTotal}}"></td>
-        <td class="number" data-value="{{OrderCost}}"></td>
-        <td class="number" data-value="{{InvoicedTotal}}"></td>
-        <td class="number" data-value="{{VendorInvoiceTotal}}"></td>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="Status" data-value="{{Status}}"></td>
+        <td data-linkedcolumn="PurchaseOrderNumber" data-value="{{PurchaseOrderNumber}}"></td>
+        <td data-linkedcolumn="OrderTotal" class="number" data-value="{{OrderTotal}}"></td>
+        <td data-linkedcolumn="OrderCost" class="number" data-value="{{OrderCost}}"></td>
+        <td data-linkedcolumn="InvoicedTotal" class="number" data-value="{{InvoicedTotal}}"></td>
+        <td data-linkedcolumn="VendorInvoiceTotal" class="number" data-value="{{VendorInvoiceTotal}}"></td>
       </tr>
-      <tr data-rowtype="{{RowType}}">
-        <td data-value="{{ProjectNumber}}"></td>
-        <td data-value="{{PrimaryContact}}"></td>
-        <td colspan="2"></td>
-        <td data-value="{{OrderDate}}"></td>
-        <td colspan="4"></td>
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ProjectNumber" data-value="{{ProjectNumber}}"></td>
+        <td data-linkedcolumn="PrimaryContact" data-value="{{PrimaryContact}}"></td>
+        <td data-linkedcolumn="EmptyTd-1"></td>
+        <td data-linkedcolumn="EmptyTd-2"></td>
+        <td data-linkedcolumn="OrderDate" data-value="{{OrderDate}}"></td>
+        <td data-linkedcolumn="EmptyTd-3"></td>
+        <td data-linkedcolumn="EmptyTd-4"></td>
+        <td data-linkedcolumn="EmptyTd-5"></td>
+        <td data-linkedcolumn="EmptyTd-6"></td>
       </tr>
       {{#if ../IncludeProjectStatus}}
       {{#checkLength ProjectId 0 }}
-      <tr>
-        <th></th>
-        <th class="subHeaders">Project</th>
-        <th class="subHeaders">Drawings</th>
-        <th class="subHeaders">Drop Ship</th>
-        <th class="subHeaders">As-Build</th>
-        <th class="subHeaders" colspan="2">Commissioning</th>
-        <th class="subHeaders">Deposit</th>
-        <th class="subHeaders">Items Ordered</th>
+      <tr data-row="sub-header">
+        <th data-linkedcolumn="EmptyTd-7"></th>
+        <th data-linkedcolumn="ProjectDescription" class="subHeaders">Project</th>
+        <th data-linkedcolumn="Drawing" class="subHeaders">Drawings</th>
+        <th data-linkedcolumn="ProjectDropShipItems" class="subHeaders">Drop Ship</th>
+        <th data-linkedcolumn="AsBuild" class="subHeaders">As-Build</th>
+        <th data-linkedcolumn="Commissioning" class="subHeaders">Commissioning</th>
+        <th data-linkedcolumn="EmptyTd-8" class="subHeaders"></th>
+        <th data-linkedcolumn="Deposit" class="subHeaders">Deposit</th>
+        <th data-linkedcolumn="ProjectItemsOrdered" class="subHeaders">Items Ordered</th>
       </tr>
-      <tr class="subValues">
-        <td colspan="2">{{ProjectDescription}}</td>
-        <td>{{Drawing}}</td>
-        <td>{{ProjectDropShipItems}}</td>
-        <td>{{AsBuild}}</td>
-        <td colspan="2">{{Commissioning}}</td>
-        <td>{{Deposit}}</td>
-        <td>{{ProjectItemsOrdered}}</td>
+      <tr data-row="sub-detail" class="subValues">
+        <td data-linkedcolumn="EmptyTd-7"></td>
+        <td data-linkedcolumn="ProjectDescription" data-value="{{ProjectDescription}}"></td>
+        <td data-linkedcolumn="Drawing" data-value="{{Drawing}}"></td>
+        <td data-linkedcolumn="ProjectDropShipItems" data-value="{{ProjectDropShipItems}}"></td>
+        <td data-linkedcolumn="AsBuild" data-value="{{AsBuild}}"></td>
+        <td data-linkedcolumn="Commissioning" data-value="{{Commissioning}}"></td>
+        <td data-linkedcolumn="EmptyTd-8"></td>
+        <td data-linkedcolumn="Deposit" data-value="{{Deposit}}"></td>
+        <td data-linkedcolumn="ProjectItemsOrdered" data-value="{{ProjectItemsOrdered}}"></td>
       </tr>
-    </tbody>
-    {{/checkLength}}
-    {{/if}}
-    {{/ifEquals}}
-    <tfoot>
+      {{/checkLength}}
+      {{/if}}
+      {{/ifEquals}}
       {{#ifEquals RowType "Agentfooter"}}
-      <tr data-rowtype="{{RowType}}">
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">{{Agent}}:&nbsp;</td>
-        <td class="total-val" data-value="{{OrderTotal}}"></td>
-        <td class="total-val" data-value="{{OrderCost}}"></td>
-        <td class="total-val" data-value="{{InvoicedTotal}}"></td>
-        <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
+        <td data-linkedcolumn="OrderTotal" class="total-val" data-value="{{OrderTotal}}"></td>
+        <td data-linkedcolumn="OrderCost" class="total-val" data-value="{{OrderCost}}"></td>
+        <td data-linkedcolumn="InvoicedTotal" class="total-val" data-value="{{InvoicedTotal}}"></td>
+        <td data-linkedcolumn="VendorInvoiceTotal" class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "OfficeLocationfooter"}}
-      <tr data-rowtype="{{RowType}}">
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">{{OfficeLocation}}:&nbsp;</td>
-        <td class="total-val" data-value="{{OrderTotal}}"></td>
-        <td class="total-val" data-value="{{OrderCost}}"></td>
-        <td class="total-val" data-value="{{InvoicedTotal}}"></td>
-        <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
+        <td data-linkedcolumn="OrderTotal" class="total-val" data-value="{{OrderTotal}}"></td>
+        <td data-linkedcolumn="OrderCost" class="total-val" data-value="{{OrderCost}}"></td>
+        <td data-linkedcolumn="InvoicedTotal" class="total-val" data-value="{{InvoicedTotal}}"></td>
+        <td data-linkedcolumn="VendorInvoiceTotal" class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
-      <tr data-rowtype="{{RowType}}">
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{OrderTotal}}"></td>
-        <td class="total-val" data-value="{{OrderCost}}"></td>
-        <td class="total-val" data-value="{{InvoicedTotal}}"></td>
-        <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
+        <td data-linkedcolumn="OrderTotal" class="total-val" data-value="{{OrderTotal}}"></td>
+        <td data-linkedcolumn="OrderCost" class="total-val" data-value="{{OrderCost}}"></td>
+        <td data-linkedcolumn="InvoicedTotal" class="total-val" data-value="{{InvoicedTotal}}"></td>
+        <td data-linkedcolumn="VendorInvoiceTotal" class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
       </tr>
       {{/ifEquals}}
-    </tfoot>
-    {{/each}}
+      {{/each}}
+    </tbody>
   </table>
 </div>

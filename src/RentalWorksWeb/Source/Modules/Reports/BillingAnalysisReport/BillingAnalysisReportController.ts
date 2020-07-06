@@ -85,6 +85,7 @@ class BillingAnalysisReport extends FwWebApiReport {
     constructor() {
         super('BillingAnalysisReport', 'api/v1/billinganalysisreport', billingAnalysisReportTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
