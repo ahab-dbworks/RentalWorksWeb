@@ -124,7 +124,7 @@ class Sound {
     //----------------------------------------------------------------------------------------------
     soundsToUrl($form) {
         // This method takes a base64 string stored on a $form, creates a blob url that can be streamed on the $form, and updates the RWW url attribute used to play the sound elsewhere. 
-        // It is to be invoked in afterLoad or similar stage in the $form lifecycle to capture any changes made for the app - wide sounds for the user.
+        // It is to be invoked in afterLoad or similar $form lifecycle stage to capture any changes made for the RWW user sounds.
 
         // Success
         const successBase64Sound = FwFormField.getValueByDataField($form, 'SuccessBase64Sound');
