@@ -355,8 +355,7 @@ class CustomReportLayout {
                         $section.contents().filter(function () { return (this.nodeType == 3) }).remove();
                         $wrapper.find('.table-wrapper').append($section);
                         const $table = $section.find('table');
-                        const totalColumnCount = this.getTotalColumnCount($table, true);
-                        $table.data('totalcolumncount', totalColumnCount);
+                        //this.getTotalColumnCount($table, true);
                         tableList.push({ value: tableName, text: tableName });
 
                         const $columnHeaderRows = $table.find('#columnHeader tr');
@@ -432,7 +431,7 @@ class CustomReportLayout {
             } else {
                 const tableName = $table.attr('data-tablename') || '';
                 let tableNameSelector = tableName == '' ? '' : `table[data-tablename="${tableName}"]`;
-                const totalColumnCount = $table.data('totalcolumncount');
+                const totalColumnCount = this.getTotalColumnCount($table, true);
                 switch (sectionToUpdate) {
                     case 'tableheader':
                         const rowSelector = `${tableNameSelector} tbody tr`;
@@ -681,6 +680,10 @@ class CustomReportLayout {
                                                 }
                                             }
                                             mergeTds();
+                                            footerRowIndex++;
+                                        } else { //remove empty columns when moving column out of main header row
+                                            $row.find(`.empty-td[data-linkedcolumn="${linkedColumn}"]`).remove();
+                                            $designerRow.find(`.empty-td[data-linkedcolumn="${linkedColumn}"]`).remove();
                                             footerRowIndex++;
                                         }
                                     }
@@ -936,8 +939,7 @@ class CustomReportLayout {
             jQuery($table.find('#columnHeader tr')[0]).append($column);
             this.setControlValues($form, $column);
             $column.data('newcolumn', true);
-            let totalColumnCount = this.getTotalColumnCount($form, true)
-            $table.data('totalcolumncount', totalColumnCount);
+            //this.getTotalColumnCount($form, true)
             $form.data('sectiontoupdate', 'tableheader');
             $form.data('addcolumn', { newcolumnid: newId, tdcolspan: 1 });
             this.updateHTML($form, $table, $table.find('#columnHeader tr:first'));
@@ -998,8 +1000,7 @@ class CustomReportLayout {
                 const rowIndex = $column.parent().index();
                 $column.remove();
                 //let totalColumnCount = $table.data('totalcolumncount');
-                let totalColumnCount = this.getTotalColumnCount($table, true);
-                $table.data('totalcolumncount', totalColumnCount);
+                //this.setTotalColumnCount($table, true);
                 $form.data('sectiontoupdate', 'tableheader');
                 if (typeof linkedColumn != 'undefined') {
                     $form.data('deletefield', { linkedcolumn: linkedColumn, tdcolspan: colspan, rowindex: rowIndex });
@@ -1079,7 +1080,7 @@ class CustomReportLayout {
         }
 
         if ($table.length > 0) {
-            const colspan = $table.data('totalcolumncount') || 1;
+            const colspan = this.getTotalColumnCount($table, true);
 
             //build header and detail rows with linkedcolumns
             const html = [];
@@ -1136,7 +1137,7 @@ class CustomReportLayout {
         FwFormField.loadItems($form.find('[data-datafield="AddColumn"]'), columnTypes);
     }
     //----------------------------------------------------------------------------------------------
-    getTotalColumnCount($table: JQuery, isTableHeader: boolean, $row?: JQuery) {
+     getTotalColumnCount($table: JQuery, isTableHeader: boolean, $row?: JQuery) {
         let count = 0;
         let $columns;
         if (isTableHeader) {
@@ -1153,13 +1154,12 @@ class CustomReportLayout {
             }
             count += colspan;
         }
-
         return count;
     }
     //----------------------------------------------------------------------------------------------
     matchColumnCount($form: JQuery, $table: JQuery, $row: JQuery, $designerTableRow: JQuery) {
         const rowColumnCount = this.getTotalColumnCount($table, false, $row);
-        let totalColumnCount = $table.data('totalcolumncount');
+        let totalColumnCount = this.getTotalColumnCount($table, true);
         if (rowColumnCount != totalColumnCount) {
             //need to decrease by tdColumnSpan
             const rowType = $row.attr('data-row');
