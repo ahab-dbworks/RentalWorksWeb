@@ -44,11 +44,11 @@ class SearchInterface {
                               <div style="display:flex;flex:0 0 auto;align-items:center;">
                                 <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryType"></div>
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Pick Date" data-datafield="PickDate" style="flex: 0 1 135px;"></div>                                
-                                <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield fwformcontrol" data-caption="Pick Time" data-datafield="PickTime" style="flex: 0 1 100px;"></div>                                                     
+                                <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield fwformcontrol" data-caption="Pick Time" data-datafield="PickTime" style="flex: 0 1 100px;"></div>                                                     
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="From Date" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
-                                <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield fwformcontrol" data-caption="From Time" data-datafield="FromTime" style="flex: 0 1 100px;"></div>                                
+                                <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield fwformcontrol" data-caption="From Time" data-datafield="FromTime" style="flex: 0 1 100px;"></div>                                
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="To Date" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
-                                <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield fwformcontrol" data-caption="To Time" data-datafield="ToTime" style="flex: 0 1 100px;"></div>    
+                                <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield fwformcontrol" data-caption="To Time" data-datafield="ToTime" style="flex: 0 1 100px;"></div>    
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
                                
                                 <div data-type="button" class="fwformcontrol addToOrder">Add to ${buttonCaption}</div>
@@ -965,12 +965,12 @@ class SearchInterface {
         let $searchpopup   = $popup.find('#searchpopup');
 
         $popup
-            .on('changeDate', '#itemsearch div[data-datafield="FromDate"], #itemsearch div[data-datafield="ToDate"]', e => {
+            .on('changeDate', '#itemsearch div[data-datafield="PickDate"], #itemsearch div[data-datafield="FromDate"], #itemsearch div[data-datafield="ToDate"]', e => {
                 if ($popup.find('#inventory').children().length > 0) {
                     this.getInventory($popup);
                 }
             })
-            .on('change', '#itemsearch div[data-datafield="FromTime"], #itemsearch div[data-datafield="ToTime"]', e => {
+            .on('change', '#itemsearch div[data-datafield="PickTime"], #itemsearch div[data-datafield="FromTime"], #itemsearch div[data-datafield="ToTime"]', e => {
                 if ($popup.find('#inventory').children().length > 0) {
                     this.getInventory($popup);
                 }
@@ -1804,7 +1804,7 @@ class SearchInterface {
             HideInventoryWithZeroQuantity: FwFormField.getValueByDataField($popup, 'HideZeroQuantity') == "T" ? true : false,
             WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
             FromDate:                      FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-            FromTime:                      FwFormField.getValueByDataField($popup, 'FromTime') || undefined,
+            FromTime:                      this.getFromTimeValue($popup),
             ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
             ToTime:                        FwFormField.getValueByDataField($popup, 'ToTime') || undefined,
             InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined,
@@ -1866,14 +1866,14 @@ class SearchInterface {
         const $el = jQuery($showAccessories);
        
         let request: any = {
-            SessionId:        id,
-            OrderId:          id,
-            ParentId:         inventoryId,
-            WarehouseId:      warehouseId,
-            ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-            ShowImages:       true,
+            SessionId:          id,
+            OrderId:            id,
+            ParentId:           inventoryId,
+            WarehouseId:        warehouseId,
+            ShowAvailability:   $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+            ShowImages:         true,
             FromDate:           FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-            FromTime:           FwFormField.getValueByDataField($popup, 'FromTime') || undefined,
+            FromTime:           this.getFromTimeValue($popup),
             ToDate:             FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
             Toime:              FwFormField.getValueByDataField($popup, 'ToTime') || undefined
         }
@@ -2065,6 +2065,33 @@ class SearchInterface {
                     accessoryContainer.find('.toggleaccessories').click();
                 }
             }, null, $popup.find('#searchpopup'));
+    }
+    //----------------------------------------------------------------------------------------------
+    getFromTimeValue($popup: any) {
+        let fromTimeValue;
+        const pickTime = FwFormField.getValueByDataField($popup, 'PickTime');
+        const fromTime = FwFormField.getValueByDataField($popup, 'FromTime');
+
+        if (pickTime === '') {
+            if (fromTime === '') {
+                fromTimeValue = undefined;
+            } else {
+                fromTimeValue = fromTime;
+            }
+        } else {
+            if (fromTime === '') {
+                fromTimeValue = pickTime;
+            } else {
+                const momentPickTime = moment(pickTime, 'HH:mm');
+                const momentFromTime = moment(fromTime, 'HH:mm');
+                if (momentPickTime.isBefore(momentFromTime)) {
+                    fromTimeValue = pickTime;
+                } else {
+                    fromTimeValue = fromTime;
+                }
+            }
+        }
+        return fromTimeValue;
     }
     //----------------------------------------------------------------------------------------------
 }
