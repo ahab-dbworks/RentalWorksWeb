@@ -279,7 +279,7 @@
     }
     //---------------------------------------------------------------------------------
     static playSuccessSound() {
-        const successSoundUrl = jQuery('#application').attr('data-SuccessSoundUrl');
+        let successSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).SuccessSoundUrl;
 
         if (successSoundUrl !== '') {
             const sound = new Audio(successSoundUrl);
@@ -287,7 +287,8 @@
         } else {
             this.getBase64Sound('Success')
                 .then(() => {
-                    if (successSoundUrl !== null) {
+                    successSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).SuccessSoundUrl;
+                    if (successSoundUrl) {
                         const sound = new Audio(successSoundUrl);
                         sound.play();
                     } else {
@@ -298,7 +299,7 @@
     }
     //---------------------------------------------------------------------------------
     static playErrorSound() {
-        const errorSoundUrl = jQuery('#application').attr('data-ErrorSoundUrl');
+        let errorSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).ErrorSoundUrl;
 
         if (errorSoundUrl !== '') {
             const sound = new Audio(errorSoundUrl);
@@ -306,7 +307,8 @@
         } else {
             this.getBase64Sound('Error')
                 .then(() => {
-                    if (errorSoundUrl !== null) {
+                    errorSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).ErrorSoundUrl;
+                    if (errorSoundUrl) {
                         const sound = new Audio(errorSoundUrl);
                         sound.play();
                     } else {
@@ -317,7 +319,7 @@
     }
     //---------------------------------------------------------------------------------
     static playNotificationSound() {
-        const notificationSoundUrl = jQuery('#application').attr('data-NotificationSoundUrl');
+        let notificationSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).NotificationSoundUrl;
 
         if (notificationSoundUrl !== '') {
             const sound = new Audio(notificationSoundUrl);
@@ -325,7 +327,8 @@
         } else {
             this.getBase64Sound('Notification')
                 .then(() => {
-                    if (notificationSoundUrl !== null) { // will this value be updated?
+                    notificationSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).NotificationSoundUrl;
+                    if (notificationSoundUrl) {
                         const sound = new Audio(notificationSoundUrl);
                         sound.play();
                     } else {
@@ -336,14 +339,17 @@
     }
     //---------------------------------------------------------------------------------
     static getBase64Sound(tag: string, userSettingsObject?: any): Promise<any> {
-        // gets base64sound for input tag and loads into app and assigns url from blob to stream
+        // gets base64sound for input tag and loads blob into app and assigns resulting url to SS for streaming elsewhere (ex. FwFunc.playErrorSound())
         return new Promise<any>(async (resolve, reject) => {
             try {
+                userSettingsObject = null;
                 if (userSettingsObject) {
                     const base64Sound = userSettingsObject[`${tag}Base64Sound`];
                     const blob = this.b64SoundtoBlob(base64Sound);
                     const blobUrl = URL.createObjectURL(blob);
-                    jQuery('#application').attr(`data-${tag}SoundUrl`, blobUrl);
+                    const sounds: any = JSON.parse(sessionStorage.getItem('sounds')) || {};
+                    sounds[`${tag}SoundUrl`] = blobUrl;
+                    sessionStorage.setItem('sounds', JSON.stringify(sounds));
                 } else {
                     const webUsersId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
                     const promiseGetUserSettings = FwAjax.callWebApi<any, any>({
@@ -351,15 +357,13 @@
                         url: `${applicationConfig.apiurl}api/v1/usersettings/${webUsersId}`,
                         $elementToBlock: jQuery('#application'),
                     })
-                        //Promise.all([
-                        //    promiseGetUserSettings, // this could be removed?
-                        //])
-                        .then((values: any) => {
-                            const responseGetUserSettings = values[0];
+                        .then((responseGetUserSettings: any) => {
                             const base64Sound = responseGetUserSettings[`${tag}Base64Sound`];
                             const blob = this.b64SoundtoBlob(base64Sound);
                             const blobUrl = URL.createObjectURL(blob);
-                            jQuery('#application').attr(`data-${tag}SoundUrl`, blobUrl);
+                            const sounds: any = JSON.parse(sessionStorage.getItem('sounds')) || {};
+                            sounds[`${tag}SoundUrl`] = blobUrl;
+                            sessionStorage.setItem('sounds', JSON.stringify(sounds));
                             resolve();
                         });
                 }

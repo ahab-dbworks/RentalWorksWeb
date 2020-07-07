@@ -121,25 +121,28 @@ class Sound {
     soundsToUrl($form) {
         // This method takes a base64 string stored on a $form, creates a blob url that can be streamed on the $form, and updates the RWW url attribute used to play the sound elsewhere. 
         // It is to be invoked in afterLoad or similar $form lifecycle stage to capture any changes made for the RWW user sounds.
+        const sounds: any = JSON.parse(sessionStorage.getItem('sounds')) || {};
 
         // Success
         const successBase64Sound = FwFormField.getValueByDataField($form, 'SuccessBase64Sound');
         const successBlob = FwFunc.b64SoundtoBlob(successBase64Sound);
         const successBlobUrl = URL.createObjectURL(successBlob);
         $form.find(`div[data-datafield="SuccessBase64Sound"]`).attr(`data-SuccessSoundUrl`, successBlobUrl);
-        jQuery('#application').attr(`data-SuccessSoundUrl`, successBlobUrl);
+        sounds.SuccessSoundUrl = successBlobUrl;
         // Error
         const errorBase64Sound = FwFormField.getValueByDataField($form, 'ErrorBase64Sound');
         const errorBlob = FwFunc.b64SoundtoBlob(errorBase64Sound);
         const errorBlobUrl = URL.createObjectURL(errorBlob);
         $form.find(`div[data-datafield="ErrorBase64Sound"]`).attr(`data-ErrorSoundUrl`, errorBlobUrl);
-        jQuery('#application').attr(`data-ErrorSoundUrl`, errorBlobUrl);
+        sounds.ErrorSoundUrl = errorBlobUrl;
         // Notification
         const notificationBase64Sound = FwFormField.getValueByDataField($form, 'NotificationBase64Sound');
         const notificationBlob = FwFunc.b64SoundtoBlob(notificationBase64Sound);
         const notificationBlobUrl = URL.createObjectURL(notificationBlob);
         $form.find(`div[data-datafield="NotificationBase64Sound"]`).attr(`data-NotificationSoundUrl`, notificationBlobUrl);
-        jQuery('#application').attr(`data-NotificationSoundUrl`, notificationBlobUrl);
+        sounds.NotificationSoundUrl = notificationBlobUrl;
+
+        sessionStorage.setItem('sounds', JSON.stringify(sounds));
     }
     //----------------------------------------------------------------------------------------------
 }
