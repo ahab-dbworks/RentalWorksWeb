@@ -342,7 +342,6 @@
         // gets base64sound for input tag and loads blob into app and assigns resulting url to SS for streaming elsewhere (ex. FwFunc.playErrorSound())
         return new Promise<any>(async (resolve, reject) => {
             try {
-                userSettingsObject = null;
                 if (userSettingsObject) {
                     const base64Sound = userSettingsObject[`${tag}Base64Sound`];
                     const blob = this.b64SoundtoBlob(base64Sound);
