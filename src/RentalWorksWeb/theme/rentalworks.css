@@ -13,6 +13,11 @@
 .rwpurple {
     color: #6a3aaf;
 }
+
+/*audio upload in sound*/
+.upload-btn-wrapper { position: relative;overflow: hidden;display: inline-block;}
+.upload-btn-wrapper input[type=file] { font-size: 100px;position: absolute;left: 0;top: 0;opacity: 0; }
+
 /***************************
 Master
 ***************************/
@@ -257,7 +262,7 @@ Form tables
 }
 
 /* Styling for play buttons */
-.play-button {
+.play-btn {
     outline: none;
     background-color:transparent;
     border-color:transparent;
@@ -267,11 +272,11 @@ Form tables
     width: 24px;
 }
 
-.play-button > img {
+.play-btn > img {
     cursor: pointer;
 }
 
-.play-button > img:active {
+.play-btn > img:active {
     cursor: pointer;
     background-color: lightgray;
     border-radius: 50%;

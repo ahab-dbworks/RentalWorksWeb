@@ -750,9 +750,9 @@ abstract class StagingCheckoutBase {
     createContract(args): void {
         const $form = args[0];
         const event = args[1];
-        const type = this.Type;
         const errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
+        const type = this.Type;
         const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
         const location = JSON.parse(sessionStorage.getItem('location'));
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));

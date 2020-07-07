@@ -279,36 +279,117 @@
     }
     //---------------------------------------------------------------------------------
     static playSuccessSound() {
-        const successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        let successSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).SuccessSoundUrl;
 
-        if (successSoundFileName && typeof successSoundFileName === 'string') {
-            const sound = new Audio(successSoundFileName);
+        if (successSoundUrl !== '') {
+            const sound = new Audio(successSoundUrl);
             sound.play();
         } else {
-            FwNotification.renderNotification('INFO', 'No Success Sound set up. Visit User Settings to choose a sound.')
+            this.getBase64Sound('Success')
+                .then(() => {
+                    successSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).SuccessSoundUrl;
+                    if (successSoundUrl) {
+                        const sound = new Audio(successSoundUrl);
+                        sound.play();
+                    } else {
+                        FwNotification.renderNotification('INFO', 'No Success Sound set up. Visit User Settings to choose a sound.')
+                    }
+                });
         }
     }
     //---------------------------------------------------------------------------------
     static playErrorSound() {
-        const errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        let errorSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).ErrorSoundUrl;
 
-        if (errorSoundFileName && typeof errorSoundFileName === 'string') {
-            const sound = new Audio(errorSoundFileName);
+        if (errorSoundUrl !== '') {
+            const sound = new Audio(errorSoundUrl);
             sound.play();
         } else {
-            FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Settings to choose a sound.')
+            this.getBase64Sound('Error')
+                .then(() => {
+                    errorSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).ErrorSoundUrl;
+                    if (errorSoundUrl) {
+                        const sound = new Audio(errorSoundUrl);
+                        sound.play();
+                    } else {
+                        FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Settings to choose a sound.')
+                    }
+                });
         }
     }
     //---------------------------------------------------------------------------------
     static playNotificationSound() {
-        const notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
+        let notificationSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).NotificationSoundUrl;
 
-        if (notificationSoundFileName && typeof notificationSoundFileName === 'string') {
-            const sound = new Audio(notificationSoundFileName);
+        if (notificationSoundUrl !== '') {
+            const sound = new Audio(notificationSoundUrl);
             sound.play();
         } else {
-            FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Settings to choose a sound.')
+            this.getBase64Sound('Notification')
+                .then(() => {
+                    notificationSoundUrl = JSON.parse(sessionStorage.getItem('sounds')).NotificationSoundUrl;
+                    if (notificationSoundUrl) {
+                        const sound = new Audio(notificationSoundUrl);
+                        sound.play();
+                    } else {
+                        FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Settings to choose a sound.')
+                    }
+                });
         }
+    }
+    //---------------------------------------------------------------------------------
+    static getBase64Sound(tag: string, userSettingsObject?: any): Promise<any> {
+        // gets base64sound for input tag and loads blob into app and assigns resulting url to SS for streaming elsewhere (ex. FwFunc.playErrorSound())
+        return new Promise<any>(async (resolve, reject) => {
+            try {
+                if (userSettingsObject) {
+                    const base64Sound = userSettingsObject[`${tag}Base64Sound`];
+                    const blob = this.b64SoundtoBlob(base64Sound);
+                    const blobUrl = URL.createObjectURL(blob);
+                    const sounds: any = JSON.parse(sessionStorage.getItem('sounds')) || {};
+                    sounds[`${tag}SoundUrl`] = blobUrl;
+                    sessionStorage.setItem('sounds', JSON.stringify(sounds));
+                } else {
+                    const webUsersId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+                    const promiseGetUserSettings = FwAjax.callWebApi<any, any>({
+                        httpMethod: 'GET',
+                        url: `${applicationConfig.apiurl}api/v1/usersettings/${webUsersId}`,
+                        $elementToBlock: jQuery('#application'),
+                    })
+                        .then((responseGetUserSettings: any) => {
+                            const base64Sound = responseGetUserSettings[`${tag}Base64Sound`];
+                            const blob = this.b64SoundtoBlob(base64Sound);
+                            const blobUrl = URL.createObjectURL(blob);
+                            const sounds: any = JSON.parse(sessionStorage.getItem('sounds')) || {};
+                            sounds[`${tag}SoundUrl`] = blobUrl;
+                            sessionStorage.setItem('sounds', JSON.stringify(sounds));
+                            resolve();
+                        });
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    static b64SoundtoBlob(b64Data) {
+        const byteCharacters = atob(b64Data.replace(/^data:audio\/(wav|mp3|ogg\mpeg);base64,/, ''));
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+            const slice = byteCharacters.slice(offset, offset + 512);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, { type: '' });
+        return blob;
     }
     //---------------------------------------------------------------------------------
     static getWeekStartInt(): number {

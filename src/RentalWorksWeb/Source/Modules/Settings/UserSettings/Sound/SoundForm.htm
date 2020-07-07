@@ -12,11 +12,29 @@
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sound Name" data-datafield="Sound" data-required="true" style="flex:0 1 225px;"></div>
-                  <button type="submit" class="play-button sound-play-button" style="flex:0;"><img src="theme/images/icons/settings/play_button.svg" alt="Play" /></button>
+                  <!--<button type="submit" class="play-button sound-play-button" style="flex:0;"><img src="theme/images/icons/settings/play_button.svg" alt="Play" /></button>-->
                 </div>
               </div>
-              <div class="formrow">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="File Name" data-datafield="FileName" data-allcaps="false" style="float:left;width:455px;"></div>
+              <!--sound input-->
+              <div class="flexrow" style="margin: 15px 0 0 6px;">
+                <div class="flexcolumn">
+                  <div class="flexrow">
+                    <audio id="audio" style="height:35px;width:400px;" controls>
+                      <source src="" id="soundSrc" />
+                    </audio>
+                  </div>
+                  <div class="flexrow btn-row" style="margin:10px 0 0 0;">
+                    <div class="upload-btn-wrapper">
+                      <div class="upload-btn fwformcontrol" data-type="button" style="float:left;">Upload File</div>
+                      <input type="file" id="soundInput" single />
+                    </div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Base64Sound" data-datafield="Base64Sound" data-allcaps="false" style="float:left;width:455px;display:none;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="formrow filename-row" style="display:none;">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="System Sound" data-datafield="SystemSound" data-required="false" data-enabled="false" style="float:left;width:110px;display:none;"></div>
               </div>
             </div>

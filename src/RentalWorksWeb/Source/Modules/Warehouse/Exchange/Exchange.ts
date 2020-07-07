@@ -6,9 +6,6 @@ class Exchange {
     id:                        string = Constants.Modules.Warehouse.children.Exchange.id;
     ContractId:                string = '';
     ExchangeResponse:          any    = {};
-    successSoundFileName:      string;
-    errorSoundFileName:        string;
-    notificationSoundFileName: string;
     Type:                      string = 'Order';
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {

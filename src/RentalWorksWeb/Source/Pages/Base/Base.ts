@@ -118,7 +118,7 @@ class Base {
 
                                     const promiseGetUserSettings = FwAjax.callWebApi<any, any>({
                                         httpMethod: 'GET',
-                                        url: `${applicationConfig.apiurl}api/v1/usersettings/${responseSessionInfo.webUser.webusersid}`,
+                                        url: `${applicationConfig.apiurl}api/v1/userprofile/${responseSessionInfo.webUser.webusersid}`,
                                         $elementToBlock: $loginWindow
                                     });
 
@@ -221,15 +221,15 @@ class Base {
                                             const responseGetIsTraining = values[9];
                                             const responseGetWarehouses = values[10];
 
-                                            const sounds: any = {};
-                                            sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
-                                            sounds.errorSoundFileName = responseGetUserSettings.ErrorSoundFileName;
-                                            sounds.notificationSoundFileName = responseGetUserSettings.NotificationSoundFileName;
+                                            // Load sounds into DOM for use elsewhere
+                                            FwFunc.getBase64Sound('Success', responseGetUserSettings);
+                                            FwFunc.getBase64Sound('Error', responseGetUserSettings);
+                                            FwFunc.getBase64Sound('Notification', responseGetUserSettings);
+
                                             const homePage: any = {};
                                             homePage.guid = responseGetUserSettings.HomeMenuGuid;
                                             homePage.path = responseGetUserSettings.HomeMenuPath;
                                             const favorites = responseGetUserSettings.FavoritesJson;
-                                            sessionStorage.setItem('sounds', JSON.stringify(sounds));
                                             sessionStorage.setItem('homePage', JSON.stringify(homePage));
                                             sessionStorage.setItem('favorites', favorites);
 

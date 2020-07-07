@@ -143,30 +143,35 @@
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         // Sound Validation
-        $form.find('div[data-datafield="SuccessSoundId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="SuccessSoundFileName"]', FwBrowse.getValueByDataField($form, $tr, 'FileName'));
-        });
-        $form.find('div[data-datafield="ErrorSoundId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="ErrorSoundFileName"]', FwBrowse.getValueByDataField($form, $tr, 'FileName'));
-        });
-        $form.find('div[data-datafield="NotificationSoundId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="NotificationSoundFileName"]', FwBrowse.getValueByDataField($form, $tr, 'FileName'));
+        $form.find('div.soundid').data('onchange', ($tr, $field) => {
+            let tag;
+            if ($field.attr('data-datafield') === 'SuccessSoundId') {
+                tag = 'Success'
+            } else if ($field.attr('data-datafield') === 'ErrorSoundId') {
+                tag = 'Error';
+            } else if ($field.attr('data-datafield') === 'NotificationSoundId') {
+                tag = 'Notification';
+            }
+
+            FwFormField.setValue($form, `div[data-datafield="${tag}Base64Sound"]`, $tr.find(`.field[data-formdatafield="Base64Sound"]`).attr('data-originalvalue'));
+            const blob = FwFunc.b64SoundtoBlob($tr.find(`.field[data-formdatafield="Base64Sound"]`).attr('data-originalvalue'));
+            const blobUrl = URL.createObjectURL(blob);
+            $form.find(`div[data-datafield="${tag}Base64Sound"]`).attr(`data-${tag}SoundUrl`, blobUrl);
         });
         // Sound Preview
-        $form.find('.success-play-button').on('click', e => {
-            const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
-            const successSound = new Audio(successSoundFileName);
-            successSound.play();
-        });
-        $form.find('.error-play-button').on('click', e => {
-            const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
-            const errorSound = new Audio(errorSoundFileName);
-            errorSound.play();
-        });
-        $form.find('.notification-play-button').on('click', e => {
-            const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName');
-            const notificationSound = new Audio(notificationSoundFileName);
-            notificationSound.play();
+        $form.find('.play-btn').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            let tag;
+            if ($this.prev().attr('data-datafield') === 'SuccessSoundId') {
+                tag = 'Success'
+            } else if ($this.prev().attr('data-datafield') === 'ErrorSoundId') {
+                tag = 'Error';
+            } else if ($this.prev().attr('data-datafield') === 'NotificationSoundId') {
+                tag = 'Notification';
+            }
+            const soundUrl = $form.find(`div[data-datafield="${tag}Base64Sound"]`).attr(`data-${tag}SoundUrl`);
+            const sound = new Audio(soundUrl);
+            sound.play();
         });
         $form.find('div[data-datafield="HomeMenuGuid"]').on("change", e => {
             const dataNav = jQuery(e.currentTarget).find(':selected').attr('data-nav');
@@ -193,13 +198,6 @@
             path: FwFormField.getValueByDataField($form, 'HomeMenuPath'),
         };
         sessionStorage.setItem('homePage', JSON.stringify(homePage));
-
-        const sounds: any = {
-            successSoundFileName: FwFormField.getValueByDataField($form, 'SuccessSoundFileName'),
-            errorSoundFileName: FwFormField.getValueByDataField($form, 'ErrorSoundFileName'),
-            notificationSoundFileName: FwFormField.getValueByDataField($form, 'NotificationSoundFileName'),
-        };
-        sessionStorage.setItem('sounds', JSON.stringify(sounds));
 
         //FirstDayOfWeek set to sessionStorage
         const userid = JSON.parse(sessionStorage.getItem('userid'));
@@ -236,6 +234,8 @@
         //if there is no theme set, selects the first option
         const theme = FwFormField.getValueByDataField($form, 'ApplicationTheme');
         if ($form.find(`[data-datafield="ApplicationTheme"] option[value="${theme}"]`).length === 0) FwFormField.setValueByDataField($form, 'ApplicationTheme', $form.find('[data-datafield="ApplicationTheme"] option').eq(0).val());
+
+        SoundController.soundsToUrl($form);
     }
     //----------------------------------------------------------------------------------------------
 }

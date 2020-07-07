@@ -416,19 +416,19 @@ namespace WebApi.Modules.Administrator.User
         [FwLogicProperty(Id: "1RvfHBCyLNY6r", IsReadOnly: true)]
         public string SuccessSound { get; set; }
         [FwLogicProperty(Id: "1NCCcS6Uetdti", IsReadOnly: true)]
-        public string SuccessSoundFileName { get; set; }
+        public string SuccessBase64Sound { get; set; }
         [FwLogicProperty(Id: "39lZCXsIzQfoL")]
         public string ErrorSoundId { get { return webUser.ErrorSoundId; } set { webUser.ErrorSoundId = value; } }
         [FwLogicProperty(Id: "J2f8cPIy7zPv8", IsReadOnly: true)]
         public string ErrorSound { get; set; }
         [FwLogicProperty(Id: "NgqAUw6SWkmq4", IsReadOnly: true)]
-        public string ErrorSoundFileName { get; set; }
+        public string ErrorBase64Sound { get; set; }
         [FwLogicProperty(Id: "GLp6gEs03MmaP")]
         public string NotificationSoundId { get { return webUser.NotificationSoundId; } set { webUser.NotificationSoundId = value; } }
         [FwLogicProperty(Id: "6GJq6P73wLwHt", IsReadOnly: true)]
         public string NotificationSound { get; set; }
         [FwLogicProperty(Id: "jj9nN7EG0ANjG", IsReadOnly: true)]
-        public string NotificationSoundFileName { get; set; }
+        public string NotificationBase64Sound { get; set; }
         [FwLogicProperty(Id: "OJrOlZkYyD44C")]
         public int? FirstDayOfWeek { get { return webUser.FirstDayOfWeek; } set { webUser.FirstDayOfWeek = value; } }
         [FwLogicProperty(Id: "V1l821OvHhE4e")]

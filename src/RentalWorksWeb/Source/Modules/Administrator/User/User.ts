@@ -43,7 +43,6 @@ class User {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        //let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
@@ -207,16 +206,11 @@ class User {
             path: FwFormField.getValueByDataField($form, 'HomeMenuPath'),
         };
         sessionStorage.setItem('homePage', JSON.stringify(homePage));
-
-        const sounds: any = {
-            successSoundFileName: FwFormField.getValueByDataField($form, 'SuccessSoundFileName'),
-            errorSoundFileName: FwFormField.getValueByDataField($form, 'ErrorSoundFileName'),
-            notificationSoundFileName: FwFormField.getValueByDataField($form, 'NotificationSoundFileName'),
-        };
-        sessionStorage.setItem('sounds', JSON.stringify(sounds));
-
         sessionStorage.setItem('browsedefaultrows', FwFormField.getValueByDataField($form, 'BrowseDefaultRows'));
         sessionStorage.setItem('applicationtheme', FwFormField.getValueByDataField($form, 'ApplicationTheme'));
+
+        SoundController.soundsToUrl($form);
+
 
         //setFormProperties = function ($form) {
         //    var $cbSecurityExpirePassword, $txtSecurityExpire, $cbNetExpirePassword, $txtNetExpire;
@@ -275,31 +269,38 @@ class User {
             }
         });
         // Sound Validation
-        $form.find('div[data-datafield="SuccessSoundId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="SuccessSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
+        $form.find('div.soundid').data('onchange', ($tr, $field) => {
+            let tag;
+            if ($field.attr('data-datafield') === 'SuccessSoundId') {
+                tag = 'Success'
+            } else if ($field.attr('data-datafield') === 'ErrorSoundId') {
+                tag = 'Error';
+            } else if ($field.attr('data-datafield') === 'NotificationSoundId') {
+                tag = 'Notification';
+            }
+            // loads the selected Base64Sound as blob on the $form and url attribute to be streamed with the .play-btn evt
+            FwFormField.setValue($form, `div[data-datafield="${tag}Base64Sound"]`, $tr.find(`.field[data-formdatafield="Base64Sound"]`).attr('data-originalvalue'));
+            const blob = FwFunc.b64SoundtoBlob($tr.find(`.field[data-formdatafield="Base64Sound"]`).attr('data-originalvalue'));
+            const blobUrl = URL.createObjectURL(blob);
+            $form.find(`div[data-datafield="${tag}Base64Sound"]`).attr(`data-${tag}SoundUrl`, blobUrl);
         });
-        $form.find('div[data-datafield="ErrorSoundId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="ErrorSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
-        });
-        $form.find('div[data-datafield="NotificationSoundId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="NotificationSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
-        });
+
         // Sound Preview
-        $form.find('.success-play-button').on('click', e => {
-            const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
-            const successSound = new Audio(successSoundFileName);
-            successSound.play();
+        $form.find('.play-btn').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            let tag;
+            if ($this.prev().attr('data-datafield') === 'SuccessSoundId') {
+                tag = 'Success'
+            } else if ($this.prev().attr('data-datafield') === 'ErrorSoundId') {
+                tag = 'Error';
+            } else if ($this.prev().attr('data-datafield') === 'NotificationSoundId') {
+                tag = 'Notification';
+            }
+            const soundUrl = $form.find(`div[data-datafield="${tag}Base64Sound"]`).attr(`data-${tag}SoundUrl`);
+            const sound = new Audio(soundUrl);
+            sound.play();
         });
-        $form.find('.error-play-button').on('click', e => {
-            const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
-            const errorSound = new Audio(errorSoundFileName);
-            errorSound.play();
-        });
-        $form.find('.notification-play-button').on('click', e => {
-            const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName');
-            const notificationSound = new Audio(notificationSoundFileName);
-            notificationSound.play();
-        });
+
         $form.find('div[data-datafield="HomeMenuGuid"]').on("change", e => {
             const dataNav = jQuery(e.currentTarget).find(':selected').attr('data-nav');
             FwFormField.setValueByDataField($form, 'HomeMenuPath', dataNav);
@@ -726,27 +727,27 @@ class User {
                       </div>
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Success Sound" data-datafield="SuccessSoundId" data-displayfield="SuccessSound" data-validationname="SoundValidation" style="flex:1 1 225px;"></div>
-                          <button type="submit" class="play-button success-play-button"><img src="theme/images/icons/settings/play_button.svg" alt="Play" /></button>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield soundid" data-caption="Success Sound" data-datafield="SuccessSoundId" data-displayfield="SuccessSound" data-validationname="SoundValidation" style="flex:1 1 225px;"></div>
+                          <button type="submit" class="play-btn"><img src="theme/images/icons/settings/play_button.svg" alt="Play" /></button>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Error Sound" data-datafield="ErrorSoundId" data-displayfield="ErrorSound" data-validationname="SoundValidation" style="flex:1 1 225px;"></div>
-                          <button type="submit" class="play-button error-play-button"><img src="theme/images/icons/settings/play_button.svg" /></button>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield soundid" data-caption="Error Sound" data-datafield="ErrorSoundId" data-displayfield="ErrorSound" data-validationname="SoundValidation" style="flex:1 1 225px;"></div>
+                          <button type="submit" class="play-btn"><img src="theme/images/icons/settings/play_button.svg" /></button>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Notification Sound" data-datafield="NotificationSoundId" data-displayfield="NotificationSound" data-validationname="SoundValidation" style="flex:1 1 225px;"></div>
-                          <button type="submit" class="play-button notification-play-button"><img src="theme/images/icons/settings/play_button.svg" alt="Play" /></button>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield soundid" data-caption="Notification Sound" data-datafield="NotificationSoundId" data-displayfield="NotificationSound" data-validationname="SoundValidation" style="flex:1 1 225px;"></div>
+                          <button type="submit" class="play-btn"><img src="theme/images/icons/settings/play_button.svg" alt="Play" /></button>
                         </div>
                       </div>
                       <div class="flexrow" style="width:243px;">
                         <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Calendar Start Day" data-datafield="FirstDayOfWeek" style="flex:1 1 350px;"></div>
                       </div>
-                      <!--Hidden Sound Filenames-->
+                      <!--Hidden Sound fields-->
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Home Page Path" data-datafield="HomeMenuPath" style="flex:1 1 0; display:none;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="SuccessSoundFileName" data-datafield="SuccessSoundFileName" data-allcaps="false" style="flex:1 1 300px;display:none;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ErrorSoundFileName" data-datafield="ErrorSoundFileName" data-allcaps="false" style="flex:1 1 300px;display:none;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="NotificationSoundFileName" data-datafield="NotificationSoundFileName" data-allcaps="false" style="flex:1 1 300px;display:none;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="SuccessBase64Sound" data-SuccessSoundUrl="" data-datafield="SuccessBase64Sound" data-allcaps="false" style="float:left;width:455px;display:none;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ErrorBase64Sound" data-ErrorSoundUrl="" data-datafield="ErrorBase64Sound" data-allcaps="false" style="float:left;width:455px;display:none;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="NotificationBase64Sound" data-NotificationSoundUrl="" data-datafield="NotificationBase64Sound" data-allcaps="false" style="float:left;width:455px;display:none;"></div>
                       </div>
                     </div>
                   </div>
