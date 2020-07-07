@@ -46,23 +46,22 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         [FwLogicProperty(Id:"y9L5kSGYGJAx")]
         public string SuccessSound { get; set; }
 
-        private string _successSoundFileName = "";
-        [FwLogicProperty(Id:"un2900EpcFpd")]
-        //public string SuccessSoundFileName { get; set; }
-        public string SuccessSoundFileName
+        private string _successBase64Sound = "";
+        [FwLogicProperty(Id: "un2900EpcFpd")]
+        public string SuccessBase64Sound
         {
             get
             {
-                string fileName = _successSoundFileName;
-                if (string.IsNullOrEmpty(fileName))
+                string sound = _successBase64Sound;
+                if (string.IsNullOrEmpty(sound))
                 {
-                    fileName = RwConstants.DEFAULT_SOUND_FILE_NAME;
+                    sound = RwConstants.DEFAULT_SOUND_BASE64;
                 }
-                return fileName;
+                return sound;
             }
             set
             {
-                _successSoundFileName = value;
+                _successBase64Sound = value;
             }
         }
 
@@ -72,23 +71,22 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         [FwLogicProperty(Id:"jZaf3H62W9Pp")]
         public string ErrorSound { get; set; }
 
-        private string _errorSoundFileName = "";
-        [FwLogicProperty(Id:"at37zWVEk7OM")]
-        //public string ErrorSoundFileName { get; set; }
-        public string ErrorSoundFileName
+        private string _errorBase64Sound = "";
+        [FwLogicProperty(Id: "at37zWVEk7OM")]
+        public string ErrorBase64Sound
         {
             get
             {
-                string fileName = _errorSoundFileName;
-                if (string.IsNullOrEmpty(fileName))
+                string sound = _errorBase64Sound;
+                if (string.IsNullOrEmpty(sound))
                 {
-                    fileName = RwConstants.DEFAULT_SOUND_FILE_NAME;
+                    sound = RwConstants.DEFAULT_SOUND_BASE64;
                 }
-                return fileName;
+                return sound;
             }
             set
             {
-                _errorSoundFileName = value;
+                _errorBase64Sound = value;
             }
         }
 
@@ -98,23 +96,22 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         [FwLogicProperty(Id:"FcspfaoMg0MD")]
         public string NotificationSound { get; set; }
 
-        private string _notificationSoundFileName = "";
-        [FwLogicProperty(Id:"RiJwTjmPSP4u")]
-        //public string NotificationSoundFileName { get; set; }
-        public string NotificationSoundFileName
+        private string _notificationBase64Sound = "";
+        [FwLogicProperty(Id: "RiJwTjmPSP4u")]
+        public string NotificationBase64Sound
         {
             get
             {
-                string fileName = _notificationSoundFileName;
-                if (string.IsNullOrEmpty(fileName))
+                string sound = _notificationBase64Sound;
+                if (string.IsNullOrEmpty(sound))
                 {
-                    fileName = RwConstants.DEFAULT_SOUND_FILE_NAME;
+                    sound = RwConstants.DEFAULT_SOUND_BASE64;
                 }
-                return fileName;
+                return sound;
             }
             set
             {
-                _notificationSoundFileName = value;
+                _notificationBase64Sound = value;
             }
         }
 

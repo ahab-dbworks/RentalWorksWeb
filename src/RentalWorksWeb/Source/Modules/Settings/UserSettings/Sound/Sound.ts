@@ -71,7 +71,7 @@ class Sound {
             const $this = jQuery(e.currentTarget);
             const folder: any = $this[0];
             if (folder.files) {
-                // clear out any previous selection in case user abandons previous selection and saves $form
+                // clears out any previous selection in case user abandons previous selection and saves $form
                 $form.find('#soundSrc').attr("src", '');
                 FwFormField.setValueByDataField($form, 'Base64Sound', '');
                 const file: any = folder.files[0];
@@ -89,10 +89,6 @@ class Sound {
                                 const base64data = reader.result;
                                 FwFormField.setValueByDataField($form, 'Base64Sound', base64data.toString().replace(/^data:audio\/(wav|mp3|ogg|mpeg);base64,/, ''));
                                 $form.find('div[data-datafield="Base64Sound"]').change();
-
-                                // NEXT STEPS:
-                                // add base64 sound to user and user profile loader
-                                // userprofilelogic needs some work
                             }
                         } else {
                             $form.find('#soundInput').val('');

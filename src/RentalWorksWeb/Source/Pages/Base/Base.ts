@@ -222,9 +222,9 @@ class Base {
                                             const responseGetWarehouses = values[10];
 
                                             // Load sounds into DOM for use elsewhere
-                                            //FwFunc.getBase64Sound('Error', responseGetUserSettings);
-                                            //FwFunc.getBase64Sound('Success', responseGetUserSettings);
-                                            //FwFunc.getBase64Sound('Notification', responseGetUserSettings);
+                                            FwFunc.getBase64Sound('Success', responseGetUserSettings);
+                                            FwFunc.getBase64Sound('Error', responseGetUserSettings);
+                                            FwFunc.getBase64Sound('Notification', responseGetUserSettings);
 
                                             const homePage: any = {};
                                             homePage.guid = responseGetUserSettings.HomeMenuGuid;

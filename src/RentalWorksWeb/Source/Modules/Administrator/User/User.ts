@@ -289,11 +289,11 @@ class User {
         $form.find('.play-btn').on('click', e => {
             const $this = jQuery(e.currentTarget);
             let tag;
-            if ($this.attr('data-datafield') === 'SuccessSoundId') {
+            if ($this.prev().attr('data-datafield') === 'SuccessSoundId') {
                 tag = 'Success'
-            } else if ($this.attr('data-datafield') === 'ErrorSoundId') {
+            } else if ($this.prev().attr('data-datafield') === 'ErrorSoundId') {
                 tag = 'Error';
-            } else if ($this.attr('data-datafield') === 'NotificationSoundId') {
+            } else if ($this.prev().attr('data-datafield') === 'NotificationSoundId') {
                 tag = 'Notification';
             }
             const soundUrl = $form.find(`div[data-datafield="${tag}Base64Sound"]`).attr(`data-${tag}SoundUrl`);

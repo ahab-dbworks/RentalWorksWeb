@@ -350,10 +350,10 @@
                         httpMethod: 'GET',
                         url: `${applicationConfig.apiurl}api/v1/usersettings/${webUsersId}`,
                         $elementToBlock: jQuery('#application'),
-                    });
-                    Promise.all([
-                        promiseGetUserSettings, // this could be removed?
-                    ])
+                    })
+                        //Promise.all([
+                        //    promiseGetUserSettings, // this could be removed?
+                        //])
                         .then((values: any) => {
                             const responseGetUserSettings = values[0];
                             const base64Sound = responseGetUserSettings[`${tag}Base64Sound`];
