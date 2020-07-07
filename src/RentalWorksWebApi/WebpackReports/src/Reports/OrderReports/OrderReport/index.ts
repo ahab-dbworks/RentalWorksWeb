@@ -60,7 +60,7 @@ export class OrderReport extends WebpackReport {
                                     }
                                     notesEl.innerHTML = container.join('');
                                     const notesRow = document.getElementById('notesRow');
-                                    notesRow.style.cssText = "page-break-before:always;padding:5px 10px 0px 10px;font-size:1em;width:1110px;";
+                                    notesRow.style.cssText = "padding:5px 10px 0px 10px;font-size:1em;width:1110px;";
                                     isNotes = true;
                                 }
                             }
