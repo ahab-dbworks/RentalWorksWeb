@@ -6,9 +6,6 @@ class ReturnToVendor {
     caption: string = Constants.Modules.Warehouse.children.ReturnToVendor.caption;
     nav: string = Constants.Modules.Warehouse.children.ReturnToVendor.nav;
     id: string = Constants.Modules.Warehouse.children.ReturnToVendor.id;
-    successSoundFileName: string;
-    errorSoundFileName: string;
-    notificationSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;

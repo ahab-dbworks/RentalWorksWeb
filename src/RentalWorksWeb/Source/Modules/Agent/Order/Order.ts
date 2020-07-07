@@ -5,8 +5,6 @@ class Order extends OrderBase {
     nav: string = Constants.Modules.Agent.children.Order.nav;
     id: string = Constants.Modules.Agent.children.Order.id;
     lossDamageSessionId: string = '';
-    successSoundFileName: string;
-    errorSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasInactive = false;
