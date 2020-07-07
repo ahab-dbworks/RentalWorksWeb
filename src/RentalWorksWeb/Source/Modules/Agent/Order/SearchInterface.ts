@@ -535,6 +535,14 @@ class SearchInterface {
             const value = FwFormField.getValue2($this);
             FwFormField.setValueByDataField($popup, datafield, value);
         });
+
+        //synchronizes time fields on Add To tab
+        $popup.on('change', '[data-datafield="PickTime"], [data-datafield="FromTime"], [data-datafield="ToTime"]', e => {
+            const $this = jQuery(e.currentTarget);
+            const datafield = $this.attr('data-datafield');
+            const value = FwFormField.getValue2($this);
+            FwFormField.setValueByDataField($popup, datafield, value);
+        });
     }
     //----------------------------------------------------------------------------------------------
     disableAddToModules($popup: JQuery) {
@@ -957,7 +965,12 @@ class SearchInterface {
         let $searchpopup   = $popup.find('#searchpopup');
 
         $popup
-            .on('change', '#itemsearch div[data-datafield="FromDate"], #itemsearch div[data-datafield="ToDate"]', e => {
+            .on('changeDate', '#itemsearch div[data-datafield="FromDate"], #itemsearch div[data-datafield="ToDate"]', e => {
+                if ($popup.find('#inventory').children().length > 0) {
+                    this.getInventory($popup);
+                }
+            })
+            .on('change', '#itemsearch div[data-datafield="FromTime"], #itemsearch div[data-datafield="ToTime"]', e => {
                 if ($popup.find('#inventory').children().length > 0) {
                     this.getInventory($popup);
                 }
