@@ -228,6 +228,40 @@
                 .html(`${applicationConfig.version}`)
                 .appendTo($staticinfo);
         } else {
+            if (userControls.bookmarks) {
+                for (let bookmark of userControls.bookmarks) {
+                    var $bookmark = jQuery('<div>')
+                        .addClass('bookmark')
+                        .data('bookmark', bookmark)
+                        .appendTo($usercontrols)
+                        .on('click', (e) => {
+                            if (jQuery(e.currentTarget).data('bookmark').navigation !== '') {
+                                program.getModule(jQuery(e.currentTarget).data('bookmark').navigation);
+                            } else {
+                                FwNotification.renderNotification('ERROR', 'Module navigation not set up.');
+                            }
+                        });
+
+                    if (bookmark.type === 'system') {
+                        jQuery('<i>')
+                            .addClass('material-icons')
+                            .html(bookmark.icon)
+                            .attr('title', bookmark.title)
+                            .appendTo($bookmark);
+                    } else if (bookmark.title) {
+                        jQuery('<i>')
+                            .addClass('material-icons')
+                            .html('star')
+                            .appendTo($bookmark);
+                        jQuery('<div>')
+                            .addClass('bookmark-title')
+                            .html(bookmark.title)
+                            .appendTo($bookmark);
+                        $bookmark.attr('title', bookmark.title);
+                    }
+                }
+            }
+
             if (userControls.controls) {
                 for (let usercontrol of userControls.controls) {
                     usercontrol.control.addClass('usercontrol').appendTo($usercontrols);
@@ -267,53 +301,6 @@
             var $menutray = jQuery('<div>')
                 .addClass('app-menu-tray')
                 .appendTo($usermenu);
-
-            var $bookmarkcontainer = jQuery('<div>')
-                .addClass('container')
-                .appendTo($menutray);
-            var $bookmarktitle = jQuery('<div>')
-                .addClass('bookmarkcaption')
-                .html('Favorites')
-                .appendTo($bookmarkcontainer);
-            var $bookmarkicons = jQuery('<div>')
-                .addClass('bookmarkicons')
-                .appendTo($bookmarkcontainer);
-            var $bookmarktitles = jQuery('<div>')
-                .addClass('bookmarktitles')
-                .appendTo($bookmarkcontainer);
-            for (let bookmark of userControls.bookmarks) {
-                var $bookmark = jQuery('<div>')
-                    .addClass('bookmark')
-                    .data('bookmark', bookmark)
-                    //.appendTo($usercontrols)
-                    .on('click', (e) => {
-                        if (jQuery(e.currentTarget).data('bookmark').navigation !== '') {
-                            program.getModule(jQuery(e.currentTarget).data('bookmark').navigation);
-                        } else {
-                            FwNotification.renderNotification('ERROR', 'Module navigation not set up.');
-                        }
-                    });
-
-                if (bookmark.type === 'system') {
-                    $bookmark.appendTo($bookmarkicons);
-                    jQuery('<i>')
-                        .addClass('material-icons')
-                        .html(bookmark.icon)
-                        .attr('title', bookmark.title)
-                        .appendTo($bookmark);
-                } else if (bookmark.type === 'userdefined') {
-                    $bookmark.appendTo($bookmarktitles);
-                    jQuery('<i>')
-                        .addClass('material-icons')
-                        .html('star')
-                        .appendTo($bookmark);
-                    jQuery('<div>')
-                        .addClass('bookmark-title')
-                        .html(bookmark.title)
-                        .appendTo($bookmark);
-                    $bookmark.attr('title', bookmark.title);
-                }
-            }
 
             if (userControls.links) {
                 for (let link of userControls.links) {
