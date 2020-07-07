@@ -118,7 +118,7 @@ class Base {
 
                                     const promiseGetUserSettings = FwAjax.callWebApi<any, any>({
                                         httpMethod: 'GET',
-                                        url: `${applicationConfig.apiurl}api/v1/usersettings/${responseSessionInfo.webUser.webusersid}`,
+                                        url: `${applicationConfig.apiurl}api/v1/userprofile/${responseSessionInfo.webUser.webusersid}`,
                                         $elementToBlock: $loginWindow
                                     });
 
