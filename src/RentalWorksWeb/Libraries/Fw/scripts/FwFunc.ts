@@ -292,7 +292,7 @@
                         const sound = new Audio(successSoundUrl);
                         sound.play();
                     } else {
-                        FwNotification.renderNotification('INFO', 'No Success Sound set up. Visit User Settings to choose a sound.')
+                        FwNotification.renderNotification('INFO', 'No Success Sound set up. Visit User Profile to choose a sound.')
                     }
                 });
         }
@@ -312,7 +312,7 @@
                         const sound = new Audio(errorSoundUrl);
                         sound.play();
                     } else {
-                        FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Settings to choose a sound.')
+                        FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Profile to choose a sound.')
                     }
                 });
         }
@@ -332,7 +332,7 @@
                         const sound = new Audio(notificationSoundUrl);
                         sound.play();
                     } else {
-                        FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Settings to choose a sound.')
+                        FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Profile to choose a sound.')
                     }
                 });
         }
