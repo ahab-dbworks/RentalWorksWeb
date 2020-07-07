@@ -85,10 +85,12 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
     {
         public string BarCode { get; set; }
         public string SerialNumber { get; set; }
-        public BarCodeSerial(string barCode, string serialNumber)
+        public string ManufactureDate { get; set; }
+        public BarCodeSerial(string barCode, string serialNumber, string mfgDate)
         {
             this.BarCode = barCode;
             this.SerialNumber = serialNumber;
+            this.ManufactureDate = mfgDate;
         }
     }
 
@@ -259,7 +261,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                     {
                         barCodeSerials.Clear();
                         FwSqlCommand qryBarCode = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                        qryBarCode.Add("select b.barcode                                                         ");
+                        qryBarCode.Add("select b.barcode, b.serialno, b.mfgdate                                  ");
                         qryBarCode.Add(" from  barcodeholding b                                                  ");
                         qryBarCode.Add(" where b.sessionid = @sessionid                                          ");
                         qryBarCode.Add("order by b.barcode                                                       ");
@@ -269,6 +271,8 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                         foreach (List<object> rowBarCode in dtBarCode.Rows)
                         {
                             string barCode = rowBarCode[dtBarCode.GetColumnNo("barcode")].ToString();
+                            string serialNumber = rowBarCode[dtBarCode.GetColumnNo("serialno")].ToString();
+                            string mfgDate = rowBarCode[dtBarCode.GetColumnNo("mfgdate")].ToString();
                             if (string.IsNullOrEmpty(barCode))
                             {
                                 isValidRequest = false;
@@ -276,7 +280,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                             }
                             else
                             {
-                                barCodeSerials.Add(new BarCodeSerial(barCode, ""));
+                                barCodeSerials.Add(new BarCodeSerial(barCode, serialNumber, mfgDate));
                             }
                         }
                     }
@@ -296,7 +300,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                     {
                         barCodeSerials.Clear();
                         FwSqlCommand qryBarCode = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                        qryBarCode.Add("select b.serialno                                                        ");
+                        qryBarCode.Add("select b.serialno, b.mfgdate                                             ");
                         qryBarCode.Add(" from  barcodeholding b                                                  ");
                         qryBarCode.Add(" where b.sessionid = @sessionid                                          ");
                         qryBarCode.Add("order by b.serialno                                                      ");
@@ -306,6 +310,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                         foreach (List<object> rowBarCode in dtBarCode.Rows)
                         {
                             string serialNumber = rowBarCode[dtBarCode.GetColumnNo("serialno")].ToString();
+                            string mfgDate = rowBarCode[dtBarCode.GetColumnNo("mfgdate")].ToString();
                             if (string.IsNullOrEmpty(serialNumber))
                             {
                                 isValidRequest = false;
@@ -313,7 +318,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                             }
                             else
                             {
-                                barCodeSerials.Add(new BarCodeSerial("", serialNumber));
+                                barCodeSerials.Add(new BarCodeSerial("", serialNumber, mfgDate));
                             }
                         }
                     }
@@ -385,6 +390,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                                 item.CountryOfOriginId = request.CountryId;
                                 item.WarrantyPeriod = request.WarrantyDays;
                                 item.WarrantyExpiration = request.WarrantyExpiration;
+                                item.ManufactureDate = barCodeSerial.ManufactureDate;
                                 await item.SaveAsync(null, conn);
 
                                 // update stored quantity for item
