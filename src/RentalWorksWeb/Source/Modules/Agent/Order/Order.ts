@@ -498,6 +498,17 @@ class Order extends OrderBase {
                 options.hasEdit = false;
                 options.hasNew = false;
                 options.hasDelete = false;
+
+                if ($form.attr('data-controller') !== 'QuoteController') {
+                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            OrderItemGridController.SubPOWorksheet(e);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -527,6 +538,17 @@ class Order extends OrderBase {
                 options.hasEdit = false;
                 options.hasNew = false;
                 options.hasDelete = false;
+
+                if ($form.attr('data-controller') !== 'QuoteController') {
+                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            OrderItemGridController.SubPOWorksheet(e);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -556,6 +578,17 @@ class Order extends OrderBase {
                 options.hasEdit = false;
                 options.hasNew = false;
                 options.hasDelete = false;
+
+                if ($form.attr('data-controller') !== 'QuoteController') {
+                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            OrderItemGridController.SubPOWorksheet(e);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -586,6 +619,17 @@ class Order extends OrderBase {
                 options.hasEdit = false;
                 options.hasNew = false;
                 options.hasDelete = false;
+
+                if ($form.attr('data-controller') !== 'QuoteController') {
+                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            OrderItemGridController.SubPOWorksheet(e);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
