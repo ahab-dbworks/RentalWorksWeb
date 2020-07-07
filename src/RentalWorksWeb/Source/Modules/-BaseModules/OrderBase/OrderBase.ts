@@ -129,7 +129,7 @@ class OrderBase {
                 }
                 request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
                 request.CompanyId = companyId;
-            }, 
+            },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $browse.data('deletewithnoids', OrderContactGridController.deleteWithNoIds);
             },
@@ -2223,7 +2223,7 @@ class OrderBase {
                         $form.data('hasitems', true);
                         displayConfirmation();
                         break;
-                    } 
+                    }
                 }
             }
         });
@@ -3964,7 +3964,7 @@ class OrderBase {
             FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
         }
 
- 
+
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const $tab = jQuery(e.currentTarget);
@@ -4115,7 +4115,7 @@ class OrderBase {
         if (tax1Name != "") {
             updateCaption($taxFields, tax1Name, 1);
         }
-       
+
         const $tax2Fields = $form.find('[data-totalfield="Tax2"]');
         if (tax2Name != "") {
             $tax2Fields.show();
