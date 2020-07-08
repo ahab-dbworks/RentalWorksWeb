@@ -1793,6 +1793,8 @@ class SearchInterface {
             classification = FwFormField.getValueByDataField($popup, 'Select');
         };
 
+        const fromDateAndTime: FromDateAndTime = this.getFromTimeValue($popup);
+
         let request: any = {
             OrderId:                       parentFormId,
             SessionId:                     parentFormId,
@@ -1803,8 +1805,8 @@ class SearchInterface {
             AvailableFor:                  inventoryType,
             HideInventoryWithZeroQuantity: FwFormField.getValueByDataField($popup, 'HideZeroQuantity') == "T" ? true : false,
             WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
-            FromDate:                      FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-            FromTime:                      this.getFromTimeValue($popup),
+            FromDate:                      fromDateAndTime.fromDate || undefined,
+            FromTime:                      fromDateAndTime.fromTime || undefined,
             ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
             ToTime:                        FwFormField.getValueByDataField($popup, 'ToTime') || undefined,
             InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined,
@@ -1864,7 +1866,9 @@ class SearchInterface {
     refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, $showAccessories: JQuery) {
         let accessoryContainer;
         const $el = jQuery($showAccessories);
-       
+
+        const fromDateAndTime: FromDateAndTime = this.getFromTimeValue($popup);
+
         let request: any = {
             SessionId:          id,
             OrderId:            id,
@@ -1872,8 +1876,8 @@ class SearchInterface {
             WarehouseId:        warehouseId,
             ShowAvailability:   $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
             ShowImages:         true,
-            FromDate:           FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-            FromTime:           this.getFromTimeValue($popup),
+            FromDate:           fromDateAndTime.fromDate || undefined,
+            FromTime:           fromDateAndTime.fromTime || undefined,
             ToDate:             FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
             Toime:              FwFormField.getValueByDataField($popup, 'ToTime') || undefined
         }
@@ -2068,32 +2072,41 @@ class SearchInterface {
     }
     //----------------------------------------------------------------------------------------------
     getFromTimeValue($popup: any) {
-        let fromTimeValue;
+        let fromDateAndTime: FromDateAndTime = new FromDateAndTime();
+        const pickDate = FwFormField.getValueByDataField($popup, 'PickDate');
         const pickTime = FwFormField.getValueByDataField($popup, 'PickTime');
+        const fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
         const fromTime = FwFormField.getValueByDataField($popup, 'FromTime');
 
-        if (pickTime === '') {
-            if (fromTime === '') {
-                fromTimeValue = undefined;
+        const parsedPickDateTime = Date.parse(`${pickDate} ${pickTime}`);
+        const parsedFromDateTime = Date.parse(`${fromDate} ${fromTime}`);
+
+        if (!Number.isNaN(parsedPickDateTime)) {
+            if (!Number.isNaN(parsedFromDateTime)) {
+                if (parsedPickDateTime < parsedFromDateTime) {
+                    fromDateAndTime.fromDate = pickDate;
+                    fromDateAndTime.fromTime = pickTime;
+                } else {
+                    fromDateAndTime.fromDate = fromDate;
+                    fromDateAndTime.fromTime = fromTime;
+                }
             } else {
-                fromTimeValue = fromTime;
+                fromDateAndTime.fromDate = pickDate;
+                fromDateAndTime.fromTime = pickTime;
             }
         } else {
-            if (fromTime === '') {
-                fromTimeValue = pickTime;
-            } else {
-                const momentPickTime = moment(pickTime, 'HH:mm');
-                const momentFromTime = moment(fromTime, 'HH:mm');
-                if (momentPickTime.isBefore(momentFromTime)) {
-                    fromTimeValue = pickTime;
-                } else {
-                    fromTimeValue = fromTime;
-                }
-            }
+            fromDateAndTime.fromDate = fromDate;
+            fromDateAndTime.fromTime = fromTime;
         }
-        return fromTimeValue;
+
+        return fromDateAndTime;
     }
     //----------------------------------------------------------------------------------------------
+}
+
+class FromDateAndTime {
+    fromDate: string;
+    fromTime: string;
 }
 
 var SearchInterfaceController = new SearchInterface();
