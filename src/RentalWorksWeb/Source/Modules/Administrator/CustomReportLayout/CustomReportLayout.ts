@@ -355,13 +355,26 @@ class CustomReportLayout {
                         $section.contents().filter(function () { return (this.nodeType == 3) }).remove();
                         $wrapper.find('.table-wrapper').append($section);
                         const $table = $section.find('table');
-                        //this.getTotalColumnCount($table, true);
                         tableList.push({ value: tableName, text: tableName });
 
                         const $columnHeaderRows = $table.find('#columnHeader tr');
                         for (let i = 0; i < $columnHeaderRows.length; i++) {
                             const $row = $columnHeaderRows[i];
                             this.addRowColumnSorting($form, $table, tableName, $row, 'columnheader');
+                        }
+
+                        const $subHeaderRows = $table.find('tr[data-row="sub-header"]');
+                        const $subDetailRows = $table.find('tr[data-row="sub-detail"]');
+                        if ($subHeaderRows.length) {
+                            for (let i = 0; i < $subHeaderRows.length; i++) {
+                                const $row = $subHeaderRows[i];
+                                this.addRowColumnSorting($form, $table, tableName, $row, 'subheader');
+                            }
+                        } else {  //make sub-detail w/o linked sub-headers sortable
+                            for (let i = 0; i < $subDetailRows.length; i++) {
+                                const $row = $subDetailRows[i];
+                                this.addRowColumnSorting($form, $table, tableName, $row, 'subdetail');
+                            }
                         }
                         break;
                     case 'footer':
@@ -406,7 +419,7 @@ class CustomReportLayout {
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
                 $table.find('.highlight').removeClass('highlight');
-                $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
+                $table.find(`[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
             }
         });
     }
@@ -450,21 +463,36 @@ class CustomReportLayout {
                                 let rowIndex;
                                 let footerRowIndex = 0;
                                 let detailRowIndex = 0;
+                                let subHeaderRowIndex = 0;
+                                let subDetailRowIndex = 0;
                                 let skipDetailRows = false;
                                 for (let i = 0; i < $rows.length; i++) {
                                     const $row = jQuery($rows[i]);
                                     const rowType = $row.attr('data-row');
-                                    if (rowType == 'detail') {
-                                        rowIndex = detailRowIndex;
-                                    } else if (rowType == 'footer') {
-                                        rowIndex = footerRowIndex;
-                                    } else {
-                                        rowIndex = 0;
+
+                                    switch (rowType) {
+                                        case 'detail':
+                                            rowIndex = detailRowIndex;
+                                            break;
+                                        case 'sub-header':
+                                            rowIndex = subHeaderRowIndex;
+                                            break;
+                                        case 'sub-detail':
+                                            rowIndex = subDetailRowIndex;
+                                            break;
+                                        case 'footer':
+                                            rowIndex = footerRowIndex;
+                                            break;
+                                        default:
+                                            rowIndex = 0;
+                                            break;
                                     }
+
                                     const $designerRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[rowIndex]);
                                     let $designerTds = $designerRow.find('td');
                                     const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
                                     let $tds = $row.find('td');
+
                                     if (rowType == 'detail') {
                                         if (!skipDetailRows) {
                                             if (oldRowIndex === newRowIndex) {
@@ -503,6 +531,10 @@ class CustomReportLayout {
                                                 skipDetailRows = true;
                                             }
                                         }
+                                    } else if (rowType === 'sub-header') {
+                                        subHeaderRowIndex++;
+                                    } else if (rowType === 'sub-detail') {
+                                        subDetailRowIndex++;
                                     } else if (rowType == 'footer') {
                                         if (newRowIndex === 0) {
                                             const totalNameColSpan = parseInt($designerTds.filter('.total-name').attr('colspan')) || 1;
@@ -728,6 +760,10 @@ class CustomReportLayout {
                                     $row.append($td);  //add to row in wrapper (memory)
                                     $table.find(`tbody tr[data-row="${rowType}"]:first`).append(`<td data-linkedcolumn="${linkedColumn}" data-value="{{NewColumn}}"></td>`); //add to row on designer
                                     detailIndex++;
+                                } else if (rowType == 'sub-header') {
+                                    //don't add new column
+                                } else if (rowType == 'sub-detail') {
+                                     //don't add new column
                                 } else if (rowType == 'header') {
                                     const $designerTableRow = jQuery($table.find(`tbody tr`)[i]);
                                     this.matchColumnCount($form, $table, $row, $designerTableRow);
@@ -745,17 +781,29 @@ class CustomReportLayout {
                             const linkedColumn = $form.data('deletefield').linkedcolumn;
                             const rowIndex = $form.data('deletefield').rowindex;
                             let index = 0;
-                            let detailIndex = 0;
-                            let footerIndex = 0;
+                            let detailRowIndex = 0;
+                            let footerRowIndex = 0;
+                            let subDetailRowIndex = 0;
+                            let subHeaderRowIndex = 0;
                             for (let i = 0; i < $rows.length; i++) {
                                 const $row = jQuery($rows[i]);
                                 const rowType = $row.attr('data-row');
-                                if (rowType == 'detail') {
-                                    index = detailIndex;
-                                } else if (rowType == 'footer') {
-                                    index = footerIndex;
-                                } else {
-                                    index = 0;
+                                switch (rowType) {
+                                    case 'detail':
+                                        index = detailRowIndex;
+                                        break;
+                                    case 'sub-header':
+                                        index = subHeaderRowIndex;
+                                        break;
+                                    case 'sub-detail':
+                                        index = subDetailRowIndex;
+                                        break;
+                                    case 'footer':
+                                        index = footerRowIndex;
+                                        break;
+                                    default:
+                                        index = 0;
+                                        break;
                                 }
 
                                 const $designerRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[index]);
@@ -764,7 +812,11 @@ class CustomReportLayout {
                                 if (rowType == 'detail') {
                                     $td.remove();
                                     $designerTd.remove();
-                                    detailIndex++;
+                                    detailRowIndex++;
+                                } else if (rowType === 'sub-header') {
+                                    subHeaderRowIndex++;
+                                } else if (rowType === 'sub-detail') {
+                                    subDetailRowIndex++;
                                 } else if (rowType == 'footer') {
                                     if ($designerTd.length) {
                                         $designerTd.remove();
@@ -774,17 +826,14 @@ class CustomReportLayout {
                                         jQuery($row.find('.total-name')).attr('colspan', colspan - 1);
                                         jQuery($designerRow.find('.total-name')).attr('colspan', colspan - 1);
                                     }
-                                    footerIndex++;
+                                    footerRowIndex++;
                                 }
                             }
                             $form.removeData('deletefield');
                         }
 
-                        //if (typeof rowIndex == 'undefined') {
-                        //    rowIndex = 0;
-                        //}
                         newHTML = $table.find('#columnHeader').get(0).innerHTML.trim();
-                        jQuery($wrapper.find(`${tableNameSelector} #columnHeader`)/*[rowIndex]*/).html(newHTML);                     //replace old headers
+                        jQuery($wrapper.find(`${tableNameSelector} #columnHeader`)).html(newHTML);                     //replace old headers
 
                         break;
                     case 'headerrow':
@@ -939,7 +988,6 @@ class CustomReportLayout {
             jQuery($table.find('#columnHeader tr')[0]).append($column);
             this.setControlValues($form, $column);
             $column.data('newcolumn', true);
-            //this.getTotalColumnCount($form, true)
             $form.data('sectiontoupdate', 'tableheader');
             $form.data('addcolumn', { newcolumnid: newId, tdcolspan: 1 });
             this.updateHTML($form, $table, $table.find('#columnHeader tr:first'));
@@ -999,8 +1047,6 @@ class CustomReportLayout {
                 const colspan = parseInt(jQuery($column).attr('colspan')) || 1;
                 const rowIndex = $column.parent().index();
                 $column.remove();
-                //let totalColumnCount = $table.data('totalcolumncount');
-                //this.setTotalColumnCount($table, true);
                 $form.data('sectiontoupdate', 'tableheader');
                 if (typeof linkedColumn != 'undefined') {
                     $form.data('deletefield', { linkedcolumn: linkedColumn, tdcolspan: colspan, rowindex: rowIndex });
@@ -1021,7 +1067,8 @@ class CustomReportLayout {
             $table.find(`tbody td[data-value="{{${valueFieldName}}}"]`).removeClass('hover-cell');
         });
 
-        $form.on('click', '#reportDesigner table thead#columnHeader tr th', e => {
+        //$form.on('click', '#reportDesigner table thead#columnHeader tr th', e => {
+        $form.on('click', '#reportDesigner table tr th, #reportDesigner table tr[data-row="sub-detail"] td', e => {
             e.stopPropagation();
             const tableName = jQuery(e.currentTarget).parents('.table-wrapper').attr('data-tablename');
             FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
