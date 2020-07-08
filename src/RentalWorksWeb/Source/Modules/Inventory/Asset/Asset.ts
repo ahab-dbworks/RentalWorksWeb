@@ -302,15 +302,19 @@ class RwAsset {
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         const availFor = FwFormField.getValueByDataField($form, 'AvailFor');
+        const $iCodeField = FwFormField.getDataField($form, 'InventoryId');
         switch (availFor) {
             case 'S':
                 $form.find('[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
+                $iCodeField.attr('data-peekForm', 'SalesInventory');
                 break;
             case 'P':
                 $form.find('[data-datafield="InventoryId"]').attr('data-validationname', 'PartsInventoryValidation');
+                $iCodeField.attr('data-peekForm', 'PartsInventory');
                 break;
             case 'R':
-            default:
+                $form.find('[data-datafield="InventoryId"]').attr('data-validationname', 'RentalInventoryValidation');
+                $iCodeField.attr('data-peekForm', 'RentalInventory');
                 break;
         }
 
