@@ -5,6 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 using WebApi;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -132,7 +133,20 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
             if (!string.IsNullOrEmpty(inventoryId))
             {
-                select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.masterid = @masterid)");
+                //select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.masterid = @masterid)");
+
+                //justin hoffman 07/08/2020 #2690
+                string classification = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", inventoryId, "class").Result;
+                if (classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+                {
+                    select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.parentid = @masterid)");
+                }
+                else
+                {
+                    select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.masterid = @masterid)");
+                }
+
+
                 select.AddParameter("@masterid", inventoryId);
             }
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using WebApi.Data;
 using WebApi;
 using System.Text;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -339,7 +340,19 @@ namespace WebApi.Modules.Agent.Order
             string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
             if (!string.IsNullOrEmpty(inventoryId))
             {
-                select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.masterid = @masterid)");
+                //select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.masterid = @masterid)");
+
+                //justin hoffman 07/08/2020 #2690
+                string classification = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", inventoryId, "class").Result;
+                if (classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+                {
+                    select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.parentid = @masterid)");
+                }
+                else
+                {
+                    select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.masterid = @masterid)");
+                }
+
                 select.AddParameter("@masterid", inventoryId);
             }
 

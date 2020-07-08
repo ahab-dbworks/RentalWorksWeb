@@ -5,6 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using System.Collections.Generic;
 using WebApi.Data;
 using WebApi;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Billing.Invoice
 {
@@ -200,7 +201,20 @@ namespace WebApi.Modules.Billing.Invoice
             string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
             if (!string.IsNullOrEmpty(inventoryId))
             {
-                select.AddWhere("exists (select * from invoiceitem ii where ii.invoiceid = " + TableAlias + ".invoiceid and ii.masterid = @masterid)");
+                //select.AddWhere("exists (select * from invoiceitem ii where ii.invoiceid = " + TableAlias + ".invoiceid and ii.masterid = @masterid)");
+
+                //justin hoffman 07/08/2020 #2690
+                string classification = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", inventoryId, "class").Result;
+                if (classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+                {
+                    select.AddWhere("exists (select * from invoiceitemview ii where ii.invoiceid = " + TableAlias + ".invoiceid and ii.parentid = @masterid)");
+                }
+                else
+                {
+                    select.AddWhere("exists (select * from invoiceitem ii where ii.invoiceid = " + TableAlias + ".invoiceid and ii.masterid = @masterid)");
+                }
+
+
                 select.AddParameter("@masterid", inventoryId);
             }
 

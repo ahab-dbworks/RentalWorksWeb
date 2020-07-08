@@ -3,6 +3,8 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Inventory.ContractHistory
 {
     [FwSqlTable("inventorycontracthistoryview")]
@@ -229,7 +231,25 @@ namespace WebApi.Modules.Inventory.ContractHistory
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            addFilterToSelect("InventoryId", "masterid", select, request); 
+            //addFilterToSelect("InventoryId", "masterid", select, request); 
+
+            //justin hoffman 07/08/2020 #2690
+            string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
+            if (!string.IsNullOrEmpty(inventoryId))
+            {
+                string classification = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", inventoryId, "class").Result;
+                if (classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+                {
+                    select.AddWhere("parentid = @masterid");
+                }
+                else
+                {
+                    select.AddWhere("masterid = @masterid");
+                }
+
+                select.AddParameter("@masterid", inventoryId);
+            }
+
             addFilterToSelect("ItemId", "rentalitemid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
