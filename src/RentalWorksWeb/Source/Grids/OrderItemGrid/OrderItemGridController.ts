@@ -1477,11 +1477,11 @@ class OrderItemGrid {
                 subWorksheetData.RecType = 'RS'
             }
             const $form = jQuery(event.currentTarget).closest('.fwform');
-
+            const office = JSON.parse(sessionStorage.getItem('location'));
             subWorksheetData.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
             subWorksheetData.RateType = FwFormField.getValueByDataField($form, 'RateType');
-            subWorksheetData.CurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
-            subWorksheetData.CurrencyCode = FwFormField.getTextByDataField($form, 'CurrencyId');
+            subWorksheetData.CurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId') || office.defaultcurrencyid;;
+            subWorksheetData.CurrencyCode = FwFormField.getTextByDataField($form, 'CurrencyId') || office.defaultcurrencycode;
             subWorksheetData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
             subWorksheetData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
             subWorksheetData.EstimatedStartDate = FwFormField.getValue($form, 'div[data-dateactivitytype="START"]');

@@ -116,6 +116,9 @@ class SubWorksheet {
         });
 
         $form.on('change', '.subworksheet', e => {
+            if (jQuery(e.currentTarget).attr('data-datafield') === 'RateId') {
+                this.hideFieldsColumns($form);
+            }
             const worksheetOpened = $form.data('worksheet-opened-flag');
             if (worksheetOpened) {
                 this.updatePOWorksheetSession($form, parentmoduleinfo);
@@ -514,7 +517,10 @@ class SubWorksheet {
     }
     //----------------------------------------------------------------------------------------------
     hideFieldsColumns($form: any): void {
-        let hiddenSubPOFields: Array<string> = [];
+        const listSubPOFields: any = ["VendorDaysPerWeek", "VendorWeeklyExtended", "VendorMonthlyExtended", 
+                                              "DealDaysPerWeek", "DealWeeklyExtended", "DealMonthlyExtended"];
+        let hiddenSubPOFields: any = [];
+        let visibleSubPOFields: any = [];
         const orderRateType = FwFormField.getValueByDataField($form, 'OrderRateType');
         const vendorRateType = FwFormField.getValueByDataField($form, 'RateId');
         const daysPerWeekAdjustment = $form.find('div[data-datafield="DaysPerWeek"]');
@@ -526,11 +532,13 @@ class SubWorksheet {
                         hiddenSubPOFields = ["VendorMonthlyExtended", "DealMonthlyExtended"];
                     }
                     if (vendorRateType === 'WEEKLY') {
+                        daysPerWeekAdjustment.hide();
                         hiddenSubPOFields = ["VendorDaysPerWeek", "VendorMonthlyExtended", "DealMonthlyExtended"];
                     }
                     if (vendorRateType === 'MONTHLY') {
                         $form.find('div[data-datafield="GridView"] .monthlyType').show();
                         $form.find('div[data-datafield="GridView"] .weeklyType').hide();
+                        daysPerWeekAdjustment.hide();
                         hiddenSubPOFields = ["VendorDaysPerWeek", "VendorWeeklyExtended", "DealMonthlyExtended"];
                     }
                     break;
@@ -540,11 +548,13 @@ class SubWorksheet {
                         hiddenSubPOFields = ["VendorMonthlyExtended", "DealDaysPerWeek", "DealMonthlyExtended"];
                     }
                     if (vendorRateType === 'WEEKLY') {
+                        daysPerWeekAdjustment.hide();
                         hiddenSubPOFields = ["VendorDaysPerWeek", "VendorMonthlyExtended", "DealDaysPerWeek", "DealMonthlyExtended"];
                     }
                     if (vendorRateType === 'MONTHLY') {
                         $form.find('div[data-datafield="GridView"] .monthlyType').show();
                         $form.find('div[data-datafield="GridView"] .weeklyType').hide();
+                        daysPerWeekAdjustment.hide();
                         hiddenSubPOFields = ["VendorDaysPerWeek", "VendorWeeklyExtended", "DealDaysPerWeek", "DealMonthlyExtended"];
                     }
                     break;
@@ -554,11 +564,13 @@ class SubWorksheet {
                         hiddenSubPOFields = ["VendorMonthlyExtended", "DealDaysPerWeek", "DealWeeklyExtended"];
                     }
                     if (vendorRateType === 'WEEKLY') {
+                        daysPerWeekAdjustment.hide();
                         hiddenSubPOFields = ["VendorDaysPerWeek", "VendorMonthlyExtended", "DealDaysPerWeek", "DealWeeklyExtended"];
                     }
                     if (vendorRateType === 'MONTHLY') {
                         $form.find('div[data-datafield="GridView"] .monthlyType').show();
                         $form.find('div[data-datafield="GridView"] .weeklyType').hide();
+                        daysPerWeekAdjustment.hide();
                         hiddenSubPOFields = ["VendorDaysPerWeek", "VendorWeeklyExtended", "DealDaysPerWeek", "DealWeeklyExtended"];
                     }
                     break;
@@ -571,6 +583,12 @@ class SubWorksheet {
         const subPurchaseOrderItemGrid = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
         for (let i = 0; i < hiddenSubPOFields.length; i++) {
             jQuery(subPurchaseOrderItemGrid.find(`[data-mappedfield="${hiddenSubPOFields[i]}"]`)).parent().hide();
+        }
+
+        //show hidden fields 
+        visibleSubPOFields = listSubPOFields.filter(val => !hiddenSubPOFields.includes(val));
+        for (let i = 0; i < visibleSubPOFields.length; i++) {
+            jQuery(subPurchaseOrderItemGrid.find(`[data-mappedfield="${visibleSubPOFields[i]}"]`)).parent().show();
         }
 
         FwFormField.setValueByDataField($form, 'GridView', 'P');
