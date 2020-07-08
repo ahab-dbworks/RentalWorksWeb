@@ -2379,12 +2379,15 @@ class OrderBase {
         $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
             const dealId = FwFormField.getValueByDataField($form, 'DealId');
             const type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            const currencyId = FwBrowse.getValueByDataField(null, $tr, 'CurrencyId') || office.defaultcurrencyid;
+            const currencyCode = FwBrowse.getValueByDataField(null, $tr, 'CurrencyCode') || office.defaultcurrencycode;
             FwFormField.setValueByDataField($form, 'RateType', type);
             $form.find('div[data-datafield="RateType"] input.fwformfield-text').val(type);
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="CurrencyCode"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', currencyId, currencyCode);
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
 
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, response => {

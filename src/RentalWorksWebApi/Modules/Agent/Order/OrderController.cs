@@ -474,7 +474,27 @@ namespace WebApi.Modules.Agent.Order
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------        
+        //------------------------------------------------------------------------------------   
+        // PUT api/v1/order/updatepoworksheetsession/A0000001
+        [HttpPut("updatepoworksheetsession/{sessionId}")]
+        [FwControllerMethod(Id: "XgD3UaOxkI46", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<UpdatePoWorksheetSessionResponse>> UpdatePoWorksheetSession([FromRoute] string sessionId, [FromBody]UpdatePoWorksheetSessionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                UpdatePoWorksheetSessionResponse response = await OrderFunc.UpdatePoWorksheetSession(AppConfig, UserSession, sessionId, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
         // GET api/v1/order/poworksheetsessiontotals
         [HttpGet("poworksheetsessiontotals/{sessionId}")]
         [FwControllerMethod(Id: "prgSOVMTbnMEw", ActionType: FwControllerActionTypes.Edit, Caption: "Get PO Worksheet Session Totals")]
@@ -515,7 +535,6 @@ namespace WebApi.Modules.Agent.Order
             }
         }
         //------------------------------------------------------------------------------------        
-
         // POST api/v1/order/completepoworksheetsession
         [HttpPost("completepoworksheetsession")]
         [FwControllerMethod(Id: "D2UdqmBoUarE", ActionType: FwControllerActionTypes.Edit, Caption: "Complete PO Worksheet Session")]

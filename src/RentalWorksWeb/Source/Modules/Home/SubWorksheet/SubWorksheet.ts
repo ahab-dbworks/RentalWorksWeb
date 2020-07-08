@@ -118,7 +118,7 @@ class SubWorksheet {
         $form.on('change', '.subworksheet', e => {
             const worksheetOpened = $form.data('worksheet-opened-flag');
             if (worksheetOpened) {
-                //this.updatePOWorksheetSession($form);
+                this.updatePOWorksheetSession($form, parentmoduleinfo);
             }
         })
 
@@ -576,14 +576,30 @@ class SubWorksheet {
         FwFormField.setValueByDataField($form, 'GridView', 'P');
     };
     //----------------------------------------------------------------------------------------------
-    updatePOWorksheetSession($form: JQuery) {
-        const request = [
-            //SessionId: this.SessionId
-        ];
-        FwAppData.apiMethod(true, 'POST', "api/v1/order/updatepoworksheetsession", request, FwServices.defaultTimeout, response => {
-            //refresh grid and totals
-            FwBrowse.search($form.find('[data-name="SubPurchaseOrderItemGrid"]'));
-        }, ex => FwFunc.showError(ex), $form);
+    updatePOWorksheetSession($form: JQuery, parentmoduleinfo: any) {
+        const request = {
+            RecType: parentmoduleinfo.RecType,
+            VendorId: FwFormField.getValueByDataField($form, 'VendorId'),
+            ContactId: FwFormField.getValueByDataField($form, 'ContactId'),
+            RateType: FwFormField.getValueByDataField($form, 'RateId'),
+            CurrencyId: FwFormField.getValueByDataField($form, 'CurrencyId'),
+            BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId'),
+            RequiredDate: FwFormField.getValueByDataField($form, 'RequiredDate') || undefined,
+            RequiredTime: FwFormField.getValueByDataField($form, 'RequiredTime'),
+            FromDate: FwFormField.getValueByDataField($form, 'FromDate'),
+            ToDate: FwFormField.getValueByDataField($form, 'ToDate') || undefined,
+            DeliveryId: '',
+            AdjustContractDates: true,
+        };
+
+        FwAppData.apiMethod(true, 'PUT', `api/v1/order/updatepoworksheetsession/${this.SessionId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            if (response.success) {
+                //refresh grid and totals
+                FwBrowse.search($form.find('[data-name="SubPurchaseOrderItemGrid"]'));
+            }
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, $form);
     }
     //----------------------------------------------------------------------------------------------
 }

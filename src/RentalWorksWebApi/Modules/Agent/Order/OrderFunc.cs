@@ -84,6 +84,24 @@ namespace WebApi.Modules.Agent.Order
         public bool? AdjustContractDates;
     }
 
+    public class UpdatePoWorksheetSessionRequest
+    {
+        public string RecType;
+        public string VendorId;
+        public string ContactId;
+        public string RateType;
+        public string CurrencyId;
+        public string BillingCycleId;
+        public DateTime? RequiredDate;
+        public string RequiredTime;
+        public DateTime? FromDate;
+        public DateTime? ToDate;
+        public string DeliveryId;
+        public bool? AdjustContractDates;
+    }
+    public class UpdatePoWorksheetSessionResponse : TSpStatusResponse
+    {
+    }
 
     public class CompletePoWorksheetSessionRequest
     {
@@ -438,6 +456,41 @@ namespace WebApi.Modules.Agent.Order
                 response.ContactId = qry.GetParameter("@contactid").ToString();
                 response.Contact = qry.GetParameter("@contact").ToString();
                 response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<UpdatePoWorksheetSessionResponse> UpdatePoWorksheetSession(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, UpdatePoWorksheetSessionRequest request)
+        {
+            UpdatePoWorksheetSessionResponse response = new UpdatePoWorksheetSessionResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "updatepoworksheetsession", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
+                qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
+                qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, request.VendorId);
+                qry.AddParameter("@contactid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContactId);
+                qry.AddParameter("@ratetype", SqlDbType.NVarChar, ParameterDirection.Input, request.RateType);
+                qry.AddParameter("@currencyid", SqlDbType.NVarChar, ParameterDirection.Input, request.CurrencyId);
+                qry.AddParameter("@billperiodid", SqlDbType.NVarChar, ParameterDirection.Input, request.BillingCycleId);
+                if (request.RequiredDate != null)
+                {
+                    qry.AddParameter("@requireddate", SqlDbType.Date, ParameterDirection.Input, request.RequiredDate);
+                }
+                qry.AddParameter("@requiredtime", SqlDbType.NVarChar, ParameterDirection.Input, request.RequiredTime);
+                qry.AddParameter("@rentfromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
+                if (request.ToDate != null)
+                {
+                    qry.AddParameter("@renttodate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
+                }
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@deliveryid", SqlDbType.NVarChar, ParameterDirection.Input, request.DeliveryId);
+                qry.AddParameter("@adjustcontractdate", SqlDbType.NVarChar, ParameterDirection.Input, (request.AdjustContractDates.GetValueOrDefault(false) ? "T" : "F"));
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
