@@ -9,6 +9,7 @@ using WebApi.Controllers;
 using WebApi.Modules.Inventory.Asset;
 using WebApi.Modules.Inventory.Inventory;
 using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Inventory.SalesInventory;
 
 namespace WebApi.Modules.Utilities.ChangeICodeUtility
 {
@@ -40,12 +41,20 @@ namespace WebApi.Modules.Utilities.ChangeICodeUtility
             }
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/changeicodeutility/validateinventory/browse
-        [HttpPost("validateinventory/browse")]
+        // POST api/v1/changeicodeutility/validaterentalinventory/browse
+        [HttpPost("validaterentalinventory/browse")]
         [FwControllerMethod(Id: "GoupJ6UG6EwGu", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateRentalInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/changeicodeutility/validatesalesinventory/browse
+        [HttpPost("validatesalesinventory/browse")]
+        [FwControllerMethod(Id: "OYCIWemAFiYI", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSalesInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SalesInventoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/changeicodeutility/validateitem/browse 
