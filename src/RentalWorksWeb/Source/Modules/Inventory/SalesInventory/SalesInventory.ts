@@ -756,16 +756,7 @@ class SalesInventory extends InventoryBase {
         const $salesInventoryWarehousePricingGrid = $form.find('[data-name="SalesInventoryWarehousePricingGrid"]');
         FwBrowse.search($salesInventoryWarehousePricingGrid);
 
-        this.afterLoadSetClassification($form);
-
-        const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
         let trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
-        if (classificationValue === 'I' || classificationValue === 'A') {
-            if (trackedBy !== 'QUANTITY') {
-                $form.find('.tab.asset').show();
-            }
-        }
-
         let textToReplace: string = 'TRACKEDBYTYPE';
         $form.find('[data-datafield="TrackedBy"]').on('change', e => {
             let newTrackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');

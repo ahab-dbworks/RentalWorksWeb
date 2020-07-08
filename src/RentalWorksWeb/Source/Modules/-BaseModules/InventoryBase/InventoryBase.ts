@@ -117,7 +117,7 @@ abstract class InventoryBase {
             switch (this.Module) {
                 case 'RentalInventory':
                     inventoryType = user.rentalinventorydepartment;
-                    inventoryTypeId = user.rentalinventorydepartmentid ;
+                    inventoryTypeId = user.rentalinventorydepartmentid;
                     break;
                 case 'SalesInventory':
                     inventoryType = user.salesinventorydepartment;
@@ -592,20 +592,6 @@ abstract class InventoryBase {
                 FwFormField.disable($form.find('div[data-datafield="SubCategoryId"]'));
             }
         })
-        // Hides or shows Asset tab for particular settings on the form
-        $form.find('.class-tracked-radio input').on('change', () => {
-            const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
-            const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
-            if (classificationValue === 'I' || classificationValue === 'A') {
-                if (trackedByValue !== 'QUANTITY') {
-                    $form.find('.asset-submodule').show();
-                } else {
-                    $form.find('.asset-submodule').hide();
-                }
-            } else {
-                $form.find('.asset-submodule').hide();
-            }
-        });
 
         //Accessory Revenue Allocation checkboxes and radio events
         $form.find(`[data-datafield="OverrideSystemDefaultRevenueAllocationBehavior"] .fwformfield-value`).on('change', e => {
@@ -1010,14 +996,17 @@ abstract class InventoryBase {
                 case 'I':
                     FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
                     $form.find('.tracked-by-column').show();
+                    $form.find('.ckcstab').show(); // Consignment, Prep, Purchase History, Retired History, Repair Orders, Profit / Loss, G / L Accounts tabs
                     break;
                 case 'A':
                     FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
                     $form.find('.tracked-by-column').show();
+                    $form.find('.ckcstab').show();
                     break;
                 case 'C':
                     $form.find('.completetab').show();
                     $form.find('.completeskitstab').hide();
+                    $form.find('.ckcstab').hide();
                     FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
                     $form.find('.tracked-by-column').hide();
                     $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
@@ -1026,11 +1015,13 @@ abstract class InventoryBase {
                     $form.find('.kittab').show();
                     FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
                     $form.find('.tracked-by-column').hide();
+                    $form.find('.ckcstab').hide();
                     $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
                     break;
                 case 'N':
                     $form.find('.containertab').show();
                     $form.find('.completeskitstab').hide();
+                    $form.find('.ckcstab').hide();
                     FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
                     $form.find('.tracked-by-column').hide();
                     $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
@@ -1039,6 +1030,7 @@ abstract class InventoryBase {
                     $form.find('.settab').show();
                     $form.find('.wallsection').hide();
                     $form.find('.optionssection').hide();
+                    $form.find('.ckcstab').hide();
                     $form.find('.manufacturersection').hide();
                     $form.find('.completeskitstab').hide();
                     FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
@@ -1047,6 +1039,7 @@ abstract class InventoryBase {
                     break;
                 case 'W':
                     $form.find('.wallsection').show();
+                    $form.find('.ckcstab').show();
                     $form.find('.optionssection').hide();
                     $form.find('.manufacturersection').hide();
                     $form.find('.settab').hide();
@@ -1059,13 +1052,17 @@ abstract class InventoryBase {
                     FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');
                     FwFormField.disable($form.find('div[data-datafield="TrackedBy"]'));
                     $form.find('.tracked-by-column').show();
+                    $form.find('.ckcstab').show();
                     break;
             }
         })
     }
     //----------------------------------------------------------------------------------------------
     afterLoadSetClassification($form: any) {
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'I' || FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'A') {
+        const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
+        const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
+
+        if (classificationValue === 'I' || classificationValue === 'A') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
             $form.find('.completeradio').hide();
             $form.find('.kitradio').hide();
@@ -1073,11 +1070,20 @@ abstract class InventoryBase {
             $form.find('.miscradio').hide();
             $form.find('.setradio').hide();
             $form.find('.wallradio').hide();
+
+            if (this.Module !== 'PartsInventory') {
+                if (trackedByValue !== 'QUANTITY') {
+                    $form.find('.tab.asset').show();
+                } else {
+                    $form.find('.tab.asset').hide();
+                }
+            }
         }
 
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
+        if (classificationValue === 'N') {
             $form.find('.containertab').show();
             $form.find('.completeskitstab').hide();
+            $form.find('.ckcstab').hide(); // Consignment, Prep, Purchase History, Retired History, Repair Orders, Profit / Loss, G / L Accounts tabs
             $form.find('.kitradio').hide();
             $form.find('.completeradio').hide();
             $form.find('.itemradio').hide();
@@ -1089,9 +1095,10 @@ abstract class InventoryBase {
             $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
         }
 
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'C') {
+        if (classificationValue === 'C') {
             $form.find('.completetab').show();
             $form.find('.completeskitstab').hide();
+            $form.find('.ckcstab').hide()
             $form.find('.itemradio').hide();
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
@@ -1104,9 +1111,10 @@ abstract class InventoryBase {
             $form.find('.warehouse-pricing').hide();
         }
 
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'K') {
+        if (classificationValue === 'K') {
             $form.find('.kittab').show();
             $form.find('.itemradio').hide();
+            $form.find('.ckcstab').hide()
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
             $form.find('.miscradio').hide();
@@ -1118,7 +1126,7 @@ abstract class InventoryBase {
             $form.find('.warehouse-pricing').hide();
         }
 
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'M') {
+        if (classificationValue === 'M') {
             $form.find('.completeradio').hide();
             $form.find('.kitradio').hide();
             $form.find('.itemradio').hide();
@@ -1130,7 +1138,19 @@ abstract class InventoryBase {
             FwFormField.disable($form.find('div[data-datafield="TrackedBy"]'));
         }
 
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'S') {
+        if (classificationValue === 'S') {
+            $form.find('.completeradio').hide();
+            $form.find('.kitradio').hide();
+            $form.find('.ckcstab').hide();
+            $form.find('.itemradio').hide();
+            $form.find('.accessoryradio').hide();
+            $form.find('.miscradio').hide();
+            $form.find('.containerradio').hide();
+            $form.find('.tracked-by-column').hide();
+            $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
+        }
+
+        if (classificationValue === 'W') {
             $form.find('.completeradio').hide();
             $form.find('.kitradio').hide();
             $form.find('.itemradio').hide();
@@ -1140,19 +1160,6 @@ abstract class InventoryBase {
             $form.find('.tracked-by-column').hide();
             $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
         }
-
-
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'W') {
-            $form.find('.completeradio').hide();
-            $form.find('.kitradio').hide();
-            $form.find('.itemradio').hide();
-            $form.find('.accessoryradio').hide();
-            $form.find('.miscradio').hide();
-            $form.find('.containerradio').hide();
-            $form.find('.tracked-by-column').hide();
-            $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-        }
-
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -1312,6 +1319,8 @@ abstract class InventoryBase {
             FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseCompletePricingGrid"]'));
             FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseKitPricingGrid"]'));
         };
+
+        this.afterLoadSetClassification($form);
     }
     //----------------------------------------------------------------------------------------------
     //calculateYearly() {

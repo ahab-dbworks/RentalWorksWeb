@@ -11,17 +11,6 @@ class PartsInventory extends InventoryBase {
     renderGrids($form: any) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         // ----------
-        //const $inventoryLocationTaxGrid: any = $form.find('div[data-grid="InventoryLocationTaxGrid"]');
-        //const $inventoryLocationTaxGridControl: any = FwBrowse.loadGridFromTemplate('InventoryLocationTaxGrid');
-        //$inventoryLocationTaxGrid.empty().append($inventoryLocationTaxGridControl);
-        //$inventoryLocationTaxGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //FwBrowse.init($inventoryLocationTaxGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryLocationTaxGridControl);
-
 
         //Inventory Location Tax grid
         FwBrowse.renderGrid({
@@ -593,8 +582,6 @@ class PartsInventory extends InventoryBase {
         const $partsInventoryWarehousePricingGrid = $form.find('[data-name="PartsInventoryWarehousePricingGrid"]');
         FwBrowse.search($partsInventoryWarehousePricingGrid);
 
-        this.afterLoadSetClassification($form);
-
         const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
         FwAppDocumentGrid.renderGrid({
             $form: $form,
@@ -622,7 +609,7 @@ class PartsInventory extends InventoryBase {
                     Parts: true,
                     HasCategories: true,
                 };
-                    
+
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
             case 'CategoryId':
