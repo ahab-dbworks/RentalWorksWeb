@@ -363,19 +363,26 @@ class CustomReportLayout {
                             this.addRowColumnSorting($form, $table, tableName, $row, 'columnheader');
                         }
 
-                        const $subHeaderRows = $table.find('tr[data-row="sub-header"]');
-                        const $subDetailRows = $table.find('tr[data-row="sub-detail"]');
-                        if ($subHeaderRows.length) {
-                            for (let i = 0; i < $subHeaderRows.length; i++) {
-                                const $row = $subHeaderRows[i];
-                                this.addRowColumnSorting($form, $table, tableName, $row, 'subheader');
-                            }
-                        } else {  //make sub-detail w/o linked sub-headers sortable
-                            for (let i = 0; i < $subDetailRows.length; i++) {
-                                const $row = $subDetailRows[i];
-                                this.addRowColumnSorting($form, $table, tableName, $row, 'subdetail');
-                            }
+                        //const $subHeaderRows = $table.find('tr[data-row="sub-header"]');
+                        //const $subDetailRows = $table.find('tr[data-row="sub-detail"]');
+                        //if ($subHeaderRows.length) {
+                        //    for (let i = 0; i < $subHeaderRows.length; i++) {
+                        //        const $row = $subHeaderRows[i];
+                        //        this.addRowColumnSorting($form, $table, tableName, $row, 'subheader');
+                        //    }
+                        //} else {  //make sub-detail w/o linked sub-headers sortable
+                        //    for (let i = 0; i < $subDetailRows.length; i++) {
+                        //        const $row = $subDetailRows[i];
+                        //        this.addRowColumnSorting($form, $table, tableName, $row, 'subdetail');
+                        //    }
+                        //}
+
+                        const $sortableRows = $table.find('tr[data-sort="true"]');
+                        for (let i = 0; i < $sortableRows.length; i++) {
+                            const $row = $sortableRows[i];
+                                this.addRowColumnSorting($form, $table, tableName, $row, jQuery($row).attr('data-row') + `-${i}`);
                         }
+
                         break;
                     case 'footer':
                         break;
@@ -411,7 +418,8 @@ class CustomReportLayout {
                     oldIndex: e.oldIndex,
                     newIndex: e.newIndex,
                     fromRowIndex: e.from.rowIndex,
-                    toRowIndex: $column.parent().index()
+                    toRowIndex: $column.parent().index(),
+                    rowType: $tr.attr('data-row')
                 });
                 $form.data('sectiontoupdate', 'tableheader');
                 this.updateHTML($form, $table, $tr, $column);
@@ -444,7 +452,6 @@ class CustomReportLayout {
             } else {
                 const tableName = $table.attr('data-tablename') || '';
                 let tableNameSelector = tableName == '' ? '' : `table[data-tablename="${tableName}"]`;
-                const totalColumnCount = this.getTotalColumnCount($table, true);
                 switch (sectionToUpdate) {
                     case 'tableheader':
                         const rowSelector = `${tableNameSelector} tbody tr`;
@@ -453,12 +460,14 @@ class CustomReportLayout {
                         if (typeof $form.data('columnsmoved') != 'undefined' && typeof $th != 'undefined') {
                             valuefield = $th.attr('data-valuefield');
                             const linkedColumn = $th.attr('data-linkedcolumn');
-                            if (typeof valuefield != 'undefined') {
-                                const sortIndex = $form.data('columnsmoved');
-                                const oldIndex = sortIndex.oldIndex;
-                                const newIndex = sortIndex.newIndex;
-                                const oldRowIndex = sortIndex.fromRowIndex;
-                                const newRowIndex = sortIndex.toRowIndex;
+                            //if (typeof valuefield != 'undefined') {
+                            const sortIndex = $form.data('columnsmoved');
+                            const oldIndex = sortIndex.oldIndex;
+                            const newIndex = sortIndex.newIndex;
+                            const oldRowIndex = sortIndex.fromRowIndex;
+                            const newRowIndex = sortIndex.toRowIndex;
+                            const columnMovedRowType = sortIndex.rowType;
+                            if (columnMovedRowType === 'main-header') {
                                 let $detailRowTds;
                                 let rowIndex;
                                 let footerRowIndex = 0;
@@ -720,7 +729,33 @@ class CustomReportLayout {
                                         }
                                     }
                                 }
+                            } else if (columnMovedRowType === 'sub-header') {
+                                //in designer
+                                const $linkedSubDetailColumn = $table.find(`[data-row="sub-detail"] td[data-linkedcolumn="${linkedColumn}"]`);
+                                const $subDetailRow = $linkedSubDetailColumn.parent('tr');
+                                const $subDetailTds = $subDetailRow.find('td');
+
+                                //in cache
+                                const $cachedSubDetailColumn = $wrapper.find(`${tableNameSelector} tbody tr[data-row="sub-detail"] td[data-linkedcolumn="${linkedColumn}"]`);
+                                const $cachedSubDetailRow = $cachedSubDetailColumn.parent('tr');
+                                const $cachedSubDetailTds = $cachedSubDetailRow.find('td');
+
+                                if (oldIndex > newIndex) { //moving left
+                                    $linkedSubDetailColumn.insertBefore($subDetailTds[newIndex]);
+                                    $cachedSubDetailColumn.insertBefore($cachedSubDetailTds[newIndex]).after('\n');
+                                } else { //moving right
+                                    $linkedSubDetailColumn.insertAfter($subDetailTds[newIndex]);
+                                    $cachedSubDetailColumn.insertAfter($cachedSubDetailTds[newIndex]).after('\n');
+                                }
+                              
+                                newHTML = $table.find('tr[data-row="sub-header"]').get(0).innerHTML.trim();
+                                jQuery($wrapper.find(`${tableNameSelector} tr[data-row="sub-header"]`)).html(newHTML);                     //replace old sub-headers
+                            } else if (columnMovedRowType === 'sub-detail') {
+                                //
+                                newHTML = $table.find('tr[data-row="sub-detail"]').get(0).innerHTML.trim();
+                                jQuery($wrapper.find(`${tableNameSelector} tr[data-row="sub-detail"]`)).html(newHTML);                     //replace old sub-details
                             }
+                            //}
                             $form.removeData('columnsmoved');
                         }
 
@@ -763,7 +798,7 @@ class CustomReportLayout {
                                 } else if (rowType == 'sub-header') {
                                     //don't add new column
                                 } else if (rowType == 'sub-detail') {
-                                     //don't add new column
+                                    //don't add new column
                                 } else if (rowType == 'header') {
                                     const $designerTableRow = jQuery($table.find(`tbody tr`)[i]);
                                     this.matchColumnCount($form, $table, $row, $designerTableRow);
@@ -1184,7 +1219,7 @@ class CustomReportLayout {
         FwFormField.loadItems($form.find('[data-datafield="AddColumn"]'), columnTypes);
     }
     //----------------------------------------------------------------------------------------------
-     getTotalColumnCount($table: JQuery, isTableHeader: boolean, $row?: JQuery) {
+    getTotalColumnCount($table: JQuery, isTableHeader: boolean, $row?: JQuery) {
         let count = 0;
         let $columns;
         if (isTableHeader) {
