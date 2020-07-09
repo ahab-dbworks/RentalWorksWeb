@@ -337,7 +337,7 @@
     }
     //---------------------------------------------------------------------------------
     static getBase64Sound(tag: string, userSettingsObject?: any): Promise<any> {
-        // gets base64sound for input tag and loads blob into app and assigns resulting url to SS for streaming elsewhere (ex. FwFunc.playErrorSound())
+        // gets base64sound for input tag and loads blob into app and assigns resulting url to DOM for streaming elsewhere (ex. FwFunc.playErrorSound())
         return new Promise<any>(async (resolve, reject) => {
             try {
                 if (userSettingsObject) {
