@@ -380,7 +380,7 @@ class CustomReportLayout {
                         const $sortableRows = $table.find('tr[data-sort="true"]');
                         for (let i = 0; i < $sortableRows.length; i++) {
                             const $row = $sortableRows[i];
-                                this.addRowColumnSorting($form, $table, tableName, $row, jQuery($row).attr('data-row') + `-${i}`);
+                            this.addRowColumnSorting($form, $table, tableName, $row, jQuery($row).attr('data-row') + `-${i}`);
                         }
 
                         break;
@@ -743,11 +743,11 @@ class CustomReportLayout {
                                 if (oldIndex > newIndex) { //moving left
                                     $linkedSubDetailColumn.insertBefore($subDetailTds[newIndex]);
                                     $cachedSubDetailColumn.insertBefore($cachedSubDetailTds[newIndex]).after('\n');
-                                } else { //moving right
+                                } else if (oldIndex < newIndex) { //moving right
                                     $linkedSubDetailColumn.insertAfter($subDetailTds[newIndex]);
                                     $cachedSubDetailColumn.insertAfter($cachedSubDetailTds[newIndex]).after('\n');
                                 }
-                              
+
                                 newHTML = $table.find('tr[data-row="sub-header"]').get(0).innerHTML.trim();
                                 jQuery($wrapper.find(`${tableNameSelector} tr[data-row="sub-header"]`)).html(newHTML);                     //replace old sub-headers
                             } else if (columnMovedRowType === 'sub-detail') {
@@ -762,6 +762,8 @@ class CustomReportLayout {
                         //change value field
                         if (typeof $form.data('changevaluefield') != 'undefined') {
                             let detailRowCount = 0;
+                            let subDetailRowCount = 0;
+                            let subHeaderRowCount = 0;
                             for (let i = 0; i < $rows.length; i++) {
                                 const $row = jQuery($rows[i]);
                                 const rowType = $row.attr('data-row');
@@ -775,6 +777,22 @@ class CustomReportLayout {
                                     //if (rowType == 'footer') {
                                     //    footerCount++;
                                     //}
+                                } else if (rowType === 'sub-header') {
+                                    newHTML = $table.find('tr[data-row="sub-header"]').get(subHeaderRowCount).innerHTML.trim();
+                                    jQuery($wrapper.find(`${tableNameSelector} tr[data-row="sub-header"]`)[subHeaderRowCount]).html(newHTML);    
+                                    subHeaderRowCount++;
+                                } else if (rowType === 'sub-detail') {
+                                    const $td = $row.find(`[data-linkedcolumn="${oldNewFields.linkedcolumn}"]`);
+                                    const $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subDetailRowCount]).find(`[data-linkedcolumn="${oldNewFields.linkedcolumn}"]`);
+                                    if ($td.length) {
+                                        $td.attr('data-value', `<!--{{${oldNewFields.newfield}}}-->`);
+                                    }
+                                    if ($designerTd.length) {
+                                        $designerTd.attr('data-value', `{{${oldNewFields.newfield}}}`);
+                                        newHTML = $table.find('tr[data-row="sub-detail"]').get(subDetailRowCount).innerHTML.trim();
+                                        jQuery($wrapper.find(`${tableNameSelector} tr[data-row="sub-detail"]`)[subDetailRowCount]).html(newHTML); 
+                                    }
+                                    subDetailRowCount++;
                                 }
                             }
                             $form.removeData('changevaluefield');
@@ -800,8 +818,8 @@ class CustomReportLayout {
                                 } else if (rowType == 'sub-detail') {
                                     //don't add new column
                                 } else if (rowType == 'header') {
-                                    const $designerTableRow = jQuery($table.find(`tbody tr`)[i]);
-                                    this.matchColumnCount($form, $table, $row, $designerTableRow);
+                                    //const $designerTableRow = jQuery($table.find(`tbody tr`)[i]);
+                                    //this.matchColumnCount($form, $table, $row, $designerTableRow);
                                 } else if (rowType == 'footer') {
                                     jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[footerIndex]).append(`<td class="empty-td" data-linkedcolumn="${linkedColumn}"></td>`); //add to row on designer
                                     $row.append(jQuery(`<td class="empty-td" data-linkedcolumn="${linkedColumn}"></td>`));
@@ -815,6 +833,7 @@ class CustomReportLayout {
                         if (typeof $form.data('deletefield') != 'undefined') {
                             const linkedColumn = $form.data('deletefield').linkedcolumn;
                             const rowIndex = $form.data('deletefield').rowindex;
+                            const deletedFromRowType = $form.data('deletefield').deletedfromrowtype;
                             let index = 0;
                             let detailRowIndex = 0;
                             let footerRowIndex = 0;
@@ -849,8 +868,22 @@ class CustomReportLayout {
                                     $designerTd.remove();
                                     detailRowIndex++;
                                 } else if (rowType === 'sub-header') {
+                                    if (deletedFromRowType === 'sub-header') {
+                                        //update cached sub-header html
+                                        newHTML = $table.find('tr[data-row="sub-header"]').get(subHeaderRowIndex).innerHTML.trim();
+                                        jQuery($wrapper.find(`${tableNameSelector} tr[data-row="sub-header"]`)[subHeaderRowIndex]).html(newHTML);
+                                    }
                                     subHeaderRowIndex++;
                                 } else if (rowType === 'sub-detail') {
+                                    if (deletedFromRowType === 'sub-header' || deletedFromRowType === 'sub-detail') {
+                                        if (deletedFromRowType === 'sub-header') {
+                                            $designerTd.remove();
+                                            $td.remove();
+                                        }
+                                        //update cached sub-detail html
+                                        newHTML = $table.find('tr[data-row="sub-detail"]').get(subDetailRowIndex).innerHTML.trim();
+                                        jQuery($wrapper.find(`${tableNameSelector} tr[data-row="sub-detail"]`)[subDetailRowIndex]).html(newHTML);
+                                    }
                                     subDetailRowIndex++;
                                 } else if (rowType == 'footer') {
                                     if ($designerTd.length) {
@@ -1080,13 +1113,15 @@ class CustomReportLayout {
             if (typeof $column != 'undefined') {
                 const linkedColumn = jQuery($column).attr('data-linkedcolumn');
                 const colspan = parseInt(jQuery($column).attr('colspan')) || 1;
-                const rowIndex = $column.parent().index();
+                const $row = $column.parent('tr');
+                const rowType = $row.attr('data-row');
+                const rowIndex = $row.index();
                 $column.remove();
                 $form.data('sectiontoupdate', 'tableheader');
-                if (typeof linkedColumn != 'undefined') {
-                    $form.data('deletefield', { linkedcolumn: linkedColumn, tdcolspan: colspan, rowindex: rowIndex });
+                if (typeof linkedColumn != 'undefined' || rowType === 'sub-detail') {
+                    $form.data('deletefield', { linkedcolumn: linkedColumn, tdcolspan: colspan, rowindex: rowIndex, deletedfromrowtype: rowType });
                 }
-                this.updateHTML($form, $table, $table.find('#columnHeader tr'));
+                this.updateHTML($form, $table, $row);
                 this.showHideControlProperties($form, 'hide');
             }
         });
