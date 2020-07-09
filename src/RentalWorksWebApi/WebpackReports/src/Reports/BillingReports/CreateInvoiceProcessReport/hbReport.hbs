@@ -15,7 +15,7 @@
 <div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
     <thead id="columnHeader">
-      <tr>
+      <tr data-row="main-header">
         <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice No.</th>
         <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
         <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Order Description</th>
@@ -30,27 +30,21 @@
       {{#each this}}
       {{#ifEquals RowType "OfficeLocationheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="9" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Departmentheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
+        <td colspan="9" class="lower header-row">Department: {{Department}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Dealheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="5" class=" lower header-row">Deal: {{Deal}}</td>
+        <td colspan="9" class=" lower header-row">Deal: {{Deal}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      {{#if IsException}}
       <tr data-row="detail" data-rowtype="{{RowType}}">
-        <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
-        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
-        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
-        <td colspan="5" data-value="{{ExceptionMessage}}"></td>
-        {{else}}
         <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
         <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
         <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
@@ -60,28 +54,37 @@
         <td data-linkedcolumn="InvoiceTotal" class="number" data-value="{{InvoiceTotal}}"></td>
         <td data-linkedcolumn="PriorInvoiceTotal" class="number" data-value="{{PriorInvoiceTotal}}"></td>
       </tr>
+      {{#if IsException}}
+      <tr data-row="sub-detail" data-sort="true" data-rowtype="{{RowType}}">
+        <td></td>
+        <td></td>
+        <td><b>Exception:</b></td>
+        <td colspan="5" data-value="{{ExceptionMessage}}"></td>
+      </tr>
       {{/if}}
       {{/ifEquals}}
       {{#ifEquals RowType "Departmentfooter"}}
-      <tr data-row="footer" data-rowtype="{{RowType}}">
-        <th class="empty"></th>
-        <th class="empty"></th>
-        <th class="empty"></th>
-        <th class="office-footer">Department</th>
-        <th class="office-footer number">Amount</th>
-        <th class="office-footer number">Created</th>
-        <th class="office-footer number">Exceptions</th>
+      <tr data-row="sub-header" data-sort="true" data-rowtype="{{RowType}}">
+        <th data-linkedcolumn="EmptyTd-1" class="empty"></th>
+        <th data-linkedcolumn="EmptyTd-2" class="empty"></th>
+        <th data-linkedcolumn="EmptyTd-3" class="empty"></th>
+        <th data-linkedcolumn="EmptyTd-4" class="empty"></th>
+        <th data-linkedcolumn="Department-Sub" data-valuefield="Department" class="office-footer">Department</th>
+        <th data-linkedcolumn="InvoiceTotal-Sub" data-valuefield="InvoiceTotal" class="office-footer number">Amount</th>
+        <th data-linkedcolumn="InvoiceCount-Sub" data-valuefield="InvoiceCount" class="office-footer number">Created</th>
+        <th data-linkedcolumn="ExceptionCount-Sub" data-valuefield="ExceptionCount" class="office-footer number">Exceptions</th>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Departmentfooter"}}
-      <tr data-row="footer" data-rowtype="{{RowType}}">
-        <td class="empty"></td>
-        <td class="empty"></td>
-        <td class="empty"></td>
-        <td data-value="{{Department}}"></td>
-        <td class="number" data-value="{{InvoiceTotal}}"></td>
-        <td class="number" data-value="{{InvoiceCount}}"></td>
-        <td class="number" data-value="{{ExceptionCount}}"></td>
+      <tr data-row="sub-detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="EmptyTd-1" class="empty"></td>
+        <td data-linkedcolumn="EmptyTd-2" class="empty"></td>
+        <td data-linkedcolumn="EmptyTd-3" class="empty"></td>
+        <td data-linkedcolumn="EmptyTd-4" class="empty"></td>
+        <td data-linkedcolumn="Department-Sub" data-value="{{Department}}"></td>
+        <td data-linkedcolumn="InvoiceTotal-Sub" class="number" data-value="{{InvoiceTotal}}"></td>
+        <td data-linkedcolumn="InvoiceCount-Sub" class="number" data-value="{{InvoiceCount}}"></td>
+        <td data-linkedcolumn="ExceptionCount-Sub" class="number" data-value="{{ExceptionCount}}"></td>
       </tr>
       {{/ifEquals}}
       {{/each}}
