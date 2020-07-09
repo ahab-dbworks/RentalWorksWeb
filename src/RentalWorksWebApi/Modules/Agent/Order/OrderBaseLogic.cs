@@ -1417,10 +1417,10 @@ namespace WebApi.Modules.Agent.Order
                                 isValid = false;
                                 validateMsg = "The " + bc.BillingCycle + " Billing Cycle can only be used when the " + BusinessLogicModuleName + " has no recurring charges.  Switch to a recurring-type Billing Cycle.";
                             }
-                            else if (!hasRecurring && (!bc.BillingCycleType.Equals(RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE)))
+                            else if (!hasRecurring && (!(bc.BillingCycleType.Equals(RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE) || bc.BillingCycleType.Equals(RwConstants.BILLING_CYCLE_TYPE_ONDEMAND))))
                             {
                                 isValid = false;
-                                validateMsg = "The " + bc.BillingCycle + " Billing Cycle can only be used when the " + BusinessLogicModuleName + " has recurring charges.  Switch to an " + RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE + " Billing Cycle.";
+                                validateMsg = "The " + bc.BillingCycle + " Billing Cycle can only be used when the " + BusinessLogicModuleName + " has recurring charges.  Switch to an " + RwConstants.BILLING_CYCLE_TYPE_IMMEDIATE + " or " + RwConstants.BILLING_CYCLE_TYPE_ONDEMAND + " Billing Cycle.";
                             }
 
                         }
