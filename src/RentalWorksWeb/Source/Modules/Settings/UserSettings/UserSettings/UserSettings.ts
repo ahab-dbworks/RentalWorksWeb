@@ -184,19 +184,10 @@
 //        homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
 //        homePage.path = FwFormField.getValueByDataField($form, 'HomeMenuPath');
 
-//        const sounds: any = {};
-//        const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
-//        sounds.successSoundFileName = successSoundFileName;
-//        const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
-//        sounds.errorSoundFileName = errorSoundFileName;
-//        const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
-//        sounds.notificationSoundFileName = notificationSoundFileName;
-
 //        const browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
 //        sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
 //        const applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
 //        sessionStorage.setItem('applicationtheme', applicationTheme);
-//        sessionStorage.setItem('sounds', JSON.stringify(sounds));
 //        sessionStorage.setItem('homePage', JSON.stringify(homePage));
 
 //        setTimeout(function () { location.reload(); }, 1000);
