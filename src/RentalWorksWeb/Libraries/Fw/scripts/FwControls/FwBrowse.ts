@@ -4232,32 +4232,57 @@ class FwBrowseClass {
                             }
                             // ----------
                             // Getting PrimaryKey
-                            FwAppData.apiMethod(true, 'GET', `${(<any>window[controller]).apiurl}/keyfieldnames`, null, FwServices.defaultTimeout, function onSuccess(response) { // could this be async?
-                                if (response.length) {
-                                    if (response.length > 1) {
-                                    }
-                                    // deal with multiple ids
-                                    const id = response[0];
-                                    // progress meter based on excelObject.length
-                                    for (let i = 0; i < excelObject.length; i++) {
-                                        if (excelObject[i].hasOwnProperty(id)) {
-                                            if (excelObject[i].id === '') {
-                                                let here;
-                                                // POST
-                                                // err handling ?
-                                            } else {
-                                                let here;
-                                                // PUT
-                                                // err handling ?
-                                            }
-                                        } else {
-                                            FwNotification.renderNotification('ERROR', `Line number ${i + 1} doesn't have a Primary Key (${id}) and will not be uploaded`); // if prop is blank should i create one with a blank val and POST?
+
+                            const promiseGetPrimaryKey = FwAjax.callWebApi<any, any>({
+                                httpMethod: 'GET',
+                                url: `${(<any>window[controller]).apiurl}/keyfieldnames`,
+                                $elementToBlock: jQuery('#application'),
+                            })
+                                .then((response: any) => {
+                                    if (response.length) {
+                                        let multipleKeys = false;
+
+                                        if (response.length > 1) {
+                                            multipleKeys = true;
                                         }
+                                        // deal with multiple ids
+                                        const id = response[0];
+                                        // progress meter based on excelObject.length
+                                        let proceed = true
+                                        for (let i = 0; i < excelObject.length; i++) { // loop through json data one row at a time and upload to API
+                                            let method: any = 'PUT'
+                                            if (excelObject[i].hasOwnProperty(id)) {
+                                                if (excelObject[i].id === '') {   // if blank POST (new record)
+                                                    method = 'POST'
+                                                } else {
+                                                    // PUT (update existing record)
+                                                }
+                                            } else {
+                                                // key was missing from row - create key with blank val and POST as new record
+                                                excelObject[i][`${id}`] = '';
+                                                method = 'POST'
+                                            }
+                                            // actual API call with err handling to prevent successive calls
+                                            const request = excelObject[i];
+                                            if (proceed) {
+                                                const uploadRecord = FwAjax.callWebApi<any, any>({
+                                                    httpMethod: method,
+                                                    data: request,
+                                                    url: `${(<any>window[controller]).apiurl}/keyfieldnames`,
+                                                    $elementToBlock: jQuery('#application'),
+                                                })
+                                                    .then((response: any) => {
+                                                        proceed = true;
+                                                    })
+                                                    .catch((ex) => {
+                                                        proceed = false;
+                                                    })
+                                            }
+                                        }
+                                    } else {
+                                        FwNotification.renderNotification('ERROR', 'No data from server');
                                     }
-                                }
-                            }, function onError(response) {
-                                FwFunc.showError(response);
-                            }, null);
+                                });
                         };
 
                         reader.onerror = ex => {
