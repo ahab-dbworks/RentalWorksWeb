@@ -166,6 +166,7 @@ namespace FwStandard.Reporting
         public async static Task EmailPdfAsync(string fromusersid, string uniqueid, string title, string from, string to, string cc, string subject, string body, string pdfPath, FwApplicationConfig appConfig)
         {
             var message = new MailMessage(from, to, subject, body);
+            message.CC.Add(cc);
             message.IsBodyHtml = true;
             message.Attachments.Add(new Attachment(pdfPath, "application/pdf"));
             string accountname = string.Empty, accountpassword = string.Empty, authtype = string.Empty, host = string.Empty, domain = "";
