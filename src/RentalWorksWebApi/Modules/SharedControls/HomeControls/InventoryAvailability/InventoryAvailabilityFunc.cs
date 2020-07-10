@@ -47,6 +47,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public DateTime ToDate { get; set; }
         public bool? IncludeHours { get; set; } = false;
         public bool? YearView { get; set; } = false;
+        public string SortReservationsBy { get; set; } = "";  // OrderNumber (default), Start, End, *AvailabilityPriority (not yet implemented)
     }
     //-------------------------------------------------------------------------------------------------------
     public class AvailabilityConflictRequest
@@ -2495,6 +2496,22 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 return scheduleEvents;
             }
             //-------------------------------------------------------------------------------------------------------
+            int CompareReservationsByOrderNumber(TInventoryWarehouseAvailabilityReservation reservation1, TInventoryWarehouseAvailabilityReservation reservation2)
+            {
+                return reservation1.OrderNumber.CompareTo(reservation2.OrderNumber);
+            }
+            //-------------------------------------------------------------------------------------------------------
+            int CompareReservationsByStart(TInventoryWarehouseAvailabilityReservation reservation1, TInventoryWarehouseAvailabilityReservation reservation2)
+            {
+                return reservation1.FromDateTime.CompareTo(reservation2.FromDateTime);
+            }
+            //-------------------------------------------------------------------------------------------------------
+            int CompareReservationsByEnd(TInventoryWarehouseAvailabilityReservation reservation1, TInventoryWarehouseAvailabilityReservation reservation2)
+            {
+                return reservation1.ToDateTime.CompareTo(reservation2.ToDateTime);
+            }
+            //-------------------------------------------------------------------------------------------------------
+
 
 
             TInventoryAvailabilityCalendarAndScheduleResponse response = new TInventoryAvailabilityCalendarAndScheduleResponse();
@@ -3143,6 +3160,23 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
                             // build up the schedule resources and reservation events
                             eventId = 0;
+
+                            // sort the Reservations the way we want them displayed
+                            if (request.SortReservationsBy.Equals("Start"))
+                            {
+                                whAvailData.Reservations.Sort(CompareReservationsByStart);
+                            }
+                            else if (request.SortReservationsBy.Equals("End"))
+                            {
+                                whAvailData.Reservations.Sort(CompareReservationsByEnd);
+                            }
+                            //else if (request.SortReservationsBy.Equals("AvailabilityPriority"))
+                            //{
+                            //}
+                            else // SortReservationsBy.Equals("OrderNumber")
+                            {
+                                whAvailData.Reservations.Sort(CompareReservationsByOrderNumber);
+                            }
 
                             foreach (TInventoryWarehouseAvailabilityReservation reservation in whAvailData.Reservations)
                             {
