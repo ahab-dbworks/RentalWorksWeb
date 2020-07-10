@@ -149,7 +149,7 @@ class FwAppImageClass {
                             try {
                                 var $pasteimage = jQuery(this);
                                 if (($pasteimage.length === 1) && ($pasteimage.is(':visible'))) {
-                                    FwAppImage.dropImage($control, $pasteimage.get(0), event);
+                                    FwAppImage.dropImage($control, event);
                                 }
                                 FwConfirmation.destroyConfirmation($confirmation);
                             } catch (ex) {
@@ -352,7 +352,16 @@ class FwAppImageClass {
                     FwFunc.showError(ex);
                 }
             })
-        ;
+            ;
+        if ($control.attr('data-hasadd') !== 'false') {
+            $control.on('drop', '.image', function (event) {
+                try {
+                    FwAppImage.dropImage($control, event);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
+        }
     };
     //---------------------------------------------------------------------------------
     selectImage($control: JQuery, appimageid: string, datestamp: string) {
@@ -673,25 +682,65 @@ class FwAppImageClass {
         dataTransfer.dropEffect = 'copy';
     }
     //---------------------------------------------------------------------------------
-    dropImage($control, element, event) {
-        var files, blob, reader, $image, $form, $pastedimage, timer, addImageAttempts;
+    async dropImage($control: JQuery, event: any) {
         event.stopPropagation();
         event.preventDefault();
-        $form = $control.closest('.fwform');
+        const $form = $control.closest('.fwform');
         if (($form.length === 0) || ($form.attr('data-mode') !== 'NEW')) {
-            $image = jQuery(FwAppImage.getAddImageHtml($control));
             let dataTransfer = (event.dataTransfer || event.originalEvent.dataTransfer);
-            files = dataTransfer.files;
-            for (var i = 0; i < files.length; i++) {
-                if (files[i].type.indexOf("image") === 0) {
-                    blob = files[i];
-                    FwAppImage.fileToDataUrl($control, $image, blob);
-                    break;
-                }
-            }
+            const files = dataTransfer.files;
+            await this.addFiles($control, files);
         } else if (($form.length === 1) && ($form.attr('data-mode') === 'NEW')) {
             throw 'You need to save the form before you can add images.';
         }
+    }
+    //---------------------------------------------------------------------------------
+    async addFiles($control, files: FileList): Promise<any> {
+        return new Promise<any>(async (resolve, reject) => {
+            for (var i = 0; i < files.length; i++) {
+                if (files[i].type.indexOf("image") === 0) {
+                    const file: File = files[i];
+                    await this.addFile($control, file);
+                }
+            }
+            FwAppImage.getAppImages($control);
+            resolve();
+        });
+    }
+    //---------------------------------------------------------------------------------
+    async addFile($control, file: File): Promise<any> {
+        return new Promise<any>(async (resolve, reject) => {
+            if (file === null) throw new Error('Unable to load image. file is null. [FwAppImage.addFile]');
+            if (!(file instanceof Blob)) throw new Error('Unable to load image. file is not an instance of Blob [FwAppImage.addFile]');
+            let reader = new FileReader();
+            reader.onload = async (event: ProgressEvent) => {
+                var c;
+                try {
+                    const dataUrl = (<any>event.target).result;
+                    //file = dataUrl.toString().substring(dataUrl.indexOf(',') + 1, dataUrl.length);
+                    const filename = "attachment." + file.type.substring(file.type.indexOf('/') + 1, file.type.length).replace('jpeg', 'jpg');
+                    
+                    let request = new FwAjaxRequest<any>();
+                    request.url = `${applicationConfig.apiurl}api/v1/appimage`;
+                    request.httpMethod = 'POST';
+                    request.$elementToBlock = $control;
+                    request.data = {
+                        Description: '',
+                        Extension: file.type.toString().split('/')[1].toUpperCase().replace('JPEG', 'JPG'),
+                        ImageDataUrl: dataUrl,
+                        Rectype: '',
+                        Filename: filename,
+                        MimeType: file.type
+                    }
+                    FwAppImage.setGetAppImagesRequest($control, request.data);
+                    let response = await FwAjax.callWebApi<any, any>(request);
+                    resolve();
+                } catch (ex) {
+                    reject(ex);
+                }
+            };
+            reader.readAsDataURL(file);
+        });
     }
     //---------------------------------------------------------------------------------
     fileToDataUrl($control, $image, blob) {
