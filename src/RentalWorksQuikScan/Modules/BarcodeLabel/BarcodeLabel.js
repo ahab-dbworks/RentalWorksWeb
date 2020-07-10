@@ -556,19 +556,15 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
             html.push('        <option value="cordovaBT">Bluetooth Printer</option>');
             html.push('        <option value="cordovaNet">Network Printer</option>');
         }
-        if (typeof window.process !== 'undefined' && typeof window.process.versions !== undefined && typeof window.process.versions.electron !== 'undefined') {
-            var net = require('net');
-            if (typeof net !== 'undefined') {
-                html.push('        <option value="electronNet">Network Printer</option>');
-            }
-
+        if (typeof window.electronPlugins !== 'undefined') {
             //var bt = require('bluetooth-serial-port');
             //if (typeof bt !== 'undefined') {
             //    html.push('        <option value="ztDesktopLabelBT">Bluetooth Printer</option>');
             //}
 
-            var printer = require('printer');
-            if (typeof printer !== 'undefined') {
+            //var printer = require('printer');
+            if (typeof window.electronPlugins.labelPrinter !== 'undefined') {
+                html.push('        <option value="electronNet">Network Printer</option>');
                 html.push('        <option value="electronLocal">Local Printer</option>');
             }
         }
@@ -734,18 +730,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                                 if (printername.indexOf('ZPL') >= -1) {
                                     labeldata = labeldata + "! U1 setvar \"device.languages\" \"hybrid_xml_zpl\"\r\n";
                                 }
-                                var printer = require('printer');
-                                printer.printDirect({
-                                    data: labeldata,
-                                    printer: printername,
-                                    docname: 'Barcode Label',
-                                    type: 'RAW',
-                                    options: {},
-                                    success: function () { },
-                                    error: function (e) {
-                                        FwFunc.showError(e);
-                                    }
-                                });
+                                window.electronPlugins.labelPrinter.printLocalAsync(printername, 'Barcode Label', 'RAW', labeldata);
                             }
                             break;
                     }
@@ -788,7 +773,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                     break;
                 case 'electronLocal':
                     {
-                        var printers = printer.getPrinters();
+                        var printers = window.electronPlugins.labelPrinter.getLocalPrinters();
                         var options = [];
                         for (var printerno = 0; printerno < printers.length; printerno++) {
                             options.push('<option value="' + printers[printerno].name + '">' + printers[printerno].name + '</option>');
