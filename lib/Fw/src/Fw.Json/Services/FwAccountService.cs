@@ -116,10 +116,12 @@ namespace Fw.Json.Services
                 // save the tokenData in the authtoken
                 authtoken = GetAuthToken(webUsersView.email, tokenData);
                 response.authToken = authtoken;
-                HttpCookie cookieAuthToken;
-                cookieAuthToken = new HttpCookie("authtoken", authtoken);
-                cookieAuthToken.HttpOnly = true;
-                HttpContext.Current.Response.SetCookie(cookieAuthToken);
+
+                // mv 2020-07-05 Disabling the cookie, it's giving warnings in Chrome and I don't think this is used anywhere.
+                //HttpCookie cookieAuthToken;
+                //cookieAuthToken = new HttpCookie("authtoken", authtoken);
+                //cookieAuthToken.HttpOnly = true;
+                //HttpContext.Current.Response.SetCookie(cookieAuthToken);
             }
             else if (errNo.Equals(0))
             {
