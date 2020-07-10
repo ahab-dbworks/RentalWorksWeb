@@ -4232,52 +4232,58 @@ class FwBrowseClass {
                             }
                             // ----------
                             // Getting PrimaryKey
-
+                            const url1 = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/keyfieldnames`
                             const promiseGetPrimaryKey = FwAjax.callWebApi<any, any>({
                                 httpMethod: 'GET',
-                                url: `${(<any>window[controller]).apiurl}/keyfieldnames`,
+                                url: `${applicationConfig.apiurl }${(<any>window[controller]).apiurl}/keyfieldnames`,
                                 $elementToBlock: jQuery('#application'),
                             })
-                                .then((response: any) => {
+                                .then(async (response: any) => {
                                     if (response.length) {
                                         let multipleKeys = false;
 
                                         if (response.length > 1) {
                                             multipleKeys = true;
                                         }
+
+                                        async function uploadRecord(url, method, data): Promise<any> {
+                                            FwAjax.callWebApi<any, any>({
+                                                httpMethod: method,
+                                                data: data,
+                                                url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
+                                                $elementToBlock: jQuery('#application'),
+                                            })
+                                        }
                                         // deal with multiple ids
                                         const id = response[0];
                                         // progress meter based on excelObject.length
-                                        let proceed = true
                                         for (let i = 0; i < excelObject.length; i++) { // loop through json data one row at a time and upload to API
                                             let method: any = 'PUT'
+                                            const idVal = excelObject[i][`${id}`];
                                             if (excelObject[i].hasOwnProperty(id)) {
-                                                if (excelObject[i].id === '') {   // if blank POST (new record)
+                                                if (excelObject[i][`${id}`] === '') {   // if blank POST (new record)
                                                     method = 'POST'
-                                                } else {
-                                                    // PUT (update existing record)
                                                 }
                                             } else {
                                                 // key was missing from row - create key with blank val and POST as new record
                                                 excelObject[i][`${id}`] = '';
                                                 method = 'POST'
                                             }
-                                            // actual API call with err handling to prevent successive calls
-                                            const request = excelObject[i];
-                                            if (proceed) {
-                                                const uploadRecord = FwAjax.callWebApi<any, any>({
-                                                    httpMethod: method,
-                                                    data: request,
-                                                    url: `${(<any>window[controller]).apiurl}/keyfieldnames`,
-                                                    $elementToBlock: jQuery('#application'),
-                                                })
-                                                    .then((response: any) => {
-                                                        proceed = true;
-                                                    })
-                                                    .catch((ex) => {
-                                                        proceed = false;
-                                                    })
+                                            //if PUT, url needs id
+                                            let url = null;
+                                            if (method === 'PUT') {
+                                                url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id}`]}`
                                             }
+
+
+                                            // actual API call with err handling to prevent successive calls                       
+                                            await uploadRecord(url, method, excelObject[i])
+                                                .then(() => {
+                                                    console.log('resolve');
+                                                })
+                                                .catch(() => {
+                                                    console.log('reject');
+                                                });
                                         }
                                     } else {
                                         FwNotification.renderNotification('ERROR', 'No data from server');
