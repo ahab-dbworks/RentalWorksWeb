@@ -247,7 +247,7 @@
                             caption: 'Start RFID',
                             buttonclick: function () {
                                 try {
-                                    RwRFID.tslSwitchSinglePress();
+                                    RwRFID.tslSwitchDoublePress();
                                 }
                                 catch (ex) {
                                     FwFunc.showError(ex);
