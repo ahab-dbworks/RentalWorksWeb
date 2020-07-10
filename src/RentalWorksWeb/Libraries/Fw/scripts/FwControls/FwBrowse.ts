@@ -4231,33 +4231,41 @@ class FwBrowseClass {
                                 FwNotification.closeNotification($notification);
                             }
                             // ----------
+
+
+                            // while loop while i < obj.length
+                            // recursive calls to upload with condition if orevious call was acceptable
+                            // presented with an error can have two outcomes - click ok to continue and skip the records producing the err or to cancel the operation entirely
+
+
                             // Getting PrimaryKey
-                            const url1 = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/keyfieldnames`
                             const promiseGetPrimaryKey = FwAjax.callWebApi<any, any>({
                                 httpMethod: 'GET',
-                                url: `${applicationConfig.apiurl }${(<any>window[controller]).apiurl}/keyfieldnames`,
+                                url: `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/keyfieldnames`,
                                 $elementToBlock: jQuery('#application'),
                             })
                                 .then(async (response: any) => {
-                                    if (response.length) {
-                                        let multipleKeys = false;
+                                    let i = 0;
+                                    let proceed = true;
+                                    async function uploadRecord(url, method, data): Promise<any> {
+                                        return FwAjax.callWebApi<any, any>({
+                                            httpMethod: method,
+                                            data: data,
+                                            url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
+                                            $elementToBlock: jQuery('#application'),
+                                        })
+                                    }
 
-                                        if (response.length > 1) {
-                                            multipleKeys = true;
-                                        }
+                                    while (i < excelObject.length) {
+                                        if (response.length) {
+                                            let multipleKeys = false;
 
-                                        async function uploadRecord(url, method, data): Promise<any> {
-                                            FwAjax.callWebApi<any, any>({
-                                                httpMethod: method,
-                                                data: data,
-                                                url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
-                                                $elementToBlock: jQuery('#application'),
-                                            })
-                                        }
-                                        // deal with multiple ids
-                                        const id = response[0];
-                                        // progress meter based on excelObject.length
-                                        for (let i = 0; i < excelObject.length; i++) { // loop through json data one row at a time and upload to API
+                                            if (response.length > 1) {
+                                                multipleKeys = true;
+                                            }
+
+                                            // deal with multiple ids
+                                            const id = response[0];
                                             let method: any = 'PUT'
                                             const idVal = excelObject[i][`${id}`];
                                             if (excelObject[i].hasOwnProperty(id)) {
@@ -4276,18 +4284,84 @@ class FwBrowseClass {
                                             }
 
 
-                                            // actual API call with err handling to prevent successive calls                       
-                                            await uploadRecord(url, method, excelObject[i])
-                                                .then(() => {
-                                                    console.log('resolve');
+                                            // actual API call with err handling to prevent successive calls  
+                                            if (proceed) {
+                                                await uploadRecord(url, method, excelObject[i])
+                                                    .then((res) => {
+                                                        console.log('res: ', res);
+                                                        i++;
+                                                        proceed = true;
+                                                    })
+                                                    .catch((ex) => {
+                                                        console.log('ex: ', ex);
+                                                        proceed = false;
+                                                    });
+                                            } else {
+                                                const $confirmation = FwConfirmation.renderConfirmation('Error uploading your record', '');
+
+                                                const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
+                                                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                                                $yes.on('click', e => {
+                                                    proceed = true;
+                                                    uploadRecord(url, method, excelObject[i++]);
                                                 })
-                                                .catch(() => {
-                                                    console.log('reject');
-                                                });
+                                                $no.on('click', e => {
+                                                    i = excelObject.length;
+                                                })
+                                                // show error
+                                                // if continue, increment i, proceed = true, else proceed = false
+                                            }
                                         }
-                                    } else {
-                                        FwNotification.renderNotification('ERROR', 'No data from server');
-                                    }
+                                    } // end of while loop
+                                    //if (response.length) {
+                                    //    let multipleKeys = false;
+
+                                    //    if (response.length > 1) {
+                                    //        multipleKeys = true;
+                                    //    }
+
+                                    //    async function uploadRecord(url, method, data): Promise<any> {
+                                    //        return FwAjax.callWebApi<any, any>({
+                                    //            httpMethod: method,
+                                    //            data: data,
+                                    //            url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
+                                    //            $elementToBlock: jQuery('#application'),
+                                    //        })
+                                    //    }
+                                    //    // deal with multiple ids
+                                    //    const id = response[0];
+                                    //    // progress meter based on excelObject.length
+                                    //    for (let i = 0; i < excelObject.length; i++) { // loop through json data one row at a time and upload to API
+                                    //        let method: any = 'PUT'
+                                    //        const idVal = excelObject[i][`${id}`];
+                                    //        if (excelObject[i].hasOwnProperty(id)) {
+                                    //            if (excelObject[i][`${id}`] === '') {   // if blank POST (new record)
+                                    //                method = 'POST'
+                                    //            }
+                                    //        } else {
+                                    //            // key was missing from row - create key with blank val and POST as new record
+                                    //            excelObject[i][`${id}`] = '';
+                                    //            method = 'POST'
+                                    //        }
+                                    //        //if PUT, url needs id
+                                    //        let url = null;
+                                    //        if (method === 'PUT') {
+                                    //            url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id}`]}`
+                                    //        }
+
+
+                                    //        // actual API call with err handling to prevent successive calls                       
+                                    //        await uploadRecord(url, method, excelObject[i])
+                                    //            .then((res) => {
+                                    //                console.log('res: ', res);
+                                    //            })
+                                    //            .catch((ex) => {
+                                    //                console.log('ex: ', ex);
+                                    //            });
+                                    //    }
+                                    //} else {
+                                    //    FwNotification.renderNotification('ERROR', 'No data from server');
+                                    //}
                                 });
                         };
 
