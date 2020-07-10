@@ -160,6 +160,12 @@ TODO:
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string DefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remitatt1", modeltype: FwDataTypes.Text, maxlength: 255)]
+        public string RemitAttention1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remitatt2", modeltype: FwDataTypes.Text, maxlength: 255)]
+        public string RemitAttention2 { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "remitadd1", modeltype: FwDataTypes.Text, maxlength: 30)]
         public string RemitAddress1 { get; set; }
         //------------------------------------------------------------------------------------

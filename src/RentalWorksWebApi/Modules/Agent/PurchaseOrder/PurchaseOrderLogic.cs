@@ -666,6 +666,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "ndc6mguzChPmz", IsReadOnly: true)]
         public string RemitToCountry { get; set; }
 
+        [FwLogicProperty(Id: "fzVEyYTUcyrvb")]
+        public string RemitToZipCode { get { return purchaseOrder.IssuedToZipCode; } set { purchaseOrder.IssuedToZipCode = value; } }
+
         [FwLogicProperty(Id: "31KVsaJic391U")]
         public string RemitToEmail { get { return purchaseOrder.IssuedToEmail; } set { purchaseOrder.IssuedToEmail = value; } }
 

@@ -196,6 +196,12 @@ namespace WebApi.Modules.Agent.Vendor
         [FwLogicProperty(Id: "jg0Xdg8tDIZYH", IsReadOnly: true)]
         public string DefaultCurrency { get; set; }
 
+        [FwLogicProperty(Id: "hHFYGK3tCvudV")]
+        public string RemitAttention1 { get { return vendor.RemitAttention1; } set { vendor.RemitAttention1 = value; } }
+
+        [FwLogicProperty(Id: "js05wMRL0tLXo")]
+        public string RemitAttention2 { get { return vendor.RemitAttention2; } set { vendor.RemitAttention2 = value; } }
+
         [FwLogicProperty(Id: "IN08Lces3riq")]
         public string RemitAddress1 { get { return vendor.RemitAddress1; } set { vendor.RemitAddress1 = value; } }
 

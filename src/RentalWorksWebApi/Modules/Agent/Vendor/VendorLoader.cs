@@ -10,7 +10,7 @@ keeping this empty class here to allow us to easily add expensive calculated fie
 namespace WebApi.Modules.Agent.Vendor
 {
     [FwSqlTable("vendorview")]
-    public class VendorLoader: VendorBrowseLoader  
+    public class VendorLoader : VendorBrowseLoader
     {
     }
 }

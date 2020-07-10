@@ -202,6 +202,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "billcountry", modeltype: FwDataTypes.Text)]
         public string RemitToCountry { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billzip", modeltype: FwDataTypes.Text)]
+        public string RemitToZipCode { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billemail", modeltype: FwDataTypes.Text)]
         public string RemitToEmail { get; set; }
         //------------------------------------------------------------------------------------

@@ -676,6 +676,12 @@ class Vendor {
                   <div class="flexcolumn" style="flex:0 1 325px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Remit To Address">
                       <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention 1" data-datafield="RemitAttention1" style="flex:1 1 275px;"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention 2" data-datafield="RemitAttention2" style="flex:1 1 275px;"></div>
+                      </div>
+                      <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address 1" data-datafield="RemitAddress1" style="flex:1 1 275px;"></div>
                       </div>
                       <div class="flexrow">
