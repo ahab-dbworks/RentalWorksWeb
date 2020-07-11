@@ -4245,8 +4245,6 @@ class FwBrowseClass {
                                 $elementToBlock: jQuery('#application'),
                             })
                                 .then(async (response: any) => {
-                                    let i = 0;
-                                    let proceed = true;
                                     async function uploadRecord(url, method, data): Promise<any> {
                                         return FwAjax.callWebApi<any, any>({
                                             httpMethod: method,
@@ -4256,36 +4254,40 @@ class FwBrowseClass {
                                         })
                                     }
 
-                                    while (i < excelObject.length) {
-                                        if (response.length) {
-                                            let multipleKeys = false;
+                                    if (response.length) {
+                                        const id = response[0];
+                                        let multipleKeys = false;
+                                        if (response.length > 1) {
+                                            multipleKeys = true;
+                                            // to do : deal with multiple ids
+                                        }
 
-                                            if (response.length > 1) {
-                                                multipleKeys = true;
-                                            }
+                                        let proceed = true;
+                                        let i: number = 0;
+                                        const totalSteps = excelObject.length;
+                                        let progressCompleted: boolean = false;
 
-                                            // deal with multiple ids
-                                            const id = response[0];
-                                            let method: any = 'PUT'
-                                            const idVal = excelObject[i][`${id}`];
-                                            if (excelObject[i].hasOwnProperty(id)) {
-                                                if (excelObject[i][`${id}`] === '') {   // if blank POST (new record)
+                                        let handle: number = window.setInterval(async () => {
+                                            console.log('step')
+                                            if (proceed) {
+                                                let method: any = 'PUT'
+                                                const idVal = excelObject[i][`${id}`];
+                                                if (excelObject[i].hasOwnProperty(id)) {
+                                                    if (excelObject[i][`${id}`] === '') {   // if blank POST (new record)
+                                                        method = 'POST'
+                                                    }
+                                                } else {
+                                                    // key was missing from row => create key with blank val and POST as new record
+                                                    excelObject[i][`${id}`] = '';
                                                     method = 'POST'
                                                 }
-                                            } else {
-                                                // key was missing from row - create key with blank val and POST as new record
-                                                excelObject[i][`${id}`] = '';
-                                                method = 'POST'
-                                            }
-                                            //if PUT, url needs id
-                                            let url = null;
-                                            if (method === 'PUT') {
-                                                url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id}`]}`
-                                            }
+                                                //if PUT, url needs id
+                                                let url = null;
+                                                if (method === 'PUT') {
+                                                    url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id}`]}`
+                                                }
 
-
-                                            // actual API call with err handling to prevent successive calls  
-                                            if (proceed) {
+                                                // actual API call with err handling to prevent successive calls  
                                                 await uploadRecord(url, method, excelObject[i])
                                                     .then((res) => {
                                                         console.log('res: ', res);
@@ -4293,26 +4295,44 @@ class FwBrowseClass {
                                                         proceed = true;
                                                     })
                                                     .catch((ex) => {
-                                                        console.log('ex: ', ex);
                                                         proceed = false;
-                                                    });
-                                            } else {
-                                                const $confirmation = FwConfirmation.renderConfirmation('Error uploading your record', '');
+                                                        console.log('ex: ', ex);
+                                                        const $confirmation = FwConfirmation.renderConfirmation(`${ex.statusText}`, `${ex.message} - ${excelObject[i]}`);
+                                                        //const html = `<div class="fwform" data-controller="none" style="background-color: transparent;">
+                                                        //                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                                        //                  <div>${ex.message}</div>
+                                                        //                </div>
+                                                        //              </div>`;
+                                                        //FwConfirmation.addControls($confirmation, html);
 
-                                                const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
-                                                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-                                                $yes.on('click', e => {
-                                                    proceed = true;
-                                                    uploadRecord(url, method, excelObject[i++]);
-                                                })
-                                                $no.on('click', e => {
-                                                    i = excelObject.length;
-                                                })
-                                                // show error
-                                                // if continue, increment i, proceed = true, else proceed = false
+                                                        const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
+                                                        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                                                        $yes.on('click', e => {
+                                                            FwConfirmation.destroyConfirmation($confirmation);
+                                                            proceed = true;
+                                                            i++;
+                                                            uploadRecord(url, method, excelObject[i]);
+                                                        })
+                                                        $no.on('click', e => {
+                                                            FwConfirmation.destroyConfirmation($confirmation);
+                                                            i = excelObject.length;
+                                                            proceed = false;
+                                                        })
+                                                    });
                                             }
-                                        }
+
+                                            if (i >= totalSteps) {
+                                                progressCompleted = true;
+                                                if (progressCompleted) {
+                                                    window.clearInterval(handle);
+                                                    handle = 0;
+                                                }
+                                            }
+                                        }, 1000);
                                     } // end of while loop
+
+
+
                                     //if (response.length) {
                                     //    let multipleKeys = false;
 
