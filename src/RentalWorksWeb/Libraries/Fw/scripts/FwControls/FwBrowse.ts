@@ -4263,6 +4263,7 @@ class FwBrowseClass {
                                         let handle: number = window.setInterval(async () => {
                                             console.log('step')
                                             if (proceed) {
+                                                //proceed = false;
                                                 let method: any = 'PUT'
                                                 const idVal = excelObject[i][`${id}`];
                                                 if (excelObject[i].hasOwnProperty(id)) {
@@ -4290,7 +4291,9 @@ class FwBrowseClass {
                                                     .catch((ex) => {
                                                         proceed = false;
                                                         console.log('ex: ', ex);
-                                                        const $confirmation = FwConfirmation.renderConfirmation(`${ex.statusText}`, `${ex.message} - ${excelObject[i]}`);
+                                                        jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click(); // confirmation box still appears to user momentarily - need better solution
+
+                                                        const $confirmation = FwConfirmation.renderConfirmation(`${ex.statusText}`, `${ex.message}`);
 
                                                         const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
                                                         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
@@ -4315,7 +4318,7 @@ class FwBrowseClass {
                                                     handle = 0;
                                                 }
                                             }
-                                        }, 1000); 
+                                        }, 1000);
                                     }
                                 });
                         };
