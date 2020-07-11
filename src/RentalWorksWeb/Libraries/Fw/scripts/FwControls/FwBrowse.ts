@@ -4230,13 +4230,6 @@ class FwBrowseClass {
                                 //let JSON_arr = JSON.stringify(excelObject);
                                 FwNotification.closeNotification($notification);
                             }
-                            // ----------
-
-
-                            // while loop while i < obj.length
-                            // recursive calls to upload with condition if orevious call was acceptable
-                            // presented with an error can have two outcomes - click ok to continue and skip the records producing the err or to cancel the operation entirely
-
 
                             // Getting PrimaryKey
                             const promiseGetPrimaryKey = FwAjax.callWebApi<any, any>({
@@ -4263,9 +4256,9 @@ class FwBrowseClass {
                                         }
 
                                         let proceed = true;
-                                        let i: number = 0;
+                                        let i = 0;
                                         const totalSteps = excelObject.length;
-                                        let progressCompleted: boolean = false;
+                                        let progressCompleted = false;
 
                                         let handle: number = window.setInterval(async () => {
                                             console.log('step')
@@ -4298,12 +4291,6 @@ class FwBrowseClass {
                                                         proceed = false;
                                                         console.log('ex: ', ex);
                                                         const $confirmation = FwConfirmation.renderConfirmation(`${ex.statusText}`, `${ex.message} - ${excelObject[i]}`);
-                                                        //const html = `<div class="fwform" data-controller="none" style="background-color: transparent;">
-                                                        //                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                                        //                  <div>${ex.message}</div>
-                                                        //                </div>
-                                                        //              </div>`;
-                                                        //FwConfirmation.addControls($confirmation, html);
 
                                                         const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
                                                         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
@@ -4328,60 +4315,8 @@ class FwBrowseClass {
                                                     handle = 0;
                                                 }
                                             }
-                                        }, 1000);
-                                    } // end of while loop
-
-
-
-                                    //if (response.length) {
-                                    //    let multipleKeys = false;
-
-                                    //    if (response.length > 1) {
-                                    //        multipleKeys = true;
-                                    //    }
-
-                                    //    async function uploadRecord(url, method, data): Promise<any> {
-                                    //        return FwAjax.callWebApi<any, any>({
-                                    //            httpMethod: method,
-                                    //            data: data,
-                                    //            url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
-                                    //            $elementToBlock: jQuery('#application'),
-                                    //        })
-                                    //    }
-                                    //    // deal with multiple ids
-                                    //    const id = response[0];
-                                    //    // progress meter based on excelObject.length
-                                    //    for (let i = 0; i < excelObject.length; i++) { // loop through json data one row at a time and upload to API
-                                    //        let method: any = 'PUT'
-                                    //        const idVal = excelObject[i][`${id}`];
-                                    //        if (excelObject[i].hasOwnProperty(id)) {
-                                    //            if (excelObject[i][`${id}`] === '') {   // if blank POST (new record)
-                                    //                method = 'POST'
-                                    //            }
-                                    //        } else {
-                                    //            // key was missing from row - create key with blank val and POST as new record
-                                    //            excelObject[i][`${id}`] = '';
-                                    //            method = 'POST'
-                                    //        }
-                                    //        //if PUT, url needs id
-                                    //        let url = null;
-                                    //        if (method === 'PUT') {
-                                    //            url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id}`]}`
-                                    //        }
-
-
-                                    //        // actual API call with err handling to prevent successive calls                       
-                                    //        await uploadRecord(url, method, excelObject[i])
-                                    //            .then((res) => {
-                                    //                console.log('res: ', res);
-                                    //            })
-                                    //            .catch((ex) => {
-                                    //                console.log('ex: ', ex);
-                                    //            });
-                                    //    }
-                                    //} else {
-                                    //    FwNotification.renderNotification('ERROR', 'No data from server');
-                                    //}
+                                        }, 1000); 
+                                    }
                                 });
                         };
 
