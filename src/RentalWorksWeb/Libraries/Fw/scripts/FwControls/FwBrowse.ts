@@ -4280,7 +4280,7 @@ class FwBrowseClass {
                                                 if (method === 'PUT') {
                                                     url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id}`]}`
                                                 }
-
+                                                jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
                                                 // actual API call with err handling to prevent successive calls  
                                                 await uploadRecord(url, method, excelObject[i])
                                                     .then((res) => {
@@ -4289,6 +4289,18 @@ class FwBrowseClass {
                                                         proceed = true;
                                                     })
                                                     .catch((ex) => {
+                                                        //const app = document.getElementById('application');
+                                                        //const observer = new MutationObserver(() => {
+                                                        //    const title = jQuery(app).find('.advisory .fwconfirmationbox .title').text();
+                                                        //    if (title.startsWith("Error")) {
+                                                        //        jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
+                                                        //        observer.disconnect();
+                                                        //    }
+                                                            
+                                                        //});
+                                                        //// Start observing the target node for configured mutations
+                                                        //observer.observe(app, { attributes: true, childList: true, subtree: true });
+
                                                         proceed = false;
                                                         console.log('ex: ', ex);
                                                         jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click(); // confirmation box still appears to user momentarily - need better solution
