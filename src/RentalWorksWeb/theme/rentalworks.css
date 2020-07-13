@@ -595,6 +595,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner [data-section="header"] span {border:1px solid #bdbdbd; padding:5px;}
 #reportDesigner table {border:1px solid; margin-top:1em;}
 #reportDesigner table tbody td:after { content: attr(data-value); }
+#reportDesigner table .new-column:after { content: "[New Column]"; color:green; }
 #reportDesigner table #columnHeader tr th { font-size:.9em;height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ccc;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 #reportDesigner table #columnHeader tr th:first-of-type { border-left:0; }
 #reportDesigner table #columnHeader tr th:last-of-type { border-right:0; }
@@ -604,7 +605,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner table tr[data-row="footer"] td { cursor:default; height:2em;position:relative;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ffffff;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 #reportDesigner table tr[data-row="footer"] td.total-name { cursor:default;}
 #reportDesigner table tr[data-row="header"] td { cursor:default;}
-#reportDesigner table tr[data-row="sub-header"] th { font-size:.9em;font-weight: 600;height:2em;position:relative;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ccc;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
+#reportDesigner table tr[data-row="sub-header"] th { font-size:.9em;height:2em;position:relative;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#ccc;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 #reportDesigner table tr[data-row="sub-header"] th.hover-cell { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);margin: 5px; }
 #reportDesigner table tr[data-row="sub-detail"] td { font-size:.9em;font-weight: 600;height:2em;position:relative;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD; }
 #reportDesigner table tr[data-row="sub-detail"] td.hover-cell { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);margin: 5px; }

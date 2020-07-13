@@ -67,6 +67,8 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
+
+
         $form.find('#codeEditor').change();
 
         //for retaining position in code editor after saving
@@ -775,6 +777,7 @@ class CustomReportLayout {
                                     const $td = $row.find(`[data-linkedcolumn="${oldNewFields.linkedcolumn}"]`);
                                     const $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[detailRowCount]).find(`[data-linkedcolumn="${oldNewFields.linkedcolumn}"]`);
                                     $td.attr('data-value', `<!--{{${oldNewFields.newfield}}}-->`);
+                                    $designerTd.removeClass('new-column');
                                     $designerTd.attr('data-value', `{{${oldNewFields.newfield}}}`);
                                     detailRowCount++;
                                     //if (rowType == 'footer') {
@@ -792,6 +795,7 @@ class CustomReportLayout {
                                     }
                                     if ($designerTd.length) {
                                         $designerTd.attr('data-value', `{{${oldNewFields.newfield}}}`);
+                                        $designerTd.removeClass('new-column');
                                         newHTML = $table.find('tr[data-row="sub-detail"]').get(subDetailRowCount).innerHTML.trim();
                                         jQuery($wrapper.find(`${tableNameSelector} tr[data-row="sub-detail"]`)[subDetailRowCount]).html(newHTML); 
                                     }
@@ -837,19 +841,19 @@ class CustomReportLayout {
                                     if (detailRowIndex > 0) {
                                         detailLinkedCol += `-${detailRowIndex}`;
                                     }
-                                    const $td = jQuery(`<td data-linkedcolumn="${detailLinkedCol}" data-value="<!--{{NewColumn}}-->"></td>`);
+                                    const $td = jQuery(`<td data-linkedcolumn="${detailLinkedCol}"></td>`);
                                     $row.append($td);  //add to row in wrapper (memory)
-                                    jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[detailRowIndex]).append(`<td data-linkedcolumn="${detailLinkedCol}" data-value="{{NewColumn}}"></td>`); //add to row on designer
+                                    jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[detailRowIndex]).append($td.clone().addClass('new-column')); //add to row on designer
                                     detailRowIndex++;
                                 } else if (rowType == 'sub-header') {
-                                    const $th = jQuery(`<th data-linkedcolumn="${linkedColumn}-sub${subHeaderRowIndex}" data-valuefield="NewColumn"></th>`);
+                                    const $th = jQuery(`<th data-linkedcolumn="${linkedColumn}-sub${subHeaderRowIndex}"></th>`);
                                     $row.append($th);  //add to row in wrapper (memory)
-                                    jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subHeaderRowIndex]).append($th.clone()); //add to row on designer
+                                    jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subHeaderRowIndex]).append($th.clone().addClass('new-column')); //add to row on designer
                                     subHeaderRowIndex++;
                                 } else if (rowType == 'sub-detail') {
-                                    const $td = jQuery(`<td data-linkedcolumn="${linkedColumn}-sub${subDetailRowIndex}" data-value="<!--{{NewColumn}}-->"></td>`);
+                                    const $td = jQuery(`<td data-linkedcolumn="${linkedColumn}-sub${subDetailRowIndex}"></td>`);
                                     $row.append($td);  //add to row in wrapper (memory)
-                                    jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subDetailRowIndex]).append(`<td data-linkedcolumn="${linkedColumn}-sub${subDetailRowIndex}" data-value="{{NewColumn}}"></td>`); //add to row on designer
+                                    jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subDetailRowIndex]).append($td.clone().addClass('new-column')); //add to row on designer
                                     subDetailRowIndex++;
                                 } else if (rowType == 'header') {
                                     //const $designerTableRow = jQuery($table.find(`tbody tr`)[i]);
@@ -933,8 +937,9 @@ class CustomReportLayout {
                             }
                             $form.removeData('deletefield');
                         }
-
-                        newHTML = $table.find('#columnHeader').get(0).innerHTML.trim();
+                        const $columnHeaders = $table.find('#columnHeader').clone();
+                        $columnHeaders.find('.new-column').removeClass('new-column');
+                        newHTML = $columnHeaders.get(0).innerHTML.trim();
                         jQuery($wrapper.find(`${tableNameSelector} #columnHeader`)).html(newHTML);                     //replace old headers
 
                         break;
@@ -955,12 +960,17 @@ class CustomReportLayout {
                         }
                         break;
                     case 'addrow-header':
-                        $wrapper.find(`${tableNameSelector} #columnHeader`).append($tr.clone(true));
-                        const $lastDetailRow = $wrapper.find(`${tableNameSelector} tr[data-row="detail"]:last`)
-                        const $newDetailRow = $table.find(`.preview[data-row="detail"]`);
-                        $newDetailRow.removeAttr('class');
-                        $newDetailRow.children().text('').removeAttr('class');
-                        $newDetailRow.clone(true).insertAfter($lastDetailRow);
+                        const $newHeaderRow = $tr.clone();
+                        const $lastHeaderRow = $wrapper.find(`${tableNameSelector} #columnHeader tr:last`);
+                        $newHeaderRow.find('.new-column').removeClass('new-column');
+                        $newHeaderRow.insertAfter($lastHeaderRow);
+                        const $lastDetailRow = $wrapper.find(`${tableNameSelector} tr[data-row="detail"]:last`);
+                        const $newDetailRow = $table.find(`.new-row[data-row="detail"]`);
+                        //$newDetailRow.removeAttr('class');
+                        //$newDetailRow.children().text('').removeAttr('class');
+                        const $newDetailRowClone = $newDetailRow.clone();
+                        $newDetailRowClone.find('.new-column').removeClass('new-column');
+                        $newDetailRowClone.insertAfter($lastDetailRow);
                         this.addRowColumnSorting($form, $table, tableName, $tr.get(0), 'columnheader');
                         break;
                     case 'addrow-subheader':
@@ -1061,6 +1071,7 @@ class CustomReportLayout {
                     if (typeof $column != 'undefined') {
                         const linkedColumn = $column.attr('data-linkedcolumn');
                         const oldField = $column.attr('data-valuefield');
+                        $column.removeClass('new-column');
                         $form.data('sectiontoupdate', 'tableheader');
                         $column.attr('data-valuefield', value);
                         FwFormField.setValueByDataField($form, 'CaptionField', value);
@@ -1086,7 +1097,7 @@ class CustomReportLayout {
         //add header column
         $addColumn.on('click', e => {
             const newId = program.uniqueId(8);
-            $column = jQuery(`<th data-linkedcolumn="${newId}" data-valuefield="NewColumn">New Column</th>`);
+            $column = jQuery(`<th data-linkedcolumn="${newId}" class="new-column"></th>`);
             const $tableHeaderRows = jQuery($table.find('#columnHeader tr'));
             $tableHeaderRows.append($column);
 
@@ -1132,8 +1143,7 @@ class CustomReportLayout {
             //}
             $row = this.addRowPreview($form);
             $form.data('sectiontoupdate', 'addrow-header');
-            $row.removeAttr('class');
-            $row.children().text('New Column').removeAttr('class');
+            //$row.children().text('New Column').removeAttr('class');
             this.updateHTML($form, $table, $row);
             const tableName = FwFormField.getValueByDataField($form, 'TableName');
             this.addColumnLoadSelect($form, tableName);
@@ -1244,18 +1254,18 @@ class CustomReportLayout {
             //build header and detail rows with linkedcolumns
             const html = [];
             const detailRowHtml = [];
-            html.push(`<tr data-row="main-header" class="preview"`);
+            html.push(`<tr data-row="main-header" class="new-row"`);
             html.push(`>`);
             //if (rowType === 'sub-header') {
             //    html.push(` data-row="${rowType}">`);
             //} else {
             //    html.push(`>`);
             //}
-            detailRowHtml.push(`<tr class="preview" data-row="detail" data-rowtype="{{RowType}}">`);
+            detailRowHtml.push(`<tr class="new-row" data-row="detail" data-rowtype="{{RowType}}">`);
             for (let i = 0; i < colspan; i++) {
                 const newId = program.uniqueId(8);
-                html.push(`<th class="placeholder" data-linkedcolumn="${newId}" data-valuefield="NewColumn">PREVIEW</th>`);
-                detailRowHtml.push(`<td class="placeholder" data-linkedcolumn="${newId}" data-value="{{New Column}}"></td>`);
+                html.push(`<th class="new-column" data-linkedcolumn="${newId}"></th>`);
+                detailRowHtml.push(`<td class="new-column" data-linkedcolumn="${newId}"></td>`);
             }
             html.push(`</tr>`);
             detailRowHtml.push(`</tr>`);
