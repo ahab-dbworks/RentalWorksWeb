@@ -64,6 +64,21 @@ namespace WebApi.Modules.Settings.TemplateSettings.Template
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
         public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasrentalitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRentalItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hassalesitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasSalesItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasmiscitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasMiscellaneousItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "haslaboritem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasLaborItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasspaceitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasFacilitiesItem { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

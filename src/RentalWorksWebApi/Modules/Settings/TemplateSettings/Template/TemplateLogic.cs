@@ -79,6 +79,21 @@ namespace WebApi.Modules.Settings.TemplateSettings.Template
         [FwLogicProperty(Id:"chw7HQwo29eb6", IsReadOnly:true)]
         public int? Lines { get; set; }
 
+        [FwLogicProperty(Id: "oZkIrncq1YAhB", IsReadOnly: true)]
+        public bool? HasRentalItem { get; set; }
+
+        [FwLogicProperty(Id: "qrRRzbyFpvW47", IsReadOnly: true)]
+        public bool? HasSalesItem { get; set; }
+
+        [FwLogicProperty(Id: "iACEjoZegwq06", IsReadOnly: true)]
+        public bool? HasMiscellaneousItem { get; set; }
+
+        [FwLogicProperty(Id: "TAeTZ9jzh729T", IsReadOnly: true)]
+        public bool? HasLaborItem { get; set; }
+
+        [FwLogicProperty(Id: "Gw2tIz2Z8ByDo", IsReadOnly: true)]
+        public bool? HasFacilitiesItem { get; set; }
+
         [FwLogicProperty(Id:"toXyqBSvziLJ")]
         public string DateStamp { get { return template.DateStamp; } set { template.DateStamp = value; } }
 
