@@ -58,6 +58,7 @@ class Customer {
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', officeLocation.locationid, officeLocation.location);
             FwFormField.setValue($form, 'div[data-datafield="CustomerStatusId"]', controlDefaults.defaultcustomerstatusid, controlDefaults.defaultcustomerstatus);
             FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', controlDefaults.defaultcustomerpaymenttermsid, controlDefaults.defaultcustomerpaymentterms);
+            FwFormField.setValue($form, 'div[data-datafield="CreditStatusId"]', controlDefaults.defaultcreditstatusid, controlDefaults.defaultcreditstatus);
         }
 
         let userassignedcustomerno = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedcustomernumber;

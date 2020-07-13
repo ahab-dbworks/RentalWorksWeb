@@ -124,6 +124,7 @@ class Deal {
             FwFormField.setValue($form, 'div[data-datafield="PoRequired"]', dealDefaults.defaultdealporequired);
             FwFormField.setValue($form, 'div[data-datafield="PoType"]', dealDefaults.defaultdealpotype);
             FwFormField.setValueByDataField($form, 'DefaultRate', officeLocation.ratetype, officeLocation.ratetype);
+            FwFormField.setValue($form, 'div[data-datafield="CreditStatusId"]', dealDefaults.defaultcreditstatusid, dealDefaults.defaultcreditstatus);
         }
 
         const userAssignedDealNo = JSON.parse(sessionStorage.getItem('controldefaults')).userassigneddealnumber;

@@ -316,30 +316,32 @@ class Base {
                                             }
 
                                             const controlDefaults = {
-                                                defaultdealstatusid: responseGetDefaultSettings.DefaultDealStatusId
-                                                , defaultdealstatus: responseGetDefaultSettings.DefaultDealStatus
-                                                , defaultcustomerstatusid: responseGetDefaultSettings.DefaultCustomerStatusId
-                                                , defaultcustomerstatus: responseGetDefaultSettings.DefaultCustomerStatus
-                                                , defaultcustomerpaymenttermsid: responseGetDefaultSettings.DefaultCustomerPaymentTermsId
-                                                , defaultcustomerpaymentterms: responseGetDefaultSettings.DefaultCustomerPaymentTerms
-                                                , defaultdealbillingcycleid: responseGetDefaultSettings.DefaultDealBillingCycleId
-                                                , defaultdealbillingcycle: responseGetDefaultSettings.DefaultDealBillingCycle
-                                                , defaultdealporequired: responseGetDefaultSettings.DefaultDealPoRequired
-                                                , defaultdealpotype: responseGetDefaultSettings.DefaultDealPoType
-                                                , defaultunitid: responseGetDefaultSettings.DefaultUnitId
-                                                , defaultunit: responseGetDefaultSettings.DefaultUnit
-                                                , defaultrank: responseGetDefaultSettings.DefaultRank
-                                                , defaulticodemask: responseGetInventorySettings.ICodeMask
-                                                , userassignedicodes: responseGetInventorySettings.UserAssignedICodes
-                                                , enable3weekpricing: responseGetInventorySettings.Enable3WeekPricing
-                                                , sharedealsacrossofficelocations: responseGetSystemSettings.ShareDealsAcrossOfficeLocations
-                                                , systemname: responseGetSystemSettings.SystemName
-                                                , companyname: responseGetSystemSettings.CompanyName
-                                                , documentbarcodestyle: responseGetDocumentBarCodeSettings.DocumentBarCodeStyle
-                                                , userassignedvendornumber: responseGetSystemSettings.IsVendorNumberAssignedByUser
-                                                , userassignedcustomernumber: userassignedcustnum
-                                                , userassigneddealnumber: userassigneddealnum
-                                                , multiwarehouse: (responseGetWarehouses.Rows.length > 1)
+                                                defaultdealstatusid: responseGetDefaultSettings.DefaultDealStatusId,
+                                                defaultdealstatus: responseGetDefaultSettings.DefaultDealStatus,
+                                                defaultcreditstatus: responseGetDefaultSettings.DefaultCreditStatus,
+                                                defaultcreditstatusid: responseGetDefaultSettings.DefaultCreditStatusId,
+                                                defaultcustomerstatusid: responseGetDefaultSettings.DefaultCustomerStatusId,
+                                                defaultcustomerstatus: responseGetDefaultSettings.DefaultCustomerStatus,
+                                                defaultcustomerpaymenttermsid: responseGetDefaultSettings.DefaultCustomerPaymentTermsId,
+                                                defaultcustomerpaymentterms: responseGetDefaultSettings.DefaultCustomerPaymentTerms,
+                                                defaultdealbillingcycleid: responseGetDefaultSettings.DefaultDealBillingCycleId,
+                                                defaultdealbillingcycle: responseGetDefaultSettings.DefaultDealBillingCycle,
+                                                defaultdealporequired: responseGetDefaultSettings.DefaultDealPoRequired,
+                                                defaultdealpotype: responseGetDefaultSettings.DefaultDealPoType,
+                                                defaultunitid: responseGetDefaultSettings.DefaultUnitId,
+                                                defaultunit: responseGetDefaultSettings.DefaultUnit,
+                                                defaultrank: responseGetDefaultSettings.DefaultRank,
+                                                defaulticodemask: responseGetInventorySettings.ICodeMask,
+                                                userassignedicodes: responseGetInventorySettings.UserAssignedICodes,
+                                                enable3weekpricing: responseGetInventorySettings.Enable3WeekPricing,
+                                                sharedealsacrossofficelocations: responseGetSystemSettings.ShareDealsAcrossOfficeLocations,
+                                                systemname: responseGetSystemSettings.SystemName,
+                                                companyname: responseGetSystemSettings.CompanyName,
+                                                documentbarcodestyle: responseGetDocumentBarCodeSettings.DocumentBarCodeStyle,
+                                                userassignedvendornumber: responseGetSystemSettings.IsVendorNumberAssignedByUser,
+                                                userassignedcustomernumber: userassignedcustnum,
+                                                userassigneddealnumber: userassigneddealnum,
+                                                multiwarehouse: (responseGetWarehouses.Rows.length > 1)
                                             }
                                             sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 
