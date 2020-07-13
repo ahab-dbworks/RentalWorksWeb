@@ -254,10 +254,11 @@ class CustomForm {
 
         //Select module event
         $form.find('div.modules').on('change', e => {
-            let $this = $form.find('[data-datafield="BaseForm"] option:selected');
-            let moduleName = $this.val();
-            let type = $this.attr('data-type');
-            let controller: any = $this.attr('data-controllername');
+            const $this = $form.find('[data-datafield="BaseForm"] option:selected');
+            const moduleName = $this.val();
+            const moduleCaption = $this.text();
+            const type = $this.attr('data-type');
+            const controller: any = $this.attr('data-controllername');
             let modulehtml;
 
             //get the html from the template and set it as codemirror's value
@@ -281,6 +282,9 @@ class CustomForm {
 
             this.addValidFields($form, controller);
             this.renderTab($form, 'Designer');
+
+            const fullName = sessionStorage.getItem('fullname');
+            FwFormField.setValueByDataField($form, 'Description', `${fullName}'s ${moduleCaption}`);
         });
 
         //Updates value for form fields
