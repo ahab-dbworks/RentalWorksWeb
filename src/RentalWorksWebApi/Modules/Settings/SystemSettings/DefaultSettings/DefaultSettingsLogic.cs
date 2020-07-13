@@ -79,6 +79,12 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
         [FwLogicProperty(Id: "mF1eIKmVivq6K")]
         public string DefaultRank { get { return sysControl.DefaultRank; } set { sysControl.DefaultRank = value; } }
 
+        [FwLogicProperty(Id: "Q4pIy8C1q0syR")]
+        public string DefaultCreditStatusId { get { return sysControl.DefaultCreditStatusId; } set { sysControl.DefaultCreditStatusId = value; } }
+
+        [FwLogicProperty(Id: "NWB08U3R5NW77", IsReadOnly: true)]
+        public string DefaultCreditStatus { get; set; }
+
         [FwLogicProperty(Id: "mKkvlk6jTcylT")]
         public string DateStamp { get { return sysControl.DateStamp; } set { sysControl.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

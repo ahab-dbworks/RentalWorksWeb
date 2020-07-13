@@ -67,6 +67,12 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
         [FwSqlDataField(column: "defaultrank", modeltype: FwDataTypes.Text)]
         public string DefaultRank { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultcreditstatusid", modeltype: FwDataTypes.Text)]
+        public string DefaultCreditStatusId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultcreditstatus", modeltype: FwDataTypes.Text)]
+        public string DefaultCreditStatus { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -545,6 +545,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "salescheckinunretiredreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string SalesCheckInUnretiredReasonId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultcreditstatusid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string DefaultCreditStatusId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
