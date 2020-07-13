@@ -897,6 +897,10 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         public string RemainingBalance { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "invoicemessage", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationInvoiceMessage { get; set; }
+        //------------------------------------------------------------------------------------
 
         //------------------------------------------------------------------------------------
         public List<RentalInvoiceItemReportLoader> RentalItems { get; set; } = new List<RentalInvoiceItemReportLoader>(new RentalInvoiceItemReportLoader[] { new RentalInvoiceItemReportLoader() });

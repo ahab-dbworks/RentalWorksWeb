@@ -1,6 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 {
@@ -154,6 +156,11 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        public async Task<bool> SaveInvoiceMessageASync(string invoiceMessage)
+        {
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, LocationId, RwConstants.LOCATION_INVOICE_MESSAGE_UNIQUEID2, "", invoiceMessage);
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }
 

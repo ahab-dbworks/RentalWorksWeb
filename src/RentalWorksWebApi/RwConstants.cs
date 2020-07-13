@@ -488,6 +488,9 @@ namespace WebApi
         public const string WAREHOUSEID_ALL = "ALL";
 
 
+        //OFFICE LOCATION
+        public const string LOCATION_INVOICE_MESSAGE_UNIQUEID2 = "INVMESSG";
+
         //CONTACTS / COMPANY
         public const string COMPANY_TYPE_LEAD = "LEAD";
         public const string COMPANY_TYPE_PROSPECT = "PROSPECT";

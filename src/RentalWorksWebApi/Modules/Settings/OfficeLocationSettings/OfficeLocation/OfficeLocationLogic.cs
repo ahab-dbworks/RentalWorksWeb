@@ -176,6 +176,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwLogicProperty(Id: "j2AP4pitbCGE7")]
         public bool? DisableInsuranceThroughDateMessages { get { return location.DisableInsuranceThroughDateMessages; } set { location.DisableInsuranceThroughDateMessages = value; } }
 
+        [FwLogicProperty(Id: "NGVDXcxGHbnEs")]
+        public string InvoiceMessage { get; set; }
+
         [FwLogicProperty(Id: "GDXu3A4umCh")]
         public bool? Inactive { get { return location.Inactive; } set { location.Inactive = value; } }
 
@@ -189,6 +192,28 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
             {
                 bool b = OfficeLocationFunc.SetOfficeLocationDefaultCurrency(AppConfig, UserSession, LocationId, DefaultCurrencyId, e.SqlConnection).Result;
             }
+
+
+            bool doSaveInvoiceMessage = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveInvoiceMessage = true;
+            }
+            else if ((e.Original != null) && (InvoiceMessage != null))
+            {
+                OfficeLocationLogic orig = (OfficeLocationLogic)e.Original;
+                doSaveInvoiceMessage = (!orig.InvoiceMessage.Equals(InvoiceMessage));
+            }
+            if (doSaveInvoiceMessage)
+            {
+                bool saved = location.SaveInvoiceMessageASync(InvoiceMessage).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
+
+
         }
         //------------------------------------------------------------------------------------
 

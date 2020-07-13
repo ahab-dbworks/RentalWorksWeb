@@ -165,6 +165,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "disableinsurancethroughdate", modeltype: FwDataTypes.Boolean)]
         public bool? DisableInsuranceThroughDateMessages { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicemessage", modeltype: FwDataTypes.Text)]
+        public string InvoiceMessage { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
