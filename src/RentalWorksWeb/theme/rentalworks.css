@@ -585,27 +585,6 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #controlProperties .show-advanced-properties {color:blue; text-decoration:underline;cursor:pointer;}
 #controlProperties .propertyContainer div.properties.adv-property {display:none;}
 
-#designerContent div.flexrow,
-#designerContent div.flexcolumn{
-    border: 1px solid lightblue;
-}
-
-#designerContent div.emptyContainer {
-    min-height:50px;
-}
-
-#designerContent [data-control="FwFormField"] {
-    border: 1px solid #dcdcdc;
-}
-
-#designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field *{
-    pointer-events: none;
-}
-#designerContent [data-type="tabpage"] div.fwformfield * {
-    pointer-events: none;
-}
-
-
 /* Custom Reports */
 #reportDesigner .highlight { background-color:#d1efd2 !important;border:2px solid #4caf507d !important;}
 #reportDesigner .header-section > span, #reportDesigner .table-section > span {font-weight:bold; font-size:1.2em; text-decoration:underline;}
@@ -639,11 +618,6 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner .header-wrapper .rpt-header-center {align-self: center;font-size: 13px; margin-top: 5px;}
 #reportDesigner .header-wrapper .rpt-header-right {align-self: flex-end; font-size: 13px;font-weight: bold;}
 #reportDesigner .header-wrapper .rpt-header-left {align-self: flex-start;font-size: 13px;font-weight: bold;}
-
-/*Control Properties*/
-#controlProperties .propertyContainer div.properties {width: 100%;display: flex;padding-bottom: 3px;}
-#controlProperties .propertyContainer div.properties div {width: 50%;font-size: .9em;text-indent: 5px;}
-#controlProperties .propertyContainer div input:disabled {background-color: whitesmoke;border-color: inherit; border-style: solid;}
 
 .modulefields div {cursor:pointer;}
 .modulefields div:nth-child(odd) {background-color: #f1f1f1;}
@@ -703,6 +677,3 @@ html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbo
 [data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] {max-width:75px; margin-left:1em;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="Rank"] ol {min-height:1em !important;}
 [data-controller="RateUpdateUtilityController"] [data-datafield="OrderBy"] {max-height :70px; margin-left:2em;}
-
-/*Custom Report Layout*/
-#reportDesigner table td:after { content: attr(data-value); }
