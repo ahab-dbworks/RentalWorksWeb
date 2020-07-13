@@ -99,7 +99,23 @@ class OrderType {
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
+    afterSave($form: any) {
+        this.updateCachedOrderTypes($form, OrderController);
+        this.updateCachedOrderTypes($form, QuoteController);
+    }
+    //----------------------------------------------------------------------------------------------
+    updateCachedOrderTypes($form: any, controller: any) {
+        const orderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
+        if (typeof controller != "undefined") {
+            if (controller.hasOwnProperty("CachedOrderTypes")) {
+                if (controller.CachedOrderTypes.hasOwnProperty(orderTypeId)) {
+                    delete controller.CachedOrderTypes[orderTypeId];
+                }
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         // ----------
         FwBrowse.renderGrid({
