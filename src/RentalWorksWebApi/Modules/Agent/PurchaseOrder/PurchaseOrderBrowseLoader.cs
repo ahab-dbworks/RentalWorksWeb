@@ -69,6 +69,12 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
         public string PoType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "requisitionno", modeltype: FwDataTypes.Text)]
+        public string RequisitionNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "requisitiondate", modeltype: FwDataTypes.Date)]
+        public string RequisitionDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 

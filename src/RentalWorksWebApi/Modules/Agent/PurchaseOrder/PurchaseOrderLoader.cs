@@ -16,12 +16,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             AfterLoad += OnAfterLoad;
         }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "requisitionno", modeltype: FwDataTypes.Text)]
-        public string RequisitionNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "requisitiondate", modeltype: FwDataTypes.Date)]
-        public string RequisitionDate { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
         public string VendorId { get; set; }
         //------------------------------------------------------------------------------------ 
