@@ -422,7 +422,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, $table: JQuery, $tr: JQuery, $th?) {
-        let valuefield, $column, newHTML;
+        let $cachedRow, $cachedColumn, newHTML, rowIndex;
         const updateType = $form.data('updatetype');
         if (typeof updateType != 'undefined' && typeof updateType == 'string') {
             const $wrapper = jQuery('<div class="custom-report-wrapper"></div>');
@@ -777,20 +777,14 @@ class CustomReportLayout {
                         jQuery($wrapper.find(`${tableNameSelector} #columnHeader`)).html(newHTML);                     //replace old headers
                         break;
                     case 'headerrow':
-                        newHTML = $tr.get(0).innerHTML.trim();
-                        valuefield = $tr.attr('data-valuefield');
-                        $column = $wrapper.find(`table[data-tablename="${tableName}"] .header-row[data-valuefield="${valuefield}"]`);
-                        if ($column.length) {
-                            $column.html(newHTML);
-                        }
-                        break;
                     case 'footerrow':
                         newHTML = $tr.get(0).innerHTML.trim();
-                        valuefield = $tr.attr('data-valuefield');
-                        $column = $wrapper.find(`${tableNameSelector} .total-name[data-valuefield="${valuefield}"]`);
-                        if ($column.length) {
-                            $column.html(newHTML);
+                        rowIndex = $form.data('rowindex');
+                        $cachedRow = jQuery($wrapper.find(`${tableNameSelector} tr`)[rowIndex]);
+                        if ($cachedRow.length) {
+                            $cachedRow.html(newHTML);
                         }
+                        $form.removeData('rowindex');
                         break;
                     case 'addrow':
                         const $newHeaderRow = $tr.clone();
@@ -869,11 +863,22 @@ class CustomReportLayout {
                 case 'CaptionField':
                     if (typeof $column != 'undefined') {
                         const rowType = $row.attr('data-row');
-                        if (rowType === 'sub-header') {
-                            linkedColumn = $column.attr('data-linkedcolumn');
-                            $form.data('updatesubheader', { linkedcolumn: linkedColumn, caption: value });
+
+                        switch (rowType) {
+                            case 'header':
+                                $form.data('updatetype', 'headerrow');
+                                $form.data('rowindex', $row.get(0).rowIndex);
+                                break;
+                            case 'footer':
+                                $form.data('updatetype', 'footerrow');
+                                $form.data('rowindex', $row.get(0).rowIndex);
+                                break;
+                            case 'sub-header':
+                                linkedColumn = $column.attr('data-linkedcolumn');
+                                $form.data('updatesubheader', { linkedcolumn: linkedColumn, caption: value });
+                                $form.data('updatetype', 'tableheader');
+                                break;
                         }
-                        $form.data('updatetype', 'tableheader');
                         $column.text(value);
                     }
                     break;
@@ -894,7 +899,7 @@ class CustomReportLayout {
                     break;
                 case 'headerrow':
                 case 'footerrow':
-                    this.updateHTML($form, $table, $column);
+                    this.updateHTML($form, $table, $row, $column);
                     break;
                 case 'style':
                     this.updateHTML($form, $table, $row, $column);
@@ -931,7 +936,6 @@ class CustomReportLayout {
             $row = this.addNewHeaderRow($form);
             $form.data('updatetype', 'addrow');
             this.updateHTML($form, $table, $row);
-            const tableName = FwFormField.getValueByDataField($form, 'TableName');
         });
 
         //delete table header column
@@ -965,8 +969,8 @@ class CustomReportLayout {
 
         $form.on('click', '#reportDesigner table tr th, #reportDesigner table tr[data-row="sub-detail"] td', e => {
             e.stopPropagation();
-            $table = jQuery(e.currentTarget).parents('table');
             $column = jQuery(e.currentTarget);
+            $table = $column.parents('table');
             $form.data('updatetype', 'tableheader');
             this.setControlValues($form, $column);
             const linkedColumn = $column.attr('data-linkedColumn');
@@ -975,18 +979,32 @@ class CustomReportLayout {
             this.showHideControlProperties($form, 'table');
         });
 
+        //allow td styling
+        $form.on('click', '#reportDesigner table tr td', e => {
+            e.stopPropagation();
+            $column = jQuery(e.currentTarget);
+            $table = $column.parents('table');
+            const tableName = $table.parents('.table-wrapper').attr('data-tablename');
+            FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
+            FwFormField.setValueByDataField($form, 'CellStyleField', $column.attr('style') || '');
+            this.showHideControlProperties($form, 'td');
+        });
+
         //header row
         $form.on('click', '.header-row', e => {
+            e.stopPropagation();
             $column = jQuery(e.currentTarget);
-            $form.find('#controlProperties').show();
             this.setControlValues($form, $column);
+            this.showHideControlProperties($form, 'footerrow');
             $form.data('updatetype', 'headerrow');
         });
 
+        //footer row
         $form.on('click', '.total-name', e => {
+            e.stopPropagation();
             $column = jQuery(e.currentTarget);
-            $form.find('#controlProperties').show();
             this.setControlValues($form, $column);
+            this.showHideControlProperties($form, 'headerrow');
             $form.data('updatetype', 'footerrow');
         });
 
@@ -1107,7 +1125,16 @@ class CustomReportLayout {
                 $controlProperties.children(`:not('.header-controls')`).show();
                 $controlProperties.show();
                 break;
-            case 'footer':
+            case 'headerrow':
+            case 'footerrow':
+                $controlProperties.children(`:not('[data-datafield="CellStyleField"]'):not('[data-datafield="CaptionField"]')`).hide();
+                $controlProperties.children(`[data-datafield="CellStyleField"], [data-datafield="CaptionField"]`).show();
+                $controlProperties.show();
+                break;
+            case 'td':
+                $controlProperties.children(`:not('[data-datafield="CellStyleField"]')`).hide();
+                $controlProperties.children(`[data-datafield="CellStyleField"]`).show();
+                $controlProperties.show();
                 break;
             case 'hide':
                 $controlProperties.hide();
