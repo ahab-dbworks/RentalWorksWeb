@@ -3251,7 +3251,7 @@ class FwBrowseClass {
         const $gridmenu = $control.find('[data-control="FwMenu"]');
         $tr.closest('tbody').find('.divselectrow').hide();
         $tr.find('.browsecontextmenucell').hide();
-        const $multisave = jQuery('<div data-type="button" class="fwformcontrol grid-multi-save"><i class="material-icons" style="position:relative; top:5px;">&#xE161;</i> Save All</div>'); //save
+        const $multisave = jQuery('<div data-type="button" class="fwformcontrol grid-multi-save"><i class="material-icons">&#xE161;</i> Save All</div>'); //save
         $multisave.on('click', function () {
             try {
                 const $trs = $control.find('tr.editmode.editrow');
