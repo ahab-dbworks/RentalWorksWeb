@@ -3,10 +3,8 @@
   <div id="customreportlayoutform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
-      <!--<div data-type="tab" id="designertab" class="tab" data-tabpageid="designertabpage" data-caption="Designer"></div>-->
       <div data-type="tab" id="htmltab" class="tab" data-tabpageid="htmltabpage" data-caption="HTML"></div>
       <div data-type="tab" id="assigntotab" class="tab" data-tabpageid="assigntotabpage" data-caption="Assign To"></div>
-      <!--<div data-type="tab" id="previewtab" class="tab" data-tabpageid="previewtabpage" data-caption="Preview"></div>-->
     </div>
     <div class="tabpages" style="overflow:unset;">
       <!-- GENERAL: TAB-->
@@ -25,19 +23,17 @@
                 <div id="reportDesigner"></div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:10vw; max-height:800px;">
+            <div class="flexcolumn" style="max-width:10vw;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Properties" style="position:sticky; top:10em;">
                 <div id="controlProperties" style="display:none;">
                   <div class="table-controls">
                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Table" data-datafield="TableName" style="flex:auto"></div>
                     <div class="flexrow" style="margin-top:.5em;">
-                      <!--<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield add-row-column" data-caption="Select Row Type" data-datafield="AddRow"></div>-->
                       <div style="text-align:center; margin:1em 0em; width:140px;">
                         <div class="fwformcontrol addRow" data-type="button">Add Row</div>
                       </div>
                     </div>
                     <div class="flexrow">
-                      <!--<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield add-row-column" data-caption="Select Column Row" data-datafield="AddColumn"></div>-->
                       <div style="text-align:center; margin-bottom:1em; width:140px;">
                         <div class="fwformcontrol addColumn" data-type="button">Add Column</div>
                       </div>
@@ -49,6 +45,7 @@
                   </div>
                   <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Value Field" data-datafield="ValueField" style="flex:1 1 0;"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Caption" data-allcaps="false" data-datafield="CaptionField" style="flex:1 1 0;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Style" data-allcaps="false" data-datafield="CellStyleField" style="flex:1 1 0;"></div>
                   <div style="text-align:center; margin:1em;">
                     <div class="fwformcontrol delete-column" data-type="button">Delete Column</div>
                   </div>
