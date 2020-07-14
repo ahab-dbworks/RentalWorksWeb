@@ -16,6 +16,7 @@ using FwStandard.AppManager;
 using WebApi.Modules.HomeControls.OrderNote;
 using WebApi.Modules.HomeControls.OrderContact;
 using WebApi.Modules.HomeControls.InventoryAvailability;
+using FwStandard.Grids.AppDocument;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -996,7 +997,56 @@ namespace WebApi.Modules.Agent.Order
                 }
 
                 //copy multi po's/
-                //copy documents?
+
+
+                // copy all documents
+                BrowseRequest documentBrowseRequest = new BrowseRequest();
+                documentBrowseRequest.uniqueids = new Dictionary<string, object>();
+                documentBrowseRequest.uniqueids.Add("UniqueId1", from.GetPrimaryKeys()[0]);
+
+                AppDocumentLogic documentSelector = new AppDocumentLogic();
+                documentSelector.SetDependencies(appConfig, userSession);
+                List<AppDocumentLogic> documents = await documentSelector.SelectAsync<AppDocumentLogic>(documentBrowseRequest, conn);
+
+                foreach (AppDocumentLogic n in documents)
+                {
+
+                    if (copyMode.Equals(QuoteOrderCopyMode.QuoteToOrder))
+                    {
+                        OrderDocumentLogic newDoc = n.MakeCopy<OrderDocumentLogic>();
+                        newDoc.SetDependencies(appConfig, userSession);
+                        newDoc.OrderId = to.GetPrimaryKeys()[0].ToString();
+                        newDoc.DocumentId = "";
+                        await newDoc.SaveAsync(conn: conn);
+                    }
+                    else if (copyMode.Equals(QuoteOrderCopyMode.NewVersion))
+                    {
+                        QuoteDocumentLogic newDoc = n.MakeCopy<QuoteDocumentLogic>();
+                        newDoc.SetDependencies(appConfig, userSession);
+                        newDoc.QuoteId = to.GetPrimaryKeys()[0].ToString();
+                        newDoc.DocumentId = "";
+                        await newDoc.SaveAsync(conn: conn);
+                    }
+                    else if (copyMode.Equals(QuoteOrderCopyMode.Copy))
+                    {
+                        if (from is OrderLogic)
+                        {
+                            OrderDocumentLogic newDoc = n.MakeCopy<OrderDocumentLogic>();
+                            newDoc.SetDependencies(appConfig, userSession);
+                            newDoc.OrderId = to.GetPrimaryKeys()[0].ToString();
+                            newDoc.DocumentId = "";
+                            await newDoc.SaveAsync(conn: conn);
+                        }
+                        else if (from is QuoteLogic)
+                        {
+                            QuoteDocumentLogic newDoc = n.MakeCopy<QuoteDocumentLogic>();
+                            newDoc.SetDependencies(appConfig, userSession);
+                            newDoc.QuoteId = to.GetPrimaryKeys()[0].ToString();
+                            newDoc.DocumentId = "";
+                            await newDoc.SaveAsync(conn: conn);
+                        }
+                    }
+                }
 
 
                 if (copyMode.Equals(QuoteOrderCopyMode.QuoteToOrder))
