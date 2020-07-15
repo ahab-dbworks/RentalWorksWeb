@@ -17,12 +17,12 @@ namespace FwStandard.Grids.AppDocument
     {
         //------------------------------------------------------------------------------------ 
         protected AppDocumentRecord appDocument = new AppDocumentRecord();
-        //protected AppDocumentLoader appDocumentLoader = new AppDocumentLoader();
+        protected AppDocumentLoader appDocumentLoader = new AppDocumentLoader();
         public AppDocumentLogic() : base()
         {
             this.ForceSave = true;
             dataRecords.Add(appDocument);
-            //dataLoader = appDocumentLoader;
+            dataLoader = appDocumentLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "D4onPEMcc5rU", IsPrimaryKey: true)]
@@ -31,14 +31,14 @@ namespace FwStandard.Grids.AppDocument
         [FwLogicProperty(Id: "mO9IHWbp0gHx")]
         public string DocumentTypeId { get { return appDocument.DocumentTypeId; } set { appDocument.DocumentTypeId = value; } }
         //------------------------------------------------------------------------------------ 
-        //[FwLogicProperty(Id: "6p04SUJjZ0SR8")]
-        //public string UniqueId1 { get { return appDocument.UniqueId1; } set { appDocument.UniqueId1 = value; } }
+        [FwLogicProperty(Id: "6p04SUJjZ0SR8")]
+        public string UniqueId1 { get { return appDocument.UniqueId1; } set { appDocument.UniqueId1 = value; } }
         //------------------------------------------------------------------------------------ 
-        //[FwLogicProperty(Id: "HQ5X1e02ZOflD")]
-        //public string UniqueId2 { get { return appDocument.UniqueId2; } set { appDocument.UniqueId2 = value; } }
+        [FwLogicProperty(Id: "HQ5X1e02ZOflD")]
+        public string UniqueId2 { get { return appDocument.UniqueId2; } set { appDocument.UniqueId2 = value; } }
         //------------------------------------------------------------------------------------ 
-        //[FwLogicProperty(Id: "fIGSqv9uXCVv")]
-        //public int? UniqueId1Int { get { return appDocument.UniqueId1Int; } set { appDocument.UniqueId1Int = value; } }
+        [FwLogicProperty(Id: "fIGSqv9uXCVv")]
+        public int? UniqueId1Int { get { return appDocument.UniqueId1Int; } set { appDocument.UniqueId1Int = value; } }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "3BuqoMDOQ6zMd", IsRecordTitle: true)]
         public string Description { get { return appDocument.Description; } set { appDocument.Description = value; } }
@@ -117,7 +117,8 @@ namespace FwStandard.Grids.AppDocument
                 }
 
                 // add the new image
-                await appImageLogic.AddAsync(appDocument.UniqueId1, appDocument.UniqueId2, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl);
+                //await appImageLogic.AddAsync(appDocument.UniqueId1, appDocument.UniqueId2, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl, e.SqlConnection);
+                await appImageLogic.AddAsync(appDocument.AppDocumentId, string.Empty, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl, e.SqlConnection);  // AppImage.UniqueId1 needs to be the AppDocumentId
             }
         }
         //------------------------------------------------------------------------------------ 

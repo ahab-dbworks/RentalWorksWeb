@@ -18,7 +18,7 @@ namespace WebApi.Modules.Inventory.PartsInventory
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
+            //select.Parse();
             this.addFilterToSelect("InventoryId", "uniqueid1", select, request);
         }
         //------------------------------------------------------------------------------------ 
