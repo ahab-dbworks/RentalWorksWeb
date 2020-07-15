@@ -232,3 +232,6 @@ body {
   border-top: 1.5px solid black;
   padding-top: 10px;
 }
+.avoid-page-break {
+    page-break-inside: avoid;
+}
