@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
 
 namespace WebApi.Modules.Agent.Customer
 {
@@ -416,11 +417,61 @@ namespace WebApi.Modules.Agent.Customer
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
+                DefaultSettingsLogic defaults = new DefaultSettingsLogic();
+                defaults.SetDependencies(AppConfig, UserSession);
+                defaults.DefaultSettingsId = RwConstants.CONTROL_ID;
+                bool b = defaults.LoadAsync<DefaultSettingsLogic>().Result;
+
                 if (string.IsNullOrEmpty(CustomerNumber))
                 {
                     tmpCustomerNumber = AppFunc.GetNextIdAsync(AppConfig).Result;
                     CustomerNumber = tmpCustomerNumber;
                 }
+                if (string.IsNullOrEmpty(OfficeLocationId))
+                {
+                    if (!string.IsNullOrEmpty(OfficeLocation))
+                    {
+                        OfficeLocationId = AppFunc.GetStringDataAsync(AppConfig, "location", "location", OfficeLocation, "locationid").Result;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(CreditStatusId))
+                {
+                    if (!string.IsNullOrEmpty(CreditStatus))
+                    {
+                        CreditStatusId = AppFunc.GetStringDataAsync(AppConfig, "creditstatus", "creditstatus", CreditStatus, "creditstatusid").Result;
+                    }
+                    if (string.IsNullOrEmpty(CreditStatusId))
+                    {
+                        CreditStatusId = defaults.DefaultCreditStatusId;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(CustomerStatusId))
+                {
+                    if (!string.IsNullOrEmpty(CustomerStatus))
+                    {
+                        CustomerStatusId = AppFunc.GetStringDataAsync(AppConfig, "custstatus", "custstatus", CustomerStatus, "custstatusid").Result;
+                    }
+                    if (string.IsNullOrEmpty(CustomerStatusId))
+                    {
+                        CustomerStatusId = defaults.DefaultCustomerStatusId;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(CustomerTypeId))
+                {
+                    if (!string.IsNullOrEmpty(CustomerType))
+                    {
+                        CustomerTypeId = AppFunc.GetStringDataAsync(AppConfig, "custtype", "custtype", CustomerType, "custtypeid").Result;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(BillingAddressType))
+                {
+                    BillingAddressType = RwConstants.BILLING_ADDRESS_TYPE_CUSTOMER;
+                }
+
             }
         }
         //------------------------------------------------------------------------------------ 
