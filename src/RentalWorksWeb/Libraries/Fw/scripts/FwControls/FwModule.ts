@@ -923,7 +923,7 @@ class FwModule {
                 const $yes = FwConfirmation.addButton($confirmation, 'Yes');
                 const $no = FwConfirmation.addButton($confirmation, 'No');
                 $yes.focus();
-                $yes.on('click', function () {
+                $yes.on('click', e => {
                     const controller = $browse.attr('data-controller');
                     const ids = FwBrowse.getRowFormUniqueIds($browse, $selectedRow);
                     const request: any = {
@@ -939,6 +939,17 @@ class FwModule {
                         FwBrowse.databind($browse);
                     });
                 });
+                // hotkey support for confirmation buttons
+                $confirmation.on('keyup', e => {
+                    e.preventDefault();
+                    if (e.which === 89) { // 'y'
+                        $yes.click();
+                    }
+                    if (e.which === 78) { // 'n'
+                        $no.click();
+                    }
+                });
+
             } else {
                 FwNotification.renderNotification('WARNING', 'Please select a row.');
             }
@@ -1067,7 +1078,7 @@ class FwModule {
                             $cancel.click();
                         }
                     }
-                })
+                });
 
                 $dontsave.on('click', e => {
                     FwModule.beforeCloseForm($form);
