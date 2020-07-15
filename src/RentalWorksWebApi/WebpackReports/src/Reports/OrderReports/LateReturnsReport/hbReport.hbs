@@ -1,5 +1,6 @@
 ﻿<!--Late Returns Report-->
-<div class="rpt-flexrow" style="width:1555px;">
+<!-- orientation: landscape -->
+<div data-section="header" class="rpt-flexrow" style="width:1555px;">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,166 +12,130 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;width:1555px;">
   <table>
-    <thead>
-      <tr>
-        <th>Order No.</th>
-        <th>Description</th>
-        <th>Date</th>
-        <th>Agent</th>
-        <th colspan="4">Ordered By</th>
-        <th colspan="2" style="width:98px;">Billing Dates</th>
-        <th>Rent From</th>
-        <th>Rent To</th>
-        {{#ifEquals Type "PASTDUE"}}
-        <th class="number">Days Past</th>
-        {{else}}
-        <th class="number">Due In</th>
-        {{/ifEquals}}
+    <thead id="columnHeader" class="main-header">
+      {{#ifEquals Type "PASTDUE"}}
+      <tr data-row="main-header">
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
+        <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Date</th>
+        <th data-linkedcolumn="Agent" data-valuefield="Agent">Agent</th>
+        <th data-linkedcolumn="OrderedByName" data-valuefield="OrderedByName" colspan="4">Ordered By</th>
+        <th data-linkedcolumn="BillDateRange" data-valuefield="BillDateRange" colspan="2" style="width:98px;">Billing Dates</th>
+        <th data-linkedcolumn="OrderFromDate" data-valuefield="OrderFromDate">Rent From</th>
+        <th data-linkedcolumn="OrderToDate" data-valuefield="OrderToDate">Rent To</th>
+        <th data-linkedcolumn="OrderPastDue" data-valuefield="OrderPastDue" class="number">Days Past</th>
       </tr>
+      {{else}}
+      <tr data-row="main-header">
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
+        <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Date</th>
+        <th data-linkedcolumn="Agent" data-valuefield="Agent">Agent</th>
+        <th data-linkedcolumn="OrderedByName" data-valuefield="OrderedByName" colspan="4">Ordered By</th>
+        <th data-linkedcolumn="BillDateRange" data-valuefield="BillDateRange" colspan="2" style="width:98px;">Billing Dates</th>
+        <th data-linkedcolumn="OrderFromDate" data-valuefield="OrderFromDate">Rent From</th>
+        <th data-linkedcolumn="OrderToDate" data-valuefield="OrderToDate">Rent To</th>
+        <th data-linkedcolumn="OrderPastDue" data-valuefield="OrderPastDue" class="number">Due In</th>
+      </tr>
+      {{/ifEquals}}
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="4" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealheader"}}
-        <td colspan="4" class="lower header-row">Deal: {{Deal}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OrderNumberheader"}}
-        <td class="order-row text">{{OrderNumber}}</td>
-        <td class="order-row text">{{OrderDescription}}</td>
-        <td class="order-row text">{{OrderDate}}</td>
-        <td class="order-row text">{{Agent}}</td>
-        <td class="order-row text" colspan="4">{{OrderedByName}}</td>
-        <td class="order-row text" colspan="2">{{BillDateRange}}</td>
-        <td class="order-row text">{{OrderFromDate}}</td>
-        <td class="order-row text">{{OrderToDate}}</td>
-        <td class="order-row number">{{OrderPastDue}}</td>
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="13" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
-      <tr>
-        <td style="width:64px;background-color:white;"></td>
-        <td class="order-header text">I-Code</td>
-        <td class="order-header text">Description</td>
-        {{#ifEquals ../ShowBarCode true}}
-        <td class="order-header text">Bar Code</td>
-        {{else}}
-        <td class="order-header"></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowSerial true}}
-        <td class="order-header text">Serial No.</td>
-        {{else}}
-        <td class="order-header"></td>
-        {{/ifEquals}}
-        <td class="order-header number">Qty</td>
-        {{#ifEquals ../ShowUnit true}}
-        <td class="order-header number">Unit Value</td>
-        {{else}}
-        <td class="order-header"></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowReplacement true}}
-        <td class="order-header number">Rep. Cost</td>
-        {{else}}
-        <td class="order-header"></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowUnit true}}
-        <td class="order-header number">Unit Value Ext</td>
-        {{else}}
-        <td class="order-header"></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowReplacement true}}
-        <td class="order-header number">Rep. Cost Ext</td>
-        {{else}}
-        <td class="order-header"></td>
-        {{/ifEquals}}
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td class="" style="width:64px;background-color:white;"></td>
-        <td>{{ICode}}</td>
-        <td>{{Description}}</td>
-        {{#ifEquals ../ShowBarCode true}}
-        <td>{{BarCode}}</td>
-        {{else}}
-        <td></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowSerial true}}
-        <td>{{SerialNumber}}</td>
-        {{else}}
-        <td></td>
-        {{/ifEquals}}
-        <td class="number">{{Quantity}}</td>
-        {{#ifEquals ../ShowUnit true}}
-        <td class="number">{{ItemUnitValue}}</td>
-        {{else}}
-        <td></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowReplacement true}}
-        <td class="number">{{ItemReplacementCost}}</td>
-        {{else}}
-        <td></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowUnit true}}
-        <td class="number">{{ItemUnitValueExtended}}</td>
-        {{else}}
-        <td></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowReplacement true}}
-        <td class="number">{{ItemReplacementCostExtended}}</td>
-        {{else}}
-        <td></td>
-        {{/ifEquals}}
-        <td>{{ItemFromDate}}</td>
-        <td>{{ItemToDate}}</td>
-        <td class="number">{{ItemPastDue}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OrderNumberfooter"}}
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="13" class="lower header-row">Deal: {{Deal}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OrderNumberheader"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="OrderNumber" data-field="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="OrderDescription" data-field="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="OrderDate" data-field="{{OrderDate}}"></td>
+        <td data-linkedcolumn="Agent" data-field="{{Agent}}"></td>
+        <td data-linkedcolumn="OrderedByName" data-field="{{OrderedByName}}" colspan="4"></td>
+        <td data-linkedcolumn="BillDateRange" data-field="{{BillDateRange}}" colspan="2"></td>
+        <td data-linkedcolumn="OrderFromDate" data-field="{{OrderFromDate}}"></td>
+        <td data-linkedcolumn="OrderToDate" data-field="{{OrderToDate}}"></td>
+        <td data-linkedcolumn="OrderPastDue" data-field="{{OrderPastDue}}" class="number"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OrderNumberheader"}}
+      <tr data-row="sub-header" data-rowtype="{{RowType}}">
+        <!--<td style="width:64px;background-color:white;"></td>-->
+        <td data-linkedcolumn="Blank" data-valuefield="" class="order-header text"></td>
+        <td data-linkedcolumn="ICode" data-valuefield="ICode" class="order-header text">I-Code</td>
+        <td data-linkedcolumn="Description" data-valuefield="Description" class="order-header text">Description</td>
+        <td data-linkedcolumn="BarCode" data-valuefield="BarCode" class="order-header text">Bar Code</td>
+        <td data-linkedcolumn="SerialNumber" data-valuefield="SerialNumber" class="order-header text">Serial No.</td>
+        <td data-linkedcolumn="Quantity" data-valuefield="Quantity" class="order-header number">Qty</td>
+        <td data-linkedcolumn="ItemUnitValue" data-valuefield="ItemUnitValue" class="order-header number">Unit Value</td>
+        <td data-linkedcolumn="ItemReplacementCost" data-valuefield="ItemReplacementCost" class="order-header number">Rep. Cost</td>
+        <td data-linkedcolumn="ItemUnitValueExtended" data-valuefield="ItemUnitValueExtended" class="order-header number">Unit Value Ext</td>
+        <td data-linkedcolumn="ItemReplacementCostExtended" data-valuefield="ItemReplacementCostExtended" class="order-header number">Rep. Cost Ext</td>
+        <td data-linkedcolumn="ItemFromDate" data-valuefield="ItemFromDate" class="order-header number"></td>
+        <td data-linkedcolumn="ItemToDate" data-valuefield="ItemToDate" class="order-header number"></td>
+        <td data-linkedcolumn="ItemPastDue" data-valuefield="ItemPastDue" class="order-header number"></td>
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="subdetail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="Blank" data-valuefield="" class="" style="width:64px;background-color:white;"></td>
+        <td data-linkedcolumn="ICode" data-valuefield="ICode">{{ICode}}</td>
+        <td data-linkedcolumn="Description" data-valuefield="Description">{{Description}}</td>
+        <td data-linkedcolumn="BarCode" data-valuefield="BarCode">{{BarCode}}</td>
+        <td data-linkedcolumn="SerialNumber" data-valuefield="SerialNumber">{{SerialNumber}}</td>
+        <td data-linkedcolumn="Quantity" data-valuefield="Quantity" class="number">{{Quantity}}</td>
+        <td data-linkedcolumn="ItemUnitValue" data-valuefield="ItemUnitValue" class="number">{{ItemUnitValue}}</td>
+        <td data-linkedcolumn="ItemReplacementCost" data-valuefield="ItemReplacementCost" class="number">{{ItemReplacementCost}}</td>
+        <td data-linkedcolumn="ItemUnitValueExtended" data-valuefield="ItemUnitValueExtended" class="number">{{ItemUnitValueExtended}}</td>
+        <td data-linkedcolumn="ItemReplacementCostExtended" data-valuefield="ItemReplacementCostExtended" class="number">{{ItemReplacementCostExtended}}</td>
+        <td data-linkedcolumn="ItemFromDate" data-valuefield="ItemFromDate">{{ItemFromDate}}</td>
+        <td data-linkedcolumn="ItemToDate" data-valuefield="ItemToDate">{{ItemToDate}}</td>
+        <td data-linkedcolumn="ItemPastDue" data-valuefield="ItemPastDue" class="number">{{ItemPastDue}}</td>
+      </tr>
+      {{/ifEquals}}
+
+
+      {{#ifEquals RowType "OrderNumberfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">{{OrderNumber}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
         <td class="total-val" colspan="2"></td>
-        {{#ifEquals ../ShowUnit true}}
-        <td class="total-val" data-value="{{ItemUnitValueExtended}}"></td>
-        {{else}}
-        <td class="total-val"></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowReplacement true}}
-        <td class="total-val" data-value="{{ItemReplacementCostExtended}}"></td>
-        {{else}}
-        <td class="total-val"></td>
-        {{/ifEquals}}
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="5" class="total-name">{{Deal}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" colspan="2"></td>
-        {{#ifEquals ../ShowUnit true}}
-        <td class="total-val" data-value="{{ItemUnitValueExtended}}"></td>
-        {{else}}
-        <td class="total-val"></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowReplacement true}}
-        <td class="total-val" data-value="{{ItemReplacementCostExtended}}"></td>
-        {{else}}
-        <td class="total-val"></td>
-        {{/ifEquals}}
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="5" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" colspan="2"></td>
-        {{#ifEquals ../ShowUnit true}}
-        <td class="total-val" data-value="{{ItemUnitValueExtended}}"></td>
-        {{else}}
-        <td class="total-val"></td>
-        {{/ifEquals}}
-        {{#ifEquals ../ShowReplacement true}}
-        <td class="total-val" data-value="{{ItemReplacementCostExtended}}"></td>
-        {{else}}
-        <td class="total-val"></td>
-        {{/ifEquals}}
-        {{/ifEquals}}
+        <td data-linkedcolumn="ItemUnitValueExtended" class="total-val" data-value="{{ItemUnitValueExtended}}"></td>
+        <td data-linkedcolumn="ItemReplacementCostExtended" class="total-val" data-value="{{ItemReplacementCostExtended}}"></td>
+        <td class="total-val" colspan="3"></td>
       </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "Dealfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{Deal}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td class="total-val" colspan="2"></td>
+        <td data-linkedcolumn="ItemUnitValueExtended" class="total-val" data-value="{{ItemUnitValueExtended}}"></td>
+        <td data-linkedcolumn="ItemReplacementCostExtended" class="total-val" data-value="{{ItemReplacementCostExtended}}"></td>
+        <td class="total-val" colspan="3"></td>
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td class="total-val" colspan="2"></td>
+        <td data-linkedcolumn="ItemUnitValueExtended" class="total-val" data-value="{{ItemUnitValueExtended}}"></td>
+        <td data-linkedcolumn="ItemReplacementCostExtended" class="total-val" data-value="{{ItemReplacementCostExtended}}"></td>
+        <td class="total-val" colspan="3"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
