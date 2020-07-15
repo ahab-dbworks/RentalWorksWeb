@@ -71,6 +71,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "how to add a report to Rent
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug RentalWorksWeb|Any CPU = Debug RentalWorksWeb|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release RentalWorksWeb|Any CPU = Release RentalWorksWeb|Any CPU
 		Release TrakitWorksWeb|Any CPU = Release TrakitWorksWeb|Any CPU
@@ -78,6 +79,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug RentalWorksWeb|Any CPU.Build.0 = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,6 +89,7 @@ Global
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -95,6 +99,8 @@ Global
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81982370-068F-4922-9F56-8807515D2291}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
+		{81982370-068F-4922-9F56-8807515D2291}.Debug RentalWorksWeb|Any CPU.Build.0 = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -102,6 +108,7 @@ Global
 		{81982370-068F-4922-9F56-8807515D2291}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -111,6 +118,8 @@ Global
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug RentalWorksWeb|Any CPU.Build.0 = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -121,6 +130,8 @@ Global
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release WebApi|Any CPU.Build.0 = Release|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
+		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug RentalWorksWeb|Any CPU.Build.0 = Debug|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -129,6 +140,8 @@ Global
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release WebApi|Any CPU.Build.0 = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug RentalWorksWeb|Any CPU.Build.0 = Debug|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -139,6 +152,8 @@ Global
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release WebApi|Any CPU.Build.0 = Release|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
+		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Debug RentalWorksWeb|Any CPU.Build.0 = Debug|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -147,6 +162,8 @@ Global
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug RentalWorksWeb|Any CPU.Build.0 = Debug|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -154,6 +171,7 @@ Global
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
 		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release TrakitWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
