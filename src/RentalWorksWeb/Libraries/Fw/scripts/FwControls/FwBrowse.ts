@@ -4366,17 +4366,12 @@ class FwBrowseClass {
                 }
                 const fields = [];
                 fields.push(obj);
-                console.log('fields', JSON.stringify(fields));
-
-                //const sortedFields = fields.slice();
-                //sortedFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
-                //console.log('sortedFields', sortedFields);
 
                 function JSONToCSVConvertor(JSONData, ShowLabel) {
                     //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
                     var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
 
-                    var CSV = 'sep=,' + '\r\n\n';
+                    var CSV = 'sep=,' + '\r\n';
 
                     //This condition will generate the Label/Header
                     if (ShowLabel) {
