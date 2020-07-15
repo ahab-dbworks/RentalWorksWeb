@@ -16,7 +16,7 @@
 <div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table data-tablename="Summary">
     <thead id="columnHeader">
-      <tr>
+      <tr data-row="main-header">
         <th data-linkedcolumn="ProjectManager" data-valuefield="ProjectManager">Project Manager</th>
         <th data-linkedcolumn="RentalTotal" data-valuefield="RentalTotal" class="number">Rental</th>
         <th data-linkedcolumn="SalesTotal" data-valuefield="SalesTotal" class="number">Sales</th>
@@ -32,7 +32,7 @@
     <tbody>
       {{#each this}}
       {{#ifEquals RowType "detail"}}
-      <tr data-row="header" data-rowtype="{{RowType}}">
+      <tr data-row="detail" data-rowtype="{{RowType}}">
         <td data-linkedcolumn="ProjectManager" data-value="{{ProjectManager}}"></td>
         <td data-linkedcolumn="RentalTotal" class="number" data-value="{{RentalTotal}}"></td>
         <td data-linkedcolumn="SalesTotal" class="number" data-value="{{SalesTotal}}"></td>
@@ -86,8 +86,8 @@
 </div>
 <div data-section="table" class="rpt-flexrow" style="margin-top:40px;width:1555px;">
   <table data-tablename="Detail">
-    <thead>
-      <tr>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
         <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice No.</th>
         <th data-linkedcolumn="InvoiceDate" data-valuefield="InvoiceDate">Invoice Date</th>
         <th data-linkedcolumn="BillingStartDate" data-valuefield="BillingStartDate">Billing Start</th>
