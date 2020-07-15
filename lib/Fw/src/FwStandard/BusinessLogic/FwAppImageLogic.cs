@@ -72,8 +72,8 @@ namespace FwStandard.BusinessLogic
                         appimage.MimeType = FwMimeTypeTranslator.GetMimeTypeFromExtension(appimage.Extension);
                         appimage.OrderBy = qry.GetField("orderby").ToInt32();
                     }
-                    
-                    
+
+
                     return appimage;
                     //string filename = description + orderby + "." + extension;
                     //if (image != null)
@@ -143,13 +143,13 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        public async Task AddAsync(string uniqueid1, string uniqueid2, string uniqueid3, string description, string extension, string rectype, string dataurl)
+        public async Task AddAsync(string uniqueid1, string uniqueid2, string uniqueid3, string description, string extension, string rectype, string dataurl, FwSqlConnection conn = null)
         {
             int height = 0;
             int width = 0;
-            
+
             var dataUrlParts = dataurl.Split(new char[] { ',' });
-            if(dataUrlParts.Length != 2) throw new ArgumentException("Missing dataurl prefix.", "imagedataurl");
+            if (dataUrlParts.Length != 2) throw new ArgumentException("Missing dataurl prefix.", "imagedataurl");
             var dataUrlPrefix = dataUrlParts[0];
             var base64Data = dataUrlParts[1];
             byte[] image = Convert.FromBase64String(base64Data);
@@ -165,37 +165,38 @@ namespace FwStandard.BusinessLogic
                 thumbnail = FwGraphics.GetJpgThumbnail(image);
             }
             FwDateTime datestamp = DateTime.UtcNow;
-            using (FwSqlConnection conn = new FwSqlConnection(this._appConfig.DatabaseSettings.ConnectionString))
+            if (conn == null)
             {
-                conn.GetConnection().Open();
-                using (SqlTransaction transaction = conn.BeginTransaction())
-                {
-                    // generate appimageid
-                    var appimageid = await FwSqlData.GetNextIdAsync(conn, this._appConfig.DatabaseSettings);
-
-                    // insert appimage
-                    using (FwSqlCommand cmd = new FwSqlCommand(conn, this._appConfig.DatabaseSettings.QueryTimeout))
-                    {
-                        cmd.Transaction = transaction;
-                        cmd.Add("insert into appimage(appimageid, uniqueid1, uniqueid2, uniqueid3, description, extension, rectype, width, height, thumbnail, image, datestamp)");
-                        cmd.Add("values(@appimageid, @uniqueid1, @uniqueid2, @uniqueid3, @description, @extension, @rectype, @width, @height, @thumbnail, @image, @datestamp)");
-                        cmd.AddParameter("@appimageid", appimageid);
-                        cmd.AddParameter("@uniqueid1", uniqueid1);
-                        cmd.AddParameter("@uniqueid2", uniqueid2);
-                        cmd.AddParameter("@uniqueid3", uniqueid3);
-                        cmd.AddParameter("@description", description);
-                        cmd.AddParameter("@extension", extension);
-                        cmd.AddParameter("@rectype", rectype);   // always seems to be 'F' in TransWorks
-                        cmd.AddParameter("@height", height);
-                        cmd.AddParameter("@width", width);
-                        cmd.AddParameter("@thumbnail", thumbnail);
-                        cmd.AddParameter("@image", image);
-                        cmd.AddParameter("@datestamp", datestamp.GetSqlValue());
-                        await cmd.ExecuteNonQueryAsync();
-                    }
-                    transaction.Commit();
-                }
+                conn = new FwSqlConnection(this._appConfig.DatabaseSettings.ConnectionString);
+                //conn.GetConnection().Open();
             }
+            //using (SqlTransaction transaction = conn.BeginTransaction())
+            //{
+            // generate appimageid
+            var appimageid = await FwSqlData.GetNextIdAsync(conn, this._appConfig.DatabaseSettings);
+
+            // insert appimage
+            using (FwSqlCommand cmd = new FwSqlCommand(conn, this._appConfig.DatabaseSettings.QueryTimeout))
+            {
+                //cmd.Transaction = transaction;
+                cmd.Add("insert into appimage(appimageid, uniqueid1, uniqueid2, uniqueid3, description, extension, rectype, width, height, thumbnail, image, datestamp)");
+                cmd.Add("values(@appimageid, @uniqueid1, @uniqueid2, @uniqueid3, @description, @extension, @rectype, @width, @height, @thumbnail, @image, @datestamp)");
+                cmd.AddParameter("@appimageid", appimageid);
+                cmd.AddParameter("@uniqueid1", uniqueid1);
+                cmd.AddParameter("@uniqueid2", uniqueid2);
+                cmd.AddParameter("@uniqueid3", uniqueid3);
+                cmd.AddParameter("@description", description);
+                cmd.AddParameter("@extension", extension);
+                cmd.AddParameter("@rectype", rectype);   // always seems to be 'F' in TransWorks
+                cmd.AddParameter("@height", height);
+                cmd.AddParameter("@width", width);
+                cmd.AddParameter("@thumbnail", thumbnail);
+                cmd.AddParameter("@image", image);
+                cmd.AddParameter("@datestamp", datestamp.GetSqlValue());
+                await cmd.ExecuteNonQueryAsync();
+            }
+            //transaction.Commit();
+            //}
         }
         //------------------------------------------------------------------------------------        
         public async Task DeleteAsync(string appimageid)

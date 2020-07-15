@@ -117,7 +117,8 @@ namespace FwStandard.Grids.AppDocument
                 }
 
                 // add the new image
-                await appImageLogic.AddAsync(appDocument.UniqueId1, appDocument.UniqueId2, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl);
+                //await appImageLogic.AddAsync(appDocument.UniqueId1, appDocument.UniqueId2, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl, e.SqlConnection);
+                await appImageLogic.AddAsync(appDocument.AppDocumentId, string.Empty, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl, e.SqlConnection);  // AppImage.UniqueId1 needs to be the AppDocumentId
             }
         }
         //------------------------------------------------------------------------------------ 

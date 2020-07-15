@@ -2,6 +2,7 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using FwStandard.Utilities;
 
 namespace FwStandard.Grids.AppDocument
 {
@@ -45,8 +46,21 @@ namespace FwStandard.Grids.AppDocument
         [FwSqlDataField(column: "documenttype", modeltype: FwDataTypes.Text)]
         public string DocumentType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "docimage", modeltype: FwDataTypes.Text)]
-        public string FileDataUrl { get; set; }
+        [FwSqlDataField(column: "docimage", modeltype: FwDataTypes.JpgDataUrl)]
+        public string DocImage { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public string FileDataUrl
+        {
+            get
+            {
+                string fileDataUrl = "";
+                if (!string.IsNullOrEmpty(DocImage))
+                {
+                    fileDataUrl = "data:" + FwMimeTypeTranslator.GetMimeTypeFromExtension(Extension) + "," + DocImage.Replace("data:image/jpg;base64,", "");   // replace the assumed image/jpg with the actual mime type
+                }
+                return fileDataUrl;
+            }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputby", modeltype: FwDataTypes.Text)]
         public string InputBy { get; set; }
@@ -65,6 +79,15 @@ namespace FwStandard.Grids.AppDocument
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
+        //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            this.addFilterToSelect("UniqueId1", "uniqueid1", select, request);
+            this.addFilterToSelect("UniqueId2", "uniqueid2", select, request);
+            this.addFilterToSelect("UniqueId3", "uniqueid3", select, request);
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
