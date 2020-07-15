@@ -284,6 +284,11 @@ class CustomReportLayout {
             this.codeMirror.refresh();
         });
 
+        //Reload General Tab
+        $form.on('click', '[data-type="tab"][data-caption="General"]', e => {
+            this.renderTab($form, 'Designer');
+        });
+
         $form.find('[data-datafield="AssignTo"]').on('change', e => {
             let assignTo = FwFormField.getValueByDataField($form, 'AssignTo');
             let $gridControl;
