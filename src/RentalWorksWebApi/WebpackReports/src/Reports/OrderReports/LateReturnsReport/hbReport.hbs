@@ -21,20 +21,28 @@
         <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
         <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Date</th>
         <th data-linkedcolumn="Agent" data-valuefield="Agent">Agent</th>
-        <th data-linkedcolumn="OrderedByName" data-valuefield="OrderedByName" colspan="4">Ordered By</th>
-        <th data-linkedcolumn="BillDateRange" data-valuefield="BillDateRange" colspan="2" style="width:98px;">Billing Dates</th>
+        <th data-linkedcolumn="OrderedByName" data-valuefield="OrderedByName">Ordered By</th>
+        <th data-linkedcolumn="EmptyTd-1" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-2" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-3" data-valuefield=""></th>
+        <th data-linkedcolumn="BillDateRange" data-valuefield="BillDateRange" style="width:98px;">Billing Dates</th>
+        <th data-linkedcolumn="EmptyTd-4" data-valuefield=""></th>
         <th data-linkedcolumn="OrderFromDate" data-valuefield="OrderFromDate">Rent From</th>
         <th data-linkedcolumn="OrderToDate" data-valuefield="OrderToDate">Rent To</th>
         <th data-linkedcolumn="OrderPastDue" data-valuefield="OrderPastDue" class="number">Days Past</th>
       </tr>
       {{else}}
       <tr data-row="main-header">
-        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
-        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
-        <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Date</th>
-        <th data-linkedcolumn="Agent" data-valuefield="Agent">Agent</th>
-        <th data-linkedcolumn="OrderedByName" data-valuefield="OrderedByName" colspan="4">Ordered By</th>
-        <th data-linkedcolumn="BillDateRange" data-valuefield="BillDateRange" colspan="2" style="width:98px;">Billing Dates</th>
+        <th data-linkedcolumn="OrderNumber-2" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="OrderDescription-2" data-valuefield="OrderDescription">Description</th>
+        <th data-linkedcolumn="OrderDate-2" data-valuefield="OrderDate">Date</th>
+        <th data-linkedcolumn="Agent-2" data-valuefield="Agent">Agent</th>
+        <th data-linkedcolumn="OrderedByName-2" data-valuefield="OrderedByName">Ordered By</th>
+        <th data-linkedcolumn="EmptyTd-5" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-6" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-7" data-valuefield=""></th>
+        <th data-linkedcolumn="BillDateRange" data-valuefield="BillDateRange" style="width:98px;">Billing Dates</th>
+        <th data-linkedcolumn="EmptyTd-8" data-valuefield=""></th>
         <th data-linkedcolumn="OrderFromDate" data-valuefield="OrderFromDate">Rent From</th>
         <th data-linkedcolumn="OrderToDate" data-valuefield="OrderToDate">Rent To</th>
         <th data-linkedcolumn="OrderPastDue" data-valuefield="OrderPastDue" class="number">Due In</th>
@@ -54,52 +62,73 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "OrderNumberheader"}}
+      {{ifEquals ../Type "PASTDUE"}}
       <tr data-row="detail" data-rowtype="{{RowType}}">
-        <td data-linkedcolumn="OrderNumber" data-field="{{OrderNumber}}"></td>
-        <td data-linkedcolumn="OrderDescription" data-field="{{OrderDescription}}"></td>
-        <td data-linkedcolumn="OrderDate" data-field="{{OrderDate}}"></td>
-        <td data-linkedcolumn="Agent" data-field="{{Agent}}"></td>
-        <td data-linkedcolumn="OrderedByName" data-field="{{OrderedByName}}" colspan="4"></td>
-        <td data-linkedcolumn="BillDateRange" data-field="{{BillDateRange}}" colspan="2"></td>
-        <td data-linkedcolumn="OrderFromDate" data-field="{{OrderFromDate}}"></td>
-        <td data-linkedcolumn="OrderToDate" data-field="{{OrderToDate}}"></td>
-        <td data-linkedcolumn="OrderPastDue" data-field="{{OrderPastDue}}" class="number"></td>
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="OrderDate" data-value="{{OrderDate}}"></td>
+        <td data-linkedcolumn="Agent" data-value="{{Agent}}"></td>
+        <td data-linkedcolumn="OrderedByName" data-value="{{OrderedByName}}"></td>
+        <td data-linkedcolumn="EmptyTd-1"></td>
+        <td data-linkedcolumn="EmptyTd-2"></td>
+        <td data-linkedcolumn="EmptyTd-3"></td>
+        <td data-linkedcolumn="BillDateRange" data-value="{{BillDateRange}}"></td>
+        <td data-linkedcolumn="EmptyTd-4"></td>
+        <td data-linkedcolumn="OrderFromDate" data-value="{{OrderFromDate}}"></td>
+        <td data-linkedcolumn="OrderToDate" data-value="{{OrderToDate}}"></td>
+        <td data-linkedcolumn="OrderPastDue" data-value="{{OrderPastDue}}" class="number"></td>
+      </tr>
+      {{else}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="OrderNumber-2" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="OrderDescription-2" data-value="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="OrderDate-2" data-value="{{OrderDate}}"></td>
+        <td data-linkedcolumn="Agent-2" data-value="{{Agent}}"></td>
+        <td data-linkedcolumn="OrderedByName-2" data-value="{{OrderedByName}}"></td>
+        <td data-linkedcolumn="EmptyTd-5"></td>
+        <td data-linkedcolumn="EmptyTd-6"></td>
+        <td data-linkedcolumn="EmptyTd-7"></td>
+        <td data-linkedcolumn="BillDateRange-2" data-value="{{BillDateRange}}"></td>
+        <td data-linkedcolumn="EmptyTd-8"></td>
+        <td data-linkedcolumn="OrderFromDate-2" data-value="{{OrderFromDate}}"></td>
+        <td data-linkedcolumn="OrderToDate-2" data-value="{{OrderToDate}}"></td>
+        <td data-linkedcolumn="OrderPastDue-2" data-value="{{OrderPastDue}}" class="number"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "OrderNumberheader"}}
       <tr data-row="sub-header" data-rowtype="{{RowType}}">
         <!--<td style="width:64px;background-color:white;"></td>-->
-        <td data-linkedcolumn="Blank" data-valuefield="" class="order-header text"></td>
-        <td data-linkedcolumn="ICode" data-valuefield="ICode" class="order-header text">I-Code</td>
-        <td data-linkedcolumn="Description" data-valuefield="Description" class="order-header text">Description</td>
-        <td data-linkedcolumn="BarCode" data-valuefield="BarCode" class="order-header text">Bar Code</td>
-        <td data-linkedcolumn="SerialNumber" data-valuefield="SerialNumber" class="order-header text">Serial No.</td>
-        <td data-linkedcolumn="Quantity" data-valuefield="Quantity" class="order-header number">Qty</td>
-        <td data-linkedcolumn="ItemUnitValue" data-valuefield="ItemUnitValue" class="order-header number">Unit Value</td>
-        <td data-linkedcolumn="ItemReplacementCost" data-valuefield="ItemReplacementCost" class="order-header number">Rep. Cost</td>
-        <td data-linkedcolumn="ItemUnitValueExtended" data-valuefield="ItemUnitValueExtended" class="order-header number">Unit Value Ext</td>
-        <td data-linkedcolumn="ItemReplacementCostExtended" data-valuefield="ItemReplacementCostExtended" class="order-header number">Rep. Cost Ext</td>
-        <td data-linkedcolumn="ItemFromDate" data-valuefield="ItemFromDate" class="order-header number"></td>
-        <td data-linkedcolumn="ItemToDate" data-valuefield="ItemToDate" class="order-header number"></td>
-        <td data-linkedcolumn="ItemPastDue" data-valuefield="ItemPastDue" class="order-header number"></td>
+        <th data-linkedcolumn="Blank" data-valuefield="" class="order-header text"></th>
+        <th data-linkedcolumn="ICode" data-valuefield="ICode" class="order-header text">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description" class="order-header text">Description</th>
+        <th data-linkedcolumn="BarCode" data-valuefield="BarCode" class="order-header text">Bar Code</th>
+        <th data-linkedcolumn="SerialNumber" data-valuefield="SerialNumber" class="order-header text">Serial No.</th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity" class="order-header number">Qty</th>
+        <th data-linkedcolumn="ItemUnitValue" data-valuefield="ItemUnitValue" class="order-header number">Unit Value</th>
+        <th data-linkedcolumn="ItemReplacementCost" data-valuefield="ItemReplacementCost" class="order-header number">Rep. Cost</th>
+        <th data-linkedcolumn="ItemUnitValueExtended" data-valuefield="ItemUnitValueExtended" class="order-header number">Unit Value Ext</th>
+        <th data-linkedcolumn="ItemReplacementCostExtended" data-valuefield="ItemReplacementCostExtended" class="order-header number">Rep. Cost Ext</th>
+        <th data-linkedcolumn="ItemFromDate" data-valuefield="ItemFromDate" class="order-header number"></th>
+        <th data-linkedcolumn="ItemToDate" data-valuefield="ItemToDate" class="order-header number"></th>
+        <th data-linkedcolumn="ItemPastDue" data-valuefield="ItemPastDue" class="order-header number"></th>
       </tr>
       {{/ifEquals}}
 
       {{#ifEquals RowType "detail"}}
-      <tr data-row="subdetail" data-rowtype="{{RowType}}">
-        <td data-linkedcolumn="Blank" data-valuefield="" class="" style="width:64px;background-color:white;"></td>
-        <td data-linkedcolumn="ICode" data-valuefield="ICode">{{ICode}}</td>
-        <td data-linkedcolumn="Description" data-valuefield="Description">{{Description}}</td>
-        <td data-linkedcolumn="BarCode" data-valuefield="BarCode">{{BarCode}}</td>
-        <td data-linkedcolumn="SerialNumber" data-valuefield="SerialNumber">{{SerialNumber}}</td>
-        <td data-linkedcolumn="Quantity" data-valuefield="Quantity" class="number">{{Quantity}}</td>
-        <td data-linkedcolumn="ItemUnitValue" data-valuefield="ItemUnitValue" class="number">{{ItemUnitValue}}</td>
-        <td data-linkedcolumn="ItemReplacementCost" data-valuefield="ItemReplacementCost" class="number">{{ItemReplacementCost}}</td>
-        <td data-linkedcolumn="ItemUnitValueExtended" data-valuefield="ItemUnitValueExtended" class="number">{{ItemUnitValueExtended}}</td>
-        <td data-linkedcolumn="ItemReplacementCostExtended" data-valuefield="ItemReplacementCostExtended" class="number">{{ItemReplacementCostExtended}}</td>
-        <td data-linkedcolumn="ItemFromDate" data-valuefield="ItemFromDate">{{ItemFromDate}}</td>
-        <td data-linkedcolumn="ItemToDate" data-valuefield="ItemToDate">{{ItemToDate}}</td>
-        <td data-linkedcolumn="ItemPastDue" data-valuefield="ItemPastDue" class="number">{{ItemPastDue}}</td>
+      <tr data-row="sub-detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="Blank" class="" style="width:64px;background-color:white;"></td>
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
+        <td data-linkedcolumn="SerialNumber" data-value="{{SerialNumber}}"></td>
+        <td data-linkedcolumn="Quantity" data-value="{{Quantity}}" class="number"></td>
+        <td data-linkedcolumn="ItemUnitValue" data-value="{{ItemUnitValue}}" class="number"></td>
+        <td data-linkedcolumn="ItemReplacementCost" data-value="{{ItemReplacementCost}}" class="number"></td>
+        <td data-linkedcolumn="ItemUnitValueExtended" data-value="{{ItemUnitValueExtended}}" class="number"></td>
+        <td data-linkedcolumn="ItemReplacementCostExtended" data-value="{{ItemReplacementCostExtended}}" class="number"></td>
+        <td data-linkedcolumn="ItemFromDate" data-value="{{ItemFromDate}}"></td>
+        <td data-linkedcolumn="ItemToDate" data-value="{{ItemToDate}}"></td>
+        <td data-linkedcolumn="ItemPastDue" data-value="{{ItemPastDue}}" class="number"></td>
       </tr>
       {{/ifEquals}}
 
